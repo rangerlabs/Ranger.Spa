@@ -1,0 +1,1 @@
+docker build -t ranger.spa:dev --build-arg MYGET_API_KEY=$MYGET_KEY --build-arg BUILD_CONFIG=Debug --build-arg ASPNETCORE_ENVIRONMENT=Development --build-arg NODE_ENV=development --build-arg WEBPACK_ENV=dev .

@@ -1,0 +1,14 @@
+version: "3.5"
+services:
+    api:
+        image: ranger.spa:dev
+        container_name: spa
+        ports:
+            - "8080:8080"
+        networks:
+            - ranger
+
+networks:
+    ranger:
+        name: ranger-network
+        external: true
