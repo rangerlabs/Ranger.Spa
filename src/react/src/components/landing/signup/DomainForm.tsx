@@ -38,8 +38,8 @@ export default class DomainForm extends React.Component<DomainFormProps, DomainF
             .min(4, "Must be at least 3 characters long")
             .max(28, "Must be less than 28 characters long")
             .matches(
-                new RegExp("^[a-zA-Z0-9]{1}[a-zA-Z0-9- ]{1,26}[a-zA-Z0-9]{1}$"),
-                "Must begin, end, and contain alphanumeric characters. Spaces ( ) and hyphens (-) permitted."
+                new RegExp("^[a-zA-Z0-9]{1}[a-zA-Z0-9_- ]{1,26}[a-zA-Z0-9]{1}$"),
+                "Must begin, end, and contain alphanumeric characters. Spaces ( ), underscores (_), and hyphens (-) permitted."
             )
             .required("Required"),
     });
