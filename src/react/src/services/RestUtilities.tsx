@@ -16,7 +16,7 @@ export interface IRestResponse<T> {
 }
 
 export default class RestUtilities {
-    private static baseAddress = "http://" + SERVER_HOST + BASE_PATH;
+    private static baseAddress = "http://" + API_HOST + BASE_PATH;
 
     static get<T>(url: string): Promise<IRestResponse<T>> {
         url = RestUtilities.FormatUrl(url);

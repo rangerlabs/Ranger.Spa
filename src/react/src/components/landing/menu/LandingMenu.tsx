@@ -101,7 +101,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
 
     hasSubDomain = (): boolean => {
         const results = window.location.hostname.split(".");
-        return results.length === 2;
+        return results.length === 3;
     };
 
     handleSignInClick = () => {

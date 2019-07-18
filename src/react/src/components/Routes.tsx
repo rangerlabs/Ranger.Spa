@@ -32,7 +32,7 @@ class Routes extends React.Component<RoutesProps & RouteComponentProps<{}>> {
             const domains = window.location.hostname.split(".");
             let authorizedRoutes: IAppRoute[] = [];
 
-            if (pathname !== RoutePaths.Callback && (!user || user.expired) && domains.length === 3) {
+            if (pathname !== RoutePaths.Callback && pathname !== RoutePaths.Login && (!user || user.expired) && domains.length === 3) {
                 tenantService.exists(domains[0]).then(values => {
                     if (values.content) {
                         UserManager.signinRedirect({ data: { path: pathname } });

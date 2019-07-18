@@ -39,7 +39,7 @@ function getSilentRedirectUri(): string {
     let redirectUri = "";
     const domain = getSubDomain();
     if (domain.length > 0) {
-        redirectUri = "http://" + domain + "." + SERVER_HOST + "/silent-refresh.html";
+        redirectUri = "http://" + domain + "." + SPA_HOST + "/silent-refresh.html";
     }
     return redirectUri;
 }
@@ -48,7 +48,7 @@ function getRedirectUri(): string {
     let redirectUri = "";
     const domain = getSubDomain();
     if (domain.length > 0) {
-        redirectUri = "http://" + domain + "." + SERVER_HOST + "/callback";
+        redirectUri = "http://" + domain + "." + SPA_HOST + "/callback";
     }
     return redirectUri;
 }
@@ -57,7 +57,7 @@ function getPostLogoutRedirectUri(): string {
     let postLogoutRedirectUri = "";
     const domain = getSubDomain();
     if (domain.length > 0) {
-        postLogoutRedirectUri = "http://" + domain + "." + SERVER_HOST;
+        postLogoutRedirectUri = "http://" + domain + "." + SPA_HOST;
     }
     return postLogoutRedirectUri;
 }

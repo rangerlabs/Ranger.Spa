@@ -52,7 +52,7 @@ interface LandingHeaderProps extends WithStyles<typeof styles> {
 class LandingHeader extends React.Component<LandingHeaderProps> {
     hasSubDomain = (): boolean => {
         const results = window.location.hostname.split(".");
-        return results.length === 2;
+        return results.length === 3;
     };
 
     handleSignInClick = () => {

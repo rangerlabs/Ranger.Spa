@@ -13,8 +13,9 @@ module.exports = merge(common, {
             inject: true,
         }),
         new webpack.DefinePlugin({
-            IDENTITY_AUTHORITY: JSON.stringify("localhost:5000"),
-            SERVER_HOST: JSON.stringify("localhost:8081"),
+            IDENTITY_AUTHORITY: JSON.stringify("localhost.io:5000"),
+            API_HOST: JSON.stringify("localhost.io:8081"),
+            SPA_HOST: JSON.stringify("localhost.io:8080"),
             BASE_PATH: JSON.stringify(""),
         }),
     ],

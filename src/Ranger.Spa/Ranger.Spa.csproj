@@ -11,8 +11,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Ranger.Common" Version="1.0.0" />
-    <PackageReference Include="Ranger.Monitoring" Version="1.0.0" />
+    <PackageReference Include="Ranger.Common" Version="1.0.20" />
+    <PackageReference Include="Ranger.Monitoring" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

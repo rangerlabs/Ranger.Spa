@@ -27,7 +27,8 @@ module.exports = merge(common, {
         }),
         new webpack.DefinePlugin({
             IDENTITY_AUTHORITY: JSON.stringify("rangerlabs.io/auth"),
-            SERVER_HOST: JSON.stringify("rangerlabs.io"),
+            API_HOST: JSON.stringify("rangerlabs.io"),
+            SPA_HOST: API_HOST,
             BASE_PATH: JSON.stringify("/api"),
         }),
         new HtmlWebpackChangeAssetsExtensionPlugin(),
