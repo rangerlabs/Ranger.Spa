@@ -8,7 +8,7 @@ import CoordinatePair from "../models/app/geofences/CoordinatePair";
 export default class GeoFenceService {
     async getGeoFences(): Promise<Array<CircularGeoFence | PolygonGeoFence>> {
         const result = new Array<CircularGeoFence | PolygonGeoFence>();
-        RestUtilities.get<Array<CircularGeoFence | PolygonGeoFence>>("/app/geofence/all").then(geoFenceResponse => {
+        RestUtilities.get<Array<CircularGeoFence | PolygonGeoFence>>("/geofence/all").then(geoFenceResponse => {
             geoFenceResponse.content.forEach(v => {
                 switch (v.shape) {
                     case ShapePicker.Circular: {
@@ -52,10 +52,10 @@ export default class GeoFenceService {
     }
 
     async getGeoFence(name: string): Promise<IRestResponse<CircularGeoFence | PolygonGeoFence>> {
-        return RestUtilities.get<CircularGeoFence | PolygonGeoFence>("/app/geofence?name=" + name);
+        return RestUtilities.get<CircularGeoFence | PolygonGeoFence>("/geofence?name=" + name);
     }
 
     async postGeoFence(app: GeoFence): Promise<IRestResponse<CircularGeoFence | PolygonGeoFence>> {
-        return RestUtilities.post<CircularGeoFence | PolygonGeoFence>("/app/geofence", app);
+        return RestUtilities.post<CircularGeoFence | PolygonGeoFence>("/geofence", app);
     }
 }

@@ -49,7 +49,7 @@ export default class RestUtilities {
             headers.set("Authorization", `Bearer ${accessToken}`);
         }
         headers.set("Accept", "application/json");
-        headers.set("Domain", location.host.split(".")[0]);
+        headers.set("X-Tenant-Domain", location.host.split(".")[0]);
         headers.set("Content-Type", "application/json");
         if (data) {
             body = JSON.stringify(data);
@@ -61,7 +61,7 @@ export default class RestUtilities {
             body: body,
         })
             .catch(response => {
-                const store = ReduxStore.getStore();
+                // const store = ReduxStore.getStore();
                 // const action = openDialog({ message: "An error occured. Fuck." } as DialogContent);
                 // store.dispatch(action);
             })

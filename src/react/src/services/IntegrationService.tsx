@@ -8,7 +8,7 @@ import { IntegrationEnum } from "../models/app/integrations/IntegrationEnum";
 export default class IntegrationService {
     async getIntegrations(): Promise<Array<MergedIntegrationType>> {
         const result = new Array<MergedIntegrationType>();
-        RestUtilities.get<MergedIntegrationType[]>("/app/integration/all").then(integrationResponse => {
+        RestUtilities.get<MergedIntegrationType[]>("/integration/all").then(integrationResponse => {
             integrationResponse.content.forEach(i => {
                 switch (i.type) {
                     case IntegrationEnum.API: {
@@ -42,7 +42,7 @@ export default class IntegrationService {
 
     async getApiIntegration(name: string): Promise<ApiIntegration> {
         let result = undefined as ApiIntegration;
-        RestUtilities.get<ApiIntegration>("/app/integration/api?name=" + name).then(i => {
+        RestUtilities.get<ApiIntegration>("/integration/api?name=" + name).then(i => {
             result = i.content;
         });
         return result;
@@ -50,17 +50,17 @@ export default class IntegrationService {
 
     async getPusherIntegration(name: string): Promise<PusherIntegration> {
         let result = undefined as PusherIntegration;
-        RestUtilities.get<PusherIntegration>("/app/integration/pusher?name=" + name).then(i => {
+        RestUtilities.get<PusherIntegration>("/integration/pusher?name=" + name).then(i => {
             result = i.content;
         });
         return result;
     }
 
     async postApiIntegration(integration: ApiIntegration): Promise<IRestResponse<ApiIntegration>> {
-        return RestUtilities.post<ApiIntegration>("/app/integration/api", integration);
+        return RestUtilities.post<ApiIntegration>("/integration/api", integration);
     }
 
     async postPusherIntegration(integration: PusherIntegration): Promise<IRestResponse<PusherIntegration>> {
-        return RestUtilities.post<PusherIntegration>("/app/integration/pusher", integration);
+        return RestUtilities.post<PusherIntegration>("/integration/pusher", integration);
     }
 }

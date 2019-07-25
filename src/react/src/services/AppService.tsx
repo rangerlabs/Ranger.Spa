@@ -4,14 +4,14 @@ import Logger from "./Logger/Logger";
 
 export default class AppService {
     async getApps(): Promise<IRestResponse<IApp[]>> {
-        return RestUtilities.get<IApp[]>("/app/app/all");
+        return RestUtilities.get<IApp[]>("/app/all");
     }
 
     async getApp(name: string): Promise<IRestResponse<IApp>> {
-        return RestUtilities.get<IApp>("/app/app?name=" + name);
+        return RestUtilities.get<IApp>("/app?name=" + name);
     }
 
     async postApp(app: IApp): Promise<IRestResponse<IApp>> {
-        return RestUtilities.post<IApp>("/app/app", app);
+        return RestUtilities.post<IApp>("/app", app);
     }
 }

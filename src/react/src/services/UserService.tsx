@@ -4,14 +4,14 @@ import Logger from "./Logger/Logger";
 
 export default class UserService {
     async getUsers(): Promise<IRestResponse<IUser[]>> {
-        return RestUtilities.get<IUser[]>("/app/user/all");
+        return RestUtilities.get<IUser[]>("/user/all");
     }
 
     async getUser(email: string): Promise<IRestResponse<IUser>> {
-        return RestUtilities.get<IUser>("/app/user?email=" + email);
+        return RestUtilities.get<IUser>("/user?email=" + email);
     }
 
     async postUser(user: IUser): Promise<IRestResponse<IUser>> {
-        return RestUtilities.post<IUser>("/app/user", user);
+        return RestUtilities.post<IUser>("/user", user);
     }
 }
