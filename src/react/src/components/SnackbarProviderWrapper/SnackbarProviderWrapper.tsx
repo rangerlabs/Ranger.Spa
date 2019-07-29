@@ -31,7 +31,7 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
                 dense
                 maxSnack={1}
                 anchorOrigin={{
-                    vertical: "top",
+                    vertical: "bottom",
                     horizontal: "center",
                 }}
             >

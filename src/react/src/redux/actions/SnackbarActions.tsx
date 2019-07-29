@@ -31,11 +31,15 @@ export const enqueueSnackbar = (notification: SnackbarNotification): SnackbarAct
 
 export const closeSnackbar = (key: number) => ({
     type: CLOSE_SNACKBAR,
-    dismissAll: !key, // dismiss all if no key has been defined
-    key,
+    notification: {
+        dismissAll: !key, // dismiss all if no key has been defined
+        key,
+    },
 });
 
 export const removeSnackbar = (key: number) => ({
     type: REMOVE_SNACKBAR,
-    key,
+    notification: {
+        key,
+    },
 });

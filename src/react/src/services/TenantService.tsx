@@ -24,7 +24,7 @@ export default class TenantService {
                 const snackbarNotification = {
                     message: "Domain request accepted.",
                     options: {
-                        variant: "warning",
+                        variant: "success",
                     },
                 } as SnackbarNotification;
                 const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);

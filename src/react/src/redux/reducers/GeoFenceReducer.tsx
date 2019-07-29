@@ -3,7 +3,10 @@ import GeoFence from "../../models/app/geofences/GeoFence";
 import CircularGeoFence from "../../models/app/geofences/CircularGeoFence";
 import PolygonGeoFence from "../../models/app/geofences/PolygonGeoFence";
 
-export function geoFenceReducer(state: Array<CircularGeoFence | PolygonGeoFence> = [], action: GeoFenceAction & GeoFenceArrayAction) {
+export function geoFenceReducer(
+    state: Array<CircularGeoFence | PolygonGeoFence> = [],
+    action: GeoFenceAction & GeoFenceArrayAction
+): (CircularGeoFence | PolygonGeoFence)[] {
     switch (action.type) {
         case ADD_GEOFENCE:
             return state.concat(action.geoFence);
