@@ -9,6 +9,8 @@ import CircularGeoFence from "../models/app/geofences/CircularGeoFence";
 import PolygonGeoFence from "../models/app/geofences/PolygonGeoFence";
 import { GeoFenceDrawerState } from "../redux/actions/GeoFenceDrawerActions";
 import { MergedIntegrationType } from "../models/app/integrations/MergedIntegrationType";
+import { DomainState } from "../redux/actions/DomainActions";
+import { SnackbarNotification } from "../redux/actions/SnackbarActions";
 
 interface OidcState {
     isLoadingUser: boolean;
@@ -27,4 +29,6 @@ export interface ApplicationState {
     geoFenceDrawer: GeoFenceDrawerState;
     googleMaps: GoogleMapsState;
     integrations: MergedIntegrationType[];
+    domain: DomainState;
+    notifications: SnackbarNotification[];
 }

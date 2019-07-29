@@ -10,6 +10,7 @@ import UserManager from "../../services/UserManager";
 import { ApplicationState } from "../../stores";
 import { User } from "oidc-client";
 import RoutePaths from "../RoutePaths";
+import Notifier from "../../components/notifier/Notifier";
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -65,6 +66,7 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                     <div className={classes.root}>
                         <CssBaseline />
                         <Dialog />
+                        <Notifier />
                         <LandingHeader user={user} signOut={this.signOut} handleDrawerToggle={this.handleDrawerToggle} {...props} />
                         <LandingMenu
                             user={user}

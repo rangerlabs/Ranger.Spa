@@ -25,6 +25,7 @@ import Breadcrumb from "../../models/app/Breadcrumb";
 import { populateIntegrations } from "../../redux/actions/IntegrationActions";
 import { MergedIntegrationType } from "../../models/app/integrations/MergedIntegrationType";
 import IntegrationService from "../../services/IntegrationService";
+import Notifier from "../../components/notifier/Notifier";
 
 const userService = new UserService();
 const appService = new AppService();
@@ -136,6 +137,7 @@ class AppLayout extends React.Component<AppLayoutProps> {
                     <div className={classes.root}>
                         <CssBaseline />
                         <Dialog />
+                        <Notifier />
                         <Header
                             breadcrumbs={this.completeBreadcrumbsWithAppName()}
                             signOut={this.signOut}

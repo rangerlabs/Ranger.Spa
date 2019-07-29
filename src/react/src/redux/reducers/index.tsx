@@ -7,6 +7,8 @@ import { geoFenceDrawerReducer } from "./GeoFenceDrawerReducer";
 import { googleMapsReducer } from "./GoogleMapsReducer";
 import { selectedAppReducer } from "./SelectedAppReducer";
 import { integrationReducer } from "./IntegrationReducer";
+import { domainReducer } from "./DomainReducer";
+import { snackbarReducer } from "./SnackbarReducer";
 import { reducer as oidcReducer } from "redux-oidc";
 
 const reducers = {
@@ -20,6 +22,8 @@ const reducers = {
     geoFenceDrawer: geoFenceDrawerReducer,
     googleMaps: googleMapsReducer,
     integrations: integrationReducer,
+    domain: domainReducer,
+    notifications: snackbarReducer,
 };
 
 export default reducers;

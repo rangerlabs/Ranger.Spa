@@ -50,7 +50,7 @@ class Review extends React.Component<ReviewProps> {
                                 confirmPassword: values.userForm.confirmPassword,
                             },
                         } as IReviewForm;
-                        tenantService.post(reviewForm).then(result => {
+                        tenantService.post(reviewForm).then((result: boolean) => {
                             if (result) {
                                 this.props.handleNext();
                             }

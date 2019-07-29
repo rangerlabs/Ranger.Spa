@@ -13,6 +13,7 @@ export interface IRestResponse<T> {
     is_error?: boolean;
     error_content?: IErrorContent;
     content?: T;
+    correlationId?: string;
 }
 
 export default class RestUtilities {
@@ -41,6 +42,7 @@ export default class RestUtilities {
     static request<T>(method: string, url: string, data: any = null): Promise<IRestResponse<T>> {
         const user = ReduxStore.getStore().getState().oidc.user;
         let isBadRequest = false;
+        let correlationId = "";
         let body = data;
         let headers = new Headers();
 
@@ -67,13 +69,16 @@ export default class RestUtilities {
             })
             .then((response: Response) => {
                 isBadRequest = response.status >= 400 && response.status < 500;
-                return response.json();
+                correlationId = response.headers.get("X-Operation");
+                return response.text();
             })
-            .then((responseContent: any) => {
+            .then((responseContent: string) => {
+                const responseContentJson = responseContent ? JSON.parse(responseContent) : {};
                 let response: IRestResponse<T> = {
                     is_error: isBadRequest,
-                    error_content: isBadRequest ? responseContent : null,
-                    content: isBadRequest ? null : responseContent,
+                    error_content: isBadRequest ? responseContentJson : null,
+                    content: isBadRequest ? null : responseContentJson,
+                    correlationId: correlationId,
                 };
                 return response;
             });

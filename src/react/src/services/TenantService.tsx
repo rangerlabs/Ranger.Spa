@@ -1,6 +1,9 @@
 import RestUtilities, { IRestResponse } from "./RestUtilities";
-import Logger from "./Logger/Logger";
 import IReviewForm from "../models/landing/IReviewForm";
+import ReduxStore from "../ReduxStore";
+import { addDomain, DomainState } from "../redux/actions/DomainActions";
+import { enqueueSnackbar, SnackbarNotification } from "../redux/actions/SnackbarActions";
+import { StatusEnum } from "../models/StatusEnum";
 
 export default class TenantService {
     async exists(domain: string): Promise<IRestResponse<boolean>> {
@@ -8,10 +11,26 @@ export default class TenantService {
     }
 
     async post(reviewForm: IReviewForm): Promise<boolean> {
-        let result = false;
-        RestUtilities.post("/tenant", reviewForm).then(value => {
-            result = !value.is_error;
+        return RestUtilities.post("/tenant", reviewForm).then(value => {
+            const result = !value.is_error;
+            if (result) {
+                const domain = {
+                    domain: reviewForm.domainForm.domain,
+                    correlationId: value.correlationId,
+                    status: StatusEnum.PENDING,
+                } as DomainState;
+                const addDomainAction = addDomain(domain);
+                ReduxStore.getStore().dispatch(addDomainAction);
+                const snackbarNotification = {
+                    message: "Domain request accepted.",
+                    options: {
+                        variant: "warning",
+                    },
+                } as SnackbarNotification;
+                const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
+                ReduxStore.getStore().dispatch(enqueueSnackbarAction);
+            }
+            return result;
         });
-        return result;
     }
 }
