@@ -12,7 +12,7 @@ export interface SnackbarAction {
 
 export interface SnackbarNotification {
     message: any;
-    options: OptionsObject;
+    options?: OptionsObject;
     key: ReactText;
     dismissAll?: boolean;
 }

@@ -69,7 +69,7 @@ export default class RestUtilities {
             })
             .then((response: Response) => {
                 isBadRequest = response.status >= 400 && response.status < 500;
-                correlationId = response.headers.get("X-Operation");
+                correlationId = response.headers.has("X-Operation") ? response.headers.get("X-Operation").replace("operations/", "") : null;
                 return response.text();
             })
             .then((responseContent: string) => {

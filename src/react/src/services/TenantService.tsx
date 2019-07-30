@@ -23,9 +23,6 @@ export default class TenantService {
                 ReduxStore.getStore().dispatch(addDomainAction);
                 const snackbarNotification = {
                     message: "Domain request accepted.",
-                    options: {
-                        variant: "success",
-                    },
                 } as SnackbarNotification;
                 const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
                 ReduxStore.getStore().dispatch(enqueueSnackbarAction);

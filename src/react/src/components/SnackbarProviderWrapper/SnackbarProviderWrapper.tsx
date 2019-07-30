@@ -1,16 +1,16 @@
 import * as React from "react";
 import { Theme, createStyles, WithStyles, withStyles } from "@material-ui/core";
 import { SnackbarProvider } from "notistack";
+import Grow from "@material-ui/core/Grow";
 
 const styles = (theme: Theme) =>
     createStyles({
-        success: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", height: theme.toolbar.height },
-        error: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", height: theme.toolbar.height },
-        warning: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", height: theme.toolbar.height },
-        info: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", height: theme.toolbar.height },
+        success: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px" },
+        error: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px" },
+        warning: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px" },
+        info: { backgroundColor: "#5E5E5E", justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px" },
         root: {
             width: "100%",
-            height: theme.toolbar.height,
         },
     });
 

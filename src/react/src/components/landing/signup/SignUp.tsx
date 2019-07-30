@@ -147,7 +147,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
                                         Thank you for registering.
                                     </Typography>
                                     <Typography variant="subtitle1">
-                                        We're off creating your domain and account. You will receive an email shortly allowing you to confirm your domain.
+                                        We're creating your domain and account. You will receive an email shortly allowing you to confirm your domain.
                                     </Typography>
                                 </React.Fragment>
                             ) : (
