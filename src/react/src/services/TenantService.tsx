@@ -7,7 +7,7 @@ import { StatusEnum } from "../models/StatusEnum";
 
 export default class TenantService {
     async exists(domain: string): Promise<IRestResponse<boolean>> {
-        return RestUtilities.get<boolean>("/tenant/exists?domain=" + domain);
+        return RestUtilities.get<boolean>("/tenant/exists/" + domain);
     }
 
     async post(reviewForm: IReviewForm): Promise<boolean> {

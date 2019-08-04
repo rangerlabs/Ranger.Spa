@@ -8,7 +8,7 @@ export default class UserService {
     }
 
     async getUser(email: string): Promise<IRestResponse<IUser>> {
-        return RestUtilities.get<IUser>("/user?email=" + email);
+        return RestUtilities.get<IUser>("/user/" + email);
     }
 
     async postUser(user: IUser): Promise<IRestResponse<IUser>> {

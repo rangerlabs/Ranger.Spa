@@ -78,7 +78,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                                 const redirectUri = "http://" + domain + "." + API_HOST + "/callback";
                                 tenantService.exists(domain).then(values => {
                                     setTimeout(() => {
-                                        if (values.content) {
+                                        if (!values.is_error) {
                                             this.setState({ isSuccess: true });
                                             enqueueSnackbar("Domain found", { variant: "success" });
                                             setTimeout(() => {
