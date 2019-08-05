@@ -13,4 +13,8 @@ export default class ReduxStore {
     static getStore() {
         return this.Store;
     }
+
+    static getState(): ApplicationState {
+        return this.Store.getState();
+    }
 }

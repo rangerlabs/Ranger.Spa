@@ -4,6 +4,11 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { removeSnackbar, SnackbarNotification } from "../../redux/actions/SnackbarActions";
 import { ApplicationState } from "../../stores";
+import Pusher from "pusher-js";
+import ReduxStore from "../../ReduxStore";
+import RegistrationHandler from "./pusherHandlers/RegistrationHandler";
+import { StatusEnum } from "../../models/StatusEnum";
+import { DomainState } from "../../redux/actions/DomainActions";
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -12,6 +17,26 @@ interface NotifierProps extends WithSnackbarProps {
 
 class Notifier extends React.Component<NotifierProps> {
     displayed = [] as React.ReactText[];
+    pusher = undefined as Pusher.Pusher;
+    channel = undefined as Pusher.Channel;
+    pusherSubscribed = false;
+
+    componentDidMount() {
+        ReduxStore.getStore().subscribe(() => {
+            if (!this.pusherSubscribed) {
+                const stateDomain = ReduxStore.getState().domain;
+                if (stateDomain && stateDomain.status === StatusEnum.PENDING) {
+                    this.pusher = new Pusher("aed7ba7c7247aca9680e", {
+                        cluster: "us2",
+                        forceTLS: true,
+                    });
+                    this.channel = this.pusher.subscribe("ranger-labs");
+                    this.channel.bind("registration-event", RegistrationHandler);
+                    this.pusherSubscribed = true;
+                }
+            }
+        });
+    }
 
     storeDisplayed = (id: React.ReactText) => {
         this.displayed = [...this.displayed, id];

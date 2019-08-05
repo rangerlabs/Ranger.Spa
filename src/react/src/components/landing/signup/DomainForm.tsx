@@ -8,6 +8,9 @@ import * as Yup from "yup";
 import { InputAdornment, IconButton } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { addDomain, DomainState } from "../../../redux/actions/DomainActions";
+import { StatusEnum } from "../../../models/StatusEnum";
+import ReduxStore from "../../../ReduxStore";
 
 interface DomainFormProps {
     setSignUpDomainStateValues: (domainFormValues: IDomainForm) => void;

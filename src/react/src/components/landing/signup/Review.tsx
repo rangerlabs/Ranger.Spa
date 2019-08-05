@@ -36,7 +36,6 @@ class Review extends React.Component<ReviewProps> {
                         } as IReviewForm
                     }
                     onSubmit={(values: IReviewForm, formikBag: FormikBag<FormikProps<IReviewForm>, IReviewForm>) => {
-                        console.log(values);
                         const reviewForm = {
                             domainForm: {
                                 domain: values.domainForm.domain,
