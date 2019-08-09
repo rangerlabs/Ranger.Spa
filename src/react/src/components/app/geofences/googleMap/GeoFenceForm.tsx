@@ -76,7 +76,7 @@ class GeoFenceForm extends React.Component<IFenceFormProps, FenceFormState> {
                 <CssBaseline />
                 <main className={classes.layout}>
                     <div className={classNames(classes.mapContainer, { [classes.mapContainerShift]: this.props.geoFenceDrawerOpen })}>
-                        <Paper elevation={1} className={classes.mapPaper}>
+                        <Paper elevation={0} className={classes.mapPaper}>
                             <GoogleMapsWrapper
                                 innerRef={this.mapWrappedRef}
                                 id={"map"}

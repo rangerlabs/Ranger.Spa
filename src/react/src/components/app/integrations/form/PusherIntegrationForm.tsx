@@ -96,7 +96,7 @@ class PusherIntegrationForm extends React.Component<IPusherIntegrationFormProps,
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper elevation={1} className={classes.paper}>
+                    <Paper elevation={0} className={classes.paper}>
                         <Typography variant="h5" gutterBottom>
                             {this.props.initialIntegration ? "Update" : "Create"}
                         </Typography>

@@ -76,7 +76,7 @@ class LoginPage extends React.Component<LoginProps, LoginState> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
-                    <Paper elevation={1} className={classes.paper}>
+                    <Paper elevation={0} className={classes.paper}>
                         <Formik
                             initialValues={{ email: "", password: "" } as Login}
                             onSubmit={(values: Login, formikBag: FormikBag<FormikProps<Login>, Login>) => {

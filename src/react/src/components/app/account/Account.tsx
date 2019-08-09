@@ -100,7 +100,7 @@ class Account extends React.Component<AccountProps, AccountState> {
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper elevation={1} className={classes.paper}>
+                    <Paper elevation={0} className={classes.paper}>
                         <Formik
                             enableReinitialize
                             initialValues={{

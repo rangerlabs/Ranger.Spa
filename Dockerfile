@@ -1,10 +1,6 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
 WORKDIR /app
 
-COPY *.sln ./
-COPY ./src ./src
-COPY ./test ./test
-COPY ./scripts ./scripts
 COPY package*.json ./
 
 ENV NODE_VERSION 10.15.3
@@ -15,6 +11,14 @@ RUN curl -SL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-lin
     && rm nodejs.tar.gz \
     && ln -s /usr/local/bin/node /usr/local/bin/nodejs
 
+RUN npm install && \
+    npm install webpack webpack-cli -g
+
+COPY *.sln ./
+COPY ./src ./src
+COPY ./test ./test
+COPY ./scripts ./scripts
+
 ARG MYGET_API_KEY
 ARG BUILD_CONFIG="Release"
 ARG ASPNETCORE_ENVIRONMENT="Production"
@@ -23,9 +27,6 @@ ARG WEBPACK_ENV="prod"
 
 ENV NODE_ENV = ${NODE_ENV}
 ENV ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-
-RUN npm install && \
-    npm install webpack webpack-cli -g
 
 RUN webpack --config ./src/react/webpack.${WEBPACK_ENV}.js && \
     npm run copy-oidc-client

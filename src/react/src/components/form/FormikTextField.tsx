@@ -23,7 +23,7 @@ class FormikTextField extends React.Component<FormikTextFieldProps & TextFieldPr
                 name={name}
                 label={label}
                 value={value}
-                helperText={touched ? errorText : ""}
+                helperText={touched && Boolean(errorText) ? errorText : ""}
                 error={touched && Boolean(errorText)}
                 onChange={onChange}
                 onBlur={onBlur}

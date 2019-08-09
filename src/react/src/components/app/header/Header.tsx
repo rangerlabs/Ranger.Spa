@@ -22,7 +22,7 @@ const styles = (theme: Theme) =>
                 width: `calc(100% - ${theme.drawer.width}px)`,
             },
             backgroundColor: "#FFFFFF",
-            boxShadow: "0px 1px 4px -1px rgba(126, 87, 194, 0.5)",
+            boxShadow: "none",
         },
         menuButton: {
             [theme.breakpoints.up("md")]: {

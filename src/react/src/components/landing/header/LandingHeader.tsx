@@ -74,7 +74,7 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
     render() {
         const { classes } = this.props;
         return (
-            <AppBar position="fixed" className={classes.appBarOpaque}>
+            <AppBar elevation={0} position="fixed" className={classes.appBarOpaque}>
                 <Toolbar>
                     <div className={classes.toolbarLeft}>
                         <Button onClick={this.handleLogoClick}>

@@ -1,4 +1,5 @@
 import * as React from "react";
+import TenantService from "../../../services/TenantService";
 import Grid from "@material-ui/core/Grid";
 import { Formik, FormikBag, FormikProps } from "formik";
 import FormikTextField from "../../form/FormikTextField";
@@ -11,7 +12,11 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { addDomain, DomainState } from "../../../redux/actions/DomainActions";
 import { StatusEnum } from "../../../models/StatusEnum";
 import ReduxStore from "../../../ReduxStore";
+import { Observable, Subject, timer, iif, of, EMPTY } from "rxjs";
+import { debounceTime, distinctUntilChanged, debounce, filter, mergeMap } from "rxjs/operators";
+import "../../../rxjs/debounceNonDistinct";
 
+const tenantService = new TenantService();
 interface DomainFormProps {
     setSignUpDomainStateValues: (domainFormValues: IDomainForm) => void;
     handleNext: () => void;
@@ -19,14 +24,39 @@ interface DomainFormProps {
     domainForm: IDomainForm;
 }
 
-type DomainFormState = {
-    passwordVisible: boolean;
-};
+export default class DomainForm extends React.Component<DomainFormProps> {
+    formikRef: React.RefObject<Formik> = React.createRef();
+    onSearch$: Subject<string>;
+    subscription: any;
 
-export default class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
-    state = {
-        passwordVisible: false,
-    };
+    constructor(props: DomainFormProps) {
+        super(props);
+        this.onSearch$ = new Subject();
+    }
+
+    domainSearch(domain: string) {
+        this.formikRef.current.state.errors;
+        this.onSearch$.next(domain);
+    }
+
+    componentDidMount() {
+        this.subscription = this.onSearch$
+            .asObservable()
+            .debounceNonDistinct(400)
+            .subscribe(debouncedDomain => {
+                tenantService.exists(debouncedDomain).then(values => {
+                    if (!values.is_error) {
+                        this.formikRef.current.setFieldError("domain", "Sorry, this domain appears to be taken.");
+                    }
+                });
+            });
+    }
+
+    componentWillUnmount() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+    }
 
     validationSchema = Yup.object().shape({
         domain: Yup.string()
@@ -52,6 +82,7 @@ export default class DomainForm extends React.Component<DomainFormProps, DomainF
         return (
             <React.Fragment>
                 <Formik
+                    ref={this.formikRef}
                     initialValues={{
                         domain: domainForm.domain ? domainForm.domain : "",
                         organizationName: domainForm.organizationName ? domainForm.organizationName : "",
@@ -65,6 +96,9 @@ export default class DomainForm extends React.Component<DomainFormProps, DomainF
                         this.props.handleNext();
                     }}
                     validationSchema={this.validationSchema}
+                    validate={(values: IDomainForm) => {
+                        this.domainSearch(values.domain);
+                    }}
                 >
                     {props => (
                         <form onSubmit={props.handleSubmit}>

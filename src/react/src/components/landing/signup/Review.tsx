@@ -72,7 +72,7 @@ class Review extends React.Component<ReviewProps> {
                                         touched={false}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
-                                        InputProps={{ endAdornment: <InputAdornment position="end">.DOMAIN.com</InputAdornment> }}
+                                        InputProps={{ endAdornment: <InputAdornment position="end">.rangerlabs.com</InputAdornment> }}
                                         autoComplete="off"
                                     />
                                 </Grid>

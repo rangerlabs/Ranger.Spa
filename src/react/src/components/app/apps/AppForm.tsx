@@ -118,7 +118,7 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper elevation={1} className={classes.paper}>
+                    <Paper elevation={0} className={classes.paper}>
                         <Typography variant="h5" gutterBottom>
                             {this.getAppByName(apps) ? "Update" : "Create"}
                         </Typography>

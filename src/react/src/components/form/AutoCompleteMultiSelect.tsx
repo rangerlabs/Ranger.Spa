@@ -143,7 +143,7 @@ function MultiValue(props: any) {
 
 function Menu(props: any) {
     return (
-        <Paper elevation={1} square className={props.selectProps.classes.paper} {...props.innerProps}>
+        <Paper elevation={0} square className={props.selectProps.classes.paper} {...props.innerProps}>
             {props.children}
         </Paper>
     );

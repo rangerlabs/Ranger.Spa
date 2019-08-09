@@ -129,7 +129,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
-                    <Paper elevation={1} className={classes.paper}>
+                    <Paper elevation={0} className={classes.paper}>
                         <Typography component="h1" variant="h4" align="center">
                             Welcome
                         </Typography>

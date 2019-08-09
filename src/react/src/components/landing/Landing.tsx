@@ -39,9 +39,7 @@ class Landing extends Component<LandingProps> {
         return (
             <React.Fragment>
                 <Parallax pages={2} scrolling={true} ref={this.parallax}>
-                    <ParallaxLayer>
-                        <ImageCarousel />
-                    </ParallaxLayer>
+                    <ParallaxLayer>{/* <ImageCarousel /> */}</ParallaxLayer>
                     <ParallaxLayer speed={1}>
                         <div id="#overview" className={classes.overview}>
                             <OverviewParallaxGradientLayer />
