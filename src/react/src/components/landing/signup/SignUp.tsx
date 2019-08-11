@@ -50,6 +50,7 @@ const steps = ["Select domain", "Create user", "Submit"];
 interface SignUpProps extends WithStyles<typeof styles> {}
 
 interface SignUpState {
+    prevStep: number;
     activeStep: number;
     domainForm: IDomainForm;
     userForm: IUserForm;
@@ -58,6 +59,7 @@ interface SignUpState {
 class SignUp extends React.Component<SignUpProps, SignUpState> {
     state = {
         activeStep: 0,
+        prevStep: undefined as number,
         domainForm: {} as IDomainForm,
         userForm: {} as IUserForm,
     };
@@ -71,6 +73,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
                         buttonsClassName={this.props.classes.buttons}
                         handleNext={this.handleNext}
                         setSignUpDomainStateValues={this.setDomainFormValues}
+                        isReturn={this.isBackStep()}
                     />
                 );
             case 1:
@@ -104,14 +107,23 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
         this.setState({ userForm: userFormValues });
     };
 
+    isBackStep = () => {
+        if (this.state.prevStep && this.state.activeStep < this.state.prevStep) {
+            return true;
+        }
+        return false;
+    };
+
     handleNext = () => {
         this.setState(state => ({
+            prevStep: state.activeStep,
             activeStep: state.activeStep + 1,
         }));
     };
 
     handleBack = () => {
         this.setState(state => ({
+            prevStep: state.activeStep,
             activeStep: state.activeStep - 1,
         }));
     };
@@ -124,7 +136,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
 
     render() {
         const { classes } = this.props;
-        const { activeStep } = this.state;
+        const { prevStep, activeStep } = this.state;
 
         return (
             <React.Fragment>

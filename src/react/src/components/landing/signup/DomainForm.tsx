@@ -6,15 +6,9 @@ import FormikTextField from "../../form/FormikTextField";
 import FormikNextButton from "../../form/FormikNextButton";
 import IDomainForm from "../../../models/landing/IDomainForm";
 import * as Yup from "yup";
-import { InputAdornment, IconButton } from "@material-ui/core";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { addDomain, DomainState } from "../../../redux/actions/DomainActions";
-import { StatusEnum } from "../../../models/StatusEnum";
-import ReduxStore from "../../../ReduxStore";
-import { Observable, Subject, timer, iif, of, EMPTY, Subscription } from "rxjs";
-import { debounceTime, distinctUntilChanged, debounce, filter, mergeMap, map } from "rxjs/operators";
-import "../../../rxjs/debounceNonDistinct";
+import { InputAdornment } from "@material-ui/core";
+import { Subject, Subscription } from "rxjs";
+import { debounceTime } from "rxjs/operators";
 
 const tenantService = new TenantService();
 interface DomainFormProps {
@@ -22,6 +16,7 @@ interface DomainFormProps {
     handleNext: () => void;
     buttonsClassName: string;
     domainForm: IDomainForm;
+    isReturn: boolean;
 }
 
 interface DomainFormState {
@@ -102,6 +97,7 @@ export default class DomainForm extends React.Component<DomainFormProps, DomainF
                         domain: domainForm.domain ? domainForm.domain : "",
                         organizationName: domainForm.organizationName ? domainForm.organizationName : "",
                     }}
+                    isInitialValid={this.props.isReturn}
                     onSubmit={(values: IDomainForm, formikBag: FormikBag<FormikProps<IDomainForm>, IDomainForm>) => {
                         tenantService.exists(values.domain).then(v => {
                             if (v) {
