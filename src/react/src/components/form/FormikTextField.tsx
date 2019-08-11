@@ -1,9 +1,14 @@
 import * as React from "react";
 import { FormikTouched, FormikErrors } from "formik";
-import { TextField } from "@material-ui/core";
+import { TextField, Theme, createStyles, withStyles, WithStyles } from "@material-ui/core";
 import { TextFieldProps } from "@material-ui/core/TextField";
 
-interface FormikTextFieldProps {
+const styles = (theme: Theme) =>
+    createStyles({
+        root: { fontSize: theme.typography.fontSize - 2 },
+    });
+
+interface FormikTextFieldProps extends WithStyles<typeof styles> {
     name: string;
     label: string;
     errorText: string | FormikErrors<any>;
@@ -14,11 +19,13 @@ interface FormikTextFieldProps {
     onChange<T = string | React.ChangeEvent<any>>(field: T): T extends React.ChangeEvent<any> ? void : ((e: string | React.ChangeEvent<any>) => void);
     value: any;
 }
+
 class FormikTextField extends React.Component<FormikTextFieldProps & TextFieldProps> {
     render() {
         const { name, label, errorText, touched, onBlur, onChange, classes, value, ...rest } = this.props;
         return (
             <TextField
+                FormHelperTextProps={{ className: classes.root }}
                 id={name}
                 name={name}
                 label={label}
@@ -34,4 +41,4 @@ class FormikTextField extends React.Component<FormikTextFieldProps & TextFieldPr
     }
 }
 
-export default FormikTextField;
+export default withStyles(styles)(FormikTextField);

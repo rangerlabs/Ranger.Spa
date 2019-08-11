@@ -1,7 +1,7 @@
 import * as React from "react";
 import TenantService from "../../../services/TenantService";
 import Grid from "@material-ui/core/Grid";
-import { Formik, FormikBag, FormikProps } from "formik";
+import { Formik, FormikBag, FormikProps, FormikErrors } from "formik";
 import FormikTextField from "../../form/FormikTextField";
 import FormikNextButton from "../../form/FormikNextButton";
 import IDomainForm from "../../../models/landing/IDomainForm";
@@ -12,8 +12,8 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { addDomain, DomainState } from "../../../redux/actions/DomainActions";
 import { StatusEnum } from "../../../models/StatusEnum";
 import ReduxStore from "../../../ReduxStore";
-import { Observable, Subject, timer, iif, of, EMPTY } from "rxjs";
-import { debounceTime, distinctUntilChanged, debounce, filter, mergeMap } from "rxjs/operators";
+import { Observable, Subject, timer, iif, of, EMPTY, Subscription } from "rxjs";
+import { debounceTime, distinctUntilChanged, debounce, filter, mergeMap, map } from "rxjs/operators";
 import "../../../rxjs/debounceNonDistinct";
 
 const tenantService = new TenantService();
@@ -24,32 +24,47 @@ interface DomainFormProps {
     domainForm: IDomainForm;
 }
 
-export default class DomainForm extends React.Component<DomainFormProps> {
+interface DomainFormState {
+    hasUnavailableDomain: boolean;
+    isValidatingDomain: boolean;
+}
+
+export default class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
     formikRef: React.RefObject<Formik> = React.createRef();
     onSearch$: Subject<string>;
-    subscription: any;
+    subscription: Subscription;
+
+    state: DomainFormState = {
+        hasUnavailableDomain: false,
+        isValidatingDomain: false,
+    };
 
     constructor(props: DomainFormProps) {
         super(props);
-        this.onSearch$ = new Subject();
+        this.onSearch$ = new Subject<string>();
     }
 
-    domainSearch(domain: string) {
-        this.formikRef.current.state.errors;
+    handleDomainChange(domain: string) {
+        this.setState({ isValidatingDomain: true, hasUnavailableDomain: false });
         this.onSearch$.next(domain);
     }
 
     componentDidMount() {
-        this.subscription = this.onSearch$
-            .asObservable()
-            .debounceNonDistinct(400)
-            .subscribe(debouncedDomain => {
-                tenantService.exists(debouncedDomain).then(values => {
-                    if (!values.is_error) {
-                        this.formikRef.current.setFieldError("domain", "Sorry, this domain appears to be taken.");
-                    }
-                });
+        this.subscription = this.onSearch$.pipe(debounceTime(300)).subscribe(v => {
+            tenantService.exists(v).then(v => {
+                if (v) {
+                    this.setUnavailableDomainError();
+                }
+                this.setState({ isValidatingDomain: false });
             });
+        });
+    }
+
+    private setUnavailableDomainError() {
+        const errors = Object.assign({}, this.formikRef.current.state.errors) as FormikErrors<IDomainForm>;
+        errors.domain = "Sorry, this domain is already taken.";
+        this.formikRef.current.setErrors(errors);
+        this.setState({ hasUnavailableDomain: true });
     }
 
     componentWillUnmount() {
@@ -88,16 +103,28 @@ export default class DomainForm extends React.Component<DomainFormProps> {
                         organizationName: domainForm.organizationName ? domainForm.organizationName : "",
                     }}
                     onSubmit={(values: IDomainForm, formikBag: FormikBag<FormikProps<IDomainForm>, IDomainForm>) => {
-                        const newDomain = {
-                            domain: values.domain,
-                            organizationName: values.organizationName,
-                        } as IDomainForm;
-                        this.props.setSignUpDomainStateValues(newDomain);
-                        this.props.handleNext();
+                        tenantService.exists(values.domain).then(v => {
+                            if (v) {
+                                this.setUnavailableDomainError();
+                                formikBag.props.isSubmitting = false;
+                            } else {
+                                this.setState({ hasUnavailableDomain: false });
+                                const newDomain = {
+                                    domain: values.domain,
+                                    organizationName: values.organizationName,
+                                } as IDomainForm;
+                                this.props.setSignUpDomainStateValues(newDomain);
+                                this.props.handleNext();
+                            }
+                        });
                     }}
                     validationSchema={this.validationSchema}
-                    validate={(values: IDomainForm) => {
-                        this.domainSearch(values.domain);
+                    validate={values => {
+                        if (this.state.hasUnavailableDomain) {
+                            const errors = {} as FormikErrors<IDomainForm>;
+                            errors.domain = "Sorry, this domain is already taken.";
+                            return errors;
+                        }
                     }}
                 >
                     {props => (
@@ -110,7 +137,10 @@ export default class DomainForm extends React.Component<DomainFormProps> {
                                         value={props.values.domain}
                                         errorText={props.errors.domain}
                                         touched={props.touched.domain}
-                                        onChange={props.handleChange}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            this.handleDomainChange(e.target.value);
+                                            props.handleChange(e);
+                                        }}
                                         onBlur={props.handleBlur}
                                         InputProps={{ endAdornment: <InputAdornment position="end">.rangerlabs.io</InputAdornment> }}
                                         autoComplete="off"
@@ -130,7 +160,7 @@ export default class DomainForm extends React.Component<DomainFormProps> {
                                 </Grid>
                             </Grid>
                             <div className={buttonsClassName}>
-                                <FormikNextButton isValid={props.isValid} type="submit" />
+                                <FormikNextButton isValid={props.isValid && !this.state.isValidatingDomain} type="submit" />
                             </div>
                         </form>
                     )}

@@ -6,8 +6,13 @@ import { enqueueSnackbar, SnackbarNotification } from "../redux/actions/Snackbar
 import { StatusEnum } from "../models/StatusEnum";
 
 export default class TenantService {
-    async exists(domain: string): Promise<IRestResponse<boolean>> {
-        return RestUtilities.get<boolean>("/tenant/exists/" + domain);
+    async exists(domain: string): Promise<boolean> {
+        return RestUtilities.get("/tenant/exists/" + domain).then(value => {
+            if (value.is_error) {
+                return false;
+            }
+            return true;
+        });
     }
 
     async post(reviewForm: IReviewForm): Promise<boolean> {

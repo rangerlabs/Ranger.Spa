@@ -40,6 +40,7 @@ const theme = createCamelCaseTheme({
     },
     typography: {
         useNextVariants: true,
+        fontSize: 16,
     },
 });
 

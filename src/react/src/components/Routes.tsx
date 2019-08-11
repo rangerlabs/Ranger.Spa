@@ -33,8 +33,8 @@ class Routes extends React.Component<RoutesProps & RouteComponentProps<{}>> {
             let authorizedRoutes: IAppRoute[] = [];
 
             if (pathname !== RoutePaths.Callback && pathname !== RoutePaths.Login && (!user || user.expired) && domains.length === 3) {
-                tenantService.exists(domains[0]).then(values => {
-                    if (values.content) {
+                tenantService.exists(domains[0]).then(v => {
+                    if (v) {
                         UserManager.signinRedirect({ data: { path: pathname } });
                     }
                 });

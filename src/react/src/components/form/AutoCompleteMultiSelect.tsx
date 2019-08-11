@@ -202,7 +202,7 @@ class IntegrationReactSelect extends React.Component<FormikAutoCompleteMultiSele
                     options={toAutocompleteOptionTypeArray(suggestions)}
                     components={components}
                     value={this.state.multiValues}
-                    onChange={v => this.handleChangeMulti(v)}
+                    onChange={(v: ValueType<AutocompleteOptionType>) => this.handleChangeMulti(v)}
                     placeholder="Select integrations"
                     isMulti
                 />

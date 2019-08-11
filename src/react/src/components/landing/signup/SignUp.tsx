@@ -45,7 +45,7 @@ const styles = (theme: Theme) =>
         },
     });
 
-const steps = ["Create domain", "Create user", "Submit"];
+const steps = ["Select domain", "Create user", "Submit"];
 
 interface SignUpProps extends WithStyles<typeof styles> {}
 
@@ -131,7 +131,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
                 <div className={classes.layout}>
                     <Paper elevation={0} className={classes.paper}>
                         <Typography component="h1" variant="h4" align="center">
-                            Welcome
+                            Welcome to Ranger
                         </Typography>
                         <Stepper activeStep={activeStep} className={classes.stepper} alternativeLabel>
                             {steps.map(label => (

@@ -64,7 +64,7 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                 <Popper open={this.state.open} anchorEl={this.anchorEl.current} transition disablePortal>
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
-                            <Paper elevation={0}>
+                            <Paper elevation={1}>
                                 <ClickAwayListener onClickAway={this.handleClose}>
                                     <MenuList>
                                         {RoutePaths.IsCurrentLocationWhiteListed() && (

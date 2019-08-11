@@ -76,9 +76,9 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                             onSubmit={(values: Domain, formikBag: FormikBag<FormikProps<Domain>, Domain>) => {
                                 const domain = values.domain;
                                 const redirectUri = "http://" + domain + "." + API_HOST + "/callback";
-                                tenantService.exists(domain).then(values => {
+                                tenantService.exists(domain).then(v => {
                                     setTimeout(() => {
-                                        if (!values.is_error) {
+                                        if (v) {
                                             this.setState({ isSuccess: true });
                                             enqueueSnackbar("Domain found", { variant: "success" });
                                             setTimeout(() => {
