@@ -18,7 +18,6 @@ const styles = (theme: Theme) =>
     });
 
 interface AccountPopOutProps extends WithStyles<typeof styles> {
-    signOut: () => void;
     push: (path: string) => void;
 }
 
@@ -87,7 +86,8 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                         </MenuItem>
                                         <MenuItem
                                             onClick={e => {
-                                                this.props.signOut();
+                                                // this.props.signOut();
+                                                this.props.push(RoutePaths.Logout);
                                                 this.handleClose(e);
                                             }}
                                         >

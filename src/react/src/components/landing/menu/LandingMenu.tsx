@@ -30,6 +30,7 @@ import { User } from "oidc-client";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import Logo from "../../../theme/Logo";
+import RoutePaths from "../../RoutePaths";
 const classNames = require("classnames").default;
 
 const styles = (theme: Theme) =>
@@ -85,7 +86,6 @@ interface LandingMenuProps extends WithStyles<typeof styles> {
     user: User;
     theme: Theme;
     mobileOpen: boolean;
-    signOut: () => void;
     handleDrawerToggle: () => void;
     push: typeof push;
 }
@@ -187,7 +187,13 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                     )}
                     <Collapse in={this.state.accountListItemExpanded} timeout={500} unmountOnExit>
                         <List disablePadding>
-                            <ListItem button className={classNames(classes.listItemHover, classes.nested)} onClick={this.props.signOut}>
+                            <ListItem
+                                button
+                                className={classNames(classes.listItemHover, classes.nested)}
+                                onClick={() => {
+                                    this.props.push(RoutePaths.Logout);
+                                }}
+                            >
                                 <ListItemIcon>
                                     <Lock nativeColor={theme.drawer.text.color} />
                                 </ListItemIcon>

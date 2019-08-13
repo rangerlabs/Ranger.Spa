@@ -12,7 +12,7 @@ import { MergedIntegrationType } from "../models/app/integrations/MergedIntegrat
 import { DomainState } from "../redux/actions/DomainActions";
 import { SnackbarNotification } from "../redux/actions/SnackbarActions";
 
-interface OidcState {
+export interface OidcState {
     isLoadingUser: boolean;
     user: User;
 }

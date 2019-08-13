@@ -26,6 +26,7 @@ import { populateIntegrations } from "../../redux/actions/IntegrationActions";
 import { MergedIntegrationType } from "../../models/app/integrations/MergedIntegrationType";
 import IntegrationService from "../../services/IntegrationService";
 import Notifier from "../../components/notifier/Notifier";
+import authorizedRoute from "./hocs/AuthorizedRouteHOC";
 
 const userService = new UserService();
 const appService = new AppService();
@@ -138,12 +139,7 @@ class AppLayout extends React.Component<AppLayoutProps> {
                         <CssBaseline />
                         <Dialog />
                         <Notifier />
-                        <Header
-                            breadcrumbs={this.completeBreadcrumbsWithAppName()}
-                            signOut={this.signOut}
-                            handleDrawerToggle={this.handleDrawerToggle}
-                            {...props}
-                        />
+                        <Header breadcrumbs={this.completeBreadcrumbsWithAppName()} handleDrawerToggle={this.handleDrawerToggle} {...props} />
                         <Menu signOut={this.signOut} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={750}>
                             <main className={classes.content}>
@@ -161,4 +157,4 @@ class AppLayout extends React.Component<AppLayoutProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(AppLayout));
+)(withStyles(styles)(authorizedRoute(AppLayout)));

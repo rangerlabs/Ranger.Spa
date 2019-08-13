@@ -48,11 +48,6 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
         slideIn: false,
     };
 
-    signOut = () => {
-        const idTokenHint = this.props.user.id_token;
-        UserManager.signoutRedirect({ id_token_hint: idTokenHint });
-    };
-
     handleDrawerToggle = () => {
         this.setState(prevState => ({ mobileOpen: !prevState.mobileOpen }));
     };
@@ -67,14 +62,8 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                         <CssBaseline />
                         <Dialog />
                         <Notifier />
-                        <LandingHeader user={user} signOut={this.signOut} handleDrawerToggle={this.handleDrawerToggle} {...props} />
-                        <LandingMenu
-                            user={user}
-                            signOut={this.signOut}
-                            handleDrawerToggle={this.handleDrawerToggle}
-                            mobileOpen={this.state.mobileOpen}
-                            {...props}
-                        />
+                        <LandingHeader user={user} handleDrawerToggle={this.handleDrawerToggle} {...props} />
+                        <LandingMenu user={user} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={750}>
                             <main className={classes.content}>
                                 <Component {...props} />

@@ -5,6 +5,7 @@ export default class RoutePaths {
     public static Register = "/register";
     public static EnterDomain = "/enterdomain";
     public static Login = "/login";
+    public static Logout = "/logout";
 
     public static Home = "/home";
     public static Account = "/account";
@@ -40,7 +41,8 @@ export default class RoutePaths {
             path === RoutePaths.Callback ||
             path === RoutePaths.Register ||
             path === RoutePaths.EnterDomain ||
-            path === RoutePaths.Login
+            path === RoutePaths.Login ||
+            path === RoutePaths.Logout
         ) {
             result = true;
         }

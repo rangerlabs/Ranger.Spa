@@ -16,6 +16,7 @@ interface DispatchProps {
     selectApp: (appName: string) => void;
     push: (path: string) => void;
 }
+
 const mapStateToProps = (state: ApplicationState): StateProps => {
     return {
         selectedApp: state.selectedApp,

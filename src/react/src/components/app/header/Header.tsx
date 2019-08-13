@@ -41,7 +41,6 @@ const mapStateToProps = (state: ApplicationState) => {
 interface HeaderProps extends WithStyles<typeof styles> {
     breadcrumbs: Breadcrumb[];
     handleDrawerToggle: () => void;
-    signOut: () => void;
     user: User;
 }
 
@@ -58,7 +57,7 @@ class Header extends React.Component<HeaderProps> {
                         Hi, {this.props.user.profile.firstName}
                     </Typography>
                     <Hidden smDown implementation="css">
-                        <AccountPopOut signOut={this.props.signOut} />
+                        <AccountPopOut />
                     </Hidden>
                     <IconButton className={classes.menuButton} aria-label="Menu" onClick={this.props.handleDrawerToggle}>
                         <MenuIcon />

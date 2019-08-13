@@ -45,7 +45,6 @@ const styles = (theme: Theme) =>
 interface LandingHeaderProps extends WithStyles<typeof styles> {
     user: User;
     handleDrawerToggle: () => void;
-    signOut: () => void;
     push: typeof push;
 }
 
@@ -98,7 +97,7 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                             </ButtonBase>
                             <div className={classes.actionContainer}>
                                 {this.props.user && !this.props.user.expired ? (
-                                    <AccountPopOut signOut={this.props.signOut} />
+                                    <AccountPopOut />
                                 ) : (
                                     <div>
                                         <Button variant="outlined" color="primary" classes={{ root: classes.landingLink }} onClick={this.handleSignInClick}>

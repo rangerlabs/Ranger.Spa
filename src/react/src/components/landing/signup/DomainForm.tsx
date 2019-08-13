@@ -11,6 +11,7 @@ import { Subject, Subscription } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 
 const tenantService = new TenantService();
+const domainUnavailableErrorText = "Sorry, this domain is already taken.";
 interface DomainFormProps {
     setSignUpDomainStateValues: (domainFormValues: IDomainForm) => void;
     handleNext: () => void;
@@ -48,6 +49,7 @@ export default class DomainForm extends React.Component<DomainFormProps, DomainF
         this.subscription = this.onSearch$.pipe(debounceTime(300)).subscribe(v => {
             tenantService.exists(v).then(v => {
                 if (v) {
+                    this.setState({ hasUnavailableDomain: true });
                     this.setUnavailableDomainError();
                 }
                 this.setState({ isValidatingDomain: false });
@@ -56,10 +58,8 @@ export default class DomainForm extends React.Component<DomainFormProps, DomainF
     }
 
     private setUnavailableDomainError() {
-        const errors = Object.assign({}, this.formikRef.current.state.errors) as FormikErrors<IDomainForm>;
-        errors.domain = "Sorry, this domain is already taken.";
-        this.formikRef.current.setErrors(errors);
-        this.setState({ hasUnavailableDomain: true });
+        this.formikRef.current.setFieldTouched("domain");
+        this.formikRef.current.setFieldError("domain", domainUnavailableErrorText);
     }
 
     componentWillUnmount() {
@@ -102,7 +102,7 @@ export default class DomainForm extends React.Component<DomainFormProps, DomainF
                         tenantService.exists(values.domain).then(v => {
                             if (v) {
                                 this.setUnavailableDomainError();
-                                formikBag.props.isSubmitting = false;
+                                formikBag.props.setSubmitting(false);
                             } else {
                                 this.setState({ hasUnavailableDomain: false });
                                 const newDomain = {
@@ -118,7 +118,7 @@ export default class DomainForm extends React.Component<DomainFormProps, DomainF
                     validate={values => {
                         if (this.state.hasUnavailableDomain) {
                             const errors = {} as FormikErrors<IDomainForm>;
-                            errors.domain = "Sorry, this domain is already taken.";
+                            errors.domain = domainUnavailableErrorText;
                             return errors;
                         }
                     }}
