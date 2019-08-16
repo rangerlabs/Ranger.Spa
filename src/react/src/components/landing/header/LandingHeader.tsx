@@ -10,6 +10,7 @@ import AccountPopOut from "../../accountPopOut/AccountPopOut";
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import Logo from "../../../theme/Logo";
+import RoutePaths from "../../RoutePaths";
 const classNames = require("classnames").default;
 
 const styles = (theme: Theme) =>
@@ -56,18 +57,18 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
 
     handleSignInClick = () => {
         if (this.hasSubDomain()) {
-            this.props.push("/login");
+            this.props.push(RoutePaths.Login);
         } else {
-            this.props.push("/enterdomain");
+            this.props.push(RoutePaths.EnterDomain);
         }
     };
 
     handleSignUpClick = () => {
-        this.props.push("/signup");
+        this.props.push(RoutePaths.SignUp);
     };
 
     handleLogoClick = () => {
-        this.props.push("/");
+        this.props.push(RoutePaths.Landing);
     };
 
     render() {
@@ -106,7 +107,6 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                                         <Button
                                             color="primary"
                                             variant="contained"
-                                            // href="/signup"
                                             onClick={this.handleSignUpClick}
                                             classes={{ root: classNames(classes.landingLink, classes.signupButton) }}
                                         >

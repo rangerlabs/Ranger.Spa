@@ -7,7 +7,7 @@ import { StatusEnum } from "../models/StatusEnum";
 
 export default class TenantService {
     async exists(domain: string): Promise<boolean> {
-        return RestUtilities.get("/tenant/exists/" + domain).then(value => {
+        return RestUtilities.get("/tenant/" + domain + "/exists").then(value => {
             if (value.is_error) {
                 return false;
             }

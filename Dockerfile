@@ -42,5 +42,8 @@ COPY --from=build-env /app/published .
 ARG ASPNETCORE_ENVIRONMENT="Production"
 ENV ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
 
+ARG NODE_ENV="production"
+ENV NODE_ENV = ${NODE_ENV}
+
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "Ranger.Spa.dll"]

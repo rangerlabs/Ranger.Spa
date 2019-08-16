@@ -4,7 +4,6 @@ import { DomainState } from "../../../redux/actions/DomainActions";
 import { SnackbarNotification, enqueueSnackbar } from "../../../redux/actions/SnackbarActions";
 
 export default function RegistrationHandler(data: DomainState): void {
-    console.log("Received data:" + JSON.stringify(data));
     const domain = ReduxStore.getState().domain;
     if (domain && domain.status === StatusEnum.PENDING) {
         if (data.domain === domain.domain && domain.correlationId === data.correlationId) {

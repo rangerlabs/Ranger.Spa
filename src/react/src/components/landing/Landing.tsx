@@ -10,8 +10,8 @@ import OverviewParallaxContentLayer from "./sections/OverviewParallaxContentLaye
 const styles = (theme: Theme) =>
     createStyles({
         overview: {
-            height: "100vh",
-            width: "100vw",
+            // height: "100vh",
+            // width: "100vw",
         },
         features: {
             height: "700px",

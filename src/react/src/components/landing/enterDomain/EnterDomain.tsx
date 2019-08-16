@@ -7,6 +7,7 @@ import FormikSynchronousButton from "../../form/FormikSynchronousButton";
 import TenantService from "../../../services/TenantService";
 import UserManager from "../../../services/UserManager";
 import { withSnackbar, WithSnackbarProps } from "notistack";
+import RoutePaths from "../../RoutePaths";
 
 const tenantService = new TenantService();
 
@@ -40,7 +41,6 @@ const styles = (theme: Theme) =>
     });
 
 interface EnterDomainProps extends WithStyles<typeof styles>, WithSnackbarProps {}
-
 type EnterDomainState = {
     isSuccess: boolean;
 };
@@ -75,16 +75,14 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                             initialValues={{ domain: "" } as Domain}
                             onSubmit={(values: Domain, formikBag: FormikBag<FormikProps<Domain>, Domain>) => {
                                 const domain = values.domain;
-                                const redirectUri = "http://" + domain + "." + API_HOST + "/callback";
                                 tenantService.exists(domain).then(v => {
                                     setTimeout(() => {
                                         if (v) {
                                             this.setState({ isSuccess: true });
                                             enqueueSnackbar("Domain found", { variant: "success" });
                                             setTimeout(() => {
-                                                window.location.href = "http://" + domain + "." + SPA_HOST + BASE_PATH + "/login";
-                                                // this.setState({ isSuccess: false });
-                                                // formikBag.setSubmitting(false);
+                                                const loginPath = "http://" + domain + "." + SPA_HOST + BASE_PATH + RoutePaths.Login;
+                                                window.location.href = loginPath;
                                             }, 750);
                                         } else {
                                             enqueueSnackbar("Domain not found", { variant: "error" });

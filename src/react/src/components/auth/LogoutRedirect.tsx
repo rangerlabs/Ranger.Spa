@@ -4,7 +4,7 @@ import { ApplicationState } from "../../stores";
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
 
-interface LogoutProps {
+interface LogoutRedirectProps {
     user: Oidc.User;
     isLoadingUser: boolean;
 }
@@ -16,7 +16,7 @@ const mapStateToProps = (state: ApplicationState) => {
     };
 };
 
-function Logout(props: LogoutProps): any {
+function LogoutRedirect(props: LogoutRedirectProps): any {
     if (!props.isLoadingUser) {
         if (props.user) {
             const idTokenHint = props.user.id_token;
@@ -31,4 +31,4 @@ function Logout(props: LogoutProps): any {
 export default connect(
     mapStateToProps,
     null
-)(Logout);
+)(LogoutRedirect);

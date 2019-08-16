@@ -106,9 +106,9 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
 
     handleSignInClick = () => {
         if (this.hasSubDomain()) {
-            this.props.push("/login");
+            this.props.push(RoutePaths.Login);
         } else {
-            this.props.push("/enterdomain");
+            this.props.push(RoutePaths.EnterDomain);
         }
     };
 

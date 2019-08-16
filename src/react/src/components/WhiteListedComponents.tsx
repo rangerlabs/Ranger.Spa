@@ -3,9 +3,9 @@ import RoutePaths from "./RoutePaths";
 import SignUp from "./landing/signup/SignUp";
 import EnterDomain from "./landing/enterDomain/EnterDomain";
 import ErrorPage from "./error/Error";
-import LoginRedirect from "./landing/login/LoginRedirect";
+import LoginRedirect from "./auth/LoginRedirect";
 import IRoute from "./ILandingRoute";
-import Logout from "./auth/Logout";
+import LogoutRedirect from "./auth/LogoutRedirect";
 
 export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: "/error/:code?", component: ErrorPage },
@@ -13,5 +13,5 @@ export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: RoutePaths.SignUp, component: SignUp },
     { exact: true, path: RoutePaths.EnterDomain, component: EnterDomain },
     { exact: true, path: RoutePaths.Login, component: LoginRedirect },
-    { exact: true, path: RoutePaths.Logout, component: Logout },
+    { exact: true, path: RoutePaths.Logout, component: LogoutRedirect },
 ];
