@@ -14,7 +14,7 @@ module.exports = merge(common, {
         }),
         new webpack.DefinePlugin({
             IDENTITY_AUTHORITY: JSON.stringify("localhost.io:5000"),
-            PUSHER_AUTHENDPOINT: JSON.stringify("rangerlabs.io:5000/auth/pusher"),
+            PUSHER_AUTHENDPOINT: JSON.stringify("localhost.io:5000/auth/pusher"),
             API_HOST: JSON.stringify("localhost.io:8081"),
             SPA_HOST: JSON.stringify("localhost.io:8080"),
             BASE_PATH: JSON.stringify(""),
