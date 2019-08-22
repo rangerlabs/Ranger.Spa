@@ -56,7 +56,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
 
     validationSchema = Yup.object().shape({
         domain: Yup.string()
-            .min(4, "Must be at least 4 characters long")
+            .min(3, "Must be at least 3 characters long")
             .max(28, "Must be less than 28 characters long")
             .matches(
                 new RegExp("^[a-zA-Z0-9]{1}[a-zA-Z0-9-]{1,26}[a-zA-Z0-9]{1}$"),

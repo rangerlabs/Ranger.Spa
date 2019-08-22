@@ -18,7 +18,7 @@ interface UserFormProps {
 export default class UserForm extends React.Component<UserFormProps> {
     validationSchema = Yup.object().shape({
         firstName: Yup.string()
-            .min(1, "Must be atleast 1 character long")
+            .min(1, "Must be at least 1 character long")
             .max(48, "Max 48 characters")
             .matches(
                 new RegExp("^[a-zA-Z,.'-]{1}[a-zA-Z ,.'-]{1,26}[a-zA-Z,.'-]{1}$"),
@@ -26,7 +26,7 @@ export default class UserForm extends React.Component<UserFormProps> {
             )
             .required("Required"),
         lastName: Yup.string()
-            .min(1, "Must be atleast 1 character long")
+            .min(1, "Must be at least 1 character long")
             .max(48, "Max 48 characters")
             .matches(
                 new RegExp("^[a-zA-Z,.'-]{1}[a-zA-Z ,.'-]{1,26}[a-zA-Z,.'-]{1}$"),
