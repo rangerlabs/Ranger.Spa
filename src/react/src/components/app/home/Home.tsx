@@ -8,7 +8,7 @@ import IApp from "../../../models/app/IApp";
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            margin: theme.spacing.unit * 2,
+            margin: theme.spacing(2),
         },
     });
 

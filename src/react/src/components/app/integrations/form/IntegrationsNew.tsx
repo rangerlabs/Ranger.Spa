@@ -36,7 +36,7 @@ const styles = (theme: Theme) =>
         },
         layout: {
             width: "auto",
-            margin: theme.spacing.unit * 2,
+            margin: theme.spacing(2),
         },
         mediaRoot: {
             backgroundSize: "contain",
@@ -66,7 +66,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
-                    <Grid container spacing={24}>
+                    <Grid container spacing={3}>
                         <Grid item xs={12} sm={6} md={4}>
                             <Card className={classes.card}>
                                 <CardHeader title="API" />

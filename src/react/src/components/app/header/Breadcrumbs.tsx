@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Theme, createStyles, WithStyles, Chip, withStyles } from "@material-ui/core";
-import { Breadcrumbs } from "@material-ui/lab";
+import { Theme, createStyles, WithStyles, Chip, withStyles, Breadcrumbs } from "@material-ui/core";
 import { ChipProps } from "@material-ui/core/Chip";
 import Breadcrumb from "../../../models/app/Breadcrumb";
 import { push } from "connected-react-router";
@@ -21,7 +20,7 @@ const styles = (theme: Theme) =>
         },
         avatar: {
             background: "none",
-            marginRight: -theme.spacing.unit * 1.5,
+            marginRight: -theme.spacing(1.5),
         },
     });
 

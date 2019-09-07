@@ -6,7 +6,7 @@ import { openDialog, DialogContent } from "../../redux/actions/DialogActions";
 
 const styles = (theme: Theme) =>
     createStyles({
-        root: { marginTop: theme.spacing.unit * 3, marginLeft: theme.spacing.unit },
+        root: { marginTop: theme.spacing(3), marginLeft: theme.spacing() },
     });
 
 interface FormikDialogConfirmButtonProps extends WithStyles<typeof styles> {

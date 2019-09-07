@@ -57,7 +57,7 @@ const styles = (theme: Theme) =>
             // },
         },
         nested: {
-            paddingLeft: theme.spacing.unit * 4,
+            paddingLeft: theme.spacing(4),
         },
         logo: {
             ...theme.mixins.toolbar,
@@ -137,50 +137,50 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                 <List>
                     <ListItem classes={{ button: classes.listItemHover }} button href="#overview">
                         <ListItemIcon>
-                            <Home nativeColor={theme.drawer.text.color} />
+                            <Home htmlColor={theme.drawer.text.color} />
                         </ListItemIcon>
                         <ListItemText primary="Overview" classes={{ primary: classes.menuItemTextColor }} />
                     </ListItem>
                     <ListItem classes={{ button: classes.listItemHover }} button href="#howitworks">
                         <ListItemIcon>
-                            <GpsFixed nativeColor={theme.drawer.text.color} />
+                            <GpsFixed htmlColor={theme.drawer.text.color} />
                         </ListItemIcon>
                         <ListItemText primary="How it works" classes={{ primary: classes.menuItemTextColor }} />
                     </ListItem>
                     <ListItem classes={{ button: classes.listItemHover }} button href="#features">
                         <ListItemIcon>
-                            <ArrowForward nativeColor={theme.drawer.text.color} />
+                            <ArrowForward htmlColor={theme.drawer.text.color} />
                         </ListItemIcon>
                         <ListItemText primary="Features" classes={{ primary: classes.menuItemTextColor }} />
                     </ListItem>
                     <ListItem classes={{ button: classes.listItemHover }} button href="#pricing">
                         <ListItemIcon>
-                            <Equalizer nativeColor={theme.drawer.text.color} />
+                            <Equalizer htmlColor={theme.drawer.text.color} />
                         </ListItemIcon>
                         <ListItemText primary="Pricing" classes={{ primary: classes.menuItemTextColor }} />
                     </ListItem>
                     <ListItem classes={{ button: classes.listItemHover }} button href="#contact">
                         <ListItemIcon>
-                            <Equalizer nativeColor={theme.drawer.text.color} />
+                            <Equalizer htmlColor={theme.drawer.text.color} />
                         </ListItemIcon>
                         <ListItemText primary="Contact" classes={{ primary: classes.menuItemTextColor }} />
                     </ListItem>
                     {this.props.user && !this.props.user.expired ? (
                         <ListItem classes={{ button: classes.listItemHover }} button onClick={this.toggleExpanded}>
                             <ListItemIcon>
-                                <AccountCircle nativeColor={theme.drawer.text.color} />
+                                <AccountCircle htmlColor={theme.drawer.text.color} />
                             </ListItemIcon>
                             <ListItemText classes={{ primary: classes.menuItemTextColor }} primary="Account" />
                             {this.state.accountListItemExpanded ? (
-                                <ExpandLess nativeColor={theme.drawer.text.color} />
+                                <ExpandLess htmlColor={theme.drawer.text.color} />
                             ) : (
-                                <ExpandMore nativeColor={theme.drawer.text.color} />
+                                <ExpandMore htmlColor={theme.drawer.text.color} />
                             )}
                         </ListItem>
                     ) : (
                         <ListItem classes={{ button: classes.listItemHover }} button onClick={this.handleSignInClick}>
                             <ListItemIcon>
-                                <AccountCircle nativeColor={theme.drawer.text.color} />
+                                <AccountCircle htmlColor={theme.drawer.text.color} />
                             </ListItemIcon>
                             <ListItemText primary="Sign in" classes={{ primary: classes.menuItemTextColor }} />
                         </ListItem>
@@ -195,11 +195,11 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                                 }}
                             >
                                 <ListItemIcon>
-                                    <Lock nativeColor={theme.drawer.text.color} />
+                                    <Lock htmlColor={theme.drawer.text.color} />
                                 </ListItemIcon>
                                 <ListItemText inset primary="Logout" classes={{ primary: classes.menuItemTextColor }} />
                                 <Fade in={this.state.accountListItemExpanded} timeout={500}>
-                                    <ExpandLess nativeColor={theme.drawer.text.color} />
+                                    <ExpandLess htmlColor={theme.drawer.text.color} />
                                 </Fade>
                             </ListItem>
                         </List>

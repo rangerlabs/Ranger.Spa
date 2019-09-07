@@ -68,7 +68,7 @@ const styles = (theme: Theme) =>
             // },
         },
         nested: {
-            paddingLeft: theme.spacing.unit * 4,
+            paddingLeft: theme.spacing(4),
         },
         logo: {
             ...theme.mixins.toolbar,
@@ -156,18 +156,18 @@ class Menu extends React.Component<MenuProps> {
                 <List>
                     <ListItem id="home" classes={{ button: classes.listItemHover }} button onClick={() => this.handleMenuNavigation(RoutePaths.Home)}>
                         <ListItemIcon>
-                            <Home nativeColor={theme.drawer.text.color} />
+                            <Home htmlColor={theme.drawer.text.color} />
                         </ListItemIcon>
                         <ListItemText primary="Home" classes={{ primary: classes.menuItemTextColor }} />
                     </ListItem>
 
                     <ListItem id="geofences" classes={{ button: classes.listItemHover }} button onClick={() => this.handleMenuToggle("geofences")}>
                         <ListItemIcon>
-                            <GpsFixed nativeColor={theme.drawer.text.color} />
+                            <GpsFixed htmlColor={theme.drawer.text.color} />
                         </ListItemIcon>
                         <ListItemText primary="Geo-fences" classes={{ primary: classes.menuItemTextColor }} />
                         <Fade in={this.props.expandedSection === "geofences"} timeout={timeout}>
-                            <ExpandLess nativeColor={theme.drawer.text.color} />
+                            <ExpandLess htmlColor={theme.drawer.text.color} />
                         </Fade>
                     </ListItem>
                     <Collapse in={this.props.expandedSection === "geofences"} timeout={500} unmountOnExit>
@@ -178,7 +178,7 @@ class Menu extends React.Component<MenuProps> {
                                 onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceMap)}
                             >
                                 <ListItemIcon>
-                                    <MapPlus nativeColor={theme.drawer.text.color} />
+                                    <MapPlus htmlColor={theme.drawer.text.color} />
                                 </ListItemIcon>
                                 <ListItemText inset primary="Map" classes={{ primary: classes.menuItemTextColor }} />
                             </ListItem>
@@ -188,7 +188,7 @@ class Menu extends React.Component<MenuProps> {
                                 onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceTable)}
                             >
                                 <ListItemIcon>
-                                    <FormatListBulleted nativeColor={theme.drawer.text.color} />
+                                    <FormatListBulleted htmlColor={theme.drawer.text.color} />
                                 </ListItemIcon>
                                 <ListItemText inset primary="Table" classes={{ primary: classes.menuItemTextColor }} />
                             </ListItem>
@@ -198,7 +198,7 @@ class Menu extends React.Component<MenuProps> {
                                 onClick={() => this.handleMenuNavigation("/geofences/import")}
                             >
                                 <ListItemIcon>
-                                    <FileImport nativeColor={theme.drawer.text.color} />
+                                    <FileImport htmlColor={theme.drawer.text.color} />
                                 </ListItemIcon>
                                 <ListItemText inset primary="Import" classes={{ primary: classes.menuItemTextColor }} />
                             </ListItem> */}
@@ -212,7 +212,7 @@ class Menu extends React.Component<MenuProps> {
                         onClick={() => this.handleMenuNavigation(RoutePaths.Integrations)}
                     >
                         <ListItemIcon>
-                            <ArrowDecision nativeColor={theme.drawer.text.color} />
+                            <ArrowDecision htmlColor={theme.drawer.text.color} />
                         </ListItemIcon>
                         <ListItemText primary="Integrations" classes={{ primary: classes.menuItemTextColor }} />
                     </ListItem>
@@ -226,7 +226,7 @@ class Menu extends React.Component<MenuProps> {
                         }}
                     >
                         <ListItemIcon>
-                            <SpeakerPhone nativeColor={theme.drawer.text.color} />
+                            <SpeakerPhone htmlColor={theme.drawer.text.color} />
                         </ListItemIcon>
                         <ListItemText primary="Applications" classes={{ primary: classes.menuItemTextColor }} />
                     </ListItem>
@@ -239,11 +239,11 @@ class Menu extends React.Component<MenuProps> {
                                 onClick={() => this.handleMenuToggle("administration")}
                             >
                                 <ListItemIcon>
-                                    <Lock nativeColor={theme.drawer.text.color} />
+                                    <Lock htmlColor={theme.drawer.text.color} />
                                 </ListItemIcon>
                                 <ListItemText primary="Administration" classes={{ primary: classes.menuItemTextColor }} />
                                 <Fade in={this.props.expandedSection === "administration"} timeout={timeout}>
-                                    <ExpandLess nativeColor={theme.drawer.text.color} />
+                                    <ExpandLess htmlColor={theme.drawer.text.color} />
                                 </Fade>
                             </ListItem>
                             <Collapse in={this.props.expandedSection === "administration"} timeout={500} unmountOnExit>
@@ -254,7 +254,7 @@ class Menu extends React.Component<MenuProps> {
                                         onClick={() => this.handleMenuNavigation(RoutePaths.Users)}
                                     >
                                         <ListItemIcon>
-                                            <People nativeColor={theme.drawer.text.color} />
+                                            <People htmlColor={theme.drawer.text.color} />
                                         </ListItemIcon>
                                         <ListItemText inset primary="Users" classes={{ primary: classes.menuItemTextColor }} />
                                     </ListItem>
@@ -266,7 +266,7 @@ class Menu extends React.Component<MenuProps> {
                                             onClick={() => this.handleMenuNavigation("/domain")}
                                         >
                                             <ListItemIcon>
-                                                <Web nativeColor={theme.drawer.text.color} />
+                                                <Web htmlColor={theme.drawer.text.color} />
                                             </ListItemIcon>
                                             <ListItemText inset primary="Domain" classes={{ primary: classes.menuItemTextColor }} />
                                         </ListItem>
@@ -279,18 +279,18 @@ class Menu extends React.Component<MenuProps> {
                     <Hidden mdUp implementation="css">
                         <ListItem id="account" classes={{ button: classes.listItemHover }} button onClick={() => this.handleMenuToggle("account")}>
                             <ListItemIcon>
-                                <AccountCircle nativeColor={theme.drawer.text.color} />
+                                <AccountCircle htmlColor={theme.drawer.text.color} />
                             </ListItemIcon>
                             <ListItemText primary="Account" classes={{ primary: classes.menuItemTextColor }} />
                             <Fade in={this.props.expandedSection === "account"} timeout={timeout}>
-                                <ExpandLess nativeColor={theme.drawer.text.color} />
+                                <ExpandLess htmlColor={theme.drawer.text.color} />
                             </Fade>
                         </ListItem>
                         <Collapse in={this.props.expandedSection === "account"} timeout={500} unmountOnExit>
                             <List disablePadding>
                                 <ListItem button className={classNames(classes.listItemHover, classes.nested)} onClick={this.props.signOut}>
                                     <ListItemIcon>
-                                        <Lock nativeColor={theme.drawer.text.color} />
+                                        <Lock htmlColor={theme.drawer.text.color} />
                                     </ListItemIcon>
                                     <ListItemText inset primary="Logout" classes={{ primary: classes.menuItemTextColor }} />
                                 </ListItem>

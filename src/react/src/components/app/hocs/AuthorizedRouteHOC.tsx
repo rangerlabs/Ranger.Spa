@@ -45,7 +45,7 @@ const authorizedRoute = <P extends object>(Component: React.ComponentType<P>) =>
         state: AuthorizedRouteState = {
             isAuthorized: false,
         };
-        componentWillMount() {
+        UNSAFE_componentWillMount() {
             this.checkUserIsAuthorized();
         }
 

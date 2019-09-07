@@ -44,7 +44,7 @@ const styles = (theme: Theme) =>
         },
         layout: {
             width: "auto",
-            margin: theme.spacing.unit * 2,
+            margin: theme.spacing(2),
         },
         mediaRoot: {
             backgroundSize: "contain",

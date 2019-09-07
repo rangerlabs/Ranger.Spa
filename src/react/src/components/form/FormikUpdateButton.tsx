@@ -4,7 +4,7 @@ import Button, { ButtonProps } from "@material-ui/core/Button";
 
 const styles = (theme: Theme) =>
     createStyles({
-        root: { marginTop: theme.spacing.unit * 3, marginLeft: theme.spacing.unit },
+        root: { marginTop: theme.spacing(3), marginLeft: theme.spacing() },
     });
 
 interface FormikUpdateButtonProps extends WithStyles<typeof styles> {

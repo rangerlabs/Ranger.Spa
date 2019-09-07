@@ -8,7 +8,7 @@ import { OidcProvider } from "redux-oidc";
 import { history } from "./src/History";
 import UserManager from "./src/services/UserManager";
 import ReduxStore from "./src/ReduxStore";
-import createCamelCaseTheme from "./src/theme/createMyTheme";
+import createRangerTheme from "./src/theme/createMyTheme";
 import App from "./src/App";
 import "whatwg-fetch";
 import "./polyfills/object-assign";
@@ -21,7 +21,7 @@ const initialState = {} as ApplicationState;
 ReduxStore.Configure(history, initialState);
 const store = ReduxStore.getStore();
 
-const theme = createCamelCaseTheme({
+const theme = createRangerTheme({
     palette: {
         type: "light",
         primary: {
@@ -39,8 +39,11 @@ const theme = createCamelCaseTheme({
         },
     },
     typography: {
-        useNextVariants: true,
         fontSize: 16,
+        fontWeightLight: 100,
+        fontWeightRegular: 300,
+        fontWeightMedium: 400,
+        fontWeightBold: 400,
     },
 });
 

@@ -15,6 +15,7 @@ export interface SnackbarNotification {
     options?: OptionsObject;
     key: ReactText;
     dismissAll?: boolean;
+    dismissed: boolean;
 }
 
 export const enqueueSnackbar = (notification: SnackbarNotification): SnackbarAction => {

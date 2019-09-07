@@ -9,11 +9,15 @@ import * as Yup from "yup";
 import { InputAdornment } from "@material-ui/core";
 import { Subject, Subscription } from "rxjs";
 import { debounceTime } from "rxjs/operators";
+import { StatusEnum } from "../../../models/StatusEnum";
+import { DomainState, addDomain } from "../../../redux/actions/DomainActions";
+import { connect } from "react-redux";
 
 const tenantService = new TenantService();
 const domainUnavailableErrorText = "Sorry, this domain is already taken.";
 interface DomainFormProps {
     setSignUpDomainStateValues: (domainFormValues: IDomainForm) => void;
+    addDomain: (domain: DomainState) => void;
     handleNext: () => void;
     buttonsClassName: string;
     domainForm: IDomainForm;
@@ -25,7 +29,15 @@ interface DomainFormState {
     isValidatingDomain: boolean;
 }
 
-export default class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
+function mapDispatchToState(dispatch: any) {
+    return {
+        addDomain(domain: DomainState): void {
+            dispatch(addDomain(domain));
+        },
+    };
+}
+
+class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
     formikRef: React.RefObject<Formik> = React.createRef();
     onSearch$: Subject<string>;
     subscription: Subscription;
@@ -109,6 +121,12 @@ export default class DomainForm extends React.Component<DomainFormProps, DomainF
                                     domain: values.domain,
                                     organizationName: values.organizationName,
                                 } as IDomainForm;
+                                const domain = {
+                                    domain: values.domain,
+                                    correlationId: "",
+                                    status: StatusEnum.PENDING,
+                                } as DomainState;
+                                this.props.addDomain(domain);
                                 this.props.setSignUpDomainStateValues(newDomain);
                                 this.props.handleNext();
                             }
@@ -125,7 +143,7 @@ export default class DomainForm extends React.Component<DomainFormProps, DomainF
                 >
                     {props => (
                         <form onSubmit={props.handleSubmit}>
-                            <Grid container spacing={24}>
+                            <Grid container spacing={3}>
                                 <Grid item xs={12}>
                                     <FormikTextField
                                         name="domain"
@@ -165,3 +183,8 @@ export default class DomainForm extends React.Component<DomainFormProps, DomainF
         );
     }
 }
+
+export default connect(
+    null,
+    mapDispatchToState
+)(DomainForm);

@@ -13,7 +13,7 @@ import { push } from "connected-react-router";
 const styles = (theme: Theme) =>
     createStyles({
         paper: {
-            marginRight: theme.spacing.unit * 2,
+            marginRight: theme.spacing(2),
         },
     });
 

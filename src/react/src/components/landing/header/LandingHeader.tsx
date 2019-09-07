@@ -4,14 +4,13 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { Hidden, Typography, ButtonBase, Button, Slide } from "@material-ui/core";
+import { Hidden, Typography, ButtonBase, Button, Slide, Link } from "@material-ui/core";
 import { User } from "oidc-client";
 import AccountPopOut from "../../accountPopOut/AccountPopOut";
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import Logo from "../../../theme/Logo";
 import RoutePaths from "../../RoutePaths";
-const classNames = require("classnames").default;
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -84,31 +83,23 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                     </div>
                     <Hidden smDown implementation="css">
                         <div className={classes.toolbarRight}>
-                            <ButtonBase classes={{ root: classes.landingLink }}>
-                                <Typography variant="subtitle1">Overview</Typography>
-                            </ButtonBase>
-                            <ButtonBase classes={{ root: classes.landingLink }}>
-                                <Typography variant="subtitle1">Features</Typography>
-                            </ButtonBase>
-                            <ButtonBase classes={{ root: classes.landingLink }}>
-                                <Typography variant="subtitle1">Pricing</Typography>
-                            </ButtonBase>
-                            <ButtonBase classes={{ root: classes.landingLink }}>
-                                <Typography variant="subtitle1">Contact</Typography>
-                            </ButtonBase>
+                            <Link underline="none">Overview</Link>
+                            <Link underline="none">Features</Link>
+                            <Link underline="none">Pricing</Link>
+                            <Link underline="none">Contact</Link>
                             <div className={classes.actionContainer}>
                                 {this.props.user && !this.props.user.expired ? (
                                     <AccountPopOut />
                                 ) : (
                                     <div>
-                                        <Button variant="outlined" color="primary" classes={{ root: classes.landingLink }} onClick={this.handleSignInClick}>
+                                        <Button variant="text" color="primary" classes={{ root: classes.landingLink }} onClick={this.handleSignInClick}>
                                             <Typography variant="subtitle1">Sign in</Typography>
                                         </Button>
                                         <Button
                                             color="primary"
-                                            variant="contained"
+                                            variant="outlined"
                                             onClick={this.handleSignUpClick}
-                                            classes={{ root: classNames(classes.landingLink, classes.signupButton) }}
+                                            // classes={{ root: classNames(classes.landingLink, classes.signupButton) }}
                                         >
                                             <Typography variant="subtitle1">Sign up</Typography>
                                         </Button>

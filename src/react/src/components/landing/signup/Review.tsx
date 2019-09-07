@@ -58,7 +58,7 @@ class Review extends React.Component<ReviewProps> {
                 >
                     {props => (
                         <form onSubmit={props.handleSubmit}>
-                            <Grid container spacing={24}>
+                            <Grid container spacing={3}>
                                 <Grid classes={{ item: classes.gridItem }} item xs={12}>
                                     <Typography variant="h6">Domain</Typography>
                                 </Grid>

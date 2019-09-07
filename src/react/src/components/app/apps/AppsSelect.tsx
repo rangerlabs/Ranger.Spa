@@ -38,7 +38,7 @@ const styles = (theme: Theme) =>
         },
         layout: {
             width: "auto",
-            margin: theme.spacing.unit * 2,
+            margin: theme.spacing(2),
         },
         mediaRoot: {
             backgroundSize: "contain",
@@ -92,7 +92,7 @@ class AppsSelect extends React.Component<AppsSelectProps> {
                     <Typography gutterBottom variant="h5" align="center">
                         Select an application to continue.
                     </Typography>
-                    <Grid container spacing={24}>
+                    <Grid container spacing={3}>
                         {apps.map(app => (
                             <Grid key={app.name} item xs={12} sm={apps.length >= 3 ? 6 : 12} md={apps.length >= 3 ? 4 : 6}>
                                 <Card elevation={0} className={classes.card}>

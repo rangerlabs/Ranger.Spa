@@ -8,8 +8,8 @@ const classNames = require("classnames").default;
 const styles = (theme: Theme) =>
     createStyles({
         root: {
-            marginTop: theme.spacing.unit * 3,
-            marginLeft: theme.spacing.unit,
+            marginTop: theme.spacing(3),
+            marginLeft: theme.spacing(),
             position: "relative",
         },
         buttonSuccess: {

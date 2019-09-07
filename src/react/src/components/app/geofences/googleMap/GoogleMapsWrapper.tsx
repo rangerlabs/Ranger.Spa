@@ -40,12 +40,12 @@ const DEFAULT_RADIUS = 100;
 const styles = (theme: Theme) =>
     createStyles({
         autoComplete: {
-            marginTop: theme.spacing.unit,
-            marginBottom: theme.spacing.unit,
+            marginTop: theme.spacing(),
+            marginBottom: theme.spacing(),
         },
         mapContainer: {
             width: "100%",
-            height: `calc(100% - ${theme.toolbar.height}px - ${theme.spacing.unit}px)`,
+            height: `calc(100% - ${theme.toolbar.height}px - ${theme.spacing()}px)`,
         },
     });
 
