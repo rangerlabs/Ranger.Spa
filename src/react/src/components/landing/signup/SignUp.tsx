@@ -20,8 +20,8 @@ const styles = (theme: Theme) =>
             marginTop: theme.toolbar.height * 2,
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            [theme.breakpoints.up(450 + theme.spacing(2 * 2))]: {
-                width: 450,
+            [theme.breakpoints.up(400 + theme.spacing(2 * 2))]: {
+                width: 400,
                 marginLeft: "auto",
                 marginRight: "auto",
             },

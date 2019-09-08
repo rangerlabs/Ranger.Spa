@@ -48,10 +48,10 @@ class OverviewParallaxContentLayer extends React.Component<OverviewLayerProps> {
                 <Grid item md={5} xs={10}>
                     <Slide in direction="right" timeout={1500}>
                         <div>
-                            <Typography gutterBottom className={classNames(classes.typography, classes.menuItemTextColor)} variant="h6">
-                                HOSTED GEO-FENCE APIs FOR
+                            <Typography gutterBottom className={classes.typography} variant="h6">
+                                HOSTED APIs FOR
                             </Typography>
-                            <Typography className={classNames(classes.typography, classes.menuItemTextColor)} variant="h2">
+                            <Typography className={classes.menuItemTextColor} variant="h2">
                                 BOUNDLESS LOCATION SERVICES
                             </Typography>
                             <Button variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>

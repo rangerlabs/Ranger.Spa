@@ -20,6 +20,7 @@ class Notifier extends React.Component<NotifierProps> {
     displayed = [] as React.ReactText[];
     pusher = undefined as Pusher.Pusher;
     channel = undefined as Pusher.Channel;
+    currentTenantOnbaordChannel = "";
 
     componentDidUpdate() {
         const { notifications = [] } = this.props;
@@ -43,12 +44,6 @@ class Notifier extends React.Component<NotifierProps> {
     }
 
     shouldComponentUpdate({ notifications: newSnacks = [], domain }: NotifierProps) {
-        if (domain) {
-            if (!this.props.domain || this.props.domain.domain != domain.domain) {
-                this.subscribeToTenantOnboard(domain);
-            }
-        }
-
         if (!newSnacks.length) {
             this.displayed = [];
             return false;
@@ -73,22 +68,33 @@ class Notifier extends React.Component<NotifierProps> {
         this.displayed = [...this.displayed, id];
     };
 
-    private subscribeToTenantOnboard(domain: DomainState) {
-        if (domain && domain.domain && domain.status === StatusEnum.PENDING) {
-            if (this.channel && this.channel.subscribed) {
-                this.channel.unbind_all();
-                this.pusher.disconnect();
-            }
-            this.channel = this.pusher.subscribe(`ranger-labs-${domain.domain}`);
-            this.channel.bind("tenant-onboard", RegistrationHandler);
-        }
-    }
-
     componentDidMount() {
+        Pusher.logToConsole = true;
         this.pusher = new Pusher("aed7ba7c7247aca9680e", {
             cluster: "us2",
             forceTLS: true,
         });
+
+        ReduxStore.getStore().subscribe(() => {
+            const stateDomain = ReduxStore.getState().domain;
+            if (this.canSubscribeToDomain(stateDomain)) {
+                if (this.channel && this.channel.name === this.currentTenantOnbaordChannel) {
+                    this.pusher.unsubscribe(this.currentTenantOnbaordChannel);
+                }
+                this.subscribeTenantOnboardChannel(stateDomain);
+            }
+        });
+    }
+
+    private canSubscribeToDomain(stateDomain: DomainState) {
+        return stateDomain && stateDomain.domain && stateDomain.status === StatusEnum.PENDING;
+    }
+
+    private subscribeTenantOnboardChannel(stateDomain: DomainState) {
+        const channel = `ranger-labs-${stateDomain.domain}`;
+        this.channel = this.pusher.subscribe(channel);
+        this.channel.bind("tenant-onboard", RegistrationHandler);
+        this.currentTenantOnbaordChannel = channel;
     }
 
     render(): any {

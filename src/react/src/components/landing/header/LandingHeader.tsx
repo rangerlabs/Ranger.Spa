@@ -11,6 +11,7 @@ import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import Logo from "../../../theme/Logo";
 import RoutePaths from "../../RoutePaths";
+const classNames = require("classnames").default;
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -83,23 +84,31 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                     </div>
                     <Hidden smDown implementation="css">
                         <div className={classes.toolbarRight}>
-                            <Link underline="none">Overview</Link>
-                            <Link underline="none">Features</Link>
-                            <Link underline="none">Pricing</Link>
-                            <Link underline="none">Contact</Link>
+                            <Link underline="none" color="textPrimary" className={classes.landingLink}>
+                                Overview
+                            </Link>
+                            <Link underline="none" color="textPrimary" className={classes.landingLink}>
+                                Features
+                            </Link>
+                            <Link underline="none" color="textPrimary" className={classes.landingLink}>
+                                Pricing
+                            </Link>
+                            <Link underline="none" color="textPrimary" className={classes.landingLink}>
+                                Contact
+                            </Link>
                             <div className={classes.actionContainer}>
                                 {this.props.user && !this.props.user.expired ? (
                                     <AccountPopOut />
                                 ) : (
                                     <div>
-                                        <Button variant="text" color="primary" classes={{ root: classes.landingLink }} onClick={this.handleSignInClick}>
+                                        <Button variant="outlined" color="primary" classes={{ root: classes.landingLink }} onClick={this.handleSignInClick}>
                                             <Typography variant="subtitle1">Sign in</Typography>
                                         </Button>
                                         <Button
                                             color="primary"
-                                            variant="outlined"
+                                            variant="contained"
                                             onClick={this.handleSignUpClick}
-                                            // classes={{ root: classNames(classes.landingLink, classes.signupButton) }}
+                                            classes={{ root: classNames(classes.landingLink, classes.signupButton) }}
                                         >
                                             <Typography variant="subtitle1">Sign up</Typography>
                                         </Button>
