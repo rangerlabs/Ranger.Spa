@@ -70,6 +70,7 @@ class Notifier extends React.Component<NotifierProps> {
 
     componentDidMount() {
         Pusher.logToConsole = true;
+
         this.pusher = new Pusher(PUSHER_KEY, {
             cluster: "us2",
             forceTLS: true,
