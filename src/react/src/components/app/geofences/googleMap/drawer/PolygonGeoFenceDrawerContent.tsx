@@ -23,9 +23,9 @@ const styles = (theme: Theme) =>
     createStyles({
         form: {
             paddingTop: 0,
-            paddingRight: theme.spacing.unit * 2,
+            paddingRight: theme.spacing(2),
             paddingBottom: 0,
-            paddingLeft: theme.spacing.unit * 2,
+            paddingLeft: theme.spacing(2),
         },
         flexButtons: {
             display: "flex",
@@ -210,7 +210,7 @@ class PolygonGeoFenceDrawerContent extends React.Component<PolygonGeoFenceFormPr
             >
                 {props => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
-                        <Grid container spacing={32}>
+                        <Grid container spacing={4}>
                             <Grid item xs={12}>
                                 <FormikTextField
                                     name="name"

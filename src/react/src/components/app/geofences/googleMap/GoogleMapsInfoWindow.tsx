@@ -16,7 +16,7 @@ const styles = (theme: Theme) =>
             color: "#7e57c2",
         },
         cssRoot: {
-            marginTop: theme.spacing.unit * 3,
+            marginTop: theme.spacing(3),
             color: theme.palette.getContrastText(red[600]),
             backgroundColor: red[600],
             "&:hover": {

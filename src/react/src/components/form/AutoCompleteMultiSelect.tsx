@@ -8,8 +8,7 @@ import Chip from "@material-ui/core/Chip";
 import MenuItem from "@material-ui/core/MenuItem";
 import CancelIcon from "@material-ui/icons/Cancel";
 import { createStyles, Theme, WithStyles, withStyles } from "@material-ui/core";
-import { ValueType } from "react-select/lib/types";
-import { Option } from "react-select/lib/filters";
+import { ValueType } from "react-select/src/types";
 
 type AutocompleteOptionType = {
     value: string;
@@ -33,13 +32,13 @@ const styles = (theme: Theme) =>
             overflow: "hidden",
         },
         chip: {
-            margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
+            margin: `${theme.spacing(0.5)}px ${theme.spacing(0.25)}px`,
         },
         chipFocused: {
             backgroundColor: theme.palette.type === "light" ? theme.palette.grey[300] : theme.palette.grey[700],
         },
         noOptionsMessage: {
-            padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+            padding: `${theme.spacing()}px ${theme.spacing(2)}px`,
         },
         placeholder: {
             position: "absolute",
@@ -50,12 +49,12 @@ const styles = (theme: Theme) =>
         paper: {
             position: "absolute",
             zIndex: 1,
-            marginTop: theme.spacing.unit,
+            marginTop: theme.spacing(),
             left: 0,
             right: 0,
         },
         divider: {
-            height: theme.spacing.unit * 2,
+            height: theme.spacing(2),
         },
     });
 

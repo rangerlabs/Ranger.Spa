@@ -38,7 +38,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
             initialIntegration: undefined as MergedIntegrationType,
         };
 
-        componentWillMount() {
+        UNSAFE_componentWillMount() {
             if (this.props.selectedApp) {
                 if (window.location.pathname === RoutePaths.IntegrationsEditApi.replace(":appName", this.props.selectedApp)) {
                     this.checkIntegrationIsCorrectTypeForRoute(IntegrationEnum.API);

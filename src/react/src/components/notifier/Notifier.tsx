@@ -11,6 +11,7 @@ import { StatusEnum } from "../../models/StatusEnum";
 import { DomainState } from "../../redux/actions/DomainActions";
 
 interface NotifierProps extends WithSnackbarProps {
+    domain: DomainState;
     notifications: SnackbarNotification[];
     removeSnackbar: (key: React.ReactText) => void;
 }
@@ -19,30 +20,30 @@ class Notifier extends React.Component<NotifierProps> {
     displayed = [] as React.ReactText[];
     pusher = undefined as Pusher.Pusher;
     channel = undefined as Pusher.Channel;
-    pusherSubscribed = false;
+    currentTenantOnbaordChannel = "";
 
-    componentDidMount() {
-        ReduxStore.getStore().subscribe(() => {
-            if (!this.pusherSubscribed) {
-                const stateDomain = ReduxStore.getState().domain;
-                if (stateDomain && stateDomain.status === StatusEnum.PENDING) {
-                    this.pusher = new Pusher("aed7ba7c7247aca9680e", {
-                        cluster: "us2",
-                        forceTLS: true,
-                    });
-                    this.channel = this.pusher.subscribe("ranger-labs");
-                    this.channel.bind("registration-event", RegistrationHandler);
-                    this.pusherSubscribed = true;
-                }
-            }
+    componentDidUpdate() {
+        const { notifications = [] } = this.props;
+        notifications.forEach(({ key, message, options = {} }) => {
+            // Do nothing if snackbar is already displayed
+            if (this.displayed.includes(key)) return;
+            // Display snackbar using notistack
+            this.props.enqueueSnackbar(message, {
+                ...options,
+                onClose: (event, reason) => {
+                    if (options.onClose) {
+                        options.onClose(event, reason);
+                    }
+                    // Dispatch action to remove snackbar from redux store
+                    this.props.removeSnackbar(key);
+                },
+            });
+            // Keep track of snackbars that we've displayed
+            this.storeDisplayed(key);
         });
     }
 
-    storeDisplayed = (id: React.ReactText) => {
-        this.displayed = [...this.displayed, id];
-    };
-
-    shouldComponentUpdate({ notifications: newSnacks = [] }) {
+    shouldComponentUpdate({ notifications: newSnacks = [], domain }: NotifierProps) {
         if (!newSnacks.length) {
             this.displayed = [];
             return false;
@@ -63,26 +64,37 @@ class Notifier extends React.Component<NotifierProps> {
         return notExists;
     }
 
-    componentDidUpdate() {
-        const { notifications = [] } = this.props;
+    storeDisplayed = (id: React.ReactText) => {
+        this.displayed = [...this.displayed, id];
+    };
 
-        notifications.forEach(({ key, message, options = {} }) => {
-            // Do nothing if snackbar is already displayed
-            if (this.displayed.includes(key)) return;
-            // Display snackbar using notistack
-            this.props.enqueueSnackbar(message, {
-                ...options,
-                onClose: (event, reason) => {
-                    if (options.onClose) {
-                        options.onClose(event, reason);
-                    }
-                    // Dispatch action to remove snackbar from redux store
-                    this.props.removeSnackbar(key);
-                },
-            });
-            // Keep track of snackbars that we've displayed
-            this.storeDisplayed(key);
+    componentDidMount() {
+        Pusher.logToConsole = true;
+        this.pusher = new Pusher("aed7ba7c7247aca9680e", {
+            cluster: "us2",
+            forceTLS: true,
         });
+
+        ReduxStore.getStore().subscribe(() => {
+            const stateDomain = ReduxStore.getState().domain;
+            if (this.canSubscribeToDomain(stateDomain)) {
+                if (this.channel && this.channel.name === this.currentTenantOnbaordChannel) {
+                    this.pusher.unsubscribe(this.currentTenantOnbaordChannel);
+                }
+                this.subscribeTenantOnboardChannel(stateDomain);
+            }
+        });
+    }
+
+    private canSubscribeToDomain(stateDomain: DomainState) {
+        return stateDomain && stateDomain.domain && stateDomain.status === StatusEnum.PENDING;
+    }
+
+    private subscribeTenantOnboardChannel(stateDomain: DomainState) {
+        const channel = `ranger-labs-${stateDomain.domain}`;
+        this.channel = this.pusher.subscribe(channel);
+        this.channel.bind("tenant-onboard", RegistrationHandler);
+        this.currentTenantOnbaordChannel = channel;
     }
 
     render(): any {
@@ -91,6 +103,7 @@ class Notifier extends React.Component<NotifierProps> {
 }
 
 const mapStateToProps = (store: ApplicationState) => ({
+    domain: store.domain,
     notifications: store.notifications,
 });
 

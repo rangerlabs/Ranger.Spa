@@ -37,7 +37,7 @@ const styles = (theme: Theme) =>
         //         width: "40%",
         //     },
         //     [theme.breakpoints.up("md")]: {
-        //         padding: theme.spacing.unit * 2,
+        //         padding: theme.spacing(2),
         //         width: `calc((100% - ${theme.drawer.width}px) * .35)`,
         //     },
         //     flexShrink: 0,

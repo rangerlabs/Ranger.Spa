@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { Hidden, Typography, ButtonBase, Button, Slide } from "@material-ui/core";
+import { Hidden, Typography, ButtonBase, Button, Slide, Link } from "@material-ui/core";
 import { User } from "oidc-client";
 import AccountPopOut from "../../accountPopOut/AccountPopOut";
 import { push } from "connected-react-router";
@@ -84,18 +84,18 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                     </div>
                     <Hidden smDown implementation="css">
                         <div className={classes.toolbarRight}>
-                            <ButtonBase classes={{ root: classes.landingLink }}>
-                                <Typography variant="subtitle1">Overview</Typography>
-                            </ButtonBase>
-                            <ButtonBase classes={{ root: classes.landingLink }}>
-                                <Typography variant="subtitle1">Features</Typography>
-                            </ButtonBase>
-                            <ButtonBase classes={{ root: classes.landingLink }}>
-                                <Typography variant="subtitle1">Pricing</Typography>
-                            </ButtonBase>
-                            <ButtonBase classes={{ root: classes.landingLink }}>
-                                <Typography variant="subtitle1">Contact</Typography>
-                            </ButtonBase>
+                            <Link underline="none" color="textPrimary" className={classes.landingLink}>
+                                Overview
+                            </Link>
+                            <Link underline="none" color="textPrimary" className={classes.landingLink}>
+                                Features
+                            </Link>
+                            <Link underline="none" color="textPrimary" className={classes.landingLink}>
+                                Pricing
+                            </Link>
+                            <Link underline="none" color="textPrimary" className={classes.landingLink}>
+                                Contact
+                            </Link>
                             <div className={classes.actionContainer}>
                                 {this.props.user && !this.props.user.expired ? (
                                     <AccountPopOut />

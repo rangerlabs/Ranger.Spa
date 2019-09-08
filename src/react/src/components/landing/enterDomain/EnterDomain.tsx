@@ -16,22 +16,12 @@ const styles = (theme: Theme) =>
         layout: {
             width: "auto",
             marginTop: theme.toolbar.height * 2.5,
-            marginLeft: theme.spacing.unit * 2,
-            marginRight: theme.spacing.unit * 2,
-            [theme.breakpoints.up(400 + theme.spacing.unit * 2 * 2)]: {
-                width: 400,
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
+            [theme.breakpoints.up(350 + theme.spacing(2 * 2))]: {
+                width: 350,
                 marginLeft: "auto",
                 marginRight: "auto",
-            },
-        },
-        paper: {
-            marginTop: theme.spacing.unit * 3,
-            marginBottom: theme.spacing.unit * 3,
-            padding: theme.spacing.unit * 2,
-            [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-                marginTop: theme.spacing.unit * 6,
-                marginBottom: theme.spacing.unit * 6,
-                padding: theme.spacing.unit * 3,
             },
         },
         buttons: {
@@ -70,7 +60,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
-                    <Paper elevation={0} className={classes.paper}>
+                    <Paper elevation={0}>
                         <Formik
                             initialValues={{ domain: "" } as Domain}
                             onSubmit={(values: Domain, formikBag: FormikBag<FormikProps<Domain>, Domain>) => {
@@ -95,7 +85,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                         >
                             {props => (
                                 <form onSubmit={props.handleSubmit}>
-                                    <Grid container spacing={24}>
+                                    <Grid container spacing={3}>
                                         <Grid item xs={12}>
                                             <Typography align="center" variant="h5">
                                                 Domain lookup

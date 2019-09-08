@@ -9,7 +9,7 @@ import { DialogComponent } from "../app/dialogContents/DialogComponent";
 const styles = (theme: Theme) =>
     createStyles({
         cssRoot: {
-            marginTop: theme.spacing.unit * 3,
+            marginTop: theme.spacing(3),
             color: theme.palette.getContrastText(red[600]),
             backgroundColor: red[600],
             "&:hover": {
@@ -17,7 +17,7 @@ const styles = (theme: Theme) =>
             },
         },
         warning: {
-            marginTop: theme.spacing.unit * 3,
+            marginTop: theme.spacing(3),
             color: red[600],
         },
     });

@@ -18,26 +18,16 @@ const styles = (theme: Theme) =>
         layout: {
             width: "auto",
             marginTop: theme.toolbar.height * 2,
-            marginLeft: theme.spacing.unit * 2,
-            marginRight: theme.spacing.unit * 2,
-            [theme.breakpoints.up(450 + theme.spacing.unit * 2 * 2)]: {
-                width: 450,
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
+            [theme.breakpoints.up(400 + theme.spacing(2 * 2))]: {
+                width: 400,
                 marginLeft: "auto",
                 marginRight: "auto",
             },
         },
-        paper: {
-            marginTop: theme.spacing.unit * 3,
-            marginBottom: theme.spacing.unit * 3,
-            padding: theme.spacing.unit * 2,
-            [theme.breakpoints.up(450 + theme.spacing.unit * 3 * 2)]: {
-                marginTop: theme.spacing.unit * 6,
-                marginBottom: theme.spacing.unit * 6,
-                padding: theme.spacing.unit * 3,
-            },
-        },
         stepper: {
-            padding: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 5}px`,
+            padding: `${theme.spacing(3)}px 0 ${theme.spacing(5)}px`,
         },
         buttons: {
             display: "flex",
@@ -141,7 +131,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
-                    <Paper elevation={0} className={classes.paper}>
+                    <Paper elevation={0}>
                         <Typography component="h1" variant="h4" align="center">
                             Welcome to Ranger
                         </Typography>

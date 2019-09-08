@@ -75,7 +75,7 @@ export default class UserForm extends React.Component<UserFormProps> {
                 >
                     {props => (
                         <form onSubmit={props.handleSubmit}>
-                            <Grid container spacing={24}>
+                            <Grid container spacing={3}>
                                 <Grid item xs={12}>
                                     <FormikTextField
                                         name="firstName"

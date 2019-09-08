@@ -35,7 +35,7 @@ declare module "@material-ui/core/styles/createMuiTheme" {
     }
 }
 
-export default function createCamelCaseTheme(options: ThemeOptions) {
+export default function createRangerTheme(options: ThemeOptions) {
     const toolbarHeight = 64;
     return createMuiTheme({
         drawer: {

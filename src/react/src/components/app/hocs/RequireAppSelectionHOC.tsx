@@ -36,7 +36,7 @@ const mapDispatchToProps = (dispatch: any): DispatchProps => {
 
 const requireAppSelection = <P extends object>(Component: React.ComponentType<P>) => {
     class RequireAppSelectionComponent extends React.Component<RequireAppSelectionProps> {
-        componentWillMount() {
+        UNSAFE_componentWillMount() {
             this.checkAppIsSelected();
         }
 

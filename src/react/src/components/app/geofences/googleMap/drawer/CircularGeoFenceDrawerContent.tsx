@@ -22,9 +22,9 @@ const styles = (theme: Theme) =>
     createStyles({
         form: {
             paddingTop: 0,
-            paddingRight: theme.spacing.unit * 2,
+            paddingRight: theme.spacing(2),
             paddingBottom: 0,
-            paddingLeft: theme.spacing.unit * 2,
+            paddingLeft: theme.spacing(2),
         },
         flexButtons: {
             display: "flex",
@@ -208,7 +208,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
             >
                 {props => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
-                        <Grid container direction="column" spacing={32}>
+                        <Grid container direction="column" spacing={4}>
                             <Grid item xs={12}>
                                 <FormikTextField
                                     name="name"
