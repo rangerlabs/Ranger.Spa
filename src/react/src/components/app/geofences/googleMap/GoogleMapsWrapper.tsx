@@ -171,7 +171,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     componentDidMount = () => {
         if (!window.google) {
             const script = document.createElement("script");
-            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyD4ERAgK2k_ug23I-R9evC9qIMKimYWg9I&libraries=geometry,drawing,places";
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_KEY}&libraries=geometry,drawing,places`;
             script.async = true;
             document.body.appendChild(script);
             script.addEventListener("load", e => {
