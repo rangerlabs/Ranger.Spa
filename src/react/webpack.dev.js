@@ -15,9 +15,11 @@ module.exports = merge(common, {
         new webpack.DefinePlugin({
             IDENTITY_AUTHORITY: JSON.stringify("localhost.io:5000"),
             PUSHER_AUTHENDPOINT: JSON.stringify("localhost.io:5000/auth/pusher"),
+            PUSHER_KEY: JSON.stringify("aed7ba7c7247aca9680e"),
             API_HOST: JSON.stringify("localhost.io:8081"),
             SPA_HOST: JSON.stringify("localhost.io:8080"),
             BASE_PATH: JSON.stringify(""),
+            GOOGLE_MAPS_KEY: JSON.stringify("AIzaSyCFnqUWfag20Li24AXGUEQigqK8y-Fhakk"),
         }),
     ],
     resolve: {
