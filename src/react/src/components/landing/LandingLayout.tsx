@@ -6,11 +6,11 @@ import LandingMenu from "./menu/LandingMenu";
 import { connect } from "react-redux";
 import { CssBaseline, Fade } from "@material-ui/core";
 import Dialog from "../dialog/Dialog";
-import UserManager from "../../services/UserManager";
 import { ApplicationState } from "../../stores";
 import { User } from "oidc-client";
 import RoutePaths from "../RoutePaths";
 import Notifier from "../../components/notifier/Notifier";
+import { Parallax } from "react-spring/renderprops-addons";
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -32,25 +32,32 @@ interface LandingLayoutProps extends WithStyles<typeof styles> {
 }
 type LandingLayoutState = {
     mobileOpen: boolean;
-    showOpaqueHeader: boolean;
+    safeToPassRef: boolean;
+    atPageTop: boolean;
 };
 
 class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutState> {
+    parallaxRef: Parallax;
     constructor(props: LandingLayoutProps) {
         super(props);
         if (window.location.pathname === RoutePaths.Landing) {
-            this.state = { mobileOpen: false, showOpaqueHeader: false, slideIn: true };
+            this.state = { mobileOpen: false, safeToPassRef: false, atPageTop: false, slideIn: true };
         }
     }
     state = {
         mobileOpen: false,
-        showOpaqueHeader: true,
+        safeToPassRef: false,
+        atPageTop: false,
         slideIn: false,
     };
 
     handleDrawerToggle = () => {
         this.setState(prevState => ({ mobileOpen: !prevState.mobileOpen }));
     };
+
+    componentDidMount() {
+        this.setState({ safeToPassRef: true });
+    }
 
     render() {
         const { classes, component: Component, user, ...rest } = this.props;
@@ -62,11 +69,18 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                         <CssBaseline />
                         <Dialog />
                         <Notifier />
-                        <LandingHeader user={user} handleDrawerToggle={this.handleDrawerToggle} {...props} />
+                        {this.state.safeToPassRef && (
+                            <LandingHeader parallaxRef={this.parallaxRef} user={user} handleDrawerToggle={this.handleDrawerToggle} {...props} />
+                        )}
                         <LandingMenu user={user} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={750}>
                             <main className={classes.content}>
-                                <Component {...props} />
+                                <Component
+                                    parallaxRef={(ref: Parallax) => {
+                                        this.parallaxRef = ref;
+                                    }}
+                                    {...props}
+                                />
                             </main>
                         </Fade>
                     </div>

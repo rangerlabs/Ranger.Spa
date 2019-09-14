@@ -52,20 +52,8 @@ const styles = (theme: Theme) =>
         },
         drawerPaper: {
             width: theme.drawer.width,
-            // backgroundImage: "linear-gradient(-135deg, #b230ae 80%, #E94057 30%, #F27121 0%)",
-            // backgroundImage: "linear-gradient(45deg, #ff7847 1%,#cc39cc 51%,#7e57c2 100%)",
             backgroundImage: "linear-gradient(45deg, rgba(204,153,204,1) 0%,rgba(126,87,194,1) 100%)",
             backgroundSize: "cover",
-            // backgroundPosition: "center center",
-            // "&::before": {
-            //     width: "100%",
-            //     height: "100%",
-            //     content: "''",
-            //     display: "block",
-            //     opacity: 0.1,
-            //     position: "absolute",
-            //     background: "#000000",
-            // },
         },
         nested: {
             paddingLeft: theme.spacing(4),

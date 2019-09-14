@@ -4,6 +4,9 @@ export default class RoutePaths {
     public static Callback = "/callback";
     public static Register = "/register";
     public static EnterDomain = "/enterdomain";
+    public static Documentation = "/documentation";
+    public static Pricing = "/pricing";
+    public static Company = "/company";
     public static Login = "/login";
     public static Logout = "/logout";
 
@@ -41,6 +44,9 @@ export default class RoutePaths {
             path === RoutePaths.Callback ||
             path === RoutePaths.Register ||
             path === RoutePaths.EnterDomain ||
+            path === RoutePaths.Documentation ||
+            path === RoutePaths.Pricing ||
+            path === RoutePaths.Company ||
             path === RoutePaths.Login ||
             path === RoutePaths.Logout
         ) {
