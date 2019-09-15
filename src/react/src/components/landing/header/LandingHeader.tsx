@@ -19,7 +19,6 @@ const styles = (theme: Theme) =>
         toolbarLeft: {
             flexGrow: 1,
         },
-        toolbarRight: {},
         appBarOpaque: {
             background: "white",
         },
@@ -37,6 +36,11 @@ const styles = (theme: Theme) =>
         menuButton: {
             [theme.breakpoints.up("md")]: {
                 display: "none",
+            },
+        },
+        logoButtonRoot: {
+            "&:hover": {
+                background: "none",
             },
         },
     });
@@ -84,41 +88,45 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
             <AppBar elevation={0} position="fixed" className={classes.appBarOpaque}>
                 <Toolbar id="back-to-top-anchor">
                     <div className={classes.toolbarLeft}>
-                        <Button disableRipple={true} onClick={this.handleLogoClick}>
+                        <Button classes={{ root: classes.logoButtonRoot }} disableRipple={true} onClick={this.handleLogoClick}>
                             <Logo />
                             <Typography variant="h6">Ranger</Typography>
                         </Button>
                     </div>
                     <Hidden smDown implementation="css">
-                        <div className={classes.toolbarRight}>
-                            <Link underline="none" color="textPrimary" className={classes.landingLink} onClick={this.handleDocumentationClick}>
-                                Documentation
-                            </Link>
-                            <Link underline="none" color="textPrimary" className={classes.landingLink} onClick={this.handlePricingClick}>
-                                Pricing
-                            </Link>
-                            <Link underline="none" color="textPrimary" className={classes.landingLink} onClick={this.handleCompanyClick}>
-                                Company
-                            </Link>
-                            <div className={classes.actionContainer}>
-                                {this.props.user && !this.props.user.expired ? (
-                                    <AccountPopOut />
-                                ) : (
-                                    <div>
-                                        <Button variant="outlined" color="primary" classes={{ root: classes.landingLink }} onClick={this.handleSignInClick}>
-                                            <Typography variant="subtitle1">Sign in</Typography>
-                                        </Button>
-                                        <Button
-                                            color="primary"
-                                            variant="contained"
-                                            onClick={this.handleSignUpClick}
-                                            classes={{ root: classNames(classes.landingLink, classes.signupButton) }}
-                                        >
-                                            <Typography variant="subtitle1">Sign up</Typography>
-                                        </Button>
-                                    </div>
-                                )}
-                            </div>
+                        <Link
+                            component="button"
+                            variant="subtitle1"
+                            color="textPrimary"
+                            className={classes.landingLink}
+                            onClick={this.handleDocumentationClick}
+                        >
+                            Documentation
+                        </Link>
+                        <Link component="button" variant="subtitle1" color="textPrimary" className={classes.landingLink} onClick={this.handlePricingClick}>
+                            Pricing
+                        </Link>
+                        <Link component="button" variant="subtitle1" color="textPrimary" className={classes.landingLink} onClick={this.handleCompanyClick}>
+                            Company
+                        </Link>
+                        <div className={classes.actionContainer}>
+                            {this.props.user && !this.props.user.expired ? (
+                                <AccountPopOut />
+                            ) : (
+                                <div>
+                                    <Button variant="outlined" color="primary" classes={{ root: classes.landingLink }} onClick={this.handleSignInClick}>
+                                        <Typography variant="subtitle1">Sign in</Typography>
+                                    </Button>
+                                    <Button
+                                        color="primary"
+                                        variant="contained"
+                                        onClick={this.handleSignUpClick}
+                                        classes={{ root: classNames(classes.landingLink, classes.signupButton) }}
+                                    >
+                                        <Typography variant="subtitle1">Sign up</Typography>
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                     </Hidden>
                     <IconButton className={classes.menuButton} aria-label="Menu" onClick={this.props.handleDrawerToggle}>

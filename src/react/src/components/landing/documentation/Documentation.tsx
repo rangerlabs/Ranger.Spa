@@ -1,26 +1,10 @@
 import * as React from "react";
-import {
-    Theme,
-    WithStyles,
-    Hidden,
-    Drawer,
-    createStyles,
-    withStyles,
-    List,
-    Fade,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    Collapse,
-    AppBar,
-    Toolbar,
-    Typography,
-} from "@material-ui/core";
+import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, Fade, ListItem, ListItemText, Collapse, Typography } from "@material-ui/core";
 import ScrollTop from "../ScrollTop";
 import { Parallax, ParallaxLayer } from "react-spring/renderprops-addons";
-import Observer from "react-intersection-observer";
-import RoutePaths from "../../RoutePaths";
+import Observer, { InView } from "react-intersection-observer";
 import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
 const classNames = require("classnames").default;
 
 const styles = (theme: Theme) =>
@@ -30,8 +14,12 @@ const styles = (theme: Theme) =>
             top: theme.toolbar.height,
             height: `calc(100% - ${theme.toolbar.height}px)`,
             width: "100%",
+            [theme.breakpoints.up("md")]: {
+                width: `calc(100% - ${theme.drawer.width}px)`,
+                marginLeft: theme.drawer.width,
+            },
         },
-        appBarOpaque: {
+        mobileSectionMenu: {
             background: "white",
         },
         drawer: {
@@ -45,19 +33,27 @@ const styles = (theme: Theme) =>
         },
         toolbar: theme.mixins.toolbar,
         drawerPaper: {
-            width: theme.drawer.width,
-            zIndex: theme.zIndex.appBar - 1,
             border: "none",
+            [theme.breakpoints.up("md")]: {
+                zIndex: theme.zIndex.appBar - 1,
+                width: theme.drawer.width,
+            },
+        },
+        content: {
+            flexGrow: 1,
+        },
+        iconAlign: {
+            verticalAlign: "middle",
         },
     });
 
 interface DocumentationProps extends WithStyles<typeof styles> {
-    mobileOpen: boolean;
     theme: Theme;
 }
 
 interface DocumentationState {
     expandedSection: string;
+    mobileSectionName: string;
     mobileOpen: boolean;
     atPageTop: boolean;
 }
@@ -65,12 +61,13 @@ interface DocumentationState {
 const timeout = { enter: 0, exit: 500 };
 
 class Documentation extends React.Component<DocumentationProps, DocumentationState> {
-    parallax: React.RefObject<Parallax>;
+    parallax: Parallax;
 
     state: DocumentationState = {
         mobileOpen: false,
         atPageTop: true,
         expandedSection: "",
+        mobileSectionName: "Getting Started",
     };
 
     handleMenuToggle = (name: string) => {
@@ -78,9 +75,17 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
         this.setState({ expandedSection: expandedSection });
     };
 
-    handleMenuNavigation = (section: string) => {};
-
-    handleIntersectionChange = (inView: boolean) => {
+    openMobileDrawer = () => {
+        this.setState({
+            mobileOpen: true,
+        });
+    };
+    closeMobileDrawer = () => {
+        this.setState({
+            mobileOpen: false,
+        });
+    };
+    handleScrollTop = (inView: boolean) => {
         this.setState({ atPageTop: inView });
     };
 
@@ -88,62 +93,49 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
         const { classes, theme } = this.props;
 
         const drawerContent = (
-            <div>
-                <div className={classes.toolbar} />
-                <List>
-                    <ListItem id="getting-started" button onClick={() => this.handleMenuNavigation(RoutePaths.Home)}>
-                        <ListItemText primary="Getting Started" />
-                    </ListItem>
+            <List>
+                <ListItem
+                    id="getting-started"
+                    button
+                    onClick={() => {
+                        this.closeMobileDrawer();
+                        this.parallax.scrollTo(0);
+                    }}
+                >
+                    <ListItemText primary="Getting Started" />
+                </ListItem>
 
-                    <ListItem id="geofences" button onClick={() => this.handleMenuToggle("geofences")}>
-                        <ListItemText primary="Geofences" />
-                        <Fade in={this.state.expandedSection === "geofences"} timeout={timeout}>
-                            <ExpandLess />
-                        </Fade>
-                    </ListItem>
-                    <Collapse in={this.state.expandedSection === "geofences"} timeout={500} unmountOnExit>
-                        <List disablePadding>
-                            <ListItem button onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceMap)}>
-                                <ListItemText inset primary="Map" />
-                            </ListItem>
-                            <ListItem button onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceTable)}>
-                                <ListItemText inset primary="Table" />
-                            </ListItem>
-                        </List>
-                    </Collapse>
-
-                    <ListItem id="integrations" button onClick={() => this.handleMenuToggle("integrations")}>
-                        <ListItemText primary="Integrations" />
-                        <Fade in={this.state.expandedSection === "integrations"} timeout={timeout}>
-                            <ExpandLess />
-                        </Fade>
-                    </ListItem>
-                    <Collapse in={this.state.expandedSection === "integrations"} timeout={500} unmountOnExit>
-                        <List disablePadding>
-                            <ListItem button onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceMap)}>
-                                <ListItemText inset primary="" />
-                            </ListItem>
-                            <ListItem button onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceTable)}>
-                                <ListItemText inset primary="" />
-                            </ListItem>
-                        </List>
-                    </Collapse>
-                </List>
-            </div>
+                <ListItem
+                    id="geofences"
+                    button
+                    onClick={() => {
+                        this.closeMobileDrawer();
+                        this.parallax.scrollTo(1);
+                    }}
+                >
+                    <ListItemText primary="Geofences" />
+                </ListItem>
+                <ListItem
+                    id="integrations"
+                    button
+                    onClick={() => {
+                        this.closeMobileDrawer();
+                        this.parallax.scrollTo(2);
+                    }}
+                >
+                    <ListItemText primary="Integrations" />
+                </ListItem>
+            </List>
         );
         return (
             <React.Fragment>
                 <nav>
                     <Hidden mdUp implementation="css">
-                        <AppBar elevation={0} position="fixed" className={classes.appBarOpaque}>
-                            <Toolbar></Toolbar>
-                        </AppBar>
-                    </Hidden>
-                    <Hidden mdUp implementation="css">
                         <Drawer
                             variant="temporary"
                             anchor={"top"}
-                            open={this.props.mobileOpen}
+                            open={this.state.mobileOpen}
+                            onClose={this.openMobileDrawer}
                             classes={{
                                 paper: classes.drawerPaper,
                             }}
@@ -163,38 +155,75 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                             variant="permanent"
                             open
                         >
-                            {drawerContent}
+                            <div>
+                                <div className={classes.toolbar} />
+                                {drawerContent}
+                            </div>
                         </Drawer>
                     </Hidden>
                 </nav>
 
-                <div className={classes.parallaxContainer}>
-                    <Parallax pages={3} scrolling={true} ref={this.parallax}>
-                        <ParallaxLayer offset={0} speed={1}>
-                            <Observer onChange={this.handleIntersectionChange}>
-                                <div />
-                            </Observer>
-                            <section id="getting-started">
-                                <Typography variant="h4">Getting Started</Typography>
-                            </section>
-                        </ParallaxLayer>
-                        <ParallaxLayer offset={1} speed={1}>
-                            <section id="geofences">
-                                <Typography variant="h4">Geofences</Typography>
-                            </section>
-                        </ParallaxLayer>
-                        <ParallaxLayer offset={2} speed={1}>
-                            <section id="integrations">
-                                <Typography variant="h4">Integrations</Typography>
-                            </section>
-                        </ParallaxLayer>
-                    </Parallax>
-                    <ScrollTop
-                        visible={!this.state.atPageTop}
-                        onClick={() => {
-                            this.parallax.current.scrollTo(0);
-                        }}
-                    />
+                <div className={classes.content}>
+                    <div className={classes.parallaxContainer}>
+                        <Hidden mdUp implementation="css">
+                            <div className={classes.mobileSectionMenu} onClick={this.openMobileDrawer}>
+                                <Typography align="center" variant="subtitle1">
+                                    {this.state.mobileSectionName}
+                                    <ExpandMore className={classes.iconAlign} />
+                                </Typography>
+                            </div>
+                        </Hidden>
+                        <Parallax
+                            pages={3}
+                            scrolling={true}
+                            ref={(ref: Parallax) => {
+                                this.parallax = ref;
+                            }}
+                        >
+                            <ParallaxLayer offset={0} speed={1}>
+                                <Observer onChange={this.handleScrollTop}>
+                                    <div />
+                                </Observer>
+                                <Observer
+                                    onChange={() => {
+                                        this.setState({ mobileSectionName: "Getting Started" });
+                                    }}
+                                >
+                                    <section id="getting-started">
+                                        <Typography variant="h5">Getting Started</Typography>
+                                    </section>
+                                </Observer>
+                            </ParallaxLayer>
+                            <ParallaxLayer offset={1} speed={1}>
+                                <Observer
+                                    onChange={() => {
+                                        this.setState({ mobileSectionName: "Geofences" });
+                                    }}
+                                >
+                                    <section id="geofences">
+                                        <Typography variant="h5">Geofences</Typography>
+                                    </section>
+                                </Observer>
+                            </ParallaxLayer>
+                            <ParallaxLayer offset={2} speed={1}>
+                                <Observer
+                                    onChange={() => {
+                                        this.setState({ mobileSectionName: "Integrations" });
+                                    }}
+                                >
+                                    <section id="integrations">
+                                        <Typography variant="h5">Integrations</Typography>
+                                    </section>
+                                </Observer>
+                            </ParallaxLayer>
+                        </Parallax>
+                        <ScrollTop
+                            visible={!this.state.atPageTop}
+                            onClick={() => {
+                                this.parallax.scrollTo(0);
+                            }}
+                        />
+                    </div>
                 </div>
             </React.Fragment>
         );
