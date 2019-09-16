@@ -26,10 +26,7 @@ import Equalizer from "@material-ui/icons/Equalizer";
 import SpeakerPhone from "@material-ui/icons/SpeakerPhone";
 import FormatListBulleted from "@material-ui/icons/FormatListBulleted";
 import Web from "mdi-material-ui/Web";
-import FileImport from "mdi-material-ui/FileImport";
-import MapLegend from "mdi-material-ui/MapLegend";
 import ArrowDecision from "mdi-material-ui/ArrowDecision";
-import Plus from "mdi-material-ui/Plus";
 import MapPlus from "mdi-material-ui/MapPlus";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
@@ -52,11 +49,6 @@ const styles = (theme: Theme) =>
         },
         drawerPaper: {
             width: theme.drawer.width,
-            backgroundImage: "linear-gradient(45deg, rgba(204,153,204,1) 0%,rgba(126,87,194,1) 100%)",
-            backgroundSize: "cover",
-        },
-        nested: {
-            paddingLeft: theme.spacing(4),
         },
         logo: {
             ...theme.mixins.toolbar,
@@ -132,9 +124,11 @@ class Menu extends React.Component<MenuProps> {
 
         const drawerContent = (
             <div>
-                <Grid container direction="column" justify="center" alignItems="center" className={classes.logo}>
+                <Grid container direction="row" justify="center" alignItems="center" className={classes.logo}>
                     <Grid item>
                         <Logo />
+                    </Grid>
+                    <Grid item>
                         <Typography className={classes.menuItemTextColor} align="center" variant="h5">
                             Ranger
                         </Typography>
@@ -160,21 +154,13 @@ class Menu extends React.Component<MenuProps> {
                     </ListItem>
                     <Collapse in={this.props.expandedSection === "geofences"} timeout={500} unmountOnExit>
                         <List disablePadding>
-                            <ListItem
-                                button
-                                className={classNames(classes.listItemHover, classes.nested)}
-                                onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceMap)}
-                            >
+                            <ListItem button className={classes.listItemHover} onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceMap)}>
                                 <ListItemIcon>
                                     <MapPlus htmlColor={theme.drawer.text.color} />
                                 </ListItemIcon>
                                 <ListItemText inset primary="Map" classes={{ primary: classes.menuItemTextColor }} />
                             </ListItem>
-                            <ListItem
-                                button
-                                className={classNames(classes.listItemHover, classes.nested)}
-                                onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceTable)}
-                            >
+                            <ListItem button className={classes.listItemHover} onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceTable)}>
                                 <ListItemIcon>
                                     <FormatListBulleted htmlColor={theme.drawer.text.color} />
                                 </ListItemIcon>
@@ -235,12 +221,8 @@ class Menu extends React.Component<MenuProps> {
                                 </Fade>
                             </ListItem>
                             <Collapse in={this.props.expandedSection === "administration"} timeout={500} unmountOnExit>
-                                <List disablePadding>
-                                    <ListItem
-                                        button
-                                        className={classNames(classes.listItemHover, classes.nested)}
-                                        onClick={() => this.handleMenuNavigation(RoutePaths.Users)}
-                                    >
+                                <List component="div" disablePadding>
+                                    <ListItem button className={classes.listItemHover} onClick={() => this.handleMenuNavigation(RoutePaths.Users)}>
                                         <ListItemIcon>
                                             <People htmlColor={theme.drawer.text.color} />
                                         </ListItemIcon>
@@ -248,11 +230,7 @@ class Menu extends React.Component<MenuProps> {
                                     </ListItem>
 
                                     {(this.props.user.profile as UserProfile).role.find(r => r.toUpperCase() === RoleEnum.OWNER) && (
-                                        <ListItem
-                                            button
-                                            className={classNames(classes.listItemHover, classes.nested)}
-                                            onClick={() => this.handleMenuNavigation("/domain")}
-                                        >
+                                        <ListItem button className={classes.listItemHover} onClick={() => this.handleMenuNavigation("/domain")}>
                                             <ListItemIcon>
                                                 <Web htmlColor={theme.drawer.text.color} />
                                             </ListItemIcon>
@@ -275,8 +253,8 @@ class Menu extends React.Component<MenuProps> {
                             </Fade>
                         </ListItem>
                         <Collapse in={this.props.expandedSection === "account"} timeout={500} unmountOnExit>
-                            <List disablePadding>
-                                <ListItem button className={classNames(classes.listItemHover, classes.nested)} onClick={this.props.signOut}>
+                            <List component="div" disablePadding>
+                                <ListItem button className={classes.listItemHover} onClick={this.props.signOut}>
                                     <ListItemIcon>
                                         <Lock htmlColor={theme.drawer.text.color} />
                                     </ListItemIcon>

@@ -41,7 +41,7 @@ export default function createRangerTheme(options: ThemeOptions) {
         drawer: {
             width: 240,
             text: {
-                color: "#FFFFFF",
+                color: "#000000",
             },
             enterDuration: 350,
             leavingDuration: 450,

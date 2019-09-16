@@ -32,6 +32,9 @@ class Home extends React.Component<HomeProps> {
                         <HomeAppSelect />
                     </React.Fragment>
                 )}
+                <Typography align="left" variant="subtitle1">
+                    Usage
+                </Typography>
             </div>
         );
     }
