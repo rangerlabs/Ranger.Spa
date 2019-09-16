@@ -1,17 +1,22 @@
 import * as React from "react";
 import { Component } from "react";
-import { withStyles, Theme, createStyles, WithStyles, Slide, Typography, Fade } from "@material-ui/core";
-import OverviewParallaxGradientLayer from "./sections/OverviewParallaxGradientLayer";
+import { withStyles, Theme, createStyles, WithStyles, Typography, Fade } from "@material-ui/core";
 import { ParallaxLayer, Parallax } from "react-spring/renderprops-addons";
 import InView from "react-intersection-observer";
-import ImageCarousel from "./sections/ImageCarousel";
+import Observer from "react-intersection-observer";
 import OverviewParallaxContentLayer from "./sections/OverviewParallaxContentLayer";
+import ScrollTop from "./ScrollTop";
 
 const styles = (theme: Theme) =>
     createStyles({
-        overview: {
-            // height: "100vh",
-            // width: "100vw",
+        parallaxContainer: {
+            position: "absolute",
+            top: theme.toolbar.height,
+            height: `calc(100% - ${theme.toolbar.height}px)`,
+            width: "100%",
+        },
+        scrollToTopContainer: {
+            height: "100%",
         },
         features: {
             height: "700px",
@@ -24,28 +29,44 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface LandingProps extends WithStyles<typeof styles> {}
+interface LandingProps extends WithStyles<typeof styles> {
+    parallaxRef: (ref: Parallax) => void;
+}
 
-class Landing extends Component<LandingProps> {
-    parallax: React.RefObject<Parallax>;
+interface LandingState {
+    atPageTop: boolean;
+}
+
+class Landing extends Component<LandingProps, LandingState> {
+    parallax: Parallax;
+
     constructor(props: LandingProps) {
         super(props);
-        this.parallax = React.createRef();
     }
+
+    state = {
+        atPageTop: true,
+    };
+
+    handleIntersectionChange = (inView: boolean) => {
+        this.setState({ atPageTop: inView });
+    };
+
+    setRef = (ref: Parallax) => {
+        this.parallax = ref;
+        this.props.parallaxRef ? this.props.parallaxRef(ref) : undefined;
+    };
 
     render() {
         const { classes } = this.props;
 
         return (
-            <React.Fragment>
-                <Parallax pages={2} scrolling={true} ref={this.parallax}>
-                    <ParallaxLayer>{/* <ImageCarousel /> */}</ParallaxLayer>
+            <div className={classes.parallaxContainer}>
+                <Parallax pages={2} scrolling={true} ref={this.setRef}>
                     <ParallaxLayer speed={1}>
-                        <div id="#overview" className={classes.overview}>
-                            <OverviewParallaxGradientLayer />
-                        </div>
-                    </ParallaxLayer>
-                    <ParallaxLayer speed={1}>
+                        <Observer onChange={this.handleIntersectionChange}>
+                            <div />
+                        </Observer>
                         <OverviewParallaxContentLayer />
                         <div id="#features" className={classes.features}>
                             <InView triggerOnce={true} threshold={0.2}>
@@ -62,7 +83,13 @@ class Landing extends Component<LandingProps> {
                         <div id="#contact" className={classes.contact} />
                     </ParallaxLayer>
                 </Parallax>
-            </React.Fragment>
+                <ScrollTop
+                    visible={!this.state.atPageTop}
+                    onClick={() => {
+                        this.parallax.scrollTo(0);
+                    }}
+                />
+            </div>
         );
     }
 }

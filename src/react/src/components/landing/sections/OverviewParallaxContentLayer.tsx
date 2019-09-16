@@ -25,17 +25,16 @@ const styles = (theme: Theme) =>
             color: "white",
         },
         readTheDocsButton: {
-            background: "white",
             marginTop: "60px",
             minWidth: "150px",
         },
     });
 
-interface OverviewLayerProps extends WithStyles<typeof styles> {
+interface OverviewParallaxContentLayerProps extends WithStyles<typeof styles> {
     push: typeof push;
 }
 
-class OverviewParallaxContentLayer extends React.Component<OverviewLayerProps> {
+class OverviewParallaxContentLayer extends React.Component<OverviewParallaxContentLayerProps> {
     handleSignUpClick = () => {
         this.props.push("/signup");
     };
@@ -51,9 +50,7 @@ class OverviewParallaxContentLayer extends React.Component<OverviewLayerProps> {
                             <Typography gutterBottom className={classes.typography} variant="h6">
                                 HOSTED APIs FOR
                             </Typography>
-                            <Typography className={classes.menuItemTextColor} variant="h2">
-                                BOUNDLESS LOCATION SERVICES
-                            </Typography>
+                            <Typography variant="h2">BOUNDLESS LOCATION SERVICES</Typography>
                             <Button variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
                                 <Typography className={classes.menuItemTextColor} variant="subtitle1">
                                     Sign up for free

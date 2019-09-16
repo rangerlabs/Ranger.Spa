@@ -16,7 +16,6 @@ import {
     Button,
     Fade,
     Grid,
-    SvgIcon,
 } from "@material-ui/core";
 import Home from "@material-ui/icons/Home";
 import GpsFixed from "@material-ui/icons/GpsFixed";
@@ -37,30 +36,13 @@ const styles = (theme: Theme) =>
     createStyles({
         drawerPaper: {
             width: theme.drawer.width,
-            // background: styledBy('color', {
-            //     default: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-            //     blue: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-            //   }),
-            // backgroundImage: "linear-gradient(-135deg, #b230ae 0%, #E94057 30%, #F27121 80%)",
-            // backgroundImage: "linear-gradient(45deg, #ff7847 1%,#cc39cc 51%,#7e57c2 100%)",
-            backgroundImage: "linear-gradient(45deg, rgba(204,153,204,1) 0%,rgba(126,87,194,1) 100%)",
-            backgroundSize: "cover",
-            // backgroundPosition: "center center",
-            // "&::before": {
-            //     width: "100%",
-            //     height: "100%",
-            //     content: "''",
-            //     display: "block",
-            //     opacity: 0.1,
-            //     position: "absolute",
-            //     background: "#000000",
-            // },
         },
         nested: {
             paddingLeft: theme.spacing(4),
         },
         logo: {
             ...theme.mixins.toolbar,
+            "&:hover": { background: "none" },
         },
         divider: {
             position: "relative",
@@ -77,9 +59,6 @@ const styles = (theme: Theme) =>
         menuButton: {
             margin: "auto",
             width: "70%",
-        },
-        menuItemTextColor: {
-            color: theme.drawer.text.color,
         },
     });
 interface LandingMenuProps extends WithStyles<typeof styles> {
@@ -127,7 +106,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                     <Grid item>
                         <Button href="/">
                             <Logo />
-                            <Typography className={classes.menuItemTextColor} align="center" variant="h5">
+                            <Typography align="center" variant="h5">
                                 Ranger
                             </Typography>
                         </Button>
@@ -137,52 +116,52 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                 <List>
                     <ListItem classes={{ button: classes.listItemHover }} button href="#overview">
                         <ListItemIcon>
-                            <Home htmlColor={theme.drawer.text.color} />
+                            <Home htmlColor={theme.palette.primary.main} />
                         </ListItemIcon>
-                        <ListItemText primary="Overview" classes={{ primary: classes.menuItemTextColor }} />
+                        <ListItemText primary="Overview" />
                     </ListItem>
                     <ListItem classes={{ button: classes.listItemHover }} button href="#howitworks">
                         <ListItemIcon>
-                            <GpsFixed htmlColor={theme.drawer.text.color} />
+                            <GpsFixed htmlColor={theme.palette.primary.main} />
                         </ListItemIcon>
-                        <ListItemText primary="How it works" classes={{ primary: classes.menuItemTextColor }} />
+                        <ListItemText primary="How it works" />
                     </ListItem>
                     <ListItem classes={{ button: classes.listItemHover }} button href="#features">
                         <ListItemIcon>
-                            <ArrowForward htmlColor={theme.drawer.text.color} />
+                            <ArrowForward htmlColor={theme.palette.primary.main} />
                         </ListItemIcon>
-                        <ListItemText primary="Features" classes={{ primary: classes.menuItemTextColor }} />
+                        <ListItemText primary="Features" />
                     </ListItem>
                     <ListItem classes={{ button: classes.listItemHover }} button href="#pricing">
                         <ListItemIcon>
-                            <Equalizer htmlColor={theme.drawer.text.color} />
+                            <Equalizer htmlColor={theme.palette.primary.main} />
                         </ListItemIcon>
-                        <ListItemText primary="Pricing" classes={{ primary: classes.menuItemTextColor }} />
+                        <ListItemText primary="Pricing" />
                     </ListItem>
                     <ListItem classes={{ button: classes.listItemHover }} button href="#contact">
                         <ListItemIcon>
-                            <Equalizer htmlColor={theme.drawer.text.color} />
+                            <Equalizer htmlColor={theme.palette.primary.main} />
                         </ListItemIcon>
-                        <ListItemText primary="Contact" classes={{ primary: classes.menuItemTextColor }} />
+                        <ListItemText primary="Contact" />
                     </ListItem>
                     {this.props.user && !this.props.user.expired ? (
                         <ListItem classes={{ button: classes.listItemHover }} button onClick={this.toggleExpanded}>
                             <ListItemIcon>
-                                <AccountCircle htmlColor={theme.drawer.text.color} />
+                                <AccountCircle htmlColor={theme.palette.primary.main} />
                             </ListItemIcon>
-                            <ListItemText classes={{ primary: classes.menuItemTextColor }} primary="Account" />
+                            <ListItemText primary="Account" />
                             {this.state.accountListItemExpanded ? (
-                                <ExpandLess htmlColor={theme.drawer.text.color} />
+                                <ExpandLess htmlColor={theme.palette.primary.main} />
                             ) : (
-                                <ExpandMore htmlColor={theme.drawer.text.color} />
+                                <ExpandMore htmlColor={theme.palette.primary.main} />
                             )}
                         </ListItem>
                     ) : (
                         <ListItem classes={{ button: classes.listItemHover }} button onClick={this.handleSignInClick}>
                             <ListItemIcon>
-                                <AccountCircle htmlColor={theme.drawer.text.color} />
+                                <AccountCircle htmlColor={theme.palette.primary.main} />
                             </ListItemIcon>
-                            <ListItemText primary="Sign in" classes={{ primary: classes.menuItemTextColor }} />
+                            <ListItemText primary="Sign in" />
                         </ListItem>
                     )}
                     <Collapse in={this.state.accountListItemExpanded} timeout={500} unmountOnExit>
@@ -195,11 +174,11 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                                 }}
                             >
                                 <ListItemIcon>
-                                    <Lock htmlColor={theme.drawer.text.color} />
+                                    <Lock htmlColor={theme.palette.primary.main} />
                                 </ListItemIcon>
-                                <ListItemText inset primary="Logout" classes={{ primary: classes.menuItemTextColor }} />
+                                <ListItemText inset primary="Logout" />
                                 <Fade in={this.state.accountListItemExpanded} timeout={500}>
-                                    <ExpandLess htmlColor={theme.drawer.text.color} />
+                                    <ExpandLess htmlColor={theme.palette.primary.main} />
                                 </Fade>
                             </ListItem>
                         </List>
