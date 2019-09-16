@@ -95,7 +95,7 @@ class AppsSelect extends React.Component<AppsSelectProps> {
                     <Grid container spacing={3}>
                         {apps.map(app => (
                             <Grid key={app.name} item xs={12} sm={apps.length >= 3 ? 6 : 12} md={apps.length >= 3 ? 4 : 6}>
-                                <Card elevation={0} className={classes.card}>
+                                <Card elevation={1} className={classes.card}>
                                     <CardHeader title={app.name} />
                                     <CardMedia classes={{ root: classes.mediaRoot }} className={classes.media} image={IntegrationApi} title="Api Integration" />
                                     <CardContent>

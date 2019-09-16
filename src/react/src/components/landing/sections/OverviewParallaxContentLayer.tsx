@@ -47,7 +47,7 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
                 <Grid item md={5} xs={10}>
                     <Slide in direction="right" timeout={1500}>
                         <div>
-                            <Typography gutterBottom className={classes.typography} variant="h6">
+                            <Typography gutterBottom className={classes.typography} variant="subtitle1">
                                 HOSTED APIs FOR
                             </Typography>
                             <Typography variant="h2">BOUNDLESS LOCATION SERVICES</Typography>
