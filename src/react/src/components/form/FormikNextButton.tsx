@@ -1,10 +1,10 @@
 import * as React from "react";
-import { withStyles, createStyles, Theme, WithStyles } from "@material-ui/core";
-import Button, { ButtonProps } from "@material-ui/core/Button";
+import { Button, withStyles, createStyles, Theme, WithStyles } from "@material-ui/core";
+import { ButtonProps } from "@material-ui/core/Button";
 
 const styles = (theme: Theme) =>
     createStyles({
-        root: { marginTop: theme.spacing(3), marginLeft: theme.spacing() },
+        root: { marginTop: theme.spacing(3), marginLeft: theme.spacing(1) },
     });
 
 interface FormikNextButtonProps extends WithStyles<typeof styles> {

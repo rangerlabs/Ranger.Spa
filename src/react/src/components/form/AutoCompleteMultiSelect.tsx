@@ -23,6 +23,7 @@ const styles = (theme: Theme) =>
         input: {
             display: "flex",
             padding: 0,
+            height: "auto",
         },
         valueContainer: {
             display: "flex",
@@ -32,13 +33,13 @@ const styles = (theme: Theme) =>
             overflow: "hidden",
         },
         chip: {
-            margin: `${theme.spacing(0.5)}px ${theme.spacing(0.25)}px`,
+            margin: theme.spacing(0.5, 0.25),
         },
         chipFocused: {
             backgroundColor: theme.palette.type === "light" ? theme.palette.grey[300] : theme.palette.grey[700],
         },
         noOptionsMessage: {
-            padding: `${theme.spacing()}px ${theme.spacing(2)}px`,
+            padding: theme.spacing(1, 2),
         },
         placeholder: {
             position: "absolute",
@@ -49,7 +50,7 @@ const styles = (theme: Theme) =>
         paper: {
             position: "absolute",
             zIndex: 1,
-            marginTop: theme.spacing(),
+            marginTop: theme.spacing(1),
             left: 0,
             right: 0,
         },
@@ -105,7 +106,7 @@ function Option(props: any) {
             selected={props.isFocused}
             component="div"
             style={{
-                fontWeight: props.isSelected ? 500 : 400,
+                fontWeight: props.isSelected ? 400 : 300,
             }}
             {...props.innerProps}
         >

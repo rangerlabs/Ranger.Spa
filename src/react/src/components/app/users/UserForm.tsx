@@ -30,6 +30,7 @@ const styles = (theme: Theme) =>
             width: "auto",
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
+            marginTop: theme.toolbar.height,
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
                 marginLeft: "auto",
@@ -161,7 +162,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography variant="h5" gutterBottom>
-                            {this.getUserByEmail(users) ? "Update" : "Create"}
+                            {this.getUserByEmail(users) ? "Edit" : "Create"}
                         </Typography>
                         <Formik
                             enableReinitialize
@@ -302,4 +303,4 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(withSnackbar(UserForm)));
+)(withSnackbar(withStyles(styles)(UserForm)));

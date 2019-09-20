@@ -40,12 +40,12 @@ const DEFAULT_RADIUS = 100;
 const styles = (theme: Theme) =>
     createStyles({
         autoComplete: {
-            marginTop: theme.spacing(),
-            marginBottom: theme.spacing(),
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1),
         },
         mapContainer: {
             width: "100%",
-            height: `calc(100% - ${theme.toolbar.height}px - ${theme.spacing()}px)`,
+            height: `calc(100% - ${theme.toolbar.height}px - ${theme.spacing(1)}px)`,
         },
     });
 
@@ -231,10 +231,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.map = new window.google.maps.Map(document.getElementById(this.props.id), {
             ...this.props.options,
             center: new google.maps.LatLng(40.754932, -73.984016),
-            fullscreenControl: false,
-            mapTypeControlOptions: {
-                style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-            },
         });
         google.maps.event.addListenerOnce(this.map, "idle", () => {
             this.createGeoFenceMarkers(this.props.existingGeoFences, false);
