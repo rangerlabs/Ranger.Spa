@@ -1,28 +1,33 @@
 import * as React from "react";
-import { withStyles, createStyles, Theme, WithStyles } from "@material-ui/core/styles";
+import { withStyles, createStyles, WithStyles } from "@material-ui/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountPopOut from "../../accountPopOut/AccountPopOut";
-import { Hidden, Typography } from "@material-ui/core";
+import { Hidden, Typography, Grid, Theme } from "@material-ui/core";
 import { connect } from "react-redux";
 import { ApplicationState } from "../../../stores";
 import { User } from "oidc-client";
 import CustomizedBreadcrumbs from "./Breadcrumbs";
 import Breadcrumb from "../../../models/app/Breadcrumb";
+import Logo from "../../../theme/Logo";
 
 const styles = (theme: Theme) =>
     createStyles({
         toolbarLeft: {
             flexGrow: 1,
         },
+        logoContainer: {
+            width: (theme.drawer.width as number) - theme.spacing(2),
+        },
         appBar: {
             [theme.breakpoints.up("md")]: {
-                width: `calc(100% - ${theme.drawer.width}px)`,
+                width: "100%",
+                zIndex: theme.zIndex.drawer + 1,
             },
             backgroundColor: "#FFFFFF",
-            boxShadow: "none",
+            borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
         },
         menuButton: {
             [theme.breakpoints.up("md")]: {
@@ -30,7 +35,7 @@ const styles = (theme: Theme) =>
             },
         },
         headerPrimaryColor: {
-            color: "#6642a3",
+            color: theme.drawer.text.color,
         },
     });
 
@@ -48,8 +53,18 @@ class Header extends React.Component<HeaderProps> {
     render() {
         const { classes, breadcrumbs } = this.props;
         return (
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar elevation={0} position="fixed" className={classes.appBar}>
                 <Toolbar>
+                    <Grid container direction="row" className={classes.logoContainer}>
+                        <Grid item>
+                            <Logo />
+                        </Grid>
+                        <Grid item>
+                            <Typography className={classes.headerPrimaryColor} align="center" variant="h5">
+                                Ranger
+                            </Typography>
+                        </Grid>
+                    </Grid>
                     <div className={classes.toolbarLeft}>
                         <CustomizedBreadcrumbs breadcrumbs={breadcrumbs} />
                     </div>
@@ -59,9 +74,11 @@ class Header extends React.Component<HeaderProps> {
                     <Hidden smDown implementation="css">
                         <AccountPopOut />
                     </Hidden>
-                    <IconButton className={classes.menuButton} aria-label="Menu" onClick={this.props.handleDrawerToggle}>
-                        <MenuIcon />
-                    </IconButton>
+                    <Hidden mdUp implementation="css">
+                        <IconButton className={classes.menuButton} aria-label="Menu" onClick={this.props.handleDrawerToggle}>
+                            <MenuIcon />
+                        </IconButton>
+                    </Hidden>
                 </Toolbar>
             </AppBar>
         );

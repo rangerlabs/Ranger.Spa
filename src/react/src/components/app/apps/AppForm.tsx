@@ -25,6 +25,7 @@ const styles = (theme: Theme) =>
             width: "auto",
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
+            marginTop: theme.toolbar.height,
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
                 marginLeft: "auto",
@@ -110,7 +111,7 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography variant="h5" gutterBottom>
-                            {this.getAppByName(apps) ? "Update" : "Create"}
+                            {this.getAppByName(apps) ? "Edit" : "Create"}
                         </Typography>
 
                         <Formik

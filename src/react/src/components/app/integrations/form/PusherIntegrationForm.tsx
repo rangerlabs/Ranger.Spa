@@ -88,7 +88,7 @@ class PusherIntegrationForm extends React.Component<IPusherIntegrationFormProps,
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography variant="h5" gutterBottom>
-                            {this.props.initialIntegration ? "Update" : "Create"}
+                            {this.props.initialIntegration ? "Edit" : "Create"}
                         </Typography>
 
                         <Formik

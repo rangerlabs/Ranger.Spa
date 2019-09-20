@@ -1,6 +1,15 @@
 import * as React from "react";
 import { Theme, createStyles, withStyles, WithStyles, Button, Typography } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
+import { create } from "jss";
+import { StylesProvider, jssPreset, createGenerateClassName } from "@material-ui/styles";
+
+const jss = create({
+    plugins: [...jssPreset().plugins],
+});
+const generateClassName = createGenerateClassName({
+    disableGlobal: true,
+});
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -15,14 +24,6 @@ const styles = (theme: Theme) =>
         primary: {
             color: "#7e57c2",
         },
-        cssRoot: {
-            marginTop: theme.spacing(3),
-            color: theme.palette.getContrastText(red[600]),
-            backgroundColor: red[600],
-            "&:hover": {
-                backgroundColor: red[900],
-            },
-        },
     });
 
 interface GoogleMapsInfoWindowProps extends WithStyles<typeof styles> {
@@ -35,47 +36,49 @@ class GoogleMapsInfoWindow extends React.Component<GoogleMapsInfoWindowProps> {
     render() {
         const { classes } = this.props;
         return (
-            <div className={classes.root}>
-                {this.props.name ? (
-                    <React.Fragment>
-                        <Typography align="center" variant="subtitle1">
-                            {this.props.name}
-                        </Typography>
-                        <Button
-                            className={classes.primary}
-                            variant="text"
-                            onClick={e => {
-                                this.props.onEdit();
-                            }}
-                        >
-                            Edit
-                        </Button>
-                    </React.Fragment>
-                ) : (
-                    <React.Fragment>
-                        <Button
-                            className={classes.warning}
-                            variant="text"
-                            onClick={e => {
-                                this.props.clear();
-                            }}
-                        >
-                            Clear
-                        </Button>
-                        <Button
-                            className={classes.primary}
-                            variant="text"
-                            onClick={e => {
-                                this.props.onCreate();
-                            }}
-                        >
-                            Create
-                        </Button>
-                    </React.Fragment>
-                )}
-            </div>
+            <StylesProvider jss={jss} generateClassName={generateClassName}>
+                <div className={classes.root}>
+                    {this.props.name ? (
+                        <React.Fragment>
+                            <Typography align="center" variant="subtitle1">
+                                {this.props.name}
+                            </Typography>
+                            <Button
+                                className={classes.primary}
+                                variant="text"
+                                onClick={e => {
+                                    this.props.onEdit();
+                                }}
+                            >
+                                Edit
+                            </Button>
+                        </React.Fragment>
+                    ) : (
+                        <React.Fragment>
+                            <Button
+                                className={classes.warning}
+                                variant="text"
+                                onClick={e => {
+                                    this.props.clear();
+                                }}
+                            >
+                                Clear
+                            </Button>
+                            <Button
+                                className={classes.primary}
+                                variant="text"
+                                onClick={e => {
+                                    this.props.onCreate();
+                                }}
+                            >
+                                Create
+                            </Button>
+                        </React.Fragment>
+                    )}
+                </div>
+            </StylesProvider>
         );
     }
 }
 
-export default withStyles(styles)(GoogleMapsInfoWindow);
+export default withStyles(styles, { withTheme: true })(GoogleMapsInfoWindow);

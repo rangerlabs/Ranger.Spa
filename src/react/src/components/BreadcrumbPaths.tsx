@@ -6,8 +6,8 @@ import { titleCase } from "change-case";
 
 const homeBreadcrumb = new Breadcrumb("Home", RoutePaths.Home);
 const accountBreadcrumb = new Breadcrumb("Account", RoutePaths.Account);
-const geoFenceMapBreadcrumb = new Breadcrumb("Geo-Fence Map", RoutePaths.GeoFenceMap);
-const geoFenceTableBreadcrumb = new Breadcrumb("Geo-Fence Table", RoutePaths.GeoFenceTable);
+const geoFenceMapBreadcrumb = new Breadcrumb("Geofence Map", RoutePaths.GeoFenceMap);
+const geoFenceTableBreadcrumb = new Breadcrumb("Geofence Table", RoutePaths.GeoFenceTable);
 
 const integrationsBreadcrumb = new Breadcrumb("Integrations", RoutePaths.Integrations);
 const integrationsNewBreadcrumb = new Breadcrumb("New", RoutePaths.IntegrationsNew);

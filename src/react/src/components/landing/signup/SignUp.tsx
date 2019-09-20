@@ -1,5 +1,5 @@
 import * as React from "react";
-import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
+import withStyles, { WithStyles } from "@material-ui/styles/withStyles";
 import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import DomainForm from "./DomainForm";
 import UserForm from "./UserForm";
 import Review from "./Review";
-import { Theme, createStyles, Fade } from "@material-ui/core";
+import { createStyles, Fade, Theme } from "@material-ui/core";
 import IDomainForm from "../../../models/landing/IDomainForm";
 import IUserForm from "../../../models/landing/IUserForm";
 import IReviewForm from "../../../models/landing/IReviewForm";

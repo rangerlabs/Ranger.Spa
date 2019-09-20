@@ -1,7 +1,7 @@
 import * as React from "react";
-import { withStyles, createStyles, Theme, WithStyles, CircularProgress } from "@material-ui/core";
+import { Button, withStyles, createStyles, Theme, WithStyles, CircularProgress } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
-import Button, { ButtonProps } from "@material-ui/core/Button";
+import { ButtonProps } from "@material-ui/core/Button";
 import { green } from "@material-ui/core/colors";
 const classNames = require("classnames").default;
 
@@ -9,7 +9,7 @@ const styles = (theme: Theme) =>
     createStyles({
         root: {
             marginTop: theme.spacing(3),
-            marginLeft: theme.spacing(),
+            marginLeft: theme.spacing(1),
             position: "relative",
         },
         buttonSuccess: {

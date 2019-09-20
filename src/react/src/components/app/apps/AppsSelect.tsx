@@ -13,6 +13,7 @@ import {
     Grid,
     CardActions,
     IconButton,
+    ButtonBase,
 } from "@material-ui/core";
 import ArrowRight from "mdi-material-ui/ArrowRight";
 import { connect } from "react-redux";
@@ -22,26 +23,41 @@ import { push } from "connected-react-router";
 import RoutePaths from "../../RoutePaths";
 const IntegrationApi = require("../../../../assets/integration-api.png");
 import * as queryString from "query-string";
+import { Parallax, ParallaxLayer } from "react-spring/renderprops-addons";
 
 const styles = (theme: Theme) =>
     createStyles({
         card: {
+            flexGrow: 1,
             height: "100%",
         },
         buttons: {
             display: "flex",
             justifyContent: "flex-end",
+            paddingTop: 0,
         },
         media: {
             height: 0,
-            paddingTop: "128px",
+            paddingTop: "96px",
         },
         layout: {
-            width: "auto",
             margin: theme.spacing(2),
+        },
+        parallaxContainer: {
+            position: "absolute",
+            [theme.breakpoints.up("md")]: {
+                width: `calc(100% - ${theme.drawer.width}px - ${theme.spacing(4)}px)`,
+            },
+            height: "100%",
         },
         mediaRoot: {
             backgroundSize: "contain",
+        },
+        rootPadding: {
+            padding: theme.spacing(1),
+        },
+        gridButton: {
+            width: "100% !important",
         },
     });
 
@@ -90,31 +106,45 @@ class AppsSelect extends React.Component<AppsSelectProps> {
             <React.Fragment>
                 <div className={classes.layout}>
                     <Typography gutterBottom variant="h5" align="center">
-                        Select an application to continue.
+                        Select one of your applications to continue.
                     </Typography>
-                    <Grid container spacing={3}>
-                        {apps.map(app => (
-                            <Grid key={app.name} item xs={12} sm={apps.length >= 3 ? 6 : 12} md={apps.length >= 3 ? 4 : 6}>
-                                <Card elevation={1} className={classes.card}>
-                                    <CardHeader title={app.name} />
-                                    <CardMedia classes={{ root: classes.mediaRoot }} className={classes.media} image={IntegrationApi} title="Api Integration" />
-                                    <CardContent>
-                                        <Typography component="p">{app.description}</Typography>
-                                    </CardContent>
-                                    <CardActions className={classes.buttons}>
-                                        <IconButton
-                                            onClick={() => {
-                                                this.handleAppClick(app.name);
-                                            }}
-                                            aria-label="Add to integrations"
-                                        >
-                                            <ArrowRight color="primary" />
-                                        </IconButton>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
+                    <div className={classes.parallaxContainer}>
+                        <Parallax pages={2} scrolling={true}>
+                            <ParallaxLayer speed={0.7}>
+                                <Grid container spacing={3} direction="row" justify="center" alignItems="baseline">
+                                    {apps.map(app => (
+                                        <Grid key={app.name} item xs={12} sm={8} md={7}>
+                                            <ButtonBase
+                                                className={classes.gridButton}
+                                                onClick={() => {
+                                                    this.handleAppClick(app.name);
+                                                }}
+                                            >
+                                                <Card elevation={3} className={classes.card}>
+                                                    <CardHeader
+                                                        titleTypographyProps={{ align: "left" }}
+                                                        classes={{ root: classes.rootPadding }}
+                                                        title={app.name}
+                                                    />
+                                                    <CardMedia
+                                                        classes={{ root: classes.mediaRoot }}
+                                                        className={classes.media}
+                                                        image={IntegrationApi}
+                                                        title="Api Integration"
+                                                    />
+                                                    <CardContent classes={{ root: classes.rootPadding }}>
+                                                        <Typography align="left" component="p">
+                                                            {app.description}
+                                                        </Typography>
+                                                    </CardContent>
+                                                </Card>
+                                            </ButtonBase>
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </ParallaxLayer>
+                        </Parallax>
+                    </div>
                 </div>
             </React.Fragment>
         );

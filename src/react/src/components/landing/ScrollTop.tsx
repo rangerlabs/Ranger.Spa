@@ -1,6 +1,6 @@
 import * as React from "react";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Zoom, Fab } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+import { Zoom, Fab, Theme } from "@material-ui/core";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 
 const useStyles = makeStyles((theme: Theme) => ({

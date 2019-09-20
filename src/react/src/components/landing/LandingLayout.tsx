@@ -1,10 +1,10 @@
 import { Route } from "react-router";
 import * as React from "react";
-import { withStyles, createStyles, Theme, WithStyles } from "@material-ui/core/styles";
+import { withStyles, createStyles, WithStyles } from "@material-ui/styles";
 import LandingHeader from "./header/LandingHeader";
 import LandingMenu from "./menu/LandingMenu";
 import { connect } from "react-redux";
-import { CssBaseline, Fade } from "@material-ui/core";
+import { CssBaseline, Fade, Theme } from "@material-ui/core";
 import Dialog from "../dialog/Dialog";
 import { ApplicationState } from "../../stores";
 import { User } from "oidc-client";

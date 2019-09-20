@@ -20,11 +20,9 @@ import RoutePaths from "../../../../RoutePaths";
 
 const styles = (theme: Theme) =>
     createStyles({
-        form: {
-            paddingTop: 0,
-            paddingRight: theme.spacing(2),
-            paddingBottom: 0,
-            paddingLeft: theme.spacing(2),
+        formGrid: {
+            width: "100%",
+            margin: "0px",
         },
         flexButtons: {
             display: "flex",
@@ -110,7 +108,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
             this.setState({ isSuccess: true });
             this.props.saveGeoFenceToState(geoFence);
             this.props.clearNewCircularGeoFence();
-            this.props.enqueueSnackbar("Geo-fence saved", { variant: "success" });
+            this.props.enqueueSnackbar("Geofence saved", { variant: "success" });
             this.props.enableMapClick();
             this.props.push("/" + window.location.pathname.split("/")[1] + "/geofences/map");
             this.props.closeDrawer();
@@ -122,7 +120,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
         setTimeout(() => {
             this.props.removeGeoFenceFromState(name);
             this.props.clearNewCircularGeoFence();
-            this.props.enqueueSnackbar("Geo-fence deleted", { variant: "error" });
+            this.props.enqueueSnackbar("Geofence deleted", { variant: "error" });
             this.props.enableMapClick();
             this.props.push("/" + window.location.pathname.split("/")[1] + "/geofences/map");
             this.props.closeDrawer();
@@ -176,9 +174,9 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
 
                     if (this.showNoIntegrationsWithTriggersDialog(newFence)) {
                         const content = new DialogContent(
-                            "Save geo-fence with no integrations?",
-                            "You can choose to save this geo-fence without integrations and still perform API requests to determine if a position is contained within the geo-fence. Triggers will have no effect.",
-                            "Save geo-fence",
+                            "Save geofence with no integrations?",
+                            "You can choose to save this geofence without integrations and still perform API requests to determine if a position is contained within the geofence. Triggers will have no effect.",
+                            "Save geofence",
                             () => {
                                 this.saveGeoFence(newFence);
                             },
@@ -189,9 +187,9 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                         this.props.openDialog(content);
                     } else if (this.showNoTriggersDialog(newFence)) {
                         const content = new DialogContent(
-                            "Save geo-fence with no triggers?",
-                            "You can choose to save this geo-fence without triggers and still perform API requests to determine if a position is contained within the geo-fence. Any selected integrations will not be triggered.",
-                            "Save geo-fence",
+                            "Save geofence with no triggers?",
+                            "You can choose to save this geofence without triggers and still perform API requests to determine if a position is contained within the geofence. Any selected integrations will not be triggered.",
+                            "Save geofence",
                             () => {
                                 this.saveGeoFence(newFence);
                             },
@@ -207,8 +205,8 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                 validationSchema={this.validationSchema}
             >
                 {props => (
-                    <form className={classes.form} onSubmit={props.handleSubmit}>
-                        <Grid container direction="column" spacing={4}>
+                    <form onSubmit={props.handleSubmit}>
+                        <Grid className={classes.formGrid} container direction="column" spacing={4}>
                             <Grid item xs={12}>
                                 <FormikTextField
                                     name="name"
@@ -244,7 +242,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                             </Grid>
                             <Grid container item xs={12} spacing={0}>
                                 <Grid item xs={12}>
-                                    <FormLabel component="label">Trigger geo-fence on</FormLabel>
+                                    <FormLabel component="label">Trigger geofence on</FormLabel>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormikCheckbox
@@ -281,9 +279,9 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                             <div className={classes.leftButtons}>
                                 {this.props.editGeoFence && (
                                     <FormikDeleteButton
-                                        dialogTitle="Delete geo-fence?"
-                                        dialogContent={"Are you sure you want to delete the geo-fence named " + props.values.name + "?"}
-                                        confirmText="Delete geo-fence"
+                                        dialogTitle="Delete geofence?"
+                                        dialogContent={"Are you sure you want to delete the geofence named " + props.values.name + "?"}
+                                        confirmText="Delete geofence"
                                         onConfirm={() => {
                                             this.deleteGeoFence(props.values.name);
                                         }}
@@ -299,7 +297,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                                 }}
                             />
                             <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
-                                {props.initialValues.name === "" ? "Create" : "Update"}{" "}
+                                {props.initialValues.name === "" ? "Create" : "Update"}
                             </FormikSynchronousButton>
                         </div>
                     </form>

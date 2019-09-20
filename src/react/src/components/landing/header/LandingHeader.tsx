@@ -1,10 +1,10 @@
 import * as React from "react";
-import { withStyles, createStyles, Theme, WithStyles } from "@material-ui/core/styles";
+import { withStyles, createStyles, WithStyles } from "@material-ui/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { Hidden, Typography, Button, Link } from "@material-ui/core";
+import { Hidden, Typography, Button, Link, Theme } from "@material-ui/core";
 import { User } from "oidc-client";
 import AccountPopOut from "../../accountPopOut/AccountPopOut";
 import { push } from "connected-react-router";
