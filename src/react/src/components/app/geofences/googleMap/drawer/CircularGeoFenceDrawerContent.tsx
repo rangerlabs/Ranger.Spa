@@ -20,15 +20,20 @@ import RoutePaths from "../../../../RoutePaths";
 
 const styles = (theme: Theme) =>
     createStyles({
-        formGrid: {
-            width: "100%",
-            margin: "0px",
+        form: {
+            paddingTop: 0,
+            paddingRight: theme.spacing(2),
+            paddingBottom: 0,
+            paddingLeft: theme.spacing(2),
         },
         flexButtons: {
             display: "flex",
         },
         leftButtons: {
             flexGrow: 1,
+        },
+        width100TemporaryChromiumFix: {
+            width: "100%",
         },
     });
 
@@ -205,9 +210,9 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                 validationSchema={this.validationSchema}
             >
                 {props => (
-                    <form onSubmit={props.handleSubmit}>
-                        <Grid className={classes.formGrid} container direction="column" spacing={4}>
-                            <Grid item xs={12}>
+                    <form className={classes.form} onSubmit={props.handleSubmit}>
+                        <Grid container direction="column" spacing={4}>
+                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikTextField
                                     name="name"
                                     label="Name"
@@ -221,7 +226,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                                     required
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikTextField
                                     name="description"
                                     label="Description"
@@ -233,7 +238,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                                     autoComplete="off"
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <AutoCompleteMultiSelect
                                     suggestions={this.props.integrationNames}
                                     defaultValues={this.props.editGeoFence ? this.props.editGeoFence.integrations : undefined}
@@ -241,10 +246,10 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                                 />
                             </Grid>
                             <Grid container item xs={12} spacing={0}>
-                                <Grid item xs={12}>
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <FormLabel component="label">Trigger geofence on</FormLabel>
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <FormikCheckbox
                                         name="onEnter"
                                         label="Enter"
@@ -253,7 +258,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                                         onBlur={props.handleBlur}
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <FormikCheckbox
                                         name="onExit"
                                         label="Exit"
@@ -264,7 +269,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                                 </Grid>
                             </Grid>
                             {this.state.serverErrors && (
-                                <Grid item xs={12}>
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <List>
                                         <ListItem>
                                             {this.state.serverErrors.map(error => (

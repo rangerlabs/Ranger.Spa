@@ -9,6 +9,7 @@ import LogoutRedirect from "./auth/LogoutRedirect";
 import Documentation from "./landing/documentation/Documentation";
 import Pricing from "./landing/pricing/Pricing";
 import Company from "./landing/company/Company";
+import ConfirmDomain from "./landing/confirmDomain/ConfirmDomain";
 
 export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: "/error/:code?", component: ErrorPage },
@@ -20,4 +21,5 @@ export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: RoutePaths.Pricing, component: Pricing },
     { exact: true, path: RoutePaths.Login, component: LoginRedirect },
     { exact: true, path: RoutePaths.Logout, component: LogoutRedirect },
+    { exact: true, path: RoutePaths.ConfirmDomain, component: ConfirmDomain },
 ];

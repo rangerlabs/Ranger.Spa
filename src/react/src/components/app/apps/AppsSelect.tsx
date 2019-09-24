@@ -1,21 +1,6 @@
 import * as React from "react";
 import { selectApp } from "../../../redux/actions/SelectedAppActions";
-import {
-    Theme,
-    createStyles,
-    WithStyles,
-    withStyles,
-    Card,
-    CardHeader,
-    CardContent,
-    Typography,
-    CardMedia,
-    Grid,
-    CardActions,
-    IconButton,
-    ButtonBase,
-} from "@material-ui/core";
-import ArrowRight from "mdi-material-ui/ArrowRight";
+import { Theme, createStyles, WithStyles, withStyles, Card, CardHeader, CardContent, Typography, CardMedia, Grid, ButtonBase } from "@material-ui/core";
 import { connect } from "react-redux";
 import IApp from "../../../models/app/IApp";
 import { ApplicationState } from "../../../stores";

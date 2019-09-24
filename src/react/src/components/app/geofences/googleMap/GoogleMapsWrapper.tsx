@@ -28,6 +28,7 @@ import { removeGeoFence } from "../../../../redux/actions/GeoFenceActions";
 const MapMarkerPlus = "../../../../../assets/map-marker-plus.png";
 const hash = require("object-hash");
 import * as queryString from "query-string";
+import styled from "styled-components";
 
 declare global {
     interface Window {
@@ -42,12 +43,27 @@ const styles = (theme: Theme) =>
         autoComplete: {
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1),
+            borderTop: "0px",
+            borderRight: "0px",
+            borderLeft: "0px",
+            borderRadius: "0px",
         },
         mapContainer: {
             width: "100%",
             height: `calc(100% - ${theme.toolbar.height}px - ${theme.spacing(1)}px)`,
         },
     });
+
+// const StyledSearchTextField = styled(TextField)`
+//     .MuiOutlinedInput-root {
+//         fieldset {
+//             border-top: "0px";
+//             border-left: "0px";
+//             border-right: "0px";
+//             border-radius: "0px";
+//         }
+//     }
+// `;
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
