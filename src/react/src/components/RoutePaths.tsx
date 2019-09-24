@@ -9,6 +9,7 @@ export default class RoutePaths {
     public static Company = "/company";
     public static Login = "/login";
     public static Logout = "/logout";
+    public static ConfirmDomain = "/confirmdomain";
 
     public static Home = "/home";
     public static Account = "/account";

@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { Formik, FormikBag, FormikProps } from "formik";
 import FormikTextField from "../../form/FormikTextField";
 import FormikSynchronousButton from "../../form/FormikSynchronousButton";
-import TenantService from "../../../services/TenantService";
+import TenantService, { DomainEnabledResults } from "../../../services/TenantService";
 import UserManager from "../../../services/UserManager";
 import { withSnackbar, WithSnackbarProps } from "notistack";
 import RoutePaths from "../../RoutePaths";
@@ -65,20 +65,30 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                             initialValues={{ domain: "" } as Domain}
                             onSubmit={(values: Domain, formikBag: FormikBag<FormikProps<Domain>, Domain>) => {
                                 const domain = values.domain;
-                                tenantService.exists(domain).then(v => {
+                                tenantService.enabled(domain).then(v => {
                                     setTimeout(() => {
-                                        if (v) {
-                                            this.setState({ isSuccess: true });
-                                            enqueueSnackbar("Domain found", { variant: "success" });
-                                            setTimeout(() => {
-                                                const loginPath = "http://" + domain + "." + SPA_HOST + RoutePaths.Login;
-                                                window.location.href = loginPath;
-                                            }, 750);
-                                        } else {
-                                            enqueueSnackbar("Domain not found", { variant: "error" });
-                                            formikBag.setSubmitting(false);
+                                        switch (v) {
+                                            case DomainEnabledResults.Disabled: {
+                                                enqueueSnackbar("Domain not confirmed. Please confirm the domain to login.", { variant: "error" });
+                                                formikBag.setSubmitting(false);
+                                                break;
+                                            }
+                                            case DomainEnabledResults.Enabled: {
+                                                this.setState({ isSuccess: true });
+                                                enqueueSnackbar("Domain found", { variant: "success" });
+                                                setTimeout(() => {
+                                                    const loginPath = "http://" + domain + "." + SPA_HOST + RoutePaths.Login;
+                                                    window.location.href = loginPath;
+                                                }, 750);
+                                                break;
+                                            }
+                                            default: {
+                                                enqueueSnackbar("Domain not found", { variant: "error" });
+                                                formikBag.setSubmitting(false);
+                                                break;
+                                            }
                                         }
-                                    }, 1250);
+                                    }, 1000);
                                 });
                             }}
                             validationSchema={this.validationSchema}
