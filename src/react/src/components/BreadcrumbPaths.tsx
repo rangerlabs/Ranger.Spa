@@ -4,7 +4,7 @@ import RoutePaths from "./RoutePaths";
 import { IntegrationEnum } from "../models/app/integrations/IntegrationEnum";
 import { titleCase } from "change-case";
 
-const homeBreadcrumb = new Breadcrumb("Home", RoutePaths.Home);
+const dashboardBreadcrumb = new Breadcrumb("Dashboard", RoutePaths.Dashboard);
 const accountBreadcrumb = new Breadcrumb("Account", RoutePaths.Account);
 const geoFenceMapBreadcrumb = new Breadcrumb("Geofence Map", RoutePaths.GeoFenceMap);
 const geoFenceTableBreadcrumb = new Breadcrumb("Geofence Table", RoutePaths.GeoFenceTable);
@@ -22,8 +22,8 @@ const appsNewBreadcrumb = new Breadcrumb("New", RoutePaths.AppsNew);
 const appsEditBreadcrumb = new Breadcrumb("Edit", RoutePaths.AppsEdit);
 
 export default class BreadcrumbPaths {
-    public static Home() {
-        return new BreadcrumbPath(new Array<Breadcrumb>(homeBreadcrumb));
+    public static Dashboard() {
+        return new BreadcrumbPath(new Array<Breadcrumb>(dashboardBreadcrumb));
     }
 
     public static Account() {

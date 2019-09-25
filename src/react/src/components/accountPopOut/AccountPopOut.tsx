@@ -68,11 +68,11 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                         {RoutePaths.IsCurrentLocationWhiteListed() && (
                                             <MenuItem
                                                 onClick={e => {
-                                                    this.props.push(RoutePaths.Home);
+                                                    this.props.push(RoutePaths.Dashboard);
                                                     this.handleClose(e);
                                                 }}
                                             >
-                                                Home
+                                                Dashboard
                                             </MenuItem>
                                         )}
                                         <MenuItem

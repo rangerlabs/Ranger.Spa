@@ -16,7 +16,7 @@ export default function ConfigureStore(history: History, initialState?: Applicat
         if (domains.length === 3) {
             const domain = domains[0];
             const redirectUri = `http://${domain}.${SPA_HOST}/callback`;
-            UserManager.signinRedirect({ acr_values: "tenant:" + domain, redirect_uri: redirectUri, data: { redirectUrl: RoutePaths.Home } });
+            UserManager.signinRedirect({ acr_values: "tenant:" + domain, redirect_uri: redirectUri, data: { redirectUrl: RoutePaths.Dashboard } });
         } else {
             history.push("/");
             return null;

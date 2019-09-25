@@ -11,13 +11,13 @@ import IntegrationsNew from "./app/integrations/form/IntegrationsNew";
 import IntegrationsNewApi from "./app/integrations/form/ApiIntegrationForm";
 import IntegrationsNewPusher from "./app/integrations/form/PusherIntegrationForm";
 import AppsSelect from "./app/apps/AppsSelect";
-import Home from "./app/home/Home";
+import Dashboard from "./app/dashboard/Dashboard";
 import BreadcrumbPaths from "./BreadcrumbPaths";
 import { IntegrationEnum } from "../models/app/integrations/IntegrationEnum";
 import Account from "./app/account/Account";
 
 export const AuthorizedComponents: IAppRoute[] = [
-    { exact: true, path: RoutePaths.Home, component: Home, breadcrumbPath: BreadcrumbPaths.Home() },
+    { exact: true, path: RoutePaths.Dashboard, component: Dashboard, breadcrumbPath: BreadcrumbPaths.Dashboard() },
     { exact: true, path: RoutePaths.Account, component: Account, breadcrumbPath: BreadcrumbPaths.Account() },
 
     { exact: true, path: RoutePaths.Users, component: Users, breadcrumbPath: BreadcrumbPaths.Users() },

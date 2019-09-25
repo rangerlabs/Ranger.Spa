@@ -17,18 +17,16 @@ import {
     Fade,
     Grid,
 } from "@material-ui/core";
-import Home from "@material-ui/icons/Home";
-import GpsFixed from "@material-ui/icons/GpsFixed";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import ArrowForward from "@material-ui/icons/ArrowForward";
 import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
+import ViewDashboardOutline from "mdi-material-ui/ViewDashboardOutline";
 import Lock from "@material-ui/icons/Lock";
-import Equalizer from "@material-ui/icons/Equalizer";
+import FileDocumentBoxOutline from "mdi-material-ui/FileDocumentBoxOutline";
+import CurrencyUsd from "mdi-material-ui/CurrencyUsd";
+import Domain from "mdi-material-ui/Domain";
 import { User } from "oidc-client";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import Logo from "../../../theme/Logo";
 import RoutePaths from "../../RoutePaths";
 const classNames = require("classnames").default;
 
@@ -52,13 +50,30 @@ const styles = (theme: Theme) =>
         },
         listItemHover: {
             height: theme.toolbar.height,
-            "&:hover": {
+            "&:hover ": {
                 backgroundColor: theme.palette.primary.main,
+                "& $listItemTextColor": {
+                    color: theme.palette.common.white,
+                },
+                "& $listItemIconColor": {
+                    color: theme.palette.common.white,
+                },
             },
+        },
+        listItemTextColor: {
+            color: theme.palette.text.primary,
+        },
+        listItemIconColor: {
+            color: theme.palette.primary.main,
         },
         menuButton: {
             margin: "auto",
             width: "70%",
+        },
+        logoButtonRoot: {
+            "&:hover": {
+                background: "none",
+            },
         },
     });
 interface LandingMenuProps extends WithStyles<typeof styles> {
@@ -104,8 +119,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
             <div>
                 <Grid container direction="column" justify="center" alignItems="center" className={classes.logo}>
                     <Grid item>
-                        <Button href="/">
-                            <Logo />
+                        <Button classes={{ root: classes.logoButtonRoot }} disableRipple onClick={() => this.props.push(RoutePaths.Landing)}>
                             <Typography align="center" variant="h5">
                                 Ranger
                             </Typography>
@@ -113,59 +127,68 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                     </Grid>
                 </Grid>
                 <Divider className={classes.divider} />
+
                 <List>
-                    <ListItem classes={{ button: classes.listItemHover }} button href="#overview">
-                        <ListItemIcon>
-                            <Home htmlColor={theme.palette.primary.main} />
-                        </ListItemIcon>
-                        <ListItemText primary="Overview" />
-                    </ListItem>
-                    <ListItem classes={{ button: classes.listItemHover }} button href="#howitworks">
-                        <ListItemIcon>
-                            <GpsFixed htmlColor={theme.palette.primary.main} />
-                        </ListItemIcon>
-                        <ListItemText primary="How it works" />
-                    </ListItem>
-                    <ListItem classes={{ button: classes.listItemHover }} button href="#features">
-                        <ListItemIcon>
-                            <ArrowForward htmlColor={theme.palette.primary.main} />
-                        </ListItemIcon>
-                        <ListItemText primary="Features" />
-                    </ListItem>
-                    <ListItem classes={{ button: classes.listItemHover }} button href="#pricing">
-                        <ListItemIcon>
-                            <Equalizer htmlColor={theme.palette.primary.main} />
-                        </ListItemIcon>
-                        <ListItemText primary="Pricing" />
-                    </ListItem>
-                    <ListItem classes={{ button: classes.listItemHover }} button href="#contact">
-                        <ListItemIcon>
-                            <Equalizer htmlColor={theme.palette.primary.main} />
-                        </ListItemIcon>
-                        <ListItemText primary="Contact" />
-                    </ListItem>
-                    {this.props.user && !this.props.user.expired ? (
-                        <ListItem classes={{ button: classes.listItemHover }} button onClick={this.toggleExpanded}>
-                            <ListItemIcon>
-                                <AccountCircle htmlColor={theme.palette.primary.main} />
+                    {this.props.user && !this.props.user.expired && (
+                        <ListItem classes={{ button: classes.listItemHover }} button onClick={() => this.props.push(RoutePaths.Dashboard)}>
+                            <ListItemIcon className={classes.listItemIconColor}>
+                                <ViewDashboardOutline />
                             </ListItemIcon>
-                            <ListItemText primary="Account" />
-                            {this.state.accountListItemExpanded ? (
-                                <ExpandLess htmlColor={theme.palette.primary.main} />
-                            ) : (
-                                <ExpandMore htmlColor={theme.palette.primary.main} />
-                            )}
+                            <ListItemText primary="Dashboard" className={classes.listItemTextColor} />
+                        </ListItem>
+                    )}
+
+                    <ListItem classes={{ button: classes.listItemHover }} button onClick={() => this.props.push(RoutePaths.Documentation)}>
+                        <ListItemIcon className={classes.listItemIconColor}>
+                            <FileDocumentBoxOutline />
+                        </ListItemIcon>
+                        <ListItemText primary="Documentation" className={classes.listItemTextColor} />
+                    </ListItem>
+                    <ListItem classes={{ button: classes.listItemHover }} button onClick={() => this.props.push(RoutePaths.Pricing)}>
+                        <ListItemIcon className={classes.listItemIconColor}>
+                            <CurrencyUsd />
+                        </ListItemIcon>
+                        <ListItemText primary="Pricing" className={classes.listItemTextColor} />
+                    </ListItem>
+                    <ListItem classes={{ button: classes.listItemHover }} button onClick={() => this.props.push(RoutePaths.Company)}>
+                        <ListItemIcon className={classes.listItemIconColor}>
+                            <Domain />
+                        </ListItemIcon>
+                        <ListItemText primary="Company" className={classes.listItemTextColor} />
+                    </ListItem>
+
+                    {this.props.user && !this.props.user.expired ? (
+                        <ListItem id="account" className={classes.listItemHover} button onClick={this.toggleExpanded}>
+                            <ListItemIcon className={classes.listItemIconColor}>
+                                <AccountCircle />
+                            </ListItemIcon>
+                            <ListItemText primary="Account" className={classes.listItemTextColor} />
+                            <Fade in={this.state.accountListItemExpanded} timeout={500}>
+                                <ExpandLess className={classes.listItemIconColor} />
+                            </Fade>
                         </ListItem>
                     ) : (
                         <ListItem classes={{ button: classes.listItemHover }} button onClick={this.handleSignInClick}>
-                            <ListItemIcon>
+                            <ListItemIcon className={classes.listItemIconColor}>
                                 <AccountCircle htmlColor={theme.palette.primary.main} />
                             </ListItemIcon>
-                            <ListItemText primary="Sign in" />
+                            <ListItemText primary="Sign in" className={classes.listItemTextColor} />
                         </ListItem>
                     )}
                     <Collapse in={this.state.accountListItemExpanded} timeout={500} unmountOnExit>
-                        <List disablePadding>
+                        <List component="div" disablePadding>
+                            <ListItem
+                                button
+                                className={classNames(classes.listItemHover, classes.nested)}
+                                onClick={() => {
+                                    this.props.push(RoutePaths.Account);
+                                }}
+                            >
+                                <ListItemIcon className={classes.listItemIconColor}>
+                                    <Lock />
+                                </ListItemIcon>
+                                <ListItemText primary="Account" className={classes.listItemTextColor} />
+                            </ListItem>
                             <ListItem
                                 button
                                 className={classNames(classes.listItemHover, classes.nested)}
@@ -173,13 +196,10 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                                     this.props.push(RoutePaths.Logout);
                                 }}
                             >
-                                <ListItemIcon>
-                                    <Lock htmlColor={theme.palette.primary.main} />
+                                <ListItemIcon className={classes.listItemIconColor}>
+                                    <Lock />
                                 </ListItemIcon>
-                                <ListItemText inset primary="Logout" />
-                                <Fade in={this.state.accountListItemExpanded} timeout={500}>
-                                    <ExpandLess htmlColor={theme.palette.primary.main} />
-                                </Fade>
+                                <ListItemText primary="Logout" className={classes.listItemTextColor} />
                             </ListItem>
                         </List>
                     </Collapse>
@@ -192,12 +212,9 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                 <nav>
                     <Drawer
                         variant="temporary"
-                        anchor={"right"}
+                        anchor={"top"}
                         open={this.props.mobileOpen}
                         onClose={this.props.handleDrawerToggle}
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
                         SlideProps={{
                             timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
                         }}

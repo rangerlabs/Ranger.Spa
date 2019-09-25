@@ -34,6 +34,7 @@ const styles = (theme: Theme) =>
                 width: `calc(100% - ${theme.drawer.width}px - ${theme.spacing(4)}px)`,
             },
             height: "100%",
+            width: "100%",
         },
         mediaRoot: {
             backgroundSize: "contain",

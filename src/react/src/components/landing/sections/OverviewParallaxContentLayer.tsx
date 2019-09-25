@@ -21,8 +21,6 @@ const styles = (theme: Theme) =>
         signupButton: {
             marginTop: "60px",
             minWidth: "175px",
-            background: "linear-gradient(135deg,  #ac6cc6 50%, #8f70c2 100%)",
-            color: "white",
         },
         readTheDocsButton: {
             marginTop: "60px",
@@ -50,12 +48,14 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
                             <Typography gutterBottom className={classes.typography} variant="subtitle1">
                                 HOSTED APIs FOR
                             </Typography>
-                            <Typography variant="h2">BOUNDLESS LOCATION SERVICES</Typography>
-                            <Button variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
-                                <Typography className={classes.menuItemTextColor} variant="subtitle1">
+                            <Typography className={classes.typography} variant="h2">
+                                BOUNDLESS LOCATION SERVICES
+                            </Typography>
+                            <div className={classes.typography}>
+                                <Button color="primary" variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
                                     Sign up for free
-                                </Typography>
-                            </Button>
+                                </Button>
+                            </div>
                         </div>
                     </Slide>
                 </Grid>

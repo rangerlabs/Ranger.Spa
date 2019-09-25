@@ -11,7 +11,7 @@ class Callback extends React.Component<RouteComponentProps<{}> & { dispatch: any
     successCallback = (user: User) => {
         // get the user's previous location, passed during signinRedirect()
         var redirectPath = user.state.path as string;
-        redirectPath = RoutePaths.Home;
+        redirectPath = RoutePaths.Dashboard;
         this.props.dispatch(push(redirectPath));
     };
 

@@ -90,7 +90,7 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-class HomeAppSelect extends React.Component<AppsSelectProps> {
+class DashboardAppSelect extends React.Component<AppsSelectProps> {
     handleAppClick(appName: string) {
         this.props.selectApp(appName);
         this.props.push(RoutePaths.GeoFenceMap);
@@ -135,4 +135,4 @@ class HomeAppSelect extends React.Component<AppsSelectProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(HomeAppSelect));
+)(withStyles(styles)(DashboardAppSelect));

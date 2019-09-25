@@ -11,7 +11,7 @@ export default class RoutePaths {
     public static Logout = "/logout";
     public static ConfirmDomain = "/confirmdomain";
 
-    public static Home = "/home";
+    public static Dashboard = "/dashboard";
     public static Account = "/account";
 
     public static Users = "/users";

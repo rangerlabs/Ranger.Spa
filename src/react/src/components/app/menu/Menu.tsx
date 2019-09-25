@@ -15,14 +15,14 @@ import {
     Collapse,
     Fade,
     Grid,
+    Button,
 } from "@material-ui/core";
 import People from "@material-ui/icons/People";
-import Home from "@material-ui/icons/Home";
-import GpsFixed from "@material-ui/icons/GpsFixed";
+import MapMarker from "mdi-material-ui/MapMarker";
+import ViewDashboardOutline from "mdi-material-ui/ViewDashboardOutline";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import Lock from "@material-ui/icons/Lock";
-import Equalizer from "@material-ui/icons/Equalizer";
 import SpeakerPhone from "@material-ui/icons/SpeakerPhone";
 import FormatListBulleted from "@material-ui/icons/FormatListBulleted";
 import Web from "mdi-material-ui/Web";
@@ -36,7 +36,6 @@ import { UserProfile } from "../../../models/UserProfile";
 import { RoleEnum } from "../../../models/RoleEnum";
 import RoutePaths from "../../../components/RoutePaths";
 import { User } from "oidc-client";
-import Logo from "../../../theme/Logo";
 const classNames = require("classnames").default;
 
 const styles = (theme: Theme) =>
@@ -50,7 +49,7 @@ const styles = (theme: Theme) =>
         drawerPaper: {
             width: theme.drawer.width,
         },
-        logo: {
+        headerPush: {
             ...theme.mixins.toolbar,
         },
         divider: {
@@ -83,6 +82,11 @@ const styles = (theme: Theme) =>
         },
         nested: {
             paddingLeft: theme.spacing(4),
+        },
+        logoButtonRoot: {
+            "&:hover": {
+                background: "none",
+            },
         },
     });
 interface MenuProps extends WithStyles<typeof styles> {
@@ -136,16 +140,16 @@ class Menu extends React.Component<MenuProps> {
 
         const drawerContent = (
             <List>
-                <ListItem id="home" classes={{ button: classes.listItemHover }} button onClick={() => this.handleMenuNavigation(RoutePaths.Home)}>
+                <ListItem id="home" classes={{ button: classes.listItemHover }} button onClick={() => this.handleMenuNavigation(RoutePaths.Dashboard)}>
                     <ListItemIcon className={classes.listItemIconColor}>
-                        <Home />
+                        <ViewDashboardOutline />
                     </ListItemIcon>
-                    <ListItemText primary="Home" className={classes.listItemTextColor} />
+                    <ListItemText primary="Dashboard" className={classes.listItemTextColor} />
                 </ListItem>
 
                 <ListItem id="geofences" classes={{ button: classes.listItemHover }} button onClick={() => this.handleMenuToggle("geofences")}>
                     <ListItemIcon className={classes.listItemIconColor}>
-                        <GpsFixed />
+                        <MapMarker />
                     </ListItemIcon>
                     <ListItemText primary="Geofences" className={classes.listItemTextColor} />
                     <Fade in={this.props.expandedSection === "geofences"} timeout={timeout}>
@@ -249,22 +253,22 @@ class Menu extends React.Component<MenuProps> {
                 )}
 
                 <Hidden mdUp implementation="css">
-                    <ListItem id="account" classes={{ button: classes.listItemHover }} button onClick={() => this.handleMenuToggle("account")}>
+                    <ListItem id="account" className={classes.listItemHover} button onClick={() => this.handleMenuToggle("account")}>
                         <ListItemIcon className={classes.listItemIconColor}>
                             <AccountCircle />
                         </ListItemIcon>
-                        <ListItemText primary="Account" className={classNames(classes.listItemHover, classes.nested)} />
+                        <ListItemText primary="Account" className={classes.listItemTextColor} />
                         <Fade in={this.props.expandedSection === "account"} timeout={timeout}>
                             <ExpandLess className={classes.listItemIconColor} />
                         </Fade>
                     </ListItem>
                     <Collapse in={this.props.expandedSection === "account"} timeout={500} unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItem button className={classes.listItemHover} onClick={this.props.signOut}>
+                            <ListItem button className={classNames(classes.listItemHover, classes.nested)} onClick={this.props.signOut}>
                                 <ListItemIcon className={classes.listItemIconColor}>
                                     <Lock />
                                 </ListItemIcon>
-                                <ListItemText inset primary="Logout" className={classes.listItemTextColor} />
+                                <ListItemText primary="Logout" className={classes.listItemTextColor} />
                             </ListItem>
                         </List>
                     </Collapse>
@@ -277,26 +281,16 @@ class Menu extends React.Component<MenuProps> {
                 <Hidden mdUp implementation="css">
                     <Drawer
                         variant="temporary"
-                        anchor={"right"}
+                        anchor={"top"}
                         open={this.props.mobileOpen}
                         onClose={this.props.handleDrawerToggle}
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
                         SlideProps={{
                             timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
                         }}
                     >
-                        <Grid container direction="row" justify="center" alignItems="center" className={classes.logo}>
-                            <Grid item>
-                                <Logo />
-                            </Grid>
-                            <Grid item>
-                                <Typography color="textPrimary" align="center" variant="h5">
-                                    Ranger
-                                </Typography>
-                            </Grid>
-                        </Grid>
+                        <Button classes={{ root: classes.logoButtonRoot }} disableRipple={true} onClick={() => this.props.push(RoutePaths.Landing)}>
+                            <Typography variant="h5">Ranger</Typography>
+                        </Button>
                         {drawerContent}
                     </Drawer>
                 </Hidden>
@@ -309,7 +303,7 @@ class Menu extends React.Component<MenuProps> {
                         variant="permanent"
                         open
                     >
-                        <div className={classes.logo} />
+                        <div className={classes.headerPush} />
                         {drawerContent}
                     </Drawer>
                 </Hidden>

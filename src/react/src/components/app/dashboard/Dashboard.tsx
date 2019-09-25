@@ -1,5 +1,5 @@
 import * as React from "react";
-import HomeAppSelect from "./HomeAppSelect";
+import DashboardAppSelect from "./DashboardAppSelect";
 import { Typography, createStyles, Theme, withStyles, WithStyles } from "@material-ui/core";
 import { connect } from "react-redux";
 import { ApplicationState } from "../../../stores";
@@ -12,7 +12,7 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface HomeProps extends WithStyles<typeof styles> {
+interface DashboardProps extends WithStyles<typeof styles> {
     apps: IApp[];
 }
 
@@ -22,14 +22,14 @@ const mapStateToProps = (state: ApplicationState) => {
     };
 };
 
-class Home extends React.Component<HomeProps> {
+class Dashboard extends React.Component<DashboardProps> {
     render() {
         const { classes } = this.props;
         return (
             <div className={classes.layout}>
                 {this.props.apps.length === 0 ? null : (
                     <React.Fragment>
-                        <HomeAppSelect />
+                        <DashboardAppSelect />
                     </React.Fragment>
                 )}
                 <Typography align="left" variant="subtitle1">
@@ -43,4 +43,4 @@ class Home extends React.Component<HomeProps> {
 export default connect(
     mapStateToProps,
     null
-)(withStyles(styles)(Home));
+)(withStyles(styles)(Dashboard));

@@ -9,7 +9,6 @@ import { User } from "oidc-client";
 import AccountPopOut from "../../accountPopOut/AccountPopOut";
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
-import Logo from "../../../theme/Logo";
 import RoutePaths from "../../RoutePaths";
 import { Parallax } from "react-spring/renderprops-addons";
 const classNames = require("classnames").default;
@@ -28,10 +27,6 @@ const styles = (theme: Theme) =>
         },
         actionContainer: {
             display: "inline-flex",
-        },
-        signupButton: {
-            background: "linear-gradient(135deg,  #ac6cc6 50%, #8f70c2 100%)",
-            color: "white",
         },
         menuButton: {
             [theme.breakpoints.up("md")]: {
@@ -89,8 +84,9 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                 <Toolbar id="back-to-top-anchor">
                     <div className={classes.toolbarLeft}>
                         <Button classes={{ root: classes.logoButtonRoot }} disableRipple={true} onClick={this.handleLogoClick}>
-                            <Logo />
-                            <Typography variant="h6">Ranger</Typography>
+                            <Typography align="center" variant="h5">
+                                Ranger
+                            </Typography>
                         </Button>
                     </div>
                     <Hidden smDown implementation="css">
@@ -115,15 +111,10 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                             ) : (
                                 <div>
                                     <Button variant="outlined" color="primary" classes={{ root: classes.landingLink }} onClick={this.handleSignInClick}>
-                                        <Typography variant="subtitle1">Sign in</Typography>
+                                        Sign in
                                     </Button>
-                                    <Button
-                                        color="primary"
-                                        variant="contained"
-                                        onClick={this.handleSignUpClick}
-                                        classes={{ root: classNames(classes.landingLink, classes.signupButton) }}
-                                    >
-                                        <Typography variant="subtitle1">Sign up</Typography>
+                                    <Button color="primary" variant="contained" onClick={this.handleSignUpClick} classes={{ root: classes.landingLink }}>
+                                        Sign up
                                     </Button>
                                 </div>
                             )}

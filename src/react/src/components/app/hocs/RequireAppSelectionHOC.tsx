@@ -62,7 +62,7 @@ const requireAppSelection = <P extends object>(Component: React.ComponentType<P>
                     });
                     redirectComponentPath += window.location.search;
                 } else {
-                    redirectComponentPath = RoutePaths.Home;
+                    redirectComponentPath = RoutePaths.Dashboard;
                 }
 
                 let pushPath = undefined as string;

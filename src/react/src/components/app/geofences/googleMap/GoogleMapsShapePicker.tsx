@@ -19,6 +19,10 @@ const styles = (theme: Theme) =>
             marginTop: "10px",
             textAlign: "center",
         },
+        font: {
+            fontSize: 16,
+            fontFamily: "'Lato', sans-serif",
+        },
     });
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -67,6 +71,7 @@ class GoogleMapsShapePicker extends React.Component<GoogleMapsShapePickerProps> 
         return createPortal(
             <div className={classes.root}>
                 <Button
+                    className={classes.font}
                     disabled={!this.props.enabled}
                     variant={selectedShape === ShapePicker.Circular ? "contained" : "text"}
                     color="primary"
@@ -76,6 +81,7 @@ class GoogleMapsShapePicker extends React.Component<GoogleMapsShapePickerProps> 
                     Circle
                 </Button>
                 <Button
+                    className={classes.font}
                     disabled={!this.props.enabled}
                     variant={selectedShape === ShapePicker.Polygon ? "contained" : "text"}
                     color="primary"
