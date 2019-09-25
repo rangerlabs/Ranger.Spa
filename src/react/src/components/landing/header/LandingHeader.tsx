@@ -28,10 +28,6 @@ const styles = (theme: Theme) =>
         actionContainer: {
             display: "inline-flex",
         },
-        signupButton: {
-            background: "linear-gradient(135deg,  #ac6cc6 50%, #8f70c2 100%)",
-            color: "white",
-        },
         menuButton: {
             [theme.breakpoints.up("md")]: {
                 display: "none",
@@ -115,15 +111,10 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                             ) : (
                                 <div>
                                     <Button variant="outlined" color="primary" classes={{ root: classes.landingLink }} onClick={this.handleSignInClick}>
-                                        <Typography variant="subtitle1">Sign in</Typography>
+                                        Sign in
                                     </Button>
-                                    <Button
-                                        color="primary"
-                                        variant="contained"
-                                        onClick={this.handleSignUpClick}
-                                        classes={{ root: classNames(classes.landingLink, classes.signupButton) }}
-                                    >
-                                        <Typography variant="subtitle1">Sign up</Typography>
+                                    <Button color="primary" variant="contained" onClick={this.handleSignUpClick} classes={{ root: classes.landingLink }}>
+                                        Sign up
                                     </Button>
                                 </div>
                             )}
