@@ -9,7 +9,6 @@ import { User } from "oidc-client";
 import AccountPopOut from "../../accountPopOut/AccountPopOut";
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
-import Logo from "../../../theme/Logo";
 import RoutePaths from "../../RoutePaths";
 import { Parallax } from "react-spring/renderprops-addons";
 const classNames = require("classnames").default;
@@ -89,8 +88,9 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                 <Toolbar id="back-to-top-anchor">
                     <div className={classes.toolbarLeft}>
                         <Button classes={{ root: classes.logoButtonRoot }} disableRipple={true} onClick={this.handleLogoClick}>
-                            <Logo />
-                            <Typography variant="h6">Ranger</Typography>
+                            <Typography align="center" variant="h5">
+                                Ranger
+                            </Typography>
                         </Button>
                     </div>
                     <Hidden smDown implementation="css">

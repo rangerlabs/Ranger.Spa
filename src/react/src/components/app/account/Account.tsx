@@ -209,7 +209,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                         <FormikCancelButton
                                             isSubmitting={props.isSubmitting}
                                             onClick={() => {
-                                                this.props.push(RoutePaths.Home);
+                                                this.props.push(RoutePaths.Dashboard);
                                             }}
                                         />
                                         {props.initialValues.email === "" ? (

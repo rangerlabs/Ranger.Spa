@@ -13,37 +13,39 @@ import "whatwg-fetch";
 import "./polyfills/object-assign";
 import "./polyfills/array-find";
 import "./src/index.css";
-import { AppContainer } from "react-hot-loader";
 import SnackbarProviderWrapper from "./src/components/SnackbarProviderWrapper/SnackbarProviderWrapper";
-import { MuiThemeProvider } from "@material-ui/core";
+import { responsiveFontSizes } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 
 const initialState = {} as ApplicationState;
 ReduxStore.Configure(history, initialState);
 const store = ReduxStore.getStore();
 
-const theme = createRangerTheme({
-    palette: {
-        type: "light",
-        primary: {
-            main: "#7e57c2",
+const theme = responsiveFontSizes(
+    createRangerTheme({
+        palette: {
+            type: "light",
+            primary: {
+                main: "#7e57c2",
+            },
+            text: {
+                primary: "#000000",
+            },
+            background: {
+                paper: "#FFFFFF",
+                default: "#FFFFFF",
+            },
         },
-        text: {
-            primary: "#000000",
+        typography: {
+            fontFamily: "'Lato', sans-serif",
+            fontSize: 18,
+            fontWeightLight: 100,
+            fontWeightRegular: 300,
+            fontWeightMedium: 400,
+            fontWeightBold: 400,
         },
-        background: {
-            paper: "#FFFFFF",
-            default: "#FFFFFF",
-        },
-    },
-    typography: {
-        fontSize: 16,
-        fontWeightLight: 100,
-        fontWeightRegular: 300,
-        fontWeightMedium: 400,
-        fontWeightBold: 400,
-    },
-});
+    })
+);
 
 ReactDOM.render(
     <Provider store={store}>

@@ -14,7 +14,7 @@ function LoginRedirect(props: LoginRedirectProps): any {
     if (domains.length === 3) {
         const domain = domains[0];
         const redirectUri = `http://${domain}.${SPA_HOST}/callback`;
-        UserManager.signinRedirect({ acr_values: "tenant:" + domain, redirect_uri: redirectUri, data: { redirectUrl: RoutePaths.Home } });
+        UserManager.signinRedirect({ acr_values: "tenant:" + domain, redirect_uri: redirectUri, data: { redirectUrl: RoutePaths.Dashboard } });
         return <h1>Redirecting to Identity Server</h1>;
     } else {
         props.push("/enterdomain");

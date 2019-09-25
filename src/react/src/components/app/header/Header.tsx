@@ -5,21 +5,25 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountPopOut from "../../accountPopOut/AccountPopOut";
-import { Hidden, Typography, Grid, Theme } from "@material-ui/core";
+import { Hidden, Typography, Grid, Theme, Button } from "@material-ui/core";
 import { connect } from "react-redux";
 import { ApplicationState } from "../../../stores";
 import { User } from "oidc-client";
 import CustomizedBreadcrumbs from "./Breadcrumbs";
 import Breadcrumb from "../../../models/app/Breadcrumb";
-import Logo from "../../../theme/Logo";
+import RoutePaths from "../../RoutePaths";
+import { push } from "connected-react-router";
 
 const styles = (theme: Theme) =>
     createStyles({
         toolbarLeft: {
             flexGrow: 1,
         },
+        toolbarPadding: {
+            paddingLeft: "0px",
+        },
         logoContainer: {
-            width: (theme.drawer.width as number) - theme.spacing(2),
+            width: (theme.drawer.width as number) - theme.spacing(1),
         },
         appBar: {
             [theme.breakpoints.up("md")]: {
@@ -37,16 +41,27 @@ const styles = (theme: Theme) =>
         headerPrimaryColor: {
             color: theme.drawer.text.color,
         },
+        logoButtonRoot: {
+            "&:hover": {
+                background: "none",
+            },
+        },
     });
 
 const mapStateToProps = (state: ApplicationState) => {
     return { user: state.oidc.user };
+};
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        push: (path: string) => dispatch(push(path)),
+    };
 };
 
 interface HeaderProps extends WithStyles<typeof styles> {
     breadcrumbs: Breadcrumb[];
     handleDrawerToggle: () => void;
     user: User;
+    push: typeof push;
 }
 
 class Header extends React.Component<HeaderProps> {
@@ -54,19 +69,21 @@ class Header extends React.Component<HeaderProps> {
         const { classes, breadcrumbs } = this.props;
         return (
             <AppBar elevation={0} position="fixed" className={classes.appBar}>
-                <Toolbar>
-                    <Grid container direction="row" className={classes.logoContainer}>
-                        <Grid item>
-                            <Logo />
-                        </Grid>
-                        <Grid item>
-                            <Typography className={classes.headerPrimaryColor} align="center" variant="h5">
-                                Ranger
-                            </Typography>
-                        </Grid>
-                    </Grid>
+                <Toolbar className={classes.toolbarPadding}>
+                    <Button
+                        className={classes.logoContainer}
+                        classes={{ root: classes.logoButtonRoot }}
+                        disableRipple={true}
+                        onClick={() => this.props.push(RoutePaths.Landing)}
+                    >
+                        <Typography align="center" variant="h5">
+                            Ranger
+                        </Typography>
+                    </Button>
                     <div className={classes.toolbarLeft}>
-                        <CustomizedBreadcrumbs breadcrumbs={breadcrumbs} />
+                        <Hidden smDown implementation="css">
+                            <CustomizedBreadcrumbs breadcrumbs={breadcrumbs} />
+                        </Hidden>
                     </div>
                     <Typography variant="subtitle1" className={classes.headerPrimaryColor}>
                         Hi, {this.props.user.profile.firstName}
@@ -85,4 +102,7 @@ class Header extends React.Component<HeaderProps> {
     }
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(Header));
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(Header));

@@ -135,7 +135,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                             variant="temporary"
                             anchor={"top"}
                             open={this.state.mobileOpen}
-                            onClose={this.openMobileDrawer}
+                            onClose={this.closeMobileDrawer}
                             classes={{
                                 paper: classes.drawerPaper,
                             }}
