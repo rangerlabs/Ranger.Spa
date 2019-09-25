@@ -169,7 +169,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                         </ListItem>
                     ) : (
                         <ListItem classes={{ button: classes.listItemHover }} button onClick={this.handleSignInClick}>
-                            <ListItemIcon>
+                            <ListItemIcon className={classes.listItemIconColor}>
                                 <AccountCircle htmlColor={theme.palette.primary.main} />
                             </ListItemIcon>
                             <ListItemText primary="Sign in" className={classes.listItemTextColor} />
