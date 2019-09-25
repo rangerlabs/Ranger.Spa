@@ -5,12 +5,13 @@ import Grow from "@material-ui/core/Grow";
 
 const styles = (theme: Theme) =>
     createStyles({
-        success: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px" },
-        error: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px" },
-        warning: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px" },
-        info: { backgroundColor: "#5E5E5E", justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px" },
+        success: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px", padding: "0px" },
+        error: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px", padding: "0px" },
+        warning: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px", padding: "0px" },
+        info: { backgroundColor: "#5E5E5E", justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px", padding: "0px" },
         root: {
             width: "100%",
+            padding: "0px",
         },
     });
 
