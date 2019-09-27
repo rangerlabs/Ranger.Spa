@@ -1,8 +1,8 @@
-import { IntegrationEnum } from "./IntegrationEnum";
+import { IntegrationEnum } from './IntegrationEnum';
 
 export default interface Integration {
     readonly type: IntegrationEnum;
-    appName: string;
+    appId: string;
     name: string;
     description: string;
 }

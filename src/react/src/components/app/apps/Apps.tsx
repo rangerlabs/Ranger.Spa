@@ -1,12 +1,12 @@
-import * as React from "react";
-import IApp from "../../../models/app/IApp";
-import CustomAddToolbar from "../muiDataTable/CustomAddToolbar";
-import { connect } from "react-redux";
-import { addApp, removeApp } from "../../../redux/actions/AppActions";
-import { ApplicationState } from "../../../stores/index";
-import { push } from "connected-react-router";
-import RoutePaths from "../../../components/RoutePaths";
-const MUIDataTable = require("mui-datatables").default;
+import * as React from 'react';
+import IApp from '../../../models/app/IApp';
+import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
+import { connect } from 'react-redux';
+import { addApp, removeApp } from '../../../redux/actions/AppActions';
+import { ApplicationState } from '../../../stores/index';
+import { push } from 'connected-react-router';
+import RoutePaths from '../../../components/RoutePaths';
+const MUIDataTable = require('mui-datatables').default;
 
 interface AppsProps {
     apps: IApp[];
@@ -58,19 +58,19 @@ class Apps extends React.Component<AppsProps> {
 
     columns = [
         {
-            name: "Name",
+            name: 'Name',
             options: {
                 filter: true,
             },
         },
         {
-            name: "Description",
+            name: 'Description',
             options: {
                 filter: false,
             },
         },
         {
-            name: "Api Key",
+            name: 'Api Key',
             options: {
                 filter: false,
             },
@@ -83,8 +83,8 @@ class Apps extends React.Component<AppsProps> {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewAppForm} />;
         },
         elevation: 0,
-        selectableRows: false,
-        responsive: "scroll",
+        selectableRows: 'none',
+        responsive: 'stacked',
         viewColumns: false,
         onRowClick: this.editApp,
     };
@@ -93,7 +93,7 @@ class Apps extends React.Component<AppsProps> {
         const { apps } = this.props;
         return (
             <React.Fragment>
-                <MUIDataTable title={""} data={this.mapAppsToTableApps(apps)} columns={this.columns} options={this.options} />
+                <MUIDataTable title={'Applications'} data={this.mapAppsToTableApps(apps)} columns={this.columns} options={this.options} />
             </React.Fragment>
         );
     }

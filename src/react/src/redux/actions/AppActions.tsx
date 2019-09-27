@@ -1,9 +1,9 @@
-import IApp from "../../models/app/IApp";
+import IApp from '../../models/app/IApp';
 
-export const ADD_APP = "ADD_APP";
-export const REMOVE_APP = "REMOVE_APP";
-export const POPULATE_APPS = "POPULATE_APPS";
-export const FILTER_APP = "FILTER_APP";
+export const ADD_APP = 'ADD_APP';
+export const REMOVE_APP = 'REMOVE_APP';
+export const POPULATE_APPS = 'POPULATE_APPS';
+export const FILTER_APP = 'FILTER_APP';
 
 export interface AppAction {
     type: string;
@@ -21,10 +21,10 @@ export function addApp(app: IApp): AppAction {
         app,
     };
 }
-export function removeApp(name: string): AppAction {
+export function removeApp(id: string): AppAction {
     return {
         type: REMOVE_APP,
-        app: { name: name } as IApp,
+        app: { id: id } as IApp,
     };
 }
 export function populateApps(apps: Array<IApp>): AppArrayAction {

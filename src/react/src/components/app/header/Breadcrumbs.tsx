@@ -1,10 +1,11 @@
-import * as React from "react";
-import { Theme, createStyles, WithStyles, Chip, withStyles, Breadcrumbs, Link, Typography } from "@material-ui/core";
-import Breadcrumb from "../../../models/app/Breadcrumb";
-import { push } from "connected-react-router";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../stores";
-import ChevronRight from "mdi-material-ui/ChevronRight";
+import * as React from 'react';
+import { Theme, createStyles, WithStyles, Chip, withStyles, Breadcrumbs, Link, Typography } from '@material-ui/core';
+import Breadcrumb from '../../../models/app/Breadcrumb';
+import { push } from 'connected-react-router';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../../../stores';
+import ChevronRight from 'mdi-material-ui/ChevronRight';
+import IApp from '../../../models/app/IApp';
 
 const styles = (theme: Theme) => createStyles({});
 
@@ -33,13 +34,13 @@ const mapStateToProps = (state: ApplicationState) => {
 interface CustomizedBreadcrumbsProps extends WithStyles<typeof styles> {
     breadcrumbs: Breadcrumb[];
     push: typeof push;
-    selectedApp: string;
+    selectedApp: IApp;
 }
 class CustomizedBreadcrumbs extends React.Component<CustomizedBreadcrumbsProps> {
     handleClick(path: string) {
         let pushPath = path;
         if (this.props.selectedApp) {
-            pushPath = path.replace(":appName", this.props.selectedApp);
+            pushPath = path.replace(':appName', this.props.selectedApp.name);
         }
         this.props.push(pushPath);
     }

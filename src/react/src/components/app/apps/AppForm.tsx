@@ -1,39 +1,39 @@
-import * as React from "react";
-import IApp from "../../../models/app/IApp";
-import AppService from "../../../services/AppService";
-import { Formik, FormikProps, FormikBag, FormikErrors } from "formik";
-import * as Yup from "yup";
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, TextField } from "@material-ui/core";
-import { withSnackbar, WithSnackbarProps } from "notistack";
-import FormikTextField from "../../form/FormikTextField";
-import FormikCancelButton from "../../form/FormikCancelButton";
-import { IRestResponse } from "../../../services/RestUtilities";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../stores/index";
-import { push } from "connected-react-router";
-import FormikDeleteButton from "../../../components/form/FormikDeleteButton";
-import FormikSynchronousButton from "../../form/FormikSynchronousButton";
-import { addApp, removeApp } from "../../../redux/actions/AppActions";
-import RoutePaths from "../../RoutePaths";
-import * as queryString from "query-string";
+import * as React from 'react';
+import IApp from '../../../models/app/IApp';
+import AppService from '../../../services/AppService';
+import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
+import * as Yup from 'yup';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, TextField } from '@material-ui/core';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
+import FormikTextField from '../../form/FormikTextField';
+import FormikCancelButton from '../../form/FormikCancelButton';
+import { IRestResponse } from '../../../services/RestUtilities';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../../../stores/index';
+import { push } from 'connected-react-router';
+import FormikDeleteButton from '../../../components/form/FormikDeleteButton';
+import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+import { addApp, removeApp } from '../../../redux/actions/AppActions';
+import RoutePaths from '../../RoutePaths';
+import * as queryString from 'query-string';
 
 const appService = new AppService();
 
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            width: "auto",
+            width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             marginTop: theme.toolbar.height,
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
-                marginLeft: "auto",
-                marginRight: "auto",
+                marginLeft: 'auto',
+                marginRight: 'auto',
             },
         },
         flexButtonContainer: {
-            display: "flex",
+            display: 'flex',
         },
         leftButtons: {
             flexGrow: 1,
@@ -78,11 +78,11 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
         isSuccess: false,
     };
 
-    deleteApp(props: FormikProps<IApp>, enqueueSnackbar: any) {
-        console.log("DELETE THE APPLICATION");
+    deleteApp(id: string, enqueueSnackbar: any) {
+        console.log('DELETE THE APPLICATION');
         setTimeout(() => {
-            this.props.dispatchRemoveApp(props.values.name);
-            enqueueSnackbar("Application deleted", { variant: "error" });
+            this.props.dispatchRemoveApp(id);
+            enqueueSnackbar('Application deleted', { variant: 'error' });
             this.props.push(RoutePaths.Apps);
         }, 250);
     }
@@ -90,7 +90,7 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
     getAppByName = (apps: IApp[]) => {
         let result = undefined;
         const params = queryString.parse(window.location.search);
-        const name = params["name"] as string;
+        const name = params['name'] as string;
         if (name && apps) {
             result = apps.find(a => a.name === name);
         }
@@ -99,8 +99,8 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
     };
 
     validationSchema = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        description: Yup.string().required("Required"),
+        name: Yup.string().required('Required'),
+        description: Yup.string().required('Required'),
     });
 
     render() {
@@ -111,16 +111,17 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography variant="h5" gutterBottom>
-                            {this.getAppByName(apps) ? "Edit" : "Create"}
+                            {this.getAppByName(apps) ? 'Edit' : 'Create'}
                         </Typography>
 
                         <Formik
                             enableReinitialize
-                            initialValues={this.getAppByName(apps) ? this.getAppByName(apps) : { name: "", description: "", apiKey: "" }}
+                            initialValues={this.getAppByName(apps) ? this.getAppByName(apps) : { name: '', description: '', apiKey: '' }}
                             onSubmit={(values: IApp, formikBag: FormikBag<FormikProps<IApp>, IApp>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
                                 const newApp = {
+                                    id: this.state.initialApp ? this.state.initialApp.id : '',
                                     name: values.name,
                                     description: values.description,
                                 } as IApp;
@@ -128,13 +129,13 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
                                     setTimeout(() => {
                                         if (response.is_error) {
                                             const { serverErrors, ...formikErrors } = response.error_content.errors;
-                                            enqueueSnackbar("Error creating app", { variant: "error" });
+                                            enqueueSnackbar('Error creating app', { variant: 'error' });
                                             formikBag.setErrors(formikErrors as FormikErrors<IApp>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
                                             this.setState({ isSuccess: true });
-                                            enqueueSnackbar("App created", { variant: "success" });
+                                            enqueueSnackbar('App created', { variant: 'success' });
                                             setTimeout(this.props.closeForm, 250);
                                             dispatchAddApp(response.content);
                                         }
@@ -156,7 +157,6 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
-                                                disabled={props.initialValues.name === "" ? false : true}
                                                 required
                                             />
                                         </Grid>
@@ -191,27 +191,29 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
                                         )}
                                     </Grid>
                                     <div className={classes.flexButtonContainer}>
-                                        <div className={classes.leftButtons}>
-                                            <FormikDeleteButton
-                                                isSubmitting={props.isSubmitting}
-                                                onConfirm={() => {
-                                                    this.deleteApp(props, enqueueSnackbar);
-                                                }}
-                                                dialogTitle="Delete app?"
-                                                confirmText="Delete"
-                                                dialogContent={"Are you sure you want to delete app " + props.values.name + "?"}
-                                            >
-                                                Delete
-                                            </FormikDeleteButton>
-                                        </div>
+                                        {this.state.initialApp && (
+                                            <div className={classes.leftButtons}>
+                                                <FormikDeleteButton
+                                                    isSubmitting={props.isSubmitting}
+                                                    onConfirm={() => {
+                                                        this.deleteApp(this.state.initialApp.id, enqueueSnackbar);
+                                                    }}
+                                                    dialogTitle="Delete app?"
+                                                    confirmText="Delete"
+                                                    dialogContent={'Are you sure you want to delete app ' + props.values.name + '?'}
+                                                >
+                                                    Delete
+                                                </FormikDeleteButton>
+                                            </div>
+                                        )}
                                         <FormikCancelButton
                                             isSubmitting={props.isSubmitting}
                                             onClick={() => {
-                                                this.props.push("/apps");
+                                                this.props.push('/apps');
                                             }}
                                         />
                                         <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
-                                            {props.initialValues.name === "" ? "Create" : "Update"}
+                                            {props.initialValues.name === '' ? 'Create' : 'Update'}
                                         </FormikSynchronousButton>
                                     </div>
                                 </form>

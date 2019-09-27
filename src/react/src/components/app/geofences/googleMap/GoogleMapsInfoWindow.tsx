@@ -13,12 +13,10 @@ const styles = (theme: Theme) =>
         },
         warning: {
             color: red[600],
-            fontSize: 16,
             fontFamily: "'Lato', sans-serif",
         },
         primary: {
             color: "#7e57c2",
-            fontSize: 16,
             fontFamily: "'Lato', sans-serif",
         },
     });

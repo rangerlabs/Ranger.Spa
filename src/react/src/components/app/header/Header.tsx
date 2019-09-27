@@ -19,11 +19,10 @@ const styles = (theme: Theme) =>
         toolbarLeft: {
             flexGrow: 1,
         },
-        toolbarPadding: {
-            paddingLeft: "0px",
-        },
         logoContainer: {
-            width: (theme.drawer.width as number) - theme.spacing(1),
+            [theme.breakpoints.up("md")]: {
+                width: (theme.drawer.width as number) - theme.spacing(1),
+            },
         },
         appBar: {
             [theme.breakpoints.up("md")]: {
@@ -44,6 +43,11 @@ const styles = (theme: Theme) =>
         logoButtonRoot: {
             "&:hover": {
                 background: "none",
+            },
+        },
+        toolbarPadding: {
+            [theme.breakpoints.up("md")]: {
+                paddingLeft: 0,
             },
         },
     });

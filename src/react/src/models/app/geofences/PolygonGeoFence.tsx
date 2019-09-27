@@ -1,12 +1,12 @@
-import GeoFence from "./GeoFence";
-import { ShapePicker } from "../../../redux/actions/GoogleMapsActions";
-import CoordinatePair from "./CoordinatePair";
+import GeoFence from './GeoFence';
+import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
+import CoordinatePair from './CoordinatePair';
 
 export default class PolygonGeoFence implements GeoFence {
     shape: ShapePicker;
     public constructor(
-        public appName: string,
-        public integrations: string[] = [],
+        public appId: string,
+        public integrationIds: string[] = [],
         public onEnter: boolean,
         public onExit: boolean,
         public name: string,

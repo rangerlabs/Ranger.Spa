@@ -1,5 +1,5 @@
-import * as React from "react";
-import { selectApp } from "../../../redux/actions/SelectedAppActions";
+import * as React from 'react';
+import { selectApp } from '../../../redux/actions/SelectedAppActions';
 import {
     Theme,
     createStyles,
@@ -15,62 +15,62 @@ import {
     GridList,
     GridListTile,
     Paper,
-} from "@material-ui/core";
-import ArrowRight from "mdi-material-ui/ArrowRight";
-import { connect } from "react-redux";
-import IApp from "../../../models/app/IApp";
-import { ApplicationState } from "../../../stores";
-import { push } from "connected-react-router";
-import RoutePaths from "../../RoutePaths";
-const IntegrationApi = require("../../../../assets/integration-api.png");
+} from '@material-ui/core';
+import ArrowRight from 'mdi-material-ui/ArrowRight';
+import { connect } from 'react-redux';
+import IApp from '../../../models/app/IApp';
+import { ApplicationState } from '../../../stores';
+import { push } from 'connected-react-router';
+import RoutePaths from '../../RoutePaths';
+const IntegrationApi = require('../../../../assets/integration-api.png');
 
 const styles = (theme: Theme) =>
     createStyles({
         card: {
             // height: "100%",
-            margin: "10px",
+            margin: '10px',
         },
         cardContent: {
-            paddingBottom: "0px",
+            paddingBottom: '0px',
         },
         buttons: {
-            display: "flex",
-            justifyContent: "flex-end",
-            padding: "0px",
+            display: 'flex',
+            justifyContent: 'flex-end',
+            padding: '0px',
         },
         media: {
             height: 0,
-            paddingTop: "64px",
+            paddingTop: '64px',
         },
         layout: {
-            width: "auto",
+            width: 'auto',
             margin: theme.spacing(2),
         },
         mediaRoot: {
-            backgroundSize: "contain",
+            backgroundSize: 'contain',
         },
         root: {
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-around",
-            overflow: "hidden",
-            width: "100%",
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-around',
+            overflow: 'hidden',
+            width: '100%',
             // backgroundColor: theme.palette.background.paper,
         },
         gridList: {
-            width: "100%",
-            flexWrap: "nowrap",
+            width: '100%',
+            flexWrap: 'nowrap',
             // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-            transform: "translateZ(0)",
+            transform: 'translateZ(0)',
         },
         gridListTile: {
-            height: "100% !important",
+            height: '100% !important',
         },
     });
 
 interface AppsSelectProps extends WithStyles<typeof styles> {
     apps: IApp[];
-    selectApp: (appName: string) => void;
+    selectApp: (app: IApp) => void;
     push: typeof push;
 }
 
@@ -82,8 +82,8 @@ const mapStateToProps = (state: ApplicationState) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        selectApp: (appName: string) => {
-            const action = selectApp(appName);
+        selectApp: (app: IApp) => {
+            const action = selectApp(app);
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),
@@ -91,8 +91,8 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 class DashboardAppSelect extends React.Component<AppsSelectProps> {
-    handleAppClick(appName: string) {
-        this.props.selectApp(appName);
+    handleAppClick(app: IApp) {
+        this.props.selectApp(app);
         this.props.push(RoutePaths.GeoFenceMap);
     }
     render() {
@@ -105,7 +105,7 @@ class DashboardAppSelect extends React.Component<AppsSelectProps> {
                 <div className={classes.root}>
                     <GridList className={classes.gridList} cols={2.5}>
                         {apps.map(app => (
-                            <GridListTile className={classes.gridListTile} key={app.name}>
+                            <GridListTile className={classes.gridListTile} key={app.id}>
                                 <Card className={classes.card}>
                                     <CardHeader title={app.name} />
                                     <CardMedia classes={{ root: classes.mediaRoot }} className={classes.media} image={IntegrationApi} title="Api Integration" />
@@ -115,7 +115,7 @@ class DashboardAppSelect extends React.Component<AppsSelectProps> {
                                     <CardActions className={classes.buttons}>
                                         <IconButton
                                             onClick={() => {
-                                                this.handleAppClick(app.name);
+                                                this.handleAppClick(app);
                                             }}
                                             aria-label="Select app"
                                         >

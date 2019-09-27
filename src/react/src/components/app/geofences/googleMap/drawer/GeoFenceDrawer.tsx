@@ -1,34 +1,35 @@
-import * as React from "react";
-import { Theme, createStyles, WithStyles, Drawer, IconButton, withStyles } from "@material-ui/core";
-import ChevronRight from "@material-ui/icons/ChevronRight";
-import { FormikProps, FormikBag } from "formik";
-import CircularGeoFence from "../../../../../models/app/geofences/CircularGeoFence";
-import PolygonGeoFence from "../../../../../models/app/geofences/PolygonGeoFence";
-import { DialogContent, openDialog } from "../../../../../redux/actions/DialogActions";
-import { withSnackbar, WithSnackbarProps } from "notistack";
-import * as Yup from "yup";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../../../stores/index";
-import { ShapePicker, PolygonGeoFenceState, CircularGeoFenceState } from "../../../../../redux/actions/GoogleMapsActions";
-import { closeGeoFenceDrawer } from "../../../../../redux/actions/GeoFenceDrawerActions";
-import CircularGeoFenceDrawerContent from "./CircularGeoFenceDrawerContent";
-import PolygonGeoFenceDrawerContent from "./PolygonGeoFenceDrawerContent";
+import * as React from 'react';
+import { Theme, createStyles, WithStyles, Drawer, IconButton, withStyles } from '@material-ui/core';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import { FormikProps, FormikBag } from 'formik';
+import CircularGeoFence from '../../../../../models/app/geofences/CircularGeoFence';
+import PolygonGeoFence from '../../../../../models/app/geofences/PolygonGeoFence';
+import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
+import * as Yup from 'yup';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../../../../../stores/index';
+import { ShapePicker, PolygonGeoFenceState, CircularGeoFenceState } from '../../../../../redux/actions/GoogleMapsActions';
+import { closeGeoFenceDrawer } from '../../../../../redux/actions/GeoFenceDrawerActions';
+import CircularGeoFenceDrawerContent from './CircularGeoFenceDrawerContent';
+import PolygonGeoFenceDrawerContent from './PolygonGeoFenceDrawerContent';
+import IApp from '../../../../../models/app/IApp';
 
 const styles = (theme: Theme) =>
     createStyles({
         drawerPaper: {
             zIndex: theme.zIndex.appBar - 1,
-            width: "100%",
-            [theme.breakpoints.up("sm")]: {
-                width: "40%",
+            width: '100%',
+            [theme.breakpoints.up('sm')]: {
+                width: '40%',
             },
-            [theme.breakpoints.up("md")]: {
+            [theme.breakpoints.up('md')]: {
                 width: `calc((100% - ${theme.drawer.width}px) * .35)`,
             },
         },
         buttons: {
-            display: "flex",
-            justifyContent: "flex-end",
+            display: 'flex',
+            justifyContent: 'flex-end',
         },
         // drawer: {
         //     zIndex: theme.zIndex.appBar - 1,
@@ -60,7 +61,7 @@ const mapStateToProps = (state: ApplicationState) => {
 };
 
 const getIntegrationNames = (state: ApplicationState) => {
-    return state.integrations.filter(i => i.appName === state.selectedApp).map(i => i.name);
+    return state.integrations.filter(i => i.appId === state.selectedApp.id).map(i => i.name);
 };
 
 const getMapGeoFence = (state: ApplicationState): CircularGeoFenceState | PolygonGeoFenceState => {
@@ -105,7 +106,7 @@ interface GeoFenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarPro
     editGeoFence: CircularGeoFence | PolygonGeoFence;
     geoFenceDrawerOpen: boolean;
     selectedShape: ShapePicker;
-    selectedApp: string;
+    selectedApp: IApp;
     integrationNames: string[];
     openDialog: (dialogCotent: DialogContent) => void;
     closeDrawer: () => void;
@@ -121,13 +122,13 @@ class GeoFenceDrawer extends React.Component<GeoFenceDrawerProps> {
             <Drawer
                 // className={classes.drawer}
                 variant="persistent"
-                anchor={"right"}
+                anchor={'right'}
                 open={this.props.geoFenceDrawerOpen}
                 classes={{
                     paper: classes.drawerPaper,
                 }}
                 SlideProps={{
-                    direction: "left",
+                    direction: 'left',
                     timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
                     mountOnEnter: true,
                     unmountOnExit: true,

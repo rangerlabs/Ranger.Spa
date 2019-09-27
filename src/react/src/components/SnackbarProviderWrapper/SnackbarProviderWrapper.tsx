@@ -1,17 +1,28 @@
-import * as React from "react";
-import { Theme, createStyles, WithStyles, withStyles } from "@material-ui/core";
-import { SnackbarProvider } from "notistack";
-import Grow from "@material-ui/core/Grow";
+import * as React from 'react';
+import { Theme, createStyles, WithStyles, withStyles } from '@material-ui/core';
+import { SnackbarProvider } from 'notistack';
+
+const notistackStyle = (theme: Theme) => {
+    return {
+        justifyContent: 'center',
+        maxWidth: '100%',
+        boxShadow: 'none',
+        width: '100%',
+        // borderRadius: '0px',
+        fontSize: theme.typography.fontSize,
+        fontWeight: theme.typography.fontWeightMedium,
+    };
+};
 
 const styles = (theme: Theme) =>
     createStyles({
-        success: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px", padding: "0px" },
-        error: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px", padding: "0px" },
-        warning: { justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px", padding: "0px" },
-        info: { backgroundColor: "#5E5E5E", justifyContent: "center", maxWidth: "100%", boxShadow: "none", width: "100%", borderRadius: "0px", padding: "0px" },
+        success: notistackStyle(theme),
+        error: notistackStyle(theme),
+        warning: notistackStyle(theme),
+        info: { ...notistackStyle(theme), backgroundColor: theme.palette.primary.main },
         root: {
-            width: "100%",
-            padding: "0px",
+            width: '100%',
+            padding: '0px',
         },
     });
 
@@ -29,11 +40,13 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
                     variantWarning: classes.warning,
                     variantInfo: classes.info,
                 }}
+                preventDuplicate={true}
+                hideIconVariant={true}
                 dense
                 maxSnack={1}
                 anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
+                    vertical: 'bottom',
+                    horizontal: 'center',
                 }}
             >
                 {this.props.children}

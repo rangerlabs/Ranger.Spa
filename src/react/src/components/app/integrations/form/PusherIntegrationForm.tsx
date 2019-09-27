@@ -1,40 +1,41 @@
-import * as React from "react";
-import IntegrationService from "../../../../services/IntegrationService";
-import { Formik, FormikProps, FormikBag, FormikErrors } from "formik";
-import * as Yup from "yup";
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, TextField } from "@material-ui/core";
-import { withSnackbar, WithSnackbarProps } from "notistack";
-import FormikTextField from "../../../form/FormikTextField";
-import FormikPrimaryButton from "../../../form/FormikPrimaryButton";
-import FormikUpdateButton from "../../../form/FormikUpdateButton";
-import FormikCancelButton from "../../../form/FormikCancelButton";
-import { IRestResponse } from "../../../../services/RestUtilities";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../../stores/index";
-import { push } from "connected-react-router";
-import FormikDeleteButton from "../../../form/FormikDeleteButton";
-import { MergedIntegrationType } from "../../../../models/app/integrations/MergedIntegrationType";
-import PusherIntegration from "../../../../models/app/integrations/implementations/PusherIntegration";
-import requireAppSelection from "../../hocs/RequireAppSelectionHOC";
-import integrationForm from "./IntegrationFormHOC";
-import RoutePaths from "../../../RoutePaths";
+import * as React from 'react';
+import IntegrationService from '../../../../services/IntegrationService';
+import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
+import * as Yup from 'yup';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, TextField } from '@material-ui/core';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
+import FormikTextField from '../../../form/FormikTextField';
+import FormikPrimaryButton from '../../../form/FormikPrimaryButton';
+import FormikUpdateButton from '../../../form/FormikUpdateButton';
+import FormikCancelButton from '../../../form/FormikCancelButton';
+import { IRestResponse } from '../../../../services/RestUtilities';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../../../../stores/index';
+import { push } from 'connected-react-router';
+import FormikDeleteButton from '../../../form/FormikDeleteButton';
+import { MergedIntegrationType } from '../../../../models/app/integrations/MergedIntegrationType';
+import PusherIntegration from '../../../../models/app/integrations/implementations/PusherIntegration';
+import requireAppSelection from '../../hocs/RequireAppSelectionHOC';
+import integrationForm from './IntegrationFormHOC';
+import RoutePaths from '../../../RoutePaths';
+import IApp from '../../../../models/app/IApp';
 
 const integrationService = new IntegrationService();
 
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            width: "auto",
+            width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
-                marginLeft: "auto",
-                marginRight: "auto",
+                marginLeft: 'auto',
+                marginRight: 'auto',
             },
         },
         flexButtonContainer: {
-            display: "flex",
+            display: 'flex',
         },
         leftButtons: {
             flexGrow: 1,
@@ -45,7 +46,7 @@ interface IPusherIntegrationFormProps extends WithStyles<typeof styles>, WithSna
     closeForm: () => void;
     integrations?: MergedIntegrationType[];
     initialIntegration: PusherIntegration;
-    selectedApp: string;
+    selectedApp: IApp;
     push: typeof push;
 }
 
@@ -69,15 +70,15 @@ class PusherIntegrationForm extends React.Component<IPusherIntegrationFormProps,
     };
 
     validationSchema = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        description: Yup.string().required("Required"),
-        appId: Yup.string().required("Required"),
-        key: Yup.string().required("Required"),
-        secret: Yup.string().required("Required"),
-        clusterName: Yup.string().required("Required"),
-        channelName: Yup.string().required("Required"),
-        eventName: Yup.string().required("Required"),
-        payload: Yup.string().required("Required"),
+        name: Yup.string().required('Required'),
+        description: Yup.string().required('Required'),
+        appId: Yup.string().required('Required'),
+        key: Yup.string().required('Required'),
+        secret: Yup.string().required('Required'),
+        clusterName: Yup.string().required('Required'),
+        channelName: Yup.string().required('Required'),
+        eventName: Yup.string().required('Required'),
+        payload: Yup.string().required('Required'),
     });
 
     render() {
@@ -88,7 +89,7 @@ class PusherIntegrationForm extends React.Component<IPusherIntegrationFormProps,
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography variant="h5" gutterBottom>
-                            {this.props.initialIntegration ? "Edit" : "Create"}
+                            {this.props.initialIntegration ? 'Edit' : 'Create'}
                         </Typography>
 
                         <Formik
@@ -97,25 +98,24 @@ class PusherIntegrationForm extends React.Component<IPusherIntegrationFormProps,
                                 this.props.initialIntegration
                                     ? this.props.initialIntegration
                                     : {
-                                          name: "",
-                                          description: "",
-                                          appId: "",
-                                          key: "",
-                                          secret: "",
-                                          clusterName: "",
-                                          channelName: "",
-                                          eventName: "",
-                                          payload: "",
+                                          name: '',
+                                          description: '',
+                                          appId: '',
+                                          key: '',
+                                          secret: '',
+                                          clusterName: '',
+                                          channelName: '',
+                                          eventName: '',
+                                          payload: '',
                                       }
                             }
                             onSubmit={(values: PusherIntegration, formikBag: FormikBag<FormikProps<PusherIntegration>, PusherIntegration>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
                                 const newIntegration = new PusherIntegration(
-                                    this.props.selectedApp,
+                                    this.props.selectedApp.id,
                                     values.name,
                                     values.description,
-                                    values.appId,
                                     values.key,
                                     values.secret,
                                     values.clusterName,
@@ -127,12 +127,12 @@ class PusherIntegrationForm extends React.Component<IPusherIntegrationFormProps,
                                     setTimeout(() => {
                                         if (response.is_error) {
                                             const { serverErrors, ...formikErrors } = response.error_content.errors;
-                                            enqueueSnackbar("Error creating integration", { variant: "error" });
+                                            enqueueSnackbar('Error creating integration', { variant: 'error' });
                                             formikBag.setErrors(formikErrors as FormikErrors<PusherIntegration>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
-                                            enqueueSnackbar("Integration created", { variant: "success" });
+                                            enqueueSnackbar('Integration created', { variant: 'success' });
                                             setTimeout(this.props.closeForm, 500);
                                             dispatchAddIntegration(response.content);
                                         }
@@ -154,7 +154,7 @@ class PusherIntegrationForm extends React.Component<IPusherIntegrationFormProps,
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
-                                                disabled={props.initialValues.name === "" ? false : true}
+                                                disabled={props.initialValues.name === '' ? false : true}
                                                 required
                                             />
                                         </Grid>
@@ -281,11 +281,11 @@ class PusherIntegrationForm extends React.Component<IPusherIntegrationFormProps,
                                                 <FormikDeleteButton
                                                     isSubmitting={props.isSubmitting}
                                                     onConfirm={() => {
-                                                        console.log("DELETE THE INTEGRATION");
+                                                        console.log('DELETE THE INTEGRATION');
                                                     }}
                                                     dialogTitle="Delete integration?"
                                                     confirmText="Delete"
-                                                    dialogContent={"Are you sure you want to delete integration " + props.values.name + "?"}
+                                                    dialogContent={'Are you sure you want to delete integration ' + props.values.name + '?'}
                                                 >
                                                     Delete
                                                 </FormikDeleteButton>
@@ -297,7 +297,7 @@ class PusherIntegrationForm extends React.Component<IPusherIntegrationFormProps,
                                                 this.props.push(RoutePaths.Integrations);
                                             }}
                                         />
-                                        {props.initialValues.name === "" ? (
+                                        {props.initialValues.name === '' ? (
                                             <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
                                         ) : (
                                             <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />

@@ -20,7 +20,6 @@ const styles = (theme: Theme) =>
             textAlign: "center",
         },
         font: {
-            fontSize: 16,
             fontFamily: "'Lato', sans-serif",
         },
     });

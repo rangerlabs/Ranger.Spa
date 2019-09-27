@@ -1,14 +1,14 @@
-import * as React from "react";
-import CustomAddToolbar from "../muiDataTable/CustomAddToolbar";
-import { connect } from "react-redux";
-import { addGeoFence, removeGeoFence } from "../../../redux/actions/GeoFenceActions";
-import { ApplicationState } from "../../../stores/index";
-import { push } from "connected-react-router";
-import PolygonGeoFence from "../../../models/app/geofences/PolygonGeoFence";
-import CircularGeoFence from "../../../models/app/geofences/CircularGeoFence";
-import requireAppSelection from "../hocs/RequireAppSelectionHOC";
-import RoutePaths from "../../../components/RoutePaths";
-const MUIDataTable = require("mui-datatables").default;
+import * as React from 'react';
+import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
+import { connect } from 'react-redux';
+import { addGeoFence, removeGeoFence } from '../../../redux/actions/GeoFenceActions';
+import { ApplicationState } from '../../../stores/index';
+import { push } from 'connected-react-router';
+import PolygonGeoFence from '../../../models/app/geofences/PolygonGeoFence';
+import CircularGeoFence from '../../../models/app/geofences/CircularGeoFence';
+import requireAppSelection from '../hocs/RequireAppSelectionHOC';
+import RoutePaths from '../../../components/RoutePaths';
+const MUIDataTable = require('mui-datatables').default;
 
 interface GeoFencesProps {
     geofences: Array<CircularGeoFence | PolygonGeoFence>;
@@ -18,11 +18,11 @@ interface GeoFencesProps {
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { geofences: selectedAppGeoFences(state.geofences, state.selectedApp) };
+    return { geofences: selectedAppGeoFences(state.geofences, state.selectedApp.id) };
 };
 
-const selectedAppGeoFences = (geofences: Array<CircularGeoFence | PolygonGeoFence>, selectedApp: string) => {
-    return geofences.filter(f => f.appName === selectedApp);
+const selectedAppGeoFences = (geofences: Array<CircularGeoFence | PolygonGeoFence>, id: string) => {
+    return geofences.filter(f => f.appId === id);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -45,18 +45,18 @@ class GeoFences extends React.Component<GeoFencesProps> {
     };
 
     editGeoFence = (rowData: string[]) => {
-        this.props.push("/" + window.location.pathname.split("/")[1] + "/geofences/map/edit?name=" + rowData[0]);
+        this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + rowData[0]);
     };
 
     redirectToNewGeoFenceForm = () => {
-        this.props.push("/geofences/map/new");
+        this.props.push('/geofences/map/new');
     };
 
     mapGeoFencesToTableGeoFences(geofences: Array<CircularGeoFence | PolygonGeoFence>): Array<Array<string>> {
         const tableGeoFences = new Array<Array<string>>();
         if (geofences) {
             geofences.forEach(value => {
-                tableGeoFences.push([value.name, value.description, value.shape.toString(), value.onEnter ? "True" : "False", value.onExit ? "True" : "False"]);
+                tableGeoFences.push([value.name, value.description, value.shape.toString(), value.onEnter ? 'True' : 'False', value.onExit ? 'True' : 'False']);
             });
         }
         return tableGeoFences;
@@ -64,31 +64,31 @@ class GeoFences extends React.Component<GeoFencesProps> {
 
     columns = [
         {
-            name: "Name",
+            name: 'Name',
             options: {
                 filter: false,
             },
         },
         {
-            name: "Description",
+            name: 'Description',
             options: {
                 filter: false,
             },
         },
         {
-            name: "Shape",
+            name: 'Shape',
             options: {
                 filter: true,
             },
         },
         {
-            name: "On Enter",
+            name: 'On Enter',
             options: {
                 filter: true,
             },
         },
         {
-            name: "On Exit",
+            name: 'On Exit',
             options: {
                 filter: true,
             },
@@ -102,7 +102,7 @@ class GeoFences extends React.Component<GeoFencesProps> {
         },
         elevation: 0,
         selectableRows: false,
-        responsive: "scroll",
+        responsive: 'stacked',
         viewColumns: false,
         onRowClick: this.editGeoFence,
     };
@@ -111,7 +111,7 @@ class GeoFences extends React.Component<GeoFencesProps> {
         const { geofences } = this.props;
         return (
             <React.Fragment>
-                <MUIDataTable title={""} data={this.mapGeoFencesToTableGeoFences(geofences)} columns={this.columns} options={this.options} />
+                <MUIDataTable title={''} data={this.mapGeoFencesToTableGeoFences(geofences)} columns={this.columns} options={this.options} />
             </React.Fragment>
         );
     }

@@ -1,14 +1,14 @@
-import * as React from "react";
-import CustomAddToolbar from "../muiDataTable/CustomAddToolbar";
-import { connect } from "react-redux";
-import { addIntegration, removeIntegration } from "../../../redux/actions/IntegrationActions";
-import { ApplicationState } from "../../../stores/index";
-import { push } from "connected-react-router";
-import { MergedIntegrationType } from "../../../models/app/integrations/MergedIntegrationType";
-import requireAppSelection from "../hocs/RequireAppSelectionHOC";
-import RoutePaths from "../../../components/RoutePaths";
-import { IntegrationEnum } from "../../../models/app/integrations/IntegrationEnum";
-const MUIDataTable = require("mui-datatables").default;
+import * as React from 'react';
+import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
+import { connect } from 'react-redux';
+import { addIntegration, removeIntegration } from '../../../redux/actions/IntegrationActions';
+import { ApplicationState } from '../../../stores/index';
+import { push } from 'connected-react-router';
+import { MergedIntegrationType } from '../../../models/app/integrations/MergedIntegrationType';
+import requireAppSelection from '../hocs/RequireAppSelectionHOC';
+import RoutePaths from '../../../components/RoutePaths';
+import { IntegrationEnum } from '../../../models/app/integrations/IntegrationEnum';
+const MUIDataTable = require('mui-datatables').default;
 
 interface IntegrationsProps {
     integrations: MergedIntegrationType[];
@@ -18,11 +18,11 @@ interface IntegrationsProps {
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { integrations: selectedAppIntegrations(state.integrations, state.selectedApp) };
+    return { integrations: selectedAppIntegrations(state.integrations, state.selectedApp.id) };
 };
 
-const selectedAppIntegrations = (integrations: MergedIntegrationType[], selectedApp: string) => {
-    return integrations.filter(i => i.appName === selectedApp);
+const selectedAppIntegrations = (integrations: MergedIntegrationType[], id: string) => {
+    return integrations.filter(i => i.appId === id);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -69,19 +69,19 @@ class Integrations extends React.Component<IntegrationsProps> {
 
     columns = [
         {
-            name: "Name",
+            name: 'Name',
             options: {
                 filter: true,
             },
         },
         {
-            name: "Description",
+            name: 'Description',
             options: {
                 filter: false,
             },
         },
         {
-            name: "Type",
+            name: 'Type',
             options: {
                 filter: true,
             },
@@ -95,8 +95,8 @@ class Integrations extends React.Component<IntegrationsProps> {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewIntegrationForm} />;
         },
         elevation: 0,
-        selectableRows: false,
-        responsive: "scroll",
+        selectableRows: 'none',
+        responsive: 'stacked',
         viewColumns: false,
         onRowClick: this.editIntegration,
     };
@@ -105,7 +105,7 @@ class Integrations extends React.Component<IntegrationsProps> {
         const { integrations } = this.props;
         return (
             <React.Fragment>
-                <MUIDataTable title={""} data={this.mapIntegrationsToTableIntegrations(integrations)} columns={this.columns} options={this.options} />
+                <MUIDataTable title={''} data={this.mapIntegrationsToTableIntegrations(integrations)} columns={this.columns} options={this.options} />
             </React.Fragment>
         );
     }

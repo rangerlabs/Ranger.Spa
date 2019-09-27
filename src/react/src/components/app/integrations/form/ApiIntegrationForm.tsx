@@ -1,41 +1,42 @@
-import * as React from "react";
-import IntegrationService from "../../../../services/IntegrationService";
-import { Formik, FormikProps, FormikBag, FormikErrors } from "formik";
-import * as Yup from "yup";
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, TextField } from "@material-ui/core";
-import { withSnackbar, WithSnackbarProps } from "notistack";
-import FormikTextField from "../../../form/FormikTextField";
-import FormikCancelButton from "../../../form/FormikCancelButton";
-import { IRestResponse } from "../../../../services/RestUtilities";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../../stores/index";
-import { push } from "connected-react-router";
-import FormikDeleteButton from "../../../form/FormikDeleteButton";
-import { MergedIntegrationType } from "../../../../models/app/integrations/MergedIntegrationType";
-import ApiIntegration from "../../../../models/app/integrations/implementations/ApiIntegration";
-import requireAppSelection from "../../hocs/RequireAppSelectionHOC";
-import integrationForm from "./IntegrationFormHOC";
-import RoutePaths from "../../../RoutePaths";
-import { addIntegration, removeIntegration } from "../../../../redux/actions/IntegrationActions";
-import FormikSynchronousButton from "../../../form/FormikSynchronousButton";
+import * as React from 'react';
+import IntegrationService from '../../../../services/IntegrationService';
+import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
+import * as Yup from 'yup';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, TextField } from '@material-ui/core';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
+import FormikTextField from '../../../form/FormikTextField';
+import FormikCancelButton from '../../../form/FormikCancelButton';
+import { IRestResponse } from '../../../../services/RestUtilities';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../../../../stores/index';
+import { push } from 'connected-react-router';
+import FormikDeleteButton from '../../../form/FormikDeleteButton';
+import { MergedIntegrationType } from '../../../../models/app/integrations/MergedIntegrationType';
+import ApiIntegration from '../../../../models/app/integrations/implementations/ApiIntegration';
+import requireAppSelection from '../../hocs/RequireAppSelectionHOC';
+import integrationForm from './IntegrationFormHOC';
+import RoutePaths from '../../../RoutePaths';
+import { addIntegration, removeIntegration } from '../../../../redux/actions/IntegrationActions';
+import FormikSynchronousButton from '../../../form/FormikSynchronousButton';
+import IApp from '../../../../models/app/IApp';
 
 const integrationService = new IntegrationService();
 
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            width: "auto",
+            width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             marginTop: theme.toolbar.height,
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
-                marginLeft: "auto",
-                marginRight: "auto",
+                marginLeft: 'auto',
+                marginRight: 'auto',
             },
         },
         flexButtonContainer: {
-            display: "flex",
+            display: 'flex',
         },
         leftButtons: {
             flexGrow: 1,
@@ -46,7 +47,7 @@ interface IApiIntegrationFormProps extends WithStyles<typeof styles>, WithSnackb
     dispatchRemoveIntegration: (name: string) => void;
     integrations?: MergedIntegrationType[];
     initialIntegration: ApiIntegration;
-    selectedApp: string;
+    selectedApp: IApp;
     push: typeof push;
 }
 
@@ -80,17 +81,17 @@ class ApiIntegrationForm extends React.Component<IApiIntegrationFormProps, ApiIn
     };
 
     deleteIntegration(props: FormikProps<ApiIntegration | { name: string; description: string; httpEndpoint: string; authKey: string }>, enqueueSnackbar: any) {
-        console.log("DELETE THE INTEGRATION");
+        console.log('DELETE THE INTEGRATION');
         setTimeout(() => {
             this.props.dispatchRemoveIntegration(props.values.name);
-            enqueueSnackbar("Integration deleted", { variant: "error" });
+            enqueueSnackbar('Integration deleted', { variant: 'error' });
             this.props.push(RoutePaths.Integrations);
         }, 250);
     }
 
     validationSchema = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        description: Yup.string().required("Required"),
+        name: Yup.string().required('Required'),
+        description: Yup.string().required('Required'),
     });
 
     render() {
@@ -101,19 +102,19 @@ class ApiIntegrationForm extends React.Component<IApiIntegrationFormProps, ApiIn
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography variant="h5" gutterBottom>
-                            {this.props.initialIntegration ? "Edit" : "Create"}
+                            {this.props.initialIntegration ? 'Edit' : 'Create'}
                         </Typography>
 
                         <Formik
                             enableReinitialize
                             initialValues={
-                                this.props.initialIntegration ? this.props.initialIntegration : { name: "", description: "", httpEndpoint: "", authKey: "" }
+                                this.props.initialIntegration ? this.props.initialIntegration : { name: '', description: '', httpEndpoint: '', authKey: '' }
                             }
                             onSubmit={(values: ApiIntegration, formikBag: FormikBag<FormikProps<ApiIntegration>, ApiIntegration>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
                                 const newIntegration = new ApiIntegration(
-                                    this.props.selectedApp,
+                                    this.props.selectedApp.id,
                                     values.name,
                                     values.description,
                                     values.httpEndpoint,
@@ -123,13 +124,13 @@ class ApiIntegrationForm extends React.Component<IApiIntegrationFormProps, ApiIn
                                     setTimeout(() => {
                                         if (response.is_error) {
                                             const { serverErrors, ...formikErrors } = response.error_content.errors;
-                                            enqueueSnackbar("Error creating integration", { variant: "error" });
+                                            enqueueSnackbar('Error creating integration', { variant: 'error' });
                                             formikBag.setErrors(formikErrors as FormikErrors<ApiIntegration>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
                                             this.setState({ isSuccess: true });
-                                            enqueueSnackbar("Integration created", { variant: "success" });
+                                            enqueueSnackbar('Integration created', { variant: 'success' });
                                             dispatchAddIntegration(response.content);
                                             setTimeout(() => {
                                                 this.props.push(RoutePaths.Integrations);
@@ -153,7 +154,7 @@ class ApiIntegrationForm extends React.Component<IApiIntegrationFormProps, ApiIn
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
-                                                disabled={props.initialValues.name === "" ? false : true}
+                                                disabled={props.initialValues.name === '' ? false : true}
                                                 required
                                             />
                                         </Grid>
@@ -218,7 +219,7 @@ class ApiIntegrationForm extends React.Component<IApiIntegrationFormProps, ApiIn
                                                     }}
                                                     dialogTitle="Delete integration?"
                                                     confirmText="Delete"
-                                                    dialogContent={"Are you sure you want to delete integration " + props.values.name + "?"}
+                                                    dialogContent={'Are you sure you want to delete integration ' + props.values.name + '?'}
                                                 >
                                                     Delete
                                                 </FormikDeleteButton>
@@ -231,7 +232,7 @@ class ApiIntegrationForm extends React.Component<IApiIntegrationFormProps, ApiIn
                                             }}
                                         />
                                         <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
-                                            {props.initialValues.name === "" ? "Create" : "Update"}
+                                            {props.initialValues.name === '' ? 'Create' : 'Update'}
                                         </FormikSynchronousButton>
                                     </div>
                                 </form>
