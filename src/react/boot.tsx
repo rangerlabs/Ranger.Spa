@@ -15,7 +15,8 @@ import "./polyfills/array-find";
 import "./src/index.css";
 import SnackbarProviderWrapper from "./src/components/SnackbarProviderWrapper/SnackbarProviderWrapper";
 import { responsiveFontSizes } from "@material-ui/core";
-import { ThemeProvider } from "@material-ui/styles";
+import { ThemeProvider, StylesProvider } from "@material-ui/styles";
+import { jss, generateClassName } from "./src/theme/StylesProviderPropsConfig";
 
 const initialState = {} as ApplicationState;
 ReduxStore.Configure(history, initialState);
@@ -38,7 +39,7 @@ const theme = responsiveFontSizes(
         },
         typography: {
             fontFamily: "'Lato', sans-serif",
-            fontSize: 18,
+            fontSize: 16,
             fontWeightLight: 100,
             fontWeightRegular: 300,
             fontWeightMedium: 400,
@@ -51,11 +52,13 @@ ReactDOM.render(
     <Provider store={store}>
         <OidcProvider store={store} userManager={UserManager}>
             <ThemeProvider theme={theme}>
-                <SnackbarProviderWrapper>
-                    <ConnectedRouter history={history}>
-                        <App />
-                    </ConnectedRouter>
-                </SnackbarProviderWrapper>
+                <StylesProvider jss={jss} generateClassName={generateClassName}>
+                    <SnackbarProviderWrapper>
+                        <ConnectedRouter history={history}>
+                            <App />
+                        </ConnectedRouter>
+                    </SnackbarProviderWrapper>
+                </StylesProvider>
             </ThemeProvider>
         </OidcProvider>
     </Provider>,

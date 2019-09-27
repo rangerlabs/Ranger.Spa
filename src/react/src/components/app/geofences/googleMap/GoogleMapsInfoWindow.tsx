@@ -1,15 +1,8 @@
 import * as React from "react";
 import { Theme, createStyles, withStyles, WithStyles, Button, Typography } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
-import { create } from "jss";
-import { StylesProvider, jssPreset, createGenerateClassName } from "@material-ui/styles";
-
-const jss = create({
-    plugins: [...jssPreset().plugins],
-});
-const generateClassName = createGenerateClassName({
-    disableGlobal: true,
-});
+import { StylesProvider } from "@material-ui/styles";
+import { jss, generateClassName } from "../../../../theme/StylesProviderPropsConfig";
 
 const styles = (theme: Theme) =>
     createStyles({
