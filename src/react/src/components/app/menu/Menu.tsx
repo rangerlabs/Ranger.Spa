@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
     Drawer,
     withStyles,
@@ -16,32 +16,33 @@ import {
     Fade,
     Grid,
     Button,
-} from "@material-ui/core";
-import People from "@material-ui/icons/People";
-import MapMarker from "mdi-material-ui/MapMarker";
-import ViewDashboardOutline from "mdi-material-ui/ViewDashboardOutline";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import Lock from "@material-ui/icons/Lock";
-import SpeakerPhone from "@material-ui/icons/SpeakerPhone";
-import FormatListBulleted from "@material-ui/icons/FormatListBulleted";
-import Web from "mdi-material-ui/Web";
-import ArrowDecision from "mdi-material-ui/ArrowDecision";
-import MapPlus from "mdi-material-ui/MapPlus";
-import { connect } from "react-redux";
-import { push } from "connected-react-router";
-import { ApplicationState } from "../../../stores";
-import { expandSection } from "../../../redux/actions/MenuActions";
-import { UserProfile } from "../../../models/UserProfile";
-import { RoleEnum } from "../../../models/RoleEnum";
-import RoutePaths from "../../../components/RoutePaths";
-import { User } from "oidc-client";
-const classNames = require("classnames").default;
+} from '@material-ui/core';
+import People from '@material-ui/icons/People';
+import MapMarker from 'mdi-material-ui/MapMarker';
+import ViewDashboardOutline from 'mdi-material-ui/ViewDashboardOutline';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import Lock from '@material-ui/icons/Lock';
+import SpeakerPhone from '@material-ui/icons/SpeakerPhone';
+import FormatListBulleted from '@material-ui/icons/FormatListBulleted';
+import Web from 'mdi-material-ui/Web';
+import ArrowDecision from 'mdi-material-ui/ArrowDecision';
+import MapPlus from 'mdi-material-ui/MapPlus';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import { ApplicationState } from '../../../stores';
+import { expandSection } from '../../../redux/actions/MenuActions';
+import { UserProfile } from '../../../models/UserProfile';
+import { RoleEnum } from '../../../models/RoleEnum';
+import RoutePaths from '../../../components/RoutePaths';
+import { User } from 'oidc-client';
+import IProject from '../../../models/app/IProject';
+const classNames = require('classnames').default;
 
 const styles = (theme: Theme) =>
     createStyles({
         drawer: {
-            [theme.breakpoints.up("md")]: {
+            [theme.breakpoints.up('md')]: {
                 width: theme.drawer.width,
                 flexShrink: 0,
             },
@@ -53,19 +54,19 @@ const styles = (theme: Theme) =>
             ...theme.mixins.toolbar,
         },
         divider: {
-            position: "relative",
-            backgroundColor: "rgba(255, 255, 255, 0.6)",
-            margin: "auto",
-            width: "90%",
+            position: 'relative',
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+            margin: 'auto',
+            width: '90%',
         },
         listItemHover: {
             height: theme.toolbar.height,
-            "&:hover ": {
+            '&:hover ': {
                 backgroundColor: theme.palette.primary.main,
-                "& $listItemTextColor": {
+                '& $listItemTextColor': {
                     color: theme.palette.common.white,
                 },
-                "& $listItemIconColor": {
+                '& $listItemIconColor': {
                     color: theme.palette.common.white,
                 },
             },
@@ -77,22 +78,22 @@ const styles = (theme: Theme) =>
             color: theme.palette.primary.main,
         },
         menuButton: {
-            margin: "auto",
-            width: "70%",
+            margin: 'auto',
+            width: '70%',
         },
         nested: {
             paddingLeft: theme.spacing(4),
         },
         logoButtonRoot: {
-            "&:hover": {
-                background: "none",
+            '&:hover': {
+                background: 'none',
             },
         },
     });
 interface MenuProps extends WithStyles<typeof styles> {
     theme: Theme;
     user: User;
-    selectedApp: string;
+    selectedProject: IProject;
     mobileOpen: boolean;
     signOut: () => void;
     handleDrawerToggle: () => void;
@@ -103,7 +104,7 @@ interface MenuProps extends WithStyles<typeof styles> {
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        selectedApp: state.selectedApp,
+        selectedProject: state.selectedProject,
         user: state.oidc.user,
         expandedSection: state.menu.expandedSection,
     };
@@ -123,14 +124,14 @@ const timeout = { enter: 0, exit: 500 };
 
 class Menu extends React.Component<MenuProps> {
     handleMenuToggle = (name: string) => {
-        const expandedSection = this.props.expandedSection === name ? "" : name;
+        const expandedSection = this.props.expandedSection === name ? '' : name;
         this.props.dispatchExpandSection(expandedSection);
     };
 
     handleMenuNavigation = (path: string) => {
         let pushPath = path;
-        if (this.props.selectedApp) {
-            pushPath = path.replace(":appName", this.props.selectedApp);
+        if (this.props.selectedProject) {
+            pushPath = path.replace(':appName', this.props.selectedProject.name);
         }
         this.props.push(pushPath);
     };
@@ -147,16 +148,16 @@ class Menu extends React.Component<MenuProps> {
                     <ListItemText primary="Dashboard" className={classes.listItemTextColor} />
                 </ListItem>
 
-                <ListItem id="geofences" classes={{ button: classes.listItemHover }} button onClick={() => this.handleMenuToggle("geofences")}>
+                <ListItem id="geofences" classes={{ button: classes.listItemHover }} button onClick={() => this.handleMenuToggle('geofences')}>
                     <ListItemIcon className={classes.listItemIconColor}>
                         <MapMarker />
                     </ListItemIcon>
                     <ListItemText primary="Geofences" className={classes.listItemTextColor} />
-                    <Fade in={this.props.expandedSection === "geofences"} timeout={timeout}>
+                    <Fade in={this.props.expandedSection === 'geofences'} timeout={timeout}>
                         <ExpandLess className={classes.listItemIconColor} />
                     </Fade>
                 </ListItem>
-                <Collapse in={this.props.expandedSection === "geofences"} timeout={500} unmountOnExit>
+                <Collapse in={this.props.expandedSection === 'geofences'} timeout={500} unmountOnExit>
                     <List disablePadding>
                         <ListItem
                             button
@@ -199,30 +200,30 @@ class Menu extends React.Component<MenuProps> {
                 </ListItem>
 
                 <ListItem
-                    id="applications"
+                    id="projects"
                     className={classes.listItemHover}
                     button
                     onClick={() => {
-                        this.handleMenuNavigation(RoutePaths.Apps);
+                        this.handleMenuNavigation(RoutePaths.Projects);
                     }}
                 >
                     <ListItemIcon className={classes.listItemIconColor}>
                         <SpeakerPhone />
                     </ListItemIcon>
-                    <ListItemText primary="Applications" className={classes.listItemTextColor} />
+                    <ListItemText primary="Projects" className={classes.listItemTextColor} />
                 </ListItem>
-                {(this.props.user.profile as UserProfile).role.find(r => r.toUpperCase() === RoleEnum.ADMIN) && (
+                {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.ADMIN) && (
                     <React.Fragment>
-                        <ListItem id="administration" className={classes.listItemHover} button onClick={() => this.handleMenuToggle("administration")}>
+                        <ListItem id="administration" className={classes.listItemHover} button onClick={() => this.handleMenuToggle('administration')}>
                             <ListItemIcon className={classes.listItemIconColor}>
                                 <Lock />
                             </ListItemIcon>
                             <ListItemText primary="Administration" className={classes.listItemTextColor} />
-                            <Fade in={this.props.expandedSection === "administration"} timeout={timeout}>
+                            <Fade in={this.props.expandedSection === 'administration'} timeout={timeout}>
                                 <ExpandLess className={classes.listItemIconColor} />
                             </Fade>
                         </ListItem>
-                        <Collapse in={this.props.expandedSection === "administration"} timeout={500} unmountOnExit>
+                        <Collapse in={this.props.expandedSection === 'administration'} timeout={500} unmountOnExit>
                             <List component="div" disablePadding>
                                 <ListItem
                                     button
@@ -235,11 +236,11 @@ class Menu extends React.Component<MenuProps> {
                                     <ListItemText primary="Users" className={classes.listItemTextColor} />
                                 </ListItem>
 
-                                {(this.props.user.profile as UserProfile).role.find(r => r.toUpperCase() === RoleEnum.OWNER) && (
+                                {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.OWNER) && (
                                     <ListItem
                                         button
                                         className={classNames(classes.listItemHover, classes.nested)}
-                                        onClick={() => this.handleMenuNavigation("/domain")}
+                                        onClick={() => this.handleMenuNavigation('/domain')}
                                     >
                                         <ListItemIcon className={classes.listItemIconColor}>
                                             <Web />
@@ -253,16 +254,16 @@ class Menu extends React.Component<MenuProps> {
                 )}
 
                 <Hidden mdUp implementation="css">
-                    <ListItem id="account" className={classes.listItemHover} button onClick={() => this.handleMenuToggle("account")}>
+                    <ListItem id="account" className={classes.listItemHover} button onClick={() => this.handleMenuToggle('account')}>
                         <ListItemIcon className={classes.listItemIconColor}>
                             <AccountCircle />
                         </ListItemIcon>
                         <ListItemText primary="Account" className={classes.listItemTextColor} />
-                        <Fade in={this.props.expandedSection === "account"} timeout={timeout}>
+                        <Fade in={this.props.expandedSection === 'account'} timeout={timeout}>
                             <ExpandLess className={classes.listItemIconColor} />
                         </Fade>
                     </ListItem>
-                    <Collapse in={this.props.expandedSection === "account"} timeout={500} unmountOnExit>
+                    <Collapse in={this.props.expandedSection === 'account'} timeout={500} unmountOnExit>
                         <List component="div" disablePadding>
                             <ListItem button className={classNames(classes.listItemHover, classes.nested)} onClick={this.props.signOut}>
                                 <ListItemIcon className={classes.listItemIconColor}>
@@ -281,7 +282,7 @@ class Menu extends React.Component<MenuProps> {
                 <Hidden mdUp implementation="css">
                     <Drawer
                         variant="temporary"
-                        anchor={"top"}
+                        anchor={'top'}
                         open={this.props.mobileOpen}
                         onClose={this.props.handleDrawerToggle}
                         SlideProps={{
@@ -299,7 +300,7 @@ class Menu extends React.Component<MenuProps> {
                         classes={{
                             paper: classes.drawerPaper,
                         }}
-                        anchor={"left"}
+                        anchor={'left'}
                         variant="permanent"
                         open
                     >

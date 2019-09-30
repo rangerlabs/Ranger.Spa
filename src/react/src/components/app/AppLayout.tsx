@@ -1,43 +1,34 @@
-import { Route } from "react-router";
-import * as React from "react";
-import { withStyles, createStyles, WithStyles } from "@material-ui/styles";
-import Header from "./header/Header";
-import Menu from "./menu/Menu";
-import { connect } from "react-redux";
-import { CssBaseline, Fade, Theme } from "@material-ui/core";
-import Dialog from "../dialog/Dialog";
-import UserManager from "../../services/UserManager";
-import { ApplicationState } from "../../stores";
-import { User } from "oidc-client";
-import UserService from "../../services/UserService";
-import IUser from "../../models/app/IUser";
-import { populateUsers } from "../../redux/actions/UserActions";
-import { populateApps } from "../../redux/actions/AppActions";
-import AppService from "../../services/AppService";
-import IApp from "../../models/app/IApp";
-import GeoFenceService from "../../services/GeoFenceService";
-import { populateGeoFences } from "../../redux/actions/GeoFenceActions";
-import CircularGeoFence from "../../models/app/geofences/CircularGeoFence";
-import PolygonGeoFence from "../../models/app/geofences/PolygonGeoFence";
-import BreadcrumbPath from "../../models/app/BreadcrumbPath";
-import BreadcrumbPaths from "../BreadcrumbPaths";
-import Breadcrumb from "../../models/app/Breadcrumb";
-import { populateIntegrations } from "../../redux/actions/IntegrationActions";
-import { MergedIntegrationType } from "../../models/app/integrations/MergedIntegrationType";
-import IntegrationService from "../../services/IntegrationService";
-import Notifier from "../../components/notifier/Notifier";
-import authorizedRoute from "./hocs/AuthorizedRouteHOC";
+import { Route } from 'react-router';
+import * as React from 'react';
+import { withStyles, createStyles, WithStyles } from '@material-ui/styles';
+import Header from './header/Header';
+import Menu from './menu/Menu';
+import { connect } from 'react-redux';
+import { CssBaseline, Fade, Theme } from '@material-ui/core';
+import Dialog from '../dialog/Dialog';
+import UserManager from '../../services/UserManager';
+import { ApplicationState } from '../../stores';
+import { User } from 'oidc-client';
+import UserService from '../../services/UserService';
+import IUser from '../../models/app/IUser';
+import { populateUsers } from '../../redux/actions/UserActions';
+import { populateProjects } from '../../redux/actions/ProjectActions';
+import ProjectService from '../../services/ProjectService';
+import IProject from '../../models/app/IProject';
+import BreadcrumbPath from '../../models/app/BreadcrumbPath';
+import BreadcrumbPaths from '../BreadcrumbPaths';
+import Breadcrumb from '../../models/app/Breadcrumb';
+import Notifier from '../../components/notifier/Notifier';
+import authorizedRoute from './hocs/AuthorizedRouteHOC';
 
 const userService = new UserService();
-const appService = new AppService();
-const geoFenceService = new GeoFenceService();
-const integrationService = new IntegrationService();
+const projectService = new ProjectService();
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
-            display: "flex",
-            height: "100%",
+            display: 'flex',
+            height: '100%',
         },
         content: {
             flexGrow: 1,
@@ -52,15 +43,13 @@ interface AppLayoutProps extends WithStyles<typeof styles> {
     path?: string | string[];
     breadcrumbPath: BreadcrumbPath;
     setUsers: (users: IUser[]) => void;
-    setApps: (apps: IApp[]) => void;
-    setGeoFences: (geofences: Array<CircularGeoFence | PolygonGeoFence>) => void;
-    setIntegrations: (geofences: Array<MergedIntegrationType>) => void;
+    setProjects: (projects: IProject[]) => void;
     users: IUser[];
-    selectedApp: string;
+    selectedProject: IProject;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { users: state.users, apps: state.apps, user: state.oidc.user, selectedApp: state.selectedApp };
+    return { users: state.users, projects: state.projects, user: state.oidc.user, selectedProject: state.selectedProject };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -69,16 +58,8 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = populateUsers(users);
             dispatch(action);
         },
-        setApps: (apps: IApp[]) => {
-            const action = populateApps(apps);
-            dispatch(action);
-        },
-        setGeoFences: (geofences: Array<CircularGeoFence | PolygonGeoFence>) => {
-            const action = populateGeoFences(geofences);
-            dispatch(action);
-        },
-        setIntegrations: (integrations: Array<MergedIntegrationType>) => {
-            const action = populateIntegrations(integrations);
+        setProjects: (projects: IProject[]) => {
+            const action = populateProjects(projects);
             dispatch(action);
         },
     };
@@ -95,14 +76,8 @@ class AppLayout extends React.Component<AppLayoutProps> {
             userService.getUsers().then(userResponse => {
                 this.props.setUsers(userResponse.content);
             });
-            appService.getApps().then(appResponse => {
-                this.props.setApps(appResponse.content);
-            });
-            geoFenceService.getGeoFences().then(geoFenceResponse => {
-                this.props.setGeoFences(geoFenceResponse);
-            });
-            integrationService.getIntegrations().then(integrationResponse => {
-                this.props.setIntegrations(integrationResponse);
+            projectService.getProjects().then(projectResponse => {
+                this.props.setProjects(projectResponse.content);
             });
         }
     };
@@ -116,13 +91,13 @@ class AppLayout extends React.Component<AppLayoutProps> {
         this.setState(state => ({ mobileOpen: !this.state.mobileOpen }));
     };
 
-    completeBreadcrumbsWithAppName = () => {
+    completeBreadcrumbsWithProjectName = () => {
         const { breadcrumbPath } = this.props;
         let result = breadcrumbPath.breadcrumbs;
-        if (breadcrumbPath.requiresLeadingAppBreadcrumb) {
-            if (this.props.selectedApp) {
+        if (breadcrumbPath.requiresLeadingProjectBreadcrumb) {
+            if (this.props.selectedProject) {
                 const appBreadcrumbIncluded = Object.assign<Breadcrumb[], Breadcrumb[]>([], breadcrumbPath.breadcrumbs);
-                appBreadcrumbIncluded.unshift(BreadcrumbPaths.GetAppBreadCrumb(this.props.selectedApp));
+                appBreadcrumbIncluded.unshift(BreadcrumbPaths.GetProjectBreadCrumb(this.props.selectedProject.name));
                 result = appBreadcrumbIncluded;
             }
         }
@@ -139,7 +114,7 @@ class AppLayout extends React.Component<AppLayoutProps> {
                         <CssBaseline />
                         <Dialog />
                         <Notifier />
-                        <Header breadcrumbs={this.completeBreadcrumbsWithAppName()} handleDrawerToggle={this.handleDrawerToggle} {...props} />
+                        <Header breadcrumbs={this.completeBreadcrumbsWithProjectName()} handleDrawerToggle={this.handleDrawerToggle} {...props} />
                         <Menu signOut={this.signOut} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={750}>
                             <main className={classes.content}>

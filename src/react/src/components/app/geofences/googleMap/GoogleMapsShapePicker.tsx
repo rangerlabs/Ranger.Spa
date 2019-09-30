@@ -20,7 +20,6 @@ const styles = (theme: Theme) =>
             textAlign: "center",
         },
         font: {
-            fontSize: 16,
             fontFamily: "'Lato', sans-serif",
         },
     });
@@ -55,8 +54,8 @@ class GoogleMapsShapePicker extends React.Component<GoogleMapsShapePickerProps> 
     googleMapsShapePickerContainer: HTMLDivElement = undefined;
 
     handleCirclularClick = () => {
-        if (this.props.selectedShape != ShapePicker.Circular) {
-            this.props.selectShapePicker(ShapePicker.Circular);
+        if (this.props.selectedShape != ShapePicker.Circle) {
+            this.props.selectShapePicker(ShapePicker.Circle);
         }
     };
 
@@ -73,7 +72,7 @@ class GoogleMapsShapePicker extends React.Component<GoogleMapsShapePickerProps> 
                 <Button
                     className={classes.font}
                     disabled={!this.props.enabled}
-                    variant={selectedShape === ShapePicker.Circular ? "contained" : "text"}
+                    variant={selectedShape === ShapePicker.Circle ? "contained" : "text"}
                     color="primary"
                     onClick={this.handleCirclularClick}
                 >

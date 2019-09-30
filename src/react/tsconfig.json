@@ -63,8 +63,8 @@
         "skipLibCheck": true,
         "pretty": true
     },
-    "compileOnSave": true,
+    "compileOnSave": false,
     "files": ["./boot.tsx"],
     "include": ["global.d.ts"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "Ranger.Spa"]
 }

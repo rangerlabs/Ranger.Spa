@@ -1,8 +1,8 @@
-import * as React from "react";
-import { Typography } from "@material-ui/core";
-import TenantService from "../../../services/TenantService";
-import * as queryString from "query-string";
-import IConfirmModel from "../../../models/landing/IConfirmModel";
+import * as React from 'react';
+import { Typography } from '@material-ui/core';
+import TenantService from '../../../services/TenantService';
+import * as queryString from 'query-string';
+import IConfirmModel from '../../../models/landing/IConfirmModel';
 const tenantService = new TenantService();
 
 interface ConfirmDomainState {
@@ -18,13 +18,13 @@ export default class ConfirmDomain extends React.Component<null, ConfirmDomainSt
 
     getRegistrationKeyFromParams(): string {
         const params = queryString.parse(window.location.search);
-        const registrationKey = params["registrationKey"] as string;
+        const registrationKey = params['registrationKey'] as string;
         return registrationKey;
     }
 
     getDomainFromParams(): string {
         const params = queryString.parse(window.location.search);
-        const domain = params["domain"] as string;
+        const domain = params['domain'] as string;
         return domain;
     }
     componentDidMount() {
@@ -45,10 +45,20 @@ export default class ConfirmDomain extends React.Component<null, ConfirmDomainSt
     render() {
         return (
             <React.Fragment>
-                {this.state.isRequesting && <Typography variant="h2">Please wait while we confirm your domain.</Typography>}
-                {!this.state.isRequesting && this.state.confirmed && <Typography variant="h2">Domain confirmed.</Typography>}
+                {this.state.isRequesting && (
+                    <Typography align="center" variant="h6">
+                        Please wait while we confirm your domain.
+                    </Typography>
+                )}
+                {!this.state.isRequesting && this.state.confirmed && (
+                    <Typography align="center" variant="h6">
+                        Your domain is confirmed.
+                    </Typography>
+                )}
                 {!this.state.isRequesting && !this.state.confirmed && (
-                    <Typography variant="h2">Failed to confirm domain. Verify the registration key is correct.</Typography>
+                    <Typography align="center" variant="h6">
+                        Failed to confirm domain. Verify the registration key is correct.
+                    </Typography>
                 )}
             </React.Fragment>
         );

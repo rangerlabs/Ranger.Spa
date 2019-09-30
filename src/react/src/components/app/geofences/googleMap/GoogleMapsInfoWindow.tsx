@@ -1,24 +1,23 @@
-import * as React from "react";
-import { Theme, createStyles, withStyles, WithStyles, Button, Typography } from "@material-ui/core";
-import { red } from "@material-ui/core/colors";
-import { StylesProvider } from "@material-ui/styles";
-import { jss, generateClassName } from "../../../../theme/StylesProviderPropsConfig";
+import * as React from 'react';
+import { Theme, createStyles, withStyles, WithStyles, Button, Typography } from '@material-ui/core';
+import { red } from '@material-ui/core/colors';
+import { StylesProvider } from '@material-ui/styles';
+import { jss, generateClassName } from '../../../../theme/StylesProviderPropsConfig';
+import Constants from '../../../../theme/Constants';
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
-            paddingRight: "12px",
-            paddingBottom: "12px",
-            textAlign: "center",
+            paddingRight: '12px',
+            paddingBottom: '12px',
+            textAlign: 'center',
         },
         warning: {
             color: red[600],
-            fontSize: 16,
             fontFamily: "'Lato', sans-serif",
         },
         primary: {
-            color: "#7e57c2",
-            fontSize: 16,
+            color: Constants.PRIMARY_COLOR,
             fontFamily: "'Lato', sans-serif",
         },
     });

@@ -1,34 +1,35 @@
-import * as React from "react";
-import { Theme, createStyles, WithStyles, Drawer, IconButton, withStyles } from "@material-ui/core";
-import ChevronRight from "@material-ui/icons/ChevronRight";
-import { FormikProps, FormikBag } from "formik";
-import CircularGeoFence from "../../../../../models/app/geofences/CircularGeoFence";
-import PolygonGeoFence from "../../../../../models/app/geofences/PolygonGeoFence";
-import { DialogContent, openDialog } from "../../../../../redux/actions/DialogActions";
-import { withSnackbar, WithSnackbarProps } from "notistack";
-import * as Yup from "yup";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../../../stores/index";
-import { ShapePicker, PolygonGeoFenceState, CircularGeoFenceState } from "../../../../../redux/actions/GoogleMapsActions";
-import { closeGeoFenceDrawer } from "../../../../../redux/actions/GeoFenceDrawerActions";
-import CircularGeoFenceDrawerContent from "./CircularGeoFenceDrawerContent";
-import PolygonGeoFenceDrawerContent from "./PolygonGeoFenceDrawerContent";
+import * as React from 'react';
+import { Theme, createStyles, WithStyles, Drawer, IconButton, withStyles, Typography } from '@material-ui/core';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import { FormikProps, FormikBag } from 'formik';
+import CircleGeoFence from '../../../../../models/app/geofences/CircleGeoFence';
+import PolygonGeoFence from '../../../../../models/app/geofences/PolygonGeoFence';
+import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
+import * as Yup from 'yup';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../../../../../stores/index';
+import { ShapePicker, PolygonGeoFenceState, CircleGeoFenceState } from '../../../../../redux/actions/GoogleMapsActions';
+import { closeGeoFenceDrawer } from '../../../../../redux/actions/GeoFenceDrawerActions';
+import CircleGeoFenceDrawerContent from './CircleGeoFenceDrawerContent';
+import PolygonGeoFenceDrawerContent from './PolygonGeoFenceDrawerContent';
+import IProject from '../../../../../models/app/IProject';
 
 const styles = (theme: Theme) =>
     createStyles({
         drawerPaper: {
             zIndex: theme.zIndex.appBar - 1,
-            width: "100%",
-            [theme.breakpoints.up("sm")]: {
-                width: "40%",
+            width: '100%',
+            [theme.breakpoints.up('sm')]: {
+                width: '40%',
             },
-            [theme.breakpoints.up("md")]: {
+            [theme.breakpoints.up('md')]: {
                 width: `calc((100% - ${theme.drawer.width}px) * .35)`,
             },
         },
         buttons: {
-            display: "flex",
-            justifyContent: "flex-end",
+            display: 'flex',
+            justifyContent: 'flex-end',
         },
         // drawer: {
         //     zIndex: theme.zIndex.appBar - 1,
@@ -54,19 +55,19 @@ const mapStateToProps = (state: ApplicationState) => {
         mapGeoFence: getMapGeoFence(state),
         editGeoFence: state.geoFenceDrawer.editGeoFence,
         selectedShape: state.googleMaps.selectedShapePicker,
-        selectedApp: state.selectedApp,
+        selectedProject: state.selectedProject,
         integrationNames: getIntegrationNames(state),
     };
 };
 
 const getIntegrationNames = (state: ApplicationState) => {
-    return state.integrations.filter(i => i.appName === state.selectedApp).map(i => i.name);
+    return state.integrations.filter(i => i.projectName === state.selectedProject.name).map(i => i.name);
 };
 
-const getMapGeoFence = (state: ApplicationState): CircularGeoFenceState | PolygonGeoFenceState => {
+const getMapGeoFence = (state: ApplicationState): CircleGeoFenceState | PolygonGeoFenceState => {
     switch (state.googleMaps.selectedShapePicker) {
-        case ShapePicker.Circular: {
-            return state.googleMaps.circularGeoFence;
+        case ShapePicker.Circle: {
+            return state.googleMaps.CircleGeoFence;
         }
         case ShapePicker.Polygon: {
             return state.googleMaps.polygonGeoFence;
@@ -100,16 +101,16 @@ const mapDispatchToProps = (dispatch: any) => {
 
 interface GeoFenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarProps {
     theme: Theme;
-    geofences?: Array<CircularGeoFence | PolygonGeoFence>;
-    mapGeoFence: CircularGeoFenceState | PolygonGeoFenceState;
-    editGeoFence: CircularGeoFence | PolygonGeoFence;
+    geofences?: Array<CircleGeoFence | PolygonGeoFence>;
+    mapGeoFence: CircleGeoFenceState | PolygonGeoFenceState;
+    editGeoFence: CircleGeoFence | PolygonGeoFence;
     geoFenceDrawerOpen: boolean;
     selectedShape: ShapePicker;
-    selectedApp: string;
+    selectedProject: IProject;
     integrationNames: string[];
     openDialog: (dialogCotent: DialogContent) => void;
     closeDrawer: () => void;
-    clearNewCircularGeoFence: () => void;
+    clearNewCircleGeoFence: () => void;
     clearNewPolygonGeoFence: () => void;
     enableMapClick: () => void;
 }
@@ -121,13 +122,13 @@ class GeoFenceDrawer extends React.Component<GeoFenceDrawerProps> {
             <Drawer
                 // className={classes.drawer}
                 variant="persistent"
-                anchor={"right"}
+                anchor={'right'}
                 open={this.props.geoFenceDrawerOpen}
                 classes={{
                     paper: classes.drawerPaper,
                 }}
                 SlideProps={{
-                    direction: "left",
+                    direction: 'left',
                     timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
                     mountOnEnter: true,
                     unmountOnExit: true,
@@ -135,19 +136,19 @@ class GeoFenceDrawer extends React.Component<GeoFenceDrawerProps> {
             >
                 <div className={classes.toolbar} />
                 <div className={classes.toolbar} />
-                {this.props.selectedShape === ShapePicker.Circular ? (
-                    <CircularGeoFenceDrawerContent
-                        selectedApp={this.props.selectedApp}
-                        mapGeoFence={this.props.mapGeoFence as CircularGeoFenceState}
-                        editGeoFence={this.props.editGeoFence as CircularGeoFence}
+                {this.props.selectedShape === ShapePicker.Circle ? (
+                    <CircleGeoFenceDrawerContent
+                        selectedProject={this.props.selectedProject}
+                        mapGeoFence={this.props.mapGeoFence as CircleGeoFenceState}
+                        editGeoFence={this.props.editGeoFence as CircleGeoFence}
                         integrationNames={this.props.integrationNames}
                         closeDrawer={this.props.closeDrawer}
-                        clearNewCircularGeoFence={this.props.clearNewCircularGeoFence}
+                        clearNewCircleGeoFence={this.props.clearNewCircleGeoFence}
                         enableMapClick={this.props.enableMapClick}
                     />
                 ) : (
                     <PolygonGeoFenceDrawerContent
-                        selectedApp={this.props.selectedApp}
+                        selectedProject={this.props.selectedProject}
                         mapGeoFence={this.props.mapGeoFence as PolygonGeoFenceState}
                         editGeoFence={this.props.editGeoFence as PolygonGeoFence}
                         integrationNames={this.props.integrationNames}

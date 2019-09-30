@@ -1,12 +1,12 @@
-import { POPULATE_GEOFENCES, GeoFenceAction, GeoFenceArrayAction, REMOVE_GEOFENCE, ADD_GEOFENCE } from "../actions/GeoFenceActions";
-import GeoFence from "../../models/app/geofences/GeoFence";
-import CircularGeoFence from "../../models/app/geofences/CircularGeoFence";
-import PolygonGeoFence from "../../models/app/geofences/PolygonGeoFence";
+import { POPULATE_GEOFENCES, GeoFenceAction, GeoFenceArrayAction, REMOVE_GEOFENCE, ADD_GEOFENCE } from '../actions/GeoFenceActions';
+import GeoFence from '../../models/app/geofences/GeoFence';
+import CircleGeoFence from '../../models/app/geofences/CircleGeoFence';
+import PolygonGeoFence from '../../models/app/geofences/PolygonGeoFence';
 
 export function geoFenceReducer(
-    state: Array<CircularGeoFence | PolygonGeoFence> = [],
+    state: Array<CircleGeoFence | PolygonGeoFence> = [],
     action: GeoFenceAction & GeoFenceArrayAction
-): (CircularGeoFence | PolygonGeoFence)[] {
+): (CircleGeoFence | PolygonGeoFence)[] {
     switch (action.type) {
         case ADD_GEOFENCE:
             return state.concat(action.geoFence);

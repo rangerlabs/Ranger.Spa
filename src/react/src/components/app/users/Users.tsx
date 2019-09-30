@@ -1,13 +1,13 @@
-import * as React from "react";
-import IUser from "../../../models/app/IUser";
-import CustomAddToolbar from "../muiDataTable/CustomAddToolbar";
-import { connect } from "react-redux";
-import { addUser, removeUser } from "../../../redux/actions/UserActions";
-import { ApplicationState } from "../../../stores/index";
-import { push } from "connected-react-router";
-import { User } from "oidc-client";
-import { UserProfile } from "../../../models/UserProfile";
-const MUIDataTable = require("mui-datatables").default;
+import * as React from 'react';
+import IUser from '../../../models/app/IUser';
+import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
+import { connect } from 'react-redux';
+import { addUser, removeUser } from '../../../redux/actions/UserActions';
+import { ApplicationState } from '../../../stores/index';
+import { push } from 'connected-react-router';
+import { User } from 'oidc-client';
+import { UserProfile } from '../../../models/UserProfile';
+const MUIDataTable = require('mui-datatables').default;
 
 interface UsersProps {
     users: IUser[];
@@ -52,11 +52,11 @@ class Users extends React.Component<UsersProps> {
             email: rowData[2],
             role: rowData[3],
         } as IUser;
-        this.props.push("/users/edit?email=" + encodeURI(user.email));
+        this.props.push('/users/edit?email=' + encodeURI(user.email));
     };
 
     redirectToNewUserForm = () => {
-        this.props.push("/users/new");
+        this.props.push('/users/new');
     };
 
     mapUsersToTableUsers(users: IUser[]): Array<Array<string>> {
@@ -73,25 +73,25 @@ class Users extends React.Component<UsersProps> {
 
     columns = [
         {
-            name: "Firstname",
+            name: 'Firstname',
             options: {
                 filter: false,
             },
         },
         {
-            name: "Lastname",
+            name: 'Lastname',
             options: {
                 filter: false,
             },
         },
         {
-            name: "Email",
+            name: 'Email',
             options: {
                 filter: false,
             },
         },
         {
-            name: "Role",
+            name: 'Role',
             options: {
                 filter: true,
             },
@@ -104,15 +104,15 @@ class Users extends React.Component<UsersProps> {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewUserForm} />;
         },
         elevation: 0,
-        selectableRows: false,
-        responsive: "scroll",
+        selectableRows: 'none',
+        responsive: 'stacked',
         viewColumns: false,
         onRowClick: this.editUser,
     };
 
     render() {
         const { users } = this.props;
-        return <MUIDataTable title={""} data={this.mapUsersToTableUsers(users)} columns={this.columns} options={this.options} />;
+        return <MUIDataTable title={'Users'} data={this.mapUsersToTableUsers(users)} columns={this.columns} options={this.options} />;
     }
 }
 

@@ -1,49 +1,53 @@
-import * as React from "react";
-import { withStyles, createStyles, WithStyles } from "@material-ui/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import AccountPopOut from "../../accountPopOut/AccountPopOut";
-import { Hidden, Typography, Grid, Theme, Button } from "@material-ui/core";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../stores";
-import { User } from "oidc-client";
-import CustomizedBreadcrumbs from "./Breadcrumbs";
-import Breadcrumb from "../../../models/app/Breadcrumb";
-import RoutePaths from "../../RoutePaths";
-import { push } from "connected-react-router";
+import * as React from 'react';
+import { withStyles, createStyles, WithStyles } from '@material-ui/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountPopOut from '../../accountPopOut/AccountPopOut';
+import { Hidden, Typography, Grid, Theme, Button } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../../../stores';
+import { User } from 'oidc-client';
+import CustomizedBreadcrumbs from './Breadcrumbs';
+import Breadcrumb from '../../../models/app/Breadcrumb';
+import RoutePaths from '../../RoutePaths';
+import { push } from 'connected-react-router';
 
 const styles = (theme: Theme) =>
     createStyles({
         toolbarLeft: {
             flexGrow: 1,
         },
-        toolbarPadding: {
-            paddingLeft: "0px",
-        },
         logoContainer: {
-            width: (theme.drawer.width as number) - theme.spacing(1),
+            [theme.breakpoints.up('md')]: {
+                width: theme.drawer.width as number,
+            },
         },
         appBar: {
-            [theme.breakpoints.up("md")]: {
-                width: "100%",
+            [theme.breakpoints.up('md')]: {
+                width: '100%',
                 zIndex: theme.zIndex.drawer + 1,
             },
-            backgroundColor: "#FFFFFF",
-            borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+            backgroundColor: '#FFFFFF',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
         },
         menuButton: {
-            [theme.breakpoints.up("md")]: {
-                display: "none",
+            [theme.breakpoints.up('md')]: {
+                display: 'none',
             },
         },
         headerPrimaryColor: {
             color: theme.drawer.text.color,
         },
         logoButtonRoot: {
-            "&:hover": {
-                background: "none",
+            '&:hover': {
+                background: 'none',
+            },
+        },
+        toolbarPadding: {
+            [theme.breakpoints.up('md')]: {
+                paddingLeft: 0,
             },
         },
     });
@@ -85,9 +89,11 @@ class Header extends React.Component<HeaderProps> {
                             <CustomizedBreadcrumbs breadcrumbs={breadcrumbs} />
                         </Hidden>
                     </div>
-                    <Typography variant="subtitle1" className={classes.headerPrimaryColor}>
-                        Hi, {this.props.user.profile.firstName}
-                    </Typography>
+                    {this.props.user && (
+                        <Typography variant="subtitle1" className={classes.headerPrimaryColor}>
+                            Hi, {this.props.user.profile.firstName}
+                        </Typography>
+                    )}
                     <Hidden smDown implementation="css">
                         <AccountPopOut />
                     </Hidden>
