@@ -1,20 +1,20 @@
-import CircularGeoFence from "../../models/app/geofences/CircularGeoFence";
-import PolygonGeoFence from "../../models/app/geofences/PolygonGeoFence";
+import CircleGeoFence from '../../models/app/geofences/CircleGeoFence';
+import PolygonGeoFence from '../../models/app/geofences/PolygonGeoFence';
 
-export const ADD_GEOFENCE = "ADD_GEOFENCE";
-export const REMOVE_GEOFENCE = "REMOVE_GEOFENCE";
-export const POPULATE_GEOFENCES = "POPULATE_GEOFENCES";
+export const ADD_GEOFENCE = 'ADD_GEOFENCE';
+export const REMOVE_GEOFENCE = 'REMOVE_GEOFENCE';
+export const POPULATE_GEOFENCES = 'POPULATE_GEOFENCES';
 
 export interface GeoFenceAction {
     type: string;
-    geoFence: CircularGeoFence | PolygonGeoFence;
+    geoFence: CircleGeoFence | PolygonGeoFence;
 }
 export interface GeoFenceArrayAction {
     type: string;
-    geoFences: Array<CircularGeoFence | PolygonGeoFence>;
+    geoFences: Array<CircleGeoFence | PolygonGeoFence>;
 }
 
-export function addGeoFence(geoFence: CircularGeoFence | PolygonGeoFence): GeoFenceAction {
+export function addGeoFence(geoFence: CircleGeoFence | PolygonGeoFence): GeoFenceAction {
     return {
         type: ADD_GEOFENCE,
         geoFence,
@@ -24,11 +24,11 @@ export function addGeoFence(geoFence: CircularGeoFence | PolygonGeoFence): GeoFe
 export function removeGeoFence(name: string): GeoFenceAction {
     return {
         type: REMOVE_GEOFENCE,
-        geoFence: { name: name } as CircularGeoFence | PolygonGeoFence,
+        geoFence: { name: name } as CircleGeoFence | PolygonGeoFence,
     };
 }
 
-export function populateGeoFences(geoFences: Array<CircularGeoFence | PolygonGeoFence>): GeoFenceArrayAction {
+export function populateGeoFences(geoFences: Array<CircleGeoFence | PolygonGeoFence>): GeoFenceArrayAction {
     return {
         type: POPULATE_GEOFENCES,
         geoFences,

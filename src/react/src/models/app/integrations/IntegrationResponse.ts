@@ -2,7 +2,7 @@ import { IntegrationEnum } from './IntegrationEnum';
 
 export default interface Integration {
     readonly type: IntegrationEnum;
-    appId: string;
+    projectName: string;
     name: string;
     description: string;
 }

@@ -36,7 +36,7 @@ import { UserProfile } from '../../../models/UserProfile';
 import { RoleEnum } from '../../../models/RoleEnum';
 import RoutePaths from '../../../components/RoutePaths';
 import { User } from 'oidc-client';
-import IApp from '../../../models/app/IApp';
+import IProject from '../../../models/app/IProject';
 const classNames = require('classnames').default;
 
 const styles = (theme: Theme) =>
@@ -93,7 +93,7 @@ const styles = (theme: Theme) =>
 interface MenuProps extends WithStyles<typeof styles> {
     theme: Theme;
     user: User;
-    selectedApp: IApp;
+    selectedProject: IProject;
     mobileOpen: boolean;
     signOut: () => void;
     handleDrawerToggle: () => void;
@@ -104,7 +104,7 @@ interface MenuProps extends WithStyles<typeof styles> {
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        selectedApp: state.selectedApp,
+        selectedProject: state.selectedProject,
         user: state.oidc.user,
         expandedSection: state.menu.expandedSection,
     };
@@ -130,8 +130,8 @@ class Menu extends React.Component<MenuProps> {
 
     handleMenuNavigation = (path: string) => {
         let pushPath = path;
-        if (this.props.selectedApp) {
-            pushPath = path.replace(':appName', this.props.selectedApp.name);
+        if (this.props.selectedProject) {
+            pushPath = path.replace(':appName', this.props.selectedProject.name);
         }
         this.props.push(pushPath);
     };
@@ -200,19 +200,19 @@ class Menu extends React.Component<MenuProps> {
                 </ListItem>
 
                 <ListItem
-                    id="applications"
+                    id="projects"
                     className={classes.listItemHover}
                     button
                     onClick={() => {
-                        this.handleMenuNavigation(RoutePaths.Apps);
+                        this.handleMenuNavigation(RoutePaths.Projects);
                     }}
                 >
                     <ListItemIcon className={classes.listItemIconColor}>
                         <SpeakerPhone />
                     </ListItemIcon>
-                    <ListItemText primary="Applications" className={classes.listItemTextColor} />
+                    <ListItemText primary="Projects" className={classes.listItemTextColor} />
                 </ListItem>
-                {(this.props.user.profile as UserProfile).role.find(r => r.toUpperCase() === RoleEnum.ADMIN) && (
+                {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.ADMIN) && (
                     <React.Fragment>
                         <ListItem id="administration" className={classes.listItemHover} button onClick={() => this.handleMenuToggle('administration')}>
                             <ListItemIcon className={classes.listItemIconColor}>
@@ -236,7 +236,7 @@ class Menu extends React.Component<MenuProps> {
                                     <ListItemText primary="Users" className={classes.listItemTextColor} />
                                 </ListItem>
 
-                                {(this.props.user.profile as UserProfile).role.find(r => r.toUpperCase() === RoleEnum.OWNER) && (
+                                {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.OWNER) && (
                                     <ListItem
                                         button
                                         className={classNames(classes.listItemHover, classes.nested)}

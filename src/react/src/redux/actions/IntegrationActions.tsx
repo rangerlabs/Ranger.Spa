@@ -1,20 +1,20 @@
-import { MergedIntegrationType } from "../../models/app/integrations/MergedIntegrationType";
+import { MergedIntegrationResponseType } from '../../models/app/integrations/MergedIntegrationTypes';
 
-export const ADD_INTEGRATION = "ADD_INTEGRATION";
-export const REMOVE_INTEGRATION = "REMOVE_INTEGRATION";
-export const POPULATE_INTEGRATIONS = "POPULATE_INTEGRATIONS";
+export const ADD_INTEGRATION = 'ADD_INTEGRATION';
+export const REMOVE_INTEGRATION = 'REMOVE_INTEGRATION';
+export const POPULATE_INTEGRATIONS = 'POPULATE_INTEGRATIONS';
 
 export interface IntegrationAction {
     type: string;
-    integration: MergedIntegrationType;
+    integration: MergedIntegrationResponseType;
 }
 
 export interface IntegrationArrayAction {
     type: string;
-    integrations: Array<MergedIntegrationType>;
+    integrations: Array<MergedIntegrationResponseType>;
 }
 
-export function addIntegration(integration: MergedIntegrationType): IntegrationAction {
+export function addIntegration(integration: MergedIntegrationResponseType): IntegrationAction {
     return {
         type: ADD_INTEGRATION,
         integration,
@@ -23,10 +23,10 @@ export function addIntegration(integration: MergedIntegrationType): IntegrationA
 export function removeIntegration(name: string): IntegrationAction {
     return {
         type: REMOVE_INTEGRATION,
-        integration: { name: name } as MergedIntegrationType,
+        integration: { name: name } as MergedIntegrationResponseType,
     };
 }
-export function populateIntegrations(integrations: Array<MergedIntegrationType>): IntegrationArrayAction {
+export function populateIntegrations(integrations: Array<MergedIntegrationResponseType>): IntegrationArrayAction {
     return {
         type: POPULATE_INTEGRATIONS,
         integrations,

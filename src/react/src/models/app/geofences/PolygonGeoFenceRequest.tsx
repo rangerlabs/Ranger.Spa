@@ -2,11 +2,10 @@ import GeoFence from './GeoFence';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import CoordinatePair from './CoordinatePair';
 
-export default class PolygonGeoFence implements GeoFence {
+export default class PolygonGeoFenceRequest implements GeoFence {
     shape: ShapePicker;
 
     public constructor(
-        public projectName: string,
         public name: string,
         public labels: string[],
         public onEnter: boolean,

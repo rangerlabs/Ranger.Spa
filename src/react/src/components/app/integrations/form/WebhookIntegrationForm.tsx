@@ -11,14 +11,15 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../stores/index';
 import { push } from 'connected-react-router';
 import FormikDeleteButton from '../../../form/FormikDeleteButton';
-import { MergedIntegrationType } from '../../../../models/app/integrations/MergedIntegrationType';
-import ApiIntegration from '../../../../models/app/integrations/implementations/ApiIntegration';
-import requireAppSelection from '../../hocs/RequireAppSelectionHOC';
+import { MergedIntegrationResponseType } from '../../../../models/app/integrations/MergedIntegrationTypes';
+import WebhookIntegrationRequest from '../../../../models/app/integrations/implementations/WebhookIntegrationRequest';
+import WebhookIntegrationResponse from '../../../../models/app/integrations/implementations/WebhookIntegrationResponse';
+import requireProjectSelection from '../../hocs/RequireProjectSelectionHOC';
 import integrationForm from './IntegrationFormHOC';
 import RoutePaths from '../../../RoutePaths';
 import { addIntegration, removeIntegration } from '../../../../redux/actions/IntegrationActions';
 import FormikSynchronousButton from '../../../form/FormikSynchronousButton';
-import IApp from '../../../../models/app/IApp';
+import IProject from '../../../../models/app/IProject';
 
 const integrationService = new IntegrationService();
 
@@ -42,19 +43,19 @@ const styles = (theme: Theme) =>
             flexGrow: 1,
         },
     });
-interface IApiIntegrationFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
-    dispatchAddIntegration: (integration: ApiIntegration) => void;
+interface IWebhookIntegrationFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
+    dispatchAddIntegration: (integration: WebhookIntegrationResponse) => void;
     dispatchRemoveIntegration: (name: string) => void;
-    integrations?: MergedIntegrationType[];
-    initialIntegration: ApiIntegration;
-    selectedApp: IApp;
+    integrations?: MergedIntegrationResponseType[];
+    initialIntegration: WebhookIntegrationResponse;
+    selectedProject: IProject;
     push: typeof push;
 }
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
         push: (path: string) => dispatch(push(path)),
-        dispatchAddIntegration: (integration: ApiIntegration) => {
+        dispatchAddIntegration: (integration: WebhookIntegrationResponse) => {
             const action = addIntegration(integration);
             dispatch(action);
         },
@@ -66,21 +67,24 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { integrations: state.integrations, selectedApp: state.selectedApp };
+    return { integrations: state.integrations, selectedProject: state.selectedProject };
 };
 
-type ApiIntegrationFormState = {
+type WebhookIntegrationFormState = {
     serverErrors: string[];
     isSuccess: boolean;
 };
 
-class ApiIntegrationForm extends React.Component<IApiIntegrationFormProps, ApiIntegrationFormState> {
-    state: ApiIntegrationFormState = {
+class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProps, WebhookIntegrationFormState> {
+    state: WebhookIntegrationFormState = {
         serverErrors: undefined,
         isSuccess: false,
     };
 
-    deleteIntegration(props: FormikProps<ApiIntegration | { name: string; description: string; httpEndpoint: string; authKey: string }>, enqueueSnackbar: any) {
+    deleteIntegration(
+        props: FormikProps<WebhookIntegrationRequest | { name: string; description: string; url: string; authKey: string }>,
+        enqueueSnackbar: any
+    ) {
         console.log('DELETE THE INTEGRATION');
         setTimeout(() => {
             this.props.dispatchRemoveIntegration(props.values.name);
@@ -92,6 +96,10 @@ class ApiIntegrationForm extends React.Component<IApiIntegrationFormProps, ApiIn
     validationSchema = Yup.object().shape({
         name: Yup.string().required('Required'),
         description: Yup.string().required('Required'),
+        url: Yup.string()
+            .url('Must be a valid URL')
+            .required('Required'),
+        authKey: Yup.string().required('Required'),
     });
 
     render() {
@@ -107,37 +115,40 @@ class ApiIntegrationForm extends React.Component<IApiIntegrationFormProps, ApiIn
 
                         <Formik
                             enableReinitialize
-                            initialValues={
-                                this.props.initialIntegration ? this.props.initialIntegration : { name: '', description: '', httpEndpoint: '', authKey: '' }
-                            }
-                            onSubmit={(values: ApiIntegration, formikBag: FormikBag<FormikProps<ApiIntegration>, ApiIntegration>) => {
+                            initialValues={this.props.initialIntegration ? this.props.initialIntegration : { name: '', description: '', url: '', authKey: '' }}
+                            onSubmit={(
+                                values: WebhookIntegrationRequest,
+                                formikBag: FormikBag<FormikProps<WebhookIntegrationRequest>, WebhookIntegrationRequest>
+                            ) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
-                                const newIntegration = new ApiIntegration(
-                                    this.props.selectedApp.id,
+                                const newIntegration = new WebhookIntegrationRequest(
+                                    this.props.selectedProject.name,
                                     values.name,
                                     values.description,
-                                    values.httpEndpoint,
+                                    values.url,
                                     values.authKey
                                 );
-                                integrationService.postApiIntegration(newIntegration).then((response: IRestResponse<ApiIntegration>) => {
-                                    setTimeout(() => {
-                                        if (response.is_error) {
-                                            const { serverErrors, ...formikErrors } = response.error_content.errors;
-                                            enqueueSnackbar('Error creating integration', { variant: 'error' });
-                                            formikBag.setErrors(formikErrors as FormikErrors<ApiIntegration>);
-                                            this.setState({ serverErrors: serverErrors });
-                                            formikBag.setSubmitting(false);
-                                        } else {
-                                            this.setState({ isSuccess: true });
-                                            enqueueSnackbar('Integration created', { variant: 'success' });
-                                            dispatchAddIntegration(response.content);
-                                            setTimeout(() => {
-                                                this.props.push(RoutePaths.Integrations);
-                                            }, 500);
-                                        }
-                                    }, 2000);
-                                });
+                                integrationService
+                                    .postWebhookIntegration(this.props.selectedProject.name, newIntegration)
+                                    .then((response: IRestResponse<WebhookIntegrationResponse>) => {
+                                        setTimeout(() => {
+                                            if (response.is_error) {
+                                                const { serverErrors, ...formikErrors } = response.error_content.errors;
+                                                enqueueSnackbar('Error creating integration', { variant: 'error' });
+                                                formikBag.setErrors(formikErrors as FormikErrors<WebhookIntegrationRequest>);
+                                                this.setState({ serverErrors: serverErrors });
+                                                formikBag.setSubmitting(false);
+                                            } else {
+                                                this.setState({ isSuccess: true });
+                                                enqueueSnackbar('Integration created', { variant: 'success' });
+                                                dispatchAddIntegration(response.content);
+                                                setTimeout(() => {
+                                                    this.props.push(RoutePaths.Integrations);
+                                                }, 500);
+                                            }
+                                        }, 2000);
+                                    });
                             }}
                             validationSchema={this.validationSchema}
                         >
@@ -173,11 +184,11 @@ class ApiIntegrationForm extends React.Component<IApiIntegrationFormProps, ApiIn
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormikTextField
-                                                name="httpEndpoint"
-                                                label="HTTP Endpoing"
-                                                value={props.values.httpEndpoint}
-                                                errorText={props.errors.httpEndpoint}
-                                                touched={props.touched.httpEndpoint}
+                                                name="url"
+                                                label="URL"
+                                                value={props.values.url}
+                                                errorText={props.errors.url}
+                                                touched={props.touched.url}
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
@@ -248,4 +259,4 @@ class ApiIntegrationForm extends React.Component<IApiIntegrationFormProps, ApiIn
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(withSnackbar(integrationForm(ApiIntegrationForm))));
+)(withStyles(styles)(withSnackbar(integrationForm(WebhookIntegrationForm))));

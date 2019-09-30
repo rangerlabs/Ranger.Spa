@@ -1,6 +1,6 @@
 import * as React from 'react';
-import IApp from '../../../models/app/IApp';
-import AppService from '../../../services/AppService';
+import IProject from '../../../models/app/IProject';
+import ProjectService from '../../../services/ProjectService';
 import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
 import * as Yup from 'yup';
 import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, TextField } from '@material-ui/core';
@@ -11,13 +11,13 @@ import { IRestResponse } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
-import FormikDeleteButton from '../../../components/form/FormikDeleteButton';
+import FormikDeleteButton from '../../form/FormikDeleteButton';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
-import { addApp, removeApp } from '../../../redux/actions/AppActions';
+import { addProject, removeProject } from '../../../redux/actions/ProjectActions';
 import RoutePaths from '../../RoutePaths';
 import * as queryString from 'query-string';
 
-const appService = new AppService();
+const projectService = new ProjectService();
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -39,60 +39,67 @@ const styles = (theme: Theme) =>
             flexGrow: 1,
         },
     });
-interface IAppFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
-    dispatchAddApp: (app: IApp) => void;
-    dispatchRemoveApp: (name: string) => void;
+interface IProjectFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
+    dispatchAddProject: (project: IProject) => void;
+    dispatchRemoveProject: (name: string) => void;
     closeForm: () => void;
-    apps?: IApp[];
+    projects?: IProject[];
     push: typeof push;
 }
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
         push: (path: string) => dispatch(push(path)),
-        dispatchAddApp: (app: IApp) => {
-            const action = addApp(app);
+        dispatchAddProject: (project: IProject) => {
+            const action = addProject(project);
             dispatch(action);
         },
-        dispatchRemoveApp: (name: string) => {
-            const action = removeApp(name);
+        dispatchRemoveProject: (name: string) => {
+            const action = removeProject(name);
             dispatch(action);
         },
     };
 };
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { apps: state.apps };
+    return { projects: state.projects };
 };
 
-type AppFormState = {
+type ProjectFormState = {
     serverErrors: string[];
-    initialApp: IApp;
+    initialProject: IProject;
     isSuccess: boolean;
 };
 
-class AppForm extends React.Component<IAppFormProps, AppFormState> {
-    state: AppFormState = {
+class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
+    state: ProjectFormState = {
         serverErrors: undefined,
-        initialApp: undefined,
+        initialProject: undefined,
         isSuccess: false,
     };
 
-    deleteApp(id: string, enqueueSnackbar: any) {
+    deleteProject(id: string, enqueueSnackbar: any) {
         console.log('DELETE THE APPLICATION');
         setTimeout(() => {
-            this.props.dispatchRemoveApp(id);
-            enqueueSnackbar('Application deleted', { variant: 'error' });
-            this.props.push(RoutePaths.Apps);
+            this.props.dispatchRemoveProject(id);
+            enqueueSnackbar('Project deleted', { variant: 'error' });
+            this.props.push(RoutePaths.Projects);
         }, 250);
     }
 
-    getAppByName = (apps: IApp[]) => {
+    componentDidMount() {
+        const project = this.getProjectByName(this.props.projects);
+        if (project) {
+            this.setState({ initialProject: project });
+        }
+    }
+
+    getProjectByName = (projects: IProject[]) => {
         let result = undefined;
         const params = queryString.parse(window.location.search);
         const name = params['name'] as string;
-        if (name && apps) {
-            result = apps.find(a => a.name === name);
+        if (name && projects) {
+            result = projects.find(p => p.name === name);
         }
 
         return result;
@@ -104,40 +111,39 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
     });
 
     render() {
-        const { classes, apps, enqueueSnackbar, dispatchAddApp } = this.props;
+        const { classes, projects, enqueueSnackbar, dispatchAddProject } = this.props;
         return (
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography variant="h5" gutterBottom>
-                            {this.getAppByName(apps) ? 'Edit' : 'Create'}
+                            {this.state.initialProject ? 'Edit' : 'Create'}
                         </Typography>
 
                         <Formik
                             enableReinitialize
-                            initialValues={this.getAppByName(apps) ? this.getAppByName(apps) : { name: '', description: '', apiKey: '' }}
-                            onSubmit={(values: IApp, formikBag: FormikBag<FormikProps<IApp>, IApp>) => {
+                            initialValues={this.state.initialProject ? this.state.initialProject : { name: '', description: '', apiKey: '' }}
+                            onSubmit={(values: IProject, formikBag: FormikBag<FormikProps<IProject>, IProject>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
-                                const newApp = {
-                                    id: this.state.initialApp ? this.state.initialApp.id : '',
+                                const newProject = {
                                     name: values.name,
                                     description: values.description,
-                                } as IApp;
-                                appService.postApp(newApp).then((response: IRestResponse<IApp>) => {
+                                } as IProject;
+                                projectService.postProject(newProject).then((response: IRestResponse<IProject>) => {
                                     setTimeout(() => {
                                         if (response.is_error) {
                                             const { serverErrors, ...formikErrors } = response.error_content.errors;
                                             enqueueSnackbar('Error creating app', { variant: 'error' });
-                                            formikBag.setErrors(formikErrors as FormikErrors<IApp>);
+                                            formikBag.setErrors(formikErrors as FormikErrors<IProject>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
                                             this.setState({ isSuccess: true });
-                                            enqueueSnackbar('App created', { variant: 'success' });
+                                            enqueueSnackbar('Project created', { variant: 'success' });
                                             setTimeout(this.props.closeForm, 250);
-                                            dispatchAddApp(response.content);
+                                            dispatchAddProject(response.content);
                                         }
                                     }, 2000);
                                 });
@@ -191,12 +197,12 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
                                         )}
                                     </Grid>
                                     <div className={classes.flexButtonContainer}>
-                                        {this.state.initialApp && (
-                                            <div className={classes.leftButtons}>
+                                        <div className={classes.leftButtons}>
+                                            {this.state.initialProject && (
                                                 <FormikDeleteButton
                                                     isSubmitting={props.isSubmitting}
                                                     onConfirm={() => {
-                                                        this.deleteApp(this.state.initialApp.id, enqueueSnackbar);
+                                                        this.deleteProject(this.state.initialProject.name, enqueueSnackbar);
                                                     }}
                                                     dialogTitle="Delete app?"
                                                     confirmText="Delete"
@@ -204,12 +210,12 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
                                                 >
                                                     Delete
                                                 </FormikDeleteButton>
-                                            </div>
-                                        )}
+                                            )}
+                                        </div>
                                         <FormikCancelButton
                                             isSubmitting={props.isSubmitting}
                                             onClick={() => {
-                                                this.props.push('/apps');
+                                                this.props.push('/projects');
                                             }}
                                         />
                                         <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
@@ -229,4 +235,4 @@ class AppForm extends React.Component<IAppFormProps, AppFormState> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(withSnackbar(AppForm)));
+)(withStyles(styles)(withSnackbar(ProjectForm)));

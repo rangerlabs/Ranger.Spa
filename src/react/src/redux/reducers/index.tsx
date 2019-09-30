@@ -1,22 +1,22 @@
-import { dialogReducer } from "./DialogReducer";
-import { userReducer } from "./UserReducer";
-import { appReducer } from "./AppReducer";
-import { menuReducer } from "./MenuReducer";
-import { geoFenceReducer } from "./GeoFenceReducer";
-import { geoFenceDrawerReducer } from "./GeoFenceDrawerReducer";
-import { googleMapsReducer } from "./GoogleMapsReducer";
-import { selectedAppReducer } from "./SelectedAppReducer";
-import { integrationReducer } from "./IntegrationReducer";
-import { domainReducer } from "./DomainReducer";
-import { snackbarReducer } from "./SnackbarReducer";
-import { reducer as oidcReducer } from "redux-oidc";
+import { dialogReducer } from './DialogReducer';
+import { userReducer } from './UserReducer';
+import { projectReducer } from './ProjectReducer';
+import { menuReducer } from './MenuReducer';
+import { geoFenceReducer } from './GeoFenceReducer';
+import { geoFenceDrawerReducer } from './GeoFenceDrawerReducer';
+import { googleMapsReducer } from './GoogleMapsReducer';
+import { selectedProjectReducer } from './SelectedProjectReducer';
+import { integrationReducer } from './IntegrationReducer';
+import { domainReducer } from './DomainReducer';
+import { snackbarReducer } from './SnackbarReducer';
+import { reducer as oidcReducer } from 'redux-oidc';
 
 const reducers = {
     oidc: oidcReducer,
     dialog: dialogReducer,
     users: userReducer,
-    apps: appReducer,
-    selectedApp: selectedAppReducer,
+    projects: projectReducer,
+    selectedProject: selectedProjectReducer,
     menu: menuReducer,
     geofences: geoFenceReducer,
     geoFenceDrawer: geoFenceDrawerReducer,

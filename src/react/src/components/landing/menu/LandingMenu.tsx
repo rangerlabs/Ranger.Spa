@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
     Drawer,
     withStyles,
@@ -16,19 +16,19 @@ import {
     Button,
     Fade,
     Grid,
-} from "@material-ui/core";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ViewDashboardOutline from "mdi-material-ui/ViewDashboardOutline";
-import Lock from "@material-ui/icons/Lock";
-import FileDocumentBoxOutline from "mdi-material-ui/FileDocumentBoxOutline";
-import CurrencyUsd from "mdi-material-ui/CurrencyUsd";
-import Domain from "mdi-material-ui/Domain";
-import { User } from "oidc-client";
-import { connect } from "react-redux";
-import { push } from "connected-react-router";
-import RoutePaths from "../../RoutePaths";
-const classNames = require("classnames").default;
+} from '@material-ui/core';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ViewDashboardOutline from 'mdi-material-ui/ViewDashboardOutline';
+import Lock from '@material-ui/icons/Lock';
+import FileDocumentBoxOutline from 'mdi-material-ui/FileDocumentBoxOutline';
+import CurrencyUsd from 'mdi-material-ui/CurrencyUsd';
+import Domain from 'mdi-material-ui/Domain';
+import { User } from 'oidc-client';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import RoutePaths from '../../RoutePaths';
+const classNames = require('classnames').default;
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -40,22 +40,22 @@ const styles = (theme: Theme) =>
         },
         logo: {
             ...theme.mixins.toolbar,
-            "&:hover": { background: "none" },
+            '&:hover': { background: 'none' },
         },
         divider: {
-            position: "relative",
-            backgroundColor: "rgba(255, 255, 255, 0.6)",
-            margin: "auto",
-            width: "90%",
+            position: 'relative',
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+            margin: 'auto',
+            width: '90%',
         },
         listItemHover: {
             height: theme.toolbar.height,
-            "&:hover ": {
-                backgroundColor: theme.palette.primary.main,
-                "& $listItemTextColor": {
+            '&:hover ': {
+                backgroundColor: theme.palette.primary.main[300],
+                '& $listItemTextColor': {
                     color: theme.palette.common.white,
                 },
-                "& $listItemIconColor": {
+                '& $listItemIconColor': {
                     color: theme.palette.common.white,
                 },
             },
@@ -67,12 +67,12 @@ const styles = (theme: Theme) =>
             color: theme.palette.primary.main,
         },
         menuButton: {
-            margin: "auto",
-            width: "70%",
+            margin: 'auto',
+            width: '70%',
         },
         logoButtonRoot: {
-            "&:hover": {
-                background: "none",
+            '&:hover': {
+                background: 'none',
             },
         },
     });
@@ -94,7 +94,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
     };
 
     hasSubDomain = (): boolean => {
-        const results = window.location.hostname.split(".");
+        const results = window.location.hostname.split('.');
         return results.length === 3;
     };
 
@@ -212,7 +212,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                 <nav>
                     <Drawer
                         variant="temporary"
-                        anchor={"top"}
+                        anchor={'top'}
                         open={this.props.mobileOpen}
                         onClose={this.props.handleDrawerToggle}
                         SlideProps={{

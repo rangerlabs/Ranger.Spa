@@ -1,5 +1,4 @@
-export default interface IApp {
-    id: string;
+export default interface IProject {
     name: string;
     description: string;
     apiKey: string;

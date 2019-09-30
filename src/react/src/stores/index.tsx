@@ -3,12 +3,12 @@ import { RouterState } from 'connected-react-router';
 import { DialogState } from '../redux/actions/DialogActions';
 import { MenuState } from '../redux/actions/MenuActions';
 import IUser from '../models/app/IUser';
-import IApp from '../models/app/IApp';
+import IProject from '../models/app/IProject';
 import { GoogleMapsState } from '../redux/actions/GoogleMapsActions';
-import CircularGeoFence from '../models/app/geofences/CircularGeoFence';
+import CircleGeoFence from '../models/app/geofences/CircleGeoFence';
 import PolygonGeoFence from '../models/app/geofences/PolygonGeoFence';
 import { GeoFenceDrawerState } from '../redux/actions/GeoFenceDrawerActions';
-import { MergedIntegrationType } from '../models/app/integrations/MergedIntegrationType';
+import { MergedIntegrationResponseType } from '../models/app/integrations/MergedIntegrationTypes';
 import { DomainState } from '../redux/actions/DomainActions';
 import { SnackbarNotification } from '../redux/actions/SnackbarActions';
 
@@ -23,12 +23,12 @@ export interface ApplicationState {
     router: RouterState;
     menu: MenuState;
     users: IUser[];
-    apps: IApp[];
-    selectedApp: IApp;
-    geofences: Array<CircularGeoFence | PolygonGeoFence>;
+    projects: IProject[];
+    selectedProject: IProject;
+    geofences: Array<CircleGeoFence | PolygonGeoFence>;
     geoFenceDrawer: GeoFenceDrawerState;
     googleMaps: GoogleMapsState;
-    integrations: MergedIntegrationType[];
+    integrations: MergedIntegrationResponseType[];
     domain: DomainState;
     notifications: SnackbarNotification[];
 }

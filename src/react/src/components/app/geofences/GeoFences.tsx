@@ -5,29 +5,31 @@ import { addGeoFence, removeGeoFence } from '../../../redux/actions/GeoFenceActi
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import PolygonGeoFence from '../../../models/app/geofences/PolygonGeoFence';
-import CircularGeoFence from '../../../models/app/geofences/CircularGeoFence';
-import requireAppSelection from '../hocs/RequireAppSelectionHOC';
-import RoutePaths from '../../../components/RoutePaths';
+import CircleGeoFence from '../../../models/app/geofences/CircleGeoFence';
+import requireProjectSelection from '../hocs/RequireProjectSelectionHOC';
+import populateGeofencesHOC from '../hocs/PopulateGeofencesHOC';
+import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
+import titleCase = require('title-case');
 const MUIDataTable = require('mui-datatables').default;
 
 interface GeoFencesProps {
-    geofences: Array<CircularGeoFence | PolygonGeoFence>;
-    addGeoFence: (geofence: CircularGeoFence | PolygonGeoFence) => void;
+    geofences: Array<CircleGeoFence | PolygonGeoFence>;
+    addGeoFence: (geofence: CircleGeoFence | PolygonGeoFence) => void;
     removeGeoFence: (name: string) => void;
     push: typeof push;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { geofences: selectedAppGeoFences(state.geofences, state.selectedApp.id) };
+    return { geofences: selectedProjectGeoFences(state.geofences, state.selectedProject.name) };
 };
 
-const selectedAppGeoFences = (geofences: Array<CircularGeoFence | PolygonGeoFence>, id: string) => {
-    return geofences.filter(f => f.appId === id);
+const selectedProjectGeoFences = (geofences: Array<CircleGeoFence | PolygonGeoFence>, name: string) => {
+    return geofences.filter(f => f.projectName === name);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        addGeoFence: (geofence: CircularGeoFence | PolygonGeoFence) => {
+        addGeoFence: (geofence: CircleGeoFence | PolygonGeoFence) => {
             const action = addGeoFence(geofence);
             dispatch(action);
         },
@@ -52,11 +54,17 @@ class GeoFences extends React.Component<GeoFencesProps> {
         this.props.push('/geofences/map/new');
     };
 
-    mapGeoFencesToTableGeoFences(geofences: Array<CircularGeoFence | PolygonGeoFence>): Array<Array<string>> {
+    mapGeoFencesToTableGeoFences(geofences: Array<CircleGeoFence | PolygonGeoFence>): Array<Array<string>> {
         const tableGeoFences = new Array<Array<string>>();
         if (geofences) {
             geofences.forEach(value => {
-                tableGeoFences.push([value.name, value.description, value.shape.toString(), value.onEnter ? 'True' : 'False', value.onExit ? 'True' : 'False']);
+                tableGeoFences.push([
+                    value.name,
+                    value.description,
+                    titleCase(value.shape.toString()),
+                    value.onEnter ? 'True' : 'False',
+                    value.onExit ? 'True' : 'False',
+                ]);
             });
         }
         return tableGeoFences;
@@ -101,7 +109,7 @@ class GeoFences extends React.Component<GeoFencesProps> {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeoFenceForm} />;
         },
         elevation: 0,
-        selectableRows: false,
+        selectableRows: 'none',
         responsive: 'stacked',
         viewColumns: false,
         onRowClick: this.editGeoFence,
@@ -111,7 +119,7 @@ class GeoFences extends React.Component<GeoFencesProps> {
         const { geofences } = this.props;
         return (
             <React.Fragment>
-                <MUIDataTable title={''} data={this.mapGeoFencesToTableGeoFences(geofences)} columns={this.columns} options={this.options} />
+                <MUIDataTable title={'Geofences'} data={this.mapGeoFencesToTableGeoFences(geofences)} columns={this.columns} options={this.options} />
             </React.Fragment>
         );
     }
@@ -120,4 +128,4 @@ class GeoFences extends React.Component<GeoFencesProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(requireAppSelection(GeoFences));
+)(requireProjectSelection(populateIntegrationsHOC(populateGeofencesHOC(GeoFences))));

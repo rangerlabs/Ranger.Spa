@@ -1,59 +1,59 @@
 import * as React from 'react';
-import IApp from '../../../models/app/IApp';
+import IProject from '../../../models/app/IProject';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { addApp, removeApp } from '../../../redux/actions/AppActions';
+import { addProject, removeProject } from '../../../redux/actions/ProjectActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
-import RoutePaths from '../../../components/RoutePaths';
+import RoutePaths from '../../RoutePaths';
 const MUIDataTable = require('mui-datatables').default;
 
-interface AppsProps {
-    apps: IApp[];
-    addApp: (app: IApp) => void;
-    removeApp: (name: string) => void;
+interface ProjectsProps {
+    projects: IProject[];
+    addProject: (project: IProject) => void;
+    removeProject: (name: string) => void;
     push: typeof push;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { apps: state.apps };
+    return { projects: state.projects };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        addApp: (app: IApp) => {
-            const action = addApp(app);
+        addProject: (project: IProject) => {
+            const action = addProject(project);
             dispatch(action);
         },
-        removeApp: (name: string) => {
-            const action = removeApp(name);
+        removeProject: (name: string) => {
+            const action = removeProject(name);
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),
     };
 };
 
-class Apps extends React.Component<AppsProps> {
+class Projects extends React.Component<ProjectsProps> {
     refs: {
         query: HTMLInputElement;
     };
 
-    editApp = (rowData: string[]) => {
-        this.props.push(`${RoutePaths.AppsEdit}?name=${rowData[0]}`);
+    editProject = (rowData: string[]) => {
+        this.props.push(`${RoutePaths.ProjectsEdit}?name=${rowData[0]}`);
     };
 
-    redirectToNewAppForm = () => {
-        this.props.push(RoutePaths.AppsNew);
+    redirectToNewProjectForm = () => {
+        this.props.push(RoutePaths.ProjectsNew);
     };
 
-    mapAppsToTableApps(apps: IApp[]): Array<Array<string>> {
-        const tableApps = new Array<Array<string>>();
-        if (apps) {
-            apps.forEach(value => {
-                tableApps.push([value.name, value.description, value.apiKey]);
+    mapProjectsToTableProjects(projects: IProject[]): Array<Array<string>> {
+        const tableProjects = new Array<Array<string>>();
+        if (projects) {
+            projects.forEach(value => {
+                tableProjects.push([value.name, value.description, value.apiKey]);
             });
         }
-        return tableApps;
+        return tableProjects;
     }
 
     columns = [
@@ -80,20 +80,20 @@ class Apps extends React.Component<AppsProps> {
         print: false,
         download: false,
         customToolbar: () => {
-            return <CustomAddToolbar toggleFormFlag={this.redirectToNewAppForm} />;
+            return <CustomAddToolbar toggleFormFlag={this.redirectToNewProjectForm} />;
         },
         elevation: 0,
         selectableRows: 'none',
         responsive: 'stacked',
         viewColumns: false,
-        onRowClick: this.editApp,
+        onRowClick: this.editProject,
     };
 
     render() {
-        const { apps } = this.props;
+        const { projects } = this.props;
         return (
             <React.Fragment>
-                <MUIDataTable title={'Applications'} data={this.mapAppsToTableApps(apps)} columns={this.columns} options={this.options} />
+                <MUIDataTable title={'Projects'} data={this.mapProjectsToTableProjects(projects)} columns={this.columns} options={this.options} />
             </React.Fragment>
         );
     }
@@ -102,4 +102,4 @@ class Apps extends React.Component<AppsProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Apps);
+)(Projects);

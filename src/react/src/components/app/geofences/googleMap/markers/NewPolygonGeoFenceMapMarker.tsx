@@ -1,8 +1,9 @@
-import CoordinatePair from "../../../../../models/app/geofences/CoordinatePair";
+import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
+import Constants from '../../../../../theme/Constants';
 
-const MapMarkerRed = require("../../../../../../assets/map-marker-red.png");
-const MapMarkerPurple = require("../../../../../../assets/map-marker-purple.png");
-const CircleFilledRed = require("../../../../../../assets/circle-filled-red.png");
+const MapMarkerRed = require('../../../../../../assets/map-marker-red.png');
+const MapMarkerPurple = require('../../../../../../assets/map-marker-purple.png');
+const CircleFilledRed = require('../../../../../../assets/circle-filled-red.png');
 
 export default class NewPolygonGeoFenceMapMarker {
     polygonGeoFence: google.maps.Polygon = undefined;
@@ -33,45 +34,45 @@ export default class NewPolygonGeoFenceMapMarker {
             clickable: true,
             editable: true,
             draggable: true,
-            strokeColor: "#7e57c2",
+            strokeColor: Constants.PRIMARY_COLOR,
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: "#7e57c2",
+            fillColor: Constants.PRIMARY_COLOR,
             fillOpacity: 0.3,
         });
-        this.polygonGeoFence.addListener("click", e => {
+        this.polygonGeoFence.addListener('click', e => {
             const valuesLength = this.polygonGeoFence.getPath().getLength();
             if (valuesLength >= 3) {
                 this.openInfoWindow();
             }
         });
-        this.polygonGeoFence.addListener("mouseover", (e: google.maps.MouseEvent) => {
+        this.polygonGeoFence.addListener('mouseover', (e: google.maps.MouseEvent) => {
             if (this.polygonMarker) {
                 this.polygonMarker.setIcon(MapMarkerRed);
                 this.polygonGeoFence.setOptions({
-                    strokeColor: "#e53935",
-                    fillColor: "#e53935",
+                    strokeColor: '#e53935',
+                    fillColor: '#e53935',
                 });
             }
         });
-        this.polygonGeoFence.addListener("mouseout", (e: google.maps.MouseEvent) => {
+        this.polygonGeoFence.addListener('mouseout', (e: google.maps.MouseEvent) => {
             if (this.polygonMarker) {
                 this.polygonMarker.setIcon(MapMarkerPurple);
                 this.polygonGeoFence.setOptions({
-                    strokeColor: "#7e57c2",
-                    fillColor: "#7e57c2",
+                    strokeColor: Constants.PRIMARY_COLOR,
+                    fillColor: Constants.PRIMARY_COLOR,
                 });
             }
         });
 
         const polygonPath = this.polygonGeoFence.getPath();
-        polygonPath.addListener("insert_at", e => {
+        polygonPath.addListener('insert_at', e => {
             this.handlePolygonChange();
         });
-        polygonPath.addListener("remove_at", e => {
+        polygonPath.addListener('remove_at', e => {
             this.handlePolygonChange();
         });
-        polygonPath.addListener("set_at", e => {
+        polygonPath.addListener('set_at', e => {
             this.handlePolygonChange();
         });
     }
@@ -79,17 +80,17 @@ export default class NewPolygonGeoFenceMapMarker {
     createPolyline(latLng: google.maps.LatLng): void {
         const newPolyline = new google.maps.Polyline({
             map: this.map,
-            strokeColor: "#e53935",
+            strokeColor: '#e53935',
             strokeOpacity: 0.8,
             strokeWeight: 2,
             path: [latLng],
             clickable: true,
         });
-        this.map.addListener("mousemove", (e: google.maps.MouseEvent) => {
+        this.map.addListener('mousemove', (e: google.maps.MouseEvent) => {
             const lastPolyline = this.polylines[this.polylines.length - 1];
             lastPolyline.setPath([lastPolyline.getPath().getAt(0), e.latLng]);
         });
-        newPolyline.addListener("click", (e: google.maps.MouseEvent) => {
+        newPolyline.addListener('click', (e: google.maps.MouseEvent) => {
             this.createPolyline(e.latLng);
         });
 
@@ -136,7 +137,7 @@ export default class NewPolygonGeoFenceMapMarker {
                 this.polylines.forEach(pm => google.maps.event.clearInstanceListeners(pm));
             });
         }
-        google.maps.event.clearListeners(this.map, "mousemove");
+        google.maps.event.clearListeners(this.map, 'mousemove');
     }
 
     private clearPolylinesAndMarkers() {
@@ -196,7 +197,7 @@ export default class NewPolygonGeoFenceMapMarker {
         });
         if (this.polylines.length === 1) {
             marker.setClickable(true);
-            marker.addListener("click", (e: google.maps.MouseEvent) => {
+            marker.addListener('click', (e: google.maps.MouseEvent) => {
                 if (this.polylines.length >= 3) {
                     const latLngArray = this.polylines.map(pl => pl.getPath().getAt(0));
                     this.addPolygonGeoFence(latLngArray);
@@ -216,7 +217,7 @@ export default class NewPolygonGeoFenceMapMarker {
         for (let i = 0; i < this.polygonGeoFence.getPath().getLength(); i++) {
             bounds.extend(this.polygonGeoFence.getPath().getAt(i));
         }
-        console.log("Center: " + bounds.getCenter());
+        console.log('Center: ' + bounds.getCenter());
         return bounds.getCenter();
     }
 }

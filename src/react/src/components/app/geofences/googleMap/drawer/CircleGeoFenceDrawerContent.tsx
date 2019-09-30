@@ -4,10 +4,11 @@ import FormikTextField from '../../../../form/FormikTextField';
 import FormikCancelButton from '../../../../form/FormikCancelButton';
 import FormikDeleteButton from '../../../../form/FormikDeleteButton';
 import FormikCheckbox from '../../../../form/FormikCheckbox';
-import CircularGeoFence from '../../../../../models/app/geofences/CircularGeoFence';
+import CircleGeoFence from '../../../../../models/app/geofences/CircleGeoFence';
+import CircleGeoFenceRequest from '../../../../../models/app/geofences/CircleGeoFenceRequest';
 import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
 import { Theme, createStyles, WithStyles, List, ListItem, ListItemText, withStyles, Grid, FormLabel } from '@material-ui/core';
-import { CircularGeoFenceState } from '../../../../../redux/actions/GoogleMapsActions';
+import { CircleGeoFenceState } from '../../../../../redux/actions/GoogleMapsActions';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
@@ -17,7 +18,7 @@ import AutoCompleteMultiSelect from '../../../../form/AutoCompleteMultiSelect';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../../../RoutePaths';
-import IApp from '../../../../../models/app/IApp';
+import IProject from '../../../../../models/app/IProject';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -38,22 +39,22 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface CircularGeoFenceFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
+interface CircleGeoFenceFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     theme: Theme;
-    mapGeoFence: CircularGeoFenceState;
-    editGeoFence?: CircularGeoFence;
-    selectedApp: IApp;
+    mapGeoFence: CircleGeoFenceState;
+    editGeoFence?: CircleGeoFence;
+    selectedProject: IProject;
     integrationNames: string[];
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
-    saveGeoFenceToState: (geofence: CircularGeoFence) => void;
+    saveGeoFenceToState: (geofence: CircleGeoFence) => void;
     removeGeoFenceFromState: (name: string) => void;
-    clearNewCircularGeoFence: () => void;
+    clearNewCircleGeoFence: () => void;
     enableMapClick: () => void;
     push: (path: string) => void;
 }
 
-interface CircularGeoFenceFormState {
+interface CircleGeoFenceFormState {
     serverErrors: string[];
     selectedIntegrations: string[];
     isSuccess: boolean;
@@ -73,7 +74,7 @@ const mapDispatchToProps = (dispatch: any) => {
             );
             dispatch(action);
         },
-        saveGeoFenceToState: (geofence: CircularGeoFence) => {
+        saveGeoFenceToState: (geofence: CircleGeoFence) => {
             const action = addGeoFence(geofence);
             dispatch(action);
         },
@@ -87,33 +88,46 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceFormProps, CircularGeoFenceFormState> {
-    constructor(props: CircularGeoFenceFormProps) {
+class CircleGeoFenceDrawerContent extends React.Component<CircleGeoFenceFormProps, CircleGeoFenceFormState> {
+    constructor(props: CircleGeoFenceFormProps) {
         super(props);
         if (this.props.editGeoFence) {
-            this.state = { serverErrors: undefined, selectedIntegrations: this.props.editGeoFence.integrationIds, isSuccess: false };
+            this.state = { serverErrors: undefined, selectedIntegrations: this.props.editGeoFence.integrationNames, isSuccess: false };
         }
     }
 
     formikRef: React.RefObject<Formik> = React.createRef();
 
-    state: CircularGeoFenceFormState = {
+    state: CircleGeoFenceFormState = {
         serverErrors: undefined,
         selectedIntegrations: [],
         isSuccess: false,
     };
 
-    cancelSaveGeoFence = (formikBag: FormikBag<FormikProps<CircularGeoFence>, CircularGeoFence>) => {
+    cancelSaveGeoFence = (formikBag: FormikBag<FormikProps<CircleGeoFence>, CircleGeoFence>) => {
         formikBag.setSubmitting(false);
         this.props.enableMapClick();
     };
 
-    saveGeoFence = (geoFence: CircularGeoFence) => {
+    saveGeoFence = (geoFence: CircleGeoFenceRequest) => {
         //save to server
         setTimeout(() => {
             this.setState({ isSuccess: true });
-            this.props.saveGeoFenceToState(geoFence);
-            this.props.clearNewCircularGeoFence();
+            const geoFenceResponse = new CircleGeoFence(
+                this.props.selectedProject.name,
+                geoFence.name,
+                geoFence.labels,
+                geoFence.onEnter,
+                geoFence.onExit,
+                geoFence.enabled,
+                geoFence.description,
+                geoFence.integrationNames,
+                geoFence.coordinates,
+                geoFence.metadata,
+                geoFence.radius
+            );
+            this.props.saveGeoFenceToState(geoFenceResponse);
+            this.props.clearNewCircleGeoFence();
             this.props.enqueueSnackbar('Geofence saved', { variant: 'success' });
             this.props.enableMapClick();
             this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
@@ -125,7 +139,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
         //delete from server
         setTimeout(() => {
             this.props.removeGeoFenceFromState(name);
-            this.props.clearNewCircularGeoFence();
+            this.props.clearNewCircleGeoFence();
             this.props.enqueueSnackbar('Geofence deleted', { variant: 'error' });
             this.props.enableMapClick();
             this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
@@ -135,14 +149,14 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
 
     cancelGeoFenceEdit = () => {
         this.props.saveGeoFenceToState(this.props.editGeoFence);
-        this.props.clearNewCircularGeoFence();
+        this.props.clearNewCircleGeoFence();
         this.props.enableMapClick();
         this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
         this.props.closeDrawer();
     };
 
     cancelGeoFenceCreate = () => {
-        this.props.clearNewCircularGeoFence();
+        this.props.clearNewCircleGeoFence();
         this.setState({ serverErrors: undefined });
         this.props.enableMapClick();
         this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
@@ -150,7 +164,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
     };
 
     validationSchema = Yup.object().shape({
-        name: Yup.string().required('Required'),
+        id: Yup.string().required('Required'),
         description: Yup.string().notRequired(),
     });
 
@@ -163,18 +177,20 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                 initialValues={
                     this.props.editGeoFence
                         ? this.props.editGeoFence
-                        : new CircularGeoFence(this.props.selectedApp.id, [], true, false, '', '', new CoordinatePair(0, 0), 0)
+                        : new CircleGeoFenceRequest('', [], true, true, true, '', [], [new CoordinatePair(0, 0)], new Map<string, object>(), 0)
                 }
                 isInitialValid={this.props.editGeoFence ? true : false}
-                onSubmit={(values: CircularGeoFence, formikBag: FormikBag<FormikProps<CircularGeoFence>, CircularGeoFence>) => {
-                    const newFence = new CircularGeoFence(
-                        this.props.selectedApp.id,
-                        this.state.selectedIntegrations,
+                onSubmit={(values: CircleGeoFence, formikBag: FormikBag<FormikProps<CircleGeoFence>, CircleGeoFence>) => {
+                    const newFence = new CircleGeoFenceRequest(
+                        values.name,
+                        values.labels,
                         values.onEnter,
                         values.onExit,
-                        values.name,
+                        values.enabled,
                         values.description,
-                        new CoordinatePair(this.props.mapGeoFence.center.lat, this.props.mapGeoFence.center.lng),
+                        this.state.selectedIntegrations,
+                        [new CoordinatePair(this.props.mapGeoFence.center.lat, this.props.mapGeoFence.center.lng)],
+                        new Map<string, object>(),
                         this.props.mapGeoFence.radius
                     );
 
@@ -215,11 +231,11 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                         <Grid container direction="column" spacing={4}>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikTextField
-                                    name="name"
-                                    label="Name"
-                                    value={props.values.name}
-                                    errorText={props.errors.name}
-                                    touched={props.touched.name}
+                                    name="id"
+                                    label="Id"
+                                    value={props.values.id}
+                                    errorText={props.errors.id}
+                                    touched={props.touched.id}
                                     onChange={props.handleChange}
                                     onBlur={props.handleBlur}
                                     autoComplete="off"
@@ -242,7 +258,7 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <AutoCompleteMultiSelect
                                     suggestions={this.props.integrationNames}
-                                    defaultValues={this.props.editGeoFence ? this.props.editGeoFence.integrationIds : undefined}
+                                    defaultValues={this.props.editGeoFence ? this.props.editGeoFence.integrationNames : undefined}
                                     onChange={(values: string[]) => this.setState({ selectedIntegrations: values })}
                                 />
                             </Grid>
@@ -312,16 +328,16 @@ class CircularGeoFenceDrawerContent extends React.Component<CircularGeoFenceForm
         );
     }
 
-    private showNoTriggersDialog(newFence: CircularGeoFence) {
+    private showNoTriggersDialog(newFence: CircleGeoFenceRequest) {
         return !newFence.onEnter && !newFence.onExit;
     }
 
-    private showNoIntegrationsWithTriggersDialog(newFence: CircularGeoFence) {
-        return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onEnter);
+    private showNoIntegrationsWithTriggersDialog(newFence: CircleGeoFenceRequest) {
+        return newFence.integrationNames.length === 0 && (newFence.onEnter || newFence.onEnter);
     }
 }
 
 export default connect(
     null,
     mapDispatchToProps
-)(withStyles(styles, { withTheme: true })(withSnackbar(CircularGeoFenceDrawerContent)));
+)(withStyles(styles, { withTheme: true })(withSnackbar(CircleGeoFenceDrawerContent)));

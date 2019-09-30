@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { selectApp } from '../../../redux/actions/SelectedAppActions';
+import { selectProject } from '../../../redux/actions/SelecteProjectActions';
 import {
     Theme,
     createStyles,
@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import ArrowRight from 'mdi-material-ui/ArrowRight';
 import { connect } from 'react-redux';
-import IApp from '../../../models/app/IApp';
+import IProject from '../../../models/app/IProject';
 import { ApplicationState } from '../../../stores';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
@@ -68,54 +68,54 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface AppsSelectProps extends WithStyles<typeof styles> {
-    apps: IApp[];
-    selectApp: (app: IApp) => void;
+interface ProjectsSelectProps extends WithStyles<typeof styles> {
+    projects: IProject[];
+    selectProject: (project: IProject) => void;
     push: typeof push;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        apps: state.apps,
+        projects: state.projects,
     };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        selectApp: (app: IApp) => {
-            const action = selectApp(app);
+        selectProject: (project: IProject) => {
+            const action = selectProject(project);
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),
     };
 };
 
-class DashboardAppSelect extends React.Component<AppsSelectProps> {
-    handleAppClick(app: IApp) {
-        this.props.selectApp(app);
+class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
+    handleProjectClick(project: IProject) {
+        this.props.selectProject(project);
         this.props.push(RoutePaths.GeoFenceMap);
     }
     render() {
-        const { classes, apps } = this.props;
+        const { classes, projects } = this.props;
         return (
             <React.Fragment>
                 <Typography align="left" variant="subtitle1">
-                    Applications
+                    Projects
                 </Typography>
                 <div className={classes.root}>
                     <GridList className={classes.gridList} cols={2.5}>
-                        {apps.map(app => (
-                            <GridListTile className={classes.gridListTile} key={app.id}>
+                        {projects.map(project => (
+                            <GridListTile className={classes.gridListTile} key={project.name}>
                                 <Card className={classes.card}>
-                                    <CardHeader title={app.name} />
+                                    <CardHeader title={project.name} />
                                     <CardMedia classes={{ root: classes.mediaRoot }} className={classes.media} image={IntegrationApi} title="Api Integration" />
                                     <CardContent classes={{ root: classes.cardContent }}>
-                                        <Typography component="p">{app.description}</Typography>
+                                        <Typography component="p">{project.description}</Typography>
                                     </CardContent>
                                     <CardActions className={classes.buttons}>
                                         <IconButton
                                             onClick={() => {
-                                                this.handleAppClick(app);
+                                                this.handleProjectClick(project);
                                             }}
                                             aria-label="Select app"
                                         >
@@ -135,4 +135,4 @@ class DashboardAppSelect extends React.Component<AppsSelectProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(DashboardAppSelect));
+)(withStyles(styles)(DashboardProjectSelect));

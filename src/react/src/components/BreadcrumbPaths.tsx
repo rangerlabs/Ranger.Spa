@@ -1,25 +1,25 @@
-import Breadcrumb from "../models/app/Breadcrumb";
-import BreadcrumbPath from "../models/app/BreadcrumbPath";
-import RoutePaths from "./RoutePaths";
-import { IntegrationEnum } from "../models/app/integrations/IntegrationEnum";
-import { titleCase } from "change-case";
+import Breadcrumb from '../models/app/Breadcrumb';
+import BreadcrumbPath from '../models/app/BreadcrumbPath';
+import RoutePaths from './RoutePaths';
+import { IntegrationEnum } from '../models/app/integrations/IntegrationEnum';
+import { titleCase } from 'change-case';
 
-const dashboardBreadcrumb = new Breadcrumb("Dashboard", RoutePaths.Dashboard);
-const accountBreadcrumb = new Breadcrumb("Account", RoutePaths.Account);
-const geoFenceMapBreadcrumb = new Breadcrumb("Geofence Map", RoutePaths.GeoFenceMap);
-const geoFenceTableBreadcrumb = new Breadcrumb("Geofence Table", RoutePaths.GeoFenceTable);
+const dashboardBreadcrumb = new Breadcrumb('Dashboard', RoutePaths.Dashboard);
+const accountBreadcrumb = new Breadcrumb('Account', RoutePaths.Account);
+const geoFenceMapBreadcrumb = new Breadcrumb('Geofence Map', RoutePaths.GeoFenceMap);
+const geoFenceTableBreadcrumb = new Breadcrumb('Geofence Table', RoutePaths.GeoFenceTable);
 
-const integrationsBreadcrumb = new Breadcrumb("Integrations", RoutePaths.Integrations);
-const integrationsNewBreadcrumb = new Breadcrumb("New", RoutePaths.IntegrationsNew);
-const integrationsEditBreadcrumb = new Breadcrumb("Edit", RoutePaths.Integrations);
+const integrationsBreadcrumb = new Breadcrumb('Integrations', RoutePaths.Integrations);
+const integrationsNewBreadcrumb = new Breadcrumb('New', RoutePaths.IntegrationsNew);
+const integrationsEditBreadcrumb = new Breadcrumb('Edit', RoutePaths.Integrations);
 
-const usersBreadcrumb = new Breadcrumb("Users", RoutePaths.Users);
-const usersNewBreadcrumb = new Breadcrumb("New", RoutePaths.UsersNew);
-const usersEditBreadcrumb = new Breadcrumb("Edit", RoutePaths.UsersEdit);
+const usersBreadcrumb = new Breadcrumb('Users', RoutePaths.Users);
+const usersNewBreadcrumb = new Breadcrumb('New', RoutePaths.UsersNew);
+const usersEditBreadcrumb = new Breadcrumb('Edit', RoutePaths.UsersEdit);
 
-const appsBreadcrumb = new Breadcrumb("Applications", RoutePaths.Apps);
-const appsNewBreadcrumb = new Breadcrumb("New", RoutePaths.AppsNew);
-const appsEditBreadcrumb = new Breadcrumb("Edit", RoutePaths.AppsEdit);
+const projectsBreadcrumb = new Breadcrumb('Projects', RoutePaths.Projects);
+const projectsNewBreadcrumb = new Breadcrumb('New', RoutePaths.ProjectsNew);
+const projectsEditBreadcrumb = new Breadcrumb('Edit', RoutePaths.ProjectsEdit);
 
 export default class BreadcrumbPaths {
     public static Dashboard() {
@@ -47,16 +47,8 @@ export default class BreadcrumbPaths {
         if (integration) {
             let integrationBreadcrumb = undefined;
             switch (integration) {
-                case IntegrationEnum.API: {
-                    integrationBreadcrumb = new Breadcrumb(titleCase(IntegrationEnum.API), RoutePaths.IntegrationsEditApi);
-                    break;
-                }
-                case IntegrationEnum.PUSHER: {
-                    integrationBreadcrumb = new Breadcrumb(titleCase(IntegrationEnum.PUSHER), RoutePaths.IntegrationsEditPusher);
-                    break;
-                }
-                case IntegrationEnum.PUBNUB: {
-                    integrationBreadcrumb = new Breadcrumb(titleCase(IntegrationEnum.PUBNUB), RoutePaths.IntegrationsEditPubnub);
+                case IntegrationEnum.WEBHOOK: {
+                    integrationBreadcrumb = new Breadcrumb(titleCase(IntegrationEnum.WEBHOOK), RoutePaths.IntegrationsEditWebhook);
                     break;
                 }
             }
@@ -70,16 +62,8 @@ export default class BreadcrumbPaths {
         if (integration) {
             let integrationBreadcrumb = undefined;
             switch (integration) {
-                case IntegrationEnum.API: {
-                    integrationBreadcrumb = new Breadcrumb(titleCase(IntegrationEnum.API), RoutePaths.IntegrationsNewApi);
-                    break;
-                }
-                case IntegrationEnum.PUSHER: {
-                    integrationBreadcrumb = new Breadcrumb(titleCase(IntegrationEnum.PUSHER), RoutePaths.IntegrationsNewPusher);
-                    break;
-                }
-                case IntegrationEnum.PUBNUB: {
-                    integrationBreadcrumb = new Breadcrumb(titleCase(IntegrationEnum.PUBNUB), RoutePaths.IntegrationsNewPubnub);
+                case IntegrationEnum.WEBHOOK: {
+                    integrationBreadcrumb = new Breadcrumb(titleCase(IntegrationEnum.WEBHOOK), RoutePaths.IntegrationsNewWebhook);
                     break;
                 }
             }
@@ -100,26 +84,26 @@ export default class BreadcrumbPaths {
         return new BreadcrumbPath(new Array<Breadcrumb>(usersBreadcrumb, usersEditBreadcrumb));
     }
 
-    public static Apps() {
-        return new BreadcrumbPath(new Array<Breadcrumb>(appsBreadcrumb));
+    public static Projects() {
+        return new BreadcrumbPath(new Array<Breadcrumb>(projectsBreadcrumb));
     }
 
-    public static AppsNew() {
-        return new BreadcrumbPath(new Array<Breadcrumb>(appsBreadcrumb, appsNewBreadcrumb));
+    public static ProjectsNew() {
+        return new BreadcrumbPath(new Array<Breadcrumb>(projectsBreadcrumb, projectsNewBreadcrumb));
     }
 
-    public static AppsEdit() {
-        return new BreadcrumbPath(new Array<Breadcrumb>(appsBreadcrumb, appsEditBreadcrumb));
+    public static ProjectsEdit() {
+        return new BreadcrumbPath(new Array<Breadcrumb>(projectsBreadcrumb, projectsEditBreadcrumb));
     }
 
-    public static AppsSelect() {
-        return new BreadcrumbPath(new Array<Breadcrumb>(appsBreadcrumb));
+    public static ProjectsSelect() {
+        return new BreadcrumbPath(new Array<Breadcrumb>(projectsBreadcrumb));
     }
 
-    public static GetAppBreadCrumb(appName: string) {
+    public static GetProjectBreadCrumb(appName: string) {
         if (!appName) {
-            throw new Error("appName parameter is required");
+            throw new Error('appName parameter is required');
         }
-        return new Breadcrumb(appName, RoutePaths.AppsSelect);
+        return new Breadcrumb(appName, RoutePaths.ProjectsSelect);
     }
 }

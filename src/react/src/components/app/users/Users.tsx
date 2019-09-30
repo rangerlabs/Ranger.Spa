@@ -112,7 +112,7 @@ class Users extends React.Component<UsersProps> {
 
     render() {
         const { users } = this.props;
-        return <MUIDataTable title={''} data={this.mapUsersToTableUsers(users)} columns={this.columns} options={this.options} />;
+        return <MUIDataTable title={'Users'} data={this.mapUsersToTableUsers(users)} columns={this.columns} options={this.options} />;
     }
 }
 

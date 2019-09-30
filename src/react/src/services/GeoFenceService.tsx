@@ -1,43 +1,49 @@
 import RestUtilities, { IRestResponse } from './RestUtilities';
 import GeoFence from '../models/app/geofences/GeoFence';
 import PolygonGeoFence from '../models/app/geofences/PolygonGeoFence';
-import CircularGeoFence from '../models/app/geofences/CircularGeoFence';
+import CircleGeoFence from '../models/app/geofences/CircleGeoFence';
 import { ShapePicker } from '../redux/actions/GoogleMapsActions';
 import CoordinatePair from '../models/app/geofences/CoordinatePair';
 
 export default class GeoFenceService {
-    async getGeoFences(): Promise<Array<CircularGeoFence | PolygonGeoFence>> {
-        const result = new Array<CircularGeoFence | PolygonGeoFence>();
-        RestUtilities.get<Array<CircularGeoFence | PolygonGeoFence>>('/geofence/all').then(geoFenceResponse => {
+    async getGeoFences(projectName: string): Promise<Array<CircleGeoFence | PolygonGeoFence>> {
+        return RestUtilities.get<Array<CircleGeoFence | PolygonGeoFence>>(`${projectName}/geofence/all`).then(geoFenceResponse => {
+            const result = new Array<CircleGeoFence | PolygonGeoFence>();
             geoFenceResponse.content.forEach(v => {
                 switch (v.shape) {
-                    case ShapePicker.Circular: {
-                        v = v as CircularGeoFence;
+                    case ShapePicker.Circle: {
+                        const circle = v as CircleGeoFence;
                         result.push(
-                            new CircularGeoFence(
-                                v.appId,
-                                v.integrationIds,
-                                v.onEnter,
-                                v.onExit,
-                                v.name,
-                                v.description,
-                                new CoordinatePair(v.center.lat, v.center.lng),
-                                v.radius
+                            new CircleGeoFence(
+                                circle.projectName,
+                                circle.name,
+                                circle.labels,
+                                circle.onEnter,
+                                circle.onExit,
+                                circle.enabled,
+                                circle.description,
+                                circle.integrationNames,
+                                [new CoordinatePair(v.coordinates[0].lat, v.coordinates[0].lng)],
+                                circle.metadata,
+                                circle.radius
                             )
                         );
                         break;
                     }
                     case ShapePicker.Polygon: {
-                        v = v as PolygonGeoFence;
+                        const polygon = v as PolygonGeoFence;
                         result.push(
                             new PolygonGeoFence(
-                                v.appId,
-                                v.integrationIds,
-                                v.onEnter,
-                                v.onExit,
-                                v.name,
-                                v.description,
-                                v.latLngPath.map(v => new CoordinatePair(v.lat, v.lng))
+                                polygon.projectName,
+                                polygon.name,
+                                polygon.labels,
+                                polygon.onEnter,
+                                polygon.onExit,
+                                polygon.enabled,
+                                polygon.description,
+                                polygon.integrationNames,
+                                polygon.coordinates,
+                                polygon.metadata
                             )
                         );
                         break;
@@ -47,15 +53,15 @@ export default class GeoFenceService {
                     }
                 }
             });
+            return result;
         });
-        return result;
     }
 
-    async getGeoFence(name: string): Promise<IRestResponse<CircularGeoFence | PolygonGeoFence>> {
-        return RestUtilities.get<CircularGeoFence | PolygonGeoFence>('/geofence?name=' + name);
+    async getGeoFence(projectName: string, name: string): Promise<IRestResponse<CircleGeoFence | PolygonGeoFence>> {
+        return RestUtilities.get<CircleGeoFence | PolygonGeoFence>(`${projectName}/geofence?name=${name}`);
     }
 
-    async postGeoFence(app: GeoFence): Promise<IRestResponse<CircularGeoFence | PolygonGeoFence>> {
-        return RestUtilities.post<CircularGeoFence | PolygonGeoFence>('/geofence', app);
+    async postGeoFence(projectName: string, name: GeoFence): Promise<IRestResponse<CircleGeoFence | PolygonGeoFence>> {
+        return RestUtilities.post<CircleGeoFence | PolygonGeoFence>(`${projectName}/geofence`, name);
     }
 }

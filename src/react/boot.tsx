@@ -1,22 +1,23 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { ApplicationState } from "./src/stores/index";
-import { ConnectedRouter } from "connected-react-router";
-import { Provider } from "react-redux";
-import { OidcProvider } from "redux-oidc";
-import { history } from "./src/History";
-import UserManager from "./src/services/UserManager";
-import ReduxStore from "./src/ReduxStore";
-import createRangerTheme from "./src/theme/createMyTheme";
-import App from "./src/App";
-import "whatwg-fetch";
-import "./polyfills/object-assign";
-import "./polyfills/array-find";
-import "./src/index.css";
-import SnackbarProviderWrapper from "./src/components/SnackbarProviderWrapper/SnackbarProviderWrapper";
-import { responsiveFontSizes } from "@material-ui/core";
-import { ThemeProvider, StylesProvider } from "@material-ui/styles";
-import { jss, generateClassName } from "./src/theme/StylesProviderPropsConfig";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { ApplicationState } from './src/stores/index';
+import { ConnectedRouter } from 'connected-react-router';
+import { Provider } from 'react-redux';
+import { OidcProvider } from 'redux-oidc';
+import { history } from './src/History';
+import UserManager from './src/services/UserManager';
+import ReduxStore from './src/ReduxStore';
+import createRangerTheme from './src/theme/createMyTheme';
+import App from './src/App';
+import 'whatwg-fetch';
+import './polyfills/object-assign';
+import './polyfills/array-find';
+import './src/index.css';
+import SnackbarProviderWrapper from './src/components/SnackbarProviderWrapper/SnackbarProviderWrapper';
+import { responsiveFontSizes } from '@material-ui/core';
+import { ThemeProvider, StylesProvider } from '@material-ui/styles';
+import { jss, generateClassName } from './src/theme/StylesProviderPropsConfig';
+import Constants from './src/theme/Constants';
 
 const initialState = {} as ApplicationState;
 ReduxStore.Configure(history, initialState);
@@ -25,16 +26,16 @@ const store = ReduxStore.getStore();
 const theme = responsiveFontSizes(
     createRangerTheme({
         palette: {
-            type: "light",
+            type: 'light',
             primary: {
-                main: "#7e57c2",
+                main: Constants.PRIMARY_COLOR,
             },
             text: {
-                primary: "#000000",
+                primary: '#000000',
             },
             background: {
-                paper: "#FFFFFF",
-                default: "#FFFFFF",
+                paper: '#FFFFFF',
+                default: '#FFFFFF',
             },
         },
         typography: {
@@ -62,5 +63,5 @@ ReactDOM.render(
             </ThemeProvider>
         </OidcProvider>
     </Provider>,
-    document.getElementById("app")
+    document.getElementById('app')
 );

@@ -1,55 +1,35 @@
 import RestUtilities, { IRestResponse } from './RestUtilities';
-import { MergedIntegrationType } from '../models/app/integrations/MergedIntegrationType';
-import ApiIntegration from '../models/app/integrations/implementations/ApiIntegration';
-import PusherIntegration from '../models/app/integrations/implementations/PusherIntegration';
+import { MergedIntegrationRequestType, MergedIntegrationResponseType } from '../models/app/integrations/MergedIntegrationTypes';
+import WebhookIntegrationResponse from '../models/app/integrations/implementations/WebhookIntegrationRequest';
 import Logger from './Logger/Logger';
 import { IntegrationEnum } from '../models/app/integrations/IntegrationEnum';
 
 export default class IntegrationService {
-    async getIntegrations(): Promise<Array<MergedIntegrationType>> {
-        const result = new Array<MergedIntegrationType>();
-        RestUtilities.get<MergedIntegrationType[]>('/integration/all').then(integrationResponse => {
+    async getIntegrations(projectName: string): Promise<Array<MergedIntegrationResponseType>> {
+        return RestUtilities.get<MergedIntegrationResponseType[]>(`${projectName}/integration/all`).then(integrationResponse => {
+            const result = new Array<MergedIntegrationResponseType>();
             integrationResponse.content.forEach(i => {
                 switch (i.type) {
-                    case IntegrationEnum.API: {
-                        i = i as ApiIntegration;
-                        result.push(new ApiIntegration(i.appId, i.name, i.description, i.httpEndpoint, i.authKey));
-                        break;
-                    }
-                    case i.type: {
-                        i = i as PusherIntegration;
-                        result.push(
-                            new PusherIntegration(i.appId, i.name, i.description, i.key, i.secret, i.clusterName, i.channelName, i.eventName, i.payload)
-                        );
+                    case IntegrationEnum.WEBHOOK: {
+                        i = i as WebhookIntegrationResponse;
+                        result.push(new WebhookIntegrationResponse(i.projectName, i.name, i.description, i.url, i.authKey));
                         break;
                     }
                 }
             });
+            return result;
         });
-        return result;
     }
 
-    async getApiIntegration(name: string): Promise<ApiIntegration> {
-        let result = undefined as ApiIntegration;
-        RestUtilities.get<ApiIntegration>('/integration/api?name=' + name).then(i => {
+    async getWebhookIntegration(projectName: string, name: string): Promise<WebhookIntegrationResponse> {
+        let result = undefined as WebhookIntegrationResponse;
+        RestUtilities.get<WebhookIntegrationResponse>(`${projectName}/integration/webhook?name=${name}`).then(i => {
             result = i.content;
         });
         return result;
     }
 
-    async getPusherIntegration(name: string): Promise<PusherIntegration> {
-        let result = undefined as PusherIntegration;
-        RestUtilities.get<PusherIntegration>('/integration/pusher?name=' + name).then(i => {
-            result = i.content;
-        });
-        return result;
-    }
-
-    async postApiIntegration(integration: ApiIntegration): Promise<IRestResponse<ApiIntegration>> {
-        return RestUtilities.post<ApiIntegration>('/integration/api', integration);
-    }
-
-    async postPusherIntegration(integration: PusherIntegration): Promise<IRestResponse<PusherIntegration>> {
-        return RestUtilities.post<PusherIntegration>('/integration/pusher', integration);
+    async postWebhookIntegration(projectName: string, integration: WebhookIntegrationResponse): Promise<IRestResponse<WebhookIntegrationResponse>> {
+        return RestUtilities.post<WebhookIntegrationResponse>(`${projectName}/integration/webhook`, integration);
     }
 }

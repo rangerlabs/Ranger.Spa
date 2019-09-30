@@ -43,10 +43,10 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
                 preventDuplicate={true}
                 hideIconVariant={true}
                 dense
-                maxSnack={1}
+                maxSnack={3}
                 anchorOrigin={{
                     vertical: 'bottom',
-                    horizontal: 'center',
+                    horizontal: 'right',
                 }}
             >
                 {this.props.children}
