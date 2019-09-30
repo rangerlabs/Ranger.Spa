@@ -93,7 +93,7 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
             <React.Fragment>
                 <div className={classes.layout}>
                     <Typography gutterBottom variant="h5" align="center">
-                        Select one of your projects to continue.
+                        Which project would you like to view?
                     </Typography>
                     <div className={classes.parallaxContainer}>
                         <Parallax pages={2} scrolling={true}>

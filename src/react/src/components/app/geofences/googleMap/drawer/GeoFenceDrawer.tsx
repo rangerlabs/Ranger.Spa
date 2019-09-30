@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, WithStyles, Drawer, IconButton, withStyles } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, Drawer, IconButton, withStyles, Typography } from '@material-ui/core';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import { FormikProps, FormikBag } from 'formik';
 import CircleGeoFence from '../../../../../models/app/geofences/CircleGeoFence';

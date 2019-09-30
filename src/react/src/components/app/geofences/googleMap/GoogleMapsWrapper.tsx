@@ -192,10 +192,10 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             script.async = true;
             document.body.appendChild(script);
             script.addEventListener('load', e => {
-                this.onScriptLoad();
+                this.initMap();
             });
         } else {
-            this.onScriptLoad();
+            this.initMap();
         }
     };
 
@@ -230,24 +230,24 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         }
     };
 
-    getInitLocation() {
+    initMap = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
-                return new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                this.initMapLocation(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
             }, this.handleLocationError);
         } else {
             return this.handleLocationError();
         }
-    }
+    };
 
-    handleLocationError() {
-        return new google.maps.LatLng(40.754932, -73.984016);
-    }
+    handleLocationError = () => {
+        this.initMapLocation(new google.maps.LatLng(40.754932, -73.984016));
+    };
 
-    onScriptLoad = () => {
+    initMapLocation = (initLocation: google.maps.LatLng) => {
         this.map = new window.google.maps.Map(document.getElementById(this.props.id), {
             ...this.props.options,
-            center: new google.maps.LatLng(40.754932, -73.984016),
+            center: initLocation,
             styles: Constants.MAP_MAIN_STYLE,
         });
         google.maps.event.addListenerOnce(this.map, 'idle', () => {
@@ -383,7 +383,8 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         }
                     } else {
                         this.closeInfoWindow();
-                        // this.map.panTo(e.latLng);
+                        this.map.panTo(e.latLng);
+                        this.map.setZoom(16);
                         this.newCircleGeoFenceMapMarker = new NewCircleGeoFenceMapMarker(
                             this.map,
                             e.latLng,
@@ -411,6 +412,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         }
                     } else {
                         this.closeInfoWindow();
+                        this.map.setZoom(16);
                         this.newPolygonGeoFenceMapMarker = new NewPolygonGeoFenceMapMarker(this.map, [e.latLng], this.props.addPolygonLatLngArray, () => {
                             this.openInfoWindow(this.newPolygonGeoFenceMapMarker.getPolygonCenter());
                         });

@@ -26,27 +26,37 @@ const IntegrationApi = require('../../../../../assets/integration-api.png');
 const styles = (theme: Theme) =>
     createStyles({
         card: {
+            flexGrow: 1,
             height: '100%',
         },
         buttons: {
             display: 'flex',
             justifyContent: 'flex-end',
+            paddingTop: 0,
         },
         media: {
             height: 0,
-            paddingTop: '128px',
+            paddingTop: '96px',
         },
         layout: {
-            width: 'auto',
             margin: theme.spacing(2),
+        },
+        parallaxContainer: {
+            position: 'absolute',
+            [theme.breakpoints.up('md')]: {
+                width: `calc(100% - ${theme.drawer.width}px - ${theme.spacing(4)}px)`,
+            },
+            height: '100%',
+            width: '100%',
         },
         mediaRoot: {
             backgroundSize: 'contain',
         },
-        parallaxContainer: {
-            position: 'absolute',
-            width: `calc(100% - ${theme.drawer.width}px)`,
-            height: '100%',
+        rootPadding: {
+            padding: theme.spacing(1),
+        },
+        gridButton: {
+            width: '100% !important',
         },
     });
 
@@ -69,48 +79,48 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
+                    <Typography gutterBottom variant="h5" align="center">
+                        What type of integration would you like to add?
+                    </Typography>
                     <div className={classes.parallaxContainer}>
-                        <Parallax pages={1} scrolling={true}>
-                            <ParallaxLayer offset={0} speed={0.7}>
-                                <Grid container spacing={3} direction="row" justify="center" alignItems="flex-start">
+                        <Parallax pages={2} scrolling={true}>
+                            <ParallaxLayer speed={0.7}>
+                                <Grid container spacing={3} direction="row" justify="center" alignItems="baseline">
                                     <Grid item xs={12} sm={8} md={7}>
                                         <ButtonBase
+                                            className={classes.gridButton}
                                             onClick={() => {
                                                 this.handleIntegrationSelect(IntegrationEnum.WEBHOOK);
                                             }}
                                         >
-                                            <Card className={classes.card}>
-                                                <CardHeader title="Webhook" />
+                                            <Card elevation={3} className={classes.card}>
+                                                <CardHeader titleTypographyProps={{ align: 'left' }} classes={{ root: classes.rootPadding }} title="Webhook" />
                                                 <CardMedia
                                                     classes={{ root: classes.mediaRoot }}
                                                     className={classes.media}
                                                     image={IntegrationApi}
                                                     title="Webhook Integration"
                                                 />
-                                                <CardContent>
-                                                    <Typography component="p">Forward geofence events to a REST API of your choosing.</Typography>
+                                                <CardContent classes={{ root: classes.rootPadding }}>
+                                                    <Typography align="left" component="p">
+                                                        Forward geofence events to a REST API of your choosing.
+                                                    </Typography>
                                                 </CardContent>
                                             </Card>
                                         </ButtonBase>
                                     </Grid>
-                                    <Grid item xs={12} sm={6} md={4}>
-                                        <ButtonBase
-                                            onClick={() => {
-                                                this.handleIntegrationSelect(IntegrationEnum.WEBHOOK);
-                                            }}
-                                        >
-                                            <Card className={classes.card}>
-                                                <CardHeader title="Coming soon..." />
-                                                <CardMedia
-                                                    classes={{ root: classes.mediaRoot }}
-                                                    className={classes.media}
-                                                    image={IntegrationApi}
-                                                    title="Api Integration"
+                                    <Grid item xs={12} sm={8} md={7}>
+                                        <ButtonBase className={classes.gridButton} onClick={() => {}}>
+                                            <Card elevation={3} className={classes.card}>
+                                                <CardHeader
+                                                    titleTypographyProps={{ align: 'left' }}
+                                                    classes={{ root: classes.rootPadding }}
+                                                    title="Coming soon"
                                                 />
-                                                <CardContent>
-                                                    <Typography component="p">
-                                                        We're striving to bring you as many integrations as possible. Drop us a line to request your most sought
-                                                        after integrations.
+                                                <CardMedia classes={{ root: classes.mediaRoot }} className={classes.media} title="Coming soon" />
+                                                <CardContent classes={{ root: classes.rootPadding }}>
+                                                    <Typography align="left" component="p">
+                                                        More integrations are in the works. Check back soon.
                                                     </Typography>
                                                 </CardContent>
                                             </Card>

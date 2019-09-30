@@ -165,7 +165,7 @@ class PolygonGeoFenceDrawerContent extends React.Component<PolygonGeoFenceFormPr
     };
 
     validationSchema = Yup.object().shape({
-        id: Yup.string().required('Required'),
+        name: Yup.string().required('Required'),
         description: Yup.string().notRequired(),
     });
 
@@ -230,17 +230,27 @@ class PolygonGeoFenceDrawerContent extends React.Component<PolygonGeoFenceFormPr
                 {props => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
                         <Grid container direction="column" spacing={4}>
+                            <Grid container item xs={12} spacing={0}>
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                    <FormikCheckbox
+                                        name="enabled"
+                                        label="Enabled"
+                                        value={props.values.enabled}
+                                        onChange={props.handleChange}
+                                        onBlur={props.handleBlur}
+                                    />
+                                </Grid>
+                            </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikTextField
-                                    name="id"
-                                    label="Id"
-                                    value={props.values.id}
-                                    errorText={props.errors.id}
-                                    touched={props.touched.id}
+                                    name="name"
+                                    label="Name"
+                                    value={props.values.name}
+                                    errorText={props.errors.name}
+                                    touched={props.touched.name}
                                     onChange={props.handleChange}
                                     onBlur={props.handleBlur}
                                     autoComplete="off"
-                                    disabled={props.initialValues.name === '' ? false : true}
                                     required
                                 />
                             </Grid>

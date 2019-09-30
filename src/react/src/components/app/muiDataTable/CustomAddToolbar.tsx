@@ -1,31 +1,33 @@
-import * as React from "react";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import AddIcon from "@material-ui/icons/Add";
-import { withStyles } from "@material-ui/styles";
+import * as React from 'react';
+import AddIcon from '@material-ui/icons/Add';
+import { Button, WithStyles, Theme, createStyles, withStyles } from '@material-ui/core';
 
-interface CustomAddToolbarProps {
+const styles = (theme: Theme) =>
+    createStyles({
+        button: {
+            margin: theme.spacing(1),
+        },
+        leftIcon: {
+            marginRight: theme.spacing(1),
+        },
+    });
+interface CustomAddToolbarProps extends WithStyles<typeof styles> {
     toggleFormFlag: () => void;
 }
 
-const defaultToolbarStyles = {
-    iconButton: {},
-};
-
 class CustomAddToolbar extends React.Component<CustomAddToolbarProps> {
     render() {
-        const classes = this.props as any;
+        const { classes } = this.props;
 
         return (
             <React.Fragment>
-                <Tooltip title={"Add"}>
-                    <IconButton className={classes.iconButton} onClick={this.props.toggleFormFlag}>
-                        <AddIcon className={classes.deleteIcon} />
-                    </IconButton>
-                </Tooltip>
+                <Button className={classes.button} color="primary" variant="contained" onClick={this.props.toggleFormFlag}>
+                    <AddIcon className={classes.leftIcon} />
+                    New
+                </Button>
             </React.Fragment>
         );
     }
 }
 
-export default withStyles(defaultToolbarStyles, { name: "CustomAddToolbar" })(CustomAddToolbar);
+export default withStyles(styles)(CustomAddToolbar);
