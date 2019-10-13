@@ -5,12 +5,12 @@ import { MenuState } from '../redux/actions/MenuActions';
 import IUser from '../models/app/IUser';
 import IProject from '../models/app/IProject';
 import { GoogleMapsState } from '../redux/actions/GoogleMapsActions';
-import CircleGeoFence from '../models/app/geofences/CircleGeoFence';
-import PolygonGeoFence from '../models/app/geofences/PolygonGeoFence';
-import { GeoFenceDrawerState } from '../redux/actions/GeoFenceDrawerActions';
-import { MergedIntegrationResponseType } from '../models/app/integrations/MergedIntegrationTypes';
+import { GeofenceDrawerState } from '../redux/actions/GeofenceDrawerActions';
 import { DomainState } from '../redux/actions/DomainActions';
 import { SnackbarNotification } from '../redux/actions/SnackbarActions';
+import { ProjectsState } from '../redux/actions/ProjectActions';
+import { GeofencesState } from '../redux/actions/GeofenceActions';
+import { IntegrationsState } from '../redux/actions/IntegrationActions';
 
 export interface OidcState {
     isLoadingUser: boolean;
@@ -23,12 +23,12 @@ export interface ApplicationState {
     router: RouterState;
     menu: MenuState;
     users: IUser[];
-    projects: IProject[];
+    projectsState: ProjectsState;
     selectedProject: IProject;
-    geofences: Array<CircleGeoFence | PolygonGeoFence>;
-    geoFenceDrawer: GeoFenceDrawerState;
+    geofencesState: GeofencesState;
+    geofenceDrawer: GeofenceDrawerState;
     googleMaps: GoogleMapsState;
-    integrations: MergedIntegrationResponseType[];
+    integrationsState: IntegrationsState;
     domain: DomainState;
     notifications: SnackbarNotification[];
 }

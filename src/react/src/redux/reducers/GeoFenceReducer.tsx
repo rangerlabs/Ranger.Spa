@@ -1,19 +1,14 @@
-import { POPULATE_GEOFENCES, GeoFenceAction, GeoFenceArrayAction, REMOVE_GEOFENCE, ADD_GEOFENCE } from '../actions/GeoFenceActions';
-import GeoFence from '../../models/app/geofences/GeoFence';
-import CircleGeoFence from '../../models/app/geofences/CircleGeoFence';
-import PolygonGeoFence from '../../models/app/geofences/PolygonGeoFence';
+import { POPULATE_GEOFENCES, GeofenceAction, GeofenceArrayAction, REMOVE_GEOFENCE, ADD_GEOFENCE, GeofencesState } from '../actions/GeofenceActions';
+import Geofence from '../../models/app/geofences/Geofence';
 
-export function geoFenceReducer(
-    state: Array<CircleGeoFence | PolygonGeoFence> = [],
-    action: GeoFenceAction & GeoFenceArrayAction
-): (CircleGeoFence | PolygonGeoFence)[] {
+export function geofenceReducer(state: GeofencesState = { isLoaded: false, geofences: [] }, action: GeofenceAction & GeofenceArrayAction) {
     switch (action.type) {
         case ADD_GEOFENCE:
-            return state.concat(action.geoFence);
+            return Object.assign({}, state, state.geofences.concat(action.geofence));
         case REMOVE_GEOFENCE:
-            return state.filter((v: GeoFence) => v.name !== action.geoFence.name);
+            return Object.assign({}, state, state.geofences.filter((v: Geofence) => v.name !== action.geofence.name));
         case POPULATE_GEOFENCES:
-            return action.geoFences;
+            return Object.assign({}, state, action.geofencesState);
         default:
             return state;
     }

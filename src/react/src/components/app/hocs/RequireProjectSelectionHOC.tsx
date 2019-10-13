@@ -5,11 +5,13 @@ import { push } from 'connected-react-router';
 import IProject from '../../../models/app/IProject';
 import { selectProject } from '../../../redux/actions/SelecteProjectActions';
 import RoutePaths from '../../RoutePaths';
+import populateProjectsHOC from './PopulateProjectsHOC';
+import { ProjectsState } from '../../../redux/actions/ProjectActions';
 
 type RequireProjectSelectionProps = StateProps & DispatchProps;
 
 interface StateProps {
-    projects: IProject[];
+    projectsState: ProjectsState;
     selectedProject: IProject;
 }
 interface DispatchProps {
@@ -20,7 +22,7 @@ interface DispatchProps {
 const mapStateToProps = (state: ApplicationState): StateProps => {
     return {
         selectedProject: state.selectedProject,
-        projects: state.projects,
+        projectsState: state.projectsState,
     };
 };
 
@@ -41,13 +43,13 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
         }
 
         componentDidUpdate(prevProps: RequireProjectSelectionProps) {
-            if (prevProps.projects !== this.props.projects) {
+            if (prevProps.projectsState.projects !== this.props.projectsState.projects) {
                 this.checkProjectIsSelected();
             }
         }
 
         checkProjectIsSelected() {
-            if (this.props.projects.length > 0) {
+            if (this.props.projectsState.projects.length > 0) {
                 const redirect = window.location.pathname.split('/');
                 let appName = '';
                 let redirectComponentPath = '';
@@ -66,15 +68,18 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
                 }
 
                 let pushPath = undefined as string;
-                const app = this.props.projects.filter(a => a.name === appName);
+                const app = this.props.projectsState.projects.filter(a => a.name === appName);
                 if (app && app.length === 1) {
                     this.props.selectProject(app[0]);
                     pushPath = '/' + appName + redirectComponentPath;
                 } else if (this.appIsInStateAndIsValid()) {
-                    pushPath = '/' + this.props.projects.filter(a => a.name === this.props.selectedProject.name).map(a => a.name) + redirectComponentPath;
+                    pushPath =
+                        '/' +
+                        this.props.projectsState.projects.filter(a => a.name === this.props.selectedProject.name).map(a => a.name) +
+                        redirectComponentPath;
                 } else if (this.stateContainsOnlyOneProject()) {
-                    this.props.selectProject(this.props.projects[0]);
-                    pushPath = '/' + this.props.projects[0].name + redirectComponentPath;
+                    this.props.selectProject(this.props.projectsState.projects[0]);
+                    pushPath = '/' + this.props.projectsState.projects[0].name + redirectComponentPath;
                 } else {
                     pushPath = `/projects/select?redirect=${redirectComponentPath}`;
                 }
@@ -83,11 +88,11 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
         }
 
         private stateContainsOnlyOneProject() {
-            return this.props.projects.length === 1;
+            return this.props.projectsState.projects.length === 1;
         }
 
         private appIsInStateAndIsValid() {
-            return this.props.selectedProject && this.props.projects.map(a => a.name).indexOf(this.props.selectedProject.name) >= 0;
+            return this.props.selectedProject && this.props.projectsState.projects.map(a => a.name).indexOf(this.props.selectedProject.name) >= 0;
         }
 
         render() {
@@ -97,7 +102,7 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
     return connect<StateProps, DispatchProps, null>(
         mapStateToProps,
         mapDispatchToProps
-    )(RequireProjectSelectionComponent);
+    )(populateProjectsHOC(RequireProjectSelectionComponent));
 };
 
 export default requireProjectSelection;

@@ -1,35 +1,35 @@
-import PolygonGeoFence from "../../models/app/geofences/PolygonGeoFence";
-import CircleGeoFence from "../../models/app/geofences/CircleGeoFence";
+import PolygonGeofence from "../../models/app/geofences/PolygonGeofence";
+import CircleGeofence from "../../models/app/geofences/CircleGeofence";
 
 export const OPEN_GEOFENCE_DRAWER = "OPEN_GEOFENCE_DRAWER";
 export const CLOSE_GEOFENCE_DRAWER = "CLOSE_GEOFENCE_DRAWER";
 
-export interface GeoFenceDrawerAction {
+export interface GeofenceDrawerAction {
     type: string;
-    geoFenceDrawer: GeoFenceDrawerState;
+    geofenceDrawer: GeofenceDrawerState;
 }
 
-export interface GeoFenceDrawerState {
+export interface GeofenceDrawerState {
     isOpen: boolean;
-    editGeoFence: CircleGeoFence | PolygonGeoFence;
+    editGeofence: CircleGeofence | PolygonGeofence;
 }
 
-export function openGeoFenceDrawer(editGeoFence: CircleGeoFence | PolygonGeoFence): GeoFenceDrawerAction {
+export function openGeofenceDrawer(editGeofence: CircleGeofence | PolygonGeofence): GeofenceDrawerAction {
     return {
         type: OPEN_GEOFENCE_DRAWER,
-        geoFenceDrawer: {
+        geofenceDrawer: {
             isOpen: true,
-            editGeoFence,
+            editGeofence,
         },
     };
 }
 
-export function closeGeoFenceDrawer(): GeoFenceDrawerAction {
+export function closeGeofenceDrawer(): GeofenceDrawerAction {
     return {
         type: CLOSE_GEOFENCE_DRAWER,
-        geoFenceDrawer: {
+        geofenceDrawer: {
             isOpen: false,
-            editGeoFence: {} as CircleGeoFence | PolygonGeoFence,
+            editGeofence: {} as CircleGeofence | PolygonGeofence,
         },
     };
 }

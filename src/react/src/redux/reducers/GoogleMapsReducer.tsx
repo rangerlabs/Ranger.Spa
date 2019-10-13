@@ -16,11 +16,11 @@ export function googleMapsReducer(
         case SELECT_SHAPE_PICKER:
             return Object.assign({}, state, { selectedShapePicker: action.googleMaps.selectedShapePicker });
         case ADD_CIRCLE_GEOFENCE:
-            return Object.assign({}, state, { CircleGeoFence: action.googleMaps.CircleGeoFence });
+            return Object.assign({}, state, { CircleGeofence: action.googleMaps.CircleGeofence });
         case ADD_POLYGON_GEOFENCE:
-            return Object.assign({}, state, { polygonGeoFence: action.googleMaps.polygonGeoFence });
+            return Object.assign({}, state, { polygonGeofence: action.googleMaps.polygonGeofence });
         case CLEAR_GEOFENCE:
-            return Object.assign({}, state, { CircleGeoFence: undefined, polygonGeoFence: undefined });
+            return Object.assign({}, state, { CircleGeofence: undefined, polygonGeofence: undefined });
         default:
             return state;
     }

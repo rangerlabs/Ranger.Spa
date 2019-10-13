@@ -1,28 +1,30 @@
 import * as React from 'react';
-import PolygonGeoFence from '../../../models/app/geofences/PolygonGeoFence';
-import { populateGeoFences } from '../../../redux/actions/GeoFenceActions';
-import CircleGeoFence from '../../../models/app/geofences/CircleGeoFence';
+import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
+import { populateGeofences, GeofencesState } from '../../../redux/actions/GeofenceActions';
+import CircleGeofence from '../../../models/app/geofences/CircleGeofence';
 import { ApplicationState } from '../../../stores';
-import GeoFenceService from '../../../services/GeoFenceService';
+import GeofenceService from '../../../services/GeofenceService';
 import { connect } from 'react-redux';
 import IProject from '../../../models/app/IProject';
+import populateProjectsHOC from './PopulateProjectsHOC';
+import Loading from '../loading/Loading';
 
-const geoFenceService = new GeoFenceService();
+const geofenceService = new GeofenceService();
 
 interface PopulateGeofencesComponentProps {
-    setGeoFences: (geofences: Array<CircleGeoFence | PolygonGeoFence>) => void;
+    setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>) => void;
     selectedProject: IProject;
-    geofences: Array<CircleGeoFence | PolygonGeoFence>;
+    geofencesState: GeofencesState;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { geofences: state.geofences, selectedProject: state.selectedProject };
+    return { geofencesState: state.geofencesState, selectedProject: state.selectedProject };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        setGeoFences: (geofences: Array<CircleGeoFence | PolygonGeoFence>) => {
-            const action = populateGeoFences(geofences);
+        setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>) => {
+            const action = populateGeofences(geofences);
             dispatch(action);
         },
     };
@@ -31,22 +33,24 @@ const mapDispatchToProps = (dispatch: any) => {
 const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P>) => {
     class PopulateGeofencesComponent extends React.Component<PopulateGeofencesComponentProps> {
         componentDidMount() {
-            if (this.props.geofences.length === 0) {
-                geoFenceService.getGeoFences(this.props.selectedProject.name).then(geoFenceResponse => {
-                    this.props.setGeoFences(geoFenceResponse);
+            if (!this.props.geofencesState.isLoaded) {
+                geofenceService.getGeofences(this.props.selectedProject.name).then(geofenceResponse => {
+                    setTimeout(() => {
+                        this.props.setGeofences(geofenceResponse);
+                    }, 350);
                 });
             }
         }
 
         render() {
-            return <Component {...(this.props as P)} />;
+            return this.props.geofencesState.isLoaded ? <Component {...(this.props as P)} /> : <Loading message="Retrieving your geofences" />;
         }
     }
 
     return connect(
         mapStateToProps,
         mapDispatchToProps
-    )(PopulateGeofencesComponent);
+    )(populateProjectsHOC(PopulateGeofencesComponent));
 };
 
 export default populateGeofencesHOC;

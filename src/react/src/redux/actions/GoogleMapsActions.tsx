@@ -20,16 +20,16 @@ export interface GoogleMapsAction {
 export interface GoogleMapsState {
     selectedShapePicker: ShapePicker;
     shapePickerEnabled: boolean;
-    CircleGeoFence: CircleGeoFenceState;
-    polygonGeoFence: PolygonGeoFenceState;
+    CircleGeofence: CircleGeofenceState;
+    polygonGeofence: PolygonGeofenceState;
 }
 
-export interface CircleGeoFenceState {
+export interface CircleGeofenceState {
     center: CoordinatePair;
     radius: number;
 }
 
-export interface PolygonGeoFenceState {
+export interface PolygonGeofenceState {
     coordinatePairArray: CoordinatePair[];
 }
 
@@ -42,25 +42,25 @@ export function selectShapePicker(shape: ShapePicker): GoogleMapsAction {
     };
 }
 
-export function addCircleGeoFence(CircleGeoFence: CircleGeoFenceState): GoogleMapsAction {
+export function addCircleGeofence(CircleGeofence: CircleGeofenceState): GoogleMapsAction {
     return {
         type: ADD_CIRCLE_GEOFENCE,
         googleMaps: {
-            CircleGeoFence: CircleGeoFence,
+            CircleGeofence: CircleGeofence,
         } as GoogleMapsState,
     };
 }
 
-export function addPolygonGeoFence(polygonGeoFence: PolygonGeoFenceState): GoogleMapsAction {
+export function addPolygonGeofence(polygonGeofence: PolygonGeofenceState): GoogleMapsAction {
     return {
         type: ADD_POLYGON_GEOFENCE,
         googleMaps: {
-            polygonGeoFence: polygonGeoFence,
+            polygonGeofence: polygonGeofence,
         } as GoogleMapsState,
     };
 }
 
-export function clearGeoFence(): GoogleMapsAction {
+export function clearGeofence(): GoogleMapsAction {
     return {
         type: CLEAR_GEOFENCE,
         googleMaps: {} as GoogleMapsState,

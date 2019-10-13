@@ -11,7 +11,12 @@ export interface ProjectAction {
 
 export interface ProjectArrayAction {
     type: string;
+    projectsState: ProjectsState;
+}
+
+export interface ProjectsState {
     projects: Array<IProject>;
+    isLoaded: boolean;
 }
 
 export function addProject(project: IProject): ProjectAction {
@@ -26,9 +31,13 @@ export function removeProject(name: string): ProjectAction {
         project: { name: name } as IProject,
     };
 }
+
 export function populateProjects(projects: Array<IProject>): ProjectArrayAction {
     return {
         type: POPULATE_PROJECTS,
-        projects,
+        projectsState: {
+            isLoaded: true,
+            projects,
+        },
     };
 }

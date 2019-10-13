@@ -1,64 +1,64 @@
 import * as React from 'react';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { addGeoFence, removeGeoFence } from '../../../redux/actions/GeoFenceActions';
+import { addGeofence, removeGeofence, GeofencesState } from '../../../redux/actions/GeofenceActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
-import PolygonGeoFence from '../../../models/app/geofences/PolygonGeoFence';
-import CircleGeoFence from '../../../models/app/geofences/CircleGeoFence';
+import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
+import CircleGeofence from '../../../models/app/geofences/CircleGeofence';
 import requireProjectSelection from '../hocs/RequireProjectSelectionHOC';
 import populateGeofencesHOC from '../hocs/PopulateGeofencesHOC';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import titleCase = require('title-case');
 const MUIDataTable = require('mui-datatables').default;
 
-interface GeoFencesProps {
-    geofences: Array<CircleGeoFence | PolygonGeoFence>;
-    addGeoFence: (geofence: CircleGeoFence | PolygonGeoFence) => void;
-    removeGeoFence: (name: string) => void;
+interface GeofencesProps {
+    geofencesState: GeofencesState;
+    addGeofence: (geofence: CircleGeofence | PolygonGeofence) => void;
+    removeGeofence: (name: string) => void;
     push: typeof push;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { geofences: selectedProjectGeoFences(state.geofences, state.selectedProject.name) };
+    return { geofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.name) };
 };
 
-const selectedProjectGeoFences = (geofences: Array<CircleGeoFence | PolygonGeoFence>, name: string) => {
+const selectedProjectGeofences = (geofences: Array<CircleGeofence | PolygonGeofence>, name: string) => {
     return geofences.filter(f => f.projectName === name);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        addGeoFence: (geofence: CircleGeoFence | PolygonGeoFence) => {
-            const action = addGeoFence(geofence);
+        addGeofence: (geofence: CircleGeofence | PolygonGeofence) => {
+            const action = addGeofence(geofence);
             dispatch(action);
         },
-        removeGeoFence: (name: string) => {
-            const action = removeGeoFence(name);
+        removeGeofence: (name: string) => {
+            const action = removeGeofence(name);
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),
     };
 };
 
-class GeoFences extends React.Component<GeoFencesProps> {
+class Geofences extends React.Component<GeofencesProps> {
     refs: {
         query: HTMLInputElement;
     };
 
-    editGeoFence = (rowData: string[]) => {
+    editGeofence = (rowData: string[]) => {
         this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + rowData[0]);
     };
 
-    redirectToNewGeoFenceForm = () => {
+    redirectToNewGeofenceForm = () => {
         this.props.push('/geofences/map/new');
     };
 
-    mapGeoFencesToTableGeoFences(geofences: Array<CircleGeoFence | PolygonGeoFence>): Array<Array<string>> {
-        const tableGeoFences = new Array<Array<string>>();
+    mapGeofencesToTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>): Array<Array<string>> {
+        const tableGeofences = new Array<Array<string>>();
         if (geofences) {
             geofences.forEach(value => {
-                tableGeoFences.push([
+                tableGeofences.push([
                     value.name,
                     value.description,
                     titleCase(value.shape.toString()),
@@ -67,7 +67,7 @@ class GeoFences extends React.Component<GeoFencesProps> {
                 ]);
             });
         }
-        return tableGeoFences;
+        return tableGeofences;
     }
 
     columns = [
@@ -106,20 +106,25 @@ class GeoFences extends React.Component<GeoFencesProps> {
         print: false,
         download: false,
         customToolbar: () => {
-            return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeoFenceForm} />;
+            return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
         },
         elevation: 0,
         selectableRows: 'none',
         responsive: 'stacked',
         viewColumns: false,
-        onRowClick: this.editGeoFence,
+        onRowClick: this.editGeofence,
     };
 
     render() {
-        const { geofences } = this.props;
+        const { geofencesState: geofencesState } = this.props;
         return (
             <React.Fragment>
-                <MUIDataTable title={'Geofences'} data={this.mapGeoFencesToTableGeoFences(geofences)} columns={this.columns} options={this.options} />
+                <MUIDataTable
+                    title={'Geofences'}
+                    data={this.mapGeofencesToTableGeofences(geofencesState.geofences)}
+                    columns={this.columns}
+                    options={this.options}
+                />
             </React.Fragment>
         );
     }
@@ -128,4 +133,4 @@ class GeoFences extends React.Component<GeoFencesProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(requireProjectSelection(populateIntegrationsHOC(populateGeofencesHOC(GeoFences))));
+)(requireProjectSelection(populateIntegrationsHOC(populateGeofencesHOC(Geofences))));

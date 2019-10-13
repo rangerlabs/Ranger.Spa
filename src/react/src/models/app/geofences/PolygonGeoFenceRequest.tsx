@@ -1,8 +1,8 @@
-import GeoFence from './GeoFence';
+import Geofence from './Geofence';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import CoordinatePair from './CoordinatePair';
 
-export default class PolygonGeoFenceRequest implements GeoFence {
+export default class PolygonGeofenceRequest implements Geofence {
     shape: ShapePicker;
 
     public constructor(

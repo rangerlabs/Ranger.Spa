@@ -3,23 +3,27 @@ import Constants from '../../../../../theme/Constants';
 const MapMarkerPurple = require('../../../../../../assets/map-marker-purple.png');
 const MapMarkerRed = require('../../../../../../assets/map-marker-red.png');
 
-export default class PolygonGeoFenceMapMarker {
-    polygonGeoFence: google.maps.Polygon = undefined;
+export default class PolygonGeofenceMapMarker {
+    polygonGeofence: google.maps.Polygon = undefined;
     polygonMarker: google.maps.Marker = undefined;
 
     public constructor(
         private map: google.maps.Map,
         public id: string,
         private latLngPath: Array<google.maps.LatLng>,
-        private onClick: (latLng: google.maps.LatLng, geoFenceName: string) => void,
+        private onClick: (latLng: google.maps.LatLng, geofenceName: string) => void,
         private drop: boolean = false
     ) {
-        this.addPolygonGeoFence();
-        this.addPolygonGeoFenceClickEventListener();
+        this.addPolygonGeofence();
+        this.addPolygonGeofenceClickEventListener();
     }
 
-    addPolygonGeoFence() {
-        this.polygonGeoFence = new google.maps.Polygon({
+    getMarker() {
+        return this.polygonMarker;
+    }
+
+    addPolygonGeofence() {
+        this.polygonGeofence = new google.maps.Polygon({
             clickable: true,
             strokeColor: Constants.PRIMARY_COLOR,
             strokeOpacity: 0.8,
@@ -37,15 +41,15 @@ export default class PolygonGeoFenceMapMarker {
         });
     }
 
-    addPolygonGeoFenceClickEventListener() {
-        this.polygonGeoFence.addListener('click', (e: google.maps.MouseEvent) => {
-            const valuesLength = this.polygonGeoFence.getPath().getLength();
+    addPolygonGeofenceClickEventListener() {
+        this.polygonGeofence.addListener('click', (e: google.maps.MouseEvent) => {
+            const valuesLength = this.polygonGeofence.getPath().getLength();
             if (valuesLength >= 3) {
                 google.maps.event.trigger(this.map, 'click', e);
             }
         });
         this.polygonMarker.addListener('click', (e: google.maps.MouseEvent) => {
-            const valuesLength = this.polygonGeoFence.getPath().getLength();
+            const valuesLength = this.polygonGeofence.getPath().getLength();
             if (valuesLength >= 3) {
                 this.onClick(this.getPolygonCenter(), this.id);
             }
@@ -56,22 +60,22 @@ export default class PolygonGeoFenceMapMarker {
         this.polygonMarker.addListener('mouseout', (e: google.maps.MouseEvent) => {
             this.polygonMarker.setIcon(MapMarkerPurple);
         });
-        this.polygonGeoFence.addListener('mousemove', (e: google.maps.MouseEvent) => {
+        this.polygonGeofence.addListener('mousemove', (e: google.maps.MouseEvent) => {
             google.maps.event.trigger(this.map, 'mousemove', e);
         });
     }
 
     getPolygonCenter() {
         var bounds = new google.maps.LatLngBounds();
-        for (let i = 0; i < this.polygonGeoFence.getPath().getLength(); i++) {
-            bounds.extend(this.polygonGeoFence.getPath().getAt(i));
+        for (let i = 0; i < this.polygonGeofence.getPath().getLength(); i++) {
+            bounds.extend(this.polygonGeofence.getPath().getAt(i));
         }
         return bounds.getCenter();
     }
 
     private removeEventListeners = () => {
-        if (this.polygonGeoFence) {
-            google.maps.event.clearInstanceListeners(this.polygonGeoFence);
+        if (this.polygonGeofence) {
+            google.maps.event.clearInstanceListeners(this.polygonGeofence);
         }
         if (this.polygonMarker) {
             google.maps.event.clearInstanceListeners(this.polygonMarker);
@@ -79,9 +83,9 @@ export default class PolygonGeoFenceMapMarker {
     };
 
     private clearCircle = () => {
-        if (this.polygonGeoFence) {
-            this.polygonGeoFence.setMap(null);
-            this.polygonGeoFence = undefined;
+        if (this.polygonGeofence) {
+            this.polygonGeofence.setMap(null);
+            this.polygonGeofence = undefined;
         }
         if (this.polygonMarker) {
             this.polygonMarker.setMap(null);

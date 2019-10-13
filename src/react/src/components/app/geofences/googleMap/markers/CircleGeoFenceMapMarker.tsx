@@ -11,30 +11,34 @@ declare global {
     }
 }
 
-export default class CircleGeoFenceMapMarker {
+export default class CircleGeofenceMapMarker {
     public constructor(
         private map: google.maps.Map,
         public id: string,
         public latLng: google.maps.LatLng,
         public radius: number,
-        private onClick: (latLng: google.maps.LatLng, geoFenceName: string) => void,
+        private onClick: (latLng: google.maps.LatLng, geofenceName: string) => void,
         private drop: boolean = false
     ) {
-        this.addCircleGeoFenceMarkers(latLng, radius);
+        this.addCircleGeofenceMarkers(latLng, radius);
         this.addCircleClickEventHandlers();
     }
     //Markers
     circleClickMarker: google.maps.Marker = undefined;
-    CircleGeoFenceCenterMarker: google.maps.Circle = undefined;
+    circleGeofenceCenterMarker: google.maps.Circle = undefined;
 
-    addCircleGeoFenceMarkers = (latLng: google.maps.LatLng, radius: number = DEFAULT_RADIUS) => {
+    getMarker() {
+        return this.circleClickMarker;
+    }
+
+    addCircleGeofenceMarkers = (latLng: google.maps.LatLng, radius: number = DEFAULT_RADIUS) => {
         this.circleClickMarker = new google.maps.Marker({
             map: this.map,
             position: latLng,
             icon: MapMarkerPurple,
             animation: this.drop ? google.maps.Animation.DROP : null,
         });
-        this.CircleGeoFenceCenterMarker = new google.maps.Circle({
+        this.circleGeofenceCenterMarker = new google.maps.Circle({
             strokeColor: Constants.PRIMARY_COLOR,
             strokeOpacity: 0.8,
             strokeWeight: 2,
@@ -50,7 +54,7 @@ export default class CircleGeoFenceMapMarker {
         this.circleClickMarker.addListener('click', (e: google.maps.MouseEvent) => {
             this.onClick(this.circleClickMarker.getPosition(), this.id);
         });
-        this.CircleGeoFenceCenterMarker.addListener('click', (e: google.maps.MouseEvent) => {
+        this.circleGeofenceCenterMarker.addListener('click', (e: google.maps.MouseEvent) => {
             google.maps.event.trigger(this.map, 'click', e);
         });
         this.circleClickMarker.addListener('mouseover', (e: google.maps.MouseEvent) => {
@@ -65,8 +69,8 @@ export default class CircleGeoFenceMapMarker {
         if (this.circleClickMarker) {
             google.maps.event.clearInstanceListeners(this.circleClickMarker);
         }
-        if (this.CircleGeoFenceCenterMarker) {
-            google.maps.event.clearInstanceListeners(this.CircleGeoFenceCenterMarker);
+        if (this.circleGeofenceCenterMarker) {
+            google.maps.event.clearInstanceListeners(this.circleGeofenceCenterMarker);
         }
     }
 
@@ -75,9 +79,9 @@ export default class CircleGeoFenceMapMarker {
             this.circleClickMarker.setMap(null);
             this.circleClickMarker = undefined;
         }
-        if (this.CircleGeoFenceCenterMarker) {
-            this.CircleGeoFenceCenterMarker.setMap(null);
-            this.CircleGeoFenceCenterMarker = undefined;
+        if (this.circleGeofenceCenterMarker) {
+            this.circleGeofenceCenterMarker.setMap(null);
+            this.circleGeofenceCenterMarker = undefined;
         }
     };
 

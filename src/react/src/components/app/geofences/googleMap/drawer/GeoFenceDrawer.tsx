@@ -2,17 +2,17 @@ import * as React from 'react';
 import { Theme, createStyles, WithStyles, Drawer, IconButton, withStyles, Typography } from '@material-ui/core';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import { FormikProps, FormikBag } from 'formik';
-import CircleGeoFence from '../../../../../models/app/geofences/CircleGeoFence';
-import PolygonGeoFence from '../../../../../models/app/geofences/PolygonGeoFence';
+import CircleGeofence from '../../../../../models/app/geofences/CircleGeofence';
+import PolygonGeofence from '../../../../../models/app/geofences/PolygonGeofence';
 import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../../stores/index';
-import { ShapePicker, PolygonGeoFenceState, CircleGeoFenceState } from '../../../../../redux/actions/GoogleMapsActions';
-import { closeGeoFenceDrawer } from '../../../../../redux/actions/GeoFenceDrawerActions';
-import CircleGeoFenceDrawerContent from './CircleGeoFenceDrawerContent';
-import PolygonGeoFenceDrawerContent from './PolygonGeoFenceDrawerContent';
+import { ShapePicker, PolygonGeofenceState, CircleGeofenceState } from '../../../../../redux/actions/GoogleMapsActions';
+import { closeGeofenceDrawer } from '../../../../../redux/actions/GeofenceDrawerActions';
+import CircleGeofenceDrawerContent from './CircleGeofenceDrawerContent';
+import PolygonGeofenceDrawerContent from './PolygonGeofenceDrawerContent';
 import IProject from '../../../../../models/app/IProject';
 
 const styles = (theme: Theme) =>
@@ -50,10 +50,10 @@ const styles = (theme: Theme) =>
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        geofences: state.geofences,
-        geoFenceDrawerOpen: state.geoFenceDrawer.isOpen,
-        mapGeoFence: getMapGeoFence(state),
-        editGeoFence: state.geoFenceDrawer.editGeoFence,
+        geofences: state.geofencesState.geofences,
+        geofenceDrawerOpen: state.geofenceDrawer.isOpen,
+        mapGeofence: getMapGeofence(state),
+        editGeofence: state.geofenceDrawer.editGeofence,
         selectedShape: state.googleMaps.selectedShapePicker,
         selectedProject: state.selectedProject,
         integrationNames: getIntegrationNames(state),
@@ -61,16 +61,16 @@ const mapStateToProps = (state: ApplicationState) => {
 };
 
 const getIntegrationNames = (state: ApplicationState) => {
-    return state.integrations.filter(i => i.projectName === state.selectedProject.name).map(i => i.name);
+    return state.integrationsState.integrations.filter(i => i.projectName === state.selectedProject.name).map(i => i.name);
 };
 
-const getMapGeoFence = (state: ApplicationState): CircleGeoFenceState | PolygonGeoFenceState => {
+const getMapGeofence = (state: ApplicationState): CircleGeofenceState | PolygonGeofenceState => {
     switch (state.googleMaps.selectedShapePicker) {
         case ShapePicker.Circle: {
-            return state.googleMaps.CircleGeoFence;
+            return state.googleMaps.CircleGeofence;
         }
         case ShapePicker.Polygon: {
-            return state.googleMaps.polygonGeoFence;
+            return state.googleMaps.polygonGeofence;
         }
         default: {
             return undefined;
@@ -93,29 +93,29 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(action);
         },
         closeDrawer: () => {
-            const action = closeGeoFenceDrawer();
+            const action = closeGeofenceDrawer();
             dispatch(action);
         },
     };
 };
 
-interface GeoFenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarProps {
+interface GeofenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarProps {
     theme: Theme;
-    geofences?: Array<CircleGeoFence | PolygonGeoFence>;
-    mapGeoFence: CircleGeoFenceState | PolygonGeoFenceState;
-    editGeoFence: CircleGeoFence | PolygonGeoFence;
-    geoFenceDrawerOpen: boolean;
+    geofences?: Array<CircleGeofence | PolygonGeofence>;
+    mapGeofence: CircleGeofenceState | PolygonGeofenceState;
+    editGeofence: CircleGeofence | PolygonGeofence;
+    geofenceDrawerOpen: boolean;
     selectedShape: ShapePicker;
     selectedProject: IProject;
     integrationNames: string[];
     openDialog: (dialogCotent: DialogContent) => void;
     closeDrawer: () => void;
-    clearNewCircleGeoFence: () => void;
-    clearNewPolygonGeoFence: () => void;
+    clearNewCircleGeofence: () => void;
+    clearNewPolygonGeofence: () => void;
     enableMapClick: () => void;
 }
 
-class GeoFenceDrawer extends React.Component<GeoFenceDrawerProps> {
+class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
     render() {
         const { classes, theme } = this.props;
         return (
@@ -123,7 +123,7 @@ class GeoFenceDrawer extends React.Component<GeoFenceDrawerProps> {
                 // className={classes.drawer}
                 variant="persistent"
                 anchor={'right'}
-                open={this.props.geoFenceDrawerOpen}
+                open={this.props.geofenceDrawerOpen}
                 classes={{
                     paper: classes.drawerPaper,
                 }}
@@ -137,23 +137,23 @@ class GeoFenceDrawer extends React.Component<GeoFenceDrawerProps> {
                 <div className={classes.toolbar} />
                 <div className={classes.toolbar} />
                 {this.props.selectedShape === ShapePicker.Circle ? (
-                    <CircleGeoFenceDrawerContent
+                    <CircleGeofenceDrawerContent
                         selectedProject={this.props.selectedProject}
-                        mapGeoFence={this.props.mapGeoFence as CircleGeoFenceState}
-                        editGeoFence={this.props.editGeoFence as CircleGeoFence}
+                        mapGeofence={this.props.mapGeofence as CircleGeofenceState}
+                        editGeofence={this.props.editGeofence as CircleGeofence}
                         integrationNames={this.props.integrationNames}
                         closeDrawer={this.props.closeDrawer}
-                        clearNewCircleGeoFence={this.props.clearNewCircleGeoFence}
+                        clearNewCircleGeofence={this.props.clearNewCircleGeofence}
                         enableMapClick={this.props.enableMapClick}
                     />
                 ) : (
-                    <PolygonGeoFenceDrawerContent
+                    <PolygonGeofenceDrawerContent
                         selectedProject={this.props.selectedProject}
-                        mapGeoFence={this.props.mapGeoFence as PolygonGeoFenceState}
-                        editGeoFence={this.props.editGeoFence as PolygonGeoFence}
+                        mapGeofence={this.props.mapGeofence as PolygonGeofenceState}
+                        editGeofence={this.props.editGeofence as PolygonGeofence}
                         integrationNames={this.props.integrationNames}
                         closeDrawer={this.props.closeDrawer}
-                        clearNewPolygonGeoFence={this.props.clearNewPolygonGeoFence}
+                        clearNewPolygonGeofence={this.props.clearNewPolygonGeofence}
                         enableMapClick={this.props.enableMapClick}
                     />
                 )}
@@ -164,4 +164,4 @@ class GeoFenceDrawer extends React.Component<GeoFenceDrawerProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles, { withTheme: true })(withSnackbar(GeoFenceDrawer)));
+)(withStyles(styles, { withTheme: true })(withSnackbar(GeofenceDrawer)));

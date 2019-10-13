@@ -6,8 +6,8 @@ import { titleCase } from 'change-case';
 
 const dashboardBreadcrumb = new Breadcrumb('Dashboard', RoutePaths.Dashboard);
 const accountBreadcrumb = new Breadcrumb('Account', RoutePaths.Account);
-const geoFenceMapBreadcrumb = new Breadcrumb('Geofence Map', RoutePaths.GeoFenceMap);
-const geoFenceTableBreadcrumb = new Breadcrumb('Geofence Table', RoutePaths.GeoFenceTable);
+const geofenceMapBreadcrumb = new Breadcrumb('Geofence Map', RoutePaths.GeofenceMap);
+const geofenceTableBreadcrumb = new Breadcrumb('Geofence Table', RoutePaths.GeofenceTable);
 
 const integrationsBreadcrumb = new Breadcrumb('Integrations', RoutePaths.Integrations);
 const integrationsNewBreadcrumb = new Breadcrumb('New', RoutePaths.IntegrationsNew);
@@ -30,12 +30,12 @@ export default class BreadcrumbPaths {
         return new BreadcrumbPath(new Array<Breadcrumb>(accountBreadcrumb));
     }
 
-    public static GeoFenceMap() {
-        return new BreadcrumbPath(new Array<Breadcrumb>(geoFenceMapBreadcrumb), true);
+    public static GeofenceMap() {
+        return new BreadcrumbPath(new Array<Breadcrumb>(geofenceMapBreadcrumb), true);
     }
 
-    public static GeoFenceTable() {
-        return new BreadcrumbPath(new Array<Breadcrumb>(geoFenceTableBreadcrumb), true);
+    public static GeofenceTable() {
+        return new BreadcrumbPath(new Array<Breadcrumb>(geofenceTableBreadcrumb), true);
     }
 
     public static Integrations() {

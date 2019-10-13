@@ -11,6 +11,11 @@ export interface IntegrationAction {
 
 export interface IntegrationArrayAction {
     type: string;
+    integrationsState: IntegrationsState;
+}
+
+export interface IntegrationsState {
+    isLoaded: boolean;
     integrations: Array<MergedIntegrationResponseType>;
 }
 
@@ -29,6 +34,9 @@ export function removeIntegration(name: string): IntegrationAction {
 export function populateIntegrations(integrations: Array<MergedIntegrationResponseType>): IntegrationArrayAction {
     return {
         type: POPULATE_INTEGRATIONS,
-        integrations,
+        integrationsState: {
+            isLoaded: true,
+            integrations,
+        },
     };
 }

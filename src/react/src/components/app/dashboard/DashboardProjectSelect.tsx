@@ -23,6 +23,7 @@ import { ApplicationState } from '../../../stores';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 const IntegrationApi = require('../../../../assets/integration-api.png');
+import { ProjectsState } from '../../../redux/actions/ProjectActions';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -69,14 +70,14 @@ const styles = (theme: Theme) =>
     });
 
 interface ProjectsSelectProps extends WithStyles<typeof styles> {
-    projects: IProject[];
+    projectsState: ProjectsState;
     selectProject: (project: IProject) => void;
     push: typeof push;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        projects: state.projects,
+        projectsState: state.projectsState,
     };
 };
 
@@ -93,18 +94,15 @@ const mapDispatchToProps = (dispatch: any) => {
 class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
     handleProjectClick(project: IProject) {
         this.props.selectProject(project);
-        this.props.push(RoutePaths.GeoFenceMap);
+        this.props.push(RoutePaths.GeofenceMap);
     }
     render() {
-        const { classes, projects } = this.props;
+        const { classes, projectsState } = this.props;
         return (
             <React.Fragment>
-                <Typography align="left" variant="subtitle1">
-                    Projects
-                </Typography>
                 <div className={classes.root}>
                     <GridList className={classes.gridList} cols={2.5}>
-                        {projects.map(project => (
+                        {projectsState.projects.map(project => (
                             <GridListTile className={classes.gridListTile} key={project.name}>
                                 <Card className={classes.card}>
                                     <CardHeader title={project.name} />

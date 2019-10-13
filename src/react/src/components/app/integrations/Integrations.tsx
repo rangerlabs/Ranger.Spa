@@ -1,7 +1,7 @@
 import * as React from 'react';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { addIntegration, removeIntegration } from '../../../redux/actions/IntegrationActions';
+import { addIntegration, removeIntegration, IntegrationsState } from '../../../redux/actions/IntegrationActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import { MergedIntegrationResponseType } from '../../../models/app/integrations/MergedIntegrationTypes';
@@ -13,14 +13,14 @@ import titleCase = require('title-case');
 const MUIDataTable = require('mui-datatables').default;
 
 interface IntegrationsProps {
-    integrations: MergedIntegrationResponseType[];
+    integrationsState: IntegrationsState;
     addIntegration: (integration: MergedIntegrationResponseType) => void;
     removeIntegration: (name: string) => void;
     push: typeof push;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { integrations: selectedProjectIntegrations(state.integrations, state.selectedProject.name) };
+    return { integrationsState: selectedProjectIntegrations(state.integrationsState.integrations, state.selectedProject.name) };
 };
 
 const selectedProjectIntegrations = (integrations: MergedIntegrationResponseType[], id: string) => {
@@ -104,12 +104,12 @@ class Integrations extends React.Component<IntegrationsProps> {
     };
 
     render() {
-        const { integrations } = this.props;
+        const { integrationsState } = this.props;
         return (
             <React.Fragment>
                 <MUIDataTable
                     title={'Integrations'}
-                    data={this.mapIntegrationsToTableIntegrations(integrations)}
+                    data={this.mapIntegrationsToTableIntegrations(integrationsState.integrations)}
                     columns={this.columns}
                     options={this.options}
                 />

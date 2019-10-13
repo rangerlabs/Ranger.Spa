@@ -9,6 +9,8 @@ import RoutePaths from '../../RoutePaths';
 const IntegrationApi = require('../../../../assets/integration-api.png');
 import * as queryString from 'query-string';
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
+import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
+import { ProjectsState } from '../../../redux/actions/ProjectActions';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -48,14 +50,14 @@ const styles = (theme: Theme) =>
     });
 
 interface ProjectSelectProps extends WithStyles<typeof styles> {
-    projects: IProject[];
+    projectsState: ProjectsState;
     selectProject: (project: IProject) => void;
     push: typeof push;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        projects: state.projects,
+        projectsState: state.projectsState,
     };
 };
 
@@ -77,18 +79,18 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
     }
 
     handleProjectClick(project: IProject) {
-        this.props.projects.filter(a => a.name === project.name);
+        this.props.projectsState.projects.filter(a => a.name === project.name);
         this.props.selectProject(project);
         const redirect = this.getRedirectFromParams();
         if (redirect) {
             this.props.push('/' + project.name + redirect);
         } else {
-            this.props.push(RoutePaths.GeoFenceMap.replace(':appName', project.name));
+            this.props.push(RoutePaths.GeofenceMap.replace(':appName', project.name));
         }
     }
 
     render() {
-        const { classes, projects } = this.props;
+        const { classes, projectsState } = this.props;
         return (
             <React.Fragment>
                 <div className={classes.layout}>
@@ -99,7 +101,7 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                         <Parallax pages={2} scrolling={true}>
                             <ParallaxLayer speed={0.7}>
                                 <Grid container spacing={3} direction="row" justify="center" alignItems="baseline">
-                                    {projects.map(project => (
+                                    {projectsState.projects.map(project => (
                                         <Grid key={project.name} item xs={12} sm={8} md={7}>
                                             <ButtonBase
                                                 className={classes.gridButton}
@@ -141,4 +143,4 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(ProjectSelect));
+)(withStyles(styles)(populateProjectsHOC(ProjectSelect)));

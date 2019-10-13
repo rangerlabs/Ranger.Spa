@@ -162,7 +162,7 @@ class Menu extends React.Component<MenuProps> {
                         <ListItem
                             button
                             className={classNames(classes.listItemHover, classes.nested)}
-                            onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceMap)}
+                            onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceMap)}
                         >
                             <ListItemIcon className={classes.listItemIconColor}>
                                 <MapPlus />
@@ -172,7 +172,7 @@ class Menu extends React.Component<MenuProps> {
                         <ListItem
                             button
                             className={classNames(classes.listItemHover, classes.nested)}
-                            onClick={() => this.handleMenuNavigation(RoutePaths.GeoFenceTable)}
+                            onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceTable)}
                         >
                             <ListItemIcon className={classes.listItemIconColor}>
                                 <FormatListBulleted />
