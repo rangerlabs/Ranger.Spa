@@ -143,16 +143,18 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             onSubmit={(values: IProject, formikBag: FormikBag<FormikProps<IProject>, IProject>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
-                                const newProject = {
+                                const inputProject = {
                                     name: values.name,
                                     description: values.description,
+                                    apiKey: values.apiKey
                                 } as IProject;
                                 if (this.state.initialProject) {
-                                    projectService.putProject(newProject, this.state.initialProject.projectId).then((response: IRestResponse<IProject>) => {
+                                    const editedProject = Object.assign({}, inputProject, { version: this.state.initialProject.version + 1 }) as IProject;
+                                    projectService.putProject(editedProject, this.state.initialProject.projectId).then((response: IRestResponse<IProject>) => {
                                         setTimeout(() => {
                                             if (response.is_error) {
                                                 const { serverErrors, ...formikErrors } = response.error_content.errors;
-                                                enqueueSnackbar('Error updateing app', { variant: 'error' });
+                                                enqueueSnackbar('Error updating app', { variant: 'error' });
                                                 formikBag.setErrors(formikErrors as FormikErrors<IProject>);
                                                 this.setState({ serverErrors: serverErrors });
                                                 formikBag.setSubmitting(false);
@@ -165,7 +167,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         }, 2000);
                                     });
                                 } else {
-                                    projectService.postProject(newProject).then((response: IRestResponse<IProject>) => {
+                                    projectService.postProject(inputProject).then((response: IRestResponse<IProject>) => {
                                         setTimeout(() => {
                                             if (response.is_error) {
                                                 const { serverErrors, ...formikErrors } = response.error_content.errors;
@@ -213,24 +215,6 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                 autoComplete="off"
                                             />
                                         </Grid>
-                                        {this.state.initialProject && (
-                                            <Hidden xsUp>
-                                                <FormikTextField
-                                                    name="version"
-                                                    label=""
-                                                    value={props.values.version + 1}
-                                                    errorText={''}
-                                                    touched={true}
-                                                    onChange={() => {
-                                                        return;
-                                                    }}
-                                                    onBlur={() => {
-                                                        return;
-                                                    }}
-                                                    autoComplete="off"
-                                                />
-                                            </Hidden>
-                                        )}
                                         {props.values.apiKey && (
                                             <Grid item xs={12}>
                                                 <TextField name="apiKey" label="Api Key" value={props.values.apiKey} fullWidth disabled />
