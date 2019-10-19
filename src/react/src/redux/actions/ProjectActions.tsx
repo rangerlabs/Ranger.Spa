@@ -3,6 +3,7 @@ import IProject from '../../models/app/IProject';
 export const ADD_PROJECT = 'ADD_PROJECT';
 export const REMOVE_PROJECT = 'REMOVE_PROJECT';
 export const POPULATE_PROJECTS = 'POPULATE_PROJECTS';
+export const UPDATE_PROJECT = 'UPDATE_PROJECT';
 
 export interface ProjectAction {
     type: string;
@@ -19,16 +20,23 @@ export interface ProjectsState {
     isLoaded: boolean;
 }
 
+export function updateProject(project: IProject): ProjectAction {
+    return {
+        type: UPDATE_PROJECT,
+        project,
+    };
+}
+
 export function addProject(project: IProject): ProjectAction {
     return {
         type: ADD_PROJECT,
         project,
     };
 }
-export function removeProject(name: string): ProjectAction {
+export function removeProject(projectId: string): ProjectAction {
     return {
         type: REMOVE_PROJECT,
-        project: { name: name } as IProject,
+        project: { projectId: projectId } as IProject,
     };
 }
 

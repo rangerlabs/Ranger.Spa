@@ -27,10 +27,11 @@ import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
-import { addProject, removeProject, ProjectsState } from '../../../redux/actions/ProjectActions';
+import { addProject, removeProject, ProjectsState, updateProject } from '../../../redux/actions/ProjectActions';
 import RoutePaths from '../../RoutePaths';
 import * as queryString from 'query-string';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
+import DeleteProjectContent from '../dialogContents/DeleteProjectContent';
 
 const projectService = new ProjectService();
 
@@ -56,6 +57,7 @@ const styles = (theme: Theme) =>
     });
 interface IProjectFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     dispatchAddProject: (project: IProject) => void;
+    dispatchUpdateProject: (project: IProject) => void;
     dispatchRemoveProject: (name: string) => void;
     closeForm: () => void;
     projectsState?: ProjectsState;
@@ -69,8 +71,12 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = addProject(project);
             dispatch(action);
         },
-        dispatchRemoveProject: (name: string) => {
-            const action = removeProject(name);
+        dispatchUpdateProject: (project: IProject) => {
+            const action = updateProject(project);
+            dispatch(action);
+        },
+        dispatchRemoveProject: (id: string) => {
+            const action = removeProject(id);
             dispatch(action);
         },
     };
@@ -127,7 +133,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
     });
 
     render() {
-        const { classes, projectsState, enqueueSnackbar, dispatchAddProject } = this.props;
+        const { classes, projectsState, enqueueSnackbar, dispatchAddProject, dispatchUpdateProject } = this.props;
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -146,7 +152,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                 const inputProject = {
                                     name: values.name,
                                     description: values.description,
-                                    apiKey: values.apiKey
+                                    apiKey: values.apiKey,
                                 } as IProject;
                                 if (this.state.initialProject) {
                                     const editedProject = Object.assign({}, inputProject, { version: this.state.initialProject.version + 1 }) as IProject;
@@ -162,7 +168,8 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                 this.setState({ isSuccess: true });
                                                 enqueueSnackbar('Project updated', { variant: 'success' });
                                                 setTimeout(this.props.closeForm, 250);
-                                                dispatchAddProject(response.content);
+                                                dispatchUpdateProject(response.content);
+                                                this.props.push(RoutePaths.Projects);
                                             }
                                         }, 2000);
                                     });
@@ -180,6 +187,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                 enqueueSnackbar('Project created', { variant: 'success' });
                                                 setTimeout(this.props.closeForm, 250);
                                                 dispatchAddProject(response.content);
+                                                this.props.push(RoutePaths.Projects);
                                             }
                                         }, 2000);
                                     });
@@ -237,12 +245,8 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                             {this.state.initialProject && (
                                                 <FormikDeleteButton
                                                     isSubmitting={props.isSubmitting}
-                                                    onConfirm={() => {
-                                                        this.deleteProject(this.state.initialProject.name, enqueueSnackbar);
-                                                    }}
-                                                    dialogTitle="Delete app?"
-                                                    confirmText="Delete"
-                                                    dialogContent={'Are you sure you want to delete app ' + props.values.name + '?'}
+                                                    dialogTitle={`Delete ${this.state.initialProject.name}?`}
+                                                    dialogContent={DeleteProjectContent}
                                                 >
                                                     Delete
                                                 </FormikDeleteButton>

@@ -8,7 +8,7 @@ const notistackStyle = (theme: Theme) => {
         maxWidth: '100%',
         boxShadow: 'none',
         width: '100%',
-        // borderRadius: '0px',
+        borderRadius: '0px',
         fontSize: theme.typography.fontSize,
         fontWeight: theme.typography.fontWeightMedium,
     };
@@ -16,14 +16,16 @@ const notistackStyle = (theme: Theme) => {
 
 const styles = (theme: Theme) =>
     createStyles({
+        snackContainer: {
+            bottom: '0px !important',
+            right: '0px !important',
+            width: '100%',
+            marginBottom: '-2px',
+        },
         success: notistackStyle(theme),
         error: notistackStyle(theme),
         warning: notistackStyle(theme),
         info: { ...notistackStyle(theme), backgroundColor: theme.palette.primary.main },
-        root: {
-            width: '100%',
-            padding: '0px',
-        },
     });
 
 interface SnackbarProviderWrapperProps extends WithStyles<typeof styles> {}
@@ -34,7 +36,7 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
         return (
             <SnackbarProvider
                 classes={{
-                    root: classes.root,
+                    containerAnchorOriginBottomCenter: classes.snackContainer,
                     variantSuccess: classes.success,
                     variantError: classes.error,
                     variantWarning: classes.warning,
@@ -46,7 +48,7 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
                 maxSnack={3}
                 anchorOrigin={{
                     vertical: 'bottom',
-                    horizontal: 'right',
+                    horizontal: 'center',
                 }}
             >
                 {this.props.children}
