@@ -319,6 +319,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                             this.deleteGeofence(props.values.name);
                                         }}
                                         isSubmitting={props.isSubmitting}
+                                        variant="outlined"
                                     />
                                 )}
                             </div>

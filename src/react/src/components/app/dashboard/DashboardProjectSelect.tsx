@@ -24,6 +24,7 @@ import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 const IntegrationApi = require('../../../../assets/integration-api.png');
 import { ProjectsState } from '../../../redux/actions/ProjectActions';
+import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -115,7 +116,7 @@ class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
                                             onClick={() => {
                                                 this.handleProjectClick(project);
                                             }}
-                                            aria-label="Select app"
+                                            aria-label="Select project"
                                         >
                                             <ArrowRight color="primary" />
                                         </IconButton>
@@ -133,4 +134,4 @@ class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(DashboardProjectSelect));
+)(withStyles(styles)(populateProjectsHOC(DashboardProjectSelect)));

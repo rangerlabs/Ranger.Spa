@@ -27,19 +27,16 @@ class Dashboard extends React.Component<DashboardProps> {
         const { classes } = this.props;
         return (
             <div className={classes.layout}>
-                {!this.props.projectsState.isLoaded ? (
-                    <LinearProgress color="primary" variant="query" />
-                ) : (
-                    <React.Fragment>
-                        <Typography align="left" variant="subtitle1">
-                            Projects
-                        </Typography>
-                        <DashboardProjectSelect />
-                    </React.Fragment>
-                )}
+                <React.Fragment>
+                    <Typography align="left" variant="subtitle1">
+                        Projects
+                    </Typography>
+                    <DashboardProjectSelect />
+                </React.Fragment>
                 <Typography align="left" variant="subtitle1">
                     Usage
                 </Typography>
+                <LinearProgress color="primary" variant="query" />
             </div>
         );
     }

@@ -10,7 +10,6 @@ import GoogleMapsWrapper from './GoogleMapsWrapper';
 import requireProjectSelection from '../../hocs/RequireProjectSelectionHOC';
 import populateGeofencesHOC from '../../hocs/PopulateGeofencesHOC';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
-const hash = require('object-hash');
 
 const styles = (theme: Theme) =>
     createStyles({

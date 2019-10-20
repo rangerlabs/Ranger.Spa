@@ -25,11 +25,10 @@ import { push } from 'connected-react-router';
 import { openGeofenceDrawer } from '../../../../redux/actions/GeofenceDrawerActions';
 import { closeGeofenceDrawer } from '../../../../redux/actions/GeofenceDrawerActions';
 import { removeGeofence } from '../../../../redux/actions/GeofenceActions';
-const MapMarkerPlus = '../../../../../assets/map-marker-plus.png';
 const hash = require('object-hash');
 import * as queryString from 'query-string';
-import styled from 'styled-components';
 import Constants from '../../../../theme/Constants';
+import Loading from '../../loading/Loading';
 
 declare global {
     interface Window {
@@ -115,32 +114,6 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 const mergeProps = (stateProps: any, dispatchProps: any, own: any) => ({ ...stateProps, ...dispatchProps, ...own });
-// interface StateProps {
-//     selectedShape: ShapePicker;
-//     CircleGeofence: CircleGeofenceState;
-//     polygonGeofence: PolygonGeofenceState;
-//     existingGeofences: (CircleGeofence | PolygonGeofence)[];
-//     geofenceDrawerOpen: boolean;
-// }
-
-// interface DispatchProps {
-//     push: (path: string) => void;
-//     addCircleGeofence: (latLng: CoordinatePair, radius: number) => void;
-//     addPolygonLatLngArray: (latLngArray: CoordinatePair[]) => void;
-//     removeMapGeofenceFromState: () => void;
-//     selectShapePicker: (shape: ShapePicker) => void;
-//     openDrawer: (geofence?: CircleGeofence | PolygonGeofence) => void;
-//     closeDrawer: () => void;
-//     removeGeofenceFromState: (name: string) => void;
-// }
-
-// interface OwnProps extends WithStyles<typeof styles> {
-//     mapFullyLoadedCallback: () => void;
-//     onMapLoad?: (map: google.maps.Map) => void;
-//     innerRef?: any;
-//     id: string;
-//     options: google.maps.MapOptions;
-// }
 
 interface WrapperProps extends WithStyles<typeof styles> {
     selectedShape: ShapePicker;
@@ -612,6 +585,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         return (
             <React.Fragment>
                 <TextField className={classes.autoComplete} id="google-places-search" variant="outlined" fullWidth />
+                {this.state.isMapFullyLoaded !== true && <Loading message="Initializing map." />}
                 <div className={classes.mapContainer} id={this.props.id} />
                 {this.state.isMapFullyLoaded && <GoogleMapsShapePicker map={this.map} />}
             </React.Fragment>

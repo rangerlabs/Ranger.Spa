@@ -43,7 +43,7 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
         }
 
         render() {
-            return this.props.geofencesState.isLoaded ? <Component {...(this.props as P)} /> : <Loading message="Retrieving your geofences" />;
+            return this.props.geofencesState.isLoaded ? <Component {...(this.props as P)} /> : <Loading message="Retrieving your geofences." />;
         }
     }
 

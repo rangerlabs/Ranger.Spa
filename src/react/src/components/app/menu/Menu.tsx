@@ -62,7 +62,7 @@ const styles = (theme: Theme) =>
         listItemHover: {
             height: theme.toolbar.height,
             '&:hover ': {
-                backgroundColor: theme.palette.primary.main,
+                backgroundColor: '#7e57c2d1',
                 '& $listItemTextColor': {
                     color: theme.palette.common.white,
                 },

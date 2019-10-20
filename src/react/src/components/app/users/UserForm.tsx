@@ -1,48 +1,48 @@
-import * as React from "react";
-import IUser from "../../../models/app/IUser";
-import UserService from "../../../services/UserService";
-import { Formik, FormikProps, FormikBag, FormikErrors } from "formik";
-import FormikSelectValues from "../../form/interfaces/FormikSelectValuesProp";
-import * as Yup from "yup";
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem } from "@material-ui/core";
-import { withSnackbar, WithSnackbarProps } from "notistack";
-import FormikTextField from "../../form/FormikTextField";
-import FormikSelect from "../../form/FormikSelect";
-import FormikPrimaryButton from "../../form/FormikPrimaryButton";
-import FormikUpdateButton from "../../form/FormikUpdateButton";
-import FormikCancelButton from "../../form/FormikCancelButton";
-import FormikDeleteButton from "../../form/FormikDeleteButton";
-import { IRestResponse } from "../../../services/RestUtilities";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../stores";
-import { User } from "oidc-client";
-import { push } from "connected-react-router";
-import RoutePaths from "../../RoutePaths";
-import { addUser, removeUser } from "../../../redux/actions/UserActions";
-import { UserProfile } from "../../../models/UserProfile";
-import * as queryString from "query-string";
+import * as React from 'react';
+import IUser from '../../../models/app/IUser';
+import UserService from '../../../services/UserService';
+import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
+import FormikSelectValues from '../../form/interfaces/FormikSelectValuesProp';
+import * as Yup from 'yup';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem } from '@material-ui/core';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
+import FormikTextField from '../../form/FormikTextField';
+import FormikSelect from '../../form/FormikSelect';
+import FormikPrimaryButton from '../../form/FormikPrimaryButton';
+import FormikUpdateButton from '../../form/FormikUpdateButton';
+import FormikCancelButton from '../../form/FormikCancelButton';
+import FormikDeleteButton from '../../form/FormikDeleteButton';
+import { IRestResponse } from '../../../services/RestUtilities';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../../../stores';
+import { User } from 'oidc-client';
+import { push } from 'connected-react-router';
+import RoutePaths from '../../RoutePaths';
+import { addUser, removeUser } from '../../../redux/actions/UserActions';
+import { UserProfile } from '../../../models/UserProfile';
+import * as queryString from 'query-string';
 
 const userService = new UserService();
 
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            width: "auto",
+            width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             marginTop: theme.toolbar.height,
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
-                marginLeft: "auto",
-                marginRight: "auto",
+                marginLeft: 'auto',
+                marginRight: 'auto',
             },
         },
         buttons: {
-            display: "flex",
-            justifyContent: "flex-end",
+            display: 'flex',
+            justifyContent: 'flex-end',
         },
         flexButtonContainer: {
-            display: "flex",
+            display: 'flex',
         },
         leftButtons: {
             flexGrow: 1,
@@ -89,10 +89,10 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     };
 
     deleteUser(props: FormikProps<IUser>, enqueueSnackbar: any) {
-        console.log("DELETE THE USER");
+        console.log('DELETE THE USER');
         setTimeout(() => {
             this.props.dispatchRemoveUser(props.values.email);
-            enqueueSnackbar("User deleted", { variant: "error" });
+            enqueueSnackbar('User deleted', { variant: 'error' });
             this.props.push(RoutePaths.Users);
         }, 250);
     }
@@ -106,7 +106,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     getUserByEmail(users: IUser[]): IUser {
         let result = undefined;
         const params = queryString.parse(window.location.search);
-        const email = params["email"] as string;
+        const email = params['email'] as string;
         if (email && users) {
             result = users.find(u => u.email.toLowerCase() === email.toLowerCase());
             if (result) {
@@ -131,28 +131,28 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
 
     validationSchema = Yup.object().shape({
         firstName: Yup.string()
-            .min(1, "Must be at least 1 character long")
-            .max(48, "Max 48 characters")
+            .min(1, 'Must be at least 1 character long')
+            .max(48, 'Max 48 characters')
             .matches(
                 new RegExp("^[a-zA-Z,.'-]{1}[a-zA-Z ,.'-]{1,26}[a-zA-Z,.'-]{1}$"),
                 "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)"
             )
-            .required("Required"),
+            .required('Required'),
         lastName: Yup.string()
-            .min(1, "Must be at least 1 character long")
-            .max(48, "Max 48 characters")
+            .min(1, 'Must be at least 1 character long')
+            .max(48, 'Max 48 characters')
             .matches(
                 new RegExp("^[a-zA-Z,.'-]{1}[a-zA-Z ,.'-]{1,26}[a-zA-Z,.'-]{1}$"),
                 "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)"
             )
-            .required("Required"),
+            .required('Required'),
         email: Yup.string()
-            .email("Invalid email")
-            .required("Required"),
-        role: Yup.mixed().required("Role is required"),
+            .email('Invalid email')
+            .required('Required'),
+        role: Yup.mixed().required('Role is required'),
     });
 
-    roles = [{ value: "User", label: "User" }, { value: "Admin", label: "Admin" }, { value: "Owner", label: "Owner" }];
+    roles = [{ value: 'User', label: 'User' }, { value: 'Admin', label: 'Admin' }, { value: 'Owner', label: 'Owner' }];
 
     render() {
         const { classes, users, enqueueSnackbar, dispatchAddUser } = this.props;
@@ -162,11 +162,11 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography variant="h5" gutterBottom>
-                            {this.getUserByEmail(users) ? "Edit" : "Create"}
+                            {this.getUserByEmail(users) ? 'Edit' : 'Create'}
                         </Typography>
                         <Formik
                             enableReinitialize
-                            initialValues={this.getUserByEmail(users) ? this.getUserByEmail(users) : { email: "", firstName: "", lastName: "", role: "" }}
+                            initialValues={this.getUserByEmail(users) ? this.getUserByEmail(users) : { email: '', firstName: '', lastName: '', role: '' }}
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<IUser>, IUser>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
@@ -180,12 +180,12 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                     setTimeout(() => {
                                         if (response.is_error) {
                                             const { serverErrors, ...formikErrors } = response.error_content.errors;
-                                            enqueueSnackbar("Error creating user", { variant: "error" });
+                                            enqueueSnackbar('Error creating user', { variant: 'error' });
                                             formikBag.setErrors(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
-                                            enqueueSnackbar("User created", { variant: "success" });
+                                            enqueueSnackbar('User created', { variant: 'success' });
                                             setTimeout(this.props.closeForm, 500);
                                             dispatchAddUser(response.content);
                                         }
@@ -197,7 +197,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                             {props => (
                                 <form onSubmit={props.handleSubmit}>
                                     <Grid container spacing={3}>
-                                        <Grid item xs={12} sm={6}>
+                                        <Grid item xs={12}>
                                             <FormikTextField
                                                 name="firstName"
                                                 label="Firstname"
@@ -207,11 +207,11 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
-                                                disabled={props.initialValues.firstName === "" ? false : true}
+                                                disabled={props.initialValues.firstName === '' ? false : true}
                                                 required
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6}>
+                                        <Grid item xs={12}>
                                             <FormikTextField
                                                 name="lastName"
                                                 label="Lastname"
@@ -221,7 +221,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
-                                                disabled={props.initialValues.lastName === "" ? false : true}
+                                                disabled={props.initialValues.lastName === '' ? false : true}
                                                 required
                                             />
                                         </Grid>
@@ -235,11 +235,11 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
-                                                disabled={props.initialValues.email === "" ? false : true}
+                                                disabled={props.initialValues.email === '' ? false : true}
                                                 required
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6}>
+                                        <Grid item xs={12}>
                                             <FormikSelect
                                                 name="role"
                                                 label="Role"
@@ -273,7 +273,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 }}
                                                 dialogTitle="Delete user?"
                                                 confirmText="Delete"
-                                                dialogContent={"Are you sure you want to delete user " + props.values.email + "?"}
+                                                dialogContent={'Are you sure you want to delete user ' + props.values.email + '?'}
                                             >
                                                 Delete
                                             </FormikDeleteButton>
@@ -281,11 +281,11 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                         <FormikCancelButton
                                             isSubmitting={props.isSubmitting}
                                             onClick={() => {
-                                                this.props.push("/users");
+                                                this.props.push('/users');
                                             }}
                                         />
-                                        {props.initialValues.email === "" ? (
-                                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
+                                        {props.initialValues.email === '' ? (
+                                            <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
                                         ) : (
                                             <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
                                         )}

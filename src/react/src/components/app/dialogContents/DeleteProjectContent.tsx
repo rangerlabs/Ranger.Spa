@@ -23,7 +23,7 @@ function DeleteProjectContent(dialogComponentProps: DialogComponentProps): JSX.E
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
-            .matches(new RegExp(`${projectName}`))
+            .matches(new RegExp(`${projectName}`), `The name entered is not the project's name.`)
             .required('Required'),
     });
 
@@ -55,7 +55,7 @@ function DeleteProjectContent(dialogComponentProps: DialogComponentProps): JSX.E
             >
                 {props => (
                     <form onSubmit={props.handleSubmit}>
-                        <DialogContentText>To delete this project please confirm the project's name.</DialogContentText>
+                        <DialogContentText color="error">To delete this project please confirm the project's name.</DialogContentText>
                         <FormikTextField
                             name="name"
                             label="Project Name"
@@ -80,7 +80,7 @@ function DeleteProjectContent(dialogComponentProps: DialogComponentProps): JSX.E
                             <Button onClick={dialogComponentProps.onClose} color="primary" variant="text">
                                 Cancel
                             </Button>
-                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
+                            <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
                                 Delete project
                             </FormikPrimaryButton>
                         </DialogActions>

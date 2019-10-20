@@ -213,7 +213,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             }}
                                         />
                                         {props.initialValues.email === '' ? (
-                                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
+                                            <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
                                         ) : (
                                             <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
                                         )}
