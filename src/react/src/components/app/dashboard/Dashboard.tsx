@@ -36,7 +36,6 @@ class Dashboard extends React.Component<DashboardProps> {
                 <Typography align="left" variant="subtitle1">
                     Usage
                 </Typography>
-                <LinearProgress color="primary" variant="query" />
             </div>
         );
     }

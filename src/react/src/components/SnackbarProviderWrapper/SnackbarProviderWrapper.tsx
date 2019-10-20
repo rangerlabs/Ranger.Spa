@@ -22,10 +22,10 @@ const styles = (theme: Theme) =>
             width: '100%',
             marginBottom: '-2px',
         },
-        success: notistackStyle(theme),
-        error: notistackStyle(theme),
+        success: { ...notistackStyle(theme), backgroundColor: theme.palette.primary.main },
+        error: { ...notistackStyle(theme), backgroundColor: theme.palette.error.main },
         warning: notistackStyle(theme),
-        info: { ...notistackStyle(theme), backgroundColor: theme.palette.primary.main },
+        info: notistackStyle(theme),
     });
 
 interface SnackbarProviderWrapperProps extends WithStyles<typeof styles> {}

@@ -29,8 +29,6 @@ const styles = (theme: Theme) =>
                 width: '100%',
                 zIndex: theme.zIndex.drawer + 1,
             },
-            backgroundColor: '#FFFFFF',
-            borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
         },
         menuButton: {
             [theme.breakpoints.up('md')]: {
@@ -43,6 +41,7 @@ const styles = (theme: Theme) =>
         logoButtonRoot: {
             '&:hover': {
                 background: 'none',
+                color: theme.palette.text.primary,
             },
         },
         toolbarPadding: {

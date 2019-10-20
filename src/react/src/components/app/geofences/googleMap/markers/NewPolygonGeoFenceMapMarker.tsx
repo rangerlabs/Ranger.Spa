@@ -2,7 +2,7 @@ import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import Constants from '../../../../../theme/Constants';
 
 const MapMarkerRed = require('../../../../../../assets/map-marker-red.png');
-const MapMarkerPurple = require('../../../../../../assets/map-marker-purple.png');
+const MapMarkerPurple = require('../../../../../../assets/map-marker-green.png');
 const CircleFilledRed = require('../../../../../../assets/circle-filled-red.png');
 
 export default class NewPolygonGeofenceMapMarker {
@@ -34,10 +34,10 @@ export default class NewPolygonGeofenceMapMarker {
             clickable: true,
             editable: true,
             draggable: true,
-            strokeColor: Constants.PRIMARY_COLOR,
+            strokeColor: Constants.COLORS.PRIMARY_COLOR,
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: Constants.PRIMARY_COLOR,
+            fillColor: Constants.COLORS.PRIMARY_COLOR,
             fillOpacity: 0.3,
         });
         this.polygonGeofence.addListener('click', e => {
@@ -59,8 +59,8 @@ export default class NewPolygonGeofenceMapMarker {
             if (this.polygonMarker) {
                 this.polygonMarker.setIcon(MapMarkerPurple);
                 this.polygonGeofence.setOptions({
-                    strokeColor: Constants.PRIMARY_COLOR,
-                    fillColor: Constants.PRIMARY_COLOR,
+                    strokeColor: Constants.COLORS.PRIMARY_COLOR,
+                    fillColor: Constants.COLORS.PRIMARY_COLOR,
                 });
             }
         });

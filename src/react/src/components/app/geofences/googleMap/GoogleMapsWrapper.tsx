@@ -54,16 +54,16 @@ const styles = (theme: Theme) =>
         },
     });
 
-// const StyledSearchTextField = styled(TextField)`
-//     .MuiOutlinedInput-root {
-//         fieldset {
-//             border-top: "0px";
-//             border-left: "0px";
-//             border-right: "0px";
-//             border-radius: "0px";
-//         }
-//     }
-// `;
+const StyledSearchTextField = withStyles({
+    root: {
+        '& input:valid + fieldset': {
+            borderTop: '0px',
+            borderLeft: '0px',
+            borderRight: '0px',
+            borderRadius: '0px',
+        },
+    },
+})(TextField);
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
@@ -584,7 +584,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <TextField className={classes.autoComplete} id="google-places-search" variant="outlined" fullWidth />
+                <StyledSearchTextField className={classes.autoComplete} id="google-places-search" variant="outlined" fullWidth />
                 {this.state.isMapFullyLoaded !== true && <Loading message="Initializing map." />}
                 <div className={classes.mapContainer} id={this.props.id} />
                 {this.state.isMapFullyLoaded && <GoogleMapsShapePicker map={this.map} />}

@@ -1,10 +1,10 @@
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import Constants from '../../../../../theme/Constants';
 
-const CirclePurple = require('../../../../../../assets/circle-outline-purple.png');
+const CirclePurple = require('../../../../../../assets/circle-outline-green.png');
 const CircleRed = require('../../../../../../assets/circle-outline-red.png');
 const MapMarkerRed = require('../../../../../../assets/map-marker-red.png');
-const MapMarkerPurple = require('../../../../../../assets/map-marker-purple.png');
+const MapMarkerPurple = require('../../../../../../assets/map-marker-green.png');
 
 const DEFAULT_RADIUS = 100;
 
@@ -66,10 +66,10 @@ export default class NewCircleGeofenceMapMarker {
             draggable: true,
         });
         this.CircleGeofenceCenterMarker = new google.maps.Circle({
-            strokeColor: Constants.PRIMARY_COLOR,
+            strokeColor: Constants.COLORS.PRIMARY_COLOR,
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: Constants.PRIMARY_COLOR,
+            fillColor: Constants.COLORS.PRIMARY_COLOR,
             fillOpacity: 0.2,
             map: this.map,
             center: latLng,
@@ -108,8 +108,8 @@ export default class NewCircleGeofenceMapMarker {
         this.CircleGeofenceCenterMarker.addListener('mouseout', (e: google.maps.MouseEvent) => {
             this.circleClickMarker.setIcon(MapMarkerPurple);
             this.CircleGeofenceCenterMarker.setOptions({
-                strokeColor: Constants.PRIMARY_COLOR,
-                fillColor: Constants.PRIMARY_COLOR,
+                strokeColor: Constants.COLORS.PRIMARY_COLOR,
+                fillColor: Constants.COLORS.PRIMARY_COLOR,
             });
         });
         this.CircleGeofenceExtenderMarker.addListener('mouseout', (e: google.maps.MouseEvent) => {

@@ -1,6 +1,6 @@
 import Constants from '../../../../../theme/Constants';
 
-const MapMarkerPurple = require('../../../../../../assets/map-marker-purple.png');
+const MapMarkerPurple = require('../../../../../../assets/map-marker-green.png');
 const MapMarkerRed = require('../../../../../../assets/map-marker-red.png');
 
 export default class PolygonGeofenceMapMarker {
@@ -25,10 +25,10 @@ export default class PolygonGeofenceMapMarker {
     addPolygonGeofence() {
         this.polygonGeofence = new google.maps.Polygon({
             clickable: true,
-            strokeColor: Constants.PRIMARY_COLOR,
+            strokeColor: Constants.COLORS.PRIMARY_COLOR,
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: Constants.PRIMARY_COLOR,
+            fillColor: Constants.COLORS.PRIMARY_COLOR,
             fillOpacity: 0.2,
             map: this.map,
             paths: this.latLngPath,

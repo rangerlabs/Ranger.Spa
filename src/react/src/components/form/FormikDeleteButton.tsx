@@ -13,6 +13,7 @@ const styles = (theme: Theme) =>
             color: red[600],
             '&:hover': {
                 backgroundColor: '#e539351c',
+                color: theme.palette.error.main,
             },
         },
     });

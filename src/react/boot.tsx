@@ -28,7 +28,7 @@ const theme = responsiveFontSizes(
         palette: {
             type: 'light',
             primary: {
-                main: Constants.PRIMARY_COLOR,
+                main: Constants.COLORS.PRIMARY_COLOR,
             },
             text: {
                 primary: '#000000',

@@ -1,6 +1,6 @@
 import Constants from '../../../../../theme/Constants';
 
-const MapMarkerPurple = require('../../../../../../assets/map-marker-purple.png');
+const MapMarkerPurple = require('../../../../../../assets/map-marker-green.png');
 const MapMarkerRed = require('../../../../../../assets/map-marker-red.png');
 
 const DEFAULT_RADIUS = 100;
@@ -39,10 +39,10 @@ export default class CircleGeofenceMapMarker {
             animation: this.drop ? google.maps.Animation.DROP : null,
         });
         this.circleGeofenceCenterMarker = new google.maps.Circle({
-            strokeColor: Constants.PRIMARY_COLOR,
+            strokeColor: Constants.COLORS.PRIMARY_COLOR,
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: Constants.PRIMARY_COLOR,
+            fillColor: Constants.COLORS.PRIMARY_COLOR,
             fillOpacity: 0.2,
             map: this.map,
             center: latLng,

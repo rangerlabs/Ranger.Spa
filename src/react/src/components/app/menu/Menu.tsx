@@ -7,14 +7,12 @@ import {
     WithStyles,
     List,
     ListItemText,
-    Divider,
     Hidden,
     ListItem,
     ListItemIcon,
     Typography,
     Collapse,
     Fade,
-    Grid,
     Button,
 } from '@material-ui/core';
 import People from '@material-ui/icons/People';
@@ -38,6 +36,7 @@ import RoutePaths from '../../../components/RoutePaths';
 import { User } from 'oidc-client';
 import IProject from '../../../models/app/IProject';
 const classNames = require('classnames').default;
+import Constants from '../../../theme/Constants';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -52,34 +51,6 @@ const styles = (theme: Theme) =>
         },
         headerPush: {
             ...theme.mixins.toolbar,
-        },
-        divider: {
-            position: 'relative',
-            backgroundColor: 'rgba(255, 255, 255, 0.6)',
-            margin: 'auto',
-            width: '90%',
-        },
-        listItemHover: {
-            height: theme.toolbar.height,
-            '&:hover ': {
-                backgroundColor: '#7e57c2d1',
-                '& $listItemTextColor': {
-                    color: theme.palette.common.white,
-                },
-                '& $listItemIconColor': {
-                    color: theme.palette.common.white,
-                },
-            },
-        },
-        listItemTextColor: {
-            color: theme.palette.text.primary,
-        },
-        listItemIconColor: {
-            color: theme.palette.primary.main,
-        },
-        menuButton: {
-            margin: 'auto',
-            width: '70%',
         },
         nested: {
             paddingLeft: theme.spacing(4),
@@ -141,43 +112,35 @@ class Menu extends React.Component<MenuProps> {
 
         const drawerContent = (
             <List>
-                <ListItem id="home" classes={{ button: classes.listItemHover }} button onClick={() => this.handleMenuNavigation(RoutePaths.Dashboard)}>
-                    <ListItemIcon className={classes.listItemIconColor}>
+                <ListItem id="home" button onClick={() => this.handleMenuNavigation(RoutePaths.Dashboard)}>
+                    <ListItemIcon>
                         <ViewDashboardOutline />
                     </ListItemIcon>
-                    <ListItemText primary="Dashboard" className={classes.listItemTextColor} />
+                    <ListItemText primary="Dashboard" />
                 </ListItem>
 
-                <ListItem id="geofences" classes={{ button: classes.listItemHover }} button onClick={() => this.handleMenuToggle('geofences')}>
-                    <ListItemIcon className={classes.listItemIconColor}>
+                <ListItem id="geofences" button onClick={() => this.handleMenuToggle('geofences')}>
+                    <ListItemIcon>
                         <MapMarker />
                     </ListItemIcon>
-                    <ListItemText primary="Geofences" className={classes.listItemTextColor} />
+                    <ListItemText primary="Geofences" />
                     <Fade in={this.props.expandedSection === 'geofences'} timeout={timeout}>
-                        <ExpandLess className={classes.listItemIconColor} />
+                        <ExpandLess />
                     </Fade>
                 </ListItem>
                 <Collapse in={this.props.expandedSection === 'geofences'} timeout={500} unmountOnExit>
                     <List disablePadding>
-                        <ListItem
-                            button
-                            className={classNames(classes.listItemHover, classes.nested)}
-                            onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceMap)}
-                        >
-                            <ListItemIcon className={classes.listItemIconColor}>
+                        <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceMap)}>
+                            <ListItemIcon>
                                 <MapPlus />
                             </ListItemIcon>
-                            <ListItemText primary="Map" className={classes.listItemTextColor} />
+                            <ListItemText primary="Map" />
                         </ListItem>
-                        <ListItem
-                            button
-                            className={classNames(classes.listItemHover, classes.nested)}
-                            onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceTable)}
-                        >
-                            <ListItemIcon className={classes.listItemIconColor}>
+                        <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceTable)}>
+                            <ListItemIcon>
                                 <FormatListBulleted />
                             </ListItemIcon>
-                            <ListItemText primary="Table" classes={{ primary: classes.listItemTextColor }} />
+                            <ListItemText primary="Table" />
                         </ListItem>
                         {/* <ListItem
                                 button
@@ -192,60 +155,51 @@ class Menu extends React.Component<MenuProps> {
                     </List>
                 </Collapse>
 
-                <ListItem id="integrations" className={classes.listItemHover} button onClick={() => this.handleMenuNavigation(RoutePaths.Integrations)}>
-                    <ListItemIcon className={classes.listItemIconColor}>
+                <ListItem id="integrations" button onClick={() => this.handleMenuNavigation(RoutePaths.Integrations)}>
+                    <ListItemIcon>
                         <ArrowDecision />
                     </ListItemIcon>
-                    <ListItemText primary="Integrations" className={classes.listItemTextColor} />
+                    <ListItemText primary="Integrations" />
                 </ListItem>
 
                 <ListItem
                     id="projects"
-                    className={classes.listItemHover}
                     button
                     onClick={() => {
                         this.handleMenuNavigation(RoutePaths.Projects);
                     }}
                 >
-                    <ListItemIcon className={classes.listItemIconColor}>
+                    <ListItemIcon>
                         <SpeakerPhone />
                     </ListItemIcon>
-                    <ListItemText primary="Projects" className={classes.listItemTextColor} />
+                    <ListItemText primary="Projects" />
                 </ListItem>
                 {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.ADMIN) && (
                     <React.Fragment>
-                        <ListItem id="administration" className={classes.listItemHover} button onClick={() => this.handleMenuToggle('administration')}>
-                            <ListItemIcon className={classes.listItemIconColor}>
+                        <ListItem id="administration" button onClick={() => this.handleMenuToggle('administration')}>
+                            <ListItemIcon>
                                 <Lock />
                             </ListItemIcon>
-                            <ListItemText primary="Administration" className={classes.listItemTextColor} />
+                            <ListItemText primary="Administration" />
                             <Fade in={this.props.expandedSection === 'administration'} timeout={timeout}>
-                                <ExpandLess className={classes.listItemIconColor} />
+                                <ExpandLess />
                             </Fade>
                         </ListItem>
                         <Collapse in={this.props.expandedSection === 'administration'} timeout={500} unmountOnExit>
                             <List component="div" disablePadding>
-                                <ListItem
-                                    button
-                                    className={classNames(classes.listItemHover, classes.nested)}
-                                    onClick={() => this.handleMenuNavigation(RoutePaths.Users)}
-                                >
-                                    <ListItemIcon className={classes.listItemIconColor}>
+                                <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Users)}>
+                                    <ListItemIcon>
                                         <People />
                                     </ListItemIcon>
-                                    <ListItemText primary="Users" className={classes.listItemTextColor} />
+                                    <ListItemText primary="Users" />
                                 </ListItem>
 
                                 {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.OWNER) && (
-                                    <ListItem
-                                        button
-                                        className={classNames(classes.listItemHover, classes.nested)}
-                                        onClick={() => this.handleMenuNavigation('/domain')}
-                                    >
-                                        <ListItemIcon className={classes.listItemIconColor}>
+                                    <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation('/domain')}>
+                                        <ListItemIcon>
                                             <Web />
                                         </ListItemIcon>
-                                        <ListItemText primary="Domain" className={classes.listItemTextColor} />
+                                        <ListItemText primary="Domain" />
                                     </ListItem>
                                 )}
                             </List>
@@ -254,22 +208,22 @@ class Menu extends React.Component<MenuProps> {
                 )}
 
                 <Hidden mdUp implementation="css">
-                    <ListItem id="account" className={classes.listItemHover} button onClick={() => this.handleMenuToggle('account')}>
-                        <ListItemIcon className={classes.listItemIconColor}>
+                    <ListItem id="account" button onClick={() => this.handleMenuToggle('account')}>
+                        <ListItemIcon>
                             <AccountCircle />
                         </ListItemIcon>
-                        <ListItemText primary="Account" className={classes.listItemTextColor} />
+                        <ListItemText primary="Account" />
                         <Fade in={this.props.expandedSection === 'account'} timeout={timeout}>
-                            <ExpandLess className={classes.listItemIconColor} />
+                            <ExpandLess />
                         </Fade>
                     </ListItem>
                     <Collapse in={this.props.expandedSection === 'account'} timeout={500} unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItem button className={classNames(classes.listItemHover, classes.nested)} onClick={this.props.signOut}>
-                                <ListItemIcon className={classes.listItemIconColor}>
+                            <ListItem button className={classes.nested} onClick={this.props.signOut}>
+                                <ListItemIcon>
                                     <Lock />
                                 </ListItemIcon>
-                                <ListItemText primary="Logout" className={classes.listItemTextColor} />
+                                <ListItemText primary="Logout" />
                             </ListItem>
                         </List>
                     </Collapse>

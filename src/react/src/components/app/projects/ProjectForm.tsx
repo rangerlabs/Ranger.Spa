@@ -160,7 +160,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         setTimeout(() => {
                                             if (response.is_error) {
                                                 const { serverErrors, ...formikErrors } = response.error_content.errors;
-                                                enqueueSnackbar('Error updating app', { variant: 'error' });
+                                                enqueueSnackbar('Error updating project', { variant: 'error' });
                                                 formikBag.setErrors(formikErrors as FormikErrors<IProject>);
                                                 this.setState({ serverErrors: serverErrors });
                                                 formikBag.setSubmitting(false);
@@ -178,7 +178,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         setTimeout(() => {
                                             if (response.is_error) {
                                                 const { serverErrors, ...formikErrors } = response.error_content.errors;
-                                                enqueueSnackbar('Error creating app', { variant: 'error' });
+                                                enqueueSnackbar('Error creating project', { variant: 'error' });
                                                 formikBag.setErrors(formikErrors as FormikErrors<IProject>);
                                                 this.setState({ serverErrors: serverErrors });
                                                 formikBag.setSubmitting(false);
