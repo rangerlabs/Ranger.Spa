@@ -83,7 +83,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                                                 break;
                                             }
                                             default: {
-                                                enqueueSnackbar('Domain not found', { variant: 'error' });
+                                                enqueueSnackbar('Domain not found', { variant: 'error', persist: true });
                                                 formikBag.setSubmitting(false);
                                                 break;
                                             }

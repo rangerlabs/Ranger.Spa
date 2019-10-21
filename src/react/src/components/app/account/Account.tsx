@@ -1,45 +1,45 @@
-import * as React from "react";
-import IUser from "../../../models/app/IUser";
-import UserService from "../../../services/UserService";
-import { Formik, FormikProps, FormikBag, FormikErrors } from "formik";
-import { UserProfile } from "../../../models/UserProfile";
-import * as Yup from "yup";
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, ListItem, Button } from "@material-ui/core";
-import { withSnackbar, WithSnackbarProps } from "notistack";
-import FormikTextField from "../../form/FormikTextField";
-import FormikPrimaryButton from "../../form/FormikPrimaryButton";
-import FormikUpdateButton from "../../form/FormikUpdateButton";
-import FormikCancelButton from "../../form/FormikCancelButton";
-import FormikDeleteButton from "../../form/FormikDeleteButton";
-import { IRestResponse } from "../../../services/RestUtilities";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../stores";
-import { User } from "oidc-client";
-import { push } from "connected-react-router";
-import { GetRole } from "../../../models/RoleEnum";
-import RoutePaths from "../../RoutePaths";
-import DeleteAccountComponent from "../dialogContents/DeleteAccountContent";
+import * as React from 'react';
+import IUser from '../../../models/app/IUser';
+import UserService from '../../../services/UserService';
+import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
+import { UserProfile } from '../../../models/UserProfile';
+import * as Yup from 'yup';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, ListItem, Button } from '@material-ui/core';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
+import FormikTextField from '../../form/FormikTextField';
+import FormikPrimaryButton from '../../form/FormikPrimaryButton';
+import FormikUpdateButton from '../../form/FormikUpdateButton';
+import FormikCancelButton from '../../form/FormikCancelButton';
+import FormikDeleteButton from '../../form/FormikDeleteButton';
+import { IRestResponse } from '../../../services/RestUtilities';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../../../stores';
+import { User } from 'oidc-client';
+import { push } from 'connected-react-router';
+import { GetRole } from '../../../models/RoleEnum';
+import RoutePaths from '../../RoutePaths';
+import DeleteAccountComponent from '../dialogContents/DeleteAccountContent';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            width: "auto",
+            width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
-                marginLeft: "auto",
-                marginRight: "auto",
+                marginLeft: 'auto',
+                marginRight: 'auto',
             },
         },
 
         buttons: {
-            display: "flex",
-            justifyContent: "flex-end",
+            display: 'flex',
+            justifyContent: 'flex-end',
         },
         flexButtonContainer: {
-            display: "flex",
+            display: 'flex',
         },
         leftButtons: {
             flexGrow: 1,
@@ -78,11 +78,11 @@ class Account extends React.Component<AccountProps, AccountState> {
     };
 
     validationSchema = Yup.object().shape({
-        firstName: Yup.string().required("Firstname is required"),
-        lastName: Yup.string().required("Lastname is required"),
+        firstName: Yup.string().required('Firstname is required'),
+        lastName: Yup.string().required('Lastname is required'),
         email: Yup.string()
-            .email("Enter a valid email")
-            .required("Email is required"),
+            .email('Enter a valid email')
+            .required('Email is required'),
     });
 
     render() {
@@ -112,12 +112,12 @@ class Account extends React.Component<AccountProps, AccountState> {
                                     setTimeout(() => {
                                         if (response.is_error) {
                                             const { serverErrors, ...formikErrors } = response.error_content.errors;
-                                            enqueueSnackbar("Error creating user", { variant: "error" });
+                                            enqueueSnackbar('Error creating user', { variant: 'error' });
                                             formikBag.setErrors(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
-                                            enqueueSnackbar("User created", { variant: "success" });
+                                            enqueueSnackbar('User created', { variant: 'success' });
                                             setTimeout(this.props.closeForm, 500);
                                             dispatchAddUser(response.content);
                                         }
@@ -212,8 +212,8 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 this.props.push(RoutePaths.Dashboard);
                                             }}
                                         />
-                                        {props.initialValues.email === "" ? (
-                                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
+                                        {props.initialValues.email === '' ? (
+                                            <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
                                         ) : (
                                             <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
                                         )}

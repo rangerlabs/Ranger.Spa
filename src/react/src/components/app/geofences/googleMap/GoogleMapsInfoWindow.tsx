@@ -17,7 +17,7 @@ const styles = (theme: Theme) =>
             fontFamily: "'Lato', sans-serif",
         },
         primary: {
-            color: Constants.PRIMARY_COLOR,
+            color: Constants.COLORS.PRIMARY_COLOR,
             fontFamily: "'Lato', sans-serif",
         },
     });

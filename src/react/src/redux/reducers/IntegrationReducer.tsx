@@ -1,14 +1,21 @@
-import { ADD_INTEGRATION, REMOVE_INTEGRATION, POPULATE_INTEGRATIONS, IntegrationAction, IntegrationArrayAction } from '../actions/IntegrationActions';
+import {
+    ADD_INTEGRATION,
+    REMOVE_INTEGRATION,
+    POPULATE_INTEGRATIONS,
+    IntegrationAction,
+    IntegrationArrayAction,
+    IntegrationsState,
+} from '../actions/IntegrationActions';
 import { MergedIntegrationResponseType } from '../../models/app/integrations/MergedIntegrationTypes';
 
-export function integrationReducer(state: MergedIntegrationResponseType[] = [], action: IntegrationAction & IntegrationArrayAction) {
+export function integrationReducer(state: IntegrationsState = { isLoaded: false, integrations: [] }, action: IntegrationAction & IntegrationArrayAction) {
     switch (action.type) {
         case ADD_INTEGRATION:
-            return state.concat(action.integration);
+            return Object.assign({}, state, state.integrations.concat(action.integration));
         case REMOVE_INTEGRATION:
-            return state.filter((v: MergedIntegrationResponseType) => v.name !== action.integration.name);
+            return Object.assign({}, state, state.integrations.filter((v: MergedIntegrationResponseType) => v.name !== action.integration.name));
         case POPULATE_INTEGRATIONS:
-            return action.integrations;
+            return Object.assign({}, state, action.integrationsState);
         default:
             return state;
     }

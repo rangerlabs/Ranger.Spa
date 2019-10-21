@@ -1,6 +1,5 @@
 import RestUtilities, { IRestResponse } from './RestUtilities';
 import IProject from '../models/app/IProject';
-import Logger from './Logger/Logger';
 
 export default class ProjectService {
     async getProjects(): Promise<IRestResponse<IProject[]>> {
@@ -13,5 +12,9 @@ export default class ProjectService {
 
     async postProject(project: IProject): Promise<IRestResponse<IProject>> {
         return RestUtilities.post<IProject>('/project', project);
+    }
+
+    async putProject(project: IProject, projectId: string): Promise<IRestResponse<IProject>> {
+        return RestUtilities.put<IProject>(`/project?id=${projectId}`, project);
     }
 }

@@ -28,9 +28,9 @@ export default class RoutePaths {
     public static IntegrationsNewWebhook = '/:appName/integrations/new/webhook';
     public static IntegrationsEditWebhook = '/:appName/integrations/edit/webhook';
 
-    public static GeoFenceMap = '/:appName/geofences/map';
-    public static GeoFencesEdit = '/:appName/geofences/map/edit';
-    public static GeoFenceTable = '/:appName/geofences/table';
+    public static GeofenceMap = '/:appName/geofences/map';
+    public static GeofencesEdit = '/:appName/geofences/map/edit';
+    public static GeofenceTable = '/:appName/geofences/table';
 
     public static IsCurrentLocationWhiteListed = (): boolean => {
         let result = false;

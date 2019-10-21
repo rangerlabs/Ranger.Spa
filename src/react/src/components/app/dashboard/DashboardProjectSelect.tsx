@@ -23,6 +23,8 @@ import { ApplicationState } from '../../../stores';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 const IntegrationApi = require('../../../../assets/integration-api.png');
+import { ProjectsState } from '../../../redux/actions/ProjectActions';
+import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -69,14 +71,14 @@ const styles = (theme: Theme) =>
     });
 
 interface ProjectsSelectProps extends WithStyles<typeof styles> {
-    projects: IProject[];
+    projectsState: ProjectsState;
     selectProject: (project: IProject) => void;
     push: typeof push;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        projects: state.projects,
+        projectsState: state.projectsState,
     };
 };
 
@@ -93,38 +95,41 @@ const mapDispatchToProps = (dispatch: any) => {
 class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
     handleProjectClick(project: IProject) {
         this.props.selectProject(project);
-        this.props.push(RoutePaths.GeoFenceMap);
+        this.props.push(RoutePaths.GeofenceMap);
     }
     render() {
-        const { classes, projects } = this.props;
+        const { classes, projectsState } = this.props;
         return (
             <React.Fragment>
-                <Typography align="left" variant="subtitle1">
-                    Projects
-                </Typography>
                 <div className={classes.root}>
                     <GridList className={classes.gridList} cols={2.5}>
-                        {projects.map(project => (
-                            <GridListTile className={classes.gridListTile} key={project.name}>
-                                <Card className={classes.card}>
-                                    <CardHeader title={project.name} />
-                                    <CardMedia classes={{ root: classes.mediaRoot }} className={classes.media} image={IntegrationApi} title="Api Integration" />
-                                    <CardContent classes={{ root: classes.cardContent }}>
-                                        <Typography component="p">{project.description}</Typography>
-                                    </CardContent>
-                                    <CardActions className={classes.buttons}>
-                                        <IconButton
-                                            onClick={() => {
-                                                this.handleProjectClick(project);
-                                            }}
-                                            aria-label="Select app"
-                                        >
-                                            <ArrowRight color="primary" />
-                                        </IconButton>
-                                    </CardActions>
-                                </Card>
-                            </GridListTile>
-                        ))}
+                        {projectsState.projects &&
+                            projectsState.projects.map(project => (
+                                <GridListTile className={classes.gridListTile} key={project.name}>
+                                    <Card className={classes.card}>
+                                        <CardHeader title={project.name} />
+                                        <CardMedia
+                                            classes={{ root: classes.mediaRoot }}
+                                            className={classes.media}
+                                            image={IntegrationApi}
+                                            title="Api Integration"
+                                        />
+                                        <CardContent classes={{ root: classes.cardContent }}>
+                                            <Typography component="p">{project.description}</Typography>
+                                        </CardContent>
+                                        <CardActions className={classes.buttons}>
+                                            <IconButton
+                                                onClick={() => {
+                                                    this.handleProjectClick(project);
+                                                }}
+                                                aria-label="Select project"
+                                            >
+                                                <ArrowRight color="primary" />
+                                            </IconButton>
+                                        </CardActions>
+                                    </Card>
+                                </GridListTile>
+                            ))}
                     </GridList>
                 </div>
             </React.Fragment>
@@ -135,4 +140,4 @@ class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(DashboardProjectSelect));
+)(withStyles(styles)(populateProjectsHOC(DashboardProjectSelect)));

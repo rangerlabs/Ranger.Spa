@@ -9,13 +9,14 @@ import * as queryString from 'query-string';
 import requireProjectSelection from '../../hocs/RequireProjectSelectionHOC';
 import { WithSnackbarProps } from 'notistack';
 import IProject from '../../../../models/app/IProject';
+import { IntegrationsState } from '../../../../redux/actions/IntegrationActions';
 
 type IntegrationFormHOCProps = StateProps & DispatchProps & OwnProps;
 
 interface OwnProps extends WithSnackbarProps {}
 
 interface StateProps {
-    integrations: MergedIntegrationResponseType[];
+    integrationsState: IntegrationsState;
     selectedProject: IProject;
 }
 interface DispatchProps {
@@ -28,7 +29,7 @@ interface IntegrationFormHOCState {
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
     return {
-        integrations: state.integrations,
+        integrationsState: state.integrationsState,
         selectedProject: state.selectedProject,
     };
 };
@@ -54,7 +55,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                     const params = queryString.parse(window.location.search);
                     const name = params['name'] as string;
                     if (name) {
-                        result = this.props.integrations.find(i => i.name === name);
+                        result = this.props.integrationsState.integrations.find(i => i.name === name);
                         if (result.type === IntegrationEnum.WEBHOOK) {
                             this.setState({ initialIntegration: result });
                         } else {

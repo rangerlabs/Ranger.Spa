@@ -1,14 +1,19 @@
-import { ADD_PROJECT, REMOVE_PROJECT, POPULATE_PROJECTS, ProjectAction, ProjectArrayAction } from '../actions/ProjectActions';
+import { ADD_PROJECT, REMOVE_PROJECT, POPULATE_PROJECTS, UPDATE_PROJECT, ProjectAction, ProjectArrayAction, ProjectsState } from '../actions/ProjectActions';
 import IProject from '../../models/app/IProject';
+import { ApplicationState } from '../../stores';
 
-export function projectReducer(state: IProject[] = [], action: ProjectAction & ProjectArrayAction) {
+export function projectReducer(state: ProjectsState = { isLoaded: false, projects: [] }, action: ProjectAction & ProjectArrayAction) {
     switch (action.type) {
+        case UPDATE_PROJECT:
+            return Object.assign({}, state, {
+                projects: state.projects.filter((p: IProject) => p.projectId !== action.project.projectId).concat(action.project),
+            } as ProjectsState);
         case ADD_PROJECT:
-            return state.concat(action.project);
+            return Object.assign({}, state, { projects: state.projects.concat(action.project) } as ProjectsState);
         case REMOVE_PROJECT:
-            return state.filter((v: IProject) => v.name !== action.project.name);
+            return Object.assign({}, state, { projects: state.projects.filter((p: IProject) => p.projectId !== action.project.projectId) } as ProjectsState);
         case POPULATE_PROJECTS:
-            return action.projects;
+            return Object.assign({}, state, action.projectsState);
         default:
             return state;
     }

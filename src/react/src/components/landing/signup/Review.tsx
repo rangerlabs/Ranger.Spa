@@ -1,18 +1,18 @@
-import * as React from "react";
-import Grid from "@material-ui/core/Grid";
-import FormikTextField from "../../form/FormikTextField";
-import { Formik, FormikBag, FormikProps } from "formik";
-import FormikBackButton from "../../form/FormikBackButton";
-import FormikPrimaryButton from "../../form/FormikPrimaryButton";
-import IReviewForm from "../../../models/landing/IReviewForm";
-import { InputAdornment, Typography, Theme, createStyles, WithStyles, withStyles } from "@material-ui/core";
-import TenantService from "../../../services/TenantService";
+import * as React from 'react';
+import Grid from '@material-ui/core/Grid';
+import FormikTextField from '../../form/FormikTextField';
+import { Formik, FormikBag, FormikProps } from 'formik';
+import FormikBackButton from '../../form/FormikBackButton';
+import FormikPrimaryButton from '../../form/FormikPrimaryButton';
+import IReviewForm from '../../../models/landing/IReviewForm';
+import { InputAdornment, Typography, Theme, createStyles, WithStyles, withStyles } from '@material-ui/core';
+import TenantService from '../../../services/TenantService';
 
 const tenantService = new TenantService();
 const styles = (theme: Theme) =>
     createStyles({
         gridItem: {
-            paddingBottom: "0px !important",
+            paddingBottom: '0px !important',
         },
     });
 
@@ -68,7 +68,7 @@ class Review extends React.Component<ReviewProps> {
                                         name="domainForm.domain"
                                         label="Domain"
                                         value={props.initialValues.domainForm.domain}
-                                        errorText={""}
+                                        errorText={''}
                                         touched={false}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
@@ -82,7 +82,7 @@ class Review extends React.Component<ReviewProps> {
                                         name="domainForm.organizationName"
                                         label="Organization name"
                                         value={props.initialValues.domainForm.organizationName}
-                                        errorText={""}
+                                        errorText={''}
                                         touched={false}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
@@ -98,7 +98,7 @@ class Review extends React.Component<ReviewProps> {
                                         name="userForm.firstName"
                                         label="Firstname"
                                         value={props.initialValues.userForm.firstName}
-                                        errorText={""}
+                                        errorText={''}
                                         touched={false}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
@@ -111,7 +111,7 @@ class Review extends React.Component<ReviewProps> {
                                         name="userForm.lastName"
                                         label="Lastname"
                                         value={props.initialValues.userForm.lastName}
-                                        errorText={""}
+                                        errorText={''}
                                         touched={false}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
@@ -125,7 +125,7 @@ class Review extends React.Component<ReviewProps> {
                                         label="Email"
                                         type="email"
                                         value={props.initialValues.userForm.email}
-                                        errorText={""}
+                                        errorText={''}
                                         touched={false}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
@@ -138,7 +138,7 @@ class Review extends React.Component<ReviewProps> {
                                         name="userForm.password"
                                         label="Password"
                                         value={props.initialValues.userForm.password}
-                                        errorText={""}
+                                        errorText={''}
                                         touched={false}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
@@ -149,7 +149,7 @@ class Review extends React.Component<ReviewProps> {
                             </Grid>
                             <div className={buttonsClassName}>
                                 <FormikBackButton onClick={this.props.handleBack} />
-                                <FormikPrimaryButton isValid={true} isSubmitting={props.isSubmitting} variant="contained" />
+                                <FormikPrimaryButton denseMargin isValid={true} isSubmitting={props.isSubmitting} variant="contained" />
                             </div>
                         </form>
                     )}

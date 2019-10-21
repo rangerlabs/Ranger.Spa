@@ -1,9 +1,9 @@
 import * as React from 'react';
 import DashboardProjectSelect from './DashboardProjectSelect';
-import { Typography, createStyles, Theme, withStyles, WithStyles } from '@material-ui/core';
+import { Typography, createStyles, Theme, withStyles, WithStyles, LinearProgress } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
-import IProject from '../../../models/app/IProject';
+import { ProjectsState } from '../../../redux/actions/ProjectActions';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -13,12 +13,12 @@ const styles = (theme: Theme) =>
     });
 
 interface DashboardProps extends WithStyles<typeof styles> {
-    projects: IProject[];
+    projectsState: ProjectsState;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        projects: state.projects,
+        projectsState: state.projectsState,
     };
 };
 
@@ -27,11 +27,12 @@ class Dashboard extends React.Component<DashboardProps> {
         const { classes } = this.props;
         return (
             <div className={classes.layout}>
-                {this.props.projects.length === 0 ? null : (
-                    <React.Fragment>
-                        <DashboardProjectSelect />
-                    </React.Fragment>
-                )}
+                <React.Fragment>
+                    <Typography align="left" variant="subtitle1">
+                        Projects
+                    </Typography>
+                    <DashboardProjectSelect />
+                </React.Fragment>
                 <Typography align="left" variant="subtitle1">
                     Usage
                 </Typography>

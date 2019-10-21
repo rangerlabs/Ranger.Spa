@@ -25,7 +25,7 @@ const styles = (theme: Theme) =>
     });
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { selectedShape: state.googleMaps.selectedShapePicker, enabled: !state.geoFenceDrawer.isOpen };
+    return { selectedShape: state.googleMaps.selectedShapePicker, enabled: !state.geofenceDrawer.isOpen };
 };
 
 const mapDispatchToProps = (dispatch: any) => {

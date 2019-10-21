@@ -46,7 +46,7 @@ const styles = (theme: Theme) =>
 interface IWebhookIntegrationFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     dispatchAddIntegration: (integration: WebhookIntegrationResponse) => void;
     dispatchRemoveIntegration: (name: string) => void;
-    integrations?: MergedIntegrationResponseType[];
+    integrationsState?: MergedIntegrationResponseType[];
     initialIntegration: WebhookIntegrationResponse;
     selectedProject: IProject;
     push: typeof push;
@@ -67,7 +67,7 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { integrations: state.integrations, selectedProject: state.selectedProject };
+    return { integrationsState: state.integrationsState, selectedProject: state.selectedProject };
 };
 
 type WebhookIntegrationFormState = {

@@ -1,18 +1,24 @@
-import * as React from "react";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Paper from "@material-ui/core/Paper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import { Button, createStyles, Theme, WithStyles, withStyles, Grow, Fade, Popper } from "@material-ui/core";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import RoutePaths from "../RoutePaths";
-import { connect } from "react-redux";
-import { push } from "connected-react-router";
+import * as React from 'react';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Paper from '@material-ui/core/Paper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { Button, createStyles, Theme, WithStyles, withStyles, Grow, Fade, Popper } from '@material-ui/core';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import RoutePaths from '../RoutePaths';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 
 const styles = (theme: Theme) =>
     createStyles({
         paper: {
-            marginRight: theme.spacing(2),
+            marginRight: theme.spacing(3),
+        },
+        accountButton: {
+            '&:hover ': {
+                backgroundColor: theme.palette.common.white,
+                color: theme.palette.primary.main,
+            },
         },
     });
 
@@ -54,9 +60,16 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
     };
 
     render() {
+        const { classes } = this.props;
         return (
             <div>
-                <Button buttonRef={this.anchorEl} aria-owns={open ? "menu-list-grow" : undefined} aria-haspopup="true" onClick={this.handleToggle}>
+                <Button
+                    className={classes.accountButton}
+                    buttonRef={this.anchorEl}
+                    aria-owns={open ? 'menu-list-grow' : undefined}
+                    aria-haspopup="true"
+                    onClick={this.handleToggle}
+                >
                     <AccountCircle />
                 </Button>
                 <Popper open={this.state.open} anchorEl={this.anchorEl.current} transition disablePortal>
@@ -85,7 +98,6 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                         </MenuItem>
                                         <MenuItem
                                             onClick={e => {
-                                                // this.props.signOut();
                                                 this.props.push(RoutePaths.Logout);
                                                 this.handleClose(e);
                                             }}

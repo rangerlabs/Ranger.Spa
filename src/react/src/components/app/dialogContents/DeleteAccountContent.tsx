@@ -1,13 +1,13 @@
-import * as React from "react";
-import { DialogActions, Button, InputAdornment, IconButton, DialogContentText, List, ListItem, ListItemText } from "@material-ui/core";
-import { DialogComponentProps } from "./DialogComponent";
-import { useState } from "react";
-import FormikTextField from "../../form/FormikTextField";
-import { Formik, FormikBag, FormikProps } from "formik";
-import * as Yup from "yup";
-import FormikPrimaryButton from "../../form/FormikPrimaryButton";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import * as React from 'react';
+import { DialogActions, Button, InputAdornment, IconButton, DialogContentText, List, ListItem, ListItemText } from '@material-ui/core';
+import { DialogComponentProps } from './DialogComponent';
+import { useState } from 'react';
+import FormikTextField from '../../form/FormikTextField';
+import { Formik, FormikBag, FormikProps } from 'formik';
+import * as Yup from 'yup';
+import FormikPrimaryButton from '../../form/FormikPrimaryButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 interface Password {
     password: string;
@@ -23,18 +23,18 @@ function DeleteAccountContent(dialogComponentProps: DialogComponentProps & Delet
 
     const validationSchema = Yup.object().shape({
         password: Yup.string()
-            .min(8, "Must be at least 8 characters long")
-            .matches(new RegExp("[!@#\\$%\\^\\&*\\)\\(+=._-]"), "Must contain at least 1 special character")
-            .matches(new RegExp("[0-9]"), "Must contain at least 1 number")
-            .matches(new RegExp("[a-z]"), "Must contain at least 1 lowercase letter")
-            .matches(new RegExp("[A-Z]"), "Must contain at least 1 uppercase letter")
-            .required("Required"),
+            .min(8, 'Must be at least 8 characters long')
+            .matches(new RegExp('[!@#\\$%\\^\\&*\\)\\(+=._-]'), 'Must contain at least 1 special character')
+            .matches(new RegExp('[0-9]'), 'Must contain at least 1 number')
+            .matches(new RegExp('[a-z]'), 'Must contain at least 1 lowercase letter')
+            .matches(new RegExp('[A-Z]'), 'Must contain at least 1 uppercase letter')
+            .required('Required'),
     });
 
     return (
         <React.Fragment>
             <Formik
-                initialValues={{ password: "" }}
+                initialValues={{ password: '' }}
                 onSubmit={(values: Password, formikBag: FormikBag<FormikProps<Password>, Password>) => {
                     console.log(values);
                     setServerErrors(undefined);
@@ -62,7 +62,7 @@ function DeleteAccountContent(dialogComponentProps: DialogComponentProps & Delet
                         <FormikTextField
                             name="password"
                             label="Password"
-                            type={passwordVisible ? "text" : "password"}
+                            type={passwordVisible ? 'text' : 'password'}
                             value={props.values.password}
                             errorText={props.errors.password}
                             touched={props.touched.password}
@@ -84,7 +84,7 @@ function DeleteAccountContent(dialogComponentProps: DialogComponentProps & Delet
                                     </InputAdornment>
                                 ),
                             }}
-                            {...serverErrors && (
+                            {...(serverErrors && (
                                 <List>
                                     <ListItem>
                                         {serverErrors.map(error => (
@@ -92,13 +92,13 @@ function DeleteAccountContent(dialogComponentProps: DialogComponentProps & Delet
                                         ))}
                                     </ListItem>
                                 </List>
-                            )}
+                            ))}
                         />
                         <DialogActions>
                             <Button onClick={dialogComponentProps.onClose} color="primary" variant="text">
                                 Cancel
                             </Button>
-                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
+                            <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
                                 Delete account
                             </FormikPrimaryButton>
                         </DialogActions>

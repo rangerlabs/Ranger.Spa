@@ -2,21 +2,22 @@ import * as React from 'react';
 import IProject from '../../../models/app/IProject';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { addProject, removeProject } from '../../../redux/actions/ProjectActions';
+import { addProject, removeProject, ProjectsState } from '../../../redux/actions/ProjectActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 const MUIDataTable = require('mui-datatables').default;
+import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 
 interface ProjectsProps {
-    projects: IProject[];
+    projectsState: ProjectsState;
     addProject: (project: IProject) => void;
     removeProject: (name: string) => void;
     push: typeof push;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { projects: state.projects };
+    return { projectsState: state.projectsState };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -90,10 +91,10 @@ class Projects extends React.Component<ProjectsProps> {
     };
 
     render() {
-        const { projects } = this.props;
+        const { projectsState } = this.props;
         return (
             <React.Fragment>
-                <MUIDataTable title={'Projects'} data={this.mapProjectsToTableProjects(projects)} columns={this.columns} options={this.options} />
+                <MUIDataTable title={'Projects'} data={this.mapProjectsToTableProjects(projectsState.projects)} columns={this.columns} options={this.options} />
             </React.Fragment>
         );
     }
@@ -102,4 +103,4 @@ class Projects extends React.Component<ProjectsProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Projects);
+)(populateProjectsHOC(Projects));

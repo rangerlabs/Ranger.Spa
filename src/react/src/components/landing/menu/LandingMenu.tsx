@@ -48,24 +48,6 @@ const styles = (theme: Theme) =>
             margin: 'auto',
             width: '90%',
         },
-        listItemHover: {
-            height: theme.toolbar.height,
-            '&:hover ': {
-                backgroundColor: theme.palette.primary.main[300],
-                '& $listItemTextColor': {
-                    color: theme.palette.common.white,
-                },
-                '& $listItemIconColor': {
-                    color: theme.palette.common.white,
-                },
-            },
-        },
-        listItemTextColor: {
-            color: theme.palette.text.primary,
-        },
-        listItemIconColor: {
-            color: theme.palette.primary.main,
-        },
         menuButton: {
             margin: 'auto',
             width: '70%',
@@ -130,76 +112,76 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
 
                 <List>
                     {this.props.user && !this.props.user.expired && (
-                        <ListItem classes={{ button: classes.listItemHover }} button onClick={() => this.props.push(RoutePaths.Dashboard)}>
-                            <ListItemIcon className={classes.listItemIconColor}>
+                        <ListItem button onClick={() => this.props.push(RoutePaths.Dashboard)}>
+                            <ListItemIcon>
                                 <ViewDashboardOutline />
                             </ListItemIcon>
-                            <ListItemText primary="Dashboard" className={classes.listItemTextColor} />
+                            <ListItemText primary="Dashboard" />
                         </ListItem>
                     )}
 
-                    <ListItem classes={{ button: classes.listItemHover }} button onClick={() => this.props.push(RoutePaths.Documentation)}>
-                        <ListItemIcon className={classes.listItemIconColor}>
+                    <ListItem button onClick={() => this.props.push(RoutePaths.Documentation)}>
+                        <ListItemIcon>
                             <FileDocumentBoxOutline />
                         </ListItemIcon>
-                        <ListItemText primary="Documentation" className={classes.listItemTextColor} />
+                        <ListItemText primary="Documentation" />
                     </ListItem>
-                    <ListItem classes={{ button: classes.listItemHover }} button onClick={() => this.props.push(RoutePaths.Pricing)}>
-                        <ListItemIcon className={classes.listItemIconColor}>
+                    <ListItem button onClick={() => this.props.push(RoutePaths.Pricing)}>
+                        <ListItemIcon>
                             <CurrencyUsd />
                         </ListItemIcon>
-                        <ListItemText primary="Pricing" className={classes.listItemTextColor} />
+                        <ListItemText primary="Pricing" />
                     </ListItem>
-                    <ListItem classes={{ button: classes.listItemHover }} button onClick={() => this.props.push(RoutePaths.Company)}>
-                        <ListItemIcon className={classes.listItemIconColor}>
+                    <ListItem button onClick={() => this.props.push(RoutePaths.Company)}>
+                        <ListItemIcon>
                             <Domain />
                         </ListItemIcon>
-                        <ListItemText primary="Company" className={classes.listItemTextColor} />
+                        <ListItemText primary="Company" />
                     </ListItem>
 
                     {this.props.user && !this.props.user.expired ? (
-                        <ListItem id="account" className={classes.listItemHover} button onClick={this.toggleExpanded}>
-                            <ListItemIcon className={classes.listItemIconColor}>
+                        <ListItem id="account" button onClick={this.toggleExpanded}>
+                            <ListItemIcon>
                                 <AccountCircle />
                             </ListItemIcon>
-                            <ListItemText primary="Account" className={classes.listItemTextColor} />
+                            <ListItemText primary="Account" />
                             <Fade in={this.state.accountListItemExpanded} timeout={500}>
-                                <ExpandLess className={classes.listItemIconColor} />
+                                <ExpandLess />
                             </Fade>
                         </ListItem>
                     ) : (
-                        <ListItem classes={{ button: classes.listItemHover }} button onClick={this.handleSignInClick}>
-                            <ListItemIcon className={classes.listItemIconColor}>
+                        <ListItem button onClick={this.handleSignInClick}>
+                            <ListItemIcon>
                                 <AccountCircle htmlColor={theme.palette.primary.main} />
                             </ListItemIcon>
-                            <ListItemText primary="Sign in" className={classes.listItemTextColor} />
+                            <ListItemText primary="Sign in" />
                         </ListItem>
                     )}
                     <Collapse in={this.state.accountListItemExpanded} timeout={500} unmountOnExit>
                         <List component="div" disablePadding>
                             <ListItem
                                 button
-                                className={classNames(classes.listItemHover, classes.nested)}
+                                className={classes.nested}
                                 onClick={() => {
                                     this.props.push(RoutePaths.Account);
                                 }}
                             >
-                                <ListItemIcon className={classes.listItemIconColor}>
+                                <ListItemIcon>
                                     <Lock />
                                 </ListItemIcon>
-                                <ListItemText primary="Account" className={classes.listItemTextColor} />
+                                <ListItemText primary="Account" />
                             </ListItem>
                             <ListItem
                                 button
-                                className={classNames(classes.listItemHover, classes.nested)}
+                                className={classes.nested}
                                 onClick={() => {
                                     this.props.push(RoutePaths.Logout);
                                 }}
                             >
-                                <ListItemIcon className={classes.listItemIconColor}>
+                                <ListItemIcon>
                                     <Lock />
                                 </ListItemIcon>
-                                <ListItemText primary="Logout" className={classes.listItemTextColor} />
+                                <ListItemText primary="Logout" />
                             </ListItem>
                         </List>
                     </Collapse>

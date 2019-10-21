@@ -12,8 +12,6 @@ import { User } from 'oidc-client';
 import UserService from '../../services/UserService';
 import IUser from '../../models/app/IUser';
 import { populateUsers } from '../../redux/actions/UserActions';
-import { populateProjects } from '../../redux/actions/ProjectActions';
-import ProjectService from '../../services/ProjectService';
 import IProject from '../../models/app/IProject';
 import BreadcrumbPath from '../../models/app/BreadcrumbPath';
 import BreadcrumbPaths from '../BreadcrumbPaths';
@@ -22,7 +20,6 @@ import Notifier from '../../components/notifier/Notifier';
 import authorizedRoute from './hocs/AuthorizedRouteHOC';
 
 const userService = new UserService();
-const projectService = new ProjectService();
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -43,23 +40,18 @@ interface AppLayoutProps extends WithStyles<typeof styles> {
     path?: string | string[];
     breadcrumbPath: BreadcrumbPath;
     setUsers: (users: IUser[]) => void;
-    setProjects: (projects: IProject[]) => void;
     users: IUser[];
     selectedProject: IProject;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { users: state.users, projects: state.projects, user: state.oidc.user, selectedProject: state.selectedProject };
+    return { users: state.users, user: state.oidc.user, selectedProject: state.selectedProject };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
         setUsers: (users: IUser[]) => {
             const action = populateUsers(users);
-            dispatch(action);
-        },
-        setProjects: (projects: IProject[]) => {
-            const action = populateProjects(projects);
             dispatch(action);
         },
     };
@@ -75,9 +67,6 @@ class AppLayout extends React.Component<AppLayoutProps> {
         if (this.props.users.length == 0) {
             userService.getUsers().then(userResponse => {
                 this.props.setUsers(userResponse.content);
-            });
-            projectService.getProjects().then(projectResponse => {
-                this.props.setProjects(projectResponse.content);
             });
         }
     };

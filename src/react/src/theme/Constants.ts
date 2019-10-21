@@ -1,5 +1,11 @@
 const Constants = {
-    PRIMARY_COLOR: '#7E57C2',
+    COLORS: {
+        WHITE: '#FFFFFF',
+        BLACK: '#000000',
+        PRIMARY_COLOR: '#276e18',
+        MENU_BACKGROUND_COLOR: '#276e1840',
+        LIST_TABLE_HOVER_COLOR: '#276e181c',
+    },
     MAP_MAIN_STYLE: [
         {
             featureType: 'administrative',

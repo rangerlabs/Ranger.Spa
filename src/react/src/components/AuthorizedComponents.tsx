@@ -4,8 +4,8 @@ import Projects from './app/projects/Projects';
 import RoutePaths from './RoutePaths';
 import IAppRoute from './IAppRoute';
 import ProjectForm from './app/projects/ProjectForm';
-import GeoFences from './app/geofences/GeoFences';
-import GeoFenceForm from './app/geofences/googleMap/GeoFenceForm';
+import Geofences from './app/geofences/Geofences';
+import GeofenceForm from './app/geofences/googleMap/GeofenceForm';
 import Integrations from './app/integrations/Integrations';
 import IntegrationsNew from './app/integrations/form/IntegrationsNew';
 import IntegrationsNewWebhook from './app/integrations/form/WebhookIntegrationForm';
@@ -28,8 +28,8 @@ export const AuthorizedComponents: IAppRoute[] = [
     { exact: true, path: RoutePaths.ProjectsNew, component: ProjectForm, breadcrumbPath: BreadcrumbPaths.ProjectsNew() },
     { exact: false, path: RoutePaths.ProjectsEdit, component: ProjectForm, breadcrumbPath: BreadcrumbPaths.ProjectsEdit() },
 
-    { exact: true, path: [RoutePaths.GeoFenceMap, RoutePaths.GeoFencesEdit], component: GeoFenceForm, breadcrumbPath: BreadcrumbPaths.GeoFenceMap() },
-    { exact: true, path: RoutePaths.GeoFenceTable, component: GeoFences, breadcrumbPath: BreadcrumbPaths.GeoFenceTable() },
+    { exact: true, path: [RoutePaths.GeofenceMap, RoutePaths.GeofencesEdit], component: GeofenceForm, breadcrumbPath: BreadcrumbPaths.GeofenceMap() },
+    { exact: true, path: RoutePaths.GeofenceTable, component: Geofences, breadcrumbPath: BreadcrumbPaths.GeofenceTable() },
 
     { exact: true, path: RoutePaths.Integrations, component: Integrations, breadcrumbPath: BreadcrumbPaths.Integrations() },
     { exact: true, path: RoutePaths.IntegrationsNew, component: IntegrationsNew, breadcrumbPath: BreadcrumbPaths.IntegrationsNew() },
