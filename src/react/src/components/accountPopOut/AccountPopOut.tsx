@@ -98,7 +98,6 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                         </MenuItem>
                                         <MenuItem
                                             onClick={e => {
-                                                // this.props.signOut();
                                                 this.props.push(RoutePaths.Logout);
                                                 this.handleClose(e);
                                             }}

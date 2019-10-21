@@ -88,6 +88,7 @@ export default function createRangerTheme(options: ThemeOptions) {
             },
             MuiListItem: {
                 button: {
+                    height: toolbarHeight,
                     '&:hover': {
                         backgroundColor: Constants.COLORS.LIST_TABLE_HOVER_COLOR,
                     },

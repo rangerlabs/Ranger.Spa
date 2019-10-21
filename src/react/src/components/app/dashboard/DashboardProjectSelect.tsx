@@ -103,27 +103,33 @@ class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
             <React.Fragment>
                 <div className={classes.root}>
                     <GridList className={classes.gridList} cols={2.5}>
-                        {projectsState.projects.map(project => (
-                            <GridListTile className={classes.gridListTile} key={project.name}>
-                                <Card className={classes.card}>
-                                    <CardHeader title={project.name} />
-                                    <CardMedia classes={{ root: classes.mediaRoot }} className={classes.media} image={IntegrationApi} title="Api Integration" />
-                                    <CardContent classes={{ root: classes.cardContent }}>
-                                        <Typography component="p">{project.description}</Typography>
-                                    </CardContent>
-                                    <CardActions className={classes.buttons}>
-                                        <IconButton
-                                            onClick={() => {
-                                                this.handleProjectClick(project);
-                                            }}
-                                            aria-label="Select project"
-                                        >
-                                            <ArrowRight color="primary" />
-                                        </IconButton>
-                                    </CardActions>
-                                </Card>
-                            </GridListTile>
-                        ))}
+                        {projectsState.projects &&
+                            projectsState.projects.map(project => (
+                                <GridListTile className={classes.gridListTile} key={project.name}>
+                                    <Card className={classes.card}>
+                                        <CardHeader title={project.name} />
+                                        <CardMedia
+                                            classes={{ root: classes.mediaRoot }}
+                                            className={classes.media}
+                                            image={IntegrationApi}
+                                            title="Api Integration"
+                                        />
+                                        <CardContent classes={{ root: classes.cardContent }}>
+                                            <Typography component="p">{project.description}</Typography>
+                                        </CardContent>
+                                        <CardActions className={classes.buttons}>
+                                            <IconButton
+                                                onClick={() => {
+                                                    this.handleProjectClick(project);
+                                                }}
+                                                aria-label="Select project"
+                                            >
+                                                <ArrowRight color="primary" />
+                                            </IconButton>
+                                        </CardActions>
+                                    </Card>
+                                </GridListTile>
+                            ))}
                     </GridList>
                 </div>
             </React.Fragment>

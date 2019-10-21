@@ -15,6 +15,6 @@ export default class ProjectService {
     }
 
     async putProject(project: IProject, projectId: string): Promise<IRestResponse<IProject>> {
-        return RestUtilities.put<IProject>(`/project/${projectId}`, project);
+        return RestUtilities.put<IProject>(`/project?id=${projectId}`, project);
     }
 }
