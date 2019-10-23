@@ -3,21 +3,7 @@ import IProject from '../../../models/app/IProject';
 import ProjectService from '../../../services/ProjectService';
 import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
 import * as Yup from 'yup';
-import {
-    withStyles,
-    createStyles,
-    Theme,
-    WithStyles,
-    Paper,
-    Grid,
-    CssBaseline,
-    List,
-    ListItemText,
-    Typography,
-    ListItem,
-    TextField,
-    Hidden,
-} from '@material-ui/core';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, TextField } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikCancelButton from '../../form/FormikCancelButton';
@@ -32,6 +18,8 @@ import RoutePaths from '../../RoutePaths';
 import * as queryString from 'query-string';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import DeleteProjectContent from '../dialogContents/DeleteProjectContent';
+import FormikCheckbox from '../../form/FormikCheckbox';
+import FormikServerErrors from '../../form/FormikServerErrors';
 
 const projectService = new ProjectService();
 
@@ -53,6 +41,9 @@ const styles = (theme: Theme) =>
         },
         leftButtons: {
             flexGrow: 1,
+        },
+        disableBottomPadding: {
+            paddingBottom: '0px !important',
         },
     });
 interface IProjectFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
@@ -94,7 +85,7 @@ type ProjectFormState = {
 
 class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
     state: ProjectFormState = {
-        serverErrors: undefined,
+        serverErrors: undefined as string[],
         initialProject: undefined,
         isSuccess: false,
     };
@@ -145,7 +136,9 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
 
                         <Formik
                             enableReinitialize
-                            initialValues={this.state.initialProject ? this.state.initialProject : { name: '', description: '', apiKey: '', version: 0 }}
+                            initialValues={
+                                this.state.initialProject ? this.state.initialProject : { name: '', description: '', apiKey: '', version: 0, enabled: true }
+                            }
                             onSubmit={(values: IProject, formikBag: FormikBag<FormikProps<IProject>, IProject>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
@@ -153,13 +146,14 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     name: values.name,
                                     description: values.description,
                                     apiKey: values.apiKey,
+                                    enabled: values.enabled,
                                 } as IProject;
                                 if (this.state.initialProject) {
                                     const editedProject = Object.assign({}, inputProject, { version: this.state.initialProject.version + 1 }) as IProject;
                                     projectService.putProject(editedProject, this.state.initialProject.projectId).then((response: IRestResponse<IProject>) => {
                                         setTimeout(() => {
                                             if (response.is_error) {
-                                                const { serverErrors, ...formikErrors } = response.error_content.errors;
+                                                const { errors: serverErrors, ...formikErrors } = response.error_content;
                                                 enqueueSnackbar('Error updating project', { variant: 'error' });
                                                 formikBag.setErrors(formikErrors as FormikErrors<IProject>);
                                                 this.setState({ serverErrors: serverErrors });
@@ -177,7 +171,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     projectService.postProject(inputProject).then((response: IRestResponse<IProject>) => {
                                         setTimeout(() => {
                                             if (response.is_error) {
-                                                const { serverErrors, ...formikErrors } = response.error_content.errors;
+                                                const { errors: serverErrors, ...formikErrors } = response.error_content;
                                                 enqueueSnackbar('Error creating project', { variant: 'error' });
                                                 formikBag.setErrors(formikErrors as FormikErrors<IProject>);
                                                 this.setState({ serverErrors: serverErrors });
@@ -198,6 +192,16 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             {props => (
                                 <form onSubmit={props.handleSubmit}>
                                     <Grid container spacing={3}>
+                                        <Grid className={classes.disableBottomPadding} item xs={12}>
+                                            <FormikCheckbox
+                                                name="enabled"
+                                                label="Enabled"
+                                                value={props.values.enabled}
+                                                onChange={props.handleChange}
+                                                onBlur={props.handleBlur}
+                                            />
+                                        </Grid>
+
                                         <Grid item xs={12}>
                                             <FormikTextField
                                                 name="name"
@@ -230,13 +234,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         )}
                                         {this.state.serverErrors && (
                                             <Grid item xs={12}>
-                                                <List>
-                                                    <ListItem>
-                                                        {this.state.serverErrors.map(error => (
-                                                            <ListItemText primary={error} />
-                                                        ))}
-                                                    </ListItem>
-                                                </List>
+                                                <FormikServerErrors errors={this.state.serverErrors} />
                                             </Grid>
                                         )}
                                     </Grid>

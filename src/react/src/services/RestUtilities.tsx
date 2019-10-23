@@ -4,9 +4,7 @@ import TheatersRounded from '@material-ui/icons/TheatersRounded';
 import { openDialog, DialogContent } from '../redux/actions/DialogActions';
 
 export interface IErrorContent {
-    errors: { [key: string]: string[] };
-    title: string;
-    [key: string]: any;
+    errors: string[];
 }
 
 export interface IRestResponse<T> {
@@ -77,7 +75,7 @@ export default class RestUtilities {
                 const responseContentJson = responseContent ? JSON.parse(responseContent) : {};
                 let response: IRestResponse<T> = {
                     is_error: isBadRequest,
-                    error_content: isBadRequest ? responseContentJson : null,
+                    error_content: isBadRequest ? (responseContentJson as IErrorContent) : null,
                     content: isBadRequest ? null : responseContentJson,
                     correlationId: correlationId,
                 };

@@ -134,7 +134,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                     .then((response: IRestResponse<WebhookIntegrationResponse>) => {
                                         setTimeout(() => {
                                             if (response.is_error) {
-                                                const { serverErrors, ...formikErrors } = response.error_content.errors;
+                                                const { errors: serverErrors, ...formikErrors } = response.error_content;
                                                 enqueueSnackbar('Error creating integration', { variant: 'error' });
                                                 formikBag.setErrors(formikErrors as FormikErrors<WebhookIntegrationRequest>);
                                                 this.setState({ serverErrors: serverErrors });
