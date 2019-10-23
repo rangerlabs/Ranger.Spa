@@ -67,7 +67,7 @@ export default class RestUtilities {
                 // store.dispatch(action);
             })
             .then((response: Response) => {
-                isBadRequest = response.status >= 400 && response.status < 500;
+                isBadRequest = response.status === 304 || (response.status >= 400 && response.status < 500);
                 correlationId = response.headers.has('X-Operation') ? response.headers.get('X-Operation').replace('operations/', '') : null;
                 return response.text();
             })

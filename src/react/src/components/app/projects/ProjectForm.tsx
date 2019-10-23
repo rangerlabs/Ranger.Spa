@@ -161,7 +161,6 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                             } else {
                                                 this.setState({ isSuccess: true });
                                                 enqueueSnackbar('Project updated', { variant: 'success' });
-                                                setTimeout(this.props.closeForm, 250);
                                                 dispatchUpdateProject(response.content);
                                                 this.props.push(RoutePaths.Projects);
                                             }
@@ -179,7 +178,6 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                             } else {
                                                 this.setState({ isSuccess: true });
                                                 enqueueSnackbar('Project created', { variant: 'success' });
-                                                setTimeout(this.props.closeForm, 250);
                                                 dispatchAddProject(response.content);
                                                 this.props.push(RoutePaths.Projects);
                                             }
