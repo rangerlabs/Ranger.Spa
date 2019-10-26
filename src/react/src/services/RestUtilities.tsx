@@ -63,7 +63,7 @@ export default class RestUtilities {
         })
             .catch(response => {
                 // const store = ReduxStore.getStore();
-                // const action = openDialog({ message: "An error occured. Fuck." } as DialogContent);
+                // const action = openDialog({ message: "An error occured." } as DialogContent);
                 // store.dispatch(action);
             })
             .then((response: Response) => {

@@ -1,6 +1,16 @@
 import * as React from 'react';
-import { DialogActions, Button, InputAdornment, IconButton, DialogContentText, List, ListItem, ListItemText } from '@material-ui/core';
-import { DialogComponentProps } from './DialogComponent';
+import {
+    DialogActions,
+    Button,
+    InputAdornment,
+    IconButton,
+    DialogContentText,
+    List,
+    ListItem,
+    ListItemText,
+    DialogTitle,
+    DialogContent,
+} from '@material-ui/core';
 import { useState, useEffect } from 'react';
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps } from 'formik';
@@ -11,7 +21,11 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import * as queryString from 'query-string';
 import IProject from '../../../models/app/IProject';
 
-function DeleteProjectContent(dialogComponentProps: DialogComponentProps): JSX.Element {
+interface DeleteProjectContentProps {
+    onClose?: () => void;
+}
+
+function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentProps): JSX.Element {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [serverErrors, setServerErrors] = useState(undefined as string[]);
     const [projectName, setProjectName] = useState('');
@@ -54,37 +68,42 @@ function DeleteProjectContent(dialogComponentProps: DialogComponentProps): JSX.E
                 validationSchema={validationSchema}
             >
                 {props => (
-                    <form onSubmit={props.handleSubmit}>
-                        <DialogContentText color="error">To delete this project please confirm the project's name.</DialogContentText>
-                        <FormikTextField
-                            name="name"
-                            label="Project Name"
-                            value={props.values.name}
-                            errorText={props.errors.name}
-                            touched={props.touched.name}
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
-                            autoComplete="off"
-                            required
-                            {...(serverErrors && (
-                                <List>
-                                    <ListItem>
-                                        {serverErrors.map(error => (
-                                            <ListItemText primary={error} />
-                                        ))}
-                                    </ListItem>
-                                </List>
-                            ))}
-                        />
-                        <DialogActions>
-                            <Button onClick={dialogComponentProps.onClose} color="primary" variant="text">
-                                Cancel
-                            </Button>
-                            <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
-                                Delete project
-                            </FormikPrimaryButton>
-                        </DialogActions>
-                    </form>
+                    <React.Fragment>
+                        <DialogTitle>Delete project?</DialogTitle>
+                        <form onSubmit={props.handleSubmit}>
+                            <DialogContent>
+                                <DialogContentText color="error">To delete this project please confirm the project's name.</DialogContentText>
+                                <FormikTextField
+                                    name="name"
+                                    label="Project Name"
+                                    value={props.values.name}
+                                    errorText={props.errors.name}
+                                    touched={props.touched.name}
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    autoComplete="off"
+                                    required
+                                />
+                                {serverErrors && (
+                                    <List>
+                                        <ListItem>
+                                            {serverErrors.map(error => (
+                                                <ListItemText primary={error} />
+                                            ))}
+                                        </ListItem>
+                                    </List>
+                                )}
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={deleteProjectContentProps.onClose} color="primary" variant="text">
+                                    Cancel
+                                </Button>
+                                <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
+                                    Delete project
+                                </FormikPrimaryButton>
+                            </DialogActions>
+                        </form>
+                    </React.Fragment>
                 )}
             </Formik>
         </React.Fragment>

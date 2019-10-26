@@ -198,7 +198,9 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             <FormikDeleteButton
                                                 isSubmitting={props.isSubmitting}
                                                 dialogTitle="Delete account?"
-                                                dialogContent={DeleteAccountComponent}
+                                                dialogContent={
+                                                    <DeleteAccountComponent onClose={() => {}} email={(this.props.user.profile as UserProfile).email} />
+                                                }
                                             >
                                                 Delete
                                             </FormikDeleteButton>

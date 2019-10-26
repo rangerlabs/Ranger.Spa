@@ -4,7 +4,6 @@ import { ButtonProps } from '@material-ui/core/Button';
 import { openDialog, DialogContent } from '../../redux/actions/DialogActions';
 import { red } from '@material-ui/core/colors';
 import { connect } from 'react-redux';
-import { DialogComponent } from '../app/dialogContents/DialogComponent';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -21,7 +20,7 @@ const styles = (theme: Theme) =>
 interface FormikDeleteButtonProps extends WithStyles<typeof styles> {
     isSubmitting: boolean;
     dialogTitle: string;
-    dialogContent?: DialogComponent | string;
+    dialogContent?: JSX.Element | string;
     confirmText?: string;
     onConfirm?: Function;
     onCancel?: Function;
@@ -40,7 +39,7 @@ const mapDispatchToProps = (dispatch: any) => {
 class FormikDeleteButton extends React.Component<FormikDeleteButtonProps & ButtonProps> {
     renderDialog = () => {
         const { dialogTitle, dialogContent, confirmText, onConfirm, onCancel } = this.props;
-        this.props.openDialog(new DialogContent(dialogTitle, dialogContent, confirmText, onConfirm, onCancel));
+        this.props.openDialog(new DialogContent(dialogContent, dialogTitle, confirmText, onConfirm, onCancel));
     };
 
     render() {

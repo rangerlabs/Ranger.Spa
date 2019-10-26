@@ -51,7 +51,7 @@ class Projects extends React.Component<ProjectsProps> {
         const tableProjects = new Array<Array<string>>();
         if (projects) {
             projects.forEach(value => {
-                tableProjects.push([value.name, value.description, value.apiKey]);
+                tableProjects.push([value.name, value.description, `${value.liveApiKeyPrefix}...`, `${value.testApiKeyPrefix}...`]);
             });
         }
         return tableProjects;
@@ -71,7 +71,13 @@ class Projects extends React.Component<ProjectsProps> {
             },
         },
         {
-            name: 'Api Key',
+            name: 'Live Api Key Prefix',
+            options: {
+                filter: false,
+            },
+        },
+        {
+            name: 'Test Api Key Prefix',
             options: {
                 filter: false,
             },

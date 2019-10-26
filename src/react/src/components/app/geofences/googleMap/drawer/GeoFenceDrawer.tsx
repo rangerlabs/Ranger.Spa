@@ -83,8 +83,8 @@ const mapDispatchToProps = (dispatch: any) => {
         openDialog: (dialogContent: DialogContent) => {
             const action = openDialog(
                 new DialogContent(
-                    dialogContent.title,
                     dialogContent.content,
+                    dialogContent.title,
                     dialogContent.confirmText,
                     dialogContent.confirmAction,
                     dialogContent.cancelAction
