@@ -1,13 +1,23 @@
 import * as React from 'react';
-import { DialogActions, Button, InputAdornment, IconButton, DialogContentText, List, ListItem, ListItemText } from '@material-ui/core';
-import { DialogComponentProps } from './DialogComponent';
+import {
+    DialogActions,
+    Button,
+    InputAdornment,
+    IconButton,
+    DialogContentText,
+    List,
+    ListItem,
+    ListItemText,
+    DialogContent,
+    DialogTitle,
+} from '@material-ui/core';
 import { useState } from 'react';
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import FormikPrimaryButton from '../../form/FormikPrimaryButton';
 import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/Visibility/Off';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 interface Password {
     password: string;
@@ -17,7 +27,7 @@ interface DeleteAccountContentProps {
     email: string;
 }
 
-function DeleteAccountContent(dialogComponentProps: DialogComponentProps & DeleteAccountContentProps): JSX.Element {
+function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentProps): JSX.Element {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [serverErrors, setServerErrors] = useState(undefined as string[]);
 
@@ -99,7 +109,7 @@ function DeleteAccountContent(dialogComponentProps: DialogComponentProps & Delet
                                 )}
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={dialogComponentProps.onClose} color="primary" variant="text">
+                                <Button onClick={deleteAccountContentProps.onClose} color="primary" variant="text">
                                     Cancel
                                 </Button>
                                 <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">

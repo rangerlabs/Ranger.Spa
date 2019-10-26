@@ -251,12 +251,26 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                             />
                                         </Grid>
                                         {this.state.initialProject && (
-                                            <Grid item xs={12}>
-                                                <TextField label="Live API Key" value={this.state.initialProject.liveApiKeyPrefix} fullWidth disabled />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <TextField label="Test API Key" value={this.state.initialProject.testApiKeyPrefix} fullWidth disabled />
-                                            </Grid>
+                                            <React.Fragment>
+                                                <Grid item xs={12}>
+                                                    <TextField
+                                                        label="Live API Key"
+                                                        value={`${this.state.initialProject.liveApiKeyPrefix}...`}
+                                                        fullWidth
+                                                        disabled
+                                                        InputProps={{ endAdornment: <InputAdornment position="end">Reset</InputAdornment> }}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <TextField
+                                                        label="Test API Key"
+                                                        value={`${this.state.initialProject.testApiKeyPrefix}...`}
+                                                        fullWidth
+                                                        disabled
+                                                        InputProps={{ endAdornment: <InputAdornment position="end">Reset</InputAdornment> }}
+                                                    />
+                                                </Grid>
+                                            </React.Fragment>
                                         )}
                                         {this.state.serverErrors && (
                                             <Grid item xs={12}>
