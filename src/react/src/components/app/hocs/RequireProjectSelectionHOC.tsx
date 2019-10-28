@@ -39,26 +39,26 @@ const mapDispatchToProps = (dispatch: any): DispatchProps => {
 const requireProjectSelection = <P extends object>(Component: React.ComponentType<P>) => {
     class RequireProjectSelectionComponent extends React.Component<RequireProjectSelectionProps> {
         componentDidMount() {
-            this.checkProjectIsSelected();
+            this.getNextPathFromCurrentProjectState();
         }
 
         componentDidUpdate(prevProps: RequireProjectSelectionProps) {
             if (prevProps.projectsState.projects !== this.props.projectsState.projects) {
-                this.checkProjectIsSelected();
+                this.getNextPathFromCurrentProjectState();
             }
         }
 
-        checkProjectIsSelected() {
+        getNextPathFromCurrentProjectState() {
             if (this.props.projectsState.projects.length > 0) {
                 const redirect = window.location.pathname.split('/');
-                let appName = '';
+                let requestProjectName = '';
                 let redirectComponentPath = '';
                 if (redirect.length >= 2 && redirect[1] === ':appName') {
                     redirectComponentPath = window.location.pathname.replace('/:appName', '') + window.location.search;
                 } else if (redirect.length >= 2) {
-                    appName = redirect[1];
+                    requestProjectName = redirect[1];
                     redirect.forEach((v, i) => {
-                        if (i >= 2) {
+                        if ((i = 2)) {
                             redirectComponentPath += '/' + v;
                         }
                     });
@@ -68,11 +68,11 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
                 }
 
                 let pushPath = undefined as string;
-                const app = this.props.projectsState.projects.filter(a => a.name === appName);
-                if (app && app.length === 1) {
-                    this.props.selectProject(app[0]);
-                    pushPath = '/' + appName + redirectComponentPath;
-                } else if (this.appIsInStateAndIsValid()) {
+                const requestProject = this.props.projectsState.projects.filter(p => p.name === requestProjectName);
+                if (requestProject && requestProject.length === 1) {
+                    this.props.selectProject(requestProject[0]);
+                    pushPath = '/' + requestProjectName + redirectComponentPath;
+                } else if (this.projectIsInReduxStateAndIsValid()) {
                     pushPath =
                         '/' +
                         this.props.projectsState.projects.filter(a => a.name === this.props.selectedProject.name).map(a => a.name) +
@@ -84,6 +84,7 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
                     pushPath = `/projects/select?redirect=${redirectComponentPath}`;
                 }
                 this.props.push(pushPath);
+            } else {
             }
         }
 
@@ -91,8 +92,8 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
             return this.props.projectsState.projects.length === 1;
         }
 
-        private appIsInStateAndIsValid() {
-            return this.props.selectedProject && this.props.projectsState.projects.map(a => a.name).indexOf(this.props.selectedProject.name) >= 0;
+        private projectIsInReduxStateAndIsValid() {
+            return this.props.selectedProject && this.props.projectsState.projects.map(p => p.name).indexOf(this.props.selectedProject.name) >= 0;
         }
 
         render() {

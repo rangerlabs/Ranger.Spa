@@ -1,20 +1,20 @@
-import * as React from "react";
-import TenantService from "../../../services/TenantService";
-import Grid from "@material-ui/core/Grid";
-import { Formik, FormikBag, FormikProps, FormikErrors } from "formik";
-import FormikTextField from "../../form/FormikTextField";
-import FormikNextButton from "../../form/FormikNextButton";
-import IDomainForm from "../../../models/landing/IDomainForm";
-import * as Yup from "yup";
-import { InputAdornment } from "@material-ui/core";
-import { Subject, Subscription } from "rxjs";
-import { debounceTime } from "rxjs/operators";
-import { StatusEnum } from "../../../models/StatusEnum";
-import { DomainState, addDomain } from "../../../redux/actions/DomainActions";
-import { connect } from "react-redux";
+import * as React from 'react';
+import TenantService from '../../../services/TenantService';
+import Grid from '@material-ui/core/Grid';
+import { Formik, FormikBag, FormikProps, FormikErrors } from 'formik';
+import FormikTextField from '../../form/FormikTextField';
+import FormikNextButton from '../../form/FormikNextButton';
+import IDomainForm from '../../../models/landing/IDomainForm';
+import * as Yup from 'yup';
+import { InputAdornment } from '@material-ui/core';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { StatusEnum } from '../../../models/StatusEnum';
+import { DomainState, addDomain } from '../../../redux/actions/DomainActions';
+import { connect } from 'react-redux';
 
 const tenantService = new TenantService();
-const domainUnavailableErrorText = "Sorry, this domain is already taken.";
+const domainUnavailableErrorText = 'Sorry, this domain is already taken.';
 interface DomainFormProps {
     setSignUpDomainStateValues: (domainFormValues: IDomainForm) => void;
     addDomain: (domain: DomainState) => void;
@@ -70,8 +70,8 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
     }
 
     private setUnavailableDomainError() {
-        this.formikRef.current.setFieldTouched("domain");
-        this.formikRef.current.setFieldError("domain", domainUnavailableErrorText);
+        this.formikRef.current.setFieldTouched('domain');
+        this.formikRef.current.setFieldError('domain', domainUnavailableErrorText);
     }
 
     componentWillUnmount() {
@@ -82,21 +82,21 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
 
     validationSchema = Yup.object().shape({
         domain: Yup.string()
-            .min(3, "Must be at least 3 characters long")
-            .max(28, "Must be less than 28 characters long")
+            .min(3, 'Must be at least 3 characters long')
+            .max(28, 'Must be less than 28 characters long')
             .matches(
-                new RegExp("^[a-zA-Z0-9]{1}[a-zA-Z0-9-]{1,26}[a-zA-Z0-9]{1}$"),
-                "Must begin, end, and contain alphanumeric characters. Hyphens (-) permitted."
+                new RegExp('^[a-zA-Z0-9]{1}[a-zA-Z0-9-]{1,26}[a-zA-Z0-9]{1}$'),
+                'Must begin, end, and contain alphanumeric characters. Hyphens (-) permitted.'
             )
-            .required("Required"),
+            .required('Required'),
         organizationName: Yup.string()
-            .min(3, "Must be at least 3 characters long")
-            .max(28, "Must be less than 28 characters long")
+            .min(3, 'Must be at least 3 characters long')
+            .max(28, 'Must be less than 28 characters long')
             .matches(
-                new RegExp("^[a-zA-Z0-9]{1}[a-zA-Z0-9- ]{1,26}[a-zA-Z0-9]{1}$"),
-                "Must begin, end, and contain alphanumeric characters. Spaces ( ), and hyphens (-) permitted."
+                new RegExp('^[a-zA-Z0-9]{1}[a-zA-Z0-9- ]{1,26}[a-zA-Z0-9]{1}$'),
+                'Must begin, end, and contain alphanumeric characters. Spaces ( ), and hyphens (-) permitted.'
             )
-            .required("Required"),
+            .required('Required'),
     });
 
     render() {
@@ -106,8 +106,8 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
                 <Formik
                     ref={this.formikRef}
                     initialValues={{
-                        domain: domainForm.domain ? domainForm.domain : "",
-                        organizationName: domainForm.organizationName ? domainForm.organizationName : "",
+                        domain: domainForm.domain ? domainForm.domain : '',
+                        organizationName: domainForm.organizationName ? domainForm.organizationName : '',
                     }}
                     isInitialValid={this.props.isReturn}
                     onSubmit={(values: IDomainForm, formikBag: FormikBag<FormikProps<IDomainForm>, IDomainForm>) => {
@@ -123,7 +123,7 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
                                 } as IDomainForm;
                                 const domain = {
                                     domain: values.domain,
-                                    correlationId: "",
+                                    correlationId: '',
                                     status: StatusEnum.PENDING,
                                 } as DomainState;
                                 this.props.addDomain(domain);

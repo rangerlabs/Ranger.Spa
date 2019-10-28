@@ -13,12 +13,14 @@ export default class RoutePaths {
 
     public static Dashboard = '/dashboard';
     public static Account = '/account';
+    public static Domain = '/domain';
 
     public static Users = '/users';
     public static UsersNew = '/users/new';
     public static UsersEdit = '/users/edit';
 
     public static Projects = '/projects';
+    public static FirstProjectRequired = '/first-project';
     public static ProjectsSelect = '/projects/select';
     public static ProjectsNew = '/projects/new';
     public static ProjectsEdit = '/projects/edit';

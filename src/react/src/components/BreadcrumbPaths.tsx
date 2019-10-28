@@ -6,6 +6,8 @@ import { titleCase } from 'change-case';
 
 const dashboardBreadcrumb = new Breadcrumb('Dashboard', RoutePaths.Dashboard);
 const accountBreadcrumb = new Breadcrumb('Account', RoutePaths.Account);
+const domainBreadcrumb = new Breadcrumb('Domain', RoutePaths.Domain);
+
 const geofenceMapBreadcrumb = new Breadcrumb('Geofence Map', RoutePaths.GeofenceMap);
 const geofenceTableBreadcrumb = new Breadcrumb('Geofence Table', RoutePaths.GeofenceTable);
 
@@ -17,6 +19,7 @@ const usersBreadcrumb = new Breadcrumb('Users', RoutePaths.Users);
 const usersNewBreadcrumb = new Breadcrumb('New', RoutePaths.UsersNew);
 const usersEditBreadcrumb = new Breadcrumb('Edit', RoutePaths.UsersEdit);
 
+const firstProjectRequiredBreadcrumb = new Breadcrumb('First Project', RoutePaths.ProjectsNew);
 const projectsBreadcrumb = new Breadcrumb('Projects', RoutePaths.Projects);
 const projectsNewBreadcrumb = new Breadcrumb('New', RoutePaths.ProjectsNew);
 const projectsEditBreadcrumb = new Breadcrumb('Edit', RoutePaths.ProjectsEdit);
@@ -28,6 +31,10 @@ export default class BreadcrumbPaths {
 
     public static Account() {
         return new BreadcrumbPath(new Array<Breadcrumb>(accountBreadcrumb));
+    }
+
+    public static Domain() {
+        return new BreadcrumbPath(new Array<Breadcrumb>(domainBreadcrumb));
     }
 
     public static GeofenceMap() {
@@ -86,6 +93,10 @@ export default class BreadcrumbPaths {
 
     public static Projects() {
         return new BreadcrumbPath(new Array<Breadcrumb>(projectsBreadcrumb));
+    }
+
+    public static FirstProjectRequired() {
+        return new BreadcrumbPath(new Array<Breadcrumb>(firstProjectRequiredBreadcrumb));
     }
 
     public static ProjectsNew() {
