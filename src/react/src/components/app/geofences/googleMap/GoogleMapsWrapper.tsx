@@ -30,12 +30,6 @@ import * as queryString from 'query-string';
 import Constants from '../../../../theme/Constants';
 import Loading from '../../loading/Loading';
 
-declare global {
-    interface Window {
-        google: typeof google;
-    }
-}
-
 const DEFAULT_RADIUS = 100;
 
 const styles = (theme: Theme) =>

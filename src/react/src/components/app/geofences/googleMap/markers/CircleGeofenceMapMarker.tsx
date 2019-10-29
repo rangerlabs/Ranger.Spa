@@ -5,12 +5,6 @@ const MapMarkerRed = require('../../../../../../assets/map-marker-red.png');
 
 const DEFAULT_RADIUS = 100;
 
-declare global {
-    interface Window {
-        google: typeof google;
-    }
-}
-
 export default class CircleGeofenceMapMarker {
     public constructor(
         private map: google.maps.Map,

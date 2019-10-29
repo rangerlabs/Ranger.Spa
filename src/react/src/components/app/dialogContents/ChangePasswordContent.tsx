@@ -24,6 +24,7 @@ interface Password {
 }
 
 interface DeleteAccountContentProps {
+    onClose: () => void;
     email: string;
 }
 

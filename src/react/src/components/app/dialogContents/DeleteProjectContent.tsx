@@ -96,7 +96,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                                 )}
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={deleteProjectContentProps.closeDialogo} color="primary" variant="text">
+                                <Button onClick={deleteProjectContentProps.closeDialog} color="primary" variant="text">
                                     Cancel
                                 </Button>
                                 <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">

@@ -3,6 +3,8 @@ var merge = require('webpack-merge');
 var common = require('./webpack.common.js');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
+var SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+var smp = new SpeedMeasurePlugin();
 
 module.exports = merge(common, {
     mode: 'development',
@@ -36,7 +38,12 @@ module.exports = merge(common, {
             {
                 test: /\.ts(x?)$/,
                 exclude: /node_modules/,
-                use: ['babel-loader', 'react-hot-loader/webpack', 'ts-loader'],
+                use: {
+                    loader: 'ts-loader',
+                    options: {
+                        transpileOnly: true,
+                    },
+                },
             },
             {
                 test: /\.js$/,

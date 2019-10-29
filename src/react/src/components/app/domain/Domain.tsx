@@ -29,7 +29,7 @@ const styles = (theme: Theme) =>
             paddingBottom: '0px !important',
         },
     });
-interface IDomainProps extends WithStyles<typeof styles>, WithSnackbarProps {
+interface IDomainProps extends WithStyles<typeof styles> {
     openDialog: (dialogContent: DialogContent) => void;
     closeDialog: () => void;
     closeForm: () => void;
@@ -72,7 +72,7 @@ class Domain extends React.Component<IDomainProps, DomainState> {
     };
 
     render() {
-        const { classes, closeDialog, enqueueSnackbar } = this.props;
+        const { classes, closeDialog } = this.props;
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -91,4 +91,4 @@ class Domain extends React.Component<IDomainProps, DomainState> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(withSnackbar(Domain)));
+)(withStyles(styles)(Domain));

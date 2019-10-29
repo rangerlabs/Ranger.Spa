@@ -118,7 +118,6 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             this.formikRef.current.setSubmitting(false);
                         } else {
                             this.setState({ isSuccess: true });
-                            this.formikRef.current.resetForm();
                             this.props.enqueueSnackbar('API key reset', { variant: 'success' });
                             if (environment === ProjectEnvironmentEnum.LIVE) {
                                 this.props.openDialog(
@@ -126,7 +125,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         NewProjectEnvironmentApiKeyContent({
                                             environment: ProjectEnvironmentEnum.LIVE,
                                             newApiKey: response.content.liveApiKey,
-                                            onClose: closeDialog,
+                                            onClose: this.props.closeDialog,
                                         })
                                     )
                                 );
@@ -136,12 +135,13 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         NewProjectEnvironmentApiKeyContent({
                                             environment: ProjectEnvironmentEnum.TEST,
                                             newApiKey: response.content.testApiKey,
-                                            onClose: closeDialog,
+                                            onClose: this.props.closeDialog,
                                         })
                                     )
                                 );
                             }
                             this.props.dispatchUpdateProject(response.content);
+                            this.props.push(RoutePaths.Projects);
                         }
                     });
                 }
@@ -230,11 +230,11 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                     NewProjectApiKeysContent({
                                                         liveApiKey: response.content.liveApiKey,
                                                         testApiKey: response.content.testApiKey,
-                                                        onClose: closeDialog,
+                                                        onClose: this.props.closeDialog,
                                                     })
                                                 )
                                             );
-                                            formikBag.resetForm();
+                                            this.props.push(RoutePaths.Projects);
                                         }
                                     });
                                 }
