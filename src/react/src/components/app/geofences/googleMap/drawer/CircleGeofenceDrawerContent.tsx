@@ -17,7 +17,6 @@ import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import AutoCompleteMultiSelect from '../../../../form/AutoCompleteMultiSelect';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
-import RoutePaths from '../../../../RoutePaths';
 import IProject from '../../../../../models/app/IProject';
 
 const styles = (theme: Theme) =>
@@ -65,8 +64,8 @@ const mapDispatchToProps = (dispatch: any) => {
         openDialog: (dialogContent: DialogContent) => {
             const action = openDialog(
                 new DialogContent(
-                    dialogContent.title,
                     dialogContent.content,
+                    dialogContent.title,
                     dialogContent.confirmText,
                     dialogContent.confirmAction,
                     dialogContent.cancelAction
@@ -196,8 +195,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
 
                     if (this.showNoIntegrationsWithTriggersDialog(newFence)) {
                         const content = new DialogContent(
-                            'Save geofence with no integrations?',
                             'You can choose to save this geofence without integrations and still perform API requests to determine if a position is contained within the geofence. Triggers will have no effect.',
+                            'Save geofence with no integrations?',
                             'Save geofence',
                             () => {
                                 this.saveGeofence(newFence);
@@ -209,8 +208,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                         this.props.openDialog(content);
                     } else if (this.showNoTriggersDialog(newFence)) {
                         const content = new DialogContent(
-                            'Save geofence with no triggers?',
                             'You can choose to save this geofence without triggers and still perform API requests to determine if a position is contained within the geofence. Any selected integrations will not be triggered.',
+                            'Save geofence with no triggers?',
                             'Save geofence',
                             () => {
                                 this.saveGeofence(newFence);

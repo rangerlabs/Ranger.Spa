@@ -15,6 +15,14 @@ export default class ProjectService {
     }
 
     async putProject(project: IProject, projectId: string): Promise<IRestResponse<IProject>> {
-        return RestUtilities.put<IProject>(`/project?id=${projectId}`, project);
+        return RestUtilities.put<IProject>(`/project/${projectId}`, project);
+    }
+
+    async apiKeyReset(project: IProject, projectId: string, environment: string): Promise<IRestResponse<IProject>> {
+        return RestUtilities.put<IProject>(`/project/${projectId}/${environment}/reset`, project);
+    }
+
+    async deleteProject(projectId: string): Promise<IRestResponse<void>> {
+        return RestUtilities.delete(`/project/${projectId}`);
     }
 }

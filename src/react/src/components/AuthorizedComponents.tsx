@@ -14,16 +14,20 @@ import Dashboard from './app/dashboard/Dashboard';
 import BreadcrumbPaths from './BreadcrumbPaths';
 import { IntegrationEnum } from '../models/app/integrations/IntegrationEnum';
 import Account from './app/account/Account';
+import FirstProjectRequired from './app/projects/FirstProjectRequired';
+import Domain from './app/domain/Domain';
 
 export const AuthorizedComponents: IAppRoute[] = [
     { exact: true, path: RoutePaths.Dashboard, component: Dashboard, breadcrumbPath: BreadcrumbPaths.Dashboard() },
     { exact: true, path: RoutePaths.Account, component: Account, breadcrumbPath: BreadcrumbPaths.Account() },
+    { exact: true, path: RoutePaths.Domain, component: Domain, breadcrumbPath: BreadcrumbPaths.Domain() },
 
     { exact: true, path: RoutePaths.Users, component: Users, breadcrumbPath: BreadcrumbPaths.Users() },
     { exact: true, path: RoutePaths.UsersNew, component: UserForm, breadcrumbPath: BreadcrumbPaths.UsersNew() },
     { exact: true, path: RoutePaths.UsersEdit, component: UserForm, breadcrumbPath: BreadcrumbPaths.UsersEdit() },
 
     { exact: true, path: RoutePaths.Projects, component: Projects, breadcrumbPath: BreadcrumbPaths.Projects() },
+    { exact: true, path: RoutePaths.FirstProjectRequired, component: FirstProjectRequired, breadcrumbPath: BreadcrumbPaths.Projects() },
     { exact: true, path: RoutePaths.ProjectsSelect, component: ProjectsSelect, breadcrumbPath: BreadcrumbPaths.ProjectsSelect() },
     { exact: true, path: RoutePaths.ProjectsNew, component: ProjectForm, breadcrumbPath: BreadcrumbPaths.ProjectsNew() },
     { exact: false, path: RoutePaths.ProjectsEdit, component: ProjectForm, breadcrumbPath: BreadcrumbPaths.ProjectsEdit() },

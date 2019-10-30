@@ -58,7 +58,6 @@ export default function createRangerTheme(options: ThemeOptions) {
             MuiToolbar: {
                 root: {
                     height: toolbarHeight,
-                    backgroundColor: Constants.COLORS.WHITE,
                 },
             },
             MuiTouchRipple: {
@@ -76,6 +75,9 @@ export default function createRangerTheme(options: ThemeOptions) {
             MuiAppBar: {
                 root: {
                     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                },
+                colorPrimary: {
+                    backgroundColor: Constants.COLORS.WHITE,
                 },
             },
             MuiTableRow: {

@@ -8,12 +8,6 @@ const MapMarkerPurple = require('../../../../../../assets/map-marker-green.png')
 
 const DEFAULT_RADIUS = 100;
 
-declare global {
-    interface Window {
-        google: typeof google;
-    }
-}
-
 export default class NewCircleGeofenceMapMarker {
     public constructor(
         private map: google.maps.Map,

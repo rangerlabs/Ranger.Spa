@@ -195,7 +195,7 @@ class Menu extends React.Component<MenuProps> {
                                 </ListItem>
 
                                 {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.OWNER) && (
-                                    <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation('/domain')}>
+                                    <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
                                         <ListItemIcon>
                                             <Web />
                                         </ListItemIcon>

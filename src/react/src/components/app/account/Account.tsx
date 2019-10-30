@@ -111,7 +111,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
                                     setTimeout(() => {
                                         if (response.is_error) {
-                                            const { serverErrors, ...formikErrors } = response.error_content.errors;
+                                            const { errors: serverErrors, ...formikErrors } = response.error_content;
                                             enqueueSnackbar('Error creating user', { variant: 'error' });
                                             formikBag.setErrors(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
@@ -198,7 +198,9 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             <FormikDeleteButton
                                                 isSubmitting={props.isSubmitting}
                                                 dialogTitle="Delete account?"
-                                                dialogContent={DeleteAccountComponent}
+                                                dialogContent={
+                                                    <DeleteAccountComponent onClose={() => {}} email={(this.props.user.profile as UserProfile).email} />
+                                                }
                                             >
                                                 Delete
                                             </FormikDeleteButton>

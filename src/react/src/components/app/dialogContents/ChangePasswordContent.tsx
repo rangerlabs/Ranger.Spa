@@ -1,23 +1,34 @@
 import * as React from 'react';
-import { DialogActions, Button, InputAdornment, IconButton, DialogContentText, List, ListItem, ListItemText } from '@material-ui/core';
-import { DialogComponentProps } from './DialogComponent';
+import {
+    DialogActions,
+    Button,
+    InputAdornment,
+    IconButton,
+    DialogContentText,
+    List,
+    ListItem,
+    ListItemText,
+    DialogContent,
+    DialogTitle,
+} from '@material-ui/core';
 import { useState } from 'react';
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import FormikPrimaryButton from '../../form/FormikPrimaryButton';
 import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/Visibility/Off';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 interface Password {
     password: string;
 }
 
 interface DeleteAccountContentProps {
+    onClose: () => void;
     email: string;
 }
 
-function DeleteAccountContent(dialogComponentProps: DialogComponentProps & DeleteAccountContentProps): JSX.Element {
+function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentProps): JSX.Element {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [serverErrors, setServerErrors] = useState(undefined as string[]);
 
@@ -57,52 +68,57 @@ function DeleteAccountContent(dialogComponentProps: DialogComponentProps & Delet
                 validationSchema={validationSchema}
             >
                 {props => (
-                    <form onSubmit={props.handleSubmit}>
-                        <DialogContentText>To delete your account, please confirm your password.</DialogContentText>
-                        <FormikTextField
-                            name="password"
-                            label="Password"
-                            type={passwordVisible ? 'text' : 'password'}
-                            value={props.values.password}
-                            errorText={props.errors.password}
-                            touched={props.touched.password}
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
-                            autoComplete="off"
-                            required
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="Toggle password visibility"
-                                            onClick={() => {
-                                                setPasswordVisible(!passwordVisible);
-                                            }}
-                                        >
-                                            {passwordVisible ? <Visibility /> : <VisibilityOff />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                            {...(serverErrors && (
-                                <List>
-                                    <ListItem>
-                                        {serverErrors.map(error => (
-                                            <ListItemText primary={error} />
-                                        ))}
-                                    </ListItem>
-                                </List>
-                            ))}
-                        />
-                        <DialogActions>
-                            <Button onClick={dialogComponentProps.onClose} color="primary" variant="text">
-                                Cancel
-                            </Button>
-                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
-                                Delete account
-                            </FormikPrimaryButton>
-                        </DialogActions>
-                    </form>
+                    <React.Fragment>
+                        <DialogTitle>Change account password</DialogTitle>
+                        <form onSubmit={props.handleSubmit}>
+                            <DialogContent>
+                                <DialogContentText>To change your password, please enter your current password.</DialogContentText>
+                                <FormikTextField
+                                    name="password"
+                                    label="Password"
+                                    type={passwordVisible ? 'text' : 'password'}
+                                    value={props.values.password}
+                                    errorText={props.errors.password}
+                                    touched={props.touched.password}
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    autoComplete="off"
+                                    required
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="Toggle password visibility"
+                                                    onClick={() => {
+                                                        setPasswordVisible(!passwordVisible);
+                                                    }}
+                                                >
+                                                    {passwordVisible ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                                {serverErrors && (
+                                    <List>
+                                        <ListItem>
+                                            {serverErrors.map(error => (
+                                                <ListItemText primary={error} />
+                                            ))}
+                                        </ListItem>
+                                    </List>
+                                )}
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={deleteAccountContentProps.onClose} color="primary" variant="text">
+                                    Cancel
+                                </Button>
+                                <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
+                                    Delete account
+                                </FormikPrimaryButton>
+                            </DialogActions>
+                        </form>
+                    </React.Fragment>
                 )}
             </Formik>
         </React.Fragment>

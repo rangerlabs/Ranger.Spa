@@ -1,9 +1,7 @@
-import { DialogComponent } from "../../components/app/dialogContents/DialogComponent";
+export const ERROR_DIALOG_VISIBILITY_FILTER = 'SET_ERROR_DIALOG_VISIBILITY_FILTER';
 
-export const ERROR_DIALOG_VISIBILITY_FILTER = "SET_ERROR_DIALOG_VISIBILITY_FILTER";
-
-export const OPEN_DIALOG = "OPEN_DIALOG";
-export const CLOSE_DIALOG = "CLOSE_DIALOG";
+export const OPEN_DIALOG = 'OPEN_DIALOG';
+export const CLOSE_DIALOG = 'CLOSE_DIALOG';
 
 export interface DialogAction {
     type: string;
@@ -17,8 +15,8 @@ export interface DialogState {
 
 export class DialogContent {
     public constructor(
-        public title: string,
-        public content: DialogComponent | string,
+        public content: JSX.Element | string,
+        public title?: string,
         public confirmText?: string,
         public confirmAction?: Function,
         public cancelAction?: Function
