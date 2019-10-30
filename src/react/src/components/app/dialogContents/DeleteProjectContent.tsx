@@ -60,6 +60,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                         if (response.is_error) {
                             deleteProjectContentProps.enqueueSnackbar('An error occurred deleting the project', { variant: 'error' });
                         } else {
+                            deleteProjectContentProps.closeDialog();
                             deleteProjectContentProps.dispatchRemoveProject(deleteProjectContentProps.id);
                             deleteProjectContentProps.enqueueSnackbar('Project deleted', { variant: 'success' });
                             deleteProjectContentProps.push(RoutePaths.Projects);
