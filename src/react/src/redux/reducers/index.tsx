@@ -14,7 +14,7 @@ import { reducer as oidcReducer } from 'redux-oidc';
 const reducers = {
     oidc: oidcReducer,
     dialog: dialogReducer,
-    users: userReducer,
+    usersState: userReducer,
     projectsState: projectReducer,
     selectedProject: selectedProjectReducer,
     menu: menuReducer,

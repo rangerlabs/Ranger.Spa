@@ -13,7 +13,7 @@ export default class PolygonGeofence implements Geofence {
         public onExit: boolean,
         public enabled: boolean,
         public description: string,
-        public integrationNames: string[] = [],
+        public integrationIds: string[] = [],
         public coordinates: Array<CoordinatePair>,
         public metadata: Map<string, object>
     ) {

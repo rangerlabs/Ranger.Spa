@@ -4,7 +4,7 @@ import UserService from '../../../services/UserService';
 import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
 import FormikSelectValues from '../../form/interfaces/FormikSelectValuesProp';
 import * as Yup from 'yup';
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem } from '@material-ui/core';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, TextField } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikSelect from '../../form/FormikSelect';
@@ -21,6 +21,11 @@ import RoutePaths from '../../RoutePaths';
 import { addUser, removeUser } from '../../../redux/actions/UserActions';
 import { UserProfile } from '../../../models/UserProfile';
 import * as queryString from 'query-string';
+import populateUsersHOC from '../hocs/PopulateUsersHOC';
+import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
+import FormikAutocompleteMultiselect from '../../form/FormikAutocompleteMulitselect';
+import IProject from '../../../models/app/IProject';
+import { RoleEnum } from '../../../models/RoleEnum';
 
 const userService = new UserService();
 
@@ -55,16 +60,18 @@ interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     users: IUser[];
     user: User;
     push: typeof push;
+    projects: IProject[];
 }
 
 type UserFormState = {
     assignableRoles: FormikSelectValues;
     serverErrors: string[];
     initialUser: IUser;
+    selectedProjects: IProject[];
 };
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { user: state.oidc.user, users: state.users };
+    return { user: state.oidc.user, users: state.usersState.users, projects: state.projectsState.projects };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -86,6 +93,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         assignableRoles: [] as FormikSelectValues,
         serverErrors: undefined as string[],
         initialUser: undefined as IUser,
+        selectedProjects: undefined as IProject[],
     };
 
     deleteUser(props: FormikProps<IUser>, enqueueSnackbar: any) {
@@ -166,7 +174,11 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                         </Typography>
                         <Formik
                             enableReinitialize
-                            initialValues={this.getUserByEmail(users) ? this.getUserByEmail(users) : { email: '', firstName: '', lastName: '', role: '' }}
+                            initialValues={
+                                this.getUserByEmail(users)
+                                    ? this.getUserByEmail(users)
+                                    : { email: '', firstName: '', lastName: '', role: '', permittedProjects: '' }
+                            }
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<IUser>, IUser>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
@@ -252,6 +264,20 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 required
                                             />
                                         </Grid>
+                                        <Grid item xs={12}>
+                                            {props.values.role.toUpperCase() === RoleEnum.OWNER || props.values.role.toUpperCase() == RoleEnum.ADMIN ? (
+                                                <TextField label="Grant permission to projects" value="All Projects" fullWidth disabled />
+                                            ) : (
+                                                <FormikAutocompleteMultiselect
+                                                    name="permittedProjects"
+                                                    label="Grant permission to projects"
+                                                    placeholder=""
+                                                    options={this.props.projects}
+                                                    getOptionLabel={(project: IProject) => project.name}
+                                                    onChange={(values: IProject[]) => this.setState({ selectedProjects: values })}
+                                                />
+                                            )}
+                                        </Grid>
                                         {this.state.serverErrors && (
                                             <Grid item xs={12}>
                                                 <List>
@@ -303,4 +329,4 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withSnackbar(withStyles(styles)(UserForm)));
+)(withStyles(styles)(populateProjectsHOC(populateUsersHOC(withSnackbar(UserForm)))));

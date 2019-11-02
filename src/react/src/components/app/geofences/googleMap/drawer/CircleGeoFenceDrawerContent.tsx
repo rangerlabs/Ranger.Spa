@@ -18,6 +18,9 @@ import AutoCompleteMultiSelect from '../../../../form/AutoCompleteMultiSelect';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
 import IProject from '../../../../../models/app/IProject';
+import { MergedIntegrationResponseType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
+import FormikAutocompleteMultiselect from '../../../../form/FormikAutocompleteMulitselect';
+import { getIntegrationsFromIntegrationIds } from '../../../../../helpers/Helpers';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -43,7 +46,7 @@ interface CircleGeofenceFormProps extends WithStyles<typeof styles>, WithSnackba
     mapGeofence: CircleGeofenceState;
     editGeofence?: CircleGeofence;
     selectedProject: IProject;
-    integrationNames: string[];
+    integrations: MergedIntegrationResponseType[];
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
     saveGeofenceToState: (geofence: CircleGeofence) => void;
@@ -55,7 +58,7 @@ interface CircleGeofenceFormProps extends WithStyles<typeof styles>, WithSnackba
 
 interface CircleGeofenceFormState {
     serverErrors: string[];
-    selectedIntegrations: string[];
+    selectedIntegrations: MergedIntegrationResponseType[];
     isSuccess: boolean;
 }
 
@@ -91,7 +94,11 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     constructor(props: CircleGeofenceFormProps) {
         super(props);
         if (this.props.editGeofence) {
-            this.state = { serverErrors: undefined, selectedIntegrations: this.props.editGeofence.integrationNames, isSuccess: false };
+            this.state = {
+                serverErrors: undefined,
+                selectedIntegrations: getIntegrationsFromIntegrationIds(this.props.editGeofence.integrationIds, this.props.integrations),
+                isSuccess: false,
+            };
         }
     }
 
@@ -120,7 +127,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 geofence.onExit,
                 geofence.enabled,
                 geofence.description,
-                geofence.integrationNames,
+                geofence.integrationIds,
                 geofence.coordinates,
                 geofence.metadata,
                 geofence.radius
@@ -187,7 +194,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                         values.onExit,
                         values.enabled,
                         values.description,
-                        this.state.selectedIntegrations,
+                        this.state.selectedIntegrations.map(i => i.id),
                         [new CoordinatePair(this.props.mapGeofence.center.lat, this.props.mapGeofence.center.lng)],
                         new Map<string, object>(),
                         this.props.mapGeofence.radius
@@ -265,10 +272,13 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                 />
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <AutoCompleteMultiSelect
-                                    suggestions={this.props.integrationNames}
-                                    defaultValues={this.props.editGeofence ? this.props.editGeofence.integrationNames : undefined}
-                                    onChange={(values: string[]) => this.setState({ selectedIntegrations: values })}
+                                <FormikAutocompleteMultiselect
+                                    name="integrations"
+                                    label="Grant permission to projects"
+                                    placeholder=""
+                                    options={this.props.integrations}
+                                    getOptionLabel={(integration: MergedIntegrationResponseType) => integration.name}
+                                    onChange={(values: MergedIntegrationResponseType[]) => this.setState({ selectedIntegrations: values })}
                                 />
                             </Grid>
                             <Grid container item xs={12} spacing={0}>
@@ -342,7 +352,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     }
 
     private showNoIntegrationsWithTriggersDialog(newFence: CircleGeofenceRequest) {
-        return newFence.integrationNames.length === 0 && (newFence.onEnter || newFence.onEnter);
+        return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onEnter);
     }
 }
 

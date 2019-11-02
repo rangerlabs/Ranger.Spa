@@ -42,7 +42,7 @@ const populateIntegrationsHOC = <P extends object>(Component: React.ComponentTyp
         }
 
         render() {
-            return this.props.integrationsState.isLoaded ? <Component {...(this.props as P)} /> : <Loading message="Retrieving your integrations." />;
+            return this.props.integrationsState.isLoaded ? <Component {...(this.props as P)} /> : <Loading message="Retrieving integrations." />;
         }
     }
 

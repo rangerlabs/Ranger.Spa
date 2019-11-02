@@ -1,8 +1,8 @@
-import IUser from "../../models/app/IUser";
+import IUser from '../../models/app/IUser';
 
-export const ADD_USER = "ADD_USER";
-export const REMOVE_USER = "REMOVE_USER";
-export const POPULATE_USERS = "POPULATE_USERS";
+export const ADD_USER = 'ADD_USER';
+export const REMOVE_USER = 'REMOVE_USER';
+export const POPULATE_USERS = 'POPULATE_USERS';
 
 export interface UserAction {
     type: string;
@@ -11,7 +11,12 @@ export interface UserAction {
 
 export interface UserArrayAction {
     type: string;
+    usersState: UsersState;
+}
+
+export interface UsersState {
     users: Array<IUser>;
+    isLoaded: boolean;
 }
 
 export function addUser(user: IUser): UserAction {
@@ -29,6 +34,9 @@ export function removeUser(email: string): UserAction {
 export function populateUsers(users: Array<IUser>): UserArrayAction {
     return {
         type: POPULATE_USERS,
-        users,
+        usersState: {
+            isLoaded: true,
+            users,
+        },
     };
 }

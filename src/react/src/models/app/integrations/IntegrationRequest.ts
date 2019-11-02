@@ -1,6 +1,6 @@
 import { IntegrationEnum } from './IntegrationEnum';
 
-export default interface Integration {
+export default interface IntegrationRequest {
     readonly type: IntegrationEnum;
     name: string;
     description: string;

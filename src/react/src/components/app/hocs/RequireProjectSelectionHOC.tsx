@@ -7,6 +7,7 @@ import { selectProject } from '../../../redux/actions/SelecteProjectActions';
 import RoutePaths from '../../RoutePaths';
 import populateProjectsHOC from './PopulateProjectsHOC';
 import { ProjectsState } from '../../../redux/actions/ProjectActions';
+import FirstProjectRequired from '../projects/FirstProjectRequired';
 
 type RequireProjectSelectionProps = StateProps & DispatchProps;
 
@@ -58,7 +59,7 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
                 } else if (redirect.length >= 2) {
                     requestProjectName = redirect[1];
                     redirect.forEach((v, i) => {
-                        if ((i = 2)) {
+                        if (i >= 2) {
                             redirectComponentPath += '/' + v;
                         }
                     });
@@ -85,6 +86,7 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
                 }
                 this.props.push(pushPath);
             } else {
+                <FirstProjectRequired />;
             }
         }
 

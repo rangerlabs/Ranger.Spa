@@ -1,14 +1,14 @@
-import * as React from "react";
-import classNames from "classnames";
-import Select from "react-select";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import Chip from "@material-ui/core/Chip";
-import MenuItem from "@material-ui/core/MenuItem";
-import CancelIcon from "@material-ui/icons/Cancel";
-import { createStyles, Theme, WithStyles, withStyles } from "@material-ui/core";
-import { ValueType } from "react-select/src/types";
+import * as React from 'react';
+import classNames from 'classnames';
+import Select from 'react-select';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import Chip from '@material-ui/core/Chip';
+import MenuItem from '@material-ui/core/MenuItem';
+import CancelIcon from '@material-ui/icons/Cancel';
+import { createStyles, Theme, WithStyles, withStyles } from '@material-ui/core';
+import { ValueType } from 'react-select/src/types';
 
 type AutocompleteOptionType = {
     value: string;
@@ -21,34 +21,34 @@ const styles = (theme: Theme) =>
             flexGrow: 1,
         },
         input: {
-            display: "flex",
+            display: 'flex',
             padding: 0,
-            height: "auto",
+            height: 'auto',
         },
         valueContainer: {
-            display: "flex",
-            flexWrap: "wrap",
+            display: 'flex',
+            flexWrap: 'wrap',
             flex: 1,
-            alignItems: "center",
-            overflow: "hidden",
+            alignItems: 'center',
+            overflow: 'hidden',
         },
         chip: {
             margin: theme.spacing(0.5, 0.25),
         },
         chipFocused: {
-            backgroundColor: theme.palette.type === "light" ? theme.palette.grey[300] : theme.palette.grey[700],
+            backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
         },
         noOptionsMessage: {
             padding: theme.spacing(1, 2),
         },
         placeholder: {
-            position: "absolute",
+            position: 'absolute',
             left: 2,
             fontSize: theme.typography.body1.fontSize,
             fontWeight: theme.typography.body1.fontWeight,
         },
         paper: {
-            position: "absolute",
+            position: 'absolute',
             zIndex: 1,
             marginTop: theme.spacing(1),
             left: 0,
@@ -60,6 +60,7 @@ const styles = (theme: Theme) =>
     });
 
 interface FormikAutoCompleteMultiSelectProps extends WithStyles<typeof styles> {
+    placeholder?: string;
     suggestions: string[];
     defaultValues?: string[];
     onChange: (values: string[]) => void;
@@ -168,7 +169,7 @@ const toAutocompleteOptionTypeArray = (label: string[]): AutocompleteOptionType[
     return result;
 };
 
-class IntegrationReactSelect extends React.Component<FormikAutoCompleteMultiSelectProps, FormikAutoCompleteMultiSelectState> {
+class FormikAutoCompleteMultiSelect extends React.Component<FormikAutoCompleteMultiSelectProps, FormikAutoCompleteMultiSelectState> {
     constructor(props: FormikAutoCompleteMultiSelectProps) {
         super(props);
         if (props.defaultValues) {
@@ -193,7 +194,7 @@ class IntegrationReactSelect extends React.Component<FormikAutoCompleteMultiSele
     }
 
     render() {
-        const { classes, suggestions } = this.props;
+        const { classes, suggestions, placeholder } = this.props;
         return (
             <div className={classes.root}>
                 <Select
@@ -203,7 +204,7 @@ class IntegrationReactSelect extends React.Component<FormikAutoCompleteMultiSele
                     components={components}
                     value={this.state.multiValues}
                     onChange={(v: ValueType<AutocompleteOptionType>) => this.handleChangeMulti(v)}
-                    placeholder="Select integrations"
+                    placeholder={placeholder}
                     isMulti
                 />
             </div>
@@ -211,4 +212,4 @@ class IntegrationReactSelect extends React.Component<FormikAutoCompleteMultiSele
     }
 }
 
-export default withStyles(styles, { withTheme: true })(IntegrationReactSelect);
+export default withStyles(styles, { withTheme: true })(FormikAutoCompleteMultiSelect);

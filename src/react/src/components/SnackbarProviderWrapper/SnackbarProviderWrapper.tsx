@@ -24,8 +24,8 @@ const styles = (theme: Theme) =>
         },
         success: { ...notistackStyle(theme), backgroundColor: theme.palette.primary.main },
         error: { ...notistackStyle(theme), backgroundColor: theme.palette.error.main },
+        info: { ...notistackStyle(theme), backgroundColor: '#2e2e2e' },
         warning: notistackStyle(theme),
-        info: notistackStyle(theme),
     });
 
 interface SnackbarProviderWrapperProps extends WithStyles<typeof styles> {}
@@ -45,7 +45,7 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
                 preventDuplicate={true}
                 hideIconVariant={true}
                 dense
-                maxSnack={3}
+                maxSnack={1}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'center',

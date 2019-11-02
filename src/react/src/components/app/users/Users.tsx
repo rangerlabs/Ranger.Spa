@@ -7,6 +7,7 @@ import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import { User } from 'oidc-client';
 import { UserProfile } from '../../../models/UserProfile';
+import populateUsersHOC from '../hocs/PopulateUsersHOC';
 const MUIDataTable = require('mui-datatables').default;
 
 interface UsersProps {
@@ -18,7 +19,7 @@ interface UsersProps {
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { users: state.users, user: state.oidc.user };
+    return { users: state.usersState.users, user: state.oidc.user };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -119,4 +120,4 @@ class Users extends React.Component<UsersProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Users);
+)(populateUsersHOC(Users));

@@ -1,5 +1,6 @@
 import { createUserManager } from 'redux-oidc';
 import { UserManagerSettings } from 'oidc-client';
+import { getSubDomain } from '../helpers/Helpers';
 
 const UserManagerConfig: UserManagerSettings = {
     client_id: 'react',
@@ -14,17 +15,6 @@ const UserManagerConfig: UserManagerSettings = {
     monitorSession: true,
     extraQueryParams: getSubDomain(),
 };
-
-function getSubDomain(): string {
-    let domain = '';
-    if (window && window.location) {
-        const host = window.location.host;
-        if (host.split('.').length >= 3) {
-            domain = host.split('.')[0];
-        }
-    }
-    return domain;
-}
 
 function getAuthority(): string {
     let authority = 'https://' + IDENTITY_AUTHORITY;

@@ -15,11 +15,12 @@ import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import { addGeofence } from '../../../../../redux/actions/GeofenceActions';
 import { removeGeofence } from '../../../../../redux/actions/GeofenceActions';
 import FormikDeleteButton from '../../../../form/FormikDeleteButton';
-import AutoCompleteMultiSelect from '../../../../form/AutoCompleteMultiSelect';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
-import RoutePaths from '../../../../RoutePaths';
 import IProject from '../../../../../models/app/IProject';
+import { MergedIntegrationResponseType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
+import FormikAutocompleteMultiselect from '../../../../form/FormikAutocompleteMulitselect';
+import { getIntegrationsFromIntegrationIds } from '../../../../../helpers/Helpers';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -45,7 +46,7 @@ interface PolygonGeofenceFormProps extends WithStyles<typeof styles>, WithSnackb
     mapGeofence: PolygonGeofenceState;
     editGeofence: PolygonGeofence;
     selectedProject: IProject;
-    integrationNames: string[];
+    integrations: MergedIntegrationResponseType[];
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
     saveGeofenceToState: (geofence: PolygonGeofence) => void;
@@ -57,7 +58,7 @@ interface PolygonGeofenceFormProps extends WithStyles<typeof styles>, WithSnackb
 
 interface PolygonGeofenceFormState {
     serverErrors: string[];
-    selectedIntegrations: string[];
+    selectedIntegrations: MergedIntegrationResponseType[];
     isSuccess: boolean;
 }
 
@@ -93,7 +94,11 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     constructor(props: PolygonGeofenceFormProps) {
         super(props);
         if (this.props.editGeofence) {
-            this.state = { serverErrors: undefined, selectedIntegrations: this.props.editGeofence.integrationNames, isSuccess: false };
+            this.state = {
+                serverErrors: undefined,
+                selectedIntegrations: getIntegrationsFromIntegrationIds(this.props.editGeofence.integrationIds, this.props.integrations),
+                isSuccess: false,
+            };
         }
     }
 
@@ -122,7 +127,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 geofence.onExit,
                 geofence.enabled,
                 geofence.description,
-                geofence.integrationNames,
+                geofence.integrationIds,
                 geofence.coordinates,
                 geofence.metadata
             );
@@ -190,7 +195,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                         values.onExit,
                         values.enabled,
                         values.description,
-                        this.state.selectedIntegrations,
+                        this.state.selectedIntegrations.map(i => i.id),
                         this.props.mapGeofence.coordinatePairArray,
                         new Map<string, object>()
                     );
@@ -267,10 +272,13 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                 />
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <AutoCompleteMultiSelect
-                                    suggestions={this.props.integrationNames}
-                                    defaultValues={this.props.editGeofence ? this.props.editGeofence.integrationNames : undefined}
-                                    onChange={(values: string[]) => this.setState({ selectedIntegrations: values })}
+                                <FormikAutocompleteMultiselect
+                                    name="integrations"
+                                    label="Select integrations"
+                                    placeholder=""
+                                    options={this.props.integrations}
+                                    getOptionLabel={(integration: MergedIntegrationResponseType) => integration.name}
+                                    onChange={(values: MergedIntegrationResponseType[]) => this.setState({ selectedIntegrations: values })}
                                 />
                             </Grid>
                             <Grid container item xs={12} spacing={0}>
@@ -345,7 +353,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     }
 
     private showNoIntegrationsWithTriggersDialog(newFence: PolygonGeofenceRequest) {
-        return newFence.integrationNames.length === 0 && (newFence.onEnter || newFence.onEnter);
+        return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onEnter);
     }
 }
 

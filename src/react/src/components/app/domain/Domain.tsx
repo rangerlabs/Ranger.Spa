@@ -1,10 +1,15 @@
 import * as React from 'react';
-import { withStyles, createStyles, WithStyles, Paper, CssBaseline, Theme, Typography, Button } from '@material-ui/core';
+import { withStyles, createStyles, WithStyles, Paper, CssBaseline, Theme, Typography, Button, Grid } from '@material-ui/core';
 import { WithSnackbarProps, withSnackbar } from 'notistack';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { openDialog, closeDialog, DialogContent } from '../../../redux/actions/DialogActions';
 import { ApplicationState } from '../../../stores/index';
+import { Formik } from 'formik';
+import FormikCancelButton from '../../form/FormikCancelButton';
+import FormikDeleteButton from '../../form/FormikDeleteButton';
+import FormikServerErrors from '../../form/FormikServerErrors';
+import DeleteDomainContent from '../dialogContents/DeleteDomainContent';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -34,6 +39,7 @@ interface IDomainProps extends WithStyles<typeof styles> {
     closeDialog: () => void;
     closeForm: () => void;
     push: typeof push;
+    domain: string;
 }
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -59,7 +65,7 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { projectsState: state.projectsState };
+    return { domainState: state.domain.domain };
 };
 
 type DomainState = {
@@ -79,8 +85,32 @@ class Domain extends React.Component<IDomainProps, DomainState> {
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography variant="h5" gutterBottom>
-                            'Edit Domain'
+                            Edit Domain
                         </Typography>
+                        <Formik enableReinitialize initialValues={{}} onSubmit={() => {}} validationSchema={{}}>
+                            {props => (
+                                <form onSubmit={props.handleSubmit}>
+                                    <Grid container spacing={3}>
+                                        {this.state.serverErrors && (
+                                            <Grid item xs={12}>
+                                                <FormikServerErrors errors={this.state.serverErrors} />
+                                            </Grid>
+                                        )}
+                                    </Grid>
+                                    <div className={classes.flexButtonContainer}>
+                                        <div className={classes.leftButtons}>
+                                            <FormikDeleteButton
+                                                isSubmitting={props.isSubmitting}
+                                                dialogTitle={`Delete ${this.props.domain}?`}
+                                                dialogContent={<DeleteDomainContent name={this.props.domain} />}
+                                            >
+                                                Delete
+                                            </FormikDeleteButton>
+                                        </div>
+                                    </div>
+                                </form>
+                            )}
+                        </Formik>
                     </Paper>
                 </main>
             </React.Fragment>
