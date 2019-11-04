@@ -197,7 +197,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
-                                            enqueueSnackbar('User created', { variant: 'success' });
+                                            enqueueSnackbar('Create user request accepted', { variant: 'info' });
                                             setTimeout(this.props.closeForm, 500);
                                             dispatchAddUser(response.content);
                                         }

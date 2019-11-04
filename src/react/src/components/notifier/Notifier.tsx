@@ -3,15 +3,16 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { removeSnackbar, SnackbarNotification } from '../../redux/actions/SnackbarActions';
-import { ApplicationState } from '../../stores';
+import { ApplicationState, OidcState } from '../../stores';
 import Pusher from 'pusher-js';
 import ReduxStore from '../../ReduxStore';
 import RegistrationHandler from './pusherHandlers/RegistrationHandler';
 import { StatusEnum } from '../../models/StatusEnum';
 import { DomainState } from '../../redux/actions/DomainActions';
+import { User } from 'oidc-client';
+import UserCreatedHandler from './pusherHandlers/UserCreatedHandler';
 
 interface NotifierProps extends WithSnackbarProps {
-    domain: DomainState;
     notifications: SnackbarNotification[];
     removeSnackbar: (key: React.ReactText) => void;
 }
@@ -19,7 +20,8 @@ interface NotifierProps extends WithSnackbarProps {
 class Notifier extends React.Component<NotifierProps> {
     displayed = [] as React.ReactText[];
     pusher = undefined as Pusher.Pusher;
-    channel = undefined as Pusher.Channel;
+    registrationChannel = undefined as Pusher.Channel;
+    domainUserChannel = undefined as Pusher.Channel;
     currentTenantOnbaordChannel = '';
 
     componentDidUpdate() {
@@ -40,7 +42,7 @@ class Notifier extends React.Component<NotifierProps> {
         });
     }
 
-    shouldComponentUpdate({ notifications: newSnacks = [], domain }: NotifierProps) {
+    shouldComponentUpdate({ notifications: newSnacks = [] }: NotifierProps) {
         if (!newSnacks.length) {
             this.displayed = [];
             return false;
@@ -73,25 +75,52 @@ class Notifier extends React.Component<NotifierProps> {
 
         ReduxStore.getStore().subscribe(() => {
             const stateDomain = ReduxStore.getState().domain;
-            if (this.canSubscribeToDomain(stateDomain)) {
-                if (!this.channel) {
+            const oidcState = ReduxStore.getState().oidc;
+            if (this.canSubscribeToRegistration(stateDomain)) {
+                if (!this.registrationChannel) {
                     this.subscribeTenantOnboardChannel(stateDomain);
-                } else if (this.channel.name !== this.currentTenantOnbaordChannel) {
+                } else if (this.registrationChannel.name !== this.currentTenantOnbaordChannel) {
                     this.pusher.unsubscribe(this.currentTenantOnbaordChannel);
                     this.subscribeTenantOnboardChannel(stateDomain);
+                }
+            } else if (this.canSubscribeToDomainUser(stateDomain, oidcState)) {
+                this.pusher.config.authEndpoint = 'https://' + API_HOST + BASE_PATH + '/pusher/auth';
+                this.pusher.config.auth = {
+                    headers: {
+                        Authorization: 'Bearer ' + oidcState.user.access_token,
+                        'x-ranger-domain': stateDomain.domain,
+                        'api-version': '1.0',
+                    },
+                    params: {
+                        userEmail: oidcState.user.profile.email,
+                    },
+                };
+
+                if (!this.domainUserChannel) {
+                    this.subscribeDomainUserChannel(stateDomain, oidcState.user);
                 }
             }
         });
     }
 
-    private canSubscribeToDomain(stateDomain: DomainState) {
+    private canSubscribeToDomainUser(stateDomain: DomainState, oidc: OidcState) {
+        return stateDomain && stateDomain.domain && !oidc.isLoadingUser && oidc.user && !oidc.user.expired;
+    }
+
+    private canSubscribeToRegistration(stateDomain: DomainState) {
         return stateDomain && stateDomain.domain && stateDomain.status === StatusEnum.PENDING;
+    }
+
+    private subscribeDomainUserChannel(stateDomain: DomainState, user: User) {
+        const channel = `private-${stateDomain.domain}-${user.profile.email}`;
+        this.domainUserChannel = this.pusher.subscribe(channel);
+        this.domainUserChannel.bind('user-created', UserCreatedHandler);
     }
 
     private subscribeTenantOnboardChannel(stateDomain: DomainState) {
         const channel = `ranger-labs-${stateDomain.domain}`;
-        this.channel = this.pusher.subscribe(channel);
-        this.channel.bind('tenant-onboard', RegistrationHandler);
+        this.registrationChannel = this.pusher.subscribe(channel);
+        this.registrationChannel.bind('tenant-onboard', RegistrationHandler);
         this.currentTenantOnbaordChannel = channel;
     }
 

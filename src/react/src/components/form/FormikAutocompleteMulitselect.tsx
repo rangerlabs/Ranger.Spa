@@ -14,7 +14,6 @@ interface FormikAutocompleteMultiselectProps {
     name: string;
     label: string;
     placeholder: string;
-    required?: boolean;
     options: any[];
     getOptionLabel: (option: any) => string;
     defaultValue?: string;
@@ -32,16 +31,7 @@ export default function FormikAutocompleteMultiselect(props: FormikAutocompleteM
                 getOptionLabel={props.getOptionLabel}
                 defaultValue={props.defaultValue ? props.defaultValue : ''}
                 renderInput={params => (
-                    <TextField
-                        {...params}
-                        name={props.name}
-                        required={props.required}
-                        variant="standard"
-                        label={props.label}
-                        placeholder={props.placeholder}
-                        margin="normal"
-                        fullWidth
-                    />
+                    <TextField {...params} name={props.name} variant="standard" label={props.label} placeholder={props.placeholder} margin="normal" fullWidth />
                 )}
                 onChange={(event: ChangeEvent<{}>, value: any) => {
                     props.onChange(value);
