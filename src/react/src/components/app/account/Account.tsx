@@ -99,6 +99,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 firstName: (this.props.user.profile as UserProfile).firstName,
                                 lastName: (this.props.user.profile as UserProfile).lastName,
                                 role: GetRole((this.props.user.profile as UserProfile).role),
+                                authorizedProjects: (this.props.user.profile as UserProfile).authorizedProjects,
                             }}
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<IUser>, IUser>) => {
                                 console.log(values);

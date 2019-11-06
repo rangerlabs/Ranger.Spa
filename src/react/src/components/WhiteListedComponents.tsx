@@ -1,18 +1,19 @@
-import Landing from "./landing/Landing";
-import RoutePaths from "./RoutePaths";
-import SignUp from "./landing/signup/SignUp";
-import EnterDomain from "./landing/enterDomain/EnterDomain";
-import ErrorPage from "./error/Error";
-import LoginRedirect from "./auth/LoginRedirect";
-import IRoute from "./ILandingRoute";
-import LogoutRedirect from "./auth/LogoutRedirect";
-import Documentation from "./landing/documentation/Documentation";
-import Pricing from "./landing/pricing/Pricing";
-import Company from "./landing/company/Company";
-import ConfirmDomain from "./landing/confirmDomain/ConfirmDomain";
+import Landing from './landing/Landing';
+import RoutePaths from './RoutePaths';
+import SignUp from './landing/signup/SignUp';
+import EnterDomain from './landing/enterDomain/EnterDomain';
+import ErrorPage from './error/Error';
+import LoginRedirect from './auth/LoginRedirect';
+import IRoute from './ILandingRoute';
+import LogoutRedirect from './auth/LogoutRedirect';
+import Documentation from './landing/documentation/Documentation';
+import Pricing from './landing/pricing/Pricing';
+import Company from './landing/company/Company';
+import ConfirmDomain from './landing/confirmations/ConfirmDomain';
+import ConfirmUser from './landing/confirmations/ConfirmUser';
 
 export const WhiteListedComponents: IRoute[] = [
-    { exact: true, path: "/error/:code?", component: ErrorPage },
+    { exact: true, path: '/error/:code?', component: ErrorPage },
     { exact: true, path: RoutePaths.Landing, component: Landing },
     { exact: true, path: RoutePaths.SignUp, component: SignUp },
     { exact: true, path: RoutePaths.EnterDomain, component: EnterDomain },
@@ -22,4 +23,5 @@ export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: RoutePaths.Login, component: LoginRedirect },
     { exact: true, path: RoutePaths.Logout, component: LogoutRedirect },
     { exact: true, path: RoutePaths.ConfirmDomain, component: ConfirmDomain },
+    { exact: true, path: RoutePaths.ConfirmUser, component: ConfirmUser },
 ];

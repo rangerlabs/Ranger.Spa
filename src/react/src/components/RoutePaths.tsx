@@ -9,7 +9,8 @@ export default class RoutePaths {
     public static Company = '/company';
     public static Login = '/login';
     public static Logout = '/logout';
-    public static ConfirmDomain = '/confirmdomain';
+    public static ConfirmDomain = '/confirm-domain';
+    public static ConfirmUser = '/confirm-user';
 
     public static Dashboard = '/dashboard';
     public static Account = '/account';
@@ -47,7 +48,9 @@ export default class RoutePaths {
             path === RoutePaths.Pricing ||
             path === RoutePaths.Company ||
             path === RoutePaths.Login ||
-            path === RoutePaths.Logout
+            path === RoutePaths.Logout ||
+            path === RoutePaths.ConfirmDomain ||
+            path === RoutePaths.ConfirmUser
         ) {
             result = true;
         }

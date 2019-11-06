@@ -56,7 +56,6 @@ const styles = (theme: Theme) =>
 interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     dispatchAddUser: (user: IUser) => void;
     dispatchRemoveUser: (name: string) => void;
-    closeForm: () => void;
     users: IUser[];
     user: User;
     push: typeof push;
@@ -170,14 +169,14 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography variant="h5" gutterBottom>
-                            {this.getUserByEmail(users) ? 'Edit' : 'Create'}
+                            {this.getUserByEmail(users) ? 'Edit user' : 'Create user'}
                         </Typography>
                         <Formik
                             enableReinitialize
                             initialValues={
                                 this.getUserByEmail(users)
                                     ? this.getUserByEmail(users)
-                                    : { email: '', firstName: '', lastName: '', role: '', permittedProjects: '' }
+                                    : { email: '', firstName: '', lastName: '', role: '', authorizedProjects: [] }
                             }
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<IUser>, IUser>) => {
                                 console.log(values);
@@ -188,6 +187,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                     lastName: values.lastName,
                                     role: values.role,
                                 } as IUser;
+                                newUser.authorizedProjects = this.state.selectedProjects ? this.state.selectedProjects.map(p => p.projectId) : undefined;
                                 userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
                                     setTimeout(() => {
                                         if (response.is_error) {
@@ -196,10 +196,11 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             formikBag.setErrors(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
+                                            formikBag.resetForm(newUser);
                                         } else {
                                             enqueueSnackbar('Create user request accepted', { variant: 'info' });
-                                            setTimeout(this.props.closeForm, 500);
                                             dispatchAddUser(response.content);
+                                            this.props.push(RoutePaths.Users);
                                         }
                                     }, 2000);
                                 });
@@ -269,7 +270,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 <TextField label="Grant permission to projects" value="All Projects" fullWidth disabled />
                                             ) : (
                                                 <FormikAutocompleteMultiselect
-                                                    name="permittedProjects"
+                                                    name="authorizedProjects"
                                                     label="Grant permission to projects"
                                                     placeholder=""
                                                     options={this.props.projects}

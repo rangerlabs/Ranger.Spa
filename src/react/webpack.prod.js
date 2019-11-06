@@ -29,7 +29,7 @@ module.exports = merge(common, {
         }),
         new webpack.DefinePlugin({
             IDENTITY_AUTHORITY: JSON.stringify('rangerlabs.io/auth'),
-            PUSHER_AUTHENDPOINT: JSON.stringify('rangerlabs.io/auth/pusher'),
+            PUSHER_AUTHENDPOINT: JSON.stringify('rangerlabs.io/api/pusher/auth'),
             PUSHER_KEY: JSON.stringify('0446e961be4e192bd342'),
             API_HOST: JSON.stringify('rangerlabs.io'),
             SPA_HOST: JSON.stringify('rangerlabs.io'),

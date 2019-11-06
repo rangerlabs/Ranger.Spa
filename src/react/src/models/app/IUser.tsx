@@ -3,4 +3,5 @@ export default interface IUser {
     firstName: string;
     email: string;
     role: string;
+    authorizedProjects: string[];
 }
