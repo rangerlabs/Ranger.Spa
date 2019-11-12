@@ -1,29 +1,29 @@
-import * as React from "react";
-import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, Fade, ListItem, ListItemText, Collapse, Typography } from "@material-ui/core";
-import ScrollTop from "../ScrollTop";
-import { Parallax, ParallaxLayer } from "react-spring/renderprops-addons";
-import Observer, { InView } from "react-intersection-observer";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-const classNames = require("classnames").default;
+import * as React from 'react';
+import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, Fade, ListItem, ListItemText, Collapse, Typography } from '@material-ui/core';
+import ScrollTop from '../ScrollTop';
+import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
+import Observer, { InView } from 'react-intersection-observer';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+const classNames = require('classnames').default;
 
 const styles = (theme: Theme) =>
     createStyles({
         parallaxContainer: {
-            position: "absolute",
+            position: 'absolute',
             top: theme.toolbar.height,
             height: `calc(100% - ${theme.toolbar.height}px)`,
-            width: "100%",
-            [theme.breakpoints.up("md")]: {
+            width: '100%',
+            [theme.breakpoints.up('md')]: {
                 width: `calc(100% - ${theme.drawer.width}px)`,
                 marginLeft: theme.drawer.width,
             },
         },
         mobileSectionMenu: {
-            background: "white",
+            background: 'white',
         },
         drawer: {
-            [theme.breakpoints.up("md")]: {
+            [theme.breakpoints.up('md')]: {
                 width: theme.drawer.width,
                 flexShrink: 0,
             },
@@ -33,8 +33,8 @@ const styles = (theme: Theme) =>
         },
         toolbar: theme.mixins.toolbar,
         drawerPaper: {
-            border: "none",
-            [theme.breakpoints.up("md")]: {
+            border: 'none',
+            [theme.breakpoints.up('md')]: {
                 zIndex: theme.zIndex.appBar - 1,
                 width: theme.drawer.width,
             },
@@ -43,7 +43,7 @@ const styles = (theme: Theme) =>
             flexGrow: 1,
         },
         iconAlign: {
-            verticalAlign: "middle",
+            verticalAlign: 'middle',
         },
     });
 
@@ -66,12 +66,12 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
     state: DocumentationState = {
         mobileOpen: false,
         atPageTop: true,
-        expandedSection: "",
-        mobileSectionName: "Getting Started",
+        expandedSection: '',
+        mobileSectionName: 'Getting Started',
     };
 
     handleMenuToggle = (name: string) => {
-        const expandedSection = this.state.expandedSection === name ? "" : name;
+        const expandedSection = this.state.expandedSection === name ? '' : name;
         this.setState({ expandedSection: expandedSection });
     };
 
@@ -104,13 +104,22 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                 >
                     <ListItemText primary="Getting Started" />
                 </ListItem>
-
+                <ListItem
+                    id="projects"
+                    button
+                    onClick={() => {
+                        this.closeMobileDrawer();
+                        this.parallax.scrollTo(1);
+                    }}
+                >
+                    <ListItemText primary="Projects" />
+                </ListItem>
                 <ListItem
                     id="geofences"
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        this.parallax.scrollTo(1);
+                        this.parallax.scrollTo(2);
                     }}
                 >
                     <ListItemText primary="Geofences" />
@@ -120,7 +129,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        this.parallax.scrollTo(2);
+                        this.parallax.scrollTo(3);
                     }}
                 >
                     <ListItemText primary="Integrations" />
@@ -133,7 +142,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                     <Hidden mdUp implementation="css">
                         <Drawer
                             variant="temporary"
-                            anchor={"top"}
+                            anchor={'top'}
                             open={this.state.mobileOpen}
                             onClose={this.closeMobileDrawer}
                             classes={{
@@ -151,7 +160,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                             classes={{
                                 paper: classes.drawerPaper,
                             }}
-                            anchor={"left"}
+                            anchor={'left'}
                             variant="permanent"
                             open
                         >
@@ -174,21 +183,21 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                             </div>
                         </Hidden>
                         <Parallax
-                            pages={3}
+                            pages={4}
                             scrolling={true}
                             ref={(ref: Parallax) => {
                                 this.parallax = ref;
                             }}
                         >
                             <ParallaxLayer offset={0} speed={1}>
-                                <Observer onChange={this.handleScrollTop}>
-                                    <div />
-                                </Observer>
                                 <Observer
                                     onChange={() => {
-                                        this.setState({ mobileSectionName: "Getting Started" });
+                                        this.setState({ mobileSectionName: 'Getting Started' });
                                     }}
                                 >
+                                    <Observer onChange={this.handleScrollTop}>
+                                        <div />
+                                    </Observer>
                                     <section id="getting-started">
                                         <Typography variant="h5">Getting Started</Typography>
                                     </section>
@@ -197,7 +206,18 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                             <ParallaxLayer offset={1} speed={1}>
                                 <Observer
                                     onChange={() => {
-                                        this.setState({ mobileSectionName: "Geofences" });
+                                        this.setState({ mobileSectionName: 'Projects' });
+                                    }}
+                                >
+                                    <section id="projects">
+                                        <Typography variant="h5">Projects</Typography>
+                                    </section>
+                                </Observer>
+                            </ParallaxLayer>
+                            <ParallaxLayer offset={2} speed={1}>
+                                <Observer
+                                    onChange={() => {
+                                        this.setState({ mobileSectionName: 'Geofences' });
                                     }}
                                 >
                                     <section id="geofences">
@@ -205,10 +225,10 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     </section>
                                 </Observer>
                             </ParallaxLayer>
-                            <ParallaxLayer offset={2} speed={1}>
+                            <ParallaxLayer offset={3} speed={1}>
                                 <Observer
                                     onChange={() => {
-                                        this.setState({ mobileSectionName: "Integrations" });
+                                        this.setState({ mobileSectionName: 'Integrations' });
                                     }}
                                 >
                                     <section id="integrations">

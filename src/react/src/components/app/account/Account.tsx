@@ -101,7 +101,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 role: GetRole((this.props.user.profile as UserProfile).role),
                                 authorizedProjects: (this.props.user.profile as UserProfile).authorizedProjects,
                             }}
-                            onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<IUser>, IUser>) => {
+                            onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
                                 const newUser = {

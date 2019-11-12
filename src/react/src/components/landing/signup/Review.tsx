@@ -132,20 +132,6 @@ class Review extends React.Component<ReviewProps> {
                                         autoComplete="off"
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <FormikTextField
-                                        disabled
-                                        name="userForm.password"
-                                        label="Password"
-                                        value={props.initialValues.userForm.password}
-                                        errorText={''}
-                                        touched={false}
-                                        onChange={props.handleChange}
-                                        onBlur={props.handleBlur}
-                                        autoComplete="off"
-                                        type="password"
-                                    />
-                                </Grid>
                             </Grid>
                             <div className={buttonsClassName}>
                                 <FormikBackButton onClick={this.props.handleBack} />

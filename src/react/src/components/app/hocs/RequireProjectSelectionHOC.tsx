@@ -40,16 +40,19 @@ const mapDispatchToProps = (dispatch: any): DispatchProps => {
 const requireProjectSelection = <P extends object>(Component: React.ComponentType<P>) => {
     class RequireProjectSelectionComponent extends React.Component<RequireProjectSelectionProps> {
         componentDidMount() {
-            this.getNextPathFromCurrentProjectState();
+            const nextPath = this.getNextPathFromCurrentProjectState();
+            this.props.push(nextPath);
         }
 
         componentDidUpdate(prevProps: RequireProjectSelectionProps) {
             if (prevProps.projectsState.projects !== this.props.projectsState.projects) {
-                this.getNextPathFromCurrentProjectState();
+                const nextPath = this.getNextPathFromCurrentProjectState();
+                this.props.push(nextPath);
             }
         }
 
-        getNextPathFromCurrentProjectState() {
+        getNextPathFromCurrentProjectState(): string {
+            let pushPath = '';
             if (this.props.projectsState.projects.length > 0) {
                 const redirect = window.location.pathname.split('/');
                 let requestProjectName = '';
@@ -68,7 +71,6 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
                     redirectComponentPath = RoutePaths.Dashboard;
                 }
 
-                let pushPath = undefined as string;
                 const requestProject = this.props.projectsState.projects.filter(p => p.name === requestProjectName);
                 if (requestProject && requestProject.length === 1) {
                     this.props.selectProject(requestProject[0]);
@@ -84,10 +86,10 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
                 } else {
                     pushPath = `/projects/select?redirect=${redirectComponentPath}`;
                 }
-                this.props.push(pushPath);
             } else {
-                <FirstProjectRequired />;
+                pushPath = RoutePaths.FirstProjectRequired;
             }
+            return pushPath;
         }
 
         private stateContainsOnlyOneProject() {

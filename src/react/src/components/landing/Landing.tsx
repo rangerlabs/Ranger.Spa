@@ -1,26 +1,28 @@
-import * as React from "react";
-import { Component } from "react";
-import { withStyles, Theme, createStyles, WithStyles, Typography, Fade } from "@material-ui/core";
-import { ParallaxLayer, Parallax } from "react-spring/renderprops-addons";
-import InView from "react-intersection-observer";
-import Observer from "react-intersection-observer";
-import OverviewParallaxContentLayer from "./sections/OverviewParallaxContentLayer";
-import ScrollTop from "./ScrollTop";
+import * as React from 'react';
+import { Component } from 'react';
+import { withStyles, Theme, createStyles, WithStyles, Typography, Fade } from '@material-ui/core';
+import { ParallaxLayer, Parallax } from 'react-spring/renderprops-addons';
+import InView from 'react-intersection-observer';
+import Observer from 'react-intersection-observer';
+import OverviewParallaxContentLayer from './sections/OverviewParallaxContentLayer';
+import ScrollTop from './ScrollTop';
+import { enqueueSnackbar, SnackbarNotification } from '../../redux/actions/SnackbarActions';
+import { connect } from 'react-redux';
 
 const styles = (theme: Theme) =>
     createStyles({
         parallaxContainer: {
-            position: "absolute",
+            position: 'absolute',
             top: theme.toolbar.height,
             height: `calc(100% - ${theme.toolbar.height}px)`,
-            width: "100%",
+            width: '100%',
         },
         scrollToTopContainer: {
-            height: "100%",
+            height: '100%',
         },
         features: {
-            height: "700px",
-            backgroundColor: "white",
+            height: '700px',
+            backgroundColor: 'white',
         },
         pricing: {},
         contact: {},
@@ -31,6 +33,7 @@ const styles = (theme: Theme) =>
 
 interface LandingProps extends WithStyles<typeof styles> {
     parallaxRef: (ref: Parallax) => void;
+    enqueueSnackbar: typeof enqueueSnackbar;
 }
 
 interface LandingState {
@@ -42,6 +45,15 @@ class Landing extends Component<LandingProps, LandingState> {
 
     constructor(props: LandingProps) {
         super(props);
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.props.enqueueSnackbar({
+                message: 'Welcome to Ranger! We are still actively under development and all data is subject to deletion. Check back soon for more info.',
+                options: { variant: 'success', persist: true },
+            } as SnackbarNotification);
+        }, 350);
     }
 
     state = {
@@ -59,16 +71,15 @@ class Landing extends Component<LandingProps, LandingState> {
 
     render() {
         const { classes } = this.props;
-
         return (
             <div className={classes.parallaxContainer}>
-                <Parallax pages={2} scrolling={true} ref={this.setRef}>
+                <Parallax pages={1} scrolling={true} ref={this.setRef}>
                     <ParallaxLayer speed={1}>
                         <Observer onChange={this.handleIntersectionChange}>
                             <div />
                         </Observer>
                         <OverviewParallaxContentLayer />
-                        <div id="#features" className={classes.features}>
+                        {/* <div id="#features" className={classes.features}>
                             <InView triggerOnce={true} threshold={0.2}>
                                 {({ inView, ref }: any) => (
                                     <div ref={ref}>
@@ -80,7 +91,7 @@ class Landing extends Component<LandingProps, LandingState> {
                             </InView>
                         </div>
                         <div id="#pricing" className={classes.pricing} />
-                        <div id="#contact" className={classes.contact} />
+                        <div id="#contact" className={classes.contact} /> */}
                     </ParallaxLayer>
                 </Parallax>
                 <ScrollTop
@@ -94,4 +105,7 @@ class Landing extends Component<LandingProps, LandingState> {
     }
 }
 
-export default withStyles(styles)(Landing);
+export default connect(
+    null,
+    { enqueueSnackbar }
+)(withStyles(styles)(Landing));

@@ -47,6 +47,12 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
         return registrationKey;
     }
 
+    getUserIdFromParams(): string {
+        const params = queryString.parse(window.location.search);
+        const userId = params['userId'] as string;
+        return userId;
+    }
+
     getDomainFromParams(): string {
         const params = queryString.parse(window.location.search);
         const domain = params['domain'] as string;
@@ -57,8 +63,10 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
         const domain = this.getDomainFromParams();
         this.setState({ domain: domain });
         const registrationKey = this.getRegistrationKeyFromParams();
+        const userId = this.getUserIdFromParams();
         const confirmModel = {
             Domain: domain,
+            UserId: userId,
             RegistrationKey: registrationKey,
         } as IConfirmModel;
         userService

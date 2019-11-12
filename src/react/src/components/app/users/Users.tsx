@@ -8,6 +8,7 @@ import { push } from 'connected-react-router';
 import { User } from 'oidc-client';
 import { UserProfile } from '../../../models/UserProfile';
 import populateUsersHOC from '../hocs/PopulateUsersHOC';
+import { StatusEnum } from '../../../models/StatusEnum';
 const MUIDataTable = require('mui-datatables').default;
 
 interface UsersProps {
@@ -65,7 +66,25 @@ class Users extends React.Component<UsersProps> {
         if (users) {
             users.forEach(value => {
                 if (value.email !== (this.props.user.profile as UserProfile).email) {
-                    tableUsers.push([value.firstName, value.lastName, value.email, value.role]);
+                    let status = undefined;
+                    switch (value.status) {
+                        case StatusEnum.PENDING: {
+                            status = 'Pending';
+                            break;
+                        }
+                        case StatusEnum.REJECTED: {
+                            status = 'Error';
+                            break;
+                        }
+                        case StatusEnum.COMPLETED: {
+                            status = 'Active';
+                            break;
+                        }
+                        default: {
+                            status = '';
+                        }
+                    }
+                    tableUsers.push([value.firstName, value.lastName, value.email, value.role, status]);
                 }
             });
         }
@@ -93,6 +112,12 @@ class Users extends React.Component<UsersProps> {
         },
         {
             name: 'Role',
+            options: {
+                filter: true,
+            },
+        },
+        {
+            name: 'Status',
             options: {
                 filter: true,
             },

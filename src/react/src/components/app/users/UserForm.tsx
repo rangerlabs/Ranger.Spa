@@ -26,6 +26,7 @@ import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import FormikAutocompleteMultiselect from '../../form/FormikAutocompleteMulitselect';
 import IProject from '../../../models/app/IProject';
 import { RoleEnum } from '../../../models/RoleEnum';
+import { StatusEnum } from '../../../models/StatusEnum';
 
 const userService = new UserService();
 
@@ -95,7 +96,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         selectedProjects: undefined as IProject[],
     };
 
-    deleteUser(props: FormikProps<IUser>, enqueueSnackbar: any) {
+    deleteUser(props: FormikProps<Partial<IUser>>, enqueueSnackbar: any) {
         console.log('DELETE THE USER');
         setTimeout(() => {
             this.props.dispatchRemoveUser(props.values.email);
@@ -178,7 +179,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                     ? this.getUserByEmail(users)
                                     : { email: '', firstName: '', lastName: '', role: '', authorizedProjects: [] }
                             }
-                            onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<IUser>, IUser>) => {
+                            onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
                                 const newUser = {
@@ -198,8 +199,9 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             formikBag.setSubmitting(false);
                                             formikBag.resetForm(newUser);
                                         } else {
+                                            newUser.status = StatusEnum.PENDING;
                                             enqueueSnackbar('Create user request accepted', { variant: 'info' });
-                                            dispatchAddUser(response.content);
+                                            dispatchAddUser(newUser);
                                             this.props.push(RoutePaths.Users);
                                         }
                                     }, 2000);

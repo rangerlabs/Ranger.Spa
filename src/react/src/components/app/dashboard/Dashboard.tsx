@@ -33,9 +33,6 @@ class Dashboard extends React.Component<DashboardProps> {
                     </Typography>
                     <DashboardProjectSelect />
                 </React.Fragment>
-                <Typography align="left" variant="subtitle1">
-                    Usage
-                </Typography>
             </div>
         );
     }
