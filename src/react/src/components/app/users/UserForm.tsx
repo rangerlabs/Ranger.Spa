@@ -132,6 +132,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         //TODO: Sort these appropriately
         var usersRoles = (user.profile.role as string[]).reverse();
         usersRoles.forEach(value => {
+            if (value != RoleEnum.TENANT_OWNER)
             roleArray.push({ value: value, label: value });
         });
         return roleArray;

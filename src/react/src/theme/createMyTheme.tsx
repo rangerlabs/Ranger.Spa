@@ -55,6 +55,11 @@ export default function createRangerTheme(options: ThemeOptions) {
             width: '100%',
         },
         overrides: {
+            MuiDrawer: {
+                paperAnchorDockedLeft: {
+                    borderRight: 'none',
+                },
+            },
             MuiToolbar: {
                 root: {
                     height: toolbarHeight,
@@ -90,7 +95,8 @@ export default function createRangerTheme(options: ThemeOptions) {
             },
             MuiListItem: {
                 button: {
-                    height: toolbarHeight,
+                    // height: toolbarHeight,
+                    // borderRadius: '0 30px 30px 0',
                     '&:hover': {
                         backgroundColor: Constants.COLORS.LIST_TABLE_HOVER_COLOR,
                     },

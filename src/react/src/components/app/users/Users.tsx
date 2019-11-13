@@ -66,26 +66,9 @@ class Users extends React.Component<UsersProps> {
         if (users) {
             users.forEach(value => {
                 if (value.email !== (this.props.user.profile as UserProfile).email) {
-                    let status = undefined;
-                    switch (value.status) {
-                        case StatusEnum.PENDING: {
-                            status = 'Pending';
-                            break;
-                        }
-                        case StatusEnum.REJECTED: {
-                            status = 'Error';
-                            break;
-                        }
-                        case StatusEnum.COMPLETED: {
-                            status = 'Active';
-                            break;
-                        }
-                        default: {
-                            status = '';
-                        }
-                    }
-                    tableUsers.push([value.firstName, value.lastName, value.email, value.role, status]);
+                    let status = value.emailConfirmed ? 'Active' : 'Inactive';
                 }
+                tableUsers.push([value.firstName, value.lastName, value.email, value.role, status]);
             });
         }
         return tableUsers;

@@ -21,7 +21,6 @@ import ViewDashboardOutline from 'mdi-material-ui/ViewDashboardOutline';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import Lock from '@material-ui/icons/Lock';
-import SpeakerPhone from '@material-ui/icons/SpeakerPhone';
 import FormatListBulleted from '@material-ui/icons/FormatListBulleted';
 import Domain from 'mdi-material-ui/Domain';
 import ArrowDecision from 'mdi-material-ui/ArrowDecision';
@@ -36,8 +35,6 @@ import { RoleEnum } from '../../../models/RoleEnum';
 import RoutePaths from '../../../components/RoutePaths';
 import { User } from 'oidc-client';
 import IProject from '../../../models/app/IProject';
-const classNames = require('classnames').default;
-import Constants from '../../../theme/Constants';
 
 const styles = (theme: Theme) =>
     createStyles({
