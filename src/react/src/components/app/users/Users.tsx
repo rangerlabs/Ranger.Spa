@@ -67,8 +67,8 @@ class Users extends React.Component<UsersProps> {
             users.forEach(value => {
                 if (value.email !== (this.props.user.profile as UserProfile).email) {
                     let status = value.emailConfirmed ? 'Active' : 'Inactive';
+                    tableUsers.push([value.firstName, value.lastName, value.email, value.role, status]);
                 }
-                tableUsers.push([value.firstName, value.lastName, value.email, value.role, status]);
             });
         }
         return tableUsers;
