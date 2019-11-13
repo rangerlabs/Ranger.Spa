@@ -5,6 +5,7 @@ import { ButtonProps } from '@material-ui/core/Button';
 const styles = (theme: Theme) =>
     createStyles({
         root: { marginTop: theme.spacing(3), marginLeft: theme.spacing(1) },
+        denseMargin: { marginTop: theme.spacing(1), marginLeft: theme.spacing(1) },
     });
 
 interface FormikPrimaryButtonProps extends WithStyles<typeof styles> {
@@ -18,7 +19,14 @@ class FormikPrimaryButton extends React.Component<FormikPrimaryButtonProps & But
     render() {
         const { isValid, isSubmitting, classes, variant, denseMargin, ...rest } = this.props;
         return (
-            <Button className={denseMargin ? '' : classes.root} disabled={!isValid || isSubmitting} type="submit" color="primary" variant={variant} {...rest}>
+            <Button
+                className={denseMargin ? classes.denseMargin : classes.root}
+                disabled={!isValid || isSubmitting}
+                type="submit"
+                color="primary"
+                variant={variant}
+                {...rest}
+            >
                 {this.props.children ? this.props.children : 'Create'}
             </Button>
         );
