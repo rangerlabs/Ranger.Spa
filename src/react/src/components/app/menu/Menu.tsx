@@ -21,11 +21,11 @@ import ViewDashboardOutline from 'mdi-material-ui/ViewDashboardOutline';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import Lock from '@material-ui/icons/Lock';
-import SpeakerPhone from '@material-ui/icons/SpeakerPhone';
 import FormatListBulleted from '@material-ui/icons/FormatListBulleted';
-import Web from 'mdi-material-ui/Web';
+import Domain from 'mdi-material-ui/Domain';
 import ArrowDecision from 'mdi-material-ui/ArrowDecision';
-import MapPlus from 'mdi-material-ui/MapPlus';
+import Map from 'mdi-material-ui/Map';
+import HexagonMultiple from 'mdi-material-ui/HexagonMultiple';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { ApplicationState } from '../../../stores';
@@ -35,8 +35,6 @@ import { RoleEnum } from '../../../models/RoleEnum';
 import RoutePaths from '../../../components/RoutePaths';
 import { User } from 'oidc-client';
 import IProject from '../../../models/app/IProject';
-const classNames = require('classnames').default;
-import Constants from '../../../theme/Constants';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -132,7 +130,7 @@ class Menu extends React.Component<MenuProps> {
                     <List disablePadding>
                         <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceMap)}>
                             <ListItemIcon>
-                                <MapPlus />
+                                <Map />
                             </ListItemIcon>
                             <ListItemText primary="Map" />
                         </ListItem>
@@ -170,7 +168,7 @@ class Menu extends React.Component<MenuProps> {
                     }}
                 >
                     <ListItemIcon>
-                        <SpeakerPhone />
+                        <HexagonMultiple />
                     </ListItemIcon>
                     <ListItemText primary="Projects" />
                 </ListItem>
@@ -197,7 +195,7 @@ class Menu extends React.Component<MenuProps> {
                                 {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.OWNER) && (
                                     <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
                                         <ListItemIcon>
-                                            <Web />
+                                            <Domain />
                                         </ListItemIcon>
                                         <ListItemText primary="Domain" />
                                     </ListItem>

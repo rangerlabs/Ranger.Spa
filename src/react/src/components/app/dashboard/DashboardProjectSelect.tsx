@@ -16,7 +16,9 @@ import {
     GridListTile,
     Paper,
 } from '@material-ui/core';
-import ArrowRight from 'mdi-material-ui/ArrowRight';
+import HexagonMultiple from 'mdi-material-ui/HexagonMultiple';
+import ArrowDecision from 'mdi-material-ui/ArrowDecision';
+import MapMarker from 'mdi-material-ui/MapMarker';
 import { connect } from 'react-redux';
 import IProject from '../../../models/app/IProject';
 import { ApplicationState } from '../../../stores';
@@ -93,9 +95,17 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
-    handleProjectClick(project: IProject) {
+    handleProjectGeofencesClick(project: IProject) {
         this.props.selectProject(project);
         this.props.push(RoutePaths.GeofenceMap);
+    }
+    handleProjectIntegrationsClick(project: IProject) {
+        this.props.selectProject(project);
+        this.props.push(RoutePaths.Integrations);
+    }
+    handleProjectClick(project: IProject) {
+        this.props.selectProject(project);
+        this.props.push(RoutePaths.Projects);
     }
     render() {
         const { classes, projectsState } = this.props;
@@ -108,23 +118,34 @@ class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
                                 <GridListTile className={classes.gridListTile} key={project.name}>
                                     <Card className={classes.card}>
                                         <CardHeader title={project.name} />
-                                        <CardMedia
-                                            classes={{ root: classes.mediaRoot }}
-                                            className={classes.media}
-                                            image={IntegrationApi}
-                                            title="Api Integration"
-                                        />
                                         <CardContent classes={{ root: classes.cardContent }}>
                                             <Typography component="p">{project.description}</Typography>
                                         </CardContent>
                                         <CardActions className={classes.buttons}>
                                             <IconButton
                                                 onClick={() => {
+                                                    this.handleProjectGeofencesClick(project);
+                                                }}
+                                                aria-label="Project Geofences"
+                                            >
+                                                <MapMarker color="primary" />
+                                            </IconButton>
+                                            <IconButton
+                                                onClick={() => {
+                                                    this.handleProjectIntegrationsClick(project);
+                                                }}
+                                                aria-label="Project integrations"
+                                            >
+                                                <ArrowDecision color="primary" />
+                                            </IconButton>
+
+                                            <IconButton
+                                                onClick={() => {
                                                     this.handleProjectClick(project);
                                                 }}
-                                                aria-label="Select project"
+                                                aria-label="Project"
                                             >
-                                                <ArrowRight color="primary" />
+                                                <HexagonMultiple color="primary" />
                                             </IconButton>
                                         </CardActions>
                                     </Card>

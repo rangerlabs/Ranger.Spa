@@ -40,7 +40,7 @@ const populateProjectsHOC = <P extends object>(Component: React.ComponentType<P>
         }
 
         render() {
-            return this.props.projectsState.isLoaded ? <Component {...(this.props as P)} /> : <Loading message="Retrieving your projects." />;
+            return this.props.projectsState.isLoaded ? <Component {...(this.props as P)} /> : <Loading message="Retrieving projects." />;
         }
     }
 

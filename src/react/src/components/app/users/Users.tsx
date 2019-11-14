@@ -7,6 +7,8 @@ import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import { User } from 'oidc-client';
 import { UserProfile } from '../../../models/UserProfile';
+import populateUsersHOC from '../hocs/PopulateUsersHOC';
+import { StatusEnum } from '../../../models/StatusEnum';
 const MUIDataTable = require('mui-datatables').default;
 
 interface UsersProps {
@@ -18,7 +20,7 @@ interface UsersProps {
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { users: state.users, user: state.oidc.user };
+    return { users: state.usersState.users, user: state.oidc.user };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -64,7 +66,8 @@ class Users extends React.Component<UsersProps> {
         if (users) {
             users.forEach(value => {
                 if (value.email !== (this.props.user.profile as UserProfile).email) {
-                    tableUsers.push([value.firstName, value.lastName, value.email, value.role]);
+                    let status = value.emailConfirmed ? 'Active' : 'Inactive';
+                    tableUsers.push([value.firstName, value.lastName, value.email, value.role, status]);
                 }
             });
         }
@@ -96,6 +99,12 @@ class Users extends React.Component<UsersProps> {
                 filter: true,
             },
         },
+        {
+            name: 'Status',
+            options: {
+                filter: true,
+            },
+        },
     ];
     options = {
         print: false,
@@ -119,4 +128,4 @@ class Users extends React.Component<UsersProps> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Users);
+)(populateUsersHOC(Users));

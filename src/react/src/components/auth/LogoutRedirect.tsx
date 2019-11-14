@@ -1,10 +1,27 @@
-import * as React from "react";
-import UserManager from "../../services/UserManager";
-import { ApplicationState } from "../../stores";
-import { push } from "connected-react-router";
-import { connect } from "react-redux";
+import * as React from 'react';
+import UserManager from '../../services/UserManager';
+import { ApplicationState } from '../../stores';
+import { push } from 'connected-react-router';
+import { connect } from 'react-redux';
+import { createStyles, Grid, Typography, LinearProgress, Theme, withStyles, WithStyles } from '@material-ui/core';
+import RoutePaths from '../RoutePaths';
 
-interface LogoutRedirectProps {
+const styles = (theme: Theme) =>
+    createStyles({
+        layout: {
+            width: 'auto',
+            marginTop: theme.toolbar.height * 2,
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
+            [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
+                width: 600,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            },
+        },
+    });
+interface LogoutRedirectProps extends WithStyles<typeof styles> {
+    push: typeof push;
     user: Oidc.User;
     isLoadingUser: boolean;
 }
@@ -16,19 +33,33 @@ const mapStateToProps = (state: ApplicationState) => {
     };
 };
 
-function LogoutRedirect(props: LogoutRedirectProps): any {
-    if (!props.isLoadingUser) {
-        if (props.user) {
-            const idTokenHint = props.user.id_token;
+class LogoutRedirect extends React.Component<LogoutRedirectProps> {
+    componentDidMount() {
+        if (!this.props.isLoadingUser && this.props.user) {
+            const idTokenHint = this.props.user.id_token;
             UserManager.signoutRedirect({ id_token_hint: idTokenHint });
-            return <h1>Logging out...</h1>;
+        } else {
+            this.props.push(RoutePaths.Landing);
         }
-        return <h1>Logging out from Ranger.</h1>;
     }
-    return null;
+
+    render() {
+        return (
+            <div className={this.props.classes.layout}>
+                <Grid container direction="column" alignItems="center" spacing={3}>
+                    <Grid item xs={12}>
+                        <Typography align="center" variant="h5">
+                            Logging out of Ranger.
+                        </Typography>
+                        <LinearProgress />
+                    </Grid>
+                </Grid>
+            </div>
+        );
+    }
 }
 
 export default connect(
     mapStateToProps,
-    null
-)(LogoutRedirect);
+    { push }
+)(withStyles(styles, { withTheme: true })(LogoutRedirect));

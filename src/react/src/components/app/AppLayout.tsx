@@ -18,8 +18,8 @@ import BreadcrumbPaths from '../BreadcrumbPaths';
 import Breadcrumb from '../../models/app/Breadcrumb';
 import Notifier from '../../components/notifier/Notifier';
 import authorizedRoute from './hocs/AuthorizedRouteHOC';
-
-const userService = new UserService();
+import { addDomain, DomainState } from '../../redux/actions/DomainActions';
+import { getSubDomain } from '../../helpers/Helpers';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -39,19 +39,19 @@ interface AppLayoutProps extends WithStyles<typeof styles> {
     exact?: boolean;
     path?: string | string[];
     breadcrumbPath: BreadcrumbPath;
-    setUsers: (users: IUser[]) => void;
-    users: IUser[];
     selectedProject: IProject;
+    domain: string;
+    setDomain: (domainName: string) => void;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { users: state.users, user: state.oidc.user, selectedProject: state.selectedProject };
+    return { user: state.oidc.user, selectedProject: state.selectedProject, domain: state.domain.domain };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        setUsers: (users: IUser[]) => {
-            const action = populateUsers(users);
+        setDomain: (domainName: string) => {
+            const action = addDomain({ domain: domainName } as DomainState);
             dispatch(action);
         },
     };
@@ -64,10 +64,8 @@ class AppLayout extends React.Component<AppLayoutProps> {
 
     //hydrate the store when the first AppLayout path is to be rendered
     componentDidMount = () => {
-        if (this.props.users.length == 0) {
-            userService.getUsers().then(userResponse => {
-                this.props.setUsers(userResponse.content);
-            });
+        if (!this.props.domain) {
+            this.props.setDomain(getSubDomain());
         }
     };
 

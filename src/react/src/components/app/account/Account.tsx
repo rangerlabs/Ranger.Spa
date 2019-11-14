@@ -4,7 +4,7 @@ import UserService from '../../../services/UserService';
 import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
 import { UserProfile } from '../../../models/UserProfile';
 import * as Yup from 'yup';
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, ListItem, Button } from '@material-ui/core';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, ListItem, Button, Typography } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikPrimaryButton from '../../form/FormikPrimaryButton';
@@ -27,6 +27,7 @@ const styles = (theme: Theme) =>
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
+            marginTop: theme.toolbar.height,
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
                 marginLeft: 'auto',
@@ -92,6 +93,9 @@ class Account extends React.Component<AccountProps, AccountState> {
                 <CssBaseline />
                 <main className={classes.layout}>
                     <Paper elevation={0}>
+                        <Typography variant="h5" gutterBottom>
+                            Your Account
+                        </Typography>
                         <Formik
                             enableReinitialize
                             initialValues={{
@@ -99,8 +103,9 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 firstName: (this.props.user.profile as UserProfile).firstName,
                                 lastName: (this.props.user.profile as UserProfile).lastName,
                                 role: GetRole((this.props.user.profile as UserProfile).role),
+                                authorizedProjects: (this.props.user.profile as UserProfile).authorizedProjects,
                             }}
-                            onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<IUser>, IUser>) => {
+                            onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
                                 const newUser = {

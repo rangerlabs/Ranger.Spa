@@ -4,6 +4,8 @@ import { Typography, createStyles, Theme, withStyles, WithStyles, LinearProgress
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import { ProjectsState } from '../../../redux/actions/ProjectActions';
+import FirstProjectRequired from '../projects/FirstProjectRequired';
+import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -28,14 +30,17 @@ class Dashboard extends React.Component<DashboardProps> {
         return (
             <div className={classes.layout}>
                 <React.Fragment>
-                    <Typography align="left" variant="subtitle1">
-                        Projects
-                    </Typography>
-                    <DashboardProjectSelect />
+                    {this.props.projectsState.projects.length !== 0 ? (
+                        <React.Fragment>
+                            <Typography align="left" variant="subtitle1">
+                                Projects
+                            </Typography>
+                            <DashboardProjectSelect />
+                        </React.Fragment>
+                    ) : (
+                        <FirstProjectRequired welcomeMessage />
+                    )}
                 </React.Fragment>
-                <Typography align="left" variant="subtitle1">
-                    Usage
-                </Typography>
             </div>
         );
     }
@@ -44,4 +49,4 @@ class Dashboard extends React.Component<DashboardProps> {
 export default connect(
     mapStateToProps,
     null
-)(withStyles(styles)(Dashboard));
+)(withStyles(styles)(populateProjectsHOC(Dashboard)));

@@ -1,41 +1,41 @@
-import * as React from "react";
-import withStyles, { WithStyles } from "@material-ui/styles/withStyles";
-import Paper from "@material-ui/core/Paper";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import Typography from "@material-ui/core/Typography";
-import DomainForm from "./DomainForm";
-import UserForm from "./UserForm";
-import Review from "./Review";
-import { createStyles, Fade, Theme } from "@material-ui/core";
-import IDomainForm from "../../../models/landing/IDomainForm";
-import IUserForm from "../../../models/landing/IUserForm";
-import IReviewForm from "../../../models/landing/IReviewForm";
+import * as React from 'react';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import Paper from '@material-ui/core/Paper';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import Typography from '@material-ui/core/Typography';
+import DomainForm from './DomainForm';
+import UserForm from './UserForm';
+import Review from './Review';
+import { createStyles, Fade, Theme } from '@material-ui/core';
+import IDomainForm from '../../../models/landing/IDomainForm';
+import IUserForm from '../../../models/landing/IUserForm';
+import IReviewForm from '../../../models/landing/IReviewForm';
 
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            width: "auto",
-            marginTop: theme.toolbar.height * 2,
+            width: 'auto',
+            marginTop: theme.toolbar.height,
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             [theme.breakpoints.up(400 + theme.spacing(2 * 2))]: {
                 width: 400,
-                marginLeft: "auto",
-                marginRight: "auto",
+                marginLeft: 'auto',
+                marginRight: 'auto',
             },
         },
         stepper: {
             padding: `${theme.spacing(3)}px 0 ${theme.spacing(5)}px`,
         },
         buttons: {
-            display: "flex",
-            justifyContent: "flex-end",
+            display: 'flex',
+            justifyContent: 'flex-end',
         },
     });
 
-const steps = ["Select domain", "Create user", "Submit"];
+const steps = ['Select domain', 'Create user', 'Submit'];
 
 interface SignUpProps extends WithStyles<typeof styles> {}
 
@@ -86,7 +86,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
                     />
                 );
             default:
-                throw new Error("Unknown step");
+                throw new Error('Unknown step');
         }
     }
     setDomainFormValues = (domainFormValues: IDomainForm): void => {
@@ -145,11 +145,14 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
                         <React.Fragment>
                             {activeStep === steps.length ? (
                                 <React.Fragment>
-                                    <Typography variant="h5" gutterBottom>
+                                    <Typography variant="h5" gutterBottom align="center">
                                         Thank you for registering.
                                     </Typography>
-                                    <Typography variant="subtitle1">
-                                        We're creating your domain and account. You will receive an email shortly allowing you to confirm your domain.
+                                    <Typography variant="subtitle1" align="center">
+                                        We're creating your domain and account.
+                                    </Typography>
+                                    <Typography variant="subtitle1" align="center">
+                                        You will receive an email shortly to confirm your domain.
                                     </Typography>
                                 </React.Fragment>
                             ) : (

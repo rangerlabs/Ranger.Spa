@@ -115,7 +115,11 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
 
                         <Formik
                             enableReinitialize
-                            initialValues={this.props.initialIntegration ? this.props.initialIntegration : { name: '', description: '', url: '', authKey: '' }}
+                            initialValues={
+                                this.props.initialIntegration
+                                    ? this.props.initialIntegration
+                                    : ({ projectName: '', name: '', description: '', url: '', authKey: '' } as WebhookIntegrationRequest)
+                            }
                             onSubmit={(
                                 values: WebhookIntegrationRequest,
                                 formikBag: FormikBag<FormikProps<WebhookIntegrationRequest>, WebhookIntegrationRequest>

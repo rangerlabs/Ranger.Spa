@@ -22,7 +22,7 @@ export default class GeofenceService {
                                 circle.onExit,
                                 circle.enabled,
                                 circle.description,
-                                circle.integrationNames,
+                                circle.integrationIds,
                                 [new CoordinatePair(v.coordinates[0].lat, v.coordinates[0].lng)],
                                 circle.metadata,
                                 circle.radius
@@ -41,7 +41,7 @@ export default class GeofenceService {
                                 polygon.onExit,
                                 polygon.enabled,
                                 polygon.description,
-                                polygon.integrationNames,
+                                polygon.integrationIds,
                                 polygon.coordinates,
                                 polygon.metadata
                             )

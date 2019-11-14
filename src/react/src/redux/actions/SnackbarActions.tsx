@@ -1,9 +1,9 @@
-import { OptionsObject } from "notistack";
-import { ReactText } from "react";
+import { OptionsObject } from 'notistack';
+import { ReactText } from 'react';
 
-export const ENQUEUE_SNACKBAR = "ENQUEUE_SNACKBAR";
-export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";
-export const REMOVE_SNACKBAR = "REMOVE_SNACKBAR";
+export const ENQUEUE_SNACKBAR = 'ENQUEUE_SNACKBAR';
+export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+export const REMOVE_SNACKBAR = 'REMOVE_SNACKBAR';
 
 export interface SnackbarAction {
     type: string;
