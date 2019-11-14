@@ -1,30 +1,25 @@
-import * as React from "react";
-import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide } from "@material-ui/core";
-import classNames from "classnames";
-import { push } from "connected-react-router";
-import { connect } from "react-redux";
+import * as React from 'react';
+import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide } from '@material-ui/core';
+import { push } from 'connected-react-router';
+import { connect } from 'react-redux';
 
 const styles = (theme: Theme) =>
     createStyles({
         typography: {
-            [theme.breakpoints.up("md")]: {
-                textAlign: "left",
+            [theme.breakpoints.up('md')]: {
+                textAlign: 'left',
             },
-            textAlign: "center",
+            textAlign: 'center',
         },
         gridHeight: {
-            height: "100%",
+            height: '100%',
         },
         menuItemTextColor: {
             color: theme.drawer.text.color,
         },
         signupButton: {
-            marginTop: "60px",
-            minWidth: "175px",
-        },
-        readTheDocsButton: {
-            marginTop: "60px",
-            minWidth: "150px",
+            marginTop: theme.spacing(3),
+            minWidth: '175px',
         },
     });
 
@@ -34,7 +29,7 @@ interface OverviewParallaxContentLayerProps extends WithStyles<typeof styles> {
 
 class OverviewParallaxContentLayer extends React.Component<OverviewParallaxContentLayerProps> {
     handleSignUpClick = () => {
-        this.props.push("/signup");
+        this.props.push('/signup');
     };
 
     render() {

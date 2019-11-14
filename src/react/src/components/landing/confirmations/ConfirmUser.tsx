@@ -87,7 +87,7 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                 <Grid container direction="column" alignItems="center" spacing={3}>
                     {this.state.isRequesting && (
                         <Grid item xs={12}>
-                            <Typography align="center" variant="h6">
+                            <Typography align="center" variant="h5">
                                 Please wait while we confirm your account.
                             </Typography>
                             <LinearProgress />
@@ -96,10 +96,10 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                     {!this.state.isRequesting && this.state.confirmed && (
                         <React.Fragment>
                             <Grid item xs={12}>
-                                <Typography gutterBottom align="center" variant="h6">
+                                <Typography gutterBottom align="center" variant="h5">
                                     Your account is confirmed.
                                 </Typography>
-                                <Typography gutterBottom align="center" variant="h6">
+                                <Typography gutterBottom align="center" variant="h5">
                                     Click below to get started.
                                 </Typography>
                             </Grid>
@@ -121,10 +121,10 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                     {!this.state.isRequesting && !this.state.confirmed && (
                         <React.Fragment>
                             <Grid item xs={12}>
-                                <Typography gutterBottom align="center" variant="h6">
+                                <Typography gutterBottom align="center" variant="h5">
                                     Failed to confirm the account.
                                 </Typography>
-                                <Typography align="center" variant="h6">
+                                <Typography align="center" variant="h5">
                                     The account may already be active or the verification key may be incorrect.
                                 </Typography>
                             </Grid>

@@ -145,11 +145,14 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
                         <React.Fragment>
                             {activeStep === steps.length ? (
                                 <React.Fragment>
-                                    <Typography variant="h5" gutterBottom>
+                                    <Typography variant="h5" gutterBottom align="center">
                                         Thank you for registering.
                                     </Typography>
-                                    <Typography variant="subtitle1">
-                                        We're creating your domain and account. You will receive an email shortly allowing you to confirm your domain.
+                                    <Typography variant="subtitle1" align="center">
+                                        We're creating your domain and account.
+                                    </Typography>
+                                    <Typography variant="subtitle1" align="center">
+                                        You will receive an email shortly to confirm your domain.
                                     </Typography>
                                 </React.Fragment>
                             ) : (

@@ -4,7 +4,6 @@ import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import RoutePaths from '../RoutePaths';
 import { createStyles, Theme, Grid, Typography, LinearProgress, withStyles, WithStyles } from '@material-ui/core';
-import UserService from '../../services/UserService';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -43,8 +42,8 @@ class LoginRedirect extends React.Component<LoginRedirectProps> {
             <div className={this.props.classes.layout}>
                 <Grid container direction="column" alignItems="center" spacing={3}>
                     <Grid item xs={12}>
-                        <Typography align="center" variant="h6">
-                            Redirecting to Ranger auth server.
+                        <Typography align="center" variant="h5">
+                            Redirecting to Ranger Login.
                         </Typography>
                         <LinearProgress />
                     </Grid>

@@ -58,21 +58,20 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                                         Welcome to Ranger.
                                     </Typography>
                                 )}
+                                {!window.location.pathname.startsWith(RoutePaths.Dashboard) ? (
+                                    <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                        You must first create a project to access these resources.
+                                    </Typography>
+                                ) : (
+                                    <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                        It looks like your organization hasn't created any projects yet.
+                                    </Typography>
+                                )}
                                 <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
-                                    It looks like your organization hasn't created any projects yet.
-                                </Typography>
-                                <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
-                                    Would you like to create your first project?
+                                    Click below to create your first project.
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button
-                                    onClick={() => {
-                                        this.props.push(RoutePaths.Dashboard);
-                                    }}
-                                >
-                                    No
-                                </Button>
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -80,14 +79,21 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                                         this.props.push(RoutePaths.ProjectsNew);
                                     }}
                                 >
-                                    Yes
+                                    New Project
                                 </Button>
                             </Grid>
                         </Grid>
                     ) : (
-                        <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
-                            It looks like your organization hasn't created any projects yet. Please request someone with administrative privilages create one.
-                        </Typography>
+                        <Grid container direction="column" alignItems="center" justify="center">
+                            <Grid item xs={12}>
+                                <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                    It looks like your organization hasn't created any projects yet.
+                                </Typography>
+                                <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                    Please request someone with administrative privilages create one.
+                                </Typography>
+                            </Grid>
+                        </Grid>
                     )}
                 </div>
             </React.Fragment>

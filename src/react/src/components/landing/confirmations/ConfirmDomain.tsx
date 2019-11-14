@@ -77,7 +77,7 @@ class ConfirmDomain extends React.Component<ConfirmDomainProps, ConfirmDomainSta
                 <Grid container direction="column" alignItems="center" spacing={3}>
                     {this.state.isRequesting && (
                         <Grid item xs={12}>
-                            <Typography align="center" variant="h6">
+                            <Typography align="center" variant="h5">
                                 Please wait while we confirm your domain.
                             </Typography>
                             <LinearProgress />
@@ -86,10 +86,10 @@ class ConfirmDomain extends React.Component<ConfirmDomainProps, ConfirmDomainSta
                     {!this.state.isRequesting && this.state.confirmed && (
                         <React.Fragment>
                             <Grid item xs={12}>
-                                <Typography gutterBottom align="center" variant="h6">
+                                <Typography gutterBottom align="center" variant="h5">
                                     Your domain is confirmed.
                                 </Typography>
-                                <Typography gutterBottom align="center" variant="h6">
+                                <Typography gutterBottom align="center" variant="h5">
                                     Click below to get started.
                                 </Typography>
                             </Grid>
@@ -111,10 +111,10 @@ class ConfirmDomain extends React.Component<ConfirmDomainProps, ConfirmDomainSta
                     {!this.state.isRequesting && !this.state.confirmed && (
                         <React.Fragment>
                             <Grid item xs={12}>
-                                <Typography align="center" variant="h6">
+                                <Typography align="center" variant="h5">
                                     Failed to confirm domain.
                                 </Typography>
-                                <Typography align="center" variant="h6">
+                                <Typography align="center" variant="h5">
                                     Verify the registration key is correct.
                                 </Typography>
                             </Grid>

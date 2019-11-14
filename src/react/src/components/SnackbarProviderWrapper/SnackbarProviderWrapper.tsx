@@ -21,6 +21,10 @@ const styles = (theme: Theme) =>
             right: '0px !important',
             width: '100%',
             marginBottom: '-2px',
+            textAlign: 'center',
+            '> > div:nth-of-type(1)': {
+                padding: '0px !important',
+            },
         },
         success: { ...notistackStyle(theme), backgroundColor: theme.palette.primary.main },
         error: { ...notistackStyle(theme), backgroundColor: theme.palette.error.main },
