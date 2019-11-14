@@ -61,4 +61,4 @@ class Callback extends React.Component<CallbackProps> {
 export default connect(
     null,
     { push }
-)(Callback);
+)(withStyles(styles, { withTheme: true })(Callback));
