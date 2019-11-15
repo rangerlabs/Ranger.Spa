@@ -72,6 +72,7 @@ export default function createRangerTheme(options: ThemeOptions) {
             },
             MuiButton: {
                 root: {
+                    fontWeight: 300,
                     '&:hover': {
                         backgroundColor: Constants.COLORS.MENU_BACKGROUND_COLOR,
                     },
@@ -83,6 +84,12 @@ export default function createRangerTheme(options: ThemeOptions) {
                 },
                 colorPrimary: {
                     backgroundColor: Constants.COLORS.WHITE,
+                },
+            },
+            MuiSnackbarContent: {
+                action: {
+                    marginLeft: '0px',
+                    marginRight: '0px',
                 },
             },
             MuiTableRow: {

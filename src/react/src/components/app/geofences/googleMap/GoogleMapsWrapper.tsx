@@ -222,9 +222,9 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             styles: Constants.MAP_MAIN_STYLE,
         });
         google.maps.event.addListenerOnce(this.map, 'idle', () => {
+            this.setState({ isMapFullyLoaded: true });
             this.initMarkerClusterer();
             this.createGeofenceMarkers(this.props.existingGeofences, false);
-            this.setState({ isMapFullyLoaded: true });
             this.props.mapFullyLoadedCallback();
 
             const params = queryString.parse(window.location.search);
@@ -245,10 +245,14 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     };
 
     private initMarkerClusterer() {
-        this.markerClusterer = new MarkerClusterer(this.map, this.markers.map(v => v.getMarker()), {
-            averageCenter: true,
-            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
-        });
+        this.markerClusterer = new MarkerClusterer(
+            this.map,
+            this.markers.map(v => v.getMarker()),
+            {
+                averageCenter: true,
+                imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+            }
+        );
         this.markerClusterer.addListener('click', (e: google.maps.MouseEvent, cluster: Cluster) => {
             if (this.markerClusterer.getZoomOnClick()) {
                 this.map.setCenter(cluster.getCenter());
@@ -579,7 +583,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         return (
             <React.Fragment>
                 <StyledSearchTextField className={classes.autoComplete} id="google-places-search" variant="outlined" fullWidth />
-                {this.state.isMapFullyLoaded !== true && <Loading message="Initializing map." />}
+                {!this.state.isMapFullyLoaded && <Loading message="Initializing map." />}
                 <div className={classes.mapContainer} id={this.props.id} />
                 {this.state.isMapFullyLoaded && <GoogleMapsShapePicker map={this.map} />}
             </React.Fragment>
@@ -587,11 +591,4 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     }
 }
 
-export default withStyles(styles)(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-        mergeProps,
-        { forwardRef: true }
-    )(GoogleMapsWrapper)
-);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps, mergeProps, { forwardRef: true })(GoogleMapsWrapper));
