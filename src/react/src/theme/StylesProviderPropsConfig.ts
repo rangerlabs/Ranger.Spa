@@ -1,9 +1,10 @@
-import { jssPreset, createGenerateClassName } from "@material-ui/styles";
-import { create } from "jss";
+import { jssPreset, createGenerateClassName } from '@material-ui/styles';
+import { create } from 'jss';
 
 export const jss = create({
     plugins: [...jssPreset().plugins],
 });
 export const generateClassName = createGenerateClassName({
+    productionPrefix: 'ranger',
     disableGlobal: true,
 });

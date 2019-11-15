@@ -1,6 +1,11 @@
 import * as React from 'react';
-import { Theme, createStyles, WithStyles, withStyles } from '@material-ui/core';
-import { SnackbarProvider } from 'notistack';
+import { Theme, createStyles, WithStyles, withStyles, IconButton } from '@material-ui/core';
+import { SnackbarProvider, withSnackbar, WithSnackbarProps, SnackbarProviderProps } from 'notistack';
+import { bindActionCreators } from 'redux';
+import { removeSnackbar } from '../../redux/actions/SnackbarActions';
+import { connect } from 'react-redux';
+import { CloseCircle } from 'mdi-material-ui';
+import Constants from '../../theme/Constants';
 
 const notistackStyle = (theme: Theme) => {
     return {
@@ -10,7 +15,7 @@ const notistackStyle = (theme: Theme) => {
         width: '100%',
         borderRadius: '0px',
         fontSize: theme.typography.h6.fontSize,
-        fontWeight: theme.typography.fontWeightMedium,
+        fontWeight: theme.typography.fontWeightRegular,
     };
 };
 
@@ -22,7 +27,7 @@ const styles = (theme: Theme) =>
             width: '100%',
             marginBottom: '-2px',
             textAlign: 'center',
-            '> > div:nth-of-type(1)': {
+            '> div:nth-of-type(1)': {
                 padding: '0px !important',
             },
         },
@@ -32,13 +37,21 @@ const styles = (theme: Theme) =>
         warning: notistackStyle(theme),
     });
 
-interface SnackbarProviderWrapperProps extends WithStyles<typeof styles> {}
+interface SnackbarProviderWrapperProps extends WithStyles<typeof styles> {
+    removeSnackbar: (key: React.ReactText) => void;
+}
 
 class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperProps> {
+    snackbarProviderRef: React.RefObject<any> = React.createRef();
+    onClickDismiss = (key: string | number) => () => {
+        this.snackbarProviderRef.current.closeSnackbar(key);
+        this.props.removeSnackbar(key);
+    };
     render() {
         const { classes } = this.props;
         return (
             <SnackbarProvider
+                ref={this.snackbarProviderRef}
                 classes={{
                     containerAnchorOriginBottomCenter: classes.snackContainer,
                     variantSuccess: classes.success,
@@ -46,6 +59,11 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
                     variantWarning: classes.warning,
                     variantInfo: classes.info,
                 }}
+                action={key => (
+                    <IconButton onClick={this.onClickDismiss(key)} aria-label="delete" size="small">
+                        <CloseCircle htmlColor={Constants.COLORS.WHITE} fontSize="inherit" />
+                    </IconButton>
+                )}
                 preventDuplicate={true}
                 hideIconVariant={true}
                 dense
@@ -61,4 +79,4 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
     }
 }
 
-export default withStyles(styles, { withTheme: true })(SnackbarProviderWrapper);
+export default withStyles(styles, { withTheme: true })(connect(null, { removeSnackbar })(SnackbarProviderWrapper));
