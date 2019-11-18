@@ -11,6 +11,7 @@ import Pricing from './landing/pricing/Pricing';
 import Company from './landing/company/Company';
 import ConfirmDomain from './landing/confirmations/ConfirmDomain';
 import ConfirmUser from './landing/confirmations/ConfirmUser';
+import PasswordReset from './landing/confirmations/PasswordReset';
 
 export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: '/error/:code?', component: ErrorPage },
@@ -24,4 +25,5 @@ export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: RoutePaths.Logout, component: LogoutRedirect },
     { exact: true, path: RoutePaths.ConfirmDomain, component: ConfirmDomain },
     { exact: true, path: RoutePaths.ConfirmUser, component: ConfirmUser },
+    { exact: true, path: RoutePaths.PasswordReset, component: PasswordReset },
 ];

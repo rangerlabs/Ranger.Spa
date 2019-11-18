@@ -3,7 +3,7 @@ export default class RoutePaths {
     public static SignUp = '/signup';
     public static Callback = '/callback';
     public static Register = '/register';
-    public static EnterDomain = '/enterdomain';
+    public static EnterDomain = '/enter-domain';
     public static Documentation = '/documentation';
     public static Pricing = '/pricing';
     public static Company = '/company';
@@ -11,6 +11,7 @@ export default class RoutePaths {
     public static Logout = '/logout';
     public static ConfirmDomain = '/confirm-domain';
     public static ConfirmUser = '/confirm-user';
+    public static PasswordReset = '/password-reset';
 
     public static Dashboard = '/dashboard';
     public static Account = '/account';
@@ -50,7 +51,8 @@ export default class RoutePaths {
             path === RoutePaths.Login ||
             path === RoutePaths.Logout ||
             path === RoutePaths.ConfirmDomain ||
-            path === RoutePaths.ConfirmUser
+            path === RoutePaths.ConfirmUser ||
+            path === RoutePaths.PasswordReset
         ) {
             result = true;
         }

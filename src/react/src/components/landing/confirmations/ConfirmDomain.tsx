@@ -40,10 +40,10 @@ class ConfirmDomain extends React.Component<ConfirmDomainProps, ConfirmDomainSta
         isRequesting: true,
     };
 
-    getRegistrationKeyFromParams(): string {
+    getTokenFromParams(): string {
         const params = queryString.parse(window.location.search);
-        const registrationKey = params['registrationKey'] as string;
-        return registrationKey;
+        const token = params['token'] as string;
+        return token;
     }
 
     getDomainFromParams(): string {
@@ -55,9 +55,9 @@ class ConfirmDomain extends React.Component<ConfirmDomainProps, ConfirmDomainSta
     componentDidMount() {
         const domain = this.getDomainFromParams();
         this.setState({ domain: domain });
-        const registrationKey = this.getRegistrationKeyFromParams();
+        const token = this.getTokenFromParams();
         const confirmModel = {
-            RegistrationKey: registrationKey,
+            Token: token,
         } as IConfirmModel;
         tenantService
             .confirm(domain, confirmModel)

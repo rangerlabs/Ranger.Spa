@@ -41,10 +41,10 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
         isRequesting: true,
     };
 
-    getRegistrationKeyFromParams(): string {
+    getTokenFromParams(): string {
         const params = queryString.parse(window.location.search);
-        const registrationKey = params['registrationKey'] as string;
-        return registrationKey;
+        const token = params['token'] as string;
+        return token;
     }
 
     getUserIdFromParams(): string {
@@ -62,15 +62,14 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
     componentDidMount() {
         const domain = this.getDomainFromParams();
         this.setState({ domain: domain });
-        const registrationKey = this.getRegistrationKeyFromParams();
+        const token = this.getTokenFromParams();
         const userId = this.getUserIdFromParams();
         const confirmModel = {
             Domain: domain,
-            UserId: userId,
-            RegistrationKey: registrationKey,
+            Token: token,
         } as IConfirmModel;
         userService
-            .confirm(confirmModel)
+            .confirm(userId, confirmModel)
             .then(v => {
                 setTimeout(() => {
                     this.setState({ confirmed: v, isRequesting: false });
@@ -136,7 +135,4 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
     }
 }
 
-export default connect(
-    null,
-    { push }
-)(withStyles(styles, { withTheme: true })(ConfirmUser));
+export default connect(null, { push })(withStyles(styles, { withTheme: true })(ConfirmUser));

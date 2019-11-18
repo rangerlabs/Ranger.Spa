@@ -2,6 +2,7 @@ import RestUtilities, { IRestResponse } from './RestUtilities';
 import IUser from '../models/app/IUser';
 import Logger from './Logger/Logger';
 import IConfirmModel from '../models/landing/IConfirmModel';
+import IPasswordResetModel from '../models/landing/IPasswordResetModel';
 
 export default class UserService {
     async getUsers(): Promise<IRestResponse<IUser[]>> {
@@ -16,8 +17,16 @@ export default class UserService {
         return RestUtilities.post<IUser>('/user', user);
     }
 
-    async confirm(confirmModel: IConfirmModel): Promise<boolean> {
-        return RestUtilities.put(`/user/confirm`, confirmModel).then(value => {
+    async confirm(userId: string, confirmModel: IConfirmModel): Promise<boolean> {
+        return RestUtilities.put(`/user/${userId}/confirm`, confirmModel).then(value => {
+            if (value.is_error) {
+                return false;
+            }
+            return true;
+        });
+    }
+    async resetPassword(userId: string, resetModel: IPasswordResetModel): Promise<boolean> {
+        return RestUtilities.post(`/user/${userId}/password-reset`, resetModel).then(value => {
             if (value.is_error) {
                 return false;
             }
