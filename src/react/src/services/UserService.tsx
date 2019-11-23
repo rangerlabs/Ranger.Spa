@@ -2,7 +2,8 @@ import RestUtilities, { IRestResponse } from './RestUtilities';
 import IUser from '../models/app/IUser';
 import Logger from './Logger/Logger';
 import IConfirmModel from '../models/landing/IConfirmModel';
-import IPasswordResetModel from '../models/landing/IPasswordResetModel';
+import IResetPasswordModel from '../models/landing/IPasswordResetModel';
+import IChangeEmailModel from '../models/landing/IChangeEmailModel';
 
 export default class UserService {
     async getUsers(): Promise<IRestResponse<IUser[]>> {
@@ -17,20 +18,43 @@ export default class UserService {
         return RestUtilities.post<IUser>('/user', user);
     }
 
-    async confirm(userId: string, confirmModel: IConfirmModel): Promise<boolean> {
-        return RestUtilities.put(`/user/${userId}/confirm`, confirmModel).then(value => {
+    async confirm(email: string, confirmModel: IConfirmModel): Promise<boolean> {
+        return RestUtilities.put(`/user/${email}/confirm`, confirmModel).then(value => {
             if (value.is_error) {
                 return false;
             }
             return true;
         });
     }
-    async resetPassword(userId: string, resetModel: IPasswordResetModel): Promise<boolean> {
-        return RestUtilities.post(`/user/${userId}/password-reset`, resetModel).then(value => {
+
+    async resetPassword(email: string, resetModel: IResetPasswordModel): Promise<boolean> {
+        return RestUtilities.post(`/user/${email}/password-reset`, resetModel).then(value => {
             if (value.is_error) {
                 return false;
             }
             return true;
         });
+    }
+
+    async requestPasswordReset(userEmail: string, passwordReset: IRequestPasswordResetModel): Promise<boolean> {
+        return RestUtilities.put(`/user/${userEmail}/password-reset`, passwordReset).then(value => {
+            if (value.is_error) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    async requestEmailChanage(currentUserEmail: string, emailChange: IRequestEmailChangeModel): Promise<boolean> {
+        return RestUtilities.put(`/user/${currentUserEmail}/email-change`, emailChange).then(value => {
+            if (value.is_error) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    async changeEmail(email: string, resetModel: IChangeEmailModel): Promise<IRestResponse<void>> {
+        return RestUtilities.post(`/user/${email}/email-change`, resetModel);
     }
 }

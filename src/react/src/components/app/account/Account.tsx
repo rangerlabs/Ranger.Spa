@@ -19,6 +19,9 @@ import { push } from 'connected-react-router';
 import { GetRole } from '../../../models/RoleEnum';
 import RoutePaths from '../../RoutePaths';
 import DeleteAccountComponent from '../dialogContents/DeleteAccountContent';
+import { openDialog, DialogContent } from '../../../redux/actions/DialogActions';
+import ChangePasswordContent from '../dialogContents/ChangePasswordContent';
+import ChangeEmailContent from '../dialogContents/ChangeEmailContent';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -52,6 +55,7 @@ const styles = (theme: Theme) =>
 
 interface AccountProps extends WithStyles<typeof styles>, WithSnackbarProps {
     user: User;
+    openDialog: (dialogContent: DialogContent) => void;
     dispatchAddUser: (user: IUser) => void;
     closeForm: () => void;
     push: typeof push;
@@ -70,6 +74,10 @@ const mapStateToProps = (state: ApplicationState) => {
 const mapDispatchToProps = (dispatch: any) => {
     return {
         push: (path: string) => dispatch(push(path)),
+        openDialog: (dialogContent: DialogContent) => {
+            const action = openDialog(dialogContent);
+            dispatch(action);
+        },
     };
 };
 
@@ -117,12 +125,12 @@ class Account extends React.Component<AccountProps, AccountState> {
                                     setTimeout(() => {
                                         if (response.is_error) {
                                             const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                            enqueueSnackbar('Error creating user', { variant: 'error' });
+                                            enqueueSnackbar('Error updating your account.', { variant: 'error' });
                                             formikBag.setErrors(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
-                                            enqueueSnackbar('User created', { variant: 'success' });
+                                            enqueueSnackbar('Account updated successfully.', { variant: 'success' });
                                             setTimeout(this.props.closeForm, 500);
                                             dispatchAddUser(response.content);
                                         }
@@ -170,7 +178,19 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
-                                                required
+                                                disabled
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <Button
+                                                            disabled={props.isSubmitting}
+                                                            onClick={() => {
+                                                                this.props.openDialog(new DialogContent((<ChangeEmailContent />)));
+                                                            }}
+                                                        >
+                                                            Change
+                                                        </Button>
+                                                    ),
+                                                }}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -182,7 +202,6 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 touched={props.touched.role}
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
-                                                required
                                                 disabled
                                             />
                                         </Grid>
@@ -209,7 +228,14 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             >
                                                 Delete
                                             </FormikDeleteButton>
-                                            <Button className={classes.changePassword} disabled={props.isSubmitting} variant="text">
+                                            <Button
+                                                onClick={() => {
+                                                    this.props.openDialog(new DialogContent((<ChangePasswordContent />)));
+                                                }}
+                                                className={classes.changePassword}
+                                                disabled={props.isSubmitting}
+                                                variant="text"
+                                            >
                                                 Change password
                                             </Button>
                                         </div>
@@ -235,7 +261,4 @@ class Account extends React.Component<AccountProps, AccountState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(withSnackbar(Account)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withSnackbar(Account)));

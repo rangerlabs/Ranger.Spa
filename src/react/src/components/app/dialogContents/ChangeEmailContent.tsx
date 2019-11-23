@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { DialogActions, Button, InputAdornment, IconButton, DialogContentText, DialogContent, DialogTitle, Typography } from '@material-ui/core';
+import { DialogActions, Button, DialogContentText, DialogContent, DialogTitle, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps } from 'formik';
 import * as Yup from 'yup';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { closeDialog } from '../../../redux/actions/DialogActions';
 import { connect } from 'react-redux';
 import { User } from 'oidc-client';
@@ -16,7 +14,7 @@ import { WithSnackbarProps, withSnackbar } from 'notistack';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 var userService = new UserService();
 
-interface ChangePasswordContentProps extends WithSnackbarProps {
+interface ChangeEmailContentProps extends WithSnackbarProps {
     user: User;
     closeDialog: () => void;
 }
@@ -36,33 +34,34 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-function ChangePasswordContent(changePasswordContentProps: ChangePasswordContentProps): JSX.Element {
-    const [passwordVisible, setPasswordVisible] = useState(false);
+function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): JSX.Element {
     const [serverError, setServerError] = useState(undefined as string);
     const [success, setSuccess] = useState(false);
 
     const validationSchema = Yup.object().shape({
-        password: Yup.string().required('Required'),
+        email: Yup.string()
+            .required('Required')
+            .email('Must be a valid email address'),
     });
 
     return (
         <React.Fragment>
             <Formik
-                initialValues={{ password: '' }}
-                onSubmit={(values: IRequestPasswordResetModel, formikBag: FormikBag<FormikProps<IRequestPasswordResetModel>, IRequestPasswordResetModel>) => {
+                initialValues={{ email: '' }}
+                onSubmit={(values: IRequestEmailChangeModel, formikBag: FormikBag<FormikProps<IRequestEmailChangeModel>, IRequestEmailChangeModel>) => {
                     setServerError(undefined);
-                    userService.requestPasswordReset((changePasswordContentProps.user.profile as UserProfile).email, values).then((success: boolean) => {
+                    userService.requestEmailChanage((changeEmailContentProps.user.profile as UserProfile).email, values).then((success: boolean) => {
                         setTimeout(() => {
                             if (!success) {
-                                changePasswordContentProps.enqueueSnackbar('Failed to send reset email, the provided password was invalid.', {
+                                changeEmailContentProps.enqueueSnackbar('Failed to send confirmation email, the provided email is already in use.', {
                                     variant: 'error',
                                 });
-                                setServerError('The password provided was incorrect.');
+                                setServerError('The email address is already in use.');
                                 formikBag.setSubmitting(false);
                             } else {
-                                changePasswordContentProps.enqueueSnackbar('Password reset email sent.', { variant: 'success' });
+                                changeEmailContentProps.enqueueSnackbar('An email confirmation link was sent.', { variant: 'success' });
                                 setSuccess(true);
-                                changePasswordContentProps.closeDialog();
+                                changeEmailContentProps.closeDialog();
                             }
                         }, 350);
                     });
@@ -71,40 +70,25 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
             >
                 {props => (
                     <React.Fragment>
-                        <DialogTitle>Change account password</DialogTitle>
+                        <DialogTitle>Change account email</DialogTitle>
                         <form onSubmit={props.handleSubmit}>
                             <DialogContent>
-                                <DialogContentText>To change your password, please enter your current password.</DialogContentText>
+                                <DialogContentText>Please enter the new email address you would to use.</DialogContentText>
                                 <FormikTextField
-                                    name="password"
-                                    label="Password"
-                                    type={passwordVisible ? 'text' : 'password'}
-                                    value={props.values.password}
-                                    errorText={props.errors.password}
-                                    touched={props.touched.password}
+                                    name="email"
+                                    label="Email"
+                                    value={props.values.email}
+                                    errorText={props.errors.email}
+                                    touched={props.touched.email}
                                     onChange={props.handleChange}
                                     onBlur={props.handleBlur}
                                     autoComplete="off"
                                     required
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="Toggle password visibility"
-                                                    onClick={() => {
-                                                        setPasswordVisible(!passwordVisible);
-                                                    }}
-                                                >
-                                                    {passwordVisible ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        ),
-                                    }}
                                 />
                                 {serverError && <Typography color="error">{serverError}</Typography>}
                             </DialogContent>
                             <DialogActions>
-                                <Button disabled={props.isSubmitting} onClick={changePasswordContentProps.closeDialog} color="primary" variant="text">
+                                <Button disabled={props.isSubmitting} onClick={changeEmailContentProps.closeDialog} color="primary" variant="text">
                                     Cancel
                                 </Button>
                                 <FormikSynchronousButton
@@ -114,7 +98,7 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
                                     isSubmitting={props.isSubmitting}
                                     variant="text"
                                 >
-                                    Request Reset
+                                    Request Email Change
                                 </FormikSynchronousButton>
                             </DialogActions>
                         </form>
@@ -125,4 +109,4 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(ChangePasswordContent));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(ChangeEmailContent));

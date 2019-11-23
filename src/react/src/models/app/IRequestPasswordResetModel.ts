@@ -1,0 +1,3 @@
+interface IRequestPasswordResetModel {
+    password: string;
+}

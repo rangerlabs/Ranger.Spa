@@ -74,59 +74,54 @@ class ConfirmDomain extends React.Component<ConfirmDomainProps, ConfirmDomainSta
     render() {
         return (
             <div className={this.props.classes.layout}>
-                <Grid container direction="column" alignItems="center" spacing={3}>
-                    {this.state.isRequesting && (
+                {this.state.isRequesting && (
+                    <Grid container spacing={3} justify="center" alignItems="center">
                         <Grid item xs={12}>
-                            <Typography align="center" variant="h5">
-                                Please wait while we confirm your domain.
-                            </Typography>
+                            <Typography variant="h5">Please wait while we confirm your domain.</Typography>
                             <LinearProgress />
                         </Grid>
-                    )}
-                    {!this.state.isRequesting && this.state.confirmed && (
-                        <React.Fragment>
-                            <Grid item xs={12}>
-                                <Typography gutterBottom align="center" variant="h5">
-                                    Your domain is confirmed.
-                                </Typography>
-                                <Typography gutterBottom align="center" variant="h5">
-                                    Click below to get started.
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button
-                                    color="primary"
-                                    variant="contained"
-                                    onClick={() => {
-                                        this.state.domain
-                                            ? window.location.assign(`https://${this.state.domain}.${SPA_HOST}${RoutePaths.Login}`)
-                                            : this.props.push(RoutePaths.Landing);
-                                    }}
-                                >
-                                    Sign in
-                                </Button>
-                            </Grid>
-                        </React.Fragment>
-                    )}
-                    {!this.state.isRequesting && !this.state.confirmed && (
-                        <React.Fragment>
-                            <Grid item xs={12}>
-                                <Typography align="center" variant="h5">
-                                    Failed to confirm domain.
-                                </Typography>
-                                <Typography align="center" variant="h5">
-                                    Verify the registration key is correct.
-                                </Typography>
-                            </Grid>
-                        </React.Fragment>
-                    )}
-                </Grid>
+                    </Grid>
+                )}
+                {!this.state.isRequesting && this.state.confirmed && (
+                    <Grid container spacing={3} justify="center" alignItems="center">
+                        <Grid item xs={12}>
+                            <Typography gutterBottom align="center" variant="h5">
+                                Your domain is confirmed.
+                            </Typography>
+                            <Typography gutterBottom align="center" variant="h5">
+                                Click below to get started.
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                onClick={() => {
+                                    this.state.domain
+                                        ? window.location.assign(`https://${this.state.domain}.${SPA_HOST}${RoutePaths.Login}`)
+                                        : this.props.push(RoutePaths.Landing);
+                                }}
+                            >
+                                Sign in
+                            </Button>
+                        </Grid>
+                    </Grid>
+                )}
+                {!this.state.isRequesting && !this.state.confirmed && (
+                    <Grid container spacing={3} justify="center" alignItems="center">
+                        <Grid item xs={12}>
+                            <Typography align="center" variant="h5">
+                                Failed to confirm domain.
+                            </Typography>
+                            <Typography align="center" variant="h5">
+                                Verify the registration key is correct.
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                )}
             </div>
         );
     }
 }
 
-export default connect(
-    null,
-    { push }
-)(withStyles(styles, { withTheme: true })(ConfirmDomain));
+export default connect(null, { push })(withStyles(styles, { withTheme: true })(ConfirmDomain));

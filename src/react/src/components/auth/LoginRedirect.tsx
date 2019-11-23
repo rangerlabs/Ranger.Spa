@@ -40,11 +40,9 @@ class LoginRedirect extends React.Component<LoginRedirectProps> {
     render() {
         return (
             <div className={this.props.classes.layout}>
-                <Grid container direction="column" alignItems="center" spacing={3}>
+                <Grid container spacing={3} justify="center" alignItems="baseline">
                     <Grid item xs={12}>
-                        <Typography align="center" variant="h5">
-                            Redirecting to Ranger Login.
-                        </Typography>
+                        <Typography variant="h5">Redirecting to Ranger Login.</Typography>
                         <LinearProgress />
                     </Grid>
                 </Grid>
@@ -53,7 +51,4 @@ class LoginRedirect extends React.Component<LoginRedirectProps> {
     }
 }
 
-export default connect(
-    null,
-    { push }
-)(withStyles(styles, { withTheme: true })(LoginRedirect));
+export default connect(null, { push })(withStyles(styles, { withTheme: true })(LoginRedirect));

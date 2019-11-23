@@ -116,7 +116,4 @@ class AppLayout extends React.Component<AppLayoutProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(authorizedRoute(AppLayout)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(authorizedRoute(AppLayout)));

@@ -35,7 +35,6 @@ const styles = (theme: Theme) =>
         },
     });
 interface IDomainProps extends WithStyles<typeof styles> {
-    openDialog: (dialogContent: DialogContent) => void;
     closeDialog: () => void;
     closeForm: () => void;
     push: typeof push;
@@ -44,18 +43,6 @@ interface IDomainProps extends WithStyles<typeof styles> {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        openDialog: (dialogContent: DialogContent) => {
-            const action = openDialog(
-                new DialogContent(
-                    dialogContent.content,
-                    dialogContent.title,
-                    dialogContent.confirmText,
-                    dialogContent.confirmAction,
-                    dialogContent.cancelAction
-                )
-            );
-            dispatch(action);
-        },
         push: (path: string) => dispatch(push(path)),
         closeDialog: () => {
             const action = closeDialog();
@@ -78,7 +65,7 @@ class Domain extends React.Component<IDomainProps, DomainState> {
     };
 
     render() {
-        const { classes, closeDialog } = this.props;
+        const { classes } = this.props;
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -118,7 +105,4 @@ class Domain extends React.Component<IDomainProps, DomainState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(Domain));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Domain));

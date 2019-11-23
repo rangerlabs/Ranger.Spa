@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Typography, LinearProgress, createStyles, Theme, WithStyles, Button, withStyles, Grid } from '@material-ui/core';
+import { Typography, createStyles, Theme, WithStyles, Button, withStyles, Grid } from '@material-ui/core';
 import * as queryString from 'query-string';
-import IPasswordResetModel from '../../../models/landing/IPasswordResetModel';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
@@ -9,8 +8,8 @@ import UserService from '../../../services/UserService';
 import { Formik, FormikBag, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import FormikTextField from '../../form/FormikTextField';
-import FormikBackButton from '../../form/FormikBackButton';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+import IChangeEmailModel from '../../../models/landing/IChangeEmailModel';
 const userService = new UserService();
 
 const styles = (theme: Theme) =>
@@ -32,31 +31,24 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface PasswordResetProps extends WithStyles<typeof styles> {
+interface EmailChangeProps extends WithStyles<typeof styles> {
     push: typeof push;
 }
 
-interface PasswordResetState {
+interface EmailChangeState {
+    serverError: string;
     domain: string;
     success: boolean;
     isRequesting: boolean;
 }
 
-class PasswordReset extends React.Component<PasswordResetProps, PasswordResetState> {
+class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
     validationSchema = Yup.object().shape({
-        newPassword: Yup.string()
-            .min(8, 'Must be at least 8 characters long')
-            .matches(new RegExp('[!@#\\$%\\^\\&*\\)\\(+=._-]'), 'Must contain at least 1 special character')
-            .matches(new RegExp('[0-9]'), 'Must contain at least 1 number')
-            .matches(new RegExp('[a-z]'), 'Must contain at least 1 lowercase letter')
-            .matches(new RegExp('[A-Z]'), 'Must contain at least 1 uppercase letter')
-            .required('Required'),
-        confirmPassword: Yup.string()
-            .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
-            .required('Required'),
+        email: Yup.string().email('Must be a valid email.'),
     });
 
-    state: PasswordResetState = {
+    state: EmailChangeState = {
+        serverError: '',
         domain: '',
         success: false,
         isRequesting: true,
@@ -95,22 +87,20 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
                             {
                                 domain: this.getDomainFromParams(),
                                 token: this.getTokenFromParams(),
-                                newPassword: '',
-                                confirmPassword: '',
-                            } as IPasswordResetModel
+                                email: '',
+                            } as IChangeEmailModel
                         }
-                        onSubmit={(values: IPasswordResetModel, formikBag: FormikBag<FormikProps<IPasswordResetModel>, IPasswordResetModel>) => {
+                        onSubmit={(values: IChangeEmailModel, formikBag: FormikBag<FormikProps<IChangeEmailModel>, IChangeEmailModel>) => {
                             const userId = this.getUserIdFromParams();
-                            userService
-                                .resetPassword(userId, values)
-                                .then(v => {
+                            userService.changeEmail(userId, values).then(v => {
+                                if (v.is_error) {
+                                    this.setState({ isRequesting: false, serverError: v.error_content.errors[0] });
+                                } else {
                                     setTimeout(() => {
-                                        this.setState({ success: v, isRequesting: false });
+                                        this.setState({ success: true, isRequesting: false });
                                     }, 350);
-                                })
-                                .catch(r => {
-                                    this.setState({ isRequesting: false });
-                                });
+                                }
+                            });
                         }}
                         validationSchema={this.validationSchema}
                     >
@@ -119,30 +109,16 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
                                         <Typography align="center" variant="h5">
-                                            Password Reset
+                                            Change Email
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormikTextField
                                             name="newPassword"
                                             label="New Password"
-                                            value={props.values.newPassword}
-                                            errorText={props.errors.newPassword}
-                                            touched={props.touched.newPassword}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            autoComplete="off"
-                                            type="password"
-                                            required
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <FormikTextField
-                                            name="confirmPassword"
-                                            label="Confirm password"
-                                            value={props.values.confirmPassword}
-                                            errorText={props.errors.confirmPassword}
-                                            touched={props.touched.confirmPassword}
+                                            value={props.values.email}
+                                            errorText={props.errors.email}
+                                            touched={props.touched.email}
                                             onChange={props.handleChange}
                                             onBlur={props.handleBlur}
                                             autoComplete="off"
@@ -151,9 +127,10 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
                                         />
                                     </Grid>
                                 </Grid>
+                                {this.state.serverError && <Typography color="error">{this.state.serverError}</Typography>}
                                 <div className={classes.flexButtonContainer}>
                                     <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
-                                        Reset Password
+                                        Change Email
                                     </FormikSynchronousButton>
                                 </div>
                             </form>
@@ -163,10 +140,10 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
                     <React.Fragment>
                         <Grid item xs={12}>
                             <Typography gutterBottom align="center" variant="h5">
-                                Your password has been successfully changed.
+                                Your email has been successfully changed.
                             </Typography>
                             <Typography gutterBottom align="center" variant="h5">
-                                Click below to sign in using your new password.
+                                Click below to sign in using your new email.
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
@@ -189,4 +166,4 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
     }
 }
 
-export default connect(null, { push })(withStyles(styles, { withTheme: true })(PasswordReset));
+export default connect(null, { push })(withStyles(styles, { withTheme: true })(EmailChange));

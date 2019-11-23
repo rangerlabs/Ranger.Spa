@@ -12,6 +12,7 @@ export default class RoutePaths {
     public static ConfirmDomain = '/confirm-domain';
     public static ConfirmUser = '/confirm-user';
     public static PasswordReset = '/password-reset';
+    public static EmailChange = '/email-change';
 
     public static Dashboard = '/dashboard';
     public static Account = '/account';
@@ -52,7 +53,8 @@ export default class RoutePaths {
             path === RoutePaths.Logout ||
             path === RoutePaths.ConfirmDomain ||
             path === RoutePaths.ConfirmUser ||
-            path === RoutePaths.PasswordReset
+            path === RoutePaths.PasswordReset ||
+            path === RoutePaths.EmailChange
         ) {
             result = true;
         }

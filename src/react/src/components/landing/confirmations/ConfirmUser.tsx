@@ -83,12 +83,10 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
     render() {
         return (
             <div className={this.props.classes.layout}>
-                <Grid container direction="column" alignItems="center" spacing={3}>
+                <Grid container spacing={3} justify="center" alignItems="baseline">
                     {this.state.isRequesting && (
                         <Grid item xs={12}>
-                            <Typography align="center" variant="h5">
-                                Please wait while we confirm your account.
-                            </Typography>
+                            <Typography variant="h5">Please wait while we confirm your account.</Typography>
                             <LinearProgress />
                         </Grid>
                     )}
