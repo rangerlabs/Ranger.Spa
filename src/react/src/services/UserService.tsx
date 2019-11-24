@@ -27,13 +27,8 @@ export default class UserService {
         });
     }
 
-    async resetPassword(email: string, resetModel: IResetPasswordModel): Promise<boolean> {
-        return RestUtilities.post(`/user/${email}/password-reset`, resetModel).then(value => {
-            if (value.is_error) {
-                return false;
-            }
-            return true;
-        });
+    async resetPassword(email: string, resetModel: IResetPasswordModel): Promise<IRestResponse<void>> {
+        return RestUtilities.post(`/user/${email}/password-reset`, resetModel);
     }
 
     async requestPasswordReset(userEmail: string, passwordReset: IRequestPasswordResetModel): Promise<boolean> {

@@ -61,6 +61,7 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
                                 formikBag.setSubmitting(false);
                             } else {
                                 changePasswordContentProps.enqueueSnackbar('Password reset email sent.', { variant: 'success' });
+                                formikBag.setSubmitting(false);
                                 setSuccess(true);
                                 changePasswordContentProps.closeDialog();
                             }

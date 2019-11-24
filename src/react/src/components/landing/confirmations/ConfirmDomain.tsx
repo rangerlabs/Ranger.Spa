@@ -21,6 +21,10 @@ const styles = (theme: Theme) =>
                 marginRight: 'auto',
             },
         },
+        flexButtonContainer: {
+            display: 'flex',
+            justifyContent: 'flex-end',
+        },
     });
 
 interface ConfirmDomainProps extends WithStyles<typeof styles> {
@@ -83,29 +87,31 @@ class ConfirmDomain extends React.Component<ConfirmDomainProps, ConfirmDomainSta
                     </Grid>
                 )}
                 {!this.state.isRequesting && this.state.confirmed && (
-                    <Grid container spacing={3} justify="center" alignItems="center">
-                        <Grid item xs={12}>
-                            <Typography gutterBottom align="center" variant="h5">
-                                Your domain is confirmed.
-                            </Typography>
-                            <Typography gutterBottom align="center" variant="h5">
-                                Click below to get started.
-                            </Typography>
+                    <React.Fragment>
+                        <Grid direction="column" container spacing={3} justify="center" alignItems="center">
+                            <Grid item>
+                                <Typography gutterBottom align="center" variant="h5">
+                                    Your domain is confirmed.
+                                </Typography>
+                                <Typography gutterBottom align="center" variant="subtitle1">
+                                    Click below to get started.
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    onClick={() => {
+                                        this.state.domain
+                                            ? window.location.assign(`https://${this.state.domain}.${SPA_HOST}${RoutePaths.Login}`)
+                                            : this.props.push(RoutePaths.Landing);
+                                    }}
+                                >
+                                    Sign in
+                                </Button>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button
-                                color="primary"
-                                variant="contained"
-                                onClick={() => {
-                                    this.state.domain
-                                        ? window.location.assign(`https://${this.state.domain}.${SPA_HOST}${RoutePaths.Login}`)
-                                        : this.props.push(RoutePaths.Landing);
-                                }}
-                            >
-                                Sign in
-                            </Button>
-                        </Grid>
-                    </Grid>
+                    </React.Fragment>
                 )}
                 {!this.state.isRequesting && !this.state.confirmed && (
                     <Grid container spacing={3} justify="center" alignItems="center">
@@ -113,7 +119,7 @@ class ConfirmDomain extends React.Component<ConfirmDomainProps, ConfirmDomainSta
                             <Typography align="center" variant="h5">
                                 Failed to confirm domain.
                             </Typography>
-                            <Typography align="center" variant="h5">
+                            <Typography align="center" variant="subtitle1">
                                 Verify the registration key is correct.
                             </Typography>
                         </Grid>

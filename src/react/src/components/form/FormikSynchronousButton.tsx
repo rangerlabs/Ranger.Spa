@@ -26,7 +26,7 @@ const styles = (theme: Theme) =>
             marginTop: -12,
             marginLeft: -12,
         },
-        denseMargin: { marginLeft: theme.spacing(1) },
+        denseMargin: { marginLeft: theme.spacing(1), position: 'relative' },
     });
 
 interface FormikSynchronousButtonProps extends WithStyles<typeof styles> {

@@ -22,6 +22,10 @@ const styles = (theme: Theme) =>
                 marginRight: 'auto',
             },
         },
+        flexButtonContainer: {
+            display: 'flex',
+            justifyContent: 'flex-end',
+        },
     });
 
 interface ConfirmUserProps extends WithStyles<typeof styles> {
@@ -91,16 +95,16 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                         </Grid>
                     )}
                     {!this.state.isRequesting && this.state.confirmed && (
-                        <React.Fragment>
-                            <Grid item xs={12}>
+                        <Grid direction="column" container spacing={3} justify="center" alignItems="center">
+                            <Grid item>
                                 <Typography gutterBottom align="center" variant="h5">
                                     Your account is confirmed.
                                 </Typography>
-                                <Typography gutterBottom align="center" variant="h5">
+                                <Typography gutterBottom align="center" variant="subtitle1">
                                     Click below to get started.
                                 </Typography>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item>
                                 <Button
                                     color="primary"
                                     variant="contained"
@@ -113,19 +117,19 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                                     Sign in
                                 </Button>
                             </Grid>
-                        </React.Fragment>
+                        </Grid>
                     )}
                     {!this.state.isRequesting && !this.state.confirmed && (
-                        <React.Fragment>
+                        <Grid container spacing={3} justify="center" alignItems="center">
                             <Grid item xs={12}>
                                 <Typography gutterBottom align="center" variant="h5">
                                     Failed to confirm the account.
                                 </Typography>
-                                <Typography align="center" variant="h5">
+                                <Typography align="center" variant="subtitle1">
                                     The account may already be active or the verification key may be incorrect.
                                 </Typography>
                             </Grid>
-                        </React.Fragment>
+                        </Grid>
                     )}
                 </Grid>
             </div>

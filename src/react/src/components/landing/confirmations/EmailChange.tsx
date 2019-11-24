@@ -39,7 +39,6 @@ interface EmailChangeState {
     serverError: string;
     domain: string;
     success: boolean;
-    isRequesting: boolean;
 }
 
 class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
@@ -51,7 +50,6 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
         serverError: '',
         domain: '',
         success: false,
-        isRequesting: true,
     };
 
     getTokenFromParams(): string {
@@ -94,10 +92,12 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                             const userId = this.getUserIdFromParams();
                             userService.changeEmail(userId, values).then(v => {
                                 if (v.is_error) {
-                                    this.setState({ isRequesting: false, serverError: v.error_content.errors[0] });
+                                    formikBag.setSubmitting(false);
+                                    this.setState({ success: false, serverError: v.error_content.errors[0] });
                                 } else {
                                     setTimeout(() => {
-                                        this.setState({ success: true, isRequesting: false });
+                                        formikBag.setSubmitting(false);
+                                        this.setState({ success: true });
                                     }, 350);
                                 }
                             });
@@ -111,23 +111,29 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                                         <Typography align="center" variant="h5">
                                             Change Email
                                         </Typography>
+                                        <Typography align="center" variant="subtitle1">
+                                            To change your email, enter your current email.
+                                        </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormikTextField
-                                            name="newPassword"
-                                            label="New Password"
+                                            name="email"
+                                            label="Current Email"
                                             value={props.values.email}
                                             errorText={props.errors.email}
                                             touched={props.touched.email}
                                             onChange={props.handleChange}
                                             onBlur={props.handleBlur}
                                             autoComplete="off"
-                                            type="password"
                                             required
                                         />
                                     </Grid>
                                 </Grid>
-                                {this.state.serverError && <Typography color="error">{this.state.serverError}</Typography>}
+                                {this.state.serverError && (
+                                    <Typography align="center" color="error">
+                                        {this.state.serverError}
+                                    </Typography>
+                                )}
                                 <div className={classes.flexButtonContainer}>
                                     <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
                                         Change Email
@@ -137,16 +143,16 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                         )}
                     </Formik>
                 ) : (
-                    <React.Fragment>
-                        <Grid item xs={12}>
+                    <Grid direction="column" container spacing={3} justify="center" alignItems="center">
+                        <Grid item>
                             <Typography gutterBottom align="center" variant="h5">
                                 Your email has been successfully changed.
                             </Typography>
-                            <Typography gutterBottom align="center" variant="h5">
+                            <Typography gutterBottom align="center" variant="subtitle1">
                                 Click below to sign in using your new email.
                             </Typography>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item>
                             <Button
                                 color="primary"
                                 variant="contained"
@@ -159,7 +165,7 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                                 Sign in
                             </Button>
                         </Grid>
-                    </React.Fragment>
+                    </Grid>
                 )}
             </div>
         );

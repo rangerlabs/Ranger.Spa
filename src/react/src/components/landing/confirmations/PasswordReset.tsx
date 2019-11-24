@@ -39,7 +39,7 @@ interface PasswordResetProps extends WithStyles<typeof styles> {
 interface PasswordResetState {
     domain: string;
     success: boolean;
-    isRequesting: boolean;
+    serverError: boolean;
 }
 
 class PasswordReset extends React.Component<PasswordResetProps, PasswordResetState> {
@@ -59,7 +59,7 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
     state: PasswordResetState = {
         domain: '',
         success: false,
-        isRequesting: true,
+        serverError: false,
     };
 
     getTokenFromParams(): string {
@@ -101,16 +101,17 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
                         }
                         onSubmit={(values: IPasswordResetModel, formikBag: FormikBag<FormikProps<IPasswordResetModel>, IPasswordResetModel>) => {
                             const userId = this.getUserIdFromParams();
-                            userService
-                                .resetPassword(userId, values)
-                                .then(v => {
+                            userService.resetPassword(userId, values).then(v => {
+                                if (v.is_error) {
+                                    formikBag.setSubmitting(false);
+                                    this.setState({ serverError: true });
+                                } else {
                                     setTimeout(() => {
-                                        this.setState({ success: v, isRequesting: false });
+                                        formikBag.setSubmitting(false);
+                                        this.setState({ success: true });
                                     }, 350);
-                                })
-                                .catch(r => {
-                                    this.setState({ isRequesting: false });
-                                });
+                                }
+                            });
                         }}
                         validationSchema={this.validationSchema}
                     >
@@ -151,6 +152,16 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
                                         />
                                     </Grid>
                                 </Grid>
+                                {this.state.serverError && (
+                                    <React.Fragment>
+                                        <Typography align="center" color="error">
+                                            An error occurred resetting your password.
+                                        </Typography>
+                                        <Typography align="center" color="error">
+                                            The reset link may have expired.
+                                        </Typography>
+                                    </React.Fragment>
+                                )}
                                 <div className={classes.flexButtonContainer}>
                                     <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
                                         Reset Password
@@ -160,29 +171,31 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
                         )}
                     </Formik>
                 ) : (
-                    <React.Fragment>
-                        <Grid item xs={12}>
+                    <Grid direction="column" container spacing={3} justify="center" alignItems="center">
+                        <Grid item>
                             <Typography gutterBottom align="center" variant="h5">
                                 Your password has been successfully changed.
                             </Typography>
-                            <Typography gutterBottom align="center" variant="h5">
+                            <Typography gutterBottom align="center" variant="subtitle1">
                                 Click below to sign in using your new password.
                             </Typography>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button
-                                color="primary"
-                                variant="contained"
-                                onClick={() => {
-                                    this.state.domain
-                                        ? window.location.assign(`https://${this.state.domain}.${SPA_HOST}${RoutePaths.Login}`)
-                                        : this.props.push(RoutePaths.Landing);
-                                }}
-                            >
-                                Sign in
-                            </Button>
+                        <Grid item>
+                            <div className={classes.flexButtonContainer}>
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    onClick={() => {
+                                        this.state.domain
+                                            ? window.location.assign(`https://${this.state.domain}.${SPA_HOST}${RoutePaths.Login}`)
+                                            : this.props.push(RoutePaths.Landing);
+                                    }}
+                                >
+                                    Sign in
+                                </Button>
+                            </div>
                         </Grid>
-                    </React.Fragment>
+                    </Grid>
                 )}
             </div>
         );

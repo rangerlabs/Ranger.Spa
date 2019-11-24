@@ -10,6 +10,7 @@ const styles = (theme: Theme) =>
                 textAlign: 'left',
             },
             textAlign: 'center',
+            color: theme.palette.common.black,
         },
         gridHeight: {
             height: '100%',
@@ -60,9 +61,4 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
     }
 }
 
-export default withStyles(styles)(
-    connect(
-        null,
-        { push }
-    )(OverviewParallaxContentLayer)
-);
+export default withStyles(styles)(connect(null, { push })(OverviewParallaxContentLayer));

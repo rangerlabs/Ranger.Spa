@@ -41,10 +41,28 @@ const theme = responsiveFontSizes(
         typography: {
             fontFamily: "'Lato', sans-serif",
             fontSize: 16,
-            fontWeightLight: 100,
-            fontWeightRegular: 300,
-            fontWeightMedium: 400,
-            fontWeightBold: 400,
+            fontWeightLight: 300,
+            fontWeightRegular: 400,
+            fontWeightMedium: 700,
+            fontWeightBold: 900,
+            h6: {
+                color: Constants.COLORS.HEADER_COLOR,
+            },
+            h5: {
+                color: Constants.COLORS.HEADER_COLOR,
+            },
+            h4: {
+                color: Constants.COLORS.HEADER_COLOR,
+            },
+            h3: {
+                color: Constants.COLORS.HEADER_COLOR,
+            },
+            h2: {
+                color: Constants.COLORS.HEADER_COLOR,
+            },
+            h1: {
+                color: Constants.COLORS.HEADER_COLOR,
+            },
         },
     })
 );
