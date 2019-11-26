@@ -172,7 +172,7 @@ class Menu extends React.Component<MenuProps> {
                     </ListItemIcon>
                     <ListItemText primary="Projects" />
                 </ListItem>
-                {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.ADMIN) && (
+                {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.ADMIN.toUpperCase()) && (
                     <React.Fragment>
                         <ListItem id="administration" button onClick={() => this.handleMenuToggle('administration')}>
                             <ListItemIcon>
@@ -192,7 +192,9 @@ class Menu extends React.Component<MenuProps> {
                                     <ListItemText primary="Users" />
                                 </ListItem>
 
-                                {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.OWNER) && (
+                                {(this.props.user && (this.props.user.profile as UserProfile)).role.find(
+                                    r => r.toUpperCase() === RoleEnum.OWNER.toUpperCase()
+                                ) && (
                                     <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
                                         <ListItemIcon>
                                             <Domain />
@@ -265,9 +267,4 @@ class Menu extends React.Component<MenuProps> {
     }
 }
 
-export default withStyles(styles, { withTheme: true })(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(Menu)
-);
+export default withStyles(styles, { withTheme: true })(connect(mapStateToProps, mapDispatchToProps)(Menu));

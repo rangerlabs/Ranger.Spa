@@ -50,7 +50,7 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
-                    {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.ADMIN) ? (
+                    {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.ADMIN.toUpperCase()) ? (
                         <Grid container direction="column" alignItems="center" justify="center">
                             <Grid item xs={12}>
                                 {this.props.welcomeMessage && (
@@ -101,7 +101,4 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(FirstProjectRequired));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(FirstProjectRequired));

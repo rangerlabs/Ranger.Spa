@@ -1,8 +1,8 @@
 export enum RoleEnum {
-    USER = 'USER',
-    ADMIN = 'ADMIN',
-    OWNER = 'OWNER',
-    TENANT_OWNER = 'TENANT_OWNER',
+    USER = 'User',
+    ADMIN = 'Admin',
+    OWNER = 'Owner',
+    TENANT_OWNER = 'TenantOwner',
 }
 
 export function GetRole(roles: string[]) {
@@ -15,4 +15,24 @@ export function GetRole(roles: string[]) {
     } else {
         return RoleEnum.USER;
     }
+}
+
+export function GetCascadedRoles(role: RoleEnum): RoleEnum[] {
+    var roles = new Array<RoleEnum>();
+    if (role === RoleEnum.TENANT_OWNER) {
+        roles.push(RoleEnum.TENANT_OWNER);
+        roles.push(RoleEnum.OWNER);
+        roles.push(RoleEnum.ADMIN);
+        roles.push(RoleEnum.USER);
+    } else if (role === RoleEnum.OWNER) {
+        roles.push(RoleEnum.OWNER);
+        roles.push(RoleEnum.ADMIN);
+        roles.push(RoleEnum.USER);
+    } else if (role === RoleEnum.ADMIN) {
+        roles.push(RoleEnum.ADMIN);
+        roles.push(RoleEnum.USER);
+    } else {
+        roles.push(RoleEnum.USER);
+    }
+    return roles;
 }

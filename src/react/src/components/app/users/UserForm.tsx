@@ -8,8 +8,6 @@ import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, 
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikSelect from '../../form/FormikSelect';
-import FormikPrimaryButton from '../../form/FormikPrimaryButton';
-import FormikUpdateButton from '../../form/FormikUpdateButton';
 import FormikCancelButton from '../../form/FormikCancelButton';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
 import { IRestResponse } from '../../../services/RestUtilities';
@@ -25,8 +23,10 @@ import populateUsersHOC from '../hocs/PopulateUsersHOC';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import FormikAutocompleteMultiselect from '../../form/FormikAutocompleteMulitselect';
 import IProject from '../../../models/app/IProject';
-import { RoleEnum } from '../../../models/RoleEnum';
+import { RoleEnum, GetRole, GetCascadedRoles } from '../../../models/RoleEnum';
 import { StatusEnum } from '../../../models/StatusEnum';
+import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+import FormikAutocompleteLabelMultiselect from '../../form/FormikAutocompleteLabelMultiselect';
 
 const userService = new UserService();
 
@@ -68,6 +68,7 @@ type UserFormState = {
     serverErrors: string[];
     initialUser: IUser;
     selectedProjects: IProject[];
+    success: boolean;
 };
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -94,6 +95,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         serverErrors: undefined as string[],
         initialUser: undefined as IUser,
         selectedProjects: undefined as IProject[],
+        success: false,
     };
 
     deleteUser(props: FormikProps<Partial<IUser>>, enqueueSnackbar: any) {
@@ -108,10 +110,11 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     UNSAFE_componentWillMount() {
         this.setState((state, props) => ({
             assignableRoles: this.getAssignableRolesFromCurrentUser(props.user),
+            initialUser: this.getInitialUserByEmail(props.users),
         }));
     }
 
-    getUserByEmail(users: IUser[]): IUser {
+    getInitialUserByEmail(users: IUser[]): IUser {
         let result = undefined;
         const params = queryString.parse(window.location.search);
         const email = params['email'] as string;
@@ -129,11 +132,10 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     getAssignableRolesFromCurrentUser(user: User): FormikSelectValues {
         const roleArray: FormikSelectValues = [];
 
-        //TODO: Sort these appropriately
-        var usersRoles = (user.profile.role as string[]).reverse();
-        usersRoles.forEach(value => {
-            if (value != RoleEnum.TENANT_OWNER)
-            roleArray.push({ value: value, label: value });
+        var role = GetRole(user.profile.role as string[]);
+        var cascadedRoles = GetCascadedRoles(role).reverse();
+        cascadedRoles.forEach(value => {
+            if (value != RoleEnum.TENANT_OWNER) roleArray.push({ value: value, label: value });
         });
         return roleArray;
     }
@@ -161,7 +163,11 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         role: Yup.mixed().required('Role is required'),
     });
 
-    roles = [{ value: 'User', label: 'User' }, { value: 'Admin', label: 'Admin' }, { value: 'Owner', label: 'Owner' }];
+    roles = [
+        { value: 'User', label: 'User' },
+        { value: 'Admin', label: 'Admin' },
+        { value: 'Owner', label: 'Owner' },
+    ];
 
     render() {
         const { classes, users, enqueueSnackbar, dispatchAddUser } = this.props;
@@ -170,19 +176,16 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                 <CssBaseline />
                 <main className={classes.layout}>
                     <Paper elevation={0}>
-                        <Typography variant="h5" gutterBottom>
-                            {this.getUserByEmail(users) ? 'Edit user' : 'Create user'}
+                        <Typography align="center" variant="h5" gutterBottom>
+                            {this.state.initialUser ? 'Edit User' : 'Create User'}
                         </Typography>
                         <Formik
                             enableReinitialize
                             initialValues={
-                                this.getUserByEmail(users)
-                                    ? this.getUserByEmail(users)
-                                    : { email: '', firstName: '', lastName: '', role: '', authorizedProjects: [] }
+                                this.state.initialUser ? this.state.initialUser : { email: '', firstName: '', lastName: '', role: '', authorizedProjects: [] }
                             }
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
                                 console.log(values);
-                                this.setState({ serverErrors: undefined });
                                 const newUser = {
                                     email: values.email,
                                     firstName: values.firstName,
@@ -190,23 +193,43 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                     role: values.role,
                                 } as IUser;
                                 newUser.authorizedProjects = this.state.selectedProjects ? this.state.selectedProjects.map(p => p.projectId) : undefined;
-                                userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
-                                    setTimeout(() => {
+                                if (this.state.initialUser) {
+                                    userService.putUser(newUser.email, newUser).then((response: IRestResponse<IUser>) => {
                                         if (response.is_error) {
                                             const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                            enqueueSnackbar('Error creating user', { variant: 'error' });
+                                            enqueueSnackbar('Error updating user.', { variant: 'error' });
                                             formikBag.setErrors(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                             formikBag.resetForm(newUser);
                                         } else {
                                             newUser.status = StatusEnum.PENDING;
-                                            enqueueSnackbar('Create user request accepted', { variant: 'info' });
+                                            enqueueSnackbar('Update user request accepted.', { variant: 'info' });
                                             dispatchAddUser(newUser);
+                                            formikBag.setSubmitting(false);
+                                            this.setState({ success: true });
                                             this.props.push(RoutePaths.Users);
                                         }
-                                    }, 2000);
-                                });
+                                    });
+                                } else {
+                                    userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
+                                        if (response.is_error) {
+                                            const { errors: serverErrors, ...formikErrors } = response.error_content;
+                                            enqueueSnackbar('Error creating user.', { variant: 'error' });
+                                            formikBag.setErrors(formikErrors as FormikErrors<IUser>);
+                                            this.setState({ serverErrors: serverErrors });
+                                            formikBag.setSubmitting(false);
+                                            formikBag.resetForm(newUser);
+                                        } else {
+                                            newUser.status = StatusEnum.PENDING;
+                                            enqueueSnackbar('Create user request accepted.', { variant: 'info' });
+                                            dispatchAddUser(newUser);
+                                            formikBag.setSubmitting(false);
+                                            this.setState({ success: true });
+                                            this.props.push(RoutePaths.Users);
+                                        }
+                                    });
+                                }
                             }}
                             validationSchema={this.validationSchema}
                         >
@@ -269,17 +292,18 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            {props.values.role.toUpperCase() === RoleEnum.OWNER || props.values.role.toUpperCase() == RoleEnum.ADMIN ? (
-                                                <TextField label="Grant permission to projects" value="All Projects" fullWidth disabled />
-                                            ) : (
-                                                <FormikAutocompleteMultiselect
-                                                    name="authorizedProjects"
-                                                    label="Grant permission to projects"
-                                                    placeholder=""
-                                                    options={this.props.projects}
-                                                    getOptionLabel={(project: IProject) => project.name}
-                                                    onChange={(values: IProject[]) => this.setState({ selectedProjects: values })}
-                                                />
+                                            <FormikAutocompleteLabelMultiselect
+                                                name="authorizedProjects"
+                                                label="Authorized projects"
+                                                placeholder=""
+                                                enabled={props.values.role.toUpperCase() === RoleEnum.USER.toUpperCase()}
+                                                options={this.props.projects}
+                                                getOptionLabel={(project: IProject) => project.name}
+                                                defaultValue={this.state.initialUser ? this.state.initialUser.authorizedProjects : []}
+                                                onChange={(values: IProject[]) => this.setState({ selectedProjects: values })}
+                                            />
+                                            {props.values.role.toUpperCase() !== RoleEnum.USER.toUpperCase() && (
+                                                <Typography variant="subtitle1">Admins and Owners have access to all projects.</Typography>
                                             )}
                                         </Grid>
                                         {this.state.serverErrors && (
@@ -315,9 +339,18 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             }}
                                         />
                                         {props.initialValues.email === '' ? (
-                                            <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
+                                            <FormikSynchronousButton
+                                                isValid={props.isValid}
+                                                isSubmitting={props.isSubmitting}
+                                                isSuccess={this.state.success}
+                                                variant="contained"
+                                            >
+                                                Create
+                                            </FormikSynchronousButton>
                                         ) : (
-                                            <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
+                                            <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
+                                                Update
+                                            </FormikSynchronousButton>
                                         )}
                                     </div>
                                 </form>
@@ -330,7 +363,4 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(populateProjectsHOC(populateUsersHOC(withSnackbar(UserForm)))));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateProjectsHOC(populateUsersHOC(withSnackbar(UserForm)))));

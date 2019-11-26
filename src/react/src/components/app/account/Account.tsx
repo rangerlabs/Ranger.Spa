@@ -101,7 +101,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                 <CssBaseline />
                 <main className={classes.layout}>
                     <Paper elevation={0}>
-                        <Typography variant="h5" gutterBottom>
+                        <Typography align="center" variant="h5" gutterBottom>
                             Your Account
                         </Typography>
                         <Formik
@@ -246,7 +246,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             }}
                                         />
                                         {props.initialValues.email === '' ? (
-                                            <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
+                                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
                                         ) : (
                                             <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
                                         )}

@@ -1,6 +1,5 @@
 import RestUtilities, { IRestResponse } from './RestUtilities';
 import IUser from '../models/app/IUser';
-import Logger from './Logger/Logger';
 import IConfirmModel from '../models/landing/IConfirmModel';
 import IResetPasswordModel from '../models/landing/IPasswordResetModel';
 import IChangeEmailModel from '../models/landing/IChangeEmailModel';
@@ -16,6 +15,10 @@ export default class UserService {
 
     async postUser(user: IUser): Promise<IRestResponse<IUser>> {
         return RestUtilities.post<IUser>('/user', user);
+    }
+
+    async putUser(email: string, updatedUser: IUser): Promise<IRestResponse<IUser>> {
+        return RestUtilities.put<IUser>(`/user/${email}`, updatedUser);
     }
 
     async confirm(email: string, confirmModel: IConfirmModel): Promise<boolean> {

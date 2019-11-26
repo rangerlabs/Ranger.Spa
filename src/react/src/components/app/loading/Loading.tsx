@@ -42,7 +42,7 @@ class Loading extends React.Component<LoadingProps, LoadingState> {
     };
     warningTimeout = 4 * 1000;
     warningTimeoutMessage = "This is taking longer than expected but we haven't given up yet.";
-    errorTimeout = 6 * 1000;
+    errorTimeout = 6.7 * 1000;
     errorTimeoutMessage = "Hold on, we're taking you home.";
     redirectTimeout = 1.3 * 1000;
     warningTimer: number = undefined;
@@ -84,7 +84,4 @@ class Loading extends React.Component<LoadingProps, LoadingState> {
     }
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(withStyles(styles)(Loading));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Loading));

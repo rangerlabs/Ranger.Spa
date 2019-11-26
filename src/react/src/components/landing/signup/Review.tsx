@@ -135,7 +135,7 @@ class Review extends React.Component<ReviewProps> {
                             </Grid>
                             <div className={buttonsClassName}>
                                 <FormikBackButton onClick={this.props.handleBack} />
-                                <FormikPrimaryButton denseMargin isValid={true} isSubmitting={props.isSubmitting} variant="contained" />
+                                <FormikPrimaryButton isValid={true} isSubmitting={props.isSubmitting} variant="contained" />
                             </div>
                         </form>
                     )}

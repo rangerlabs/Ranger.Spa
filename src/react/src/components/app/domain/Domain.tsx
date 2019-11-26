@@ -71,7 +71,7 @@ class Domain extends React.Component<IDomainProps, DomainState> {
                 <CssBaseline />
                 <main className={classes.layout}>
                     <Paper elevation={0}>
-                        <Typography variant="h5" gutterBottom>
+                        <Typography align="center" variant="h5" gutterBottom>
                             Edit Domain
                         </Typography>
                         <Formik enableReinitialize initialValues={{}} onSubmit={() => {}} validationSchema={{}}>

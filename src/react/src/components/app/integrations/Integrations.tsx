@@ -118,7 +118,4 @@ class Integrations extends React.Component<IntegrationsProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(requireProjectSelection(populateIntegrationsHOC(Integrations)));
+export default connect(mapStateToProps, mapDispatchToProps)(requireProjectSelection(populateIntegrationsHOC(Integrations)));
