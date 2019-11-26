@@ -1,9 +1,9 @@
 import React, { ChangeEvent } from 'react';
 import { useTheme, fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Popper from '@material-ui/core/Popper';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 import InputBase from '@material-ui/core/InputBase';
-import { ClickAwayListener, Button, Checkbox, Fade, Typography } from '@material-ui/core';
+import { ClickAwayListener, Button, Checkbox, Fade, Typography, ListItem, ListItemText, List, ListItemIcon } from '@material-ui/core';
 import CheckboxMarked from 'mdi-material-ui/CheckboxMarked';
 import CheckboxBlankOutline from 'mdi-material-ui/CheckboxBlankOutline';
 
@@ -66,6 +66,13 @@ const useStyles = makeStyles((theme: Theme) =>
         checkbox: {
             marginRight: theme.spacing(1),
         },
+        listItem: {
+            border: '1px solid rgba(0, 0, 0, 0.23)',
+            borderRadius: '4px',
+            paddingTop: theme.spacing(0.5),
+            paddingBottom: theme.spacing(0.5),
+            marginBottom: '3px',
+        },
     })
 );
 
@@ -83,22 +90,25 @@ interface FormikAutocompleteLabelMultiselectProps {
 export default function FormikAutocompleteLabelMultiselect(props: FormikAutocompleteLabelMultiselectProps) {
     const classes = useStyles(props);
     const [anchorEl] = React.useState<React.RefObject<null | HTMLElement>>(React.createRef());
-    const [popperRef] = React.useState<React.RefObject<any>>(React.createRef());
+    const [autoCompleteRef] = React.useState<React.RefObject<null | HTMLElement>>(React.createRef());
+    const [open, setOpen] = React.useState<boolean>(false);
     const [value, setValue] = React.useState<any[]>(props.defaultValue ? props.defaultValue : []);
     const [pendingValue, setPendingValue] = React.useState<any[]>([]);
-    const [open, setOpen] = React.useState<boolean>(false);
+    const filterOptions = createFilterOptions({
+        stringify: props.getOptionLabel,
+        trim: true,
+    });
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setOpen(!open);
-        if (open) {
-            setPendingValue(value);
-        }
+    const handleClick = (event: any) => {
+        setPendingValue(value);
+        setOpen(true);
     };
 
     const handleClose = (event: any) => {
         setValue(pendingValue);
         setOpen(false);
     };
+
     const id = open ? 'select' : undefined;
     const icon = <CheckboxBlankOutline fontSize="small" />;
     const checkedIcon = <CheckboxMarked fontSize="small" />;
@@ -116,15 +126,18 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                 >
                     {props.label}
                 </Button>
-                {value.map((label: any) => (
-                    <Typography variant="button" key={label.name}>
-                        {label.name}
-                    </Typography>
-                ))}
+                {props.enabled && (
+                    <List>
+                        {value.map((label: any) => (
+                            <ListItem key={label.name} className={classes.listItem}>
+                                <ListItemText primary={label.name} />
+                            </ListItem>
+                        ))}
+                    </List>
+                )}
             </div>
             <Popper
                 id={id}
-                popperRef={popperRef}
                 open={open}
                 anchorEl={anchorEl.current}
                 className={classes.popper}
@@ -132,45 +145,45 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                 placement="bottom"
                 disablePortal
             >
-                <ClickAwayListener onClickAway={handleClose}>
-                    <Autocomplete
-                        open
-                        multiple
-                        classes={{
-                            option: classes.option,
-                            paper: classes.paper,
-                            popperDisablePortal: classes.popperDisablePortal,
-                        }}
-                        onClose={handleClose}
-                        value={pendingValue}
-                        onChange={(event: ChangeEvent<{}>, value: any) => {
-                            setPendingValue(value);
-                            props.onChange(value);
-                        }}
-                        disableCloseOnSelect
-                        disablePortal
-                        renderTags={() => null}
-                        noOptionsText="No projects available"
-                        renderOption={(option: any, { selected }) => (
-                            <React.Fragment>
-                                <Checkbox color="primary" icon={icon} checkedIcon={checkedIcon} className={classes.checkbox} checked={selected} />{' '}
-                                <Typography variant="subtitle1">{option.name}</Typography>
-                            </React.Fragment>
-                        )}
-                        options={props.options.sort((a, b) => {
-                            // Display the selected labels first.
-                            let ai = value.indexOf(a);
-                            ai = ai === -1 ? value.length + props.options.indexOf(a) : ai;
-                            let bi = value.indexOf(b);
-                            bi = bi === -1 ? value.length + props.options.indexOf(b) : bi;
-                            return ai - bi;
-                        })}
-                        getOptionLabel={props.getOptionLabel}
-                        renderInput={(params: any) => (
-                            <InputBase name={props.name} ref={params.InputProps.ref} inputProps={params.inputProps} autoFocus className={classes.inputBase} />
-                        )}
-                    />
-                </ClickAwayListener>
+                <Autocomplete
+                    innerRef={autoCompleteRef}
+                    open
+                    multiple
+                    classes={{
+                        option: classes.option,
+                        paper: classes.paper,
+                        popperDisablePortal: classes.popperDisablePortal,
+                    }}
+                    value={pendingValue}
+                    onChange={(event: ChangeEvent<{}>, value: any) => {
+                        setPendingValue(value);
+                        props.onChange(value);
+                    }}
+                    onClose={handleClose}
+                    filterOptions={filterOptions}
+                    disableCloseOnSelect
+                    disablePortal
+                    renderTags={() => null}
+                    noOptionsText="No projects available"
+                    renderOption={(option: any, { selected }) => (
+                        <React.Fragment>
+                            <Checkbox color="primary" icon={icon} checkedIcon={checkedIcon} className={classes.checkbox} checked={selected} />{' '}
+                            <Typography variant="subtitle1">{option.name}</Typography>
+                        </React.Fragment>
+                    )}
+                    options={props.options.sort((a, b) => {
+                        // Display the selected labels first.
+                        let ai = value.indexOf(a);
+                        ai = ai === -1 ? value.length + props.options.indexOf(a) : ai;
+                        let bi = value.indexOf(b);
+                        bi = bi === -1 ? value.length + props.options.indexOf(b) : bi;
+                        return ai - bi;
+                    })}
+                    getOptionLabel={props.getOptionLabel}
+                    renderInput={(params: any) => (
+                        <InputBase name={props.name} ref={params.InputProps.ref} inputProps={params.inputProps} autoFocus className={classes.inputBase} />
+                    )}
+                />
             </Popper>
         </React.Fragment>
     );
