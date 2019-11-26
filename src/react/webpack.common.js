@@ -10,7 +10,7 @@ module.exports = {
         main: path.join(__dirname, 'boot.tsx'),
     },
     output: {
-        path: path.join(__dirname, '../Ranger.Spa/wwwroot'),
+        path: path.join(__dirname, '../../published/wwwroot'),
         filename: '[name].[hash].js',
         publicPath: '/',
     },
@@ -21,19 +21,19 @@ module.exports = {
             before: {
                 test: [
                     {
-                        folder: 'src/Ranger.Spa/wwwroot',
+                        folder: './published/wwwroot',
                         method: filePath => {
                             return new RegExp(/main.*.[js|gz]$/, 'm').test(filePath);
                         },
                     },
                     {
-                        folder: 'src/Ranger.Spa/wwwroot',
+                        folder: './published/wwwroot',
                         method: filePath => {
                             return new RegExp(/index.html$/, 'm').test(filePath);
                         },
                     },
                     {
-                        folder: 'src/Ranger.Spa/wwwroot',
+                        folder: './published/wwwroot',
                         method: filePath => {
                             return new RegExp(/\.(jpg|svg)$/, 'm').test(filePath);
                         },

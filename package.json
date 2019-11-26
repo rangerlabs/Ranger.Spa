@@ -7,7 +7,7 @@
         "start": "cd ./src/Ranger.Spa && cross-env NODE_PATH=../../node_modules/ ASPNETCORE_ENVIRONMENT=Development dotnet run",
         "test": "cd ./src/react && npx jest --config=./jest.config.js",
         "build:dev": "npm run copy:oidc-client && dotnet build ./src/Ranger.Spa",
-        "copy-oidc-client": "cp -r ./node_modules/oidc-client/dist/oidc-client.min.js ./src/Ranger.Spa/wwwroot/js/oidc-client.min.js"
+        "copy-oidc-client": "cp -r ./node_modules/oidc-client/dist/oidc-client.min.js ./published/wwwroot/js/oidc-client.min.js"
     },
     "repository": {
         "type": "git",
