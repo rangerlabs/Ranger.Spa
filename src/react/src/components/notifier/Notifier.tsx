@@ -10,7 +10,7 @@ import RegistrationHandler from './pusherHandlers/RegistrationHandler';
 import { StatusEnum } from '../../models/StatusEnum';
 import { DomainState } from '../../redux/actions/DomainActions';
 import { User } from 'oidc-client';
-import UserCreatedHandler from './pusherHandlers/UserCreatedHandler';
+import GenericDomainUserHandler from './pusherHandlers/GenericDomainUserHandler';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -97,7 +97,7 @@ class Notifier extends React.Component<NotifierProps> {
                 };
 
                 if (!this.domainUserChannel) {
-                    this.subscribeDomainUserChannel(stateDomain, oidcState.user);
+                    this.subscribeDomainUserChannels(stateDomain, oidcState.user);
                 }
             }
         });
@@ -111,10 +111,11 @@ class Notifier extends React.Component<NotifierProps> {
         return stateDomain && stateDomain.domain && stateDomain.status === StatusEnum.PENDING;
     }
 
-    private subscribeDomainUserChannel(stateDomain: DomainState, user: User) {
+    private subscribeDomainUserChannels(stateDomain: DomainState, user: User) {
         const channel = `private-${stateDomain.domain}-${user.profile.email}`;
         this.domainUserChannel = this.pusher.subscribe(channel);
-        this.domainUserChannel.bind('user-created', UserCreatedHandler);
+        this.domainUserChannel.bind('user-created', GenericDomainUserHandler);
+        this.domainUserChannel.bind('user-updated', GenericDomainUserHandler);
     }
 
     private subscribeTenantOnboardChannel(stateDomain: DomainState) {
@@ -136,9 +137,4 @@ const mapStateToProps = (store: ApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({ removeSnackbar }, dispatch);
 
-export default withSnackbar(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(Notifier)
-);
+export default withSnackbar(connect(mapStateToProps, mapDispatchToProps)(Notifier));
