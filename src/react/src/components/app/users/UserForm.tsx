@@ -90,6 +90,7 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 class UserForm extends React.Component<IUserFormProps, UserFormState> {
+    formikRef: React.RefObject<Formik> = React.createRef();
     state = {
         assignableRoles: [] as FormikSelectValues,
         serverErrors: undefined as string[],
@@ -180,6 +181,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                             {this.state.initialUser ? 'Edit User' : 'Create User'}
                         </Typography>
                         <Formik
+                            ref={this.formikRef}
                             enableReinitialize
                             initialValues={
                                 this.state.initialUser ? this.state.initialUser : { email: '', firstName: '', lastName: '', role: '', authorizedProjects: [] }
@@ -300,7 +302,10 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 options={this.props.projects}
                                                 getOptionLabel={(project: IProject) => project.name}
                                                 defaultValue={this.state.initialUser ? this.state.initialUser.authorizedProjects : []}
-                                                onChange={(values: IProject[]) => this.setState({ selectedProjects: values })}
+                                                onChange={(event: React.ChangeEvent<{}>, values: IProject[]) => {
+                                                    this.setState({ selectedProjects: values });
+                                                    props.handleChange(event);
+                                                }}
                                             />
                                             {props.values.role.toUpperCase() !== RoleEnum.USER.toUpperCase() && (
                                                 <Typography variant="subtitle1">Admins and Owners have access to all projects.</Typography>
