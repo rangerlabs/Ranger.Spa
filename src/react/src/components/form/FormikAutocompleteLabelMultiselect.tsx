@@ -83,7 +83,7 @@ interface FormikAutocompleteLabelMultiselectProps {
     placeholder: string;
     enabled: boolean;
     defaultValue?: any[];
-    onChange: (values: any[]) => void;
+    onChange: (event: ChangeEvent<{}>, values: any[]) => void;
     getOptionLabel: (option: any) => string;
 }
 
@@ -157,7 +157,7 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                     value={pendingValue}
                     onChange={(event: ChangeEvent<{}>, value: any) => {
                         setPendingValue(value);
-                        props.onChange(value);
+                        props.onChange(event, value);
                     }}
                     onClose={handleClose}
                     filterOptions={filterOptions}
