@@ -16,7 +16,7 @@ import { ApplicationState } from '../../../stores';
 import { User } from 'oidc-client';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
-import { addUser, removeUser } from '../../../redux/actions/UserActions';
+import { addUser, removeUser, updateUser } from '../../../redux/actions/UserActions';
 import { UserProfile } from '../../../models/UserProfile';
 import * as queryString from 'query-string';
 import populateUsersHOC from '../hocs/PopulateUsersHOC';
@@ -27,6 +27,7 @@ import { RoleEnum, GetRole, GetCascadedRoles } from '../../../models/RoleEnum';
 import { StatusEnum } from '../../../models/StatusEnum';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import FormikAutocompleteLabelMultiselect from '../../form/FormikAutocompleteLabelMultiselect';
+const hash = require('object-hash');
 
 const userService = new UserService();
 
@@ -56,6 +57,7 @@ const styles = (theme: Theme) =>
     });
 interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     dispatchAddUser: (user: IUser) => void;
+    dispatchUpdateUser: (user: IUser) => void;
     dispatchRemoveUser: (name: string) => void;
     users: IUser[];
     user: User;
@@ -67,7 +69,7 @@ type UserFormState = {
     assignableRoles: FormikSelectValues;
     serverErrors: string[];
     initialUser: IUser;
-    selectedProjects: IProject[];
+    selectedProjects: string[];
     success: boolean;
 };
 
@@ -80,6 +82,10 @@ const mapDispatchToProps = (dispatch: any) => {
         push: (path: string) => dispatch(push(path)),
         dispatchAddUser: (user: IUser) => {
             const action = addUser(user);
+            dispatch(action);
+        },
+        dispatchUpdateUser: (user: IUser) => {
+            const action = updateUser(user);
             dispatch(action);
         },
         dispatchRemoveUser: (email: string) => {
@@ -95,7 +101,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         assignableRoles: [] as FormikSelectValues,
         serverErrors: undefined as string[],
         initialUser: undefined as IUser,
-        selectedProjects: undefined as IProject[],
+        selectedProjects: [] as string[],
         success: false,
     };
 
@@ -130,6 +136,15 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         return result;
     }
 
+    getProjectNamesByProjectIds(projectIds: string[]) {
+        return this.props.projects
+            .filter(p => projectIds.includes(p.projectId))
+            .map(p => p.name)
+            .sort();
+    }
+    getProjectIdsByProjectNames(projectNames: string[]) {
+        return this.props.projects.filter(p => projectNames.includes(p.name)).map(p => p.projectId);
+    }
     getAssignableRolesFromCurrentUser(user: User): FormikSelectValues {
         const roleArray: FormikSelectValues = [];
 
@@ -154,6 +169,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
             .min(1, 'Must be at least 1 character long')
             .max(48, 'Max 48 characters')
             .matches(
+                //TODO: FIX THESE REGEX
                 new RegExp("^[a-zA-Z,.'-]{1}[a-zA-Z ,.'-]{1,26}[a-zA-Z,.'-]{1}$"),
                 "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)"
             )
@@ -164,14 +180,8 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         role: Yup.mixed().required('Role is required'),
     });
 
-    roles = [
-        { value: 'User', label: 'User' },
-        { value: 'Admin', label: 'Admin' },
-        { value: 'Owner', label: 'Owner' },
-    ];
-
     render() {
-        const { classes, users, enqueueSnackbar, dispatchAddUser } = this.props;
+        const { classes, users, enqueueSnackbar, dispatchAddUser, dispatchUpdateUser } = this.props;
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -184,7 +194,12 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                             ref={this.formikRef}
                             enableReinitialize
                             initialValues={
-                                this.state.initialUser ? this.state.initialUser : { email: '', firstName: '', lastName: '', role: '', authorizedProjects: [] }
+                                this.state.initialUser
+                                    ? {
+                                          ...this.state.initialUser,
+                                          authorizedProjects: this.getProjectNamesByProjectIds(this.state.initialUser.authorizedProjects),
+                                      }
+                                    : { email: '', firstName: '', lastName: '', role: '', authorizedProjects: [] }
                             }
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
                                 console.log(values);
@@ -193,8 +208,8 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                     firstName: values.firstName,
                                     lastName: values.lastName,
                                     role: values.role,
+                                    authorizedProjects: this.getProjectIdsByProjectNames(values.authorizedProjects),
                                 } as IUser;
-                                newUser.authorizedProjects = this.state.selectedProjects ? this.state.selectedProjects.map(p => p.projectId) : undefined;
                                 if (this.state.initialUser) {
                                     userService.putUser(newUser.email, newUser).then((response: IRestResponse<IUser>) => {
                                         if (response.is_error) {
@@ -207,7 +222,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                         } else {
                                             newUser.status = StatusEnum.PENDING;
                                             enqueueSnackbar('Update user request accepted.', { variant: 'info' });
-                                            dispatchAddUser(newUser);
+                                            dispatchUpdateUser(newUser);
                                             formikBag.setSubmitting(false);
                                             this.setState({ success: true });
                                             this.props.push(RoutePaths.Users);
@@ -249,7 +264,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
                                                 disabled={props.initialValues.firstName === '' ? false : true}
-                                                required
+                                                required={!Boolean(this.state.initialUser)}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -263,7 +278,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
                                                 disabled={props.initialValues.lastName === '' ? false : true}
-                                                required
+                                                required={!Boolean(this.state.initialUser)}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -277,7 +292,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
                                                 disabled={props.initialValues.email === '' ? false : true}
-                                                required
+                                                required={!Boolean(this.state.initialUser)}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -295,16 +310,16 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormikAutocompleteLabelMultiselect
-                                                name="authorizedProjects"
-                                                label="Authorized projects"
+                                                name="authorizedProjects2"
+                                                label="Authorized Projects"
                                                 placeholder=""
                                                 enabled={props.values.role.toUpperCase() === RoleEnum.USER.toUpperCase()}
-                                                options={this.props.projects}
-                                                getOptionLabel={(project: IProject) => project.name}
-                                                defaultValue={this.state.initialUser ? this.state.initialUser.authorizedProjects : []}
-                                                onChange={(event: React.ChangeEvent<{}>, values: IProject[]) => {
-                                                    this.setState({ selectedProjects: values });
-                                                    props.handleChange(event);
+                                                options={this.props.projects.map(p => p.name)}
+                                                defaultValue={
+                                                    this.state.initialUser ? this.getProjectNamesByProjectIds(this.state.initialUser.authorizedProjects) : []
+                                                }
+                                                onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
+                                                    this.formikRef.current.setFieldValue('authorizedProjects', values, true);
                                                 }}
                                             />
                                             {props.values.role.toUpperCase() !== RoleEnum.USER.toUpperCase() && (

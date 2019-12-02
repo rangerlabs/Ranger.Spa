@@ -37,7 +37,7 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
                 geofenceService.getGeofences(this.props.selectedProject.name).then(geofenceResponse => {
                     setTimeout(() => {
                         this.props.setGeofences(geofenceResponse);
-                    }, 350);
+                    }, 250);
                 });
             }
         }
@@ -47,10 +47,7 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
         }
     }
 
-    return connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(populateProjectsHOC(PopulateGeofencesComponent));
+    return connect(mapStateToProps, mapDispatchToProps)(populateProjectsHOC(PopulateGeofencesComponent));
 };
 
 export default populateGeofencesHOC;

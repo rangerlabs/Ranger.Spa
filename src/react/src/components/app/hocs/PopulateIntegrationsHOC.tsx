@@ -36,7 +36,7 @@ const populateIntegrationsHOC = <P extends object>(Component: React.ComponentTyp
                 integrationService.getIntegrations(this.props.selectedProject.name).then(integrationResponse => {
                     setTimeout(() => {
                         this.props.setIntegrations(integrationResponse);
-                    }, 350);
+                    }, 250);
                 });
             }
         }
@@ -46,10 +46,7 @@ const populateIntegrationsHOC = <P extends object>(Component: React.ComponentTyp
         }
     }
 
-    return connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(populateProjectsHOC(PopulateIntegrationsComponent));
+    return connect(mapStateToProps, mapDispatchToProps)(populateProjectsHOC(PopulateIntegrationsComponent));
 };
 
 export default populateIntegrationsHOC;

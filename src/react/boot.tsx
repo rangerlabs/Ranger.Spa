@@ -18,6 +18,7 @@ import { responsiveFontSizes } from '@material-ui/core';
 import { ThemeProvider, StylesProvider } from '@material-ui/styles';
 import { jss, generateClassName } from './src/theme/StylesProviderPropsConfig';
 import Constants from './src/theme/Constants';
+import Notifier from './src/components/notifier/Notifier';
 
 const initialState = {} as ApplicationState;
 ReduxStore.Configure(history, initialState);
@@ -75,6 +76,7 @@ ReactDOM.render(
                     <SnackbarProviderWrapper>
                         <ConnectedRouter history={history}>
                             <App />
+                            <Notifier />
                         </ConnectedRouter>
                     </SnackbarProviderWrapper>
                 </StylesProvider>

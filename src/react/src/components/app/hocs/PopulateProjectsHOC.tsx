@@ -34,7 +34,7 @@ const populateProjectsHOC = <P extends object>(Component: React.ComponentType<P>
                 projectService.getProjects().then(projectResponse => {
                     setTimeout(() => {
                         this.props.setProjects(projectResponse.content);
-                    }, 350);
+                    }, 250);
                 });
             }
         }
@@ -44,10 +44,7 @@ const populateProjectsHOC = <P extends object>(Component: React.ComponentType<P>
         }
     }
 
-    return connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(PopulateProjectsComponent);
+    return connect(mapStateToProps, mapDispatchToProps)(PopulateProjectsComponent);
 };
 
 export default populateProjectsHOC;

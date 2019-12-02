@@ -3,9 +3,10 @@ import { useTheme, fade, makeStyles, Theme, createStyles } from '@material-ui/co
 import Popper from '@material-ui/core/Popper';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 import InputBase from '@material-ui/core/InputBase';
-import { ClickAwayListener, Button, Checkbox, Fade, Typography, ListItem, ListItemText, List, ListItemIcon } from '@material-ui/core';
+import { ClickAwayListener, Button, Checkbox, Fade, Typography, ListItem, ListItemText, List, ListItemIcon, TextField } from '@material-ui/core';
 import CheckboxMarked from 'mdi-material-ui/CheckboxMarked';
 import CheckboxBlankOutline from 'mdi-material-ui/CheckboxBlankOutline';
+import { FieldArray } from 'formik';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -24,7 +25,6 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '100%',
             borderBottom: '1px solid #dfe2e5',
             '& input': {
-                // borderRadius: 4,
                 backgroundColor: theme.palette.common.white,
                 padding: theme.spacing(1),
                 transition: theme.transitions.create(['border-color', 'box-shadow']),
@@ -79,12 +79,11 @@ const useStyles = makeStyles((theme: Theme) =>
 interface FormikAutocompleteLabelMultiselectProps {
     name: string;
     label: string;
-    options: any[];
+    options: string[];
     placeholder: string;
     enabled: boolean;
-    defaultValue?: any[];
-    onChange: (event: ChangeEvent<{}>, values: any[]) => void;
-    getOptionLabel: (option: any) => string;
+    defaultValue?: string[];
+    onChange: (event: ChangeEvent<{}>, values: string[]) => void;
 }
 
 export default function FormikAutocompleteLabelMultiselect(props: FormikAutocompleteLabelMultiselectProps) {
@@ -92,12 +91,8 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
     const [anchorEl] = React.useState<React.RefObject<null | HTMLElement>>(React.createRef());
     const [autoCompleteRef] = React.useState<React.RefObject<null | HTMLElement>>(React.createRef());
     const [open, setOpen] = React.useState<boolean>(false);
-    const [value, setValue] = React.useState<any[]>(props.defaultValue ? props.defaultValue : []);
-    const [pendingValue, setPendingValue] = React.useState<any[]>([]);
-    const filterOptions = createFilterOptions({
-        stringify: props.getOptionLabel,
-        trim: true,
-    });
+    const [value, setValue] = React.useState<string[]>(props.defaultValue ? props.defaultValue : []);
+    const [pendingValue, setPendingValue] = React.useState<string[]>([]);
 
     const handleClick = (event: any) => {
         setPendingValue(value);
@@ -119,6 +114,7 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                 <Button
                     disabled={!props.enabled}
                     variant="outlined"
+                    color="primary"
                     buttonRef={anchorEl}
                     className={classes.button}
                     aria-describedby={id}
@@ -128,9 +124,9 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                 </Button>
                 {props.enabled && (
                     <List>
-                        {value.map((label: any) => (
-                            <ListItem key={label.name} className={classes.listItem}>
-                                <ListItemText primary={label.name} />
+                        {value.map((label: string) => (
+                            <ListItem key={label} className={classes.listItem}>
+                                <ListItemText primary={label} />
                             </ListItem>
                         ))}
                     </List>
@@ -155,20 +151,19 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                         popperDisablePortal: classes.popperDisablePortal,
                     }}
                     value={pendingValue}
-                    onChange={(event: ChangeEvent<{}>, value: any) => {
+                    onChange={(event: ChangeEvent<{}>, value: string[]) => {
                         setPendingValue(value);
                         props.onChange(event, value);
                     }}
                     onClose={handleClose}
-                    filterOptions={filterOptions}
                     disableCloseOnSelect
                     disablePortal
                     renderTags={() => null}
                     noOptionsText="No projects available"
-                    renderOption={(option: any, { selected }) => (
+                    renderOption={(option: string, { selected }) => (
                         <React.Fragment>
                             <Checkbox color="primary" icon={icon} checkedIcon={checkedIcon} className={classes.checkbox} checked={selected} />{' '}
-                            <Typography variant="subtitle1">{option.name}</Typography>
+                            <Typography variant="subtitle1">{option}</Typography>
                         </React.Fragment>
                     )}
                     options={props.options.sort((a, b) => {
@@ -179,7 +174,6 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                         bi = bi === -1 ? value.length + props.options.indexOf(b) : bi;
                         return ai - bi;
                     })}
-                    getOptionLabel={props.getOptionLabel}
                     renderInput={(params: any) => (
                         <InputBase name={props.name} ref={params.InputProps.ref} inputProps={params.inputProps} autoFocus className={classes.inputBase} />
                     )}
