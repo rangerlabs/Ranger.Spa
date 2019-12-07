@@ -30,6 +30,10 @@ export default class UserService {
         });
     }
 
+    async getAuthorizedProjects(email: string): Promise<IRestResponse<string[]>> {
+        return RestUtilities.get(`/user/${email}/authorized-projects`);
+    }
+
     async resetPassword(email: string, resetModel: IResetPasswordModel): Promise<IRestResponse<void>> {
         return RestUtilities.post(`/user/${email}/password-reset`, resetModel);
     }

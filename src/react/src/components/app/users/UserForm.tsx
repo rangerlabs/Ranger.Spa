@@ -17,17 +17,13 @@ import { User } from 'oidc-client';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 import { addUser, removeUser, updateUser } from '../../../redux/actions/UserActions';
-import { UserProfile } from '../../../models/UserProfile';
-import * as queryString from 'query-string';
-import populateUsersHOC from '../hocs/PopulateUsersHOC';
+import populateUserAuthorizedProjectsHOC from '../hocs/PopulateUserAuthorizedProjectsHOC';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
-import FormikAutocompleteMultiselect from '../../form/FormikAutocompleteMulitselect';
 import IProject from '../../../models/app/IProject';
 import { RoleEnum, GetRole, GetCascadedRoles } from '../../../models/RoleEnum';
 import { StatusEnum } from '../../../models/StatusEnum';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import FormikAutocompleteLabelMultiselect from '../../form/FormikAutocompleteLabelMultiselect';
-const hash = require('object-hash');
 
 const userService = new UserService();
 
@@ -59,16 +55,15 @@ interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     dispatchAddUser: (user: IUser) => void;
     dispatchUpdateUser: (user: IUser) => void;
     dispatchRemoveUser: (name: string) => void;
-    users: IUser[];
     user: User;
     push: typeof push;
     projects: IProject[];
+    initialUser: IUser;
 }
 
 type UserFormState = {
     assignableRoles: FormikSelectValues;
     serverErrors: string[];
-    initialUser: IUser;
     selectedProjects: string[];
     success: boolean;
 };
@@ -117,23 +112,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     UNSAFE_componentWillMount() {
         this.setState((state, props) => ({
             assignableRoles: this.getAssignableRolesFromCurrentUser(props.user),
-            initialUser: this.getInitialUserByEmail(props.users),
         }));
-    }
-
-    getInitialUserByEmail(users: IUser[]): IUser {
-        let result = undefined;
-        const params = queryString.parse(window.location.search);
-        const email = params['email'] as string;
-        if (email && users) {
-            result = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-            if (result) {
-                if (result.email === (this.props.user.profile as UserProfile).email) {
-                    this.props.push(RoutePaths.Users);
-                }
-            }
-        }
-        return result;
     }
 
     getProjectNamesByProjectIds(projectIds: string[]) {
@@ -181,7 +160,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     });
 
     render() {
-        const { classes, users, enqueueSnackbar, dispatchAddUser, dispatchUpdateUser } = this.props;
+        const { classes, enqueueSnackbar, dispatchAddUser, dispatchUpdateUser } = this.props;
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -383,4 +362,4 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateProjectsHOC(populateUsersHOC(withSnackbar(UserForm)))));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateProjectsHOC(populateUserAuthorizedProjectsHOC(withSnackbar(UserForm)))));

@@ -5,7 +5,7 @@ export default interface IUser {
     firstName: string;
     email: string;
     role: string;
-    authorizedProjects: string[];
+    authorizedProjects?: string[];
     emailConfirmed: boolean;
     status: StatusEnum;
 }

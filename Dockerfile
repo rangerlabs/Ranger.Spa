@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-server
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-server
 WORKDIR /app
 
 ARG MYGET_API_KEY
@@ -14,7 +14,7 @@ COPY ./test ./test
 RUN ./scripts/create-nuget-config.sh ${MYGET_API_KEY}
 RUN dotnet publish -c ${BUILD_CONFIG} -o /app/published
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-spa
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-spa
 WORKDIR /app
 COPY --from=build-server /app/published ./published
 
@@ -39,7 +39,7 @@ ARG WEBPACK_ENV="prod"
 RUN webpack --config ./src/react/webpack.${WEBPACK_ENV}.js && \
     npm run copy-oidc-client
 
-FROM microsoft/dotnet:aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /app
 COPY --from=build-spa /app/published .
 
