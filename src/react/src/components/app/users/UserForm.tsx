@@ -95,7 +95,6 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     state = {
         assignableRoles: [] as FormikSelectValues,
         serverErrors: undefined as string[],
-        initialUser: undefined as IUser,
         selectedProjects: [] as string[],
         success: false,
     };
@@ -139,19 +138,12 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         firstName: Yup.string()
             .min(1, 'Must be at least 1 character long')
             .max(48, 'Max 48 characters')
-            .matches(
-                new RegExp("^[a-zA-Z,.'-]{1}[a-zA-Z ,.'-]{1,26}[a-zA-Z,.'-]{1}$"),
-                "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)"
-            )
+            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
             .required('Required'),
         lastName: Yup.string()
             .min(1, 'Must be at least 1 character long')
             .max(48, 'Max 48 characters')
-            .matches(
-                //TODO: FIX THESE REGEX
-                new RegExp("^[a-zA-Z,.'-]{1}[a-zA-Z ,.'-]{1,26}[a-zA-Z,.'-]{1}$"),
-                "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)"
-            )
+            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
             .required('Required'),
         email: Yup.string()
             .email('Invalid email')
@@ -167,16 +159,16 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography align="center" variant="h5" gutterBottom>
-                            {this.state.initialUser ? 'Edit User' : 'Create User'}
+                            {this.props.initialUser ? 'Edit User' : 'Create User'}
                         </Typography>
                         <Formik
                             ref={this.formikRef}
                             enableReinitialize
                             initialValues={
-                                this.state.initialUser
+                                this.props.initialUser
                                     ? {
-                                          ...this.state.initialUser,
-                                          authorizedProjects: this.getProjectNamesByProjectIds(this.state.initialUser.authorizedProjects),
+                                          ...this.props.initialUser,
+                                          authorizedProjects: this.getProjectNamesByProjectIds(this.props.initialUser.authorizedProjects),
                                       }
                                     : { email: '', firstName: '', lastName: '', role: '', authorizedProjects: [] }
                             }
@@ -189,7 +181,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                     role: values.role,
                                     authorizedProjects: this.getProjectIdsByProjectNames(values.authorizedProjects),
                                 } as IUser;
-                                if (this.state.initialUser) {
+                                if (this.props.initialUser) {
                                     userService.putUser(newUser.email, newUser).then((response: IRestResponse<IUser>) => {
                                         if (response.is_error) {
                                             const { errors: serverErrors, ...formikErrors } = response.error_content;
@@ -243,7 +235,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
                                                 disabled={props.initialValues.firstName === '' ? false : true}
-                                                required={!Boolean(this.state.initialUser)}
+                                                required={!Boolean(this.props.initialUser)}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -257,7 +249,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
                                                 disabled={props.initialValues.lastName === '' ? false : true}
-                                                required={!Boolean(this.state.initialUser)}
+                                                required={!Boolean(this.props.initialUser)}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -271,7 +263,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
                                                 disabled={props.initialValues.email === '' ? false : true}
-                                                required={!Boolean(this.state.initialUser)}
+                                                required={!Boolean(this.props.initialUser)}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -295,7 +287,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 enabled={props.values.role.toUpperCase() === RoleEnum.USER.toUpperCase()}
                                                 options={this.props.projects.map(p => p.name)}
                                                 defaultValue={
-                                                    this.state.initialUser ? this.getProjectNamesByProjectIds(this.state.initialUser.authorizedProjects) : []
+                                                    this.props.initialUser ? this.getProjectNamesByProjectIds(this.props.initialUser.authorizedProjects) : []
                                                 }
                                                 onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
                                                     this.formikRef.current.setFieldValue('authorizedProjects', values, true);

@@ -38,27 +38,25 @@ const populateUserAuthorizedProjectsHOC = <P extends object>(Component: React.Co
         setInitialUserInStateFromQuery() {
             const params = queryString.parse(window.location.search);
             const email = params['email'] as string;
-            if (email) {
-                if (!this.state.isLoaded) {
-                    userService.getUser(email).then(v => {
-                        if (!v.is_error) {
-                            if (v.content.email !== (this.props.user.profile as UserProfile).email) {
-                                userService.getAuthorizedProjects(email).then(ap => {
-                                    if (!ap.is_error) {
-                                        const user = { ...v.content, authorizedProjects: ap.content };
-                                        setTimeout(() => {
-                                            this.setState({ user: user, isLoaded: true });
-                                        }, 250);
-                                    }
-                                });
-                            } else {
-                                this.props.push(RoutePaths.Users);
-                            }
+            if (email && !this.state.isLoaded) {
+                userService.getUser(email).then(v => {
+                    if (!v.is_error) {
+                        if (v.content.email !== (this.props.user.profile as UserProfile).email) {
+                            userService.getAuthorizedProjects(email).then(ap => {
+                                if (!ap.is_error) {
+                                    const user = { ...v.content, authorizedProjects: ap.content };
+                                    setTimeout(() => {
+                                        this.setState({ user: user, isLoaded: true });
+                                    }, 250);
+                                }
+                            });
+                        } else {
+                            this.props.push(RoutePaths.Users);
                         }
-                    });
-                } else {
-                    this.setState({ isLoaded: true });
-                }
+                    }
+                });
+            } else {
+                this.setState({ isLoaded: true });
             }
         }
 

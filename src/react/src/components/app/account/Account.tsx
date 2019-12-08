@@ -87,11 +87,19 @@ class Account extends React.Component<AccountProps, AccountState> {
     };
 
     validationSchema = Yup.object().shape({
-        firstName: Yup.string().required('Firstname is required'),
-        lastName: Yup.string().required('Lastname is required'),
+        firstName: Yup.string()
+            .min(1, 'Must be at least 1 character long')
+            .max(48, 'Max 48 characters')
+            .matches(new RegExp("^([s,.-'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .required('Required'),
+        lastName: Yup.string()
+            .min(1, 'Must be at least 1 character long')
+            .max(48, 'Max 48 characters')
+            .matches(new RegExp("^([s,.-'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .required('Required'),
         email: Yup.string()
-            .email('Enter a valid email')
-            .required('Email is required'),
+            .email('Invalid email')
+            .required('Required'),
     });
 
     render() {

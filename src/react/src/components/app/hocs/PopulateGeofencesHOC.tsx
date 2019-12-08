@@ -36,7 +36,9 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
             if (!this.props.geofencesState.isLoaded) {
                 geofenceService.getGeofences(this.props.selectedProject.name).then(geofenceResponse => {
                     setTimeout(() => {
-                        this.props.setGeofences(geofenceResponse);
+                        if (geofenceResponse) {
+                            this.props.setGeofences(geofenceResponse);
+                        }
                     }, 250);
                 });
             }
