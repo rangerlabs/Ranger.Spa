@@ -5,7 +5,7 @@ export type UserProfile = {
     firstName: string;
     idp: string;
     lastName: string;
-    role: string[];
+    role: string | string[];
     authorizedProjects: string[];
     sid: string;
     sub: string;

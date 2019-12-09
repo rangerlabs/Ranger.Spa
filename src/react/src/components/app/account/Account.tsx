@@ -16,12 +16,12 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import { User } from 'oidc-client';
 import { push } from 'connected-react-router';
-import { GetRole } from '../../../models/RoleEnum';
 import RoutePaths from '../../RoutePaths';
 import DeleteAccountComponent from '../dialogContents/DeleteAccountContent';
 import { openDialog, DialogContent } from '../../../redux/actions/DialogActions';
 import ChangePasswordContent from '../dialogContents/ChangePasswordContent';
 import ChangeEmailContent from '../dialogContents/ChangeEmailContent';
+import { getRole } from '../../../helpers/Helpers';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -118,7 +118,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 email: (this.props.user.profile as UserProfile).email,
                                 firstName: (this.props.user.profile as UserProfile).firstName,
                                 lastName: (this.props.user.profile as UserProfile).lastName,
-                                role: GetRole((this.props.user.profile as UserProfile).role),
+                                role: getRole((this.props.user.profile as UserProfile).role),
                                 authorizedProjects: (this.props.user.profile as UserProfile).authorizedProjects,
                             }}
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {

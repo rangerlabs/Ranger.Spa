@@ -1,4 +1,7 @@
 import { MergedIntegrationResponseType } from '../models/app/integrations/MergedIntegrationTypes';
+import { RoleEnum } from '../models/RoleEnum';
+import { UserProfile } from '../models/UserProfile';
+import { User } from 'oidc-client';
 
 export function getSubDomain(): string {
     let domain = '';
@@ -20,4 +23,51 @@ export function getIntegrationsFromIntegrationIds(integrationIds: string[], inte
         }
     });
     return integrationArray;
+}
+
+export function userIsInRole(user: User, role: RoleEnum) {
+    if (user) {
+        if (Array.isArray((user.profile as UserProfile).role)) {
+            return ((user.profile as UserProfile).role as string[]).find(r => r.toUpperCase() === role.toUpperCase());
+        } else {
+            return ((user.profile as UserProfile).role as string).toUpperCase() === role.toUpperCase();
+        }
+    }
+    return false;
+}
+
+export function getCascadedRoles(role: string): RoleEnum[] {
+    var roles = new Array<RoleEnum>();
+    if (role === RoleEnum.TENANT_OWNER) {
+        roles.push(RoleEnum.TENANT_OWNER);
+        roles.push(RoleEnum.OWNER);
+        roles.push(RoleEnum.ADMIN);
+        roles.push(RoleEnum.USER);
+    } else if (role === RoleEnum.OWNER) {
+        roles.push(RoleEnum.OWNER);
+        roles.push(RoleEnum.ADMIN);
+        roles.push(RoleEnum.USER);
+    } else if (role === RoleEnum.ADMIN) {
+        roles.push(RoleEnum.ADMIN);
+        roles.push(RoleEnum.USER);
+    } else {
+        roles.push(RoleEnum.USER);
+    }
+    return roles;
+}
+
+export function getRole(roles: string | string[]) {
+    if (Array.isArray(roles)) {
+        if (roles.find(r => r === RoleEnum.TENANT_OWNER)) {
+            return RoleEnum.TENANT_OWNER;
+        } else if (roles.find(r => r === RoleEnum.OWNER)) {
+            return RoleEnum.OWNER;
+        } else if (roles.find(r => r === RoleEnum.ADMIN)) {
+            return RoleEnum.ADMIN;
+        } else {
+            return RoleEnum.USER;
+        }
+    } else {
+        return roles;
+    }
 }

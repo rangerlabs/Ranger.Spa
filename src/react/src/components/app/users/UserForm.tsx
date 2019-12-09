@@ -20,10 +20,11 @@ import { addUser, removeUser, updateUser } from '../../../redux/actions/UserActi
 import populateUserAuthorizedProjectsHOC from '../hocs/PopulateUserAuthorizedProjectsHOC';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import IProject from '../../../models/app/IProject';
-import { RoleEnum, GetRole, GetCascadedRoles } from '../../../models/RoleEnum';
+import { RoleEnum } from '../../../models/RoleEnum';
 import { StatusEnum } from '../../../models/StatusEnum';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import FormikAutocompleteLabelMultiselect from '../../form/FormikAutocompleteLabelMultiselect';
+import { getRole, getCascadedRoles } from '../../../helpers/Helpers';
 
 const userService = new UserService();
 
@@ -126,8 +127,8 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     getAssignableRolesFromCurrentUser(user: User): FormikSelectValues {
         const roleArray: FormikSelectValues = [];
 
-        var role = GetRole(user.profile.role as string[]);
-        var cascadedRoles = GetCascadedRoles(role).reverse();
+        var role = getRole(user.profile.role as string[]);
+        var cascadedRoles = getCascadedRoles(role).reverse();
         cascadedRoles.forEach(value => {
             if (value != RoleEnum.TENANT_OWNER) roleArray.push({ value: value, label: value });
         });
@@ -170,7 +171,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                           ...this.props.initialUser,
                                           authorizedProjects: this.getProjectNamesByProjectIds(this.props.initialUser.authorizedProjects),
                                       }
-                                    : { email: '', firstName: '', lastName: '', role: '', authorizedProjects: [] }
+                                    : { email: '', firstName: '', lastName: '', role: 'User', authorizedProjects: [] }
                             }
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
                                 console.log(values);

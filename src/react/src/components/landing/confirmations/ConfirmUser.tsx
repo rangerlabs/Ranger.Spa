@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { Typography, LinearProgress, createStyles, Theme, WithStyles, Button, withStyles, Grid } from '@material-ui/core';
 import * as queryString from 'query-string';
-import IConfirmModel from '../../../models/landing/IConfirmModel';
+import IPasswordResetModel from '../../../models/landing/IPasswordResetModel';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 import UserService from '../../../services/UserService';
-
+import { Formik, FormikBag, FormikProps } from 'formik';
+import * as Yup from 'yup';
+import FormikTextField from '../../form/FormikTextField';
+import FormikBackButton from '../../form/FormikBackButton';
+import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 const userService = new UserService();
 
 const styles = (theme: Theme) =>
@@ -16,8 +20,8 @@ const styles = (theme: Theme) =>
             marginTop: theme.toolbar.height * 2,
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
-                width: 600,
+            [theme.breakpoints.up(400 + theme.spacing(2 * 2))]: {
+                width: 400,
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
@@ -34,15 +38,31 @@ interface ConfirmUserProps extends WithStyles<typeof styles> {
 
 interface ConfirmUserState {
     domain: string;
-    confirmed: boolean;
-    isRequesting: boolean;
+    success: boolean;
+    serverError: boolean;
 }
 
 class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
+    validationSchema = Yup.object().shape({
+        newPassword: Yup.string()
+            .min(8, 'Must be at least 8 characters long')
+            .matches(
+                new RegExp('[\\-\\`\\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\=\\{\\}\\[\\]\\\\|\\;\\:\\\'\\"\\,\\<\\.\\>\\/\\?]'),
+                'Must contain at least 1 special character'
+            )
+            .matches(new RegExp('[0-9]'), 'Must contain at least 1 number')
+            .matches(new RegExp('[a-z]'), 'Must contain at least 1 lowercase letter')
+            .matches(new RegExp('[A-Z]'), 'Must contain at least 1 uppercase letter')
+            .required('Required'),
+        confirmPassword: Yup.string()
+            .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
+            .required('Required'),
+    });
+
     state: ConfirmUserState = {
         domain: '',
-        confirmed: undefined,
-        isRequesting: true,
+        success: false,
+        serverError: false,
     };
 
     getTokenFromParams(): string {
@@ -66,45 +86,105 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
     componentDidMount() {
         const domain = this.getDomainFromParams();
         this.setState({ domain: domain });
-        const token = this.getTokenFromParams();
-        const userId = this.getUserIdFromParams();
-        const confirmModel = {
-            Domain: domain,
-            Token: token,
-        } as IConfirmModel;
-        userService
-            .confirm(userId, confirmModel)
-            .then(v => {
-                setTimeout(() => {
-                    this.setState({ confirmed: v, isRequesting: false });
-                }, 375);
-            })
-            .catch(r => {
-                this.setState({ isRequesting: false });
-            });
     }
 
     render() {
+        const { classes } = this.props;
         return (
-            <div className={this.props.classes.layout}>
-                <Grid container spacing={3} justify="center" alignItems="baseline">
-                    {this.state.isRequesting && (
-                        <Grid item xs={12}>
-                            <Typography variant="h5">Please wait while we confirm your account.</Typography>
-                            <LinearProgress />
+            <div className={classes.layout}>
+                {!this.state.success ? (
+                    <Formik
+                        initialValues={
+                            {
+                                domain: this.getDomainFromParams(),
+                                token: this.getTokenFromParams(),
+                                newPassword: '',
+                                confirmPassword: '',
+                            } as IPasswordResetModel
+                        }
+                        onSubmit={(values: IPasswordResetModel, formikBag: FormikBag<FormikProps<IPasswordResetModel>, IPasswordResetModel>) => {
+                            const userId = this.getUserIdFromParams();
+                            userService.confirmUserAndPassword(userId, values).then(v => {
+                                if (v.is_error) {
+                                    formikBag.setSubmitting(false);
+                                    this.setState({ serverError: true });
+                                } else {
+                                    setTimeout(() => {
+                                        formikBag.setSubmitting(false);
+                                        this.setState({ success: true });
+                                    }, 350);
+                                }
+                            });
+                        }}
+                        validationSchema={this.validationSchema}
+                    >
+                        {props => (
+                            <form onSubmit={props.handleSubmit}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12}>
+                                        <Typography align="center" variant="h5">
+                                            New Account Password
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormikTextField
+                                            name="newPassword"
+                                            label="New Password"
+                                            value={props.values.newPassword}
+                                            errorText={props.errors.newPassword}
+                                            touched={props.touched.newPassword}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            autoComplete="off"
+                                            type="password"
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormikTextField
+                                            name="confirmPassword"
+                                            label="Confirm password"
+                                            value={props.values.confirmPassword}
+                                            errorText={props.errors.confirmPassword}
+                                            touched={props.touched.confirmPassword}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            autoComplete="off"
+                                            type="password"
+                                            required
+                                        />
+                                    </Grid>
+                                </Grid>
+                                {this.state.serverError && (
+                                    <React.Fragment>
+                                        <Typography align="center" color="error">
+                                            An error occurred setting your password.
+                                        </Typography>
+                                        <Typography align="center" color="error">
+                                            The link may have expired.
+                                        </Typography>
+                                    </React.Fragment>
+                                )}
+                                <div className={classes.flexButtonContainer}>
+                                    <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
+                                        Set Password
+                                    </FormikSynchronousButton>
+                                </div>
+                            </form>
+                        )}
+                    </Formik>
+                ) : (
+                    <Grid direction="column" container spacing={3} justify="center" alignItems="center">
+                        <Grid item>
+                            <Typography gutterBottom align="center" variant="h5">
+                                Your account password has been set.
+                            </Typography>
+                            <Typography gutterBottom align="center" variant="subtitle1">
+                                Click below to get started.
+                            </Typography>
                         </Grid>
-                    )}
-                    {!this.state.isRequesting && this.state.confirmed && (
-                        <Grid direction="column" container spacing={3} justify="center" alignItems="center">
-                            <Grid item>
-                                <Typography gutterBottom align="center" variant="h5">
-                                    Your account is confirmed.
-                                </Typography>
-                                <Typography gutterBottom align="center" variant="subtitle1">
-                                    Click below to get started.
-                                </Typography>
-                            </Grid>
-                            <Grid item>
+                        <Grid item>
+                            <div className={classes.flexButtonContainer}>
                                 <Button
                                     color="primary"
                                     variant="contained"
@@ -116,22 +196,10 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                                 >
                                     Sign in
                                 </Button>
-                            </Grid>
+                            </div>
                         </Grid>
-                    )}
-                    {!this.state.isRequesting && !this.state.confirmed && (
-                        <Grid container spacing={3} justify="center" alignItems="center">
-                            <Grid item xs={12}>
-                                <Typography gutterBottom align="center" variant="h5">
-                                    Failed to confirm the account.
-                                </Typography>
-                                <Typography align="center" variant="subtitle1">
-                                    The account may already be active or the verification key may be incorrect.
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    )}
-                </Grid>
+                    </Grid>
+                )}
             </div>
         );
     }

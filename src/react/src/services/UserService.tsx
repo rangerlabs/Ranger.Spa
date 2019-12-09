@@ -21,13 +21,8 @@ export default class UserService {
         return RestUtilities.put<IUser>(`/user/${email}`, updatedUser);
     }
 
-    async confirm(email: string, confirmModel: IConfirmModel): Promise<boolean> {
-        return RestUtilities.put(`/user/${email}/confirm`, confirmModel).then(value => {
-            if (value.is_error) {
-                return false;
-            }
-            return true;
-        });
+    async confirmUserAndPassword(email: string, confirmModel: IResetPasswordModel): Promise<IRestResponse<void>> {
+        return RestUtilities.put(`/user/${email}/confirm`, confirmModel);
     }
 
     async getAuthorizedProjects(email: string): Promise<IRestResponse<string[]>> {
