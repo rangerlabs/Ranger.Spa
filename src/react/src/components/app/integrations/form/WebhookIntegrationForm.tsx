@@ -109,8 +109,8 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                 <CssBaseline />
                 <main className={classes.layout}>
                     <Paper elevation={0}>
-                        <Typography variant="h5" gutterBottom>
-                            {this.props.initialIntegration ? 'Edit' : 'Create'}
+                        <Typography align="center" variant="h5" gutterBottom>
+                            {this.props.initialIntegration ? 'Edit Webhook Integration' : 'Create Webhook Integration'}
                         </Typography>
 
                         <Formik
@@ -139,13 +139,13 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         setTimeout(() => {
                                             if (response.is_error) {
                                                 const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                                enqueueSnackbar('Error creating integration', { variant: 'error' });
+                                                enqueueSnackbar('Error creating integration.', { variant: 'error' });
                                                 formikBag.setErrors(formikErrors as FormikErrors<WebhookIntegrationRequest>);
                                                 this.setState({ serverErrors: serverErrors });
                                                 formikBag.setSubmitting(false);
                                             } else {
                                                 this.setState({ isSuccess: true });
-                                                enqueueSnackbar('Integration created', { variant: 'success' });
+                                                enqueueSnackbar('Integration created.', { variant: 'success' });
                                                 dispatchAddIntegration(response.content);
                                                 setTimeout(() => {
                                                     this.props.push(RoutePaths.Integrations);
@@ -260,7 +260,4 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(withSnackbar(integrationForm(WebhookIntegrationForm))));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withSnackbar(integrationForm(WebhookIntegrationForm))));

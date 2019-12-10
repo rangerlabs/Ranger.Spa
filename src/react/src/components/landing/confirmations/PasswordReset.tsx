@@ -32,17 +32,17 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface ConfirmUserProps extends WithStyles<typeof styles> {
+interface PasswordResetProps extends WithStyles<typeof styles> {
     push: typeof push;
 }
 
-interface ConfirmUserState {
+interface PasswordResetState {
     domain: string;
     success: boolean;
     serverError: boolean;
 }
 
-class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
+class PasswordReset extends React.Component<PasswordResetProps, PasswordResetState> {
     validationSchema = Yup.object().shape({
         newPassword: Yup.string()
             .min(8, 'Must be at least 8 characters long')
@@ -59,7 +59,7 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
             .required('Required'),
     });
 
-    state: ConfirmUserState = {
+    state: PasswordResetState = {
         domain: '',
         success: false,
         serverError: false,
@@ -104,7 +104,7 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                         }
                         onSubmit={(values: IPasswordResetModel, formikBag: FormikBag<FormikProps<IPasswordResetModel>, IPasswordResetModel>) => {
                             const userId = this.getUserIdFromParams();
-                            userService.confirmUserAndPassword(userId, values).then(v => {
+                            userService.resetPassword(userId, values).then(v => {
                                 if (v.is_error) {
                                     formikBag.setSubmitting(false);
                                     this.setState({ serverError: true });
@@ -123,7 +123,7 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
                                         <Typography align="center" variant="h5">
-                                            New Account Password
+                                            Password Reset
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
@@ -158,16 +158,16 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                                 {this.state.serverError && (
                                     <React.Fragment>
                                         <Typography align="center" color="error">
-                                            An error occurred setting your password.
+                                            An error occurred resetting your password.
                                         </Typography>
                                         <Typography align="center" color="error">
-                                            The link may have expired.
+                                            The reset link may have expired.
                                         </Typography>
                                     </React.Fragment>
                                 )}
                                 <div className={classes.flexButtonContainer}>
                                     <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
-                                        Set Password
+                                        Reset Password
                                     </FormikSynchronousButton>
                                 </div>
                             </form>
@@ -177,10 +177,10 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                     <Grid direction="column" container spacing={3} justify="center" alignItems="center">
                         <Grid item>
                             <Typography gutterBottom align="center" variant="h5">
-                                Your account password has been set.
+                                Your password has been successfully changed.
                             </Typography>
                             <Typography gutterBottom align="center" variant="subtitle1">
-                                Click below to get started.
+                                Click below to sign in using your new password.
                             </Typography>
                         </Grid>
                         <Grid item>
@@ -205,4 +205,4 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
     }
 }
 
-export default connect(null, { push })(withStyles(styles, { withTheme: true })(ConfirmUser));
+export default connect(null, { push })(withStyles(styles, { withTheme: true })(PasswordReset));

@@ -1,11 +1,11 @@
-import * as React from "react";
-import Grid from "@material-ui/core/Grid";
-import { Formik, FormikBag, FormikProps } from "formik";
-import IUserForm from "../../../models/landing/IUserForm";
-import FormikTextField from "../../form/FormikTextField";
-import * as Yup from "yup";
-import FormikNextButton from "../../form/FormikNextButton";
-import FormikBackButton from "../../form/FormikBackButton";
+import * as React from 'react';
+import Grid from '@material-ui/core/Grid';
+import { Formik, FormikBag, FormikProps } from 'formik';
+import IUserForm from '../../../models/landing/IUserForm';
+import FormikTextField from '../../form/FormikTextField';
+import * as Yup from 'yup';
+import FormikNextButton from '../../form/FormikNextButton';
+import FormikBackButton from '../../form/FormikBackButton';
 
 interface UserFormProps {
     handleNext: () => void;
@@ -18,34 +18,31 @@ interface UserFormProps {
 export default class UserForm extends React.Component<UserFormProps> {
     validationSchema = Yup.object().shape({
         firstName: Yup.string()
-            .min(1, "Must be at least 1 character long")
-            .max(48, "Max 48 characters")
-            .matches(
-                new RegExp("^[a-zA-Z,.'-]{1}[a-zA-Z ,.'-]{1,26}[a-zA-Z,.'-]{1}$"),
-                "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)"
-            )
-            .required("Required"),
+            .min(1, 'Must be at least 1 character long')
+            .max(48, 'Max 48 characters')
+            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .required('Required'),
         lastName: Yup.string()
-            .min(1, "Must be at least 1 character long")
-            .max(48, "Max 48 characters")
-            .matches(
-                new RegExp("^[a-zA-Z,.'-]{1}[a-zA-Z ,.'-]{1,26}[a-zA-Z,.'-]{1}$"),
-                "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)"
-            )
-            .required("Required"),
+            .min(1, 'Must be at least 1 character long')
+            .max(48, 'Max 48 characters')
+            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .required('Required'),
         email: Yup.string()
-            .email("Invalid email")
-            .required("Required"),
+            .email('Invalid email')
+            .required('Required'),
         password: Yup.string()
-            .min(8, "Must be at least 8 characters long")
-            .matches(new RegExp("[!@#\\$%\\^\\&*\\)\\(+=._-]"), "Must contain at least 1 special character")
-            .matches(new RegExp("[0-9]"), "Must contain at least 1 number")
-            .matches(new RegExp("[a-z]"), "Must contain at least 1 lowercase letter")
-            .matches(new RegExp("[A-Z]"), "Must contain at least 1 uppercase letter")
-            .required("Required"),
+            .min(8, 'Must be at least 8 characters long')
+            .matches(
+                new RegExp('[\\-\\`\\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\=\\{\\}\\[\\]\\\\|\\;\\:\\\'\\"\\,\\<\\.\\>\\/\\?]'),
+                'Must contain at least 1 special character'
+            )
+            .matches(new RegExp('[0-9]'), 'Must contain at least 1 number')
+            .matches(new RegExp('[a-z]'), 'Must contain at least 1 lowercase letter')
+            .matches(new RegExp('[A-Z]'), 'Must contain at least 1 uppercase letter')
+            .required('Required'),
         confirmPassword: Yup.string()
-            .oneOf([Yup.ref("password"), null], "Passwords must match")
-            .required("Required"),
+            .oneOf([Yup.ref('password'), null], 'Passwords must match')
+            .required('Required'),
     });
 
     render() {
@@ -54,11 +51,11 @@ export default class UserForm extends React.Component<UserFormProps> {
             <React.Fragment>
                 <Formik
                     initialValues={{
-                        email: userForm.email ? userForm.email : "",
-                        firstName: userForm.firstName ? userForm.firstName : "",
-                        lastName: userForm.lastName ? userForm.lastName : "",
-                        password: "",
-                        confirmPassword: "",
+                        email: userForm.email ? userForm.email : '',
+                        firstName: userForm.firstName ? userForm.firstName : '',
+                        lastName: userForm.lastName ? userForm.lastName : '',
+                        password: '',
+                        confirmPassword: '',
                     }}
                     onSubmit={(values: IUserForm, formikBag: FormikBag<FormikProps<IUserForm>, IUserForm>) => {
                         const newUserForm = {

@@ -112,13 +112,13 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                     projectService.apiKeyReset(project, this.state.initialProject.projectId, environment).then((response: IRestResponse<IProject>) => {
                         if (response.is_error) {
                             const { errors: serverErrors, ...formikErrors } = response.error_content;
-                            this.props.enqueueSnackbar('Error resetting API key', { variant: 'error' });
+                            this.props.enqueueSnackbar('Error resetting API key.', { variant: 'error' });
                             this.formikRef.current.setErrors(formikErrors as FormikErrors<IProject>);
                             this.setState({ serverErrors: serverErrors });
                             this.formikRef.current.setSubmitting(false);
                         } else {
                             this.setState({ isSuccess: true });
-                            this.props.enqueueSnackbar('API key reset', { variant: 'success' });
+                            this.props.enqueueSnackbar('API key reset.', { variant: 'success' });
                             if (environment === ProjectEnvironmentEnum.LIVE) {
                                 this.props.openDialog(
                                     new DialogContent(
@@ -182,7 +182,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                 <CssBaseline />
                 <main className={classes.layout}>
                     <Paper elevation={0}>
-                        <Typography variant="h5" gutterBottom>
+                        <Typography align="center" variant="h5" gutterBottom>
                             {this.state.initialProject ? 'Edit Project' : 'New Project'}
                         </Typography>
                         <Formik
@@ -202,13 +202,13 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     projectService.putProject(editedProject, this.state.initialProject.projectId).then((response: IRestResponse<IProject>) => {
                                         if (response.is_error) {
                                             const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                            enqueueSnackbar('Error updating project', { variant: 'error' });
+                                            enqueueSnackbar('Error updating project.', { variant: 'error' });
                                             formikBag.setErrors(formikErrors as FormikErrors<IProject>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
                                             this.setState({ isSuccess: true });
-                                            enqueueSnackbar('Project updated', { variant: 'success' });
+                                            enqueueSnackbar('Project updated.', { variant: 'success' });
                                             dispatchUpdateProject(response.content);
                                             this.props.push(RoutePaths.Projects);
                                         }
@@ -217,13 +217,13 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     projectService.postProject(inputProject).then((response: IRestResponse<IProject>) => {
                                         if (response.is_error) {
                                             const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                            enqueueSnackbar('Error creating project', { variant: 'error' });
+                                            enqueueSnackbar('Error creating project.', { variant: 'error' });
                                             formikBag.setErrors(formikErrors as FormikErrors<IProject>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
                                             this.setState({ isSuccess: true });
-                                            enqueueSnackbar('Project created', { variant: 'success' });
+                                            enqueueSnackbar('Project created.', { variant: 'success' });
                                             dispatchAddProject(response.content);
                                             this.props.openDialog(
                                                 new DialogContent(
@@ -363,7 +363,4 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(populateProjectsHOC(withSnackbar(ProjectForm))));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateProjectsHOC(withSnackbar(ProjectForm))));

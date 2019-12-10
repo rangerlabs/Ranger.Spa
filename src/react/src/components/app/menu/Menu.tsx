@@ -35,6 +35,7 @@ import { RoleEnum } from '../../../models/RoleEnum';
 import RoutePaths from '../../../components/RoutePaths';
 import { User } from 'oidc-client';
 import IProject from '../../../models/app/IProject';
+import { userIsInRole } from '../../../helpers/Helpers';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -116,7 +117,6 @@ class Menu extends React.Component<MenuProps> {
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItem>
-
                 <ListItem id="geofences" button onClick={() => this.handleMenuToggle('geofences')}>
                     <ListItemIcon>
                         <MapMarker />
@@ -140,16 +140,6 @@ class Menu extends React.Component<MenuProps> {
                             </ListItemIcon>
                             <ListItemText primary="Table" />
                         </ListItem>
-                        {/* <ListItem
-                                button
-                                className={classNames(classes.listItemHover, classes.nested)}
-                                onClick={() => this.handleMenuNavigation("/geofences/import")}
-                            >
-                                <ListItemIcon>
-                                    <FileImport  />
-                                </ListItemIcon>
-                                <ListItemText inset primary="Import" classes={{ primary: classes.menuItemTextColor }} />
-                            </ListItem> */}
                     </List>
                 </Collapse>
 
@@ -172,7 +162,7 @@ class Menu extends React.Component<MenuProps> {
                     </ListItemIcon>
                     <ListItemText primary="Projects" />
                 </ListItem>
-                {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.ADMIN) && (
+                {userIsInRole(this.props.user, RoleEnum.ADMIN) && (
                     <React.Fragment>
                         <ListItem id="administration" button onClick={() => this.handleMenuToggle('administration')}>
                             <ListItemIcon>
@@ -191,8 +181,7 @@ class Menu extends React.Component<MenuProps> {
                                     </ListItemIcon>
                                     <ListItemText primary="Users" />
                                 </ListItem>
-
-                                {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.OWNER) && (
+                                {userIsInRole(this.props.user, RoleEnum.OWNER) && (
                                     <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
                                         <ListItemIcon>
                                             <Domain />
@@ -265,9 +254,4 @@ class Menu extends React.Component<MenuProps> {
     }
 }
 
-export default withStyles(styles, { withTheme: true })(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(Menu)
-);
+export default withStyles(styles, { withTheme: true })(connect(mapStateToProps, mapDispatchToProps)(Menu));

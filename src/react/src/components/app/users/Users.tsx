@@ -85,6 +85,7 @@ class Users extends React.Component<UsersProps> {
             name: 'Lastname',
             options: {
                 filter: false,
+                sortDirection: 'asc',
             },
         },
         {
@@ -125,7 +126,4 @@ class Users extends React.Component<UsersProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(populateUsersHOC(Users));
+export default connect(mapStateToProps, mapDispatchToProps)(populateUsersHOC(Users));

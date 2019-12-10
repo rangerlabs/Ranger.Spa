@@ -44,11 +44,9 @@ class Callback extends React.Component<CallbackProps> {
         return (
             <CallbackComponent userManager={UserManager} successCallback={this.successCallback} errorCallback={this.errorCallback}>
                 <div className={this.props.classes.layout}>
-                    <Grid container direction="column" alignItems="center" spacing={3}>
+                    <Grid container spacing={3} justify="center" alignItems="baseline">
                         <Grid item xs={12}>
-                            <Typography align="center" variant="h5">
-                                Loading Ranger.
-                            </Typography>
+                            <Typography variant="h5">Loading Ranger.</Typography>
                             <LinearProgress />
                         </Grid>
                     </Grid>
@@ -58,7 +56,4 @@ class Callback extends React.Component<CallbackProps> {
     }
 }
 
-export default connect(
-    null,
-    { push }
-)(withStyles(styles, { withTheme: true })(Callback));
+export default connect(null, { push })(withStyles(styles, { withTheme: true })(Callback));

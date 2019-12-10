@@ -46,11 +46,9 @@ class LogoutRedirect extends React.Component<LogoutRedirectProps> {
     render() {
         return (
             <div className={this.props.classes.layout}>
-                <Grid container direction="column" alignItems="center" spacing={3}>
+                <Grid container spacing={3} justify="center" alignItems="baseline">
                     <Grid item xs={12}>
-                        <Typography align="center" variant="h5">
-                            Logging out of Ranger.
-                        </Typography>
+                        <Typography variant="h5">Logging out of Ranger.</Typography>
                         <LinearProgress />
                     </Grid>
                 </Grid>
@@ -59,7 +57,4 @@ class LogoutRedirect extends React.Component<LogoutRedirectProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    { push }
-)(withStyles(styles, { withTheme: true })(LogoutRedirect));
+export default connect(mapStateToProps, { push })(withStyles(styles, { withTheme: true })(LogoutRedirect));

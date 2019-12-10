@@ -16,9 +16,12 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import { User } from 'oidc-client';
 import { push } from 'connected-react-router';
-import { GetRole } from '../../../models/RoleEnum';
 import RoutePaths from '../../RoutePaths';
 import DeleteAccountComponent from '../dialogContents/DeleteAccountContent';
+import { openDialog, DialogContent } from '../../../redux/actions/DialogActions';
+import ChangePasswordContent from '../dialogContents/ChangePasswordContent';
+import ChangeEmailContent from '../dialogContents/ChangeEmailContent';
+import { getRole } from '../../../helpers/Helpers';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -52,6 +55,7 @@ const styles = (theme: Theme) =>
 
 interface AccountProps extends WithStyles<typeof styles>, WithSnackbarProps {
     user: User;
+    openDialog: (dialogContent: DialogContent) => void;
     dispatchAddUser: (user: IUser) => void;
     closeForm: () => void;
     push: typeof push;
@@ -70,6 +74,10 @@ const mapStateToProps = (state: ApplicationState) => {
 const mapDispatchToProps = (dispatch: any) => {
     return {
         push: (path: string) => dispatch(push(path)),
+        openDialog: (dialogContent: DialogContent) => {
+            const action = openDialog(dialogContent);
+            dispatch(action);
+        },
     };
 };
 
@@ -79,11 +87,19 @@ class Account extends React.Component<AccountProps, AccountState> {
     };
 
     validationSchema = Yup.object().shape({
-        firstName: Yup.string().required('Firstname is required'),
-        lastName: Yup.string().required('Lastname is required'),
+        firstName: Yup.string()
+            .min(1, 'Must be at least 1 character long')
+            .max(48, 'Max 48 characters')
+            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .required('Required'),
+        lastName: Yup.string()
+            .min(1, 'Must be at least 1 character long')
+            .max(48, 'Max 48 characters')
+            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .required('Required'),
         email: Yup.string()
-            .email('Enter a valid email')
-            .required('Email is required'),
+            .email('Invalid email')
+            .required('Required'),
     });
 
     render() {
@@ -93,7 +109,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                 <CssBaseline />
                 <main className={classes.layout}>
                     <Paper elevation={0}>
-                        <Typography variant="h5" gutterBottom>
+                        <Typography align="center" variant="h5" gutterBottom>
                             Your Account
                         </Typography>
                         <Formik
@@ -102,7 +118,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 email: (this.props.user.profile as UserProfile).email,
                                 firstName: (this.props.user.profile as UserProfile).firstName,
                                 lastName: (this.props.user.profile as UserProfile).lastName,
-                                role: GetRole((this.props.user.profile as UserProfile).role),
+                                role: getRole((this.props.user.profile as UserProfile).role),
                                 authorizedProjects: (this.props.user.profile as UserProfile).authorizedProjects,
                             }}
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
@@ -117,12 +133,12 @@ class Account extends React.Component<AccountProps, AccountState> {
                                     setTimeout(() => {
                                         if (response.is_error) {
                                             const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                            enqueueSnackbar('Error creating user', { variant: 'error' });
+                                            enqueueSnackbar('Error updating your account.', { variant: 'error' });
                                             formikBag.setErrors(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
-                                            enqueueSnackbar('User created', { variant: 'success' });
+                                            enqueueSnackbar('Account updated successfully.', { variant: 'success' });
                                             setTimeout(this.props.closeForm, 500);
                                             dispatchAddUser(response.content);
                                         }
@@ -170,7 +186,19 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
-                                                required
+                                                disabled
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <Button
+                                                            disabled={props.isSubmitting}
+                                                            onClick={() => {
+                                                                this.props.openDialog(new DialogContent((<ChangeEmailContent />)));
+                                                            }}
+                                                        >
+                                                            Change
+                                                        </Button>
+                                                    ),
+                                                }}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -182,7 +210,6 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 touched={props.touched.role}
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
-                                                required
                                                 disabled
                                             />
                                         </Grid>
@@ -203,13 +230,18 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             <FormikDeleteButton
                                                 isSubmitting={props.isSubmitting}
                                                 dialogTitle="Delete account?"
-                                                dialogContent={
-                                                    <DeleteAccountComponent onClose={() => {}} email={(this.props.user.profile as UserProfile).email} />
-                                                }
+                                                dialogContent={<DeleteAccountComponent email={(this.props.user.profile as UserProfile).email} />}
                                             >
                                                 Delete
                                             </FormikDeleteButton>
-                                            <Button className={classes.changePassword} disabled={props.isSubmitting} variant="text">
+                                            <Button
+                                                onClick={() => {
+                                                    this.props.openDialog(new DialogContent((<ChangePasswordContent />)));
+                                                }}
+                                                className={classes.changePassword}
+                                                disabled={props.isSubmitting}
+                                                variant="text"
+                                            >
                                                 Change password
                                             </Button>
                                         </div>
@@ -220,7 +252,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             }}
                                         />
                                         {props.initialValues.email === '' ? (
-                                            <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
+                                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
                                         ) : (
                                             <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
                                         )}
@@ -235,7 +267,4 @@ class Account extends React.Component<AccountProps, AccountState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(withSnackbar(Account)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withSnackbar(Account)));

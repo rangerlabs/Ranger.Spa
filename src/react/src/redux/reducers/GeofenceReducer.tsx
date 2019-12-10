@@ -6,7 +6,11 @@ export function geofenceReducer(state: GeofencesState = { isLoaded: false, geofe
         case ADD_GEOFENCE:
             return Object.assign({}, state, state.geofences.concat(action.geofence));
         case REMOVE_GEOFENCE:
-            return Object.assign({}, state, state.geofences.filter((v: Geofence) => v.name !== action.geofence.name));
+            return Object.assign(
+                {},
+                state,
+                state.geofences.filter((v: Geofence) => v.name !== action.geofence.name)
+            );
         case POPULATE_GEOFENCES:
             return Object.assign({}, state, action.geofencesState);
         default:

@@ -72,9 +72,17 @@ export default function createRangerTheme(options: ThemeOptions) {
             },
             MuiButton: {
                 root: {
-                    fontWeight: 300,
                     '&:hover': {
                         backgroundColor: Constants.COLORS.MENU_BACKGROUND_COLOR,
+                    },
+                },
+            },
+            MuiInput: {
+                root: {
+                    '&$disabled': {
+                        '&:before': {
+                            borderBottomStyle: 'none',
+                        },
                     },
                 },
             },

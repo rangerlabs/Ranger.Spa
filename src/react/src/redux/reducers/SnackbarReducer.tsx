@@ -1,7 +1,7 @@
-import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR, SnackbarAction, SnackbarNotification } from "../actions/SnackbarActions";
-import { OptionsObject } from "notistack";
+import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR, SnackbarAction, SnackbarNotification } from '../actions/SnackbarActions';
+import { OptionsObject } from 'notistack';
 const defaultOptions = {
-    variant: "info",
+    variant: 'info',
 } as OptionsObject;
 
 export function snackbarReducer(state: SnackbarNotification[] = [] as SnackbarNotification[], action: SnackbarAction): SnackbarNotification[] {

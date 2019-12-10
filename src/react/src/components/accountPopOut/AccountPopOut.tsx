@@ -55,7 +55,6 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
         if ((this.anchorEl.current as any).contains(event.target)) {
             return;
         }
-
         this.setState({ open: false });
     };
 
@@ -115,7 +114,4 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
     }
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(withStyles(styles)(AccountPopOut));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(AccountPopOut));

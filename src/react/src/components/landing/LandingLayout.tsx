@@ -1,22 +1,22 @@
-import { Route } from "react-router";
-import * as React from "react";
-import { withStyles, createStyles, WithStyles } from "@material-ui/styles";
-import LandingHeader from "./header/LandingHeader";
-import LandingMenu from "./menu/LandingMenu";
-import { connect } from "react-redux";
-import { CssBaseline, Fade, Theme } from "@material-ui/core";
-import Dialog from "../dialog/Dialog";
-import { ApplicationState } from "../../stores";
-import { User } from "oidc-client";
-import RoutePaths from "../RoutePaths";
-import Notifier from "../../components/notifier/Notifier";
-import { Parallax } from "react-spring/renderprops-addons";
+import { Route } from 'react-router';
+import * as React from 'react';
+import { withStyles, createStyles, WithStyles } from '@material-ui/styles';
+import LandingHeader from './header/LandingHeader';
+import LandingMenu from './menu/LandingMenu';
+import { connect } from 'react-redux';
+import { CssBaseline, Fade, Theme } from '@material-ui/core';
+import Dialog from '../dialog/Dialog';
+import { ApplicationState } from '../../stores';
+import { User } from 'oidc-client';
+import RoutePaths from '../RoutePaths';
+import Notifier from '../../components/notifier/Notifier';
+import { Parallax } from 'react-spring/renderprops-addons';
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
-            display: "flex",
-            height: "100%",
+            display: 'flex',
+            height: '100%',
         },
         content: {
             flexGrow: 1,
@@ -68,7 +68,6 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                     <div className={classes.root}>
                         <CssBaseline />
                         <Dialog />
-                        <Notifier />
                         {this.state.safeToPassRef && (
                             <LandingHeader parallaxRef={this.parallaxRef} user={user} handleDrawerToggle={this.handleDrawerToggle} {...props} />
                         )}

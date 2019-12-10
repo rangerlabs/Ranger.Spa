@@ -8,6 +8,7 @@ import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import { User } from 'oidc-client';
 import { UserProfile } from '../../../models/UserProfile';
 import { RoleEnum } from '../../../models/RoleEnum';
+import { userIsInRole } from '../../../helpers/Helpers';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -50,7 +51,7 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
-                    {(this.props.user && (this.props.user.profile as UserProfile)).role.find(r => r.toUpperCase() === RoleEnum.ADMIN) ? (
+                    {userIsInRole(this.props.user, RoleEnum.ADMIN) ? (
                         <Grid container direction="column" alignItems="center" justify="center">
                             <Grid item xs={12}>
                                 {this.props.welcomeMessage && (
@@ -101,7 +102,4 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(FirstProjectRequired));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(FirstProjectRequired));

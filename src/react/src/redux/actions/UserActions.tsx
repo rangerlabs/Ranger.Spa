@@ -1,6 +1,7 @@
 import IUser from '../../models/app/IUser';
 
 export const ADD_USER = 'ADD_USER';
+export const UPDATE_USER = 'UPDATE_USER';
 export const REMOVE_USER = 'REMOVE_USER';
 export const POPULATE_USERS = 'POPULATE_USERS';
 
@@ -22,6 +23,12 @@ export interface UsersState {
 export function addUser(user: IUser): UserAction {
     return {
         type: ADD_USER,
+        user,
+    };
+}
+export function updateUser(user: IUser): UserAction {
+    return {
+        type: UPDATE_USER,
         user,
     };
 }

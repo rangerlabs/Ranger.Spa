@@ -134,7 +134,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             );
             this.props.saveGeofenceToState(geofenceResponse);
             this.props.clearNewCircleGeofence();
-            this.props.enqueueSnackbar('Geofence saved', { variant: 'success' });
+            this.props.enqueueSnackbar('Geofence saved.', { variant: 'success' });
             this.props.enableMapClick();
             this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
             this.props.closeDrawer();
@@ -146,7 +146,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         setTimeout(() => {
             this.props.removeGeofenceFromState(name);
             this.props.clearNewCircleGeofence();
-            this.props.enqueueSnackbar('Geofence deleted', { variant: 'error' });
+            this.props.enqueueSnackbar('Geofence deleted.', { variant: 'error' });
             this.props.enableMapClick();
             this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
             this.props.closeDrawer();
@@ -356,7 +356,4 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     }
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(withStyles(styles, { withTheme: true })(withSnackbar(CircleGeofenceDrawerContent)));
+export default connect(null, mapDispatchToProps)(withStyles(styles, { withTheme: true })(withSnackbar(CircleGeofenceDrawerContent)));

@@ -1,69 +1,72 @@
 import * as React from 'react';
-import {
-    DialogActions,
-    Button,
-    InputAdornment,
-    IconButton,
-    DialogContentText,
-    List,
-    ListItem,
-    ListItemText,
-    DialogContent,
-    DialogTitle,
-} from '@material-ui/core';
+import { DialogActions, Button, InputAdornment, IconButton, DialogContentText, DialogContent, DialogTitle, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps } from 'formik';
 import * as Yup from 'yup';
-import FormikPrimaryButton from '../../form/FormikPrimaryButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { closeDialog } from '../../../redux/actions/DialogActions';
+import { connect } from 'react-redux';
+import { User } from 'oidc-client';
+import { ApplicationState } from '../../../stores';
+import { UserProfile } from '../../../models/UserProfile';
+import UserService from '../../../services/UserService';
+import { WithSnackbarProps, withSnackbar } from 'notistack';
+import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+var userService = new UserService();
 
-interface Password {
-    password: string;
+interface ChangePasswordContentProps extends WithSnackbarProps {
+    user: User;
+    closeDialog: () => void;
 }
 
-interface DeleteAccountContentProps {
-    onClose: () => void;
-    email: string;
-}
+const mapStateToProps = (state: ApplicationState) => {
+    return {
+        user: state.oidc.user,
+    };
+};
 
-function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentProps): JSX.Element {
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        closeDialog: () => {
+            const action = closeDialog();
+            dispatch(action);
+        },
+    };
+};
+
+function ChangePasswordContent(changePasswordContentProps: ChangePasswordContentProps): JSX.Element {
     const [passwordVisible, setPasswordVisible] = useState(false);
-    const [serverErrors, setServerErrors] = useState(undefined as string[]);
+    const [serverError, setServerError] = useState(undefined as string);
+    const [success, setSuccess] = useState(false);
 
     const validationSchema = Yup.object().shape({
-        password: Yup.string()
-            .min(8, 'Must be at least 8 characters long')
-            .matches(new RegExp('[!@#\\$%\\^\\&*\\)\\(+=._-]'), 'Must contain at least 1 special character')
-            .matches(new RegExp('[0-9]'), 'Must contain at least 1 number')
-            .matches(new RegExp('[a-z]'), 'Must contain at least 1 lowercase letter')
-            .matches(new RegExp('[A-Z]'), 'Must contain at least 1 uppercase letter')
-            .required('Required'),
+        password: Yup.string().required('Required'),
     });
 
     return (
         <React.Fragment>
             <Formik
                 initialValues={{ password: '' }}
-                onSubmit={(values: Password, formikBag: FormikBag<FormikProps<Password>, Password>) => {
-                    console.log(values);
-                    setServerErrors(undefined);
-                    // userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
-                    //     setTimeout(() => {
-                    //         if (response.is_error) {
-                    //             const { serverErrors, ...formikErrors } = response.error_content.errors;
-                    //             enqueueSnackbar("Error creating user", { variant: "error" });
-                    //             formikBag.setErrors(formikErrors as FormikErrors<IUser>);
-                    //             this.setState({ serverErrors: serverErrors });
-                    //             formikBag.setSubmitting(false);
-                    //         } else {
-                    //             enqueueSnackbar("User created", { variant: "success" });
-                    //             setTimeout(this.props.closeForm, 500);
-                    //             dispatchAddUser(response.content);
-                    //         }
-                    //     }, 2000);
-                    // });
+                onSubmit={(values: IRequestPasswordResetModel, formikBag: FormikBag<FormikProps<IRequestPasswordResetModel>, IRequestPasswordResetModel>) => {
+                    setServerError(undefined);
+                    userService.requestPasswordReset((changePasswordContentProps.user.profile as UserProfile).email, values).then((success: boolean) => {
+                        setTimeout(() => {
+                            if (!success) {
+                                changePasswordContentProps.enqueueSnackbar('Failed to send reset email, the provided password was invalid.', {
+                                    variant: 'error',
+                                });
+                                setServerError('The password provided was incorrect.');
+                                formikBag.setSubmitting(false);
+                            } else {
+                                changePasswordContentProps.enqueueSnackbar('Password reset email sent.', { variant: 'success' });
+                                formikBag.setSubmitting(false);
+                                setSuccess(true);
+                                changePasswordContentProps.closeDialog();
+                            }
+                        }, 350);
+                    });
                 }}
                 validationSchema={validationSchema}
             >
@@ -99,23 +102,21 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                                         ),
                                     }}
                                 />
-                                {serverErrors && (
-                                    <List>
-                                        <ListItem>
-                                            {serverErrors.map(error => (
-                                                <ListItemText primary={error} />
-                                            ))}
-                                        </ListItem>
-                                    </List>
-                                )}
+                                {serverError && <Typography color="error">{serverError}</Typography>}
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={deleteAccountContentProps.onClose} color="primary" variant="text">
+                                <Button disabled={props.isSubmitting} onClick={changePasswordContentProps.closeDialog} color="primary" variant="text">
                                     Cancel
                                 </Button>
-                                <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
-                                    Delete account
-                                </FormikPrimaryButton>
+                                <FormikSynchronousButton
+                                    denseMargin
+                                    isSuccess={success}
+                                    isValid={props.isValid}
+                                    isSubmitting={props.isSubmitting}
+                                    variant="text"
+                                >
+                                    Request Reset
+                                </FormikSynchronousButton>
                             </DialogActions>
                         </form>
                     </React.Fragment>
@@ -125,4 +126,4 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
     );
 }
 
-export default DeleteAccountContent;
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(ChangePasswordContent));

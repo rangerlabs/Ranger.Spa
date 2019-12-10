@@ -133,7 +133,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             );
             this.props.saveGeofenceToState(geofenceResponse);
             this.props.clearNewPolygonGeofence();
-            this.props.enqueueSnackbar('Geofence saved', { variant: 'success' });
+            this.props.enqueueSnackbar('Geofence saved.', { variant: 'success' });
             this.props.enableMapClick();
             this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
             this.props.closeDrawer();
@@ -146,7 +146,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             this.setState({ isSuccess: true });
             this.props.removeGeofenceFromState(name);
             this.props.clearNewPolygonGeofence();
-            this.props.enqueueSnackbar('Geofence deleted', { variant: 'error' });
+            this.props.enqueueSnackbar('Geofence deleted.', { variant: 'error' });
             this.props.enableMapClick();
             this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
             this.props.closeDrawer();
@@ -357,7 +357,4 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     }
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(withStyles(styles, { withTheme: true })(withSnackbar(PolygonGeofenceDrawerContent)));
+export default connect(null, mapDispatchToProps)(withStyles(styles, { withTheme: true })(withSnackbar(PolygonGeofenceDrawerContent)));

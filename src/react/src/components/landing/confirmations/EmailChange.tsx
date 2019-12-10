@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Typography, LinearProgress, createStyles, Theme, WithStyles, Button, withStyles, Grid } from '@material-ui/core';
+import { Typography, createStyles, Theme, WithStyles, Button, withStyles, Grid } from '@material-ui/core';
 import * as queryString from 'query-string';
-import IPasswordResetModel from '../../../models/landing/IPasswordResetModel';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
@@ -9,8 +8,8 @@ import UserService from '../../../services/UserService';
 import { Formik, FormikBag, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import FormikTextField from '../../form/FormikTextField';
-import FormikBackButton from '../../form/FormikBackButton';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+import IChangeEmailModel from '../../../models/landing/IChangeEmailModel';
 const userService = new UserService();
 
 const styles = (theme: Theme) =>
@@ -32,37 +31,25 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface ConfirmUserProps extends WithStyles<typeof styles> {
+interface EmailChangeProps extends WithStyles<typeof styles> {
     push: typeof push;
 }
 
-interface ConfirmUserState {
+interface EmailChangeState {
+    serverError: string;
     domain: string;
     success: boolean;
-    serverError: boolean;
 }
 
-class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
+class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
     validationSchema = Yup.object().shape({
-        newPassword: Yup.string()
-            .min(8, 'Must be at least 8 characters long')
-            .matches(
-                new RegExp('[\\-\\`\\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\=\\{\\}\\[\\]\\\\|\\;\\:\\\'\\"\\,\\<\\.\\>\\/\\?]'),
-                'Must contain at least 1 special character'
-            )
-            .matches(new RegExp('[0-9]'), 'Must contain at least 1 number')
-            .matches(new RegExp('[a-z]'), 'Must contain at least 1 lowercase letter')
-            .matches(new RegExp('[A-Z]'), 'Must contain at least 1 uppercase letter')
-            .required('Required'),
-        confirmPassword: Yup.string()
-            .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
-            .required('Required'),
+        email: Yup.string().email('Must be a valid email.'),
     });
 
-    state: ConfirmUserState = {
+    state: EmailChangeState = {
+        serverError: '',
         domain: '',
         success: false,
-        serverError: false,
     };
 
     getTokenFromParams(): string {
@@ -98,16 +85,15 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                             {
                                 domain: this.getDomainFromParams(),
                                 token: this.getTokenFromParams(),
-                                newPassword: '',
-                                confirmPassword: '',
-                            } as IPasswordResetModel
+                                email: '',
+                            } as IChangeEmailModel
                         }
-                        onSubmit={(values: IPasswordResetModel, formikBag: FormikBag<FormikProps<IPasswordResetModel>, IPasswordResetModel>) => {
+                        onSubmit={(values: IChangeEmailModel, formikBag: FormikBag<FormikProps<IChangeEmailModel>, IChangeEmailModel>) => {
                             const userId = this.getUserIdFromParams();
-                            userService.confirmUserAndPassword(userId, values).then(v => {
+                            userService.changeEmail(userId, values).then(v => {
                                 if (v.is_error) {
                                     formikBag.setSubmitting(false);
-                                    this.setState({ serverError: true });
+                                    this.setState({ success: false, serverError: v.error_content.errors[0] });
                                 } else {
                                     setTimeout(() => {
                                         formikBag.setSubmitting(false);
@@ -123,51 +109,34 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
                                         <Typography align="center" variant="h5">
-                                            New Account Password
+                                            Change Email
+                                        </Typography>
+                                        <Typography align="center" variant="subtitle1">
+                                            To change your email, enter your current email.
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormikTextField
-                                            name="newPassword"
-                                            label="New Password"
-                                            value={props.values.newPassword}
-                                            errorText={props.errors.newPassword}
-                                            touched={props.touched.newPassword}
+                                            name="email"
+                                            label="Current Email"
+                                            value={props.values.email}
+                                            errorText={props.errors.email}
+                                            touched={props.touched.email}
                                             onChange={props.handleChange}
                                             onBlur={props.handleBlur}
                                             autoComplete="off"
-                                            type="password"
-                                            required
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <FormikTextField
-                                            name="confirmPassword"
-                                            label="Confirm password"
-                                            value={props.values.confirmPassword}
-                                            errorText={props.errors.confirmPassword}
-                                            touched={props.touched.confirmPassword}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            autoComplete="off"
-                                            type="password"
                                             required
                                         />
                                     </Grid>
                                 </Grid>
                                 {this.state.serverError && (
-                                    <React.Fragment>
-                                        <Typography align="center" color="error">
-                                            An error occurred setting your password.
-                                        </Typography>
-                                        <Typography align="center" color="error">
-                                            The link may have expired.
-                                        </Typography>
-                                    </React.Fragment>
+                                    <Typography align="center" color="error">
+                                        {this.state.serverError}
+                                    </Typography>
                                 )}
                                 <div className={classes.flexButtonContainer}>
                                     <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
-                                        Set Password
+                                        Change Email
                                     </FormikSynchronousButton>
                                 </div>
                             </form>
@@ -177,26 +146,24 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                     <Grid direction="column" container spacing={3} justify="center" alignItems="center">
                         <Grid item>
                             <Typography gutterBottom align="center" variant="h5">
-                                Your account password has been set.
+                                Your email has been successfully changed.
                             </Typography>
                             <Typography gutterBottom align="center" variant="subtitle1">
-                                Click below to get started.
+                                Click below to sign in using your new email.
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <div className={classes.flexButtonContainer}>
-                                <Button
-                                    color="primary"
-                                    variant="contained"
-                                    onClick={() => {
-                                        this.state.domain
-                                            ? window.location.assign(`https://${this.state.domain}.${SPA_HOST}${RoutePaths.Login}`)
-                                            : this.props.push(RoutePaths.Landing);
-                                    }}
-                                >
-                                    Sign in
-                                </Button>
-                            </div>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                onClick={() => {
+                                    this.state.domain
+                                        ? window.location.assign(`https://${this.state.domain}.${SPA_HOST}${RoutePaths.Login}`)
+                                        : this.props.push(RoutePaths.Landing);
+                                }}
+                            >
+                                Sign in
+                            </Button>
                         </Grid>
                     </Grid>
                 )}
@@ -205,4 +172,4 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
     }
 }
 
-export default connect(null, { push })(withStyles(styles, { withTheme: true })(ConfirmUser));
+export default connect(null, { push })(withStyles(styles, { withTheme: true })(EmailChange));

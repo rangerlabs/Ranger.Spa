@@ -75,7 +75,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                                             }
                                             case DomainEnabledResults.Enabled: {
                                                 this.setState({ isSuccess: true });
-                                                enqueueSnackbar('Domain found', { variant: 'success' });
+                                                enqueueSnackbar('Domain found.', { variant: 'success' });
                                                 setTimeout(() => {
                                                     const loginPath = 'https://' + domain + '.' + SPA_HOST + RoutePaths.Login;
                                                     window.location.href = loginPath;
@@ -83,7 +83,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                                                 break;
                                             }
                                             default: {
-                                                enqueueSnackbar('Domain not found', { variant: 'error' });
+                                                enqueueSnackbar('Domain not found.', { variant: 'error' });
                                                 formikBag.setSubmitting(false);
                                                 break;
                                             }

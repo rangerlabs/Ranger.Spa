@@ -33,8 +33,10 @@ const populateUsersHOC = <P extends object>(Component: React.ComponentType<P>) =
             if (!this.props.usersState.isLoaded) {
                 userService.getUsers().then(userResponse => {
                     setTimeout(() => {
-                        this.props.setUsers(userResponse.content);
-                    }, 350);
+                        if (userResponse.content) {
+                            this.props.setUsers(userResponse.content ? userResponse.content : new Array<IUser>());
+                        }
+                    }, 250);
                 });
             }
         }
@@ -44,10 +46,7 @@ const populateUsersHOC = <P extends object>(Component: React.ComponentType<P>) =
         }
     }
 
-    return connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(PopulateUsersComponent);
+    return connect(mapStateToProps, mapDispatchToProps)(PopulateUsersComponent);
 };
 
 export default populateUsersHOC;
