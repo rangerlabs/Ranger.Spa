@@ -18,15 +18,27 @@ import * as Yup from 'yup';
 import FormikPrimaryButton from '../../form/FormikPrimaryButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { closeDialog } from '../../../redux/actions/DialogActions';
+import { connect } from 'react-redux';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
 
 interface Password {
     password: string;
 }
 
-interface DeleteAccountContentProps {
-    onClose: () => void;
+interface DeleteAccountContentProps extends WithSnackbarProps {
+    closeDialog: () => void;
     email: string;
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        closeDialog: () => {
+            const action = closeDialog();
+            dispatch(action);
+        },
+    };
+};
 
 function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentProps): JSX.Element {
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -75,7 +87,11 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                         <DialogTitle>Delete account?</DialogTitle>
                         <form onSubmit={props.handleSubmit}>
                             <DialogContent>
-                                <DialogContentText>To delete your account, please confirm your password.</DialogContentText>
+                                <DialogContentText>
+                                    You can request the Admin who created your account to delete it. If the Admin who created your account is no longer an
+                                    Admin, the request will be sent to the domain owner.
+                                </DialogContentText>
+                                <DialogContentText>Enter your password to request your account be deleted.</DialogContentText>
                                 <FormikTextField
                                     name="password"
                                     label="Password"
@@ -113,7 +129,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                                 )}
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={deleteAccountContentProps.onClose} color="primary" variant="text">
+                                <Button onClick={deleteAccountContentProps.closeDialog} color="primary" variant="text">
                                     Cancel
                                 </Button>
                                 <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
@@ -128,4 +144,4 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
     );
 }
 
-export default DeleteAccountContent;
+export default connect(null, mapDispatchToProps)(withSnackbar(DeleteAccountContent));

@@ -90,12 +90,12 @@ class Account extends React.Component<AccountProps, AccountState> {
         firstName: Yup.string()
             .min(1, 'Must be at least 1 character long')
             .max(48, 'Max 48 characters')
-            .matches(new RegExp("^([s,.-'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
             .required('Required'),
         lastName: Yup.string()
             .min(1, 'Must be at least 1 character long')
             .max(48, 'Max 48 characters')
-            .matches(new RegExp("^([s,.-'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
             .required('Required'),
         email: Yup.string()
             .email('Invalid email')
@@ -230,9 +230,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             <FormikDeleteButton
                                                 isSubmitting={props.isSubmitting}
                                                 dialogTitle="Delete account?"
-                                                dialogContent={
-                                                    <DeleteAccountComponent onClose={() => {}} email={(this.props.user.profile as UserProfile).email} />
-                                                }
+                                                dialogContent={<DeleteAccountComponent email={(this.props.user.profile as UserProfile).email} />}
                                             >
                                                 Delete
                                             </FormikDeleteButton>
