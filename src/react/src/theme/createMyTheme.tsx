@@ -55,6 +55,13 @@ export default function createRangerTheme(options: ThemeOptions) {
             width: '100%',
         },
         overrides: {
+            MuiBadge: {
+                badge: {
+                    right: -3,
+                    border: `2px solid ${Constants.COLORS.WHITE}`,
+                    padding: '0 4px',
+                },
+            },
             MuiDrawer: {
                 paperAnchorDockedLeft: {
                     borderRight: 'none',
