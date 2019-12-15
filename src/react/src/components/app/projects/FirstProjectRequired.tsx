@@ -65,7 +65,7 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                                     </Typography>
                                 ) : (
                                     <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
-                                        It looks like your organization hasn't created any projects yet.
+                                        You have not been assigned to any projects.
                                     </Typography>
                                 )}
                                 <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
@@ -87,12 +87,20 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                     ) : (
                         <Grid container direction="column" alignItems="center" justify="center">
                             <Grid item xs={12}>
-                                <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
-                                    It looks like your organization hasn't created any projects yet.
-                                </Typography>
-                                <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
-                                    Please request someone with administrative privilages create one.
-                                </Typography>
+                                {!window.location.pathname.startsWith(RoutePaths.Dashboard) ? (
+                                    <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                        You must first be assigned a project to access these resources.
+                                    </Typography>
+                                ) : (
+                                    <React.Fragment>
+                                        <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                            You have not been assigned to any projects.
+                                        </Typography>
+                                        <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                            Please request an administrator to assign a project to you.
+                                        </Typography>
+                                    </React.Fragment>
+                                )}
                             </Grid>
                         </Grid>
                     )}
