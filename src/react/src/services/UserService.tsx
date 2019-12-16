@@ -3,6 +3,7 @@ import IUser from '../models/app/IUser';
 import IConfirmModel from '../models/landing/IConfirmModel';
 import IResetPasswordModel from '../models/landing/IPasswordResetModel';
 import IChangeEmailModel from '../models/landing/IChangeEmailModel';
+import IAccountUpdateModel from '../models/app/IAccountUpdateModel';
 
 export default class UserService {
     async getUsers(): Promise<IRestResponse<IUser[]>> {
@@ -31,6 +32,10 @@ export default class UserService {
 
     async resetPassword(email: string, resetModel: IResetPasswordModel): Promise<IRestResponse<void>> {
         return RestUtilities.post(`/user/${email}/password-reset`, resetModel);
+    }
+
+    async updateAccount(email: string, accountUpdateModel: IAccountUpdateModel): Promise<IRestResponse<void>> {
+        return RestUtilities.put(`/account/${email}`, accountUpdateModel);
     }
 
     async requestPasswordReset(userEmail: string, passwordReset: IRequestPasswordResetModel): Promise<boolean> {

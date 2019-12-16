@@ -85,7 +85,7 @@ export default function createRangerTheme(options: ThemeOptions) {
                 },
             },
             MuiInput: {
-                root: {
+                underline: {
                     '&$disabled': {
                         '&:before': {
                             borderBottomStyle: 'none',

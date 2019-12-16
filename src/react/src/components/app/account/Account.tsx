@@ -22,6 +22,7 @@ import { openDialog, DialogContent } from '../../../redux/actions/DialogActions'
 import ChangePasswordContent from '../dialogContents/ChangePasswordContent';
 import ChangeEmailContent from '../dialogContents/ChangeEmailContent';
 import { getRole } from '../../../helpers/Helpers';
+import IAccountUpdateModel from '../../../models/app/IAccountUpdateModel';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -97,9 +98,6 @@ class Account extends React.Component<AccountProps, AccountState> {
             .max(48, 'Max 48 characters')
             .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
             .required('Required'),
-        email: Yup.string()
-            .email('Invalid email')
-            .required('Required'),
     });
 
     render() {
@@ -124,26 +122,28 @@ class Account extends React.Component<AccountProps, AccountState> {
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
                                 console.log(values);
                                 this.setState({ serverErrors: undefined });
-                                const newUser = {
-                                    email: values.email,
+                                const accountUpdate = {
                                     firstName: values.firstName,
                                     lastName: values.lastName,
-                                } as IUser;
-                                userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
-                                    setTimeout(() => {
-                                        if (response.is_error) {
-                                            const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                            enqueueSnackbar('Error updating your account.', { variant: 'error' });
-                                            formikBag.setErrors(formikErrors as FormikErrors<IUser>);
-                                            this.setState({ serverErrors: serverErrors });
-                                            formikBag.setSubmitting(false);
-                                        } else {
-                                            enqueueSnackbar('Account updated successfully.', { variant: 'success' });
-                                            setTimeout(this.props.closeForm, 500);
-                                            dispatchAddUser(response.content);
-                                        }
-                                    }, 2000);
-                                });
+                                } as IAccountUpdateModel;
+                                userService
+                                    .updateAccount((this.props.user.profile as UserProfile).email, accountUpdate)
+                                    .then((response: IRestResponse<void>) => {
+                                        setTimeout(() => {
+                                            if (response.is_error) {
+                                                const { errors: serverErrors, ...formikErrors } = response.error_content;
+                                                enqueueSnackbar('Error updating your account.', { variant: 'error' });
+                                                formikBag.setErrors(formikErrors as FormikErrors<IUser>);
+                                                this.setState({ serverErrors: serverErrors });
+                                                formikBag.setSubmitting(false);
+                                            } else {
+                                                enqueueSnackbar('Account updated successfully.', { variant: 'success' });
+                                                setTimeout(this.props.closeForm, 250);
+                                                formikBag.setSubmitting(false);
+                                                //logout
+                                            }
+                                        }, 2000);
+                                    });
                             }}
                             validationSchema={this.validationSchema}
                         >
@@ -195,7 +195,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                                 this.props.openDialog(new DialogContent((<ChangeEmailContent />)));
                                                             }}
                                                         >
-                                                            Change
+                                                            Change Email
                                                         </Button>
                                                     ),
                                                 }}

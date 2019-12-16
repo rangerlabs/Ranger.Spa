@@ -87,11 +87,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                         <DialogTitle>Delete account?</DialogTitle>
                         <form onSubmit={props.handleSubmit}>
                             <DialogContent>
-                                <DialogContentText>
-                                    You can request the Admin who created your account to delete it. If the Admin who created your account is no longer an
-                                    Admin, the request will be sent to the domain owner.
-                                </DialogContentText>
-                                <DialogContentText>Enter your password to request your account be deleted.</DialogContentText>
+                                <DialogContentText>To delete your account please confirm your password.</DialogContentText>
                                 <FormikTextField
                                     name="password"
                                     label="Password"

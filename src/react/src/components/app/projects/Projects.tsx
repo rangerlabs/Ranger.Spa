@@ -8,16 +8,20 @@ import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 const MUIDataTable = require('mui-datatables').default;
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
+import { User } from 'oidc-client';
+import { userIsInRole } from '../../../helpers/Helpers';
+import { RoleEnum } from '../../../models/RoleEnum';
 
 interface ProjectsProps {
     projectsState: ProjectsState;
     addProject: (project: IProject) => void;
     removeProject: (name: string) => void;
     push: typeof push;
+    user: User;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { projectsState: state.projectsState };
+    return { projectsState: state.projectsState, user: state.oidc.user };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -40,7 +44,7 @@ class Projects extends React.Component<ProjectsProps> {
     };
 
     editProject = (rowData: string[]) => {
-        this.props.push(`${RoutePaths.ProjectsEdit}?name=${rowData[0]}`);
+        this.props.push(`${RoutePaths.ProjectsEdit}?name=${rowData[1]}`);
     };
 
     redirectToNewProjectForm = () => {
@@ -51,7 +55,13 @@ class Projects extends React.Component<ProjectsProps> {
         const tableProjects = new Array<Array<string>>();
         if (projects) {
             projects.forEach(value => {
-                tableProjects.push([value.name, value.description, `${value.liveApiKeyPrefix}...`, `${value.testApiKeyPrefix}...`]);
+                tableProjects.push([
+                    value.enabled ? 'Enabled' : 'Disabled',
+                    value.name,
+                    value.description,
+                    `${value.liveApiKeyPrefix}...`,
+                    `${value.testApiKeyPrefix}...`,
+                ]);
             });
         }
         return tableProjects;
@@ -59,9 +69,15 @@ class Projects extends React.Component<ProjectsProps> {
 
     columns = [
         {
-            name: 'Name',
+            name: 'Enabled',
             options: {
                 filter: true,
+            },
+        },
+        {
+            name: 'Name',
+            options: {
+                filter: false,
             },
         },
         {
@@ -87,7 +103,7 @@ class Projects extends React.Component<ProjectsProps> {
         print: false,
         download: false,
         customToolbar: () => {
-            return <CustomAddToolbar toggleFormFlag={this.redirectToNewProjectForm} />;
+            return Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN)) ? <CustomAddToolbar toggleFormFlag={this.redirectToNewProjectForm} /> : null;
         },
         elevation: 0,
         selectableRows: 'none',
@@ -106,7 +122,4 @@ class Projects extends React.Component<ProjectsProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(populateProjectsHOC(Projects));
+export default connect(mapStateToProps, mapDispatchToProps)(populateProjectsHOC(Projects));

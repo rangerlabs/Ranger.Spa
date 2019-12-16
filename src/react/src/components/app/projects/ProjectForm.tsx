@@ -25,6 +25,9 @@ import NewProjectApiKeysContent from '../dialogContents/NewProjectApiKeysContent
 import NewProjectEnvironmentApiKeyContent from '../dialogContents/NewProjectEnvironmentApiKeyContent';
 import titleCase = require('title-case');
 import { ProjectEnvironmentEnum } from '../../../models/ProjectEnvironmentEnum';
+import { User } from 'oidc-client';
+import { userIsInRole } from '../../../helpers/Helpers';
+import { RoleEnum } from '../../../models/RoleEnum';
 
 const projectService = new ProjectService();
 
@@ -59,6 +62,7 @@ interface IProjectFormProps extends WithStyles<typeof styles>, WithSnackbarProps
     closeForm: () => void;
     projectsState?: ProjectsState;
     push: typeof push;
+    user: User;
 }
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -84,7 +88,7 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { projectsState: state.projectsState };
+    return { projectsState: state.projectsState, user: state.oidc.user };
 };
 
 type ProjectFormState = {
@@ -183,7 +187,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography align="center" variant="h5" gutterBottom>
-                            {this.state.initialProject ? 'Edit Project' : 'New Project'}
+                            {this.state.initialProject ? (userIsInRole(this.props.user, RoleEnum.ADMIN) ? 'Edit Project' : 'View Project') : 'New Project'}
                         </Typography>
                         <Formik
                             ref={this.formikRef}
@@ -251,6 +255,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                 value={props.values.enabled}
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
+                                                disabled={Boolean(!userIsInRole(this.props.user, RoleEnum.ADMIN))}
                                             />
                                         </Grid>
 
@@ -264,7 +269,8 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
-                                                required
+                                                required={!this.state.initialProject && Boolean(!userIsInRole(this.props.user, RoleEnum.ADMIN))}
+                                                disabled={Boolean(!userIsInRole(this.props.user, RoleEnum.ADMIN))}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -277,6 +283,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
+                                                disabled={Boolean(!userIsInRole(this.props.user, RoleEnum.ADMIN))}
                                             />
                                         </Grid>
                                         {this.state.initialProject && (
@@ -287,18 +294,20 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                         value={`${this.state.initialProject.liveApiKeyPrefix}...`}
                                                         fullWidth
                                                         disabled
-                                                        InputProps={{
-                                                            endAdornment: (
-                                                                <Button
-                                                                    disabled={props.isSubmitting}
-                                                                    onClick={() => {
-                                                                        this.resetApiKey('live');
-                                                                    }}
-                                                                >
-                                                                    Reset
-                                                                </Button>
-                                                            ),
-                                                        }}
+                                                        InputProps={
+                                                            userIsInRole(this.props.user, RoleEnum.ADMIN) && {
+                                                                endAdornment: (
+                                                                    <Button
+                                                                        disabled={props.isSubmitting}
+                                                                        onClick={() => {
+                                                                            this.resetApiKey('live');
+                                                                        }}
+                                                                    >
+                                                                        Reset
+                                                                    </Button>
+                                                                ),
+                                                            }
+                                                        }
                                                     />
                                                 </Grid>
                                                 <Grid item xs={12}>
@@ -307,18 +316,20 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                         value={`${this.state.initialProject.testApiKeyPrefix}...`}
                                                         fullWidth
                                                         disabled
-                                                        InputProps={{
-                                                            endAdornment: (
-                                                                <Button
-                                                                    disabled={props.isSubmitting}
-                                                                    onClick={() => {
-                                                                        this.resetApiKey('test');
-                                                                    }}
-                                                                >
-                                                                    Reset
-                                                                </Button>
-                                                            ),
-                                                        }}
+                                                        InputProps={
+                                                            userIsInRole(this.props.user, RoleEnum.ADMIN) && {
+                                                                endAdornment: (
+                                                                    <Button
+                                                                        disabled={props.isSubmitting}
+                                                                        onClick={() => {
+                                                                            this.resetApiKey('test');
+                                                                        }}
+                                                                    >
+                                                                        Reset
+                                                                    </Button>
+                                                                ),
+                                                            }
+                                                        }
                                                     />
                                                 </Grid>
                                             </React.Fragment>
@@ -331,7 +342,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     </Grid>
                                     <div className={classes.flexButtonContainer}>
                                         <div className={classes.leftButtons}>
-                                            {this.state.initialProject && (
+                                            {userIsInRole(this.props.user, RoleEnum.ADMIN) && this.state.initialProject && (
                                                 <FormikDeleteButton
                                                     isSubmitting={props.isSubmitting}
                                                     dialogTitle={`Delete ${this.state.initialProject.name}?`}
@@ -349,9 +360,11 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                 this.props.push('/projects');
                                             }}
                                         />
-                                        <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
-                                            {props.initialValues.name === '' ? 'Create' : 'Update'}
-                                        </FormikSynchronousButton>
+                                        {userIsInRole(this.props.user, RoleEnum.ADMIN) && (
+                                            <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
+                                                {props.initialValues.name === '' ? 'Create' : 'Update'}
+                                            </FormikSynchronousButton>
+                                        )}
                                     </div>
                                 </form>
                             )}
