@@ -23,6 +23,7 @@ import ChangePasswordContent from '../dialogContents/ChangePasswordContent';
 import ChangeEmailContent from '../dialogContents/ChangeEmailContent';
 import { getRole } from '../../../helpers/Helpers';
 import IAccountUpdateModel from '../../../models/app/IAccountUpdateModel';
+import UserManager from '../../../services/UserManager';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -58,6 +59,7 @@ interface AccountProps extends WithStyles<typeof styles>, WithSnackbarProps {
     user: User;
     openDialog: (dialogContent: DialogContent) => void;
     dispatchAddUser: (user: IUser) => void;
+    expireUser: () => void;
     closeForm: () => void;
     push: typeof push;
 }
@@ -120,7 +122,6 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 authorizedProjects: (this.props.user.profile as UserProfile).authorizedProjects,
                             }}
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
-                                console.log(values);
                                 this.setState({ serverErrors: undefined });
                                 const accountUpdate = {
                                     firstName: values.firstName,
@@ -137,12 +138,12 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 this.setState({ serverErrors: serverErrors });
                                                 formikBag.setSubmitting(false);
                                             } else {
+                                                UserManager.signinSilent();
                                                 enqueueSnackbar('Account updated successfully.', { variant: 'success' });
-                                                setTimeout(this.props.closeForm, 250);
+                                                // setTimeout(this.props.closeForm, 250);
                                                 formikBag.setSubmitting(false);
-                                                //logout
                                             }
-                                        }, 2000);
+                                        }, 250);
                                     });
                             }}
                             validationSchema={this.validationSchema}
@@ -195,7 +196,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                                 this.props.openDialog(new DialogContent((<ChangeEmailContent />)));
                                                             }}
                                                         >
-                                                            Change Email
+                                                            Change
                                                         </Button>
                                                     ),
                                                 }}
