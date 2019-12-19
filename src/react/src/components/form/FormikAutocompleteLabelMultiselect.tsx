@@ -159,7 +159,7 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                     disableCloseOnSelect
                     disablePortal
                     renderTags={() => null}
-                    noOptionsText="No projects available"
+                    noOptionsText="No options available"
                     renderOption={(option: string, { selected }) => (
                         <React.Fragment>
                             <Checkbox color="primary" icon={icon} checkedIcon={checkedIcon} className={classes.checkbox} checked={selected} />{' '}

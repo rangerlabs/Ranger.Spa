@@ -11,6 +11,9 @@ import { StatusEnum } from '../../models/StatusEnum';
 import { DomainState } from '../../redux/actions/DomainActions';
 import { User } from 'oidc-client';
 import GenericDomainUserHandler from './pusherHandlers/GenericDomainUserHandler';
+import TokenRefreshHandler from './pusherHandlers/TokenRefreshHandler';
+import PermissionsUpdatedHandler from './pusherHandlers/PermissionsUpdatedHandler';
+import ForceSignoutHandler from './pusherHandlers/ForceSignoutHandler';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -118,6 +121,9 @@ class Notifier extends React.Component<NotifierProps> {
         this.domainUserChannel = this.pusher.subscribe(channel);
         this.domainUserChannel.bind('user-created', GenericDomainUserHandler);
         this.domainUserChannel.bind('user-updated', GenericDomainUserHandler);
+        this.domainUserChannel.bind('token-refresh', TokenRefreshHandler);
+        this.domainUserChannel.bind('permissions-updated', PermissionsUpdatedHandler);
+        this.domainUserChannel.bind('force-signout', ForceSignoutHandler);
     }
 
     private subscribeTenantOnboardChannelEvent(stateDomain: DomainState) {

@@ -45,16 +45,11 @@ class FormikDeleteButton extends React.Component<FormikDeleteButtonProps & Butto
     render() {
         const { isSubmitting, dialogTitle, dialogContent, confirmText, classes, onConfirm, openDialog, variant, ...rest } = this.props;
         return (
-            <Button className={classes.warning} onClick={this.renderDialog} disabled={isSubmitting} {...rest} variant="text">
+            <Button className={classes.warning} onClick={this.renderDialog} disabled={isSubmitting} {...rest} variant="outlined">
                 Delete
             </Button>
         );
     }
 }
 
-export default withStyles(styles)(
-    connect(
-        null,
-        mapDispatchToProps
-    )(FormikDeleteButton)
-);
+export default withStyles(styles)(connect(null, mapDispatchToProps)(FormikDeleteButton));

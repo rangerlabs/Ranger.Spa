@@ -1,5 +1,19 @@
 import * as React from 'react';
-import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, Fade, ListItem, ListItemText, Collapse, Typography } from '@material-ui/core';
+import {
+    Theme,
+    WithStyles,
+    Hidden,
+    Drawer,
+    createStyles,
+    withStyles,
+    List,
+    Fade,
+    ListItem,
+    ListItemText,
+    Collapse,
+    Typography,
+    Badge,
+} from '@material-ui/core';
 import ScrollTop from '../ScrollTop';
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 import Observer, { InView } from 'react-intersection-observer';
@@ -44,6 +58,13 @@ const styles = (theme: Theme) =>
         },
         iconAlign: {
             verticalAlign: 'middle',
+        },
+        badge: {
+            height: '100%',
+            right: '-25px',
+        },
+        badgeTypography: {
+            lineHeight: 'inherit',
         },
     });
 
@@ -105,11 +126,21 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                     <ListItemText primary="Getting Started" />
                 </ListItem>
                 <ListItem
-                    id="projects"
+                    id="permissions"
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
                         this.parallax.scrollTo(1);
+                    }}
+                >
+                    <ListItemText primary="Permissions" />
+                </ListItem>
+                <ListItem
+                    id="projects"
+                    button
+                    onClick={() => {
+                        this.closeMobileDrawer();
+                        this.parallax.scrollTo(2);
                     }}
                 >
                     <ListItemText primary="Projects" />
@@ -119,7 +150,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        this.parallax.scrollTo(2);
+                        this.parallax.scrollTo(3);
                     }}
                 >
                     <ListItemText primary="Geofences" />
@@ -129,10 +160,40 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        this.parallax.scrollTo(3);
+                        this.parallax.scrollTo(4);
                     }}
                 >
                     <ListItemText primary="Integrations" />
+                </ListItem>
+                <ListItem
+                    id="api"
+                    button
+                    onClick={() => {
+                        this.closeMobileDrawer();
+                        this.parallax.scrollTo(5);
+                    }}
+                >
+                    <ListItemText primary="API" />
+                </ListItem>
+                <ListItem
+                    id="skd"
+                    button
+                    // onClick={() => {
+                    //     this.closeMobileDrawer();
+                    //     this.parallax.scrollTo(6);
+                    // }}
+                >
+                    <Badge
+                        classes={{ badge: classes.badge }}
+                        badgeContent={
+                            <Typography className={classes.badgeTypography} variant="caption" align="center">
+                                Coming soon!
+                            </Typography>
+                        }
+                        color="primary"
+                    >
+                        <ListItemText primary="SDK" />
+                    </Badge>
                 </ListItem>
             </List>
         );
@@ -183,7 +244,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                             </div>
                         </Hidden>
                         <Parallax
-                            pages={4}
+                            pages={6}
                             scrolling={true}
                             ref={(ref: Parallax) => {
                                 this.parallax = ref;
@@ -195,15 +256,26 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                         this.setState({ mobileSectionName: 'Getting Started' });
                                     }}
                                 >
-                                    <Observer onChange={this.handleScrollTop}>
-                                        <div />
-                                    </Observer>
                                     <section id="getting-started">
                                         <Typography variant="h5">Getting Started</Typography>
+                                        <Observer onChange={this.handleScrollTop}>
+                                            <div />
+                                        </Observer>
                                     </section>
                                 </Observer>
                             </ParallaxLayer>
                             <ParallaxLayer offset={1} speed={1}>
+                                <Observer
+                                    onChange={() => {
+                                        this.setState({ mobileSectionName: 'Permissions' });
+                                    }}
+                                >
+                                    <section id="permissions">
+                                        <Typography variant="h5">Permissions</Typography>
+                                    </section>
+                                </Observer>
+                            </ParallaxLayer>
+                            <ParallaxLayer offset={2} speed={1}>
                                 <Observer
                                     onChange={() => {
                                         this.setState({ mobileSectionName: 'Projects' });
@@ -214,7 +286,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     </section>
                                 </Observer>
                             </ParallaxLayer>
-                            <ParallaxLayer offset={2} speed={1}>
+                            <ParallaxLayer offset={3} speed={1}>
                                 <Observer
                                     onChange={() => {
                                         this.setState({ mobileSectionName: 'Geofences' });
@@ -225,7 +297,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     </section>
                                 </Observer>
                             </ParallaxLayer>
-                            <ParallaxLayer offset={3} speed={1}>
+                            <ParallaxLayer offset={4} speed={1}>
                                 <Observer
                                     onChange={() => {
                                         this.setState({ mobileSectionName: 'Integrations' });
@@ -233,6 +305,17 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                 >
                                     <section id="integrations">
                                         <Typography variant="h5">Integrations</Typography>
+                                    </section>
+                                </Observer>
+                            </ParallaxLayer>
+                            <ParallaxLayer offset={5} speed={1}>
+                                <Observer
+                                    onChange={() => {
+                                        this.setState({ mobileSectionName: 'API' });
+                                    }}
+                                >
+                                    <section id="api">
+                                        <Typography variant="h5">API</Typography>
                                     </section>
                                 </Observer>
                             </ParallaxLayer>
