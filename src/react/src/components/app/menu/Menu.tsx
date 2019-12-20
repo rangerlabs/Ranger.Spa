@@ -65,7 +65,6 @@ interface MenuProps extends WithStyles<typeof styles> {
     user: User;
     selectedProject: IProject;
     mobileOpen: boolean;
-    signOut: () => void;
     handleDrawerToggle: () => void;
     push: typeof push;
     expandedSection: string;
@@ -199,14 +198,21 @@ class Menu extends React.Component<MenuProps> {
                         <ListItemIcon>
                             <AccountCircle />
                         </ListItemIcon>
-                        <ListItemText primary="Account" />
+                        <ListItemText primary="Settings" />
                         <Fade in={this.props.expandedSection === 'account'} timeout={timeout}>
                             <ExpandLess />
                         </Fade>
                     </ListItem>
                     <Collapse in={this.props.expandedSection === 'account'} timeout={500} unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItem button className={classes.nested} onClick={this.props.signOut}>
+                            <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Account)}>
+                                <ListItemIcon>
+                                    <Lock />
+                                </ListItemIcon>
+                                <ListItemText primary="Account" />
+                            </ListItem>
+
+                            <ListItem button className={classes.nested} onClick={this.props.push(RoutePaths.Logout)}>
                                 <ListItemIcon>
                                     <Lock />
                                 </ListItemIcon>
