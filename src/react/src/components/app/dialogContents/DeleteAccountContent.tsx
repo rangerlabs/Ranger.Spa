@@ -100,7 +100,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                         <DialogTitle>Delete account?</DialogTitle>
                         <form onSubmit={props.handleSubmit}>
                             <DialogContent>
-                                <DialogContentText>To delete your account please confirm your password.</DialogContentText>
+                                <DialogContentText color="error">To delete your account please confirm your password.</DialogContentText>
                                 <FormikTextField
                                     name="password"
                                     label="Password"

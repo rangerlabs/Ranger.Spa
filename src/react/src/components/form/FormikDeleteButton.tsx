@@ -14,6 +14,9 @@ const styles = (theme: Theme) =>
                 backgroundColor: '#e539351c',
                 color: theme.palette.error.main,
             },
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: red[600],
         },
     });
 

@@ -39,12 +39,12 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
             <Grid className={classes.gridHeight} container alignContent="center" justify="center">
                 <Grid item xs={1} />
                 <Grid item md={5} xs={10}>
-                    <Slide in direction="right" timeout={1500}>
+                    <Slide in direction="right" timeout={1200}>
                         <div>
                             <Typography gutterBottom className={classes.typography} variant="subtitle1">
                                 HOSTED APIs FOR
                             </Typography>
-                            <Typography className={classes.typography} variant="h2">
+                            <Typography className={classes.typography} variant="h3">
                                 BOUNDLESS LOCATION SERVICES
                             </Typography>
                             <div className={classes.typography}>
