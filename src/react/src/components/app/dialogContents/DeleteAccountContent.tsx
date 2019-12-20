@@ -21,6 +21,16 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { closeDialog } from '../../../redux/actions/DialogActions';
 import { connect } from 'react-redux';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
+import UserService from '../../../services/UserService';
+import IUser from '../../../models/app/IUser';
+import RoutePaths from '../../RoutePaths';
+import { push } from 'connected-react-router';
+import UserManager from '../../../services/UserManager';
+import { ApplicationState } from '../../../stores';
+import { UserProfile } from '../../../models/UserProfile';
+import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+
+const userService = new UserService();
 
 interface Password {
     password: string;
@@ -28,8 +38,15 @@ interface Password {
 
 interface DeleteAccountContentProps extends WithSnackbarProps {
     closeDialog: () => void;
+    push: typeof push;
     email: string;
 }
+
+const mapStateToProps = (state: ApplicationState) => {
+    return {
+        email: (state.oidc.user.profile as UserProfile).email,
+    };
+};
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
@@ -37,12 +54,14 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = closeDialog();
             dispatch(action);
         },
+        push: (path: string) => dispatch(push(path)),
     };
 };
 
 function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentProps): JSX.Element {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [serverErrors, setServerErrors] = useState(undefined as string[]);
+    const [success, setSuccess] = useState(false);
 
     const validationSchema = Yup.object().shape({
         password: Yup.string()
@@ -62,23 +81,17 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
             <Formik
                 initialValues={{ password: '' }}
                 onSubmit={(values: Password, formikBag: FormikBag<FormikProps<Password>, Password>) => {
-                    console.log(values);
-                    setServerErrors(undefined);
-                    // userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
-                    //     setTimeout(() => {
-                    //         if (response.is_error) {
-                    //             const { serverErrors, ...formikErrors } = response.error_content.errors;
-                    //             enqueueSnackbar("Error creating user", { variant: "error" });
-                    //             formikBag.setErrors(formikErrors as FormikErrors<IUser>);
-                    //             this.setState({ serverErrors: serverErrors });
-                    //             formikBag.setSubmitting(false);
-                    //         } else {
-                    //             enqueueSnackbar("User created", { variant: "success" });
-                    //             setTimeout(this.props.closeForm, 500);
-                    //             dispatchAddUser(response.content);
-                    //         }
-                    //     }, 2000);
-                    // });
+                    userService.deleteAccount(deleteAccountContentProps.email, { password: values.password }).then(response => {
+                        if (response.is_error) {
+                            deleteAccountContentProps.enqueueSnackbar(`Failed to delete your account. ${response.error_content.errors}`, { variant: 'error' });
+                        } else {
+                            UserManager.removeUser();
+                            deleteAccountContentProps.enqueueSnackbar('Your account has been deleted.', { variant: 'success' });
+                            push(SPA_HOST);
+                            setSuccess(true);
+                        }
+                        formikBag.setSubmitting(false);
+                    });
                 }}
                 validationSchema={validationSchema}
             >
@@ -128,9 +141,15 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                                 <Button onClick={deleteAccountContentProps.closeDialog} color="primary" variant="text">
                                     Cancel
                                 </Button>
-                                <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
+                                <FormikSynchronousButton
+                                    denseMargin
+                                    isValid={props.isValid}
+                                    isSubmitting={props.isSubmitting}
+                                    isSuccess={success}
+                                    variant="text"
+                                >
                                     Delete account
-                                </FormikPrimaryButton>
+                                </FormikSynchronousButton>
                             </DialogActions>
                         </form>
                     </React.Fragment>

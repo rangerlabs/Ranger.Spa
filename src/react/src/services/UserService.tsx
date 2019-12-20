@@ -38,6 +38,14 @@ export default class UserService {
         return RestUtilities.put(`/account/${email}`, accountUpdateModel);
     }
 
+    async deleteAccount(email: string, accountDeleteModel: IAccountDeleteModel): Promise<IRestResponse<void>> {
+        return RestUtilities.delete(`/account/${email}`, accountDeleteModel);
+    }
+
+    async deleteUser(email: string): Promise<IRestResponse<void>> {
+        return RestUtilities.delete(`/user/${email}`);
+    }
+
     async requestPasswordReset(userEmail: string, passwordReset: IRequestPasswordResetModel): Promise<boolean> {
         return RestUtilities.put(`/user/${userEmail}/password-reset`, passwordReset).then(value => {
             if (value.is_error) {

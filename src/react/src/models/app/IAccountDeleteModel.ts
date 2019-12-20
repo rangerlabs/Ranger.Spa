@@ -1,0 +1,3 @@
+interface IAccountDeleteModel {
+    password: string;
+}

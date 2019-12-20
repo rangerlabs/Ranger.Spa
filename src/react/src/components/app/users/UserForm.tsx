@@ -101,12 +101,16 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     };
 
     deleteUser(props: FormikProps<Partial<IUser>>, enqueueSnackbar: any) {
-        console.log('DELETE THE USER');
-        setTimeout(() => {
-            this.props.dispatchRemoveUser(props.values.email);
-            enqueueSnackbar('User deleted', { variant: 'error' });
-            this.props.push(RoutePaths.Users);
-        }, 250);
+        userService.deleteUser(props.values.email).then(response => {
+            if (response.is_error) {
+                enqueueSnackbar(`Failed to delete user ${props.values.email}.`, { variant: 'error' });
+                this.formikRef.current.setError('Failed to delete the user. Verify the user exists and try again.');
+            } else {
+                enqueueSnackbar('User deleted', { variant: 'success' });
+                this.props.dispatchRemoveUser(props.values.email);
+                this.props.push(RoutePaths.Users);
+            }
+        });
     }
 
     UNSAFE_componentWillMount() {

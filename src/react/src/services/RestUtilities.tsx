@@ -22,9 +22,13 @@ export default class RestUtilities {
         return RestUtilities.request<T>('GET', url);
     }
 
-    static delete(url: string): Promise<IRestResponse<void>> {
+    static delete(url: string, data?: any): Promise<IRestResponse<void>> {
         url = RestUtilities.FormatUrl(url);
-        return RestUtilities.request<void>('DELETE', url);
+        if (data) {
+            return RestUtilities.request<void>('DELETE', url, data);
+        } else {
+            return RestUtilities.request<void>('DELETE', url);
+        }
     }
 
     static put<T>(url: string, data: any): Promise<IRestResponse<T>> {
