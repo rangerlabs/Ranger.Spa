@@ -324,6 +324,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 dialogTitle="Delete user?"
                                                 confirmText="Delete"
                                                 dialogContent={'Are you sure you want to delete user ' + props.values.email + '?'}
+                                                disabled={Boolean(this.props.initialUser)}
                                             >
                                                 Delete
                                             </FormikDeleteButton>
@@ -341,11 +342,11 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 isSuccess={this.state.success}
                                                 variant="contained"
                                             >
-                                                Create
+                                                Create User
                                             </FormikSynchronousButton>
                                         ) : (
                                             <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
-                                                Update
+                                                Update User
                                             </FormikSynchronousButton>
                                         )}
                                     </div>

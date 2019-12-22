@@ -97,7 +97,7 @@ class AppLayout extends React.Component<AppLayoutProps> {
                         <Dialog />
                         <Header breadcrumbs={this.completeBreadcrumbsWithProjectName()} handleDrawerToggle={this.handleDrawerToggle} {...props} />
                         <Menu handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
-                        <Fade in timeout={750}>
+                        <Fade in timeout={550}>
                             <main className={classes.content}>
                                 <div className={classes.toolbar} />
                                 <Component {...props} />

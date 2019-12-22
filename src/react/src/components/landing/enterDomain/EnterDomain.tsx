@@ -121,7 +121,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                                             isSuccess={this.state.isSuccess}
                                             type="submit"
                                         >
-                                            Lookup
+                                            Lookup Domain
                                         </FormikSynchronousButton>
                                     </div>
                                 </form>

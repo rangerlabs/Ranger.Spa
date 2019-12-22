@@ -2,5 +2,5 @@ export enum RoleEnum {
     USER = 'User',
     ADMIN = 'Admin',
     OWNER = 'Owner',
-    TENANT_OWNER = 'TenantOwner',
+    TENANT_OWNER = 'PrimaryOwner',
 }

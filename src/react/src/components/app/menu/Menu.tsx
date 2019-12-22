@@ -30,12 +30,13 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { ApplicationState } from '../../../stores';
 import { expandSection } from '../../../redux/actions/MenuActions';
-import { UserProfile } from '../../../models/UserProfile';
 import { RoleEnum } from '../../../models/RoleEnum';
 import RoutePaths from '../../../components/RoutePaths';
 import { User } from 'oidc-client';
 import IProject from '../../../models/app/IProject';
 import { userIsInRole } from '../../../helpers/Helpers';
+import { Logout } from 'mdi-material-ui';
+import { Settings } from 'mdi-material-ui';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -196,7 +197,7 @@ class Menu extends React.Component<MenuProps> {
                 <Hidden mdUp implementation="css">
                     <ListItem id="account" button onClick={() => this.handleMenuToggle('account')}>
                         <ListItemIcon>
-                            <AccountCircle />
+                            <Settings />
                         </ListItemIcon>
                         <ListItemText primary="Settings" />
                         <Fade in={this.props.expandedSection === 'account'} timeout={timeout}>
@@ -207,14 +208,14 @@ class Menu extends React.Component<MenuProps> {
                         <List component="div" disablePadding>
                             <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Account)}>
                                 <ListItemIcon>
-                                    <Lock />
+                                    <AccountCircle />
                                 </ListItemIcon>
                                 <ListItemText primary="Account" />
                             </ListItem>
 
-                            <ListItem button className={classes.nested} onClick={this.props.push(RoutePaths.Logout)}>
+                            <ListItem button className={classes.nested} onClick={() => this.props.push(RoutePaths.Logout)}>
                                 <ListItemIcon>
-                                    <Lock />
+                                    <Logout />
                                 </ListItemIcon>
                                 <ListItemText primary="Logout" />
                             </ListItem>
