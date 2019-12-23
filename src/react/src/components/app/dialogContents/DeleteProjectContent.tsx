@@ -44,7 +44,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
-            .matches(new RegExp(`${deleteProjectContentProps.name}`), `The name entered is not the project's name.`)
+            .matches(new RegExp(`^${deleteProjectContentProps.name}$`), `The name entered is not the project's name.`)
             .required('Required'),
     });
 
@@ -75,6 +75,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                         <form onSubmit={props.handleSubmit}>
                             <DialogContent>
                                 <DialogContentText color="error">To delete this project please confirm the project's name.</DialogContentText>
+                                <DialogContentText color="error">{deleteProjectContentProps.name}</DialogContentText>
                                 <FormikTextField
                                     name="name"
                                     label="Project Name"

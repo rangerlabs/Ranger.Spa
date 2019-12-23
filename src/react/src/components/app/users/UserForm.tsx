@@ -134,7 +134,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         var role = getRole(user.profile.role as string[]);
         var cascadedRoles = getCascadedRoles(role).reverse();
         cascadedRoles.forEach(value => {
-            if (value != RoleEnum.TENANT_OWNER) roleArray.push({ value: value, label: value });
+            if (value != RoleEnum.PRIMARY_OWNER) roleArray.push({ value: value, label: value });
         });
         return roleArray;
     }

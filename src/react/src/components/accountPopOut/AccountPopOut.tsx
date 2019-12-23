@@ -22,6 +22,11 @@ const styles = (theme: Theme) =>
                 color: theme.palette.primary.main,
             },
         },
+        listItemIcon: {
+            root: {
+                minWidth: theme.spacing(4),
+            },
+        },
     });
 
 interface AccountPopOutProps extends WithStyles<typeof styles> {
@@ -95,7 +100,7 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                                 this.handleClose(e);
                                             }}
                                         >
-                                            <ListItemIcon>
+                                            <ListItemIcon className={classes.listItemIcon}>
                                                 <AccountCircle fontSize="small" />
                                             </ListItemIcon>
                                             <ListItemText primary="Account" />
@@ -106,7 +111,7 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                                 this.handleClose(e);
                                             }}
                                         >
-                                            <ListItemIcon>
+                                            <ListItemIcon className={classes.listItemIcon}>
                                                 <Logout fontSize="small" />
                                             </ListItemIcon>
                                             <ListItemText primary="Logout" />
