@@ -324,7 +324,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 dialogTitle="Delete user?"
                                                 confirmText="Delete"
                                                 dialogContent={'Are you sure you want to delete user ' + props.values.email + '?'}
-                                                disabled={Boolean(this.props.initialUser)}
+                                                disabled={!Boolean(this.props.initialUser)}
                                             >
                                                 Delete
                                             </FormikDeleteButton>
