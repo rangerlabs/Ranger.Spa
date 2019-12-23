@@ -38,8 +38,8 @@ export function userIsInRole(user: User, role: RoleEnum) {
 
 export function getCascadedRoles(role: string): RoleEnum[] {
     var roles = new Array<RoleEnum>();
-    if (role === RoleEnum.TENANT_OWNER) {
-        roles.push(RoleEnum.TENANT_OWNER);
+    if (role === RoleEnum.PRIMARY_OWNER) {
+        roles.push(RoleEnum.PRIMARY_OWNER);
         roles.push(RoleEnum.OWNER);
         roles.push(RoleEnum.ADMIN);
         roles.push(RoleEnum.USER);
@@ -58,8 +58,8 @@ export function getCascadedRoles(role: string): RoleEnum[] {
 
 export function getRole(roles: string | string[]) {
     if (Array.isArray(roles)) {
-        if (roles.find(r => r === RoleEnum.TENANT_OWNER)) {
-            return RoleEnum.TENANT_OWNER;
+        if (roles.find(r => r === RoleEnum.PRIMARY_OWNER)) {
+            return RoleEnum.PRIMARY_OWNER;
         } else if (roles.find(r => r === RoleEnum.OWNER)) {
             return RoleEnum.OWNER;
         } else if (roles.find(r => r === RoleEnum.ADMIN)) {

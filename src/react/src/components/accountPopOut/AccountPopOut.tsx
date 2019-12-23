@@ -3,11 +3,13 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import { Button, createStyles, Theme, WithStyles, withStyles, Grow, Fade, Popper } from '@material-ui/core';
+import { Button, createStyles, Theme, WithStyles, withStyles, Grow, Fade, Popper, ListItemIcon, ListItemText } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import RoutePaths from '../RoutePaths';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
+import { Settings } from 'mdi-material-ui';
+import { Logout } from 'mdi-material-ui';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -18,6 +20,11 @@ const styles = (theme: Theme) =>
             '&:hover ': {
                 backgroundColor: theme.palette.common.white,
                 color: theme.palette.primary.main,
+            },
+        },
+        listItemIcon: {
+            root: {
+                minWidth: theme.spacing(4),
             },
         },
     });
@@ -69,7 +76,7 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                     aria-haspopup="true"
                     onClick={this.handleToggle}
                 >
-                    <AccountCircle />
+                    <Settings />
                 </Button>
                 <Popper open={this.state.open} anchorEl={this.anchorEl.current} transition disablePortal>
                     {({ TransitionProps }) => (
@@ -93,7 +100,10 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                                 this.handleClose(e);
                                             }}
                                         >
-                                            Account
+                                            <ListItemIcon className={classes.listItemIcon}>
+                                                <AccountCircle fontSize="small" />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Account" />
                                         </MenuItem>
                                         <MenuItem
                                             onClick={e => {
@@ -101,7 +111,10 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                                 this.handleClose(e);
                                             }}
                                         >
-                                            Logout
+                                            <ListItemIcon className={classes.listItemIcon}>
+                                                <Logout fontSize="small" />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Logout" />
                                         </MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>

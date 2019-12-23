@@ -72,7 +72,7 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                             <LandingHeader parallaxRef={this.parallaxRef} user={user} handleDrawerToggle={this.handleDrawerToggle} {...props} />
                         )}
                         <LandingMenu user={user} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
-                        <Fade in timeout={750}>
+                        <Fade in timeout={550}>
                             <main className={classes.content}>
                                 <div className={classes.toolbar} />
                                 <Component

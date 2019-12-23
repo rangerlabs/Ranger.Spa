@@ -101,12 +101,16 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     };
 
     deleteUser(props: FormikProps<Partial<IUser>>, enqueueSnackbar: any) {
-        console.log('DELETE THE USER');
-        setTimeout(() => {
-            this.props.dispatchRemoveUser(props.values.email);
-            enqueueSnackbar('User deleted', { variant: 'error' });
-            this.props.push(RoutePaths.Users);
-        }, 250);
+        userService.deleteUser(props.values.email).then(response => {
+            if (response.is_error) {
+                enqueueSnackbar(`Failed to delete user ${props.values.email}.`, { variant: 'error' });
+                this.formikRef.current.setError('Failed to delete the user. Verify the user exists and try again.');
+            } else {
+                enqueueSnackbar('User deleted', { variant: 'success' });
+                this.props.dispatchRemoveUser(props.values.email);
+                this.props.push(RoutePaths.Users);
+            }
+        });
     }
 
     UNSAFE_componentWillMount() {
@@ -130,7 +134,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         var role = getRole(user.profile.role as string[]);
         var cascadedRoles = getCascadedRoles(role).reverse();
         cascadedRoles.forEach(value => {
-            if (value != RoleEnum.TENANT_OWNER) roleArray.push({ value: value, label: value });
+            if (value != RoleEnum.PRIMARY_OWNER) roleArray.push({ value: value, label: value });
         });
         return roleArray;
     }
@@ -320,6 +324,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 dialogTitle="Delete user?"
                                                 confirmText="Delete"
                                                 dialogContent={'Are you sure you want to delete user ' + props.values.email + '?'}
+                                                disabled={Boolean(this.props.initialUser)}
                                             >
                                                 Delete
                                             </FormikDeleteButton>
@@ -337,11 +342,11 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 isSuccess={this.state.success}
                                                 variant="contained"
                                             >
-                                                Create
+                                                Create User
                                             </FormikSynchronousButton>
                                         ) : (
                                             <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
-                                                Update
+                                                Update User
                                             </FormikSynchronousButton>
                                         )}
                                     </div>

@@ -69,11 +69,6 @@ class AppLayout extends React.Component<AppLayoutProps> {
         }
     };
 
-    signOut = () => {
-        const idTokenHint = this.props.user.id_token;
-        UserManager.signoutRedirect({ id_token_hint: idTokenHint });
-    };
-
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !this.state.mobileOpen }));
     };
@@ -101,8 +96,8 @@ class AppLayout extends React.Component<AppLayoutProps> {
                         <CssBaseline />
                         <Dialog />
                         <Header breadcrumbs={this.completeBreadcrumbsWithProjectName()} handleDrawerToggle={this.handleDrawerToggle} {...props} />
-                        <Menu signOut={this.signOut} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
-                        <Fade in timeout={750}>
+                        <Menu handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
+                        <Fade in timeout={550}>
                             <main className={classes.content}>
                                 <div className={classes.toolbar} />
                                 <Component {...props} />
