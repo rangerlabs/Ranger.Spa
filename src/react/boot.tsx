@@ -41,7 +41,6 @@ const theme = responsiveFontSizes(
         },
         typography: {
             fontFamily: "'Lato', sans-serif",
-            fontSize: 16,
             fontWeightLight: 300,
             fontWeightRegular: 400,
             fontWeightMedium: 700,
