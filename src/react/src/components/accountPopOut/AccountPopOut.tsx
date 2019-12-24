@@ -8,7 +8,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import RoutePaths from '../RoutePaths';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import { Settings } from 'mdi-material-ui';
+import { Settings, ViewDashboardOutline } from 'mdi-material-ui';
 import { Logout } from 'mdi-material-ui';
 
 const styles = (theme: Theme) =>
@@ -23,9 +23,7 @@ const styles = (theme: Theme) =>
             },
         },
         listItemIcon: {
-            root: {
-                minWidth: theme.spacing(4),
-            },
+            minWidth: theme.spacing(4),
         },
     });
 
@@ -91,7 +89,10 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                                     this.handleClose(e);
                                                 }}
                                             >
-                                                Dashboard
+                                                <ListItemIcon className={classes.listItemIcon}>
+                                                    <ViewDashboardOutline fontSize="small" />
+                                                </ListItemIcon>
+                                                <ListItemText primary="Dashboard" />
                                             </MenuItem>
                                         )}
                                         <MenuItem

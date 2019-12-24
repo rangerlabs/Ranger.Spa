@@ -7,47 +7,47 @@ import IAccountUpdateModel from '../models/app/IAccountUpdateModel';
 
 export default class UserService {
     async getUsers(): Promise<IRestResponse<IUser[]>> {
-        return RestUtilities.get<IUser[]>('/user/all');
+        return RestUtilities.get<IUser[]>('/users');
     }
 
     async getUser(email: string): Promise<IRestResponse<IUser>> {
-        return RestUtilities.get<IUser>('/user?email=' + email);
+        return RestUtilities.get<IUser>(`/users/${email}`);
     }
 
     async postUser(user: IUser): Promise<IRestResponse<IUser>> {
-        return RestUtilities.post<IUser>('/user', user);
+        return RestUtilities.post<IUser>('/users', user);
     }
 
     async putUser(email: string, updatedUser: IUser): Promise<IRestResponse<IUser>> {
-        return RestUtilities.put<IUser>(`/user/${email}`, updatedUser);
+        return RestUtilities.put<IUser>(`/users/${email}`, updatedUser);
     }
 
     async confirmUserAndPassword(email: string, confirmModel: IResetPasswordModel): Promise<IRestResponse<void>> {
-        return RestUtilities.put(`/user/${email}/confirm`, confirmModel);
+        return RestUtilities.put(`/users/${email}/confirm`, confirmModel);
     }
 
     async getAuthorizedProjects(email: string): Promise<IRestResponse<string[]>> {
-        return RestUtilities.get(`/user/${email}/authorized-projects`);
+        return RestUtilities.get(`/users/${email}/authorized-projects`);
     }
 
     async resetPassword(email: string, resetModel: IResetPasswordModel): Promise<IRestResponse<void>> {
-        return RestUtilities.post(`/user/${email}/password-reset`, resetModel);
+        return RestUtilities.post(`/users/${email}/password-reset`, resetModel);
     }
 
     async updateAccount(email: string, accountUpdateModel: IAccountUpdateModel): Promise<IRestResponse<void>> {
-        return RestUtilities.put(`/account/${email}`, accountUpdateModel);
+        return RestUtilities.put(`/accounts/${email}`, accountUpdateModel);
     }
 
     async deleteAccount(email: string, accountDeleteModel: IAccountDeleteModel): Promise<IRestResponse<void>> {
-        return RestUtilities.delete(`/account/${email}`, accountDeleteModel);
+        return RestUtilities.delete(`/accounts/${email}`, accountDeleteModel);
     }
 
     async deleteUser(email: string): Promise<IRestResponse<void>> {
-        return RestUtilities.delete(`/user/${email}`);
+        return RestUtilities.delete(`/users/${email}`);
     }
 
     async requestPasswordReset(userEmail: string, passwordReset: IRequestPasswordResetModel): Promise<boolean> {
-        return RestUtilities.put(`/user/${userEmail}/password-reset`, passwordReset).then(value => {
+        return RestUtilities.put(`/users/${userEmail}/password-reset`, passwordReset).then(value => {
             if (value.is_error) {
                 return false;
             }
@@ -56,7 +56,7 @@ export default class UserService {
     }
 
     async requestEmailChanage(currentUserEmail: string, emailChange: IRequestEmailChangeModel): Promise<boolean> {
-        return RestUtilities.put(`/user/${currentUserEmail}/email-change`, emailChange).then(value => {
+        return RestUtilities.put(`/users/${currentUserEmail}/email-change`, emailChange).then(value => {
             if (value.is_error) {
                 return false;
             }
@@ -65,6 +65,6 @@ export default class UserService {
     }
 
     async changeEmail(email: string, resetModel: IChangeEmailModel): Promise<IRestResponse<void>> {
-        return RestUtilities.post(`/user/${email}/email-change`, resetModel);
+        return RestUtilities.post(`/users/${email}/email-change`, resetModel);
     }
 }

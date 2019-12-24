@@ -27,6 +27,7 @@ interface LoadingProps extends WithStyles<typeof styles> {
 interface LoadingState {
     warningTimeoutMessage: string;
     errorTimeoutMessage: string;
+    displayLoading: boolean;
 }
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -39,11 +40,13 @@ class Loading extends React.Component<LoadingProps, LoadingState> {
     state: LoadingState = {
         warningTimeoutMessage: '',
         errorTimeoutMessage: '',
+        displayLoading: true,
     };
     warningTimeout = 4 * 1000;
     warningTimeoutMessage = "This is taking longer than expected but we haven't given up yet.";
     errorTimeout = 6.7 * 1000;
-    errorTimeoutMessage = "Hold on, we're taking you home.";
+    errorTimeoutRedirectMessage = "Hold on, we're taking you home.";
+    errorTimeoutStaticMessage = 'We apologize, an error occurred retrieving the resource. Please try again later.';
     redirectTimeout = 1.3 * 1000;
     warningTimer: number = undefined;
     errorTimer: number = undefined;
@@ -53,10 +56,14 @@ class Loading extends React.Component<LoadingProps, LoadingState> {
         this.warningTimer = setTimeout(() => {
             this.setState({ warningTimeoutMessage: this.warningTimeoutMessage });
             this.errorTimer = setTimeout(() => {
-                this.setState({ errorTimeoutMessage: this.errorTimeoutMessage });
-                this.redirectTimer = setTimeout(() => {
-                    this.props.push(RoutePaths.Dashboard);
-                }, this.redirectTimeout);
+                if (window.location.pathname !== RoutePaths.Dashboard) {
+                    this.setState({ errorTimeoutMessage: this.errorTimeoutRedirectMessage });
+                    this.redirectTimer = setTimeout(() => {
+                        this.props.push(RoutePaths.Dashboard);
+                    }, this.redirectTimeout);
+                } else {
+                    this.setState({ displayLoading: false });
+                }
             }, this.errorTimeout);
         }, this.warningTimeout);
     }
@@ -74,8 +81,16 @@ class Loading extends React.Component<LoadingProps, LoadingState> {
                 <Grid container spacing={3} justify="center" alignItems="baseline">
                     <Grid item xs={12}>
                         <Typography variant="h5">{this.props.message}</Typography>
-                        <Typography variant="subtitle1">{this.state.warningTimeoutMessage}</Typography>
-                        <LinearProgress color="primary" variant="query" />
+                        {this.state.displayLoading ? (
+                            <React.Fragment>
+                                <Typography variant="subtitle1">{this.state.warningTimeoutMessage}</Typography>
+                                <LinearProgress color="primary" variant="query" />
+                            </React.Fragment>
+                        ) : (
+                            <Typography variant="subtitle1" color="error">
+                                {this.errorTimeoutStaticMessage}
+                            </Typography>
+                        )}
                         <Typography variant="subtitle1">{this.state.errorTimeoutMessage}</Typography>
                     </Grid>
                 </Grid>

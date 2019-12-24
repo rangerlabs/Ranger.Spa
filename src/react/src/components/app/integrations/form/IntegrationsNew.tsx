@@ -13,6 +13,7 @@ import {
     CardActions,
     IconButton,
     ButtonBase,
+    Box,
 } from '@material-ui/core';
 import ArrowRight from 'mdi-material-ui/ArrowRight';
 import requireProjectSelection from '../../hocs/RequireProjectSelectionHOC';
@@ -21,6 +22,7 @@ import { push } from 'connected-react-router';
 import { IntegrationEnum } from '../../../../models/app/integrations/IntegrationEnum';
 import { connect } from 'react-redux';
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
+import Constants from '../../../../theme/Constants';
 const IntegrationApi = require('../../../../../assets/integration-api.png');
 
 const styles = (theme: Theme) =>
@@ -44,7 +46,7 @@ const styles = (theme: Theme) =>
         parallaxContainer: {
             position: 'absolute',
             [theme.breakpoints.up('md')]: {
-                width: `calc(100% - ${theme.drawer.width}px - ${theme.spacing(4)}px)`,
+                width: `calc(100% - ${theme.drawer.width}px)`,
             },
             height: '100%',
             width: '100%',
@@ -83,31 +85,37 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                         What type of integration would you like to add?
                     </Typography>
                     <div className={classes.parallaxContainer}>
-                        <Parallax pages={2} scrolling={true}>
-                            <ParallaxLayer speed={0.7}>
+                        <Parallax pages={1} scrolling={true}>
+                            <ParallaxLayer offset={0} speed={0.7}>
                                 <Grid container spacing={3} direction="row" justify="center" alignItems="baseline">
                                     <Grid item xs={12} sm={8} md={7}>
-                                        <ButtonBase
-                                            className={classes.gridButton}
-                                            onClick={() => {
-                                                this.handleIntegrationSelect(IntegrationEnum.WEBHOOK);
-                                            }}
-                                        >
-                                            <Card elevation={3} className={classes.card}>
-                                                <CardHeader titleTypographyProps={{ align: 'left' }} classes={{ root: classes.rootPadding }} title="Webhook" />
-                                                <CardMedia
-                                                    classes={{ root: classes.mediaRoot }}
-                                                    className={classes.media}
-                                                    image={IntegrationApi}
-                                                    title="Webhook Integration"
-                                                />
-                                                <CardContent classes={{ root: classes.rootPadding }}>
-                                                    <Typography align="left" component="p">
-                                                        Forward geofence events to a REST API of your choosing.
-                                                    </Typography>
-                                                </CardContent>
-                                            </Card>
-                                        </ButtonBase>
+                                        <Box marginTop={3}>
+                                            <ButtonBase
+                                                className={classes.gridButton}
+                                                onClick={() => {
+                                                    this.handleIntegrationSelect(IntegrationEnum.WEBHOOK);
+                                                }}
+                                            >
+                                                <Card elevation={3} className={classes.card}>
+                                                    <CardHeader
+                                                        titleTypographyProps={{ align: 'left' }}
+                                                        classes={{ root: classes.rootPadding }}
+                                                        title="Webhook"
+                                                    />
+                                                    <CardMedia
+                                                        classes={{ root: classes.mediaRoot }}
+                                                        className={classes.media}
+                                                        image={IntegrationApi}
+                                                        title="Webhook Integration"
+                                                    />
+                                                    <CardContent classes={{ root: classes.rootPadding }}>
+                                                        <Typography align="left" component="p">
+                                                            Forward geofence events to a REST API of your choosing.
+                                                        </Typography>
+                                                    </CardContent>
+                                                </Card>
+                                            </ButtonBase>
+                                        </Box>
                                     </Grid>
                                     <Grid item xs={12} sm={8} md={7}>
                                         <ButtonBase className={classes.gridButton} onClick={() => {}}>
@@ -136,7 +144,4 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
     }
 }
 
-export default connect(
-    null,
-    { push }
-)(withStyles(styles)(requireProjectSelection(IntegrationsNew)));
+export default connect(null, { push })(withStyles(styles)(requireProjectSelection(IntegrationsNew)));

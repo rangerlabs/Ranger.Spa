@@ -112,11 +112,11 @@ class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
         return (
             <React.Fragment>
                 <div className={classes.root}>
-                    <GridList className={classes.gridList} cols={2.5}>
+                    <GridList className={classes.gridList} cols={2.75}>
                         {projectsState.projects &&
                             projectsState.projects.map(project => (
                                 <GridListTile className={classes.gridListTile} key={project.name}>
-                                    <Card className={classes.card}>
+                                    <Card elevation={3} className={classes.card}>
                                         <CardHeader title={project.name} />
                                         <CardContent classes={{ root: classes.cardContent }}>
                                             <Typography component="p">{project.description}</Typography>
@@ -158,7 +158,4 @@ class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(populateProjectsHOC(DashboardProjectSelect)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateProjectsHOC(DashboardProjectSelect)));

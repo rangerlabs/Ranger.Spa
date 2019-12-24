@@ -7,7 +7,7 @@ import CoordinatePair from '../models/app/geofences/CoordinatePair';
 
 export default class GeofenceService {
     async getGeofences(projectName: string): Promise<Array<CircleGeofence | PolygonGeofence>> {
-        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectName}/geofence/all`).then(geofenceResponse => {
+        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectName}/geofences`).then(geofenceResponse => {
             const result = new Array<CircleGeofence | PolygonGeofence>();
             geofenceResponse.content.forEach(v => {
                 switch (v.shape) {
@@ -57,11 +57,7 @@ export default class GeofenceService {
         });
     }
 
-    async getGeofence(projectName: string, name: string): Promise<IRestResponse<CircleGeofence | PolygonGeofence>> {
-        return RestUtilities.get<CircleGeofence | PolygonGeofence>(`${projectName}/geofence?name=${name}`);
-    }
-
-    async postGeofence(projectName: string, name: Geofence): Promise<IRestResponse<CircleGeofence | PolygonGeofence>> {
-        return RestUtilities.post<CircleGeofence | PolygonGeofence>(`${projectName}/geofence`, name);
+    async postGeofence(projectName: string, geofence: Geofence): Promise<IRestResponse<CircleGeofence | PolygonGeofence>> {
+        return RestUtilities.post<CircleGeofence | PolygonGeofence>(`${projectName}/geofences`, geofence);
     }
 }

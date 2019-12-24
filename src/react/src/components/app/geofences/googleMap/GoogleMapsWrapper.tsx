@@ -37,6 +37,8 @@ const styles = (theme: Theme) =>
         autoComplete: {
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1),
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
             borderTop: '0px',
             borderRight: '0px',
             borderLeft: '0px',

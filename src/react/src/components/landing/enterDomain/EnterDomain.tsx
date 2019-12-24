@@ -66,29 +66,27 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                             onSubmit={(values: Domain, formikBag: FormikBag<FormikProps<Domain>, Domain>) => {
                                 const domain = values.domain;
                                 tenantService.enabled(domain).then(v => {
-                                    setTimeout(() => {
-                                        switch (v) {
-                                            case DomainEnabledResults.Disabled: {
-                                                enqueueSnackbar('Domain not confirmed. Please confirm the domain to login.', { variant: 'error' });
-                                                formikBag.setSubmitting(false);
-                                                break;
-                                            }
-                                            case DomainEnabledResults.Enabled: {
-                                                this.setState({ isSuccess: true });
-                                                enqueueSnackbar('Domain found.', { variant: 'success' });
-                                                setTimeout(() => {
-                                                    const loginPath = 'https://' + domain + '.' + SPA_HOST + RoutePaths.Login;
-                                                    window.location.href = loginPath;
-                                                }, 750);
-                                                break;
-                                            }
-                                            default: {
-                                                enqueueSnackbar('Domain not found.', { variant: 'error' });
-                                                formikBag.setSubmitting(false);
-                                                break;
-                                            }
+                                    switch (v) {
+                                        case DomainEnabledResults.Disabled: {
+                                            enqueueSnackbar('Domain not confirmed. Please confirm the domain to login.', { variant: 'error' });
+                                            formikBag.setSubmitting(false);
+                                            break;
                                         }
-                                    }, 1000);
+                                        case DomainEnabledResults.Enabled: {
+                                            this.setState({ isSuccess: true });
+                                            enqueueSnackbar('Domain found.', { variant: 'success' });
+                                            setTimeout(() => {
+                                                const loginPath = 'https://' + domain + '.' + SPA_HOST + RoutePaths.Login;
+                                                window.location.href = loginPath;
+                                            }, 350);
+                                            break;
+                                        }
+                                        default: {
+                                            enqueueSnackbar('Domain not found.', { variant: 'error' });
+                                            formikBag.setSubmitting(false);
+                                            break;
+                                        }
+                                    }
                                 });
                             }}
                             validationSchema={this.validationSchema}

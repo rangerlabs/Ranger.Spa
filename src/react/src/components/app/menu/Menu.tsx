@@ -182,12 +182,20 @@ class Menu extends React.Component<MenuProps> {
                                     <ListItemText primary="Users" />
                                 </ListItem>
                                 {userIsInRole(this.props.user, RoleEnum.OWNER) && (
-                                    <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
-                                        <ListItemIcon>
-                                            <Domain />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Domain" />
-                                    </ListItem>
+                                    <React.Fragment>
+                                        <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
+                                            <ListItemIcon>
+                                                <Domain />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Organization" />
+                                        </ListItem>
+                                        <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
+                                            <ListItemIcon>
+                                                <Domain />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Billing" />
+                                        </ListItem>
+                                    </React.Fragment>
                                 )}
                             </List>
                         </Collapse>

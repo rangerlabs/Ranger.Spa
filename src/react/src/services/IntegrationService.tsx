@@ -6,7 +6,7 @@ import WebhookIntegrationRequest from '../models/app/integrations/implementation
 
 export default class IntegrationService {
     async getIntegrations(projectName: string): Promise<Array<MergedIntegrationResponseType>> {
-        return RestUtilities.get<MergedIntegrationResponseType[]>(`${projectName}/integration/all`).then(integrationResponse => {
+        return RestUtilities.get<MergedIntegrationResponseType[]>(`${projectName}/integrations`).then(integrationResponse => {
             const result = new Array<MergedIntegrationResponseType>();
             integrationResponse.content.forEach(i => {
                 switch (i.type) {
@@ -23,13 +23,13 @@ export default class IntegrationService {
 
     async getWebhookIntegration(projectName: string, name: string): Promise<WebhookIntegrationResponse> {
         let result = undefined as WebhookIntegrationResponse;
-        RestUtilities.get<WebhookIntegrationResponse>(`${projectName}/integration/webhook?name=${name}`).then(i => {
+        RestUtilities.get<WebhookIntegrationResponse>(`${projectName}/integrations/webhook?name=${name}`).then(i => {
             result = i.content;
         });
         return result;
     }
 
     async postWebhookIntegration(projectName: string, integration: WebhookIntegrationRequest): Promise<IRestResponse<WebhookIntegrationResponse>> {
-        return RestUtilities.post<WebhookIntegrationResponse>(`${projectName}/integration/webhook`, integration);
+        return RestUtilities.post<WebhookIntegrationResponse>(`${projectName}/integrations/webhook`, integration);
     }
 }
