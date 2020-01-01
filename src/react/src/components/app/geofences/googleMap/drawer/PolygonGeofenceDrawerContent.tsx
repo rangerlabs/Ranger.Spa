@@ -4,7 +4,6 @@ import FormikTextField from '../../../../form/FormikTextField';
 import FormikCancelButton from '../../../../form/FormikCancelButton';
 import FormikCheckbox from '../../../../form/FormikCheckbox';
 import PolygonGeofence from '../../../../../models/app/geofences/PolygonGeofence';
-import PolygonGeofenceRequest from '../../../../../models/app/geofences/PolygonGeofenceRequest';
 import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
 import { Theme, createStyles, WithStyles, List, ListItem, ListItemText, withStyles, Grid, FormLabel } from '@material-ui/core';
 import { PolygonGeofenceState } from '../../../../../redux/actions/GoogleMapsActions';
@@ -115,13 +114,13 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         this.props.enableMapClick();
     };
 
-    saveGeofence = (geofence: PolygonGeofenceRequest) => {
+    saveGeofence = (geofence: PolygonGeofence) => {
         //save to server
         setTimeout(() => {
             this.setState({ isSuccess: true });
             const geofenceResponse = new PolygonGeofence(
-                this.props.selectedProject.name,
-                geofence.name,
+                this.props.selectedProject.projectId,
+                geofence.externalId,
                 geofence.labels,
                 geofence.onEnter,
                 geofence.onExit,
@@ -183,13 +182,25 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 initialValues={
                     this.props.editGeofence
                         ? this.props.editGeofence
-                        : new PolygonGeofenceRequest('', [], true, true, true, '', [], [new CoordinatePair(0, 0)], new Map<string, object>())
+                        : new PolygonGeofence(
+                              this.props.selectedProject.projectId,
+                              '',
+                              [],
+                              true,
+                              true,
+                              true,
+                              '',
+                              [],
+                              [new CoordinatePair(0, 0)],
+                              new Map<string, object>()
+                          )
                 }
                 isInitialValid={this.props.editGeofence ? true : false}
                 onSubmit={(values: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
                     console.log(values);
-                    const newFence = new PolygonGeofenceRequest(
-                        values.name,
+                    const newFence = new PolygonGeofence(
+                        this.props.selectedProject.projectId,
+                        values.externalId,
                         values.labels,
                         values.onEnter,
                         values.onExit,
@@ -348,11 +359,11 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             </Formik>
         );
     }
-    private showNoTriggersDialog(newFence: PolygonGeofenceRequest) {
+    private showNoTriggersDialog(newFence: PolygonGeofence) {
         return !newFence.onEnter && !newFence.onExit;
     }
 
-    private showNoIntegrationsWithTriggersDialog(newFence: PolygonGeofenceRequest) {
+    private showNoIntegrationsWithTriggersDialog(newFence: PolygonGeofence) {
         return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onEnter);
     }
 }

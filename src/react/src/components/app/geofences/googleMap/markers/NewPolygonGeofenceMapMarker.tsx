@@ -15,11 +15,11 @@ export default class NewPolygonGeofenceMapMarker {
     public constructor(
         private map: google.maps.Map,
         latLngArray: google.maps.LatLng[],
-        private addPolygonLatLng: (latLngArray: CoordinatePair[]) => void,
+        private addPolygonLatLng: (lngLatArray: CoordinatePair[]) => void,
         private openInfoWindow: () => void
     ) {
         if (latLngArray.length > 1) {
-            this.addPolygonLatLng(latLngArray.map(v => new CoordinatePair(v.lat(), v.lng())));
+            this.addPolygonLatLng(latLngArray.map(v => new CoordinatePair(v.lng(), v.lat())));
             this.addPolygonGeofence(latLngArray);
             this.setPolygonCenterMarker();
         } else {
@@ -171,8 +171,8 @@ export default class NewPolygonGeofenceMapMarker {
 
     private handlePolygonChange() {
         const polyPathArray = this.polygonGeofence.getPath().getArray();
-        const latLngArray = polyPathArray.map(v => new CoordinatePair(v.lat(), v.lng()));
-        this.addPolygonLatLng(latLngArray);
+        const lngLatArray = polyPathArray.map(v => new CoordinatePair(v.lng(), v.lat()));
+        this.addPolygonLatLng(lngLatArray);
         this.setPolygonCenterMarker();
     }
 
@@ -199,10 +199,10 @@ export default class NewPolygonGeofenceMapMarker {
             marker.setClickable(true);
             marker.addListener('click', (e: google.maps.MouseEvent) => {
                 if (this.polylines.length >= 3) {
-                    const latLngArray = this.polylines.map(pl => pl.getPath().getAt(0));
-                    this.addPolygonGeofence(latLngArray);
+                    const lngLatArray = this.polylines.map(pl => pl.getPath().getAt(0));
+                    this.addPolygonGeofence(lngLatArray);
                     this.setPolygonCenterMarker();
-                    this.addPolygonLatLng(latLngArray.map(v => new CoordinatePair(v.lat(), v.lng())));
+                    this.addPolygonLatLng(lngLatArray.map(v => new CoordinatePair(v.lng(), v.lat())));
                     this.removePolylineEventListeners();
                     this.clearPolylinesAndMarkers();
                 }

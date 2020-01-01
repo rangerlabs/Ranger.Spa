@@ -37,8 +37,8 @@ const styles = (theme: Theme) =>
         autoComplete: {
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1),
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
+            paddingLeft: theme.spacing(1),
+            paddingRight: theme.spacing(1),
             borderTop: '0px',
             borderRight: '0px',
             borderLeft: '0px',
@@ -66,24 +66,24 @@ const mapStateToProps = (state: ApplicationState) => {
         selectedShape: state.googleMaps.selectedShapePicker,
         CircleGeofence: state.googleMaps.CircleGeofence,
         polygonGeofence: state.googleMaps.polygonGeofence,
-        existingGeofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.name),
+        existingGeofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.projectId),
         geofenceDrawerOpen: state.geofenceDrawer.isOpen,
     };
 };
 
 const selectedProjectGeofences = (geofences: (CircleGeofence | PolygonGeofence)[], id: string) => {
-    return geofences.filter(f => f.projectName === id);
+    return geofences.filter(f => f.projectId === id);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
         push: (path: string) => dispatch(push(path)),
-        addCircleGeofence: (latLng: CoordinatePair, radius: number) => {
-            const addCircleGeofenceAction = addCircleGeofence({ center: latLng, radius: radius });
+        addCircleGeofence: (lngLat: CoordinatePair, radius: number) => {
+            const addCircleGeofenceAction = addCircleGeofence({ center: lngLat, radius: radius });
             dispatch(addCircleGeofenceAction);
         },
-        addPolygonLatLngArray: (latLngArray: CoordinatePair[]) => {
-            const addPolygonGeofenceAction = addPolygonGeofence({ coordinatePairArray: latLngArray });
+        addPolygonLatLngArray: (lngLatArray: CoordinatePair[]) => {
+            const addPolygonGeofenceAction = addPolygonGeofence({ coordinatePairArray: lngLatArray });
             dispatch(addPolygonGeofenceAction);
         },
         removeMapGeofenceFromState: () => {
@@ -118,8 +118,8 @@ interface WrapperProps extends WithStyles<typeof styles> {
     existingGeofences: (CircleGeofence | PolygonGeofence)[];
     geofenceDrawerOpen: boolean;
     push: (path: string) => void;
-    addCircleGeofence: (latLng: CoordinatePair, radius: number) => void;
-    addPolygonLatLngArray: (latLngArray: CoordinatePair[]) => void;
+    addCircleGeofence: (lngLat: CoordinatePair, radius: number) => void;
+    addPolygonLatLngArray: (lngLatArray: CoordinatePair[]) => void;
     removeMapGeofenceFromState: () => void;
     selectShapePicker: (shape: ShapePicker) => void;
     openDrawer: (geofence?: CircleGeofence | PolygonGeofence) => void;
@@ -188,10 +188,10 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
             if (hash.MD5(prevProps.existingGeofences) !== hash.MD5(this.props.existingGeofences)) {
                 const newlyAddedGeofences = this.props.existingGeofences.filter(v => {
-                    return !prevProps.existingGeofences.find(f => f.name === v.name);
+                    return !prevProps.existingGeofences.find(f => f.externalId === v.externalId);
                 });
                 const deletedGeofences = prevProps.existingGeofences.filter(v => {
-                    return !this.props.existingGeofences.find(f => f.name === v.name);
+                    return !this.props.existingGeofences.find(f => f.externalId === v.externalId);
                 });
                 if (newlyAddedGeofences && newlyAddedGeofences.length > 0) {
                     this.createGeofenceMarkers(newlyAddedGeofences, true);
@@ -266,7 +266,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     }
 
     private initializeEditGeofence(name: string) {
-        const editGeofence = this.props.existingGeofences.find(s => s.name === name);
+        const editGeofence = this.props.existingGeofences.find(s => s.externalId === name);
         if (editGeofence) {
             switch (editGeofence.shape) {
                 case ShapePicker.Circle: {
@@ -292,14 +292,14 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     }
 
     getGeofenceFromStateByName(name: string): CircleGeofence | PolygonGeofence {
-        return this.props.existingGeofences.find(marker => marker.name === name);
+        return this.props.existingGeofences.find(marker => marker.externalId === name);
     }
 
     removeGeofenceMarkers(markersForRemoval: (CircleGeofence | PolygonGeofence)[]) {
         if (markersForRemoval) {
             markersForRemoval.forEach(markerToRemove => {
                 const markerIndex = this.markers.findIndex(existingMarker => {
-                    return existingMarker.id === markerToRemove.name;
+                    return existingMarker.id === markerToRemove.externalId;
                 });
                 if (markerIndex >= 0) {
                     this.markers[markerIndex].destroy();
@@ -317,7 +317,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     const CircleGeofence = geofence as CircleGeofence;
                     const marker = new CircleGeofenceMapMarker(
                         this.map,
-                        CircleGeofence.name,
+                        CircleGeofence.externalId,
                         new google.maps.LatLng(CircleGeofence.coordinates[0].lat, CircleGeofence.coordinates[0].lng),
                         CircleGeofence.radius,
                         (latLng: google.maps.LatLng, geofenceName: string) => {
@@ -340,7 +340,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     const polygonGeofence = geofence as PolygonGeofence;
                     const marker = new PolygonGeofenceMapMarker(
                         this.map,
-                        polygonGeofence.name,
+                        polygonGeofence.externalId,
                         polygonGeofence.coordinates.map(v => new google.maps.LatLng(v.lat, v.lng)),
                         (latLng: google.maps.LatLng, geofenceName: string) => {
                             if (this.newCircleGeofenceMapMarker) {
@@ -499,7 +499,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             this.infoWindow.set('name', geofenceName);
             this.infoWindow.addListener('domready', () => {
                 const geofenceName = this.infoWindow.get('name');
-                const geofence = this.props.existingGeofences.find(f => f.name === geofenceName);
+                const geofence = this.props.existingGeofences.find(f => f.externalId === geofenceName);
                 const infoWindow =
                     this.props.selectedShape === ShapePicker.Circle ? (
                         <GoogleMapsInfoWindow
@@ -551,7 +551,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.Polygon);
         this.props.openDrawer(geofence);
-        this.props.removeGeofenceFromState(geofence.name);
+        this.props.removeGeofenceFromState(geofence.externalId);
         this.newPolygonGeofenceMapMarker = new NewPolygonGeofenceMapMarker(
             this.map,
             geofence.coordinates.map(v => new google.maps.LatLng(v.lat, v.lng)),
@@ -567,7 +567,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.Circle);
         this.props.openDrawer(geofence);
-        this.props.removeGeofenceFromState(geofence.name);
+        this.props.removeGeofenceFromState(geofence.externalId);
         this.newCircleGeofenceMapMarker = new NewCircleGeofenceMapMarker(
             this.map,
             new google.maps.LatLng(geofence.coordinates[0].lat, geofence.coordinates[0].lng),

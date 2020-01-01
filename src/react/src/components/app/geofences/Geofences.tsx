@@ -24,7 +24,7 @@ const mapStateToProps = (state: ApplicationState) => {
 };
 
 const selectedProjectGeofences = (geofences: Array<CircleGeofence | PolygonGeofence>, name: string) => {
-    return geofences.filter(f => f.projectName === name);
+    return geofences.filter(f => f.projectId === name);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -59,7 +59,7 @@ class Geofences extends React.Component<GeofencesProps> {
         if (geofences) {
             geofences.forEach(value => {
                 tableGeofences.push([
-                    value.name,
+                    value.externalId,
                     value.description,
                     titleCase(value.shape.toString()),
                     value.onEnter ? 'True' : 'False',
@@ -130,7 +130,4 @@ class Geofences extends React.Component<GeofencesProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(requireProjectSelection(populateIntegrationsHOC(populateGeofencesHOC(Geofences))));
+export default connect(mapStateToProps, mapDispatchToProps)(requireProjectSelection(populateIntegrationsHOC(populateGeofencesHOC(Geofences))));

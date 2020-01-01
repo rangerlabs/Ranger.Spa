@@ -1,10 +1,11 @@
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 
 export default interface Geofence {
+    projectId: string;
+    externalId: string;
     readonly shape: ShapePicker;
     integrationIds: string[];
     labels: string[];
-    name: string;
     description: string;
     onEnter: boolean;
     onExit: boolean;

@@ -1,5 +1,5 @@
 export default class CoordinatePair {
-    public constructor(public lat: number, public lng: number) {}
+    public constructor(public lng: number, public lat: number) {}
 
     public equals(other: CoordinatePair) {
         let result = false;

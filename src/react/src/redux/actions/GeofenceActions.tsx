@@ -29,7 +29,7 @@ export function addGeofence(geofence: CircleGeofence | PolygonGeofence): Geofenc
 export function removeGeofence(name: string): GeofenceAction {
     return {
         type: REMOVE_GEOFENCE,
-        geofence: { name: name } as CircleGeofence | PolygonGeofence,
+        geofence: { externalId: name } as CircleGeofence | PolygonGeofence,
     };
 }
 

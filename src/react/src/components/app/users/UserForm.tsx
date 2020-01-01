@@ -126,7 +126,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
             .sort();
     }
     getProjectIdsByProjectNames(projectNames: string[]) {
-        return this.props.projects.filter(p => projectNames.includes(p.name)).map(p => p.projectId);
+        return this.props.projects.filter(p => projectNames.includes(p.name)).map(p => p.projectId).sort();
     }
     getAssignableRolesFromCurrentUser(user: User): FormikSelectValues {
         const roleArray: FormikSelectValues = [];

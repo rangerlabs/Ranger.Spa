@@ -9,7 +9,7 @@ export function geofenceReducer(state: GeofencesState = { isLoaded: false, geofe
             return Object.assign(
                 {},
                 state,
-                state.geofences.filter((v: Geofence) => v.name !== action.geofence.name)
+                state.geofences.filter((v: Geofence) => v.externalId !== action.geofence.externalId)
             );
         case POPULATE_GEOFENCES:
             return Object.assign({}, state, action.geofencesState);

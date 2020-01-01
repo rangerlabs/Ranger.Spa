@@ -124,6 +124,7 @@ class Notifier extends React.Component<NotifierProps> {
         this.domainUserChannel.bind('token-refresh', TokenRefreshHandler);
         this.domainUserChannel.bind('permissions-updated', PermissionsUpdatedHandler);
         this.domainUserChannel.bind('force-signout', ForceSignoutHandler);
+        this.domainUserChannel.bind('geofence-created', GenericDomainUserHandler);
     }
 
     private subscribeTenantOnboardChannelEvent(stateDomain: DomainState) {

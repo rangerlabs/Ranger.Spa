@@ -6,8 +6,8 @@ export default class PolygonGeofence implements Geofence {
     shape: ShapePicker;
 
     public constructor(
-        public projectName: string,
-        public name: string,
+        public projectId: string,
+        public externalId: string,
         public labels: string[],
         public onEnter: boolean,
         public onExit: boolean,

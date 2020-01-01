@@ -5,7 +5,6 @@ import FormikCancelButton from '../../../../form/FormikCancelButton';
 import FormikDeleteButton from '../../../../form/FormikDeleteButton';
 import FormikCheckbox from '../../../../form/FormikCheckbox';
 import CircleGeofence from '../../../../../models/app/geofences/CircleGeofence';
-import CircleGeofenceRequest from '../../../../../models/app/geofences/CircleGeofenceRequest';
 import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
 import { Theme, createStyles, WithStyles, List, ListItem, ListItemText, withStyles, Grid, FormLabel } from '@material-ui/core';
 import { CircleGeofenceState } from '../../../../../redux/actions/GoogleMapsActions';
@@ -21,6 +20,10 @@ import IProject from '../../../../../models/app/IProject';
 import { MergedIntegrationResponseType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
 import FormikAutocompleteMultiselect from '../../../../form/FormikAutocompleteMulitselect';
 import { getIntegrationsFromIntegrationIds } from '../../../../../helpers/Helpers';
+import FormikAutocompleteLabelMultiselect from '../../../../form/FormikAutocompleteLabelMultiselect';
+import GeofenceService from '../../../../../services/GeofenceService';
+
+const geofenceService = new GeofenceService();
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -115,30 +118,18 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         this.props.enableMapClick();
     };
 
-    saveGeofence = (geofence: CircleGeofenceRequest) => {
-        //save to server
-        setTimeout(() => {
-            this.setState({ isSuccess: true });
-            const geofenceResponse = new CircleGeofence(
-                this.props.selectedProject.name,
-                geofence.name,
-                geofence.labels,
-                geofence.onEnter,
-                geofence.onExit,
-                geofence.enabled,
-                geofence.description,
-                geofence.integrationIds,
-                geofence.coordinates,
-                geofence.metadata,
-                geofence.radius
-            );
-            this.props.saveGeofenceToState(geofenceResponse);
-            this.props.clearNewCircleGeofence();
-            this.props.enqueueSnackbar('Geofence saved.', { variant: 'success' });
-            this.props.enableMapClick();
-            this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
-            this.props.closeDrawer();
-        }, 500);
+    saveGeofence = (geofence: CircleGeofence) => {
+        geofenceService.postGeofence(this.props.selectedProject.name, geofence).then(v => {
+            if (!v.is_error) {
+                this.setState({ isSuccess: true });
+                this.props.saveGeofenceToState(geofence);
+                this.props.clearNewCircleGeofence();
+                this.props.enableMapClick();
+                this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
+                this.props.closeDrawer();
+            }
+        });
+        this.setState({ isSuccess: false });
     };
 
     deleteGeofence = (name: string) => {
@@ -170,10 +161,22 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     validationSchema = Yup.object().shape({
-        name: Yup.string().required('Required'),
+        externalId: Yup.string().required('Required'),
         description: Yup.string().notRequired(),
     });
 
+    getIntegrationNamesByIds(integrationIds: string[]) {
+        return this.props.integrations
+            .filter(i => integrationIds.includes(i.id))
+            .map(i => i.name)
+            .sort();
+    }
+    getIntegrationIdsByNames(integrationNames: string[]) {
+        return this.props.integrations
+            .filter(i => integrationNames.includes(i.name))
+            .map(i => i.id)
+            .sort();
+    }
     render() {
         const { classes } = this.props;
         return (
@@ -182,20 +185,36 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 enableReinitialize={false}
                 initialValues={
                     this.props.editGeofence
-                        ? this.props.editGeofence
-                        : new CircleGeofenceRequest('', [], true, true, true, '', [], [new CoordinatePair(0, 0)], new Map<string, object>(), 0)
+                        ? {
+                              ...this.props.editGeofence,
+                              integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
+                          }
+                        : new CircleGeofence(
+                              this.props.selectedProject.projectId,
+                              '',
+                              [],
+                              true,
+                              true,
+                              true,
+                              '',
+                              [],
+                              [new CoordinatePair(0, 0)],
+                              new Map<string, object>(),
+                              0
+                          )
                 }
                 isInitialValid={this.props.editGeofence ? true : false}
                 onSubmit={(values: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
-                    const newFence = new CircleGeofenceRequest(
-                        values.name,
+                    const newFence = new CircleGeofence(
+                        this.props.selectedProject.projectId,
+                        values.externalId,
                         values.labels,
                         values.onEnter,
                         values.onExit,
                         values.enabled,
                         values.description,
-                        this.state.selectedIntegrations.map(i => i.id),
-                        [new CoordinatePair(this.props.mapGeofence.center.lat, this.props.mapGeofence.center.lng)],
+                        this.getIntegrationIdsByNames(values.integrationIds),
+                        [new CoordinatePair(this.props.mapGeofence.center.lng, this.props.mapGeofence.center.lat)],
                         new Map<string, object>(),
                         this.props.mapGeofence.radius
                     );
@@ -248,8 +267,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikTextField
-                                    name="name"
-                                    label="Name"
+                                    name="externalId"
+                                    label="External Id"
                                     value={props.values.name}
                                     errorText={props.errors.name}
                                     touched={props.touched.name}
@@ -272,13 +291,16 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                 />
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikAutocompleteMultiselect
+                                <FormikAutocompleteLabelMultiselect
                                     name="integrations"
-                                    label="Grant permission to projects"
+                                    label="Integrations"
                                     placeholder=""
-                                    options={this.props.integrations}
-                                    getOptionLabel={(integration: MergedIntegrationResponseType) => integration.name}
-                                    onChange={(values: MergedIntegrationResponseType[]) => this.setState({ selectedIntegrations: values })}
+                                    enabled
+                                    options={this.props.integrations.map(v => v.name)}
+                                    defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
+                                    onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
+                                        this.formikRef.current.setFieldValue('integrationIds', values, true);
+                                    }}
                                 />
                             </Grid>
                             <Grid container item xs={12} spacing={0}>
@@ -347,11 +369,11 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         );
     }
 
-    private showNoTriggersDialog(newFence: CircleGeofenceRequest) {
+    private showNoTriggersDialog(newFence: CircleGeofence) {
         return !newFence.onEnter && !newFence.onExit;
     }
 
-    private showNoIntegrationsWithTriggersDialog(newFence: CircleGeofenceRequest) {
+    private showNoIntegrationsWithTriggersDialog(newFence: CircleGeofence) {
         return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onEnter);
     }
 }

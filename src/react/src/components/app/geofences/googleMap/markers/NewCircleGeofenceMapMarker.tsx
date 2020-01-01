@@ -15,11 +15,11 @@ export default class NewCircleGeofenceMapMarker {
         radius: number,
         private openInfoWindow: Function,
         private closeInfoWindow: Function,
-        private addCircleGeofence: (latLng: CoordinatePair, radius: number) => void
+        private addCircleGeofence: (lngLat: CoordinatePair, radius: number) => void
     ) {
         this.addCircleGeofenceMarkers(latLng, radius);
         this.addCircleEventHandlers();
-        this.addCircleGeofence(new CoordinatePair(latLng.lat(), latLng.lng()), radius);
+        this.addCircleGeofence(new CoordinatePair(latLng.lng(), latLng.lat()), radius);
     }
 
     circleClickMarker: google.maps.Marker = undefined;
@@ -151,7 +151,7 @@ export default class NewCircleGeofenceMapMarker {
             const center = this.CircleGeofenceCenterMarker.getCenter();
             this.lastGeofenceExtenderHeading = undefined;
             const radius = this.CircleGeofenceCenterMarker.getRadius();
-            this.addCircleGeofence(center.toJSON() as CoordinatePair, radius);
+            this.addCircleGeofence(new CoordinatePair(center.lng(), center.lat()), radius);
         });
         this.CircleGeofenceCenterMarker.addListener('dragend', (e: google.maps.MouseEvent) => {
             const center = this.CircleGeofenceCenterMarker.getCenter();
@@ -160,7 +160,7 @@ export default class NewCircleGeofenceMapMarker {
                 this.CircleGeofenceExtenderMarker.getPosition()
             );
             this.lastGeofenceExtenderHeading = undefined;
-            this.addCircleGeofence(center.toJSON() as CoordinatePair, radius);
+            this.addCircleGeofence(new CoordinatePair(center.lng(), center.lat()), radius);
         });
         this.CircleGeofenceExtenderMarker.addListener('dragend', (e: google.maps.MouseEvent) => {
             const center = this.CircleGeofenceCenterMarker.getCenter();
@@ -168,7 +168,7 @@ export default class NewCircleGeofenceMapMarker {
                 this.CircleGeofenceCenterMarker.getCenter(),
                 this.CircleGeofenceExtenderMarker.getPosition()
             );
-            this.addCircleGeofence(center.toJSON() as CoordinatePair, radius);
+            this.addCircleGeofence(new CoordinatePair(center.lng(), center.lat()), radius);
         });
     }
 
