@@ -8,8 +8,6 @@ import Constants from '../../../../theme/Constants';
 const styles = (theme: Theme) =>
     createStyles({
         root: {
-            paddingRight: '12px',
-            paddingBottom: '12px',
             textAlign: 'center',
         },
         warning: {

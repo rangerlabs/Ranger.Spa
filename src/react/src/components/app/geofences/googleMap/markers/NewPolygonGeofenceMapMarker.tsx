@@ -34,6 +34,7 @@ export default class NewPolygonGeofenceMapMarker {
             clickable: true,
             editable: true,
             draggable: true,
+            geodesic: true,
             strokeColor: Constants.COLORS.PRIMARY_COLOR,
             strokeOpacity: 0.8,
             strokeWeight: 2,

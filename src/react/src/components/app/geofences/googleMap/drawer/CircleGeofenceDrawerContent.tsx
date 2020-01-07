@@ -125,11 +125,12 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 this.props.saveGeofenceToState(geofence);
                 this.props.clearNewCircleGeofence();
                 this.props.enableMapClick();
-                this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
+                this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
             }
+            this.formikRef.current.setSubmitting(false);
+            this.setState({ isSuccess: false });
         });
-        this.setState({ isSuccess: false });
     };
 
     deleteGeofence = (name: string) => {
@@ -139,7 +140,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             this.props.clearNewCircleGeofence();
             this.props.enqueueSnackbar('Geofence deleted.', { variant: 'error' });
             this.props.enableMapClick();
-            this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
+            this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
             this.props.closeDrawer();
         }, 500);
     };
@@ -148,7 +149,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         this.props.saveGeofenceToState(this.props.editGeofence);
         this.props.clearNewCircleGeofence();
         this.props.enableMapClick();
-        this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
+        this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
     };
 
@@ -156,7 +157,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         this.props.clearNewCircleGeofence();
         this.setState({ serverErrors: undefined });
         this.props.enableMapClick();
-        this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
+        this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
     };
 
@@ -185,10 +186,10 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 enableReinitialize={false}
                 initialValues={
                     this.props.editGeofence
-                        ? {
+                        ? ({
                               ...this.props.editGeofence,
                               integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
-                          }
+                          } as CircleGeofence)
                         : new CircleGeofence(
                               this.props.selectedProject.projectId,
                               '',
@@ -356,11 +357,11 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                             <FormikCancelButton
                                 isSubmitting={props.isSubmitting}
                                 onClick={() => {
-                                    props.initialValues.name === '' ? this.cancelGeofenceCreate() : this.cancelGeofenceEdit();
+                                    props.initialValues.externalId === '' ? this.cancelGeofenceCreate() : this.cancelGeofenceEdit();
                                 }}
                             />
                             <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
-                                {props.initialValues.name === '' ? 'Create' : 'Update'}
+                                {props.initialValues.externalId === '' ? 'Create' : 'Update'}
                             </FormikSynchronousButton>
                         </div>
                     </form>

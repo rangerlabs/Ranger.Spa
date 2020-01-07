@@ -143,7 +143,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     autoComplete: google.maps.places.Autocomplete = undefined;
     infoWindow: google.maps.InfoWindow = undefined;
     markers: Array<CircleGeofenceMapMarker | PolygonGeofenceMapMarker> = [];
-    markerClusterer: MarkerClusterer;
 
     mapClickListener: google.maps.MapsEventListener = undefined;
     autoCompletePlaceChangedListener: google.maps.MapsEventListener = undefined;
@@ -161,7 +160,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             const markerScript = document.createElement('script');
             mapScript.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_KEY}&libraries=geometry,drawing,places`;
             mapScript.async = true;
-            markerScript.src = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
             document.body.appendChild(mapScript);
             document.body.appendChild(markerScript);
             mapScript.addEventListener('load', e => {
@@ -225,7 +223,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         });
         google.maps.event.addListenerOnce(this.map, 'idle', () => {
             this.setState({ isMapFullyLoaded: true });
-            this.initMarkerClusterer();
             this.createGeofenceMarkers(this.props.existingGeofences, false);
             this.props.mapFullyLoadedCallback();
 
@@ -245,25 +242,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             this.props.onMapLoad(this.map);
         }
     };
-
-    private initMarkerClusterer() {
-        this.markerClusterer = new MarkerClusterer(
-            this.map,
-            this.markers.map(v => v.getMarker()),
-            {
-                averageCenter: true,
-                imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
-            }
-        );
-        this.markerClusterer.addListener('click', (e: google.maps.MouseEvent, cluster: Cluster) => {
-            if (this.markerClusterer.getZoomOnClick()) {
-                this.map.setCenter(cluster.getCenter());
-                this.map.setZoom(this.markerClusterer.getMaxZoom() + 1);
-                this.map.fitBounds(cluster.getBounds());
-            }
-            e.stop();
-        });
-    }
 
     private initializeEditGeofence(name: string) {
         const editGeofence = this.props.existingGeofences.find(s => s.externalId === name);
@@ -304,7 +282,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 if (markerIndex >= 0) {
                     this.markers[markerIndex].destroy();
                     this.markers.splice(markerIndex, 1);
-                    this.markerClusterer.removeMarker(this.markers[markerIndex].getMarker());
                 }
             });
         }
@@ -333,7 +310,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         animate
                     );
                     this.markers.push(marker);
-                    this.markerClusterer.addMarker(marker.getMarker());
                     break;
                 }
                 case ShapePicker.Polygon: {
@@ -355,7 +331,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         animate
                     );
                     this.markers.push(marker);
-                    this.markerClusterer.addMarker(marker.getMarker());
                     break;
                 }
             }

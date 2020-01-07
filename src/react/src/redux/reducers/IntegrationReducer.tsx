@@ -11,9 +11,11 @@ import { MergedIntegrationResponseType } from '../../models/app/integrations/Mer
 export function integrationReducer(state: IntegrationsState = { isLoaded: false, integrations: [] }, action: IntegrationAction & IntegrationArrayAction) {
     switch (action.type) {
         case ADD_INTEGRATION:
-            return Object.assign({}, state, state.integrations.concat(action.integration));
+            return Object.assign({}, state, { integrations: state.integrations.concat(action.integration) });
         case REMOVE_INTEGRATION:
-            return Object.assign({}, state, state.integrations.filter((v: MergedIntegrationResponseType) => v.name !== action.integration.name));
+            return Object.assign({}, state, {
+                integrations: state.integrations.filter((v: MergedIntegrationResponseType) => v.name !== action.integration.name),
+            });
         case POPULATE_INTEGRATIONS:
             return Object.assign({}, state, action.integrationsState);
         default:

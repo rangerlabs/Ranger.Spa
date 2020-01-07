@@ -3,10 +3,10 @@ const Constants = {
         WHITE: '#FFFFFF',
         BLACK: '#000000',
         PRIMARY_COLOR: '#276e18',
-        MENU_BACKGROUND_COLOR: '##276e1814',
+        MENU_BACKGROUND_COLOR: '#276e1814',
         LIST_TABLE_HOVER_COLOR: '#276e181c',
         HEADER_COLOR: '#1b4d10',
-        FONT_COLOR: '#2d2d2d'
+        FONT_COLOR: '#2d2d2d',
     },
     MAP_MAIN_STYLE: [
         {
