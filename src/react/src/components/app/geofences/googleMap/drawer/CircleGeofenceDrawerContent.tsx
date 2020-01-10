@@ -13,12 +13,10 @@ import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { addGeofence, removeGeofence } from '../../../../../redux/actions/GeofenceActions';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
-import AutoCompleteMultiSelect from '../../../../form/AutoCompleteMultiSelect';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
 import IProject from '../../../../../models/app/IProject';
 import { MergedIntegrationResponseType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
-import FormikAutocompleteMultiselect from '../../../../form/FormikAutocompleteMulitselect';
 import { getIntegrationsFromIntegrationIds } from '../../../../../helpers/Helpers';
 import FormikAutocompleteLabelMultiselect from '../../../../form/FormikAutocompleteLabelMultiselect';
 import GeofenceService from '../../../../../services/GeofenceService';
@@ -270,9 +268,9 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                 <FormikTextField
                                     name="externalId"
                                     label="External Id"
-                                    value={props.values.name}
-                                    errorText={props.errors.name}
-                                    touched={props.touched.name}
+                                    value={props.values.externalId}
+                                    errorText={props.errors.externalId}
+                                    touched={props.touched.externalId}
                                     onChange={props.handleChange}
                                     onBlur={props.handleBlur}
                                     autoComplete="off"

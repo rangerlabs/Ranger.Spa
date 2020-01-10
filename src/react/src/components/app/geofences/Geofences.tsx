@@ -9,7 +9,7 @@ import CircleGeofence from '../../../models/app/geofences/CircleGeofence';
 import requireProjectSelection from '../hocs/RequireProjectSelectionHOC';
 import populateGeofencesHOC from '../hocs/PopulateGeofencesHOC';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
-import titleCase = require('title-case');
+import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 const MUIDataTable = require('mui-datatables').default;
 
 interface GeofencesProps {
@@ -61,7 +61,7 @@ class Geofences extends React.Component<GeofencesProps> {
                 tableGeofences.push([
                     value.externalId,
                     value.description,
-                    titleCase(value.shape.toString()),
+                    value.shape == ShapePicker.Circle ? 'Circle' : 'Polygon',
                     value.onEnter ? 'True' : 'False',
                     value.onExit ? 'True' : 'False',
                 ]);

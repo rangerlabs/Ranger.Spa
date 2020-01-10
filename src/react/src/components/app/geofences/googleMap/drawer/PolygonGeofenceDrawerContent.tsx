@@ -18,8 +18,11 @@ import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
 import IProject from '../../../../../models/app/IProject';
 import { MergedIntegrationResponseType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
-import FormikAutocompleteMultiselect from '../../../../form/FormikAutocompleteMulitselect';
 import { getIntegrationsFromIntegrationIds } from '../../../../../helpers/Helpers';
+import FormikAutocompleteLabelMultiselect from '../../../../form/FormikAutocompleteLabelMultiselect';
+import GeofenceService from '../../../../../services/GeofenceService';
+
+const geofenceService = new GeofenceService();
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -115,28 +118,18 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     };
 
     saveGeofence = (geofence: PolygonGeofence) => {
-        //save to server
-        setTimeout(() => {
-            this.setState({ isSuccess: true });
-            const geofenceResponse = new PolygonGeofence(
-                this.props.selectedProject.projectId,
-                geofence.externalId,
-                geofence.labels,
-                geofence.onEnter,
-                geofence.onExit,
-                geofence.enabled,
-                geofence.description,
-                geofence.integrationIds,
-                geofence.coordinates,
-                geofence.metadata
-            );
-            this.props.saveGeofenceToState(geofenceResponse);
-            this.props.clearNewPolygonGeofence();
-            this.props.enqueueSnackbar('Geofence saved.', { variant: 'success' });
-            this.props.enableMapClick();
-            this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
-            this.props.closeDrawer();
-        }, 500);
+        geofenceService.postGeofence(this.props.selectedProject.name, geofence).then(v => {
+            if (!v.is_error) {
+                this.setState({ isSuccess: true });
+                this.props.saveGeofenceToState(geofence);
+                this.props.clearNewPolygonGeofence();
+                this.props.enableMapClick();
+                this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+                this.props.closeDrawer();
+            }
+            this.formikRef.current.setSubmitting(false);
+            this.setState({ isSuccess: false });
+        });
     };
 
     deleteGeofence = (name: string) => {
@@ -147,7 +140,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             this.props.clearNewPolygonGeofence();
             this.props.enqueueSnackbar('Geofence deleted.', { variant: 'error' });
             this.props.enableMapClick();
-            this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
+            this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
             this.props.closeDrawer();
         }, 500);
     };
@@ -156,7 +149,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         this.props.saveGeofenceToState(this.props.editGeofence);
         this.props.clearNewPolygonGeofence();
         this.props.enableMapClick();
-        this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
+        this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
     };
 
@@ -164,14 +157,27 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         this.props.clearNewPolygonGeofence();
         this.setState({ serverErrors: undefined });
         this.props.enableMapClick();
-        this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map');
+        this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
     };
 
     validationSchema = Yup.object().shape({
-        name: Yup.string().required('Required'),
+        externalId: Yup.string().required('Required'),
         description: Yup.string().notRequired(),
     });
+
+    getIntegrationNamesByIds(integrationIds: string[]) {
+        return this.props.integrations
+            .filter(i => integrationIds.includes(i.id))
+            .map(i => i.name)
+            .sort();
+    }
+    getIntegrationIdsByNames(integrationNames: string[]) {
+        return this.props.integrations
+            .filter(i => integrationNames.includes(i.name))
+            .map(i => i.id)
+            .sort();
+    }
 
     render() {
         const { classes } = this.props;
@@ -181,7 +187,10 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 enableReinitialize
                 initialValues={
                     this.props.editGeofence
-                        ? this.props.editGeofence
+                        ? ({
+                              ...this.props.editGeofence,
+                              integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
+                          } as PolygonGeofence)
                         : new PolygonGeofence(
                               this.props.selectedProject.projectId,
                               '',
@@ -206,7 +215,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                         values.onExit,
                         values.enabled,
                         values.description,
-                        this.state.selectedIntegrations.map(i => i.id),
+                        this.getIntegrationIdsByNames(values.integrationIds),
                         this.props.mapGeofence.coordinatePairArray,
                         new Map<string, object>()
                     );
@@ -259,11 +268,11 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikTextField
-                                    name="name"
-                                    label="Name"
-                                    value={props.values.name}
-                                    errorText={props.errors.name}
-                                    touched={props.touched.name}
+                                    name="externalId"
+                                    label="External Id"
+                                    value={props.values.externalId}
+                                    errorText={props.errors.externalId}
+                                    touched={props.touched.externalId}
                                     onChange={props.handleChange}
                                     onBlur={props.handleBlur}
                                     autoComplete="off"
@@ -283,13 +292,16 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                 />
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikAutocompleteMultiselect
+                                <FormikAutocompleteLabelMultiselect
                                     name="integrations"
-                                    label="Select integrations"
+                                    label="Integrations"
                                     placeholder=""
-                                    options={this.props.integrations}
-                                    getOptionLabel={(integration: MergedIntegrationResponseType) => integration.name}
-                                    onChange={(values: MergedIntegrationResponseType[]) => this.setState({ selectedIntegrations: values })}
+                                    enabled
+                                    options={this.props.integrations.map(v => v.name)}
+                                    defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
+                                    onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
+                                        this.formikRef.current.setFieldValue('integrationIds', values, true);
+                                    }}
                                 />
                             </Grid>
                             <Grid container item xs={12} spacing={0}>
@@ -338,7 +350,6 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                             this.deleteGeofence(props.values.name);
                                         }}
                                         isSubmitting={props.isSubmitting}
-                                        variant="outlined"
                                     />
                                 )}
                             </div>
@@ -346,12 +357,12 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                             <FormikCancelButton
                                 isSubmitting={props.isSubmitting}
                                 onClick={() => {
-                                    props.initialValues.name === '' ? this.cancelGeofenceCreate() : this.cancelGeofenceEdit();
+                                    props.initialValues.externalId === '' ? this.cancelGeofenceCreate() : this.cancelGeofenceEdit();
                                 }}
                             />
 
                             <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
-                                {props.initialValues.name === '' ? 'Create' : 'Update'}
+                                {props.initialValues.externalId === '' ? 'Create' : 'Update'}
                             </FormikSynchronousButton>
                         </div>
                     </form>

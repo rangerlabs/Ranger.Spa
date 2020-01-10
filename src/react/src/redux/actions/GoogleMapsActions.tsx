@@ -1,8 +1,8 @@
 import CoordinatePair from '../../models/app/geofences/CoordinatePair';
 
 export enum ShapePicker {
-    Circle = 'Circle',
-    Polygon = 'Polygon',
+    Circle = 0,
+    Polygon = 1,
 }
 
 export const SELECT_SHAPE_PICKER = 'SELECT_SHAPE_PICKER';
