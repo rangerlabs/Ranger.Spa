@@ -85,7 +85,6 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
         props: FormikProps<WebhookIntegrationRequest | { name: string; description: string; url: string; authKey: string }>,
         enqueueSnackbar: any
     ) {
-        console.log('DELETE THE INTEGRATION');
         setTimeout(() => {
             this.props.dispatchRemoveIntegration(props.values.name);
             enqueueSnackbar('Integration deleted', { variant: 'error' });
@@ -124,7 +123,6 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                 values: WebhookIntegrationRequest,
                                 formikBag: FormikBag<FormikProps<WebhookIntegrationRequest>, WebhookIntegrationRequest>
                             ) => {
-                                console.log(values);
                                 this.setState({ serverErrors: undefined });
                                 const newIntegration = new WebhookIntegrationRequest(
                                     this.props.selectedProject.name,

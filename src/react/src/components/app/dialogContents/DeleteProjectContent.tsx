@@ -53,8 +53,6 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
             <Formik
                 initialValues={{ name: '' }}
                 onSubmit={(values: Partial<IProject>, formikBag: FormikBag<FormikProps<Partial<IProject>>, Partial<IProject>>) => {
-                    console.log(values);
-                    console.log(`Delete Project ${values.name}`);
                     setServerErrors(undefined);
                     projectService.deleteProject(deleteProjectContentProps.id).then((response: IRestResponse<void>) => {
                         if (response.is_error) {

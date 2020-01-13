@@ -1,10 +1,12 @@
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import Constants from '../../../../../theme/Constants';
 
-const CirclePurple = require('../../../../../../assets/circle-outline-green.png');
-const CircleRed = require('../../../../../../assets/circle-outline-red.png');
-const MapMarkerRed = require('../../../../../../assets/map-marker-red.png');
-const MapMarkerPurple = require('../../../../../../assets/map-marker-green.png');
+const HorizontalResizerPrimaryGreen = require('../../../../../../assets/horizontal-resize-primary-green.png');
+const HorizontalResizerDarkGreen = require('../../../../../../assets/horizontal-resize-dark-green.png');
+const VerticalResizerPrimaryGreen = require('../../../../../../assets/vertical-resize-primary-green.png');
+const VerticalResizerDarkGreen = require('../../../../../../assets/vertical-resize-dark-green.png');
+const MapMarkerDarkGreen = require('../../../../../../assets/map-marker-dark-green.png');
+const MapMarkerPrimaryGreen = require('../../../../../../assets/map-marker-green.png');
 
 const DEFAULT_RADIUS = 100;
 
@@ -25,7 +27,6 @@ export default class NewCircleGeofenceMapMarker {
     circleClickMarker: google.maps.Marker = undefined;
     CircleGeofenceCenterMarker: google.maps.Circle = undefined;
     CircleGeofenceExtenderMarker: google.maps.Marker = undefined;
-    lastGeofenceExtenderHeading: number = undefined;
 
     public getCenter = () => {
         return this.CircleGeofenceCenterMarker.getCenter();
@@ -48,14 +49,13 @@ export default class NewCircleGeofenceMapMarker {
             this.CircleGeofenceExtenderMarker.setMap(null);
             this.CircleGeofenceExtenderMarker = undefined;
         }
-        this.lastGeofenceExtenderHeading = undefined;
     };
 
     addCircleGeofenceMarkers = (latLng: google.maps.LatLng, radius: number = DEFAULT_RADIUS) => {
         this.circleClickMarker = new google.maps.Marker({
             map: this.map,
             position: latLng,
-            icon: MapMarkerPurple,
+            icon: MapMarkerPrimaryGreen,
             animation: google.maps.Animation.BOUNCE,
             draggable: true,
         });
@@ -73,7 +73,7 @@ export default class NewCircleGeofenceMapMarker {
         this.CircleGeofenceExtenderMarker = new google.maps.Marker({
             map: this.map,
             position: google.maps.geometry.spherical.computeOffset(this.circleClickMarker.getPosition(), this.CircleGeofenceCenterMarker.getRadius(), 90),
-            icon: CirclePurple,
+            icon: VerticalResizerPrimaryGreen,
             draggable: true,
         });
     };
@@ -88,26 +88,26 @@ export default class NewCircleGeofenceMapMarker {
 
         this.CircleGeofenceCenterMarker.addListener('mouseover', (e: google.maps.MouseEvent) => {
             e.stop();
-            this.circleClickMarker.setIcon(MapMarkerRed);
+            this.circleClickMarker.setIcon(MapMarkerDarkGreen);
             this.CircleGeofenceCenterMarker.setOptions({
-                strokeColor: '#e53935',
-                fillColor: '#e53935',
+                strokeColor: Constants.COLORS.MAP_DARK_GREEN,
+                fillColor: Constants.COLORS.MAP_DARK_GREEN,
             });
         });
         this.CircleGeofenceExtenderMarker.addListener('mouseover', (e: google.maps.MouseEvent) => {
             e.stop();
-            this.CircleGeofenceExtenderMarker.setIcon(CircleRed);
+            this.CircleGeofenceExtenderMarker.setIcon(VerticalResizerDarkGreen);
         });
 
         this.CircleGeofenceCenterMarker.addListener('mouseout', (e: google.maps.MouseEvent) => {
-            this.circleClickMarker.setIcon(MapMarkerPurple);
+            this.circleClickMarker.setIcon(MapMarkerPrimaryGreen);
             this.CircleGeofenceCenterMarker.setOptions({
                 strokeColor: Constants.COLORS.PRIMARY_COLOR,
                 fillColor: Constants.COLORS.PRIMARY_COLOR,
             });
         });
         this.CircleGeofenceExtenderMarker.addListener('mouseout', (e: google.maps.MouseEvent) => {
-            this.CircleGeofenceExtenderMarker.setIcon(CirclePurple);
+            this.CircleGeofenceExtenderMarker.setIcon(VerticalResizerPrimaryGreen);
         });
 
         this.circleClickMarker.addListener('dragstart', (e: google.maps.MouseEvent) => {
@@ -122,51 +122,50 @@ export default class NewCircleGeofenceMapMarker {
 
         this.circleClickMarker.addListener('drag', (e: google.maps.MouseEvent) => {
             const center = this.circleClickMarker.getPosition();
-            const radius = this.CircleGeofenceCenterMarker.getRadius();
+            const radius = Math.ceil(this.CircleGeofenceCenterMarker.getRadius());
             this.CircleGeofenceCenterMarker.setCenter(center);
-            if (!this.lastGeofenceExtenderHeading) {
-                this.lastGeofenceExtenderHeading = google.maps.geometry.spherical.computeHeading(center, this.CircleGeofenceExtenderMarker.getPosition());
-            }
-            this.CircleGeofenceExtenderMarker.setPosition(google.maps.geometry.spherical.computeOffset(center, radius, this.lastGeofenceExtenderHeading));
+
+            this.CircleGeofenceExtenderMarker.setPosition(google.maps.geometry.spherical.computeOffset(center, radius, 90));
         });
         this.CircleGeofenceCenterMarker.addListener('drag', (e: google.maps.MouseEvent) => {
             const center = this.CircleGeofenceCenterMarker.getCenter();
-            const radius = this.CircleGeofenceCenterMarker.getRadius();
+            const radius = Math.ceil(this.CircleGeofenceCenterMarker.getRadius());
             this.circleClickMarker.setPosition(center);
 
-            if (!this.lastGeofenceExtenderHeading) {
-                this.lastGeofenceExtenderHeading = google.maps.geometry.spherical.computeHeading(center, this.CircleGeofenceExtenderMarker.getPosition());
-            }
-            this.CircleGeofenceExtenderMarker.setPosition(google.maps.geometry.spherical.computeOffset(center, radius, this.lastGeofenceExtenderHeading));
+            this.CircleGeofenceExtenderMarker.setPosition(google.maps.geometry.spherical.computeOffset(center, radius, 90));
         });
         this.CircleGeofenceExtenderMarker.addListener('drag', (e: google.maps.MouseEvent) => {
-            const radius = google.maps.geometry.spherical.computeDistanceBetween(
-                this.CircleGeofenceCenterMarker.getCenter(),
-                this.CircleGeofenceExtenderMarker.getPosition()
+            const radius = Math.ceil(
+                google.maps.geometry.spherical.computeDistanceBetween(
+                    this.CircleGeofenceCenterMarker.getCenter(),
+                    this.CircleGeofenceExtenderMarker.getPosition()
+                )
             );
             this.CircleGeofenceCenterMarker.setRadius(radius);
         });
 
         this.circleClickMarker.addListener('dragend', (e: google.maps.MouseEvent) => {
             const center = this.CircleGeofenceCenterMarker.getCenter();
-            this.lastGeofenceExtenderHeading = undefined;
-            const radius = this.CircleGeofenceCenterMarker.getRadius();
+            const radius = Math.ceil(this.CircleGeofenceCenterMarker.getRadius());
             this.addCircleGeofence(new CoordinatePair(center.lng(), center.lat()), radius);
         });
         this.CircleGeofenceCenterMarker.addListener('dragend', (e: google.maps.MouseEvent) => {
             const center = this.CircleGeofenceCenterMarker.getCenter();
-            const radius = google.maps.geometry.spherical.computeDistanceBetween(
-                this.CircleGeofenceCenterMarker.getCenter(),
-                this.CircleGeofenceExtenderMarker.getPosition()
+            const radius = Math.ceil(
+                google.maps.geometry.spherical.computeDistanceBetween(
+                    this.CircleGeofenceCenterMarker.getCenter(),
+                    this.CircleGeofenceExtenderMarker.getPosition()
+                )
             );
-            this.lastGeofenceExtenderHeading = undefined;
             this.addCircleGeofence(new CoordinatePair(center.lng(), center.lat()), radius);
         });
         this.CircleGeofenceExtenderMarker.addListener('dragend', (e: google.maps.MouseEvent) => {
             const center = this.CircleGeofenceCenterMarker.getCenter();
-            const radius = google.maps.geometry.spherical.computeDistanceBetween(
-                this.CircleGeofenceCenterMarker.getCenter(),
-                this.CircleGeofenceExtenderMarker.getPosition()
+            const radius = Math.ceil(
+                google.maps.geometry.spherical.computeDistanceBetween(
+                    this.CircleGeofenceCenterMarker.getCenter(),
+                    this.CircleGeofenceExtenderMarker.getPosition()
+                )
             );
             this.addCircleGeofence(new CoordinatePair(center.lng(), center.lat()), radius);
         });

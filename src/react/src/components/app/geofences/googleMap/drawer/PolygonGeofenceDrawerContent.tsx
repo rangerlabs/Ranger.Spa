@@ -122,10 +122,10 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             if (!v.is_error) {
                 this.setState({ isSuccess: true });
                 this.props.saveGeofenceToState(geofence);
-                this.props.clearNewPolygonGeofence();
-                this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
+                this.props.enableMapClick();
+                this.props.clearNewPolygonGeofence();
             }
             this.formikRef.current.setSubmitting(false);
             this.setState({ isSuccess: false });
@@ -137,11 +137,11 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         setTimeout(() => {
             this.setState({ isSuccess: true });
             this.props.removeGeofenceFromState(name);
-            this.props.clearNewPolygonGeofence();
-            this.props.enqueueSnackbar('Geofence deleted.', { variant: 'error' });
-            this.props.enableMapClick();
             this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
             this.props.closeDrawer();
+            this.props.enableMapClick();
+            this.props.clearNewPolygonGeofence();
+            this.props.enqueueSnackbar('Geofence deleted.', { variant: 'error' });
         }, 500);
     };
 
@@ -206,7 +206,6 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 }
                 isInitialValid={this.props.editGeofence ? true : false}
                 onSubmit={(values: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
-                    console.log(values);
                     const newFence = new PolygonGeofence(
                         this.props.selectedProject.projectId,
                         values.externalId,
@@ -222,7 +221,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
 
                     if (this.showNoIntegrationsWithTriggersDialog(newFence)) {
                         const content = new DialogContent(
-                            'You can choose to save this geofence without integrations and still perform API requests to determine if a position is contained within the geofence. Triggers will have no effect.',
+                            'Are you sure you want to save this geofence without any integrations? Triggers will have no effect.',
                             'Save geofence with no integrations?',
                             'Save geofence',
                             () => {

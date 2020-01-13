@@ -1,7 +1,7 @@
 import Constants from '../../../../../theme/Constants';
 
-const MapMarkerPurple = require('../../../../../../assets/map-marker-green.png');
-const MapMarkerRed = require('../../../../../../assets/map-marker-red.png');
+const MapMarkerPrimaryGreen = require('../../../../../../assets/map-marker-green.png');
+const MapMarkerDarkGreen = require('../../../../../../assets/map-marker-dark-green.png');
 
 export default class PolygonGeofenceMapMarker {
     polygonGeofence: google.maps.Polygon = undefined;
@@ -36,7 +36,7 @@ export default class PolygonGeofenceMapMarker {
         this.polygonMarker = new google.maps.Marker({
             map: this.map,
             position: this.getPolygonCenter(),
-            icon: MapMarkerPurple,
+            icon: MapMarkerPrimaryGreen,
             animation: this.drop ? google.maps.Animation.DROP : null,
         });
     }
@@ -55,10 +55,10 @@ export default class PolygonGeofenceMapMarker {
             }
         });
         this.polygonMarker.addListener('mouseover', (e: google.maps.MouseEvent) => {
-            this.polygonMarker.setIcon(MapMarkerRed);
+            this.polygonMarker.setIcon(MapMarkerDarkGreen);
         });
         this.polygonMarker.addListener('mouseout', (e: google.maps.MouseEvent) => {
-            this.polygonMarker.setIcon(MapMarkerPurple);
+            this.polygonMarker.setIcon(MapMarkerPrimaryGreen);
         });
         this.polygonGeofence.addListener('mousemove', (e: google.maps.MouseEvent) => {
             google.maps.event.trigger(this.map, 'mousemove', e);

@@ -1,23 +1,23 @@
-import * as React from "react";
-import { Theme, createStyles, WithStyles, Button, withStyles } from "@material-ui/core";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../../stores/index";
-import { selectShapePicker, ShapePicker } from "../../../../redux/actions/GoogleMapsActions";
-import { createPortal } from "react-dom";
-import ShapeCirclePlus from "mdi-material-ui/ShapeCirclePlus";
-import ShapePolygonPlus from "mdi-material-ui/ShapePolygonPlus";
+import * as React from 'react';
+import { Theme, createStyles, WithStyles, Button, withStyles } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../../../../stores/index';
+import { selectShapePicker, ShapePicker } from '../../../../redux/actions/GoogleMapsActions';
+import { createPortal } from 'react-dom';
+import ShapeCirclePlus from 'mdi-material-ui/ShapeCirclePlus';
+import ShapePolygonPlus from 'mdi-material-ui/ShapePolygonPlus';
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
-            backgroundColor: "#fff",
-            border: "2px solid #fff",
-            borderRadius: "3px",
-            boxShadow: "0 2px 6px rgba(0,0,0,.3)",
-            cursor: "pointer",
-            marginBottom: "22px",
-            marginTop: "10px",
-            textAlign: "center",
+            backgroundColor: '#fff',
+            border: '2px solid #fff',
+            borderRadius: '3px',
+            boxShadow: '0 2px 6px rgba(0,0,0,.3)',
+            cursor: 'pointer',
+            marginBottom: '22px',
+            marginTop: '10px',
+            textAlign: 'center',
         },
         font: {
             fontFamily: "'Lato', sans-serif",
@@ -25,7 +25,7 @@ const styles = (theme: Theme) =>
     });
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { selectedShape: state.googleMaps.selectedShapePicker, enabled: !state.geofenceDrawer.isOpen };
+    return { selectedShape: state.googleMaps.selectedShapePicker, enabled: isEnabled(state) };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -35,6 +35,10 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(selectShapePickerAction);
         },
     };
+};
+
+const isEnabled = (state: ApplicationState) => {
+    return !state.geofenceDrawer.isOpen && !state.googleMaps.isInfoWindowVisible;
 };
 
 interface GoogleMapsShapePickerProps extends WithStyles<typeof styles> {
@@ -47,10 +51,9 @@ interface GoogleMapsShapePickerProps extends WithStyles<typeof styles> {
 class GoogleMapsShapePicker extends React.Component<GoogleMapsShapePickerProps> {
     constructor(props: GoogleMapsShapePickerProps) {
         super(props);
-        this.googleMapsShapePickerContainer = document.createElement("div");
+        this.googleMapsShapePickerContainer = document.createElement('div');
         this.props.map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.googleMapsShapePickerContainer);
     }
-
     googleMapsShapePickerContainer: HTMLDivElement = undefined;
 
     handleCirclularClick = () => {
@@ -70,23 +73,23 @@ class GoogleMapsShapePicker extends React.Component<GoogleMapsShapePickerProps> 
         return createPortal(
             <div className={classes.root}>
                 <Button
+                    startIcon={<ShapeCirclePlus />}
                     className={classes.font}
                     disabled={!this.props.enabled}
-                    variant={selectedShape === ShapePicker.Circle ? "contained" : "text"}
+                    variant={selectedShape === ShapePicker.Circle ? 'contained' : 'text'}
                     color="primary"
                     onClick={this.handleCirclularClick}
                 >
-                    <ShapeCirclePlus />
                     Circle
                 </Button>
                 <Button
+                    startIcon={<ShapePolygonPlus />}
                     className={classes.font}
                     disabled={!this.props.enabled}
-                    variant={selectedShape === ShapePicker.Polygon ? "contained" : "text"}
+                    variant={selectedShape === ShapePicker.Polygon ? 'contained' : 'text'}
                     color="primary"
                     onClick={this.handlePolygonClick}
                 >
-                    <ShapePolygonPlus />
                     Polygon
                 </Button>
             </div>,
@@ -95,7 +98,4 @@ class GoogleMapsShapePicker extends React.Component<GoogleMapsShapePickerProps> 
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(GoogleMapsShapePicker));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(GoogleMapsShapePicker));

@@ -194,7 +194,6 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             enableReinitialize
                             initialValues={this.state.initialProject ? this.state.initialProject : { name: '', description: '', version: 0, enabled: true }}
                             onSubmit={(values: IProject, formikBag: FormikBag<FormikProps<IProject>, IProject>) => {
-                                console.log(values);
                                 this.setState({ serverErrors: undefined });
                                 const inputProject = {
                                     name: values.name,

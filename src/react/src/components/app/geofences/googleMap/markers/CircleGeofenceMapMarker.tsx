@@ -1,8 +1,8 @@
 import Constants from '../../../../../theme/Constants';
 import { ShapePicker } from '../../../../../redux/actions/GoogleMapsActions';
 
-const MapMarkerPurple = require('../../../../../../assets/map-marker-green.png');
-const MapMarkerRed = require('../../../../../../assets/map-marker-red.png');
+const MapMarkerDarkGreen = require('../../../../../../assets/map-marker-dark-green.png');
+const MapMarkerPrimaryGreen = require('../../../../../../assets/map-marker-green.png');
 
 const DEFAULT_RADIUS = 100;
 
@@ -30,7 +30,7 @@ export default class CircleGeofenceMapMarker {
         this.circleClickMarker = new google.maps.Marker({
             map: this.map,
             position: latLng,
-            icon: MapMarkerPurple,
+            icon: MapMarkerPrimaryGreen,
             animation: this.drop ? google.maps.Animation.DROP : null,
         });
         this.circleGeofenceCenterMarker = new google.maps.Circle({
@@ -53,10 +53,10 @@ export default class CircleGeofenceMapMarker {
             google.maps.event.trigger(this.map, 'click', e);
         });
         this.circleClickMarker.addListener('mouseover', (e: google.maps.MouseEvent) => {
-            this.circleClickMarker.setIcon(MapMarkerRed);
+            this.circleClickMarker.setIcon(MapMarkerDarkGreen);
         });
         this.circleClickMarker.addListener('mouseout', (e: google.maps.MouseEvent) => {
-            this.circleClickMarker.setIcon(MapMarkerPurple);
+            this.circleClickMarker.setIcon(MapMarkerPrimaryGreen);
         });
     }
 

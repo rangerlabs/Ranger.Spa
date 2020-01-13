@@ -84,7 +84,7 @@ class Loading extends React.Component<LoadingProps, LoadingState> {
                         {this.state.displayLoading ? (
                             <React.Fragment>
                                 <Typography variant="subtitle1">{this.state.warningTimeoutMessage}</Typography>
-                                <LinearProgress color="primary" variant="query" />
+                                <LinearProgress color="primary" />
                             </React.Fragment>
                         ) : (
                             <Typography variant="subtitle1" color="error">

@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import People from '@material-ui/icons/People';
 import MapMarker from 'mdi-material-ui/MapMarker';
-import ViewDashboardOutline from 'mdi-material-ui/ViewDashboardOutline';
+import ViewDashboard from 'mdi-material-ui/ViewDashboardOutline';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import Lock from '@material-ui/icons/Lock';
@@ -35,7 +35,7 @@ import RoutePaths from '../../../components/RoutePaths';
 import { User } from 'oidc-client';
 import IProject from '../../../models/app/IProject';
 import { userIsInRole } from '../../../helpers/Helpers';
-import { Logout } from 'mdi-material-ui';
+import { Logout, CreditCard } from 'mdi-material-ui';
 import { Settings } from 'mdi-material-ui';
 
 const styles = (theme: Theme) =>
@@ -113,7 +113,7 @@ class Menu extends React.Component<MenuProps> {
             <List>
                 <ListItem id="home" button onClick={() => this.handleMenuNavigation(RoutePaths.Dashboard)}>
                     <ListItemIcon>
-                        <ViewDashboardOutline />
+                        <ViewDashboard />
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItem>
@@ -191,7 +191,7 @@ class Menu extends React.Component<MenuProps> {
                                         </ListItem>
                                         <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
                                             <ListItemIcon>
-                                                <Domain />
+                                                <CreditCard />
                                             </ListItemIcon>
                                             <ListItemText primary="Billing" />
                                         </ListItem>

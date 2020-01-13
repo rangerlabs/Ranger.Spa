@@ -126,7 +126,10 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
             .sort();
     }
     getProjectIdsByProjectNames(projectNames: string[]) {
-        return this.props.projects.filter(p => projectNames.includes(p.name)).map(p => p.projectId).sort();
+        return this.props.projects
+            .filter(p => projectNames.includes(p.name))
+            .map(p => p.projectId)
+            .sort();
     }
     getAssignableRolesFromCurrentUser(user: User): FormikSelectValues {
         const roleArray: FormikSelectValues = [];
@@ -178,7 +181,6 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                     : { email: '', firstName: '', lastName: '', role: 'User', authorizedProjects: [] }
                             }
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
-                                console.log(values);
                                 const newUser = {
                                     email: values.email,
                                     firstName: values.firstName,

@@ -8,7 +8,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import RoutePaths from '../RoutePaths';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import { Settings, ViewDashboardOutline } from 'mdi-material-ui';
+import { Settings, ViewDashboard } from 'mdi-material-ui';
 import { Logout } from 'mdi-material-ui';
 
 const styles = (theme: Theme) =>
@@ -90,7 +90,7 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                                 }}
                                             >
                                                 <ListItemIcon className={classes.listItemIcon}>
-                                                    <ViewDashboardOutline fontSize="small" />
+                                                    <ViewDashboard fontSize="small" />
                                                 </ListItemIcon>
                                                 <ListItemText primary="Dashboard" />
                                             </MenuItem>
