@@ -96,6 +96,7 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
                                     streetViewControl: false,
                                     mapTypeControl: false,
                                     fullscreenControl: false,
+                                    clickableIcons: false,
                                 }}
                                 mapFullyLoadedCallback={() => {
                                     this.setState({ isMapFullyLoaded: true });

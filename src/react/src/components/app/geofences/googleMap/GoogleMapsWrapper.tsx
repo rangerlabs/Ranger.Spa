@@ -498,6 +498,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             this.infoWindow.set('name', geofenceName);
             this.infoWindow.addListener('closeclick', () => {
                 this.props.setInfoWindowVisible(false);
+                this.registerMapClickHandler();
             });
             this.infoWindow.addListener('domready', () => {
                 const geofenceName = this.infoWindow.get('name');
@@ -510,6 +511,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                                 this.clearCircle();
                                 this.props.removeMapGeofenceFromState();
                                 this.props.closeDrawer();
+                                this.registerMapClickHandler();
                             }}
                             onEdit={() => {
                                 this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + geofenceName);
@@ -527,6 +529,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                                 this.clearPolygon();
                                 this.props.removeMapGeofenceFromState();
                                 this.props.closeDrawer();
+                                this.registerMapClickHandler();
                             }}
                             onEdit={() => {
                                 this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + geofenceName);
@@ -543,6 +546,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     const existingMarker = this.getGeofenceFromStateByName(geofenceName) as CircleGeofence;
                     this.props.openDrawer(existingMarker);
                 }
+                this.removeMapClickHandler();
                 this.props.setInfoWindowVisible(true);
             });
         }
