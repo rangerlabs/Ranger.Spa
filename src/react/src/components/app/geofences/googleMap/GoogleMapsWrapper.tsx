@@ -553,7 +553,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.removeMapClickHandler();
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.Polygon);
-        this.removeMapClickAndOpenDrawer();
+        this.props.openDrawer(geofence);
         this.props.removeGeofenceFromState(geofence.externalId);
         this.newPolygonGeofenceMapMarker = new NewPolygonGeofenceMapMarker(
             this.map,

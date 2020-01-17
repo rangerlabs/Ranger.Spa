@@ -62,6 +62,7 @@ interface PolygonGeofenceFormState {
     serverErrors: string[];
     selectedIntegrations: MergedIntegrationResponseType[];
     isSuccess: boolean;
+    cancelClicked: boolean;
 }
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -100,6 +101,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 serverErrors: undefined,
                 selectedIntegrations: getIntegrationsFromIntegrationIds(this.props.editGeofence.integrationIds, this.props.integrations),
                 isSuccess: false,
+                cancelClicked: false,
             };
         }
     }
@@ -110,11 +112,19 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         serverErrors: undefined,
         selectedIntegrations: [],
         isSuccess: false,
+        cancelClicked: false,
     };
+
+    componentWillUnmount() {
+        if (this.props.editGeofence && !this.state.isSuccess && !this.state.cancelClicked) {
+            this.props.saveGeofenceToState(this.props.editGeofence);
+            this.props.clearNewPolygonGeofence();
+            this.props.enableMapClick();
+        }
+    }
 
     cancelSaveGeofence = (formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
         formikBag.setSubmitting(false);
-        this.props.enableMapClick();
     };
 
     saveGeofence = (geofence: PolygonGeofence) => {
@@ -146,6 +156,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     };
 
     cancelGeofenceEdit = () => {
+        this.setState({ cancelClicked: true });
         this.props.saveGeofenceToState(this.props.editGeofence);
         this.props.clearNewPolygonGeofence();
         this.props.enableMapClick();
@@ -154,6 +165,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     };
 
     cancelGeofenceCreate = () => {
+        this.setState({ cancelClicked: true });
         this.props.clearNewPolygonGeofence();
         this.setState({ serverErrors: undefined });
         this.props.enableMapClick();

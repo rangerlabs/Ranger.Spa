@@ -61,6 +61,7 @@ interface CircleGeofenceFormState {
     serverErrors: string[];
     selectedIntegrations: MergedIntegrationResponseType[];
     isSuccess: boolean;
+    cancelClicked: boolean;
 }
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -99,6 +100,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 serverErrors: undefined,
                 selectedIntegrations: getIntegrationsFromIntegrationIds(this.props.editGeofence.integrationIds, this.props.integrations),
                 isSuccess: false,
+                cancelClicked: false,
             };
         }
     }
@@ -109,11 +111,19 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         serverErrors: undefined,
         selectedIntegrations: [],
         isSuccess: false,
+        cancelClicked: false,
     };
+
+    componentWillUnmount() {
+        if (this.props.editGeofence && !this.state.isSuccess && !this.state.cancelClicked) {
+            this.props.saveGeofenceToState(this.props.editGeofence);
+            this.props.clearNewCircleGeofence();
+            this.props.enableMapClick();
+        }
+    }
 
     cancelSaveGeofence = (formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
         formikBag.setSubmitting(false);
-        this.props.enableMapClick();
     };
 
     saveGeofence = (geofence: CircleGeofence) => {
@@ -144,6 +154,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     cancelGeofenceEdit = () => {
+        this.setState({ cancelClicked: true });
         this.props.saveGeofenceToState(this.props.editGeofence);
         this.props.clearNewCircleGeofence();
         this.props.enableMapClick();
@@ -152,6 +163,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     cancelGeofenceCreate = () => {
+        this.setState({ cancelClicked: true });
         this.props.clearNewCircleGeofence();
         this.setState({ serverErrors: undefined });
         this.props.enableMapClick();

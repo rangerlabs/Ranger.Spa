@@ -27,6 +27,9 @@ const styles = (theme: Theme) => {
             backgroundColor: Constants.COLORS.PRIMARY_COLOR,
             color: Constants.COLORS.WHITE,
             fontFamily: "'Lato', sans-serif",
+            '&:hover': {
+                backgroundColor: Constants.COLORS.MAP_DARK_GREEN,
+            },
         },
     });
 };

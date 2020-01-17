@@ -88,6 +88,9 @@ export default class NewPolygonGeofenceMapMarker {
         this.polygonGeofence.addListener('dragstart', e => {
             google.maps.event.removeListener(this.setAtEventListener);
         });
+        this.polygonGeofence.addListener('drag', e => {
+            this.setPolygonCenterMarker();
+        });
     }
     createPolyline(latLng: google.maps.LatLng): void {
         const newPolyline = new google.maps.Polyline({

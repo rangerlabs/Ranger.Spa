@@ -14,6 +14,7 @@ import {
     Collapse,
     Fade,
     Button,
+    Badge,
 } from '@material-ui/core';
 import People from '@material-ui/icons/People';
 import MapMarker from 'mdi-material-ui/MapMarker';
@@ -35,7 +36,7 @@ import RoutePaths from '../../../components/RoutePaths';
 import { User } from 'oidc-client';
 import IProject from '../../../models/app/IProject';
 import { userIsInRole } from '../../../helpers/Helpers';
-import { Logout, CreditCard } from 'mdi-material-ui';
+import { Logout, CreditCard, MapMarkerPath } from 'mdi-material-ui';
 import { Settings } from 'mdi-material-ui';
 
 const styles = (theme: Theme) =>
@@ -59,6 +60,13 @@ const styles = (theme: Theme) =>
             '&:hover': {
                 background: 'none',
             },
+        },
+        badge: {
+            height: '100%',
+            right: '-25px',
+        },
+        badgeTypography: {
+            lineHeight: 'inherit',
         },
     });
 interface MenuProps extends WithStyles<typeof styles> {
@@ -148,6 +156,23 @@ class Menu extends React.Component<MenuProps> {
                         <ArrowDecision />
                     </ListItemIcon>
                     <ListItemText primary="Integrations" />
+                </ListItem>
+
+                <ListItem id="breadcrumbs" button>
+                    <Badge
+                        classes={{ badge: classes.badge }}
+                        badgeContent={
+                            <Typography className={classes.badgeTypography} variant="caption" align="center">
+                                Coming soon
+                            </Typography>
+                        }
+                        color="primary"
+                    >
+                        <ListItemIcon>
+                            <MapMarkerPath />
+                        </ListItemIcon>
+                        <ListItemText primary="Breadcrumbs" />
+                    </Badge>
                 </ListItem>
 
                 <ListItem
