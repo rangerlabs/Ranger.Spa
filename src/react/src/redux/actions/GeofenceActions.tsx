@@ -26,10 +26,10 @@ export function addGeofence(geofence: CircleGeofence | PolygonGeofence): Geofenc
     };
 }
 
-export function removeGeofence(name: string): GeofenceAction {
+export function removeGeofence(externalId: string): GeofenceAction {
     return {
         type: REMOVE_GEOFENCE,
-        geofence: { externalId: name } as CircleGeofence | PolygonGeofence,
+        geofence: { externalId: externalId } as CircleGeofence | PolygonGeofence,
     };
 }
 

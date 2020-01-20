@@ -59,7 +59,13 @@ export default class GeofenceService {
         });
     }
 
-    async postGeofence(projectName: string, geofence: Geofence): Promise<IRestResponse<CircleGeofence | PolygonGeofence>> {
-        return RestUtilities.post<CircleGeofence | PolygonGeofence>(`${projectName}/geofences`, geofence);
+    async postGeofence(projectName: string, geofence: Geofence): Promise<IRestResponse<void>> {
+        return RestUtilities.post(`${projectName}/geofences`, geofence);
+    }
+    async putGeofence(projectName: string, externalId: string, geofence: Geofence): Promise<IRestResponse<void>> {
+        return RestUtilities.put(`${projectName}/geofences/${externalId}`, geofence);
+    }
+    async deleteGeofence(projectName: string, externalId: string): Promise<IRestResponse<void>> {
+        return RestUtilities.delete(`${projectName}/geofences/${externalId}`);
     }
 }
