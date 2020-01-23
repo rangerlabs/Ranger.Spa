@@ -14,7 +14,7 @@ import GenericDomainUserHandler from './pusherHandlers/GenericDomainUserHandler'
 import TokenRefreshHandler from './pusherHandlers/TokenRefreshHandler';
 import PermissionsUpdatedHandler from './pusherHandlers/PermissionsUpdatedHandler';
 import ForceSignoutHandler from './pusherHandlers/ForceSignoutHandler';
-import GeofenceUpsertHandler from './pusherHandlers/GeofenceUpsertHandler
+import GeofenceUpsertHandler from './pusherHandlers/GeofenceUpsertHandler';
 import GeofenceDeleteHandler from './pusherHandlers/GeofenceDeleteHandler';
 
 interface NotifierProps extends WithSnackbarProps {
