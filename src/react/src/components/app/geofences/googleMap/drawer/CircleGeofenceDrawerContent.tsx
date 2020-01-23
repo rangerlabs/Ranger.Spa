@@ -6,12 +6,12 @@ import FormikDeleteButton from '../../../../form/FormikDeleteButton';
 import FormikCheckbox from '../../../../form/FormikCheckbox';
 import CircleGeofence from '../../../../../models/app/geofences/CircleGeofence';
 import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
-import { Theme, createStyles, WithStyles, List, ListItem, ListItemText, withStyles, Grid, FormLabel } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, List, ListItem, ListItemText, withStyles, Grid, FormLabel, Typography } from '@material-ui/core';
 import { CircleGeofenceState } from '../../../../../redux/actions/GoogleMapsActions';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { addGeofence, removeGeofence } from '../../../../../redux/actions/GeofenceActions';
+import { addGeofence, removeGeofence, updateGeofenceById } from '../../../../../redux/actions/GeofenceActions';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
@@ -20,6 +20,7 @@ import { MergedIntegrationResponseType } from '../../../../../models/app/integra
 import { getIntegrationsFromIntegrationIds } from '../../../../../helpers/Helpers';
 import FormikAutocompleteLabelMultiselect from '../../../../form/FormikAutocompleteLabelMultiselect';
 import GeofenceService from '../../../../../services/GeofenceService';
+import { StatusEnum } from '../../../../../models/StatusEnum';
 
 const geofenceService = new GeofenceService();
 
@@ -51,7 +52,8 @@ interface CircleGeofenceFormProps extends WithStyles<typeof styles>, WithSnackba
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
     saveGeofenceToState: (geofence: CircleGeofence) => void;
-    removeGeofenceFromState: (name: string) => void;
+    updateGeofenceInState: (geofence: CircleGeofence) => void;
+    removeGeofenceFromState: (name: string, correlationId: string) => void;
     clearNewCircleGeofence: () => void;
     enableMapClick: () => void;
     push: (path: string) => void;
@@ -82,8 +84,12 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = addGeofence(geofence);
             dispatch(action);
         },
-        removeGeofenceFromState: (name: string) => {
-            const action = removeGeofence(name);
+        updateGeofenceInState: (geofence: CircleGeofence) => {
+            const action = updateGeofenceById(geofence);
+            dispatch(action);
+        },
+        removeGeofenceFromState: (name: string, correlationId: string) => {
+            const action = removeGeofence(name, correlationId);
             dispatch(action);
         },
         push: (path: string) => {
@@ -114,14 +120,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         cancelClicked: false,
     };
 
-    componentWillUnmount() {
-        if (this.props.editGeofence && !this.state.isSuccess && !this.state.cancelClicked) {
-            this.props.saveGeofenceToState(this.props.editGeofence);
-            this.props.clearNewCircleGeofence();
-            this.props.enableMapClick();
-        }
-    }
-
     cancelSaveGeofence = (formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
         formikBag.setSubmitting(false);
     };
@@ -130,6 +128,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         geofenceService.postGeofence(this.props.selectedProject.name, geofence).then(v => {
             if (!v.is_error) {
                 this.setState({ isSuccess: true });
+                geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.saveGeofenceToState(geofence);
                 this.props.clearNewCircleGeofence();
                 this.props.enableMapClick();
@@ -145,6 +144,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         geofenceService.putGeofence(this.props.selectedProject.name, geofence.externalId, geofence).then(v => {
             if (!v.is_error) {
                 this.setState({ isSuccess: true });
+                geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.saveGeofenceToState(geofence);
                 this.props.clearNewCircleGeofence();
                 this.props.enableMapClick();
@@ -159,7 +159,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     deleteGeofence = (externalId: string) => {
         geofenceService.deleteGeofence(this.props.selectedProject.name, externalId).then(v => {
             if (!v.is_error) {
-                this.props.removeGeofenceFromState(externalId);
+                this.props.removeGeofenceFromState(externalId, v.correlationId);
                 this.props.clearNewCircleGeofence();
                 this.props.enqueueSnackbar('Geofence deleted.', { variant: 'error' });
                 this.props.enableMapClick();
@@ -206,6 +206,11 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             .map(i => i.id)
             .sort();
     }
+
+    isPendingCreation() {
+        return this.props.editGeofence?.correlationModel?.status === StatusEnum.PENDING && !this.props.editGeofence?.id;
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -247,6 +252,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                         new Map<string, object>(),
                         this.props.mapGeofence.radius
                     );
+                    newFence.id = this.props.editGeofence?.id;
 
                     const saveOrUpdate = this.props.editGeofence ? this.updateGeofence : this.saveGeofence;
 
@@ -285,6 +291,15 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 {props => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
                         <Grid container direction="column" spacing={4}>
+                            {this.isPendingCreation() && (
+                                <Grid container item xs={12} spacing={0}>
+                                    <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                        <Typography>
+                                            This geofence is pending creation. Please wait until the geofence is successfully created to issue updates.
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            )}
                             <Grid container item xs={12} spacing={0}>
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <FormikCheckbox
@@ -293,6 +308,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         value={props.values.enabled}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
+                                        disabled={this.isPendingCreation()}
                                     />
                                 </Grid>
                             </Grid>
@@ -307,6 +323,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     onBlur={props.handleBlur}
                                     autoComplete="off"
                                     required
+                                    disabled={this.isPendingCreation()}
                                 />
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
@@ -319,6 +336,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     onChange={props.handleChange}
                                     onBlur={props.handleBlur}
                                     autoComplete="off"
+                                    disabled={this.isPendingCreation()}
                                 />
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
@@ -326,7 +344,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     name="integrations"
                                     label="Integrations"
                                     placeholder=""
-                                    enabled
+                                    enabled={!this.isPendingCreation()}
                                     options={this.props.integrations.map(v => v.name)}
                                     defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
                                     onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
@@ -345,6 +363,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         value={props.values.onEnter}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
+                                        disabled={this.isPendingCreation()}
                                     />
                                 </Grid>
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
@@ -354,6 +373,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         value={props.values.onExit}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
+                                        disabled={this.isPendingCreation()}
                                     />
                                 </Grid>
                             </Grid>
@@ -380,6 +400,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                             this.deleteGeofence(props.values.externalId);
                                         }}
                                         isSubmitting={props.isSubmitting}
+                                        disabled={this.isPendingCreation()}
                                     />
                                 )}
                             </div>
@@ -390,7 +411,12 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     props.initialValues.externalId === '' ? this.cancelGeofenceCreate() : this.cancelGeofenceEdit();
                                 }}
                             />
-                            <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
+                            <FormikSynchronousButton
+                                isValid={props.isValid}
+                                isSubmitting={props.isSubmitting}
+                                isSuccess={this.state.isSuccess}
+                                disabled={this.isPendingCreation()}
+                            >
                                 {props.initialValues.externalId === '' ? 'Create' : 'Update'}
                             </FormikSynchronousButton>
                         </div>

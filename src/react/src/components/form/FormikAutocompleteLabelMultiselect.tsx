@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme: Theme) =>
             height: 20,
             padding: '.15em 4px',
             lineHeight: '15px',
-            borderRadius: 2,
         },
         inputBase: {
             width: '100%',
@@ -38,7 +37,6 @@ const useStyles = makeStyles((theme: Theme) =>
         popper: {
             border: '1px solid rgba(27,31,35,.15)',
             boxShadow: '0 3px 12px rgba(27,31,35,.15)',
-            borderRadius: 3,
             zIndex: 1,
         },
         paper: {
@@ -68,7 +66,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         listItem: {
             border: '1px solid rgba(0, 0, 0, 0.23)',
-            borderRadius: '4px',
             paddingTop: theme.spacing(0.5),
             paddingBottom: theme.spacing(0.5),
             marginBottom: '3px',

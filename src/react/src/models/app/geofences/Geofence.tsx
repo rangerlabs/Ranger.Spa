@@ -1,6 +1,9 @@
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
+import CorrelationModel from '../../CorrelationModel';
 
 export default interface Geofence {
+    correlationModel: CorrelationModel;
+    id: string;
     projectId: string;
     externalId: string;
     readonly shape: ShapePicker;

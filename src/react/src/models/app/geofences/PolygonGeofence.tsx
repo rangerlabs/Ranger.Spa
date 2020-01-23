@@ -1,9 +1,12 @@
 import Geofence from './Geofence';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import CoordinatePair from './CoordinatePair';
+import CorrelationModel from '../../CorrelationModel';
 
 export default class PolygonGeofence implements Geofence {
     shape: ShapePicker;
+    correlationModel: CorrelationModel;
+    id: string; //assigned when correlationModel.status is Complete
 
     public constructor(
         public projectId: string,

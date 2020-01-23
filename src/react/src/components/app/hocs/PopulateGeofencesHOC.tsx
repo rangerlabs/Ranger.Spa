@@ -35,11 +35,9 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
         componentDidMount() {
             if (!this.props.geofencesState.isLoaded) {
                 geofenceService.getGeofences(this.props.selectedProject.name).then(geofenceResponse => {
-                    setTimeout(() => {
-                        if (geofenceResponse) {
-                            this.props.setGeofences(geofenceResponse);
-                        }
-                    }, 250);
+                    if (!geofenceResponse.is_error) {
+                        this.props.setGeofences(geofenceResponse.content ? geofenceResponse.content : new Array<CircleGeofence | PolygonGeofence>());
+                    }
                 });
             }
         }

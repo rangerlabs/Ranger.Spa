@@ -198,7 +198,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             formikBag.setSubmitting(false);
                                             formikBag.resetForm(newUser);
                                         } else {
-                                            newUser.status = StatusEnum.PENDING;
+                                            newUser.correlationModel.status = StatusEnum.PENDING;
                                             enqueueSnackbar('Update user request accepted.', { variant: 'info' });
                                             dispatchUpdateUser(newUser);
                                             formikBag.setSubmitting(false);
@@ -216,7 +216,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             formikBag.setSubmitting(false);
                                             formikBag.resetForm(newUser);
                                         } else {
-                                            newUser.status = StatusEnum.PENDING;
+                                            newUser.correlationModel.status = StatusEnum.PENDING;
                                             enqueueSnackbar('Create user request accepted.', { variant: 'info' });
                                             dispatchAddUser(newUser);
                                             formikBag.setSubmitting(false);

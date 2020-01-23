@@ -32,11 +32,9 @@ const populateProjectsHOC = <P extends object>(Component: React.ComponentType<P>
         componentDidMount() {
             if (!this.props.projectsState.isLoaded) {
                 projectService.getProjects().then(projectResponse => {
-                    setTimeout(() => {
-                        if (projectResponse.content) {
-                            this.props.setProjects(projectResponse.content);
-                        }
-                    }, 250);
+                    if (!projectResponse.is_error) {
+                        this.props.setProjects(projectResponse.content ? projectResponse.content : new Array<IProject>());
+                    }
                 });
             }
         }

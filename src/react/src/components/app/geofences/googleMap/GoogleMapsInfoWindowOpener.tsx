@@ -11,7 +11,6 @@ const styles = (theme: Theme) =>
         root: {
             backgroundColor: '#fff',
             border: '2px solid #fff',
-            borderRadius: '3px',
             boxShadow: '0 2px 6px rgba(0,0,0,.3)',
             cursor: 'pointer',
             marginBottom: '22px',
