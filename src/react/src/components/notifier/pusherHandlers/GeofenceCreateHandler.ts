@@ -4,7 +4,7 @@ import { SnackbarNotification, enqueueSnackbar } from '../../../redux/actions/Sn
 import { StatusEnum } from '../../../models/StatusEnum';
 import { updateGeofenceStatusByCorrelationId, removeGeofenceByCorrelationId } from '../../../redux/actions/GeofenceActions';
 
-export default function GeofenceUpsertHandler(data: PusherNotificationModel): void {
+export default function GeofenceCreateHandler(data: PusherNotificationModel): void {
     const oidcState = ReduxStore.getState().oidc;
 
     if (!oidcState.isLoadingUser && oidcState.user && !oidcState.user.expired) {

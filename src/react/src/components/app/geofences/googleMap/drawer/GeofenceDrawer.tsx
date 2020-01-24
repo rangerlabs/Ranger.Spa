@@ -29,18 +29,6 @@ const styles = (theme: Theme) =>
             display: 'flex',
             justifyContent: 'flex-end',
         },
-        // drawer: {
-        //     zIndex: theme.zIndex.appBar - 1,
-        //     width: "100%",
-        //     [theme.breakpoints.up("sm")]: {
-        //         width: "40%",
-        //     },
-        //     [theme.breakpoints.up("md")]: {
-        //         padding: theme.spacing(2),
-        //         width: `calc((100% - ${theme.drawer.width}px) * .35)`,
-        //     },
-        //     flexShrink: 0,
-        // },
         toolbar: {
             height: theme.toolbar.height,
         },

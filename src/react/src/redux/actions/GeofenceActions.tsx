@@ -6,10 +6,14 @@ export const ADD_GEOFENCE = 'ADD_GEOFENCE';
 export const UPDATE_GEOFENCE_BY_CORRELATION_ID = 'UPDATE_GEOFENCE_BY_CORRELATION_ID';
 export const UPDATE_GEOFENCE_BY_ID = 'UPDATE_GEOFENCE_BY_ID';
 export const REMOVE_PENDING_DELETE_GEOFENCE_BY_CORRELATION_ID = 'REMOVE_PENDING_DELETE_GEOFENCE_BY_CORRELATION_ID';
-export const REMOVE_GEOFENCE_BY_CORRELATION_ID = 'REMOVE_GEOFENCE_BY_CORRELATION_ID';
 export const UNDO_PENDING_DELETE_GEOFENCE_BY_CORRELATION_ID = 'UNDO_PENDING_DELETE_GEOFENCE_BY_CORRELATION_ID';
-export const REMOVE_GEOFENCE = 'REMOVE_GEOFENCE';
+export const REMOVE_PENDING_UPDATE_GEOFENCE_BY_ID = 'REMOVE_PENDING_UPDATE_GEOFENCE_BY_ID';
+export const UNDO_PENDING_UPDATE_GEOFENCE_BY_CORRELATION_ID = 'UNDO_PENDING_UPDATE_GEOFENCE_BY_CORRELATION_ID';
+export const REMOVE_GEOFENCE_BY_CORRELATION_ID = 'REMOVE_GEOFENCE_BY_CORRELATION_ID';
+export const ADD_GEOFENCE_TO_PENDING_DELETION = 'MOVE_GEOFENCE_TO_PENDING_DELETION';
+export const ADD_GEOFENCE_TO_PENDING_UPDATE = 'ADD_GEOFENCE_TO_PENDING_UDPATE';
 export const POPULATE_GEOFENCES = 'POPULATE_GEOFENCES';
+export const REMOVE_GEOFENCE_BY_EXTERNAL_ID = 'REMOVE_GEOFENCE_BY_EXTERNAL_ID';
 
 export interface GeofenceAction {
     type: string;
@@ -22,6 +26,7 @@ export interface GeofenceArrayAction {
 
 export interface GeofencesState {
     pendingDeletion: Array<CircleGeofence | PolygonGeofence>;
+    pendingUpdate: Array<CircleGeofence | PolygonGeofence>;
     geofences: Array<CircleGeofence | PolygonGeofence>;
     isLoaded: boolean;
 }
@@ -56,15 +61,43 @@ export function removePendingDeleteGeofenceByCorrelationId(correlationId: string
 
 export function undoPendingDeleteGeofenceByCorrelationId(correlationId: string): GeofenceAction {
     return {
-        type: REMOVE_GEOFENCE,
+        type: UNDO_PENDING_DELETE_GEOFENCE_BY_CORRELATION_ID,
         geofence: { correlationModel: { correlationId: correlationId } as CorrelationModel } as CircleGeofence | PolygonGeofence,
     };
 }
 
-export function removeGeofence(externalId: string, correlationId: string): GeofenceAction {
+export function removePendingUpdateGeofenceById(id: string): GeofenceAction {
     return {
-        type: REMOVE_GEOFENCE,
-        geofence: { correlationModel: { correlationId: correlationId } as CorrelationModel, externalId: externalId } as CircleGeofence | PolygonGeofence,
+        type: REMOVE_PENDING_UPDATE_GEOFENCE_BY_ID,
+        geofence: { id: id } as CircleGeofence | PolygonGeofence,
+    };
+}
+
+export function undoPendingUpdateGeofenceByCorrelationId(correlationId: string): GeofenceAction {
+    return {
+        type: UNDO_PENDING_UPDATE_GEOFENCE_BY_CORRELATION_ID,
+        geofence: { correlationModel: { correlationId: correlationId } as CorrelationModel } as CircleGeofence | PolygonGeofence,
+    };
+}
+
+export function addGeofenceToPendingDeletion(geofence: CircleGeofence | PolygonGeofence): GeofenceAction {
+    return {
+        type: ADD_GEOFENCE_TO_PENDING_DELETION,
+        geofence,
+    };
+}
+
+export function addGeofenceToPendingUpdate(geofence: CircleGeofence | PolygonGeofence): GeofenceAction {
+    return {
+        type: ADD_GEOFENCE_TO_PENDING_UPDATE,
+        geofence,
+    };
+}
+
+export function removeGeofenceByExternalId(externalId: string): GeofenceAction {
+    return {
+        type: REMOVE_GEOFENCE_BY_EXTERNAL_ID,
+        geofence: { externalId: externalId } as CircleGeofence | PolygonGeofence,
     };
 }
 
@@ -82,6 +115,7 @@ export function populateGeofences(geofences: Array<CircleGeofence | PolygonGeofe
             isLoaded: true,
             geofences,
             pendingDeletion: [],
+            pendingUpdate: [],
         },
     };
 }

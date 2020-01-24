@@ -34,11 +34,9 @@ const populateIntegrationsHOC = <P extends object>(Component: React.ComponentTyp
         componentDidMount() {
             if (!this.props.integrationsState.isLoaded) {
                 integrationService.getIntegrations(this.props.selectedProject.name).then(integrationResponse => {
-                    setTimeout(() => {
-                        if (integrationResponse) {
-                            this.props.setIntegrations(integrationResponse);
-                        }
-                    }, 250);
+                    if (integrationResponse) {
+                        this.props.setIntegrations(integrationResponse);
+                    }
                 });
             }
         }

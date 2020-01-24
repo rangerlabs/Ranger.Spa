@@ -60,6 +60,7 @@ export default function createRangerTheme(options: ThemeOptions) {
                     right: -3,
                     border: `2px solid ${Constants.COLORS.WHITE}`,
                     padding: '0 4px',
+                    borderRadius: '3px',
                 },
             },
             MuiDrawer: {

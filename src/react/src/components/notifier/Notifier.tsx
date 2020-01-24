@@ -14,7 +14,8 @@ import GenericDomainUserHandler from './pusherHandlers/GenericDomainUserHandler'
 import TokenRefreshHandler from './pusherHandlers/TokenRefreshHandler';
 import PermissionsUpdatedHandler from './pusherHandlers/PermissionsUpdatedHandler';
 import ForceSignoutHandler from './pusherHandlers/ForceSignoutHandler';
-import GeofenceUpsertHandler from './pusherHandlers/GeofenceUpsertHandler';
+import GeofenceUpdateHandler from './pusherHandlers/GeofenceUpdateHandler';
+import GeofenceCreateHandler from './pusherHandlers/GeofenceCreateHandler';
 import GeofenceDeleteHandler from './pusherHandlers/GeofenceDeleteHandler';
 
 interface NotifierProps extends WithSnackbarProps {
@@ -126,8 +127,8 @@ class Notifier extends React.Component<NotifierProps> {
         this.domainUserChannel.bind('token-refresh', TokenRefreshHandler);
         this.domainUserChannel.bind('permissions-updated', PermissionsUpdatedHandler);
         this.domainUserChannel.bind('force-signout', ForceSignoutHandler);
-        this.domainUserChannel.bind('geofence-created', GeofenceUpsertHandler);
-        this.domainUserChannel.bind('geofence-updated', GeofenceUpsertHandler);
+        this.domainUserChannel.bind('geofence-created', GeofenceCreateHandler);
+        this.domainUserChannel.bind('geofence-updated', GeofenceUpdateHandler);
         this.domainUserChannel.bind('geofence-deleted', GeofenceDeleteHandler);
     }
 

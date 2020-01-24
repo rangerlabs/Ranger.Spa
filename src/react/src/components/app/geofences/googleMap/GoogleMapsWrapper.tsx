@@ -25,7 +25,7 @@ import NewPolygonGeofenceMapMarker from './markers/NewPolygonGeofenceMapMarker';
 import { push } from 'connected-react-router';
 import { openGeofenceDrawer } from '../../../../redux/actions/GeofenceDrawerActions';
 import { closeGeofenceDrawer } from '../../../../redux/actions/GeofenceDrawerActions';
-import { removeGeofence } from '../../../../redux/actions/GeofenceActions';
+import { addGeofenceToPendingDeletion, removeGeofenceByExternalId } from '../../../../redux/actions/GeofenceActions';
 const hash = require('object-hash');
 import * as queryString from 'query-string';
 import Constants from '../../../../theme/Constants';
@@ -104,8 +104,8 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = closeGeofenceDrawer();
             dispatch(action);
         },
-        removeGeofenceFromState: (name: string) => {
-            const action = removeGeofence(name);
+        removeGeofenceByExternalId: (externalId: string) => {
+            const action = removeGeofenceByExternalId(externalId);
             dispatch(action);
         },
         setInfoWindowVisible: (isVisible: boolean) => {
@@ -130,7 +130,7 @@ interface WrapperProps extends WithStyles<typeof styles> {
     selectShapePicker: (shape: ShapePicker) => void;
     openDrawer: (geofence?: CircleGeofence | PolygonGeofence) => void;
     closeDrawer: () => void;
-    removeGeofenceFromState: (name: string) => void;
+    removeGeofenceByExternalId: (name: string) => void;
     mapFullyLoadedCallback: () => void;
     onMapLoad?: (map: google.maps.Map) => void;
     setInfoWindowVisible: (isVisible: boolean) => void;
@@ -558,7 +558,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.Polygon);
         this.props.openDrawer(geofence);
-        this.props.removeGeofenceFromState(geofence.externalId);
+        this.props.removeGeofenceByExternalId(geofence.externalId);
         this.newPolygonGeofenceMapMarker = new NewPolygonGeofenceMapMarker(
             this.map,
             geofence.coordinates.map(v => new google.maps.LatLng(v.lat, v.lng)),
@@ -574,7 +574,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.Circle);
         this.props.openDrawer(geofence);
-        this.props.removeGeofenceFromState(geofence.externalId);
+        this.props.removeGeofenceByExternalId(geofence.externalId);
         this.newCircleGeofenceMapMarker = new NewCircleGeofenceMapMarker(
             this.map,
             new google.maps.LatLng(geofence.coordinates[0].lat, geofence.coordinates[0].lng),

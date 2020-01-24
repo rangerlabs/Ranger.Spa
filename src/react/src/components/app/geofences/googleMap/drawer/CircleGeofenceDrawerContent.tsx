@@ -11,7 +11,7 @@ import { CircleGeofenceState } from '../../../../../redux/actions/GoogleMapsActi
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { addGeofence, removeGeofence, updateGeofenceById } from '../../../../../redux/actions/GeofenceActions';
+import { addGeofence, addGeofenceToPendingDeletion, updateGeofenceById, addGeofenceToPendingUpdate } from '../../../../../redux/actions/GeofenceActions';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
@@ -21,6 +21,7 @@ import { getIntegrationsFromIntegrationIds } from '../../../../../helpers/Helper
 import FormikAutocompleteLabelMultiselect from '../../../../form/FormikAutocompleteLabelMultiselect';
 import GeofenceService from '../../../../../services/GeofenceService';
 import { StatusEnum } from '../../../../../models/StatusEnum';
+import CorrelationModel from '../../../../../models/CorrelationModel';
 
 const geofenceService = new GeofenceService();
 
@@ -52,8 +53,8 @@ interface CircleGeofenceFormProps extends WithStyles<typeof styles>, WithSnackba
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
     saveGeofenceToState: (geofence: CircleGeofence) => void;
-    updateGeofenceInState: (geofence: CircleGeofence) => void;
-    removeGeofenceFromState: (name: string, correlationId: string) => void;
+    addGeofenceToPendingDeletion: (geofence: CircleGeofence) => void;
+    addGeofenceToPendingUpdate: (geofence: CircleGeofence) => void;
     clearNewCircleGeofence: () => void;
     enableMapClick: () => void;
     push: (path: string) => void;
@@ -84,12 +85,12 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = addGeofence(geofence);
             dispatch(action);
         },
-        updateGeofenceInState: (geofence: CircleGeofence) => {
-            const action = updateGeofenceById(geofence);
+        addGeofenceToPendingDeletion: (geofence: CircleGeofence) => {
+            const action = addGeofenceToPendingDeletion(geofence);
             dispatch(action);
         },
-        removeGeofenceFromState: (name: string, correlationId: string) => {
-            const action = removeGeofence(name, correlationId);
+        addGeofenceToPendingUpdate: (geofence: CircleGeofence) => {
+            const action = addGeofenceToPendingUpdate(geofence);
             dispatch(action);
         },
         push: (path: string) => {
@@ -131,6 +132,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.saveGeofenceToState(geofence);
                 this.props.clearNewCircleGeofence();
+                this.props.enqueueSnackbar(`Geofence '${geofence.externalId}' is pending creation.`, { variant: 'info' });
                 this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
@@ -145,7 +147,9 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             if (!v.is_error) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
+                this.props.addGeofenceToPendingUpdate(this.props.editGeofence);
                 this.props.saveGeofenceToState(geofence);
+                this.props.enqueueSnackbar(`Geofence '${geofence.externalId}' is pending update.`, { variant: 'info' });
                 this.props.clearNewCircleGeofence();
                 this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
@@ -156,12 +160,13 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         });
     };
 
-    deleteGeofence = (externalId: string) => {
-        geofenceService.deleteGeofence(this.props.selectedProject.name, externalId).then(v => {
+    deleteGeofence = () => {
+        geofenceService.deleteGeofence(this.props.selectedProject.name, this.props.editGeofence.externalId).then(v => {
             if (!v.is_error) {
-                this.props.removeGeofenceFromState(externalId, v.correlationId);
+                this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
+                this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
                 this.props.clearNewCircleGeofence();
-                this.props.enqueueSnackbar('Geofence deleted.', { variant: 'error' });
+                this.props.enqueueSnackbar(`Geofence '${this.props.editGeofence.externalId}' is pending deletion.`, { variant: 'info' });
                 this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
@@ -171,19 +176,10 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         });
     };
 
-    cancelGeofenceEdit = () => {
+    cancelGeofence = () => {
         this.setState({ cancelClicked: true });
         this.props.saveGeofenceToState(this.props.editGeofence);
         this.props.clearNewCircleGeofence();
-        this.props.enableMapClick();
-        this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
-        this.props.closeDrawer();
-    };
-
-    cancelGeofenceCreate = () => {
-        this.setState({ cancelClicked: true });
-        this.props.clearNewCircleGeofence();
-        this.setState({ serverErrors: undefined });
         this.props.enableMapClick();
         this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
@@ -258,21 +254,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
 
                     if (this.showNoIntegrationsWithTriggersDialog(newFence)) {
                         const content = new DialogContent(
-                            'You can choose to save this geofence without integrations and still perform API requests to determine if a position is contained within the geofence. Triggers will have no effect.',
+                            'Are you sure you want to save this geofence without any integrations? Triggers will have no effect.',
                             'Save geofence with no integrations?',
-                            'Save geofence',
-                            () => {
-                                saveOrUpdate(newFence);
-                            },
-                            () => {
-                                this.cancelSaveGeofence(formikBag);
-                            }
-                        );
-                        this.props.openDialog(content);
-                    } else if (this.showNoTriggersDialog(newFence)) {
-                        const content = new DialogContent(
-                            'You can choose to save this geofence without triggers and still perform API requests to determine if a position is contained within the geofence. Any selected integrations will not be triggered.',
-                            'Save geofence with no triggers?',
                             'Save geofence',
                             () => {
                                 saveOrUpdate(newFence);
@@ -397,20 +380,14 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         dialogContent={'Are you sure you want to delete the geofence named ' + props.values.externalId + '?'}
                                         confirmText="Delete geofence"
                                         onConfirm={() => {
-                                            this.deleteGeofence(props.values.externalId);
+                                            this.deleteGeofence();
                                         }}
                                         isSubmitting={props.isSubmitting}
                                         disabled={this.isPendingCreation()}
                                     />
                                 )}
                             </div>
-
-                            <FormikCancelButton
-                                isSubmitting={props.isSubmitting}
-                                onClick={() => {
-                                    props.initialValues.externalId === '' ? this.cancelGeofenceCreate() : this.cancelGeofenceEdit();
-                                }}
-                            />
+                            <FormikCancelButton isSubmitting={props.isSubmitting} onClick={this.cancelGeofence} />
                             <FormikSynchronousButton
                                 isValid={props.isValid}
                                 isSubmitting={props.isSubmitting}
@@ -425,11 +402,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             </Formik>
         );
     }
-
-    private showNoTriggersDialog(newFence: CircleGeofence) {
-        return !newFence.onEnter && !newFence.onExit;
-    }
-
     private showNoIntegrationsWithTriggersDialog(newFence: CircleGeofence) {
         return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onEnter);
     }

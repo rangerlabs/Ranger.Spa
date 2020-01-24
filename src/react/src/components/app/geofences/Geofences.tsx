@@ -1,7 +1,7 @@
 import * as React from 'react';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { addGeofence, removeGeofence, GeofencesState } from '../../../redux/actions/GeofenceActions';
+import { addGeofence, GeofencesState } from '../../../redux/actions/GeofenceActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
@@ -15,7 +15,6 @@ const MUIDataTable = require('mui-datatables').default;
 interface GeofencesProps {
     geofencesState: GeofencesState;
     addGeofence: (geofence: CircleGeofence | PolygonGeofence) => void;
-    removeGeofence: (name: string) => void;
     push: typeof push;
 }
 
@@ -31,10 +30,6 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         addGeofence: (geofence: CircleGeofence | PolygonGeofence) => {
             const action = addGeofence(geofence);
-            dispatch(action);
-        },
-        removeGeofence: (name: string) => {
-            const action = removeGeofence(name);
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),

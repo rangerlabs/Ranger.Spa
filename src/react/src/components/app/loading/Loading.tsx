@@ -46,7 +46,7 @@ class Loading extends React.Component<LoadingProps, LoadingState> {
     warningTimeoutMessage = "This is taking longer than expected but we haven't given up yet.";
     errorTimeout = 6.7 * 1000;
     errorTimeoutRedirectMessage = "Hold on, we're taking you home.";
-    errorTimeoutStaticMessage = 'We apologize, an error occurred retrieving the resource. Please try again later.';
+    errorTimeoutStaticMessage = 'An error occurred retrieving the resource. Please try again later.';
     redirectTimeout = 1.3 * 1000;
     warningTimer: number = undefined;
     errorTimer: number = undefined;
