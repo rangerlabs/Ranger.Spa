@@ -10,16 +10,18 @@ import requireProjectSelection from '../hocs/RequireProjectSelectionHOC';
 import populateGeofencesHOC from '../hocs/PopulateGeofencesHOC';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
+import IProject from '../../../models/app/IProject';
 const MUIDataTable = require('mui-datatables').default;
 
 interface GeofencesProps {
     geofencesState: GeofencesState;
     addGeofence: (geofence: CircleGeofence | PolygonGeofence) => void;
     push: typeof push;
+    selectedProject: IProject;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { geofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.name) };
+    return { geofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.name), selectedProject: state.selectedProject };
 };
 
 const selectedProjectGeofences = (geofences: Array<CircleGeofence | PolygonGeofence>, name: string) => {
@@ -42,11 +44,11 @@ class Geofences extends React.Component<GeofencesProps> {
     };
 
     editGeofence = (rowData: string[]) => {
-        this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + rowData[0]);
+        this.props.push(`/${this.props.selectedProject.name}/geofences/map/edit?name=${rowData[0]}`);
     };
 
     redirectToNewGeofenceForm = () => {
-        this.props.push('/geofences/map/new');
+        this.props.push(`/${this.props.selectedProject.name}/geofences/map`);
     };
 
     mapGeofencesToTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>): Array<Array<string>> {

@@ -178,8 +178,11 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
 
     cancelGeofence = () => {
         this.setState({ cancelClicked: true });
-        this.props.saveGeofenceToState(this.props.editGeofence);
+        if (this.props.editGeofence) {
+            this.props.saveGeofenceToState(this.props.editGeofence);
+        }
         this.props.clearNewCircleGeofence();
+        this.setState({ serverErrors: undefined });
         this.props.enableMapClick();
         this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
@@ -394,7 +397,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                 isSuccess={this.state.isSuccess}
                                 disabled={this.isPendingCreation()}
                             >
-                                {props.initialValues.externalId === '' ? 'Create' : 'Update'}
+                                {props.initialValues.externalId === '' ? 'Create Geofence' : 'Update Geofence'}
                             </FormikSynchronousButton>
                         </div>
                     </form>

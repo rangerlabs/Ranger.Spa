@@ -36,8 +36,10 @@ import RoutePaths from '../../../components/RoutePaths';
 import { User } from 'oidc-client';
 import IProject from '../../../models/app/IProject';
 import { userIsInRole } from '../../../helpers/Helpers';
-import { Logout, CreditCard, MapMarkerPath } from 'mdi-material-ui';
-import { Settings } from 'mdi-material-ui';
+import Logout from 'mdi-material-ui/Logout';
+import CreditCard from 'mdi-material-ui/CreditCard';
+import MapMarkerPath from 'mdi-material-ui/MapMarkerPath';
+import Settings from 'mdi-material-ui/Settings';
 
 const styles = (theme: Theme) =>
     createStyles({

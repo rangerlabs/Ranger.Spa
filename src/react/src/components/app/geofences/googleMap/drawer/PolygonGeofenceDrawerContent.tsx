@@ -180,6 +180,9 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
 
     cancelGeofence = () => {
         this.setState({ cancelClicked: true });
+        if (this.props.editGeofence) {
+            this.props.saveGeofenceToState(this.props.editGeofence);
+        }
         this.props.clearNewPolygonGeofence();
         this.setState({ serverErrors: undefined });
         this.props.enableMapClick();
@@ -385,7 +388,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                 isSuccess={this.state.isSuccess}
                                 disabled={this.isPendingCreation()}
                             >
-                                {props.initialValues.externalId === '' ? 'Create' : 'Update'}
+                                {props.initialValues.externalId === '' ? 'Create Geofence' : 'Update Geofence'}
                             </FormikSynchronousButton>
                         </div>
                     </form>

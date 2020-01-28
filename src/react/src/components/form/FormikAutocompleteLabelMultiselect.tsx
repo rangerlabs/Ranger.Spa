@@ -100,6 +100,10 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
         setValue(pendingValue);
         setOpen(false);
     };
+    const handleChange = (event: React.ChangeEvent<{}>, value: string[]) => {
+        setPendingValue(value);
+        props.onChange(event, value);
+    };
 
     const id = open ? 'select' : undefined;
     const icon = <CheckboxBlankOutline fontSize="small" />;
@@ -148,10 +152,7 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                         popperDisablePortal: classes.popperDisablePortal,
                     }}
                     value={pendingValue}
-                    onChange={(event: ChangeEvent<{}>, value: string[]) => {
-                        setPendingValue(value);
-                        props.onChange(event, value);
-                    }}
+                    onChange={handleChange}
                     onClose={handleClose}
                     disableCloseOnSelect
                     disablePortal

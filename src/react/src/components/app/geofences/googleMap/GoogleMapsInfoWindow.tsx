@@ -4,7 +4,9 @@ import { red } from '@material-ui/core/colors';
 import { StylesProvider } from '@material-ui/styles';
 import { jss, generateClassName } from '../../../../theme/StylesProviderPropsConfig';
 import Constants from '../../../../theme/Constants';
-import { Pencil, PencilPlus, Delete } from 'mdi-material-ui';
+import Pencil from 'mdi-material-ui/Pencil';
+import PencilPlus from 'mdi-material-ui/PencilPlus';
+import Delete from 'mdi-material-ui/Delete';
 
 const styles = (theme: Theme) => {
     return createStyles({

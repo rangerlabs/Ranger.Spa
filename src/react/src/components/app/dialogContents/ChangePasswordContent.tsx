@@ -115,7 +115,7 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
                                     isSubmitting={props.isSubmitting}
                                     variant="text"
                                 >
-                                    Request Reset
+                                    Request Password Reset
                                 </FormikSynchronousButton>
                             </DialogActions>
                         </form>

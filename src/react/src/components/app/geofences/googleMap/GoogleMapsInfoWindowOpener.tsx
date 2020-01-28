@@ -3,7 +3,7 @@ import { Theme, createStyles, WithStyles, Button, withStyles } from '@material-u
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../stores/index';
 import { createPortal } from 'react-dom';
-import { TooltipOutline } from 'mdi-material-ui';
+import TooltipOutline from 'mdi-material-ui/TooltipOutline';
 import { GoogleMapsState, ShapePicker } from '../../../../redux/actions/GoogleMapsActions';
 
 const styles = (theme: Theme) =>

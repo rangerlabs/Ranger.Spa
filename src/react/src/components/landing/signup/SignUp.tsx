@@ -35,7 +35,7 @@ const styles = (theme: Theme) =>
         },
     });
 
-const steps = ['Select domain', 'Create user', 'Submit'];
+const steps = ['Select your domain', 'Create your user', 'Submit'];
 
 interface SignUpProps extends WithStyles<typeof styles> {}
 

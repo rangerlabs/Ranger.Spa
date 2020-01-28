@@ -3,13 +3,14 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import { Button, createStyles, Theme, WithStyles, withStyles, Grow, Fade, Popper, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Button, createStyles, Theme, WithStyles, withStyles, Fade, Popper, ListItemIcon, ListItemText } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import RoutePaths from '../RoutePaths';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import { Settings, ViewDashboard } from 'mdi-material-ui';
-import { Logout } from 'mdi-material-ui';
+import Settings from 'mdi-material-ui/Settings';
+import ViewDashboard from 'mdi-material-ui/ViewDashboard';
+import Logout from 'mdi-material-ui/Logout';
 
 const styles = (theme: Theme) =>
     createStyles({
