@@ -45,12 +45,15 @@ const styles = (theme: Theme) =>
         },
     });
 interface IWebhookIntegrationFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
-    dispatchAddIntegration: (integration: WebhookIntegration) => void;
-    dispatchRemoveIntegration: (name: string) => void;
-    integrationsState?: MergedIntegrationType[];
-    initialIntegration: WebhookIntegration;
+    editIntegration: WebhookIntegration;
     selectedProject: IProject;
+    save: (integration: MergedIntegrationType) => void;
+    update: (integration: MergedIntegrationType) => void;
+    delete: () => void;
     push: typeof push;
+    isSuccess: boolean;
+    isPendingCreation: boolean;
+    serverErrors: string[];
 }
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -64,22 +67,11 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { integrationsState: state.integrationsState, selectedProject: state.selectedProject };
+    return { selectedProject: state.selectedProject };
 };
 
-type WebhookIntegrationFormState = {
-    serverErrors: string[];
-    isSuccess: boolean;
-};
-
-class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProps, WebhookIntegrationFormState> {
+class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProps> {
     formikRef: React.RefObject<Formik> = React.createRef();
-    state: WebhookIntegrationFormState = {
-        serverErrors: undefined,
-        isSuccess: false,
-    };
-
-    deleteIntegration(name: string, enqueueSnackbar: any) {}
 
     validationSchema = Yup.object().shape({
         name: Yup.string().required('Required'),
@@ -101,22 +93,22 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
     });
 
     render() {
-        const { classes, enqueueSnackbar, dispatchAddIntegration } = this.props;
+        const { classes, enqueueSnackbar } = this.props;
         return (
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
                     <Paper elevation={0}>
                         <Typography align="center" variant="h5" gutterBottom>
-                            {this.props.initialIntegration ? 'Edit Webhook Integration' : 'Create a Webhook Integration'}
+                            {this.props.editIntegration ? 'Edit Webhook Integration' : 'Create a Webhook Integration'}
                         </Typography>
 
                         <Formik
                             ref={this.formikRef}
                             enableReinitialize
                             initialValues={
-                                this.props.initialIntegration
-                                    ? this.props.initialIntegration
+                                this.props.editIntegration
+                                    ? this.props.editIntegration
                                     : ({
                                           type: IntegrationEnum.WEBHOOK,
                                           projectName: '',
@@ -136,6 +128,8 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                 newIntegration.url = values.url;
                                 newIntegration.headers = values.headers;
                                 newIntegration.metadata = values.metadata;
+
+                                this.props.editIntegration ? this.props.update(newIntegration) : this.props.save(newIntegration);
                             }}
                             validationSchema={this.validationSchema}
                         >
@@ -207,11 +201,11 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             keyRequired
                                             valueRequired
                                         />
-                                        {this.state.serverErrors && (
+                                        {this.props.serverErrors && (
                                             <Grid item xs={12}>
                                                 <List>
                                                     <ListItem>
-                                                        {this.state.serverErrors.map(error => (
+                                                        {this.props.serverErrors.map(error => (
                                                             <ListItemText primary={error} />
                                                         ))}
                                                     </ListItem>
@@ -221,12 +215,10 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                     </Grid>
                                     <div className={classes.flexButtonContainer}>
                                         <div className={classes.leftButtons}>
-                                            {this.props.initialIntegration && (
+                                            {this.props.editIntegration && (
                                                 <FormikDeleteButton
                                                     isSubmitting={props.isSubmitting}
-                                                    onConfirm={() => {
-                                                        this.deleteIntegration(props.values.name, enqueueSnackbar);
-                                                    }}
+                                                    onConfirm={this.props.delete}
                                                     dialogTitle="Delete integration?"
                                                     confirmText="Delete"
                                                     dialogContent={'Are you sure you want to delete integration ' + props.values.name + '?'}
@@ -241,7 +233,12 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                                 this.props.push(RoutePaths.Integrations);
                                             }}
                                         />
-                                        <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
+                                        <FormikSynchronousButton
+                                            isValid={props.isValid}
+                                            isSubmitting={props.isSubmitting}
+                                            isSuccess={this.props.isSuccess}
+                                            disabled={this.props.isPendingCreation}
+                                        >
                                             {props.initialValues.name === '' ? 'Create Webhook' : 'Update Webhook'}
                                         </FormikSynchronousButton>
                                     </div>

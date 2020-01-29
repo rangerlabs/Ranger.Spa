@@ -2,6 +2,7 @@ import RestUtilities, { IRestResponse } from './RestUtilities';
 import { MergedIntegrationType } from '../models/app/integrations/MergedIntegrationTypes';
 import { IntegrationEnum } from '../models/app/integrations/IntegrationEnum';
 import WebhookIntegration from '../models/app/integrations/implementations/WebhookIntegration';
+import Integration from '../models/app/integrations/Integration';
 
 export default class IntegrationService {
     async getIntegrations(projectName: string): Promise<Array<MergedIntegrationType>> {
@@ -29,7 +30,29 @@ export default class IntegrationService {
         });
     }
 
-    async postWebhookIntegration(projectName: string, integration: WebhookIntegration): Promise<IRestResponse<void>> {
-        return RestUtilities.post(`${projectName}/integrations/webhook`, integration);
+    async postIntegration(projectName: string, integration: Integration): Promise<IRestResponse<void>> {
+        switch (integration.type) {
+            case IntegrationEnum.WEBHOOK: {
+                return RestUtilities.post(`${projectName}/integrations/webhook`, integration);
+            }
+            default: {
+                throw 'Invalid integration type';
+            }
+        }
+    }
+
+    async putIntegration(projectName: string, name: string, integration: Integration): Promise<IRestResponse<void>> {
+        switch (integration.type) {
+            case IntegrationEnum.WEBHOOK: {
+                return RestUtilities.put(`${projectName}/integrations/webhook/${name}`, integration);
+            }
+            default: {
+                throw 'Invalid integration type';
+            }
+        }
+    }
+
+    async deleteIntegration(projectName: string, name: string): Promise<IRestResponse<void>> {
+        return RestUtilities.delete(`${projectName}/integrations/${name}`);
     }
 }
