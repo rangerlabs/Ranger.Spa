@@ -1,10 +1,10 @@
 import * as React from 'react';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { addIntegration, removeIntegration, IntegrationsState } from '../../../redux/actions/IntegrationActions';
+import { addIntegration, IntegrationsState } from '../../../redux/actions/IntegrationActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
-import { MergedIntegrationResponseType } from '../../../models/app/integrations/MergedIntegrationTypes';
+import { MergedIntegrationType } from '../../../models/app/integrations/MergedIntegrationTypes';
 import requireProjectSelection from '../hocs/RequireProjectSelectionHOC';
 import RoutePaths from '../../../components/RoutePaths';
 import { IntegrationEnum } from '../../../models/app/integrations/IntegrationEnum';
@@ -14,8 +14,7 @@ const MUIDataTable = require('mui-datatables').default;
 
 interface IntegrationsProps {
     integrationsState: IntegrationsState;
-    addIntegration: (integration: MergedIntegrationResponseType) => void;
-    removeIntegration: (name: string) => void;
+    addIntegration: (integration: MergedIntegrationType) => void;
     push: typeof push;
 }
 
@@ -23,18 +22,14 @@ const mapStateToProps = (state: ApplicationState) => {
     return { integrationsState: selectedProjectIntegrations(state.integrationsState.integrations, state.selectedProject.name) };
 };
 
-const selectedProjectIntegrations = (integrations: MergedIntegrationResponseType[], id: string) => {
+const selectedProjectIntegrations = (integrations: MergedIntegrationType[], id: string) => {
     return integrations.filter(i => i.projectName === id);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        addIntegration: (integration: MergedIntegrationResponseType) => {
+        addIntegration: (integration: MergedIntegrationType) => {
             const action = addIntegration(integration);
-            dispatch(action);
-        },
-        removeIntegration: (name: string) => {
-            const action = removeIntegration(name);
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),
@@ -59,7 +54,7 @@ class Integrations extends React.Component<IntegrationsProps> {
         this.props.push(RoutePaths.IntegrationsNew);
     };
 
-    mapIntegrationsToTableIntegrations(integrations: MergedIntegrationResponseType[]): Array<Array<string>> {
+    mapIntegrationsToTableIntegrations(integrations: MergedIntegrationType[]): Array<Array<string>> {
         const tableIntegrations = new Array<Array<string>>();
         if (integrations) {
             integrations.forEach(value => {

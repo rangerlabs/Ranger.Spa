@@ -17,7 +17,7 @@ import FormikDeleteButton from '../../../../form/FormikDeleteButton';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
 import IProject from '../../../../../models/app/IProject';
-import { MergedIntegrationResponseType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
+import { MergedIntegrationType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
 import { getIntegrationsFromIntegrationIds } from '../../../../../helpers/Helpers';
 import FormikAutocompleteLabelMultiselect from '../../../../form/FormikAutocompleteLabelMultiselect';
 import GeofenceService from '../../../../../services/GeofenceService';
@@ -51,7 +51,7 @@ interface PolygonGeofenceFormProps extends WithStyles<typeof styles>, WithSnackb
     mapGeofence: PolygonGeofenceState;
     editGeofence: PolygonGeofence;
     selectedProject: IProject;
-    integrations: MergedIntegrationResponseType[];
+    integrations: MergedIntegrationType[];
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
     saveGeofenceToState: (geofence: PolygonGeofence) => void;
@@ -64,7 +64,7 @@ interface PolygonGeofenceFormProps extends WithStyles<typeof styles>, WithSnackb
 
 interface PolygonGeofenceFormState {
     serverErrors: string[];
-    selectedIntegrations: MergedIntegrationResponseType[];
+    selectedIntegrations: MergedIntegrationType[];
     isSuccess: boolean;
     cancelClicked: boolean;
 }

@@ -16,7 +16,7 @@ import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
 import IProject from '../../../../../models/app/IProject';
-import { MergedIntegrationResponseType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
+import { MergedIntegrationType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
 import { getIntegrationsFromIntegrationIds } from '../../../../../helpers/Helpers';
 import FormikAutocompleteLabelMultiselect from '../../../../form/FormikAutocompleteLabelMultiselect';
 import GeofenceService from '../../../../../services/GeofenceService';
@@ -49,7 +49,7 @@ interface CircleGeofenceFormProps extends WithStyles<typeof styles>, WithSnackba
     mapGeofence: CircleGeofenceState;
     editGeofence?: CircleGeofence;
     selectedProject: IProject;
-    integrations: MergedIntegrationResponseType[];
+    integrations: MergedIntegrationType[];
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
     saveGeofenceToState: (geofence: CircleGeofence) => void;
@@ -62,7 +62,7 @@ interface CircleGeofenceFormProps extends WithStyles<typeof styles>, WithSnackba
 
 interface CircleGeofenceFormState {
     serverErrors: string[];
-    selectedIntegrations: MergedIntegrationResponseType[];
+    selectedIntegrations: MergedIntegrationType[];
     isSuccess: boolean;
     cancelClicked: boolean;
 }

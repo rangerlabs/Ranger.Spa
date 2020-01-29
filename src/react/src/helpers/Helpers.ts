@@ -1,4 +1,4 @@
-import { MergedIntegrationResponseType } from '../models/app/integrations/MergedIntegrationTypes';
+import { MergedIntegrationType } from '../models/app/integrations/MergedIntegrationTypes';
 import { RoleEnum } from '../models/RoleEnum';
 import { UserProfile } from '../models/UserProfile';
 import { User } from 'oidc-client';
@@ -14,8 +14,8 @@ export function getSubDomain(): string {
     return domain;
 }
 
-export function getIntegrationsFromIntegrationIds(integrationIds: string[], integrations: MergedIntegrationResponseType[]) {
-    const integrationArray = [] as MergedIntegrationResponseType[];
+export function getIntegrationsFromIntegrationIds(integrationIds: string[], integrations: MergedIntegrationType[]) {
+    const integrationArray = [] as MergedIntegrationType[];
     integrationIds.map(id => {
         const integration = integrations.find(i => i.id === id);
         if (integration) {

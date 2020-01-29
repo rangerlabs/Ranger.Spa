@@ -11,7 +11,7 @@ import { closeGeofenceDrawer } from '../../../../../redux/actions/GeofenceDrawer
 import CircleGeofenceDrawerContent from './CircleGeofenceDrawerContent';
 import PolygonGeofenceDrawerContent from './PolygonGeofenceDrawerContent';
 import IProject from '../../../../../models/app/IProject';
-import { MergedIntegrationResponseType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
+import { MergedIntegrationType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -89,7 +89,7 @@ interface GeofenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarPro
     geofenceDrawerOpen: boolean;
     selectedShape: ShapePicker;
     selectedProject: IProject;
-    integrations: MergedIntegrationResponseType[];
+    integrations: MergedIntegrationType[];
     openDialog: (dialogCotent: DialogContent) => void;
     closeDrawer: () => void;
     clearNewCircleGeofence: () => void;

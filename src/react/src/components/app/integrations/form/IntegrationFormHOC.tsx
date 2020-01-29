@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../stores';
 import { push } from 'connected-react-router';
-import { MergedIntegrationResponseType } from '../../../../models/app/integrations/MergedIntegrationTypes';
+import { MergedIntegrationType } from '../../../../models/app/integrations/MergedIntegrationTypes';
 import RoutePaths from '../../../RoutePaths';
 import { IntegrationEnum } from '../../../../models/app/integrations/IntegrationEnum';
 import * as queryString from 'query-string';
@@ -24,7 +24,7 @@ interface DispatchProps {
 }
 
 interface IntegrationFormHOCState {
-    initialIntegration: MergedIntegrationResponseType;
+    initialIntegration: MergedIntegrationType;
 }
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
@@ -37,7 +37,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const integrationForm = <P extends object>(Component: React.ComponentType<P>) => {
     class IntegrationFormHOCComponent extends React.Component<IntegrationFormHOCProps, IntegrationFormHOCState> {
         state = {
-            initialIntegration: undefined as MergedIntegrationResponseType,
+            initialIntegration: undefined as MergedIntegrationType,
         };
 
         componentDidMount() {
@@ -49,7 +49,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
         }
 
         checkIntegrationIsCorrectTypeForRoute(integrationType: IntegrationEnum) {
-            let result = undefined as MergedIntegrationResponseType;
+            let result = undefined as MergedIntegrationType;
             switch (integrationType) {
                 case IntegrationEnum.WEBHOOK: {
                     const params = queryString.parse(window.location.search);

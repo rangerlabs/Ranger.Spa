@@ -11,12 +11,11 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../stores/index';
 import { push } from 'connected-react-router';
 import FormikDeleteButton from '../../../form/FormikDeleteButton';
-import { MergedIntegrationResponseType } from '../../../../models/app/integrations/MergedIntegrationTypes';
-import WebhookIntegrationRequest from '../../../../models/app/integrations/implementations/WebhookIntegrationRequest';
-import WebhookIntegrationResponse from '../../../../models/app/integrations/implementations/WebhookIntegrationResponse';
+import { MergedIntegrationType } from '../../../../models/app/integrations/MergedIntegrationTypes';
+import WebhookIntegration from '../../../../models/app/integrations/implementations/WebhookIntegration';
 import integrationForm from './IntegrationFormHOC';
 import RoutePaths from '../../../RoutePaths';
-import { addIntegration, removeIntegration } from '../../../../redux/actions/IntegrationActions';
+import { addIntegration } from '../../../../redux/actions/IntegrationActions';
 import FormikSynchronousButton from '../../../form/FormikSynchronousButton';
 import IProject from '../../../../models/app/IProject';
 import FormikDictionaryBuilder from '../../../form/FormikDictionaryBuilder';
@@ -46,10 +45,10 @@ const styles = (theme: Theme) =>
         },
     });
 interface IWebhookIntegrationFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
-    dispatchAddIntegration: (integration: WebhookIntegrationResponse) => void;
+    dispatchAddIntegration: (integration: WebhookIntegration) => void;
     dispatchRemoveIntegration: (name: string) => void;
-    integrationsState?: MergedIntegrationResponseType[];
-    initialIntegration: WebhookIntegrationResponse;
+    integrationsState?: MergedIntegrationType[];
+    initialIntegration: WebhookIntegration;
     selectedProject: IProject;
     push: typeof push;
 }
@@ -57,12 +56,8 @@ interface IWebhookIntegrationFormProps extends WithStyles<typeof styles>, WithSn
 const mapDispatchToProps = (dispatch: any) => {
     return {
         push: (path: string) => dispatch(push(path)),
-        dispatchAddIntegration: (integration: WebhookIntegrationResponse) => {
+        dispatchAddIntegration: (integration: WebhookIntegration) => {
             const action = addIntegration(integration);
-            dispatch(action);
-        },
-        dispatchRemoveIntegration: (name: string) => {
-            const action = removeIntegration(name);
             dispatch(action);
         },
     };
@@ -84,13 +79,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
         isSuccess: false,
     };
 
-    deleteIntegration(name: string, enqueueSnackbar: any) {
-        setTimeout(() => {
-            this.props.dispatchRemoveIntegration(name);
-            enqueueSnackbar('Integration deleted', { variant: 'error' });
-            this.props.push(RoutePaths.Integrations);
-        }, 250);
-    }
+    deleteIntegration(name: string, enqueueSnackbar: any) {}
 
     validationSchema = Yup.object().shape({
         name: Yup.string().required('Required'),
@@ -136,41 +125,17 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                           url: '',
                                           headers: [],
                                           metadata: [],
-                                      } as WebhookIntegrationRequest)
+                                      } as WebhookIntegration)
                             }
-                            onSubmit={(
-                                values: WebhookIntegrationRequest,
-                                formikBag: FormikBag<FormikProps<WebhookIntegrationRequest>, WebhookIntegrationRequest>
-                            ) => {
+                            onSubmit={(values: WebhookIntegration, formikBag: FormikBag<FormikProps<WebhookIntegration>, WebhookIntegration>) => {
                                 this.setState({ serverErrors: undefined });
-                                const newIntegration = new WebhookIntegrationRequest(
-                                    this.props.selectedProject.name,
-                                    values.name,
-                                    values.description,
-                                    values.url,
-                                    values.headers,
-                                    values.metadata
-                                );
-                                integrationService
-                                    .postWebhookIntegration(this.props.selectedProject.name, newIntegration)
-                                    .then((response: IRestResponse<WebhookIntegrationResponse>) => {
-                                        setTimeout(() => {
-                                            if (response.is_error) {
-                                                const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                                enqueueSnackbar('Error creating integration.', { variant: 'error' });
-                                                formikBag.setErrors(formikErrors as FormikErrors<WebhookIntegrationRequest>);
-                                                this.setState({ serverErrors: serverErrors });
-                                                formikBag.setSubmitting(false);
-                                            } else {
-                                                this.setState({ isSuccess: true });
-                                                enqueueSnackbar('Integration created.', { variant: 'success' });
-                                                dispatchAddIntegration(response.content);
-                                                setTimeout(() => {
-                                                    this.props.push(RoutePaths.Integrations);
-                                                }, 500);
-                                            }
-                                        }, 2000);
-                                    });
+                                const newIntegration = new WebhookIntegration();
+                                newIntegration.projectName = this.props.selectedProject.name;
+                                newIntegration.name = values.name;
+                                newIntegration.description = values.description;
+                                newIntegration.url = values.url;
+                                newIntegration.headers = values.headers;
+                                newIntegration.metadata = values.metadata;
                             }}
                             validationSchema={this.validationSchema}
                         >

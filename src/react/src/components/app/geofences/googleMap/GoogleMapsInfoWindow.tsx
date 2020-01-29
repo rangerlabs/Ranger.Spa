@@ -24,6 +24,7 @@ const styles = (theme: Theme) => {
                 color: theme.palette.error.main,
             },
             marginRight: theme.spacing(1),
+            borderRadius: '0px',
         },
         primary: {
             backgroundColor: Constants.COLORS.PRIMARY_COLOR,
@@ -32,6 +33,7 @@ const styles = (theme: Theme) => {
             '&:hover': {
                 backgroundColor: Constants.COLORS.MAP_DARK_GREEN,
             },
+            borderRadius: '0px',
         },
     });
 };

@@ -1,18 +1,26 @@
 import RestUtilities, { IRestResponse } from './RestUtilities';
-import { MergedIntegrationResponseType } from '../models/app/integrations/MergedIntegrationTypes';
-import WebhookIntegrationResponse from '../models/app/integrations/implementations/WebhookIntegrationResponse';
+import { MergedIntegrationType } from '../models/app/integrations/MergedIntegrationTypes';
 import { IntegrationEnum } from '../models/app/integrations/IntegrationEnum';
-import WebhookIntegrationRequest from '../models/app/integrations/implementations/WebhookIntegrationRequest';
+import WebhookIntegration from '../models/app/integrations/implementations/WebhookIntegration';
 
 export default class IntegrationService {
-    async getIntegrations(projectName: string): Promise<Array<MergedIntegrationResponseType>> {
-        return RestUtilities.get<MergedIntegrationResponseType[]>(`${projectName}/integrations`).then(integrationResponse => {
-            const result = new Array<MergedIntegrationResponseType>();
+    async getIntegrations(projectName: string): Promise<Array<MergedIntegrationType>> {
+        return RestUtilities.get<MergedIntegrationType[]>(`${projectName}/integrations`).then(integrationResponse => {
+            const result = new Array<MergedIntegrationType>();
             integrationResponse.content?.forEach(i => {
                 switch (i.type) {
                     case IntegrationEnum.WEBHOOK: {
-                        i = i as WebhookIntegrationResponse;
-                        result.push(new WebhookIntegrationResponse(i.id, i.projectName, i.name, i.description, i.url, i.authKey));
+                        i = i as WebhookIntegration;
+                        result.push({
+                            type: IntegrationEnum.WEBHOOK,
+                            id: i.id,
+                            projectName: i.projectName,
+                            name: i.name,
+                            description: i.description,
+                            url: i.url,
+                            headers: i.headers,
+                            metadata: i.metadata,
+                        } as WebhookIntegration);
                         break;
                     }
                 }
@@ -21,15 +29,7 @@ export default class IntegrationService {
         });
     }
 
-    async getWebhookIntegration(projectName: string, name: string): Promise<WebhookIntegrationResponse> {
-        let result = undefined as WebhookIntegrationResponse;
-        RestUtilities.get<WebhookIntegrationResponse>(`${projectName}/integrations/webhook?name=${name}`).then(i => {
-            result = i.content;
-        });
-        return result;
-    }
-
-    async postWebhookIntegration(projectName: string, integration: WebhookIntegrationRequest): Promise<IRestResponse<WebhookIntegrationResponse>> {
-        return RestUtilities.post<WebhookIntegrationResponse>(`${projectName}/integrations/webhook`, integration);
+    async postWebhookIntegration(projectName: string, integration: WebhookIntegration): Promise<IRestResponse<void>> {
+        return RestUtilities.post(`${projectName}/integrations/webhook`, integration);
     }
 }

@@ -3,7 +3,7 @@ import { ApplicationState } from '../../../stores';
 import { connect } from 'react-redux';
 import IProject from '../../../models/app/IProject';
 import { populateIntegrations, IntegrationsState } from '../../../redux/actions/IntegrationActions';
-import { MergedIntegrationResponseType } from '../../../models/app/integrations/MergedIntegrationTypes';
+import { MergedIntegrationType } from '../../../models/app/integrations/MergedIntegrationTypes';
 import IntegrationService from '../../../services/IntegrationService';
 import populateProjectsHOC from './PopulateProjectsHOC';
 import Loading from '../loading/Loading';
@@ -11,7 +11,7 @@ import Loading from '../loading/Loading';
 const integrationService = new IntegrationService();
 
 interface PopulateIntegrationsComponentProps {
-    setIntegrations: (geofences: Array<MergedIntegrationResponseType>) => void;
+    setIntegrations: (geofences: Array<MergedIntegrationType>) => void;
     selectedProject: IProject;
     integrationsState: IntegrationsState;
 }
@@ -22,7 +22,7 @@ const mapStateToProps = (state: ApplicationState) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        setIntegrations: (integrations: Array<MergedIntegrationResponseType>) => {
+        setIntegrations: (integrations: Array<MergedIntegrationType>) => {
             const action = populateIntegrations(integrations);
             dispatch(action);
         },
