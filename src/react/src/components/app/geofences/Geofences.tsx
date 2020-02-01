@@ -100,6 +100,11 @@ class Geofences extends React.Component<GeofencesProps> {
         },
     ];
     options = {
+        textLabels: {
+            body: {
+                noMatch: 'Your organization has not created any geofences yet.',
+            },
+        },
         print: false,
         download: false,
         customToolbar: () => {

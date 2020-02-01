@@ -104,7 +104,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
             }
         }
 
-        saveIntegration = (integration: MergedIntegrationType) => {
+        saveIntegration = (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => {
             integrationService.postIntegration(this.props.selectedProject.name, integration).then(v => {
                 if (!v.is_error) {
                     this.setState({ isSuccess: true });
@@ -113,12 +113,12 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                     this.props.enqueueSnackbar(`Integration '${integration.name}' is pending creation.`, { variant: 'info' });
                     this.props.push('/' + this.props.selectedProject.name + '/integrations');
                 }
-                Component.formikRef.current.setSubmitting(false);
+                formikRef.current.setSubmitting(false);
                 this.setState({ isSuccess: false });
             });
         };
 
-        updateIntegration = (integration: MergedIntegrationType) => {
+        updateIntegration = (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => {
             integrationService.putIntegration(this.props.selectedProject.name, integration.name, integration).then(v => {
                 if (!v.is_error) {
                     this.setState({ isSuccess: true });
@@ -133,7 +133,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
             });
         };
 
-        deleteIntegration = () => {
+        deleteIntegration = (formikRef: React.RefObject<Formik>) => {
             integrationService.deleteIntegration(this.props.selectedProject.name, this.state.editIntegration.name).then(v => {
                 if (!v.is_error) {
                     this.state.editIntegration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };

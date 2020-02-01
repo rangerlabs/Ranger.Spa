@@ -43,15 +43,6 @@ function getRedirectUri(): string {
     return redirectUri;
 }
 
-function getPostLogoutRedirectUri(): string {
-    let postLogoutRedirectUri = '';
-    const domain = getSubDomain();
-    if (domain.length > 0) {
-        postLogoutRedirectUri = 'https://' + domain + '.' + SPA_HOST;
-    }
-    return postLogoutRedirectUri;
-}
-
 const UserManager = createUserManager(UserManagerConfig);
 
 export default UserManager;

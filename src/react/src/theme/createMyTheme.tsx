@@ -55,6 +55,11 @@ export default function createRangerTheme(options: ThemeOptions) {
             width: '100%',
         },
         overrides: {
+            MuiTableCell: {
+                root: {
+                    borderBottom: '0px',
+                },
+            },
             MuiBadge: {
                 badge: {
                     right: -3,

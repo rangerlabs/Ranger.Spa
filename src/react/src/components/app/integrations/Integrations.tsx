@@ -86,6 +86,11 @@ class Integrations extends React.Component<IntegrationsProps> {
     ];
 
     options = {
+        textLabels: {
+            body: {
+                noMatch: 'Your organization has not created any integrations yet.',
+            },
+        },
         print: false,
         download: false,
         customToolbar: () => {

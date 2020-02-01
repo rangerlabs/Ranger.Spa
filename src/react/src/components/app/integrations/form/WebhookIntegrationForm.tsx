@@ -6,7 +6,6 @@ import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, 
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../../form/FormikTextField';
 import FormikCancelButton from '../../../form/FormikCancelButton';
-import { IRestResponse } from '../../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../stores/index';
 import { push } from 'connected-react-router';
@@ -19,10 +18,7 @@ import { addIntegration } from '../../../../redux/actions/IntegrationActions';
 import FormikSynchronousButton from '../../../form/FormikSynchronousButton';
 import IProject from '../../../../models/app/IProject';
 import FormikDictionaryBuilder from '../../../form/FormikDictionaryBuilder';
-import KeyValuePair from '../../../../models/KeyValuePair';
 import { IntegrationEnum } from '../../../../models/app/integrations/IntegrationEnum';
-
-const integrationService = new IntegrationService();
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -47,9 +43,9 @@ const styles = (theme: Theme) =>
 interface IWebhookIntegrationFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     editIntegration: WebhookIntegration;
     selectedProject: IProject;
-    save: (integration: MergedIntegrationType) => void;
-    update: (integration: MergedIntegrationType) => void;
-    delete: () => void;
+    save: (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => void;
+    update: (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => void;
+    delete: (formikRef: React.RefObject<Formik>) => void;
     push: typeof push;
     isSuccess: boolean;
     isPendingCreation: boolean;
@@ -93,7 +89,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
     });
 
     render() {
-        const { classes, enqueueSnackbar } = this.props;
+        const { classes } = this.props;
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -129,7 +125,9 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                 newIntegration.headers = values.headers;
                                 newIntegration.metadata = values.metadata;
 
-                                this.props.editIntegration ? this.props.update(newIntegration) : this.props.save(newIntegration);
+                                this.props.editIntegration
+                                    ? this.props.update(this.formikRef, newIntegration)
+                                    : this.props.save(this.formikRef, newIntegration);
                             }}
                             validationSchema={this.validationSchema}
                         >
@@ -218,7 +216,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             {this.props.editIntegration && (
                                                 <FormikDeleteButton
                                                     isSubmitting={props.isSubmitting}
-                                                    onConfirm={this.props.delete}
+                                                    onConfirm={() => this.props.delete(this.formikRef)}
                                                     dialogTitle="Delete integration?"
                                                     confirmText="Delete"
                                                     dialogContent={'Are you sure you want to delete integration ' + props.values.name + '?'}
