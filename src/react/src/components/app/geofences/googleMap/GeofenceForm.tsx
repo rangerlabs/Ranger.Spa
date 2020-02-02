@@ -7,7 +7,6 @@ import PolygonGeofence from '../../../../models/app/geofences/PolygonGeofence';
 import classNames = require('classnames');
 import GeofenceDrawer from './drawer/GeofenceDrawer';
 import GoogleMapsWrapper from './GoogleMapsWrapper';
-import requireProjectSelection from '../../hocs/RequireProjectSelectionHOC';
 import populateGeofencesHOC from '../../hocs/PopulateGeofencesHOC';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 import { clearGeofence } from '../../../../redux/actions/GoogleMapsActions';
@@ -123,7 +122,4 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(requireProjectSelection(populateIntegrationsHOC(populateGeofencesHOC(GeofenceForm)))));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateIntegrationsHOC(populateGeofencesHOC(GeofenceForm))));

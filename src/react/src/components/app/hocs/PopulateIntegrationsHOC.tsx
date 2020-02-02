@@ -7,6 +7,7 @@ import { MergedIntegrationType } from '../../../models/app/integrations/MergedIn
 import IntegrationService from '../../../services/IntegrationService';
 import populateProjectsHOC from './PopulateProjectsHOC';
 import Loading from '../loading/Loading';
+import requireProjectSelection from './RequireProjectSelectionHOC';
 
 const integrationService = new IntegrationService();
 
@@ -31,15 +32,27 @@ const mapDispatchToProps = (dispatch: any) => {
 
 const populateIntegrationsHOC = <P extends object>(Component: React.ComponentType<P>) => {
     class PopulateIntegrationsComponent extends React.Component<PopulateIntegrationsComponentProps> {
+        componentDidUpdate(prevProps: PopulateIntegrationsComponentProps) {
+            if (
+                !this.props.integrationsState.isLoaded &&
+                this.props.selectedProject.name &&
+                this.props.selectedProject.name !== prevProps.selectedProject.name
+            ) {
+                integrationService.getIntegrations(this.props.selectedProject.name).then(integrationResponse => {
+                    if (integrationResponse) {
+                        this.props.setIntegrations(integrationResponse);
+                    }
+                });
+            }
+        }
+
         componentDidMount() {
-            if (!this.props.integrationsState.isLoaded) {
-                if (this.props.selectedProject.name) {
-                    integrationService.getIntegrations(this.props.selectedProject.name).then(integrationResponse => {
-                        if (integrationResponse) {
-                            this.props.setIntegrations(integrationResponse);
-                        }
-                    });
-                }
+            if (!this.props.integrationsState.isLoaded && this.props.selectedProject.name) {
+                integrationService.getIntegrations(this.props.selectedProject.name).then(integrationResponse => {
+                    if (integrationResponse) {
+                        this.props.setIntegrations(integrationResponse);
+                    }
+                });
             }
         }
 
@@ -48,7 +61,7 @@ const populateIntegrationsHOC = <P extends object>(Component: React.ComponentTyp
         }
     }
 
-    return connect(mapStateToProps, mapDispatchToProps)(populateProjectsHOC(PopulateIntegrationsComponent));
+    return connect(mapStateToProps, mapDispatchToProps)(requireProjectSelection(populateProjectsHOC(PopulateIntegrationsComponent)));
 };
 
 export default populateIntegrationsHOC;

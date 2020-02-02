@@ -17,6 +17,9 @@ import ForceSignoutHandler from './pusherHandlers/ForceSignoutHandler';
 import GeofenceUpdateHandler from './pusherHandlers/GeofenceUpdateHandler';
 import GeofenceCreateHandler from './pusherHandlers/GeofenceCreateHandler';
 import GeofenceDeleteHandler from './pusherHandlers/GeofenceDeleteHandler';
+import IntegrationUpdateHandler from './pusherHandlers/IntegrationUpdateHandler';
+import IntegrationCreateHandler from './pusherHandlers/IntegrationCreateHandler';
+import IntegrationDeleteHandler from './pusherHandlers/IntegrationDeleteHandler';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -135,6 +138,9 @@ class Notifier extends React.Component<NotifierProps> {
         this.domainUserChannel.bind('geofence-created', GeofenceCreateHandler);
         this.domainUserChannel.bind('geofence-updated', GeofenceUpdateHandler);
         this.domainUserChannel.bind('geofence-deleted', GeofenceDeleteHandler);
+        this.domainUserChannel.bind('integartion-created', IntegrationCreateHandler);
+        this.domainUserChannel.bind('integration-updated', IntegrationUpdateHandler);
+        this.domainUserChannel.bind('integration-deleted', IntegrationDeleteHandler);
     }
 
     private subscribeTenantOnboardChannelEvent(stateDomain: DomainState) {

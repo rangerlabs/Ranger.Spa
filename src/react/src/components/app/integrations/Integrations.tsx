@@ -5,7 +5,6 @@ import { addIntegration, IntegrationsState } from '../../../redux/actions/Integr
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import { MergedIntegrationType } from '../../../models/app/integrations/MergedIntegrationTypes';
-import requireProjectSelection from '../hocs/RequireProjectSelectionHOC';
 import RoutePaths from '../../../components/RoutePaths';
 import { IntegrationEnum } from '../../../models/app/integrations/IntegrationEnum';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
@@ -118,4 +117,4 @@ class Integrations extends React.Component<IntegrationsProps> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requireProjectSelection(populateIntegrationsHOC(Integrations)));
+export default connect(mapStateToProps, mapDispatchToProps)(populateIntegrationsHOC(Integrations));

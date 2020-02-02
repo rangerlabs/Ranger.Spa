@@ -6,7 +6,6 @@ import { MergedIntegrationType } from '../../../../models/app/integrations/Merge
 import RoutePaths from '../../../RoutePaths';
 import { IntegrationEnum } from '../../../../models/app/integrations/IntegrationEnum';
 import * as queryString from 'query-string';
-import requireProjectSelection from '../../hocs/RequireProjectSelectionHOC';
 import { WithSnackbarProps, withSnackbar } from 'notistack';
 import IProject from '../../../../models/app/IProject';
 import {
@@ -18,6 +17,7 @@ import {
 import IntegrationService from '../../../../services/IntegrationService';
 import { StatusEnum } from '../../../../models/StatusEnum';
 import { Formik } from 'formik';
+import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 
 const integrationService = new IntegrationService();
 
@@ -166,7 +166,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
     return connect<StateProps, DispatchProps, OwnProps>(
         mapStateToProps,
         mapDispatchToProps
-    )(requireProjectSelection(withSnackbar(IntegrationFormHOCComponent)));
+    )(populateIntegrationsHOC(withSnackbar(IntegrationFormHOCComponent)));
 };
 
 export default integrationForm;

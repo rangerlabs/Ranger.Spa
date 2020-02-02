@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Theme, createStyles, WithStyles, withStyles, Card, CardHeader, CardContent, Typography, CardMedia, Grid, ButtonBase, Box } from '@material-ui/core';
-import requireProjectSelection from '../../hocs/RequireProjectSelectionHOC';
 import RoutePaths from '../../../RoutePaths';
 import { push } from 'connected-react-router';
 import { IntegrationEnum } from '../../../../models/app/integrations/IntegrationEnum';
 import { connect } from 'react-redux';
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
+import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 const IntegrationApi = require('../../../../../assets/integration-api.png');
 
 const styles = (theme: Theme) =>
@@ -127,4 +127,4 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
     }
 }
 
-export default connect(null, { push })(withStyles(styles)(requireProjectSelection(IntegrationsNew)));
+export default connect(null, { push })(withStyles(styles)(populateIntegrationsHOC(IntegrationsNew)));

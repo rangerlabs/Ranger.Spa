@@ -100,13 +100,13 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
                 }
 
                 const requestProject = this.props.projectsState.projects.filter(p => p.name === requestProjectName);
-                if (this.projectIsInReduxStateAndIsValid()) {
+                if (requestProject && requestProject.length === 1) {
+                    this.props.selectProject(requestProject[0]);
+                } else if (this.projectIsInReduxStateAndIsValid()) {
                     nextRouteResult.nextPath =
                         '/' +
                         this.props.projectsState.projects.filter(a => a.name === this.props.selectedProject.name).map(a => a.name) +
                         redirectComponentPath;
-                } else if (requestProject && requestProject.length === 1) {
-                    this.props.selectProject(requestProject[0]);
                 } else if (this.stateContainsOnlyOneProject()) {
                     this.props.selectProject(this.props.projectsState.projects[0]);
                     nextRouteResult.nextPath = '/' + this.props.projectsState.projects[0].name + redirectComponentPath;

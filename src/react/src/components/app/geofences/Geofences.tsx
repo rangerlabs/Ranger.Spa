@@ -6,7 +6,6 @@ import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
 import CircleGeofence from '../../../models/app/geofences/CircleGeofence';
-import requireProjectSelection from '../hocs/RequireProjectSelectionHOC';
 import populateGeofencesHOC from '../hocs/PopulateGeofencesHOC';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
@@ -132,4 +131,4 @@ class Geofences extends React.Component<GeofencesProps> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requireProjectSelection(populateIntegrationsHOC(populateGeofencesHOC(Geofences))));
+export default connect(mapStateToProps, mapDispatchToProps)(populateIntegrationsHOC(populateGeofencesHOC(Geofences)));
