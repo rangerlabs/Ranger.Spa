@@ -8,6 +8,8 @@ import RoutePaths from '../../RoutePaths';
 import populateProjectsHOC from './PopulateProjectsHOC';
 import { ProjectsState } from '../../../redux/actions/ProjectActions';
 import FirstProjectRequired from '../projects/FirstProjectRequired';
+import { resetGeofences } from '../../../redux/actions/GeofenceActions';
+import { resetIntegrations } from '../../../redux/actions/IntegrationActions';
 
 type RequireProjectSelectionProps = StateProps & DispatchProps;
 
@@ -98,13 +100,13 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
                 }
 
                 const requestProject = this.props.projectsState.projects.filter(p => p.name === requestProjectName);
-                if (requestProject && requestProject.length === 1) {
-                    this.props.selectProject(requestProject[0]);
-                } else if (this.projectIsInReduxStateAndIsValid()) {
+                if (this.projectIsInReduxStateAndIsValid()) {
                     nextRouteResult.nextPath =
                         '/' +
                         this.props.projectsState.projects.filter(a => a.name === this.props.selectedProject.name).map(a => a.name) +
                         redirectComponentPath;
+                } else if (requestProject && requestProject.length === 1) {
+                    this.props.selectProject(requestProject[0]);
                 } else if (this.stateContainsOnlyOneProject()) {
                     this.props.selectProject(this.props.projectsState.projects[0]);
                     nextRouteResult.nextPath = '/' + this.props.projectsState.projects[0].name + redirectComponentPath;

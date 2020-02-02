@@ -14,10 +14,3 @@ export function selectProject(selectedProject: IProject): SelectedProjectAction 
         selectedProject,
     };
 }
-
-export function clearSelectProject(): SelectedProjectAction {
-    return {
-        type: CLEAR_SELECTED_PROJECT,
-        selectedProject: undefined,
-    };
-}

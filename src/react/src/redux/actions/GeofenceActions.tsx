@@ -14,6 +14,7 @@ export const ADD_GEOFENCE_TO_PENDING_DELETION = 'MOVE_GEOFENCE_TO_PENDING_DELETI
 export const ADD_GEOFENCE_TO_PENDING_UPDATE = 'ADD_GEOFENCE_TO_PENDING_UDPATE';
 export const POPULATE_GEOFENCES = 'POPULATE_GEOFENCES';
 export const REMOVE_GEOFENCE_BY_EXTERNAL_ID = 'REMOVE_GEOFENCE_BY_EXTERNAL_ID';
+export const RESET_GEOFENCES = 'RESET_GEOFENCES';
 
 export interface GeofenceAction {
     type: string;
@@ -114,6 +115,18 @@ export function populateGeofences(geofences: Array<CircleGeofence | PolygonGeofe
         geofencesState: {
             isLoaded: true,
             geofences,
+            pendingDeletion: [],
+            pendingUpdate: [],
+        },
+    };
+}
+
+export function resetGeofences(): GeofenceArrayAction {
+    return {
+        type: RESET_GEOFENCES,
+        geofencesState: {
+            isLoaded: false,
+            geofences: [],
             pendingDeletion: [],
             pendingUpdate: [],
         },

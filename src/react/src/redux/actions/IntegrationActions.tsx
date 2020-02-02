@@ -14,6 +14,7 @@ export const REMOVE_INTEGRATION_BY_CORRELATION_ID = 'REMOVE_INTEGRATION_BY_CORRE
 export const ADD_INTEGRATION_TO_PENDING_DELETION = 'MOVE_INTEGRATION_TO_PENDING_DELETION';
 export const ADD_INTEGRATION_TO_PENDING_UPDATE = 'ADD_INTEGRATION_TO_PENDING_UDPATE';
 export const REMOVE_INTEGRATION_BY_NAME = 'REMOVE_INTEGRATION_BY_NAME';
+export const RESET_INTEGATIONS = 'RESET_INTEGRATIONS';
 
 export interface IntegrationAction {
     type: string;
@@ -115,6 +116,18 @@ export function populateIntegrations(integrations: Array<MergedIntegrationType>)
         integrationsState: {
             isLoaded: true,
             integrations,
+            pendingUpdate: [],
+            pendingDeletion: [],
+        },
+    };
+}
+
+export function resetIntegrations(): IntegrationArrayAction {
+    return {
+        type: RESET_INTEGATIONS,
+        integrationsState: {
+            isLoaded: false,
+            integrations: [],
             pendingUpdate: [],
             pendingDeletion: [],
         },

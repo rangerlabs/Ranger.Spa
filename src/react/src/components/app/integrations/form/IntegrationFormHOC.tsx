@@ -78,7 +78,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
         };
 
         componentDidMount() {
-            if (this.props.selectedProject) {
+            if (this.props.selectedProject.name) {
                 if (window.location.pathname === RoutePaths.IntegrationsEditWebhook.replace(':appName', this.props.selectedProject.name)) {
                     this.checkIntegrationIsCorrectTypeForRoute(IntegrationEnum.WEBHOOK);
                 }

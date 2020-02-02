@@ -11,6 +11,8 @@ import * as queryString from 'query-string';
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import { ProjectsState } from '../../../redux/actions/ProjectActions';
+import { resetGeofences } from '../../../redux/actions/GeofenceActions';
+import { resetIntegrations } from '../../../redux/actions/IntegrationActions';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -53,11 +55,15 @@ interface ProjectSelectProps extends WithStyles<typeof styles> {
     projectsState: ProjectsState;
     selectProject: (project: IProject) => void;
     push: typeof push;
+    resetGeofences: () => void;
+    resetIntegrations: () => void;
+    selectedProject: IProject;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
         projectsState: state.projectsState,
+        selectedProject: state.selectedProject,
     };
 };
 
@@ -68,6 +74,12 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),
+        resetGeofences: () => {
+            dispatch(resetGeofences());
+        },
+        resetIntegrations: () => {
+            dispatch(resetIntegrations());
+        },
     };
 };
 
@@ -80,7 +92,11 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
 
     handleProjectClick(project: IProject) {
         this.props.projectsState.projects.filter(a => a.name === project.name);
-        this.props.selectProject(project);
+        if (this.props.selectedProject?.projectId !== project.projectId) {
+            this.props.selectProject(project);
+            this.props.resetGeofences();
+            this.props.resetIntegrations();
+        }
         const redirect = this.getRedirectFromParams();
         if (redirect) {
             this.props.push('/' + project.name + redirect);
@@ -140,7 +156,4 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(populateProjectsHOC(ProjectSelect)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateProjectsHOC(ProjectSelect)));

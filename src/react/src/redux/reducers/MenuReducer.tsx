@@ -1,9 +1,9 @@
-import { MenuAction, EXPANDED_SECTION } from "../actions/MenuActions";
+import { MenuAction, EXPANDED_SECTION, MenuState } from '../actions/MenuActions';
 
-export function menuReducer(state: string = "", action: MenuAction) {
+export function menuReducer(state = {} as MenuState, action: MenuAction) {
     switch (action.type) {
         case EXPANDED_SECTION:
-            return action.menu;
+            return Object.assign({}, action.menu);
         default:
             return state;
     }

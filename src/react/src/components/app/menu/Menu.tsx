@@ -110,7 +110,7 @@ class Menu extends React.Component<MenuProps> {
 
     handleMenuNavigation = (path: string) => {
         let pushPath = path;
-        if (this.props.selectedProject) {
+        if (this.props.selectedProject.name) {
             pushPath = path.replace(':appName', this.props.selectedProject.name);
         }
         this.props.push(pushPath);

@@ -14,6 +14,7 @@ import {
     REMOVE_INTEGRATION_BY_NAME,
     REMOVE_INTEGRATION_BY_CORRELATION_ID,
     POPULATE_INTEGRATIONS,
+    RESET_INTEGATIONS,
 } from '../actions/IntegrationActions';
 import Integration from '../../models/app/integrations/Integration';
 
@@ -96,6 +97,9 @@ export function integrationReducer(
             });
         }
         case POPULATE_INTEGRATIONS: {
+            return Object.assign({}, state, action.integrationsState);
+        }
+        case RESET_INTEGATIONS: {
             return Object.assign({}, state, action.integrationsState);
         }
         default:

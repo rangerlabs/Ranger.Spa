@@ -1,11 +1,10 @@
-import { SelectedProjectAction, SELECTED_PROJECT, CLEAR_SELECTED_PROJECT } from '../actions/SelecteProjectActions';
+import { SelectedProjectAction, SELECTED_PROJECT } from '../actions/SelecteProjectActions';
+import IProject from '../../models/app/IProject';
 
-export function selectedProjectReducer(state: string = '', action: SelectedProjectAction) {
+export function selectedProjectReducer(state = {} as IProject, action: SelectedProjectAction) {
     switch (action.type) {
         case SELECTED_PROJECT:
-            return action.selectedProject;
-        case CLEAR_SELECTED_PROJECT:
-            return action.selectedProject;
+            return Object.assign({}, action.selectedProject);
         default:
             return state;
     }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Unsubscribe } from 'redux';
 import { connect } from 'react-redux';
 import { removeSnackbar, SnackbarNotification } from '../../redux/actions/SnackbarActions';
 import { ApplicationState, OidcState } from '../../stores';
@@ -29,6 +29,11 @@ class Notifier extends React.Component<NotifierProps> {
     registrationChannel = undefined as Pusher.Channel;
     domainUserChannel = undefined as Pusher.Channel;
     currentTenantOnbaordChannel = '';
+    unsubscriber: Unsubscribe;
+
+    componentWillUnmount() {
+        this.unsubscriber();
+    }
 
     componentDidUpdate() {
         const { notifications = [] } = this.props;
@@ -81,7 +86,7 @@ class Notifier extends React.Component<NotifierProps> {
             forceTLS: true,
         });
 
-        ReduxStore.getStore().subscribe(() => {
+        this.unsubscriber = ReduxStore.getStore().subscribe(() => {
             const stateDomain = ReduxStore.getState().domain;
             const oidcState = ReduxStore.getState().oidc;
             if (this.canSubscribeToRegistration(stateDomain)) {

@@ -2,7 +2,7 @@ import {
     POPULATE_GEOFENCES,
     GeofenceAction,
     GeofenceArrayAction,
-    ADD_GEOFENCE_TO_PENDING_DELETION as ADD_GEOFENCE_TO_PENDING_DELETION,
+    ADD_GEOFENCE_TO_PENDING_DELETION,
     ADD_GEOFENCE,
     GeofencesState,
     UPDATE_GEOFENCE_BY_CORRELATION_ID,
@@ -14,6 +14,7 @@ import {
     UNDO_PENDING_UPDATE_GEOFENCE_BY_CORRELATION_ID,
     REMOVE_PENDING_UPDATE_GEOFENCE_BY_ID,
     ADD_GEOFENCE_TO_PENDING_UPDATE,
+    RESET_GEOFENCES,
 } from '../actions/GeofenceActions';
 import Geofence from '../../models/app/geofences/Geofence';
 import { StatusEnum } from '../../models/StatusEnum';
@@ -93,6 +94,9 @@ export function geofenceReducer(
             });
         }
         case POPULATE_GEOFENCES: {
+            return Object.assign({}, state, action.geofencesState);
+        }
+        case RESET_GEOFENCES: {
             return Object.assign({}, state, action.geofencesState);
         }
         default:
