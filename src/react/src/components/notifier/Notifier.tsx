@@ -138,7 +138,7 @@ class Notifier extends React.Component<NotifierProps> {
         this.domainUserChannel.bind('geofence-created', GeofenceCreateHandler);
         this.domainUserChannel.bind('geofence-updated', GeofenceUpdateHandler);
         this.domainUserChannel.bind('geofence-deleted', GeofenceDeleteHandler);
-        this.domainUserChannel.bind('integartion-created', IntegrationCreateHandler);
+        this.domainUserChannel.bind('integration-created', IntegrationCreateHandler);
         this.domainUserChannel.bind('integration-updated', IntegrationUpdateHandler);
         this.domainUserChannel.bind('integration-deleted', IntegrationDeleteHandler);
     }
