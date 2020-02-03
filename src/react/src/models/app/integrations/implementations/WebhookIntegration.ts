@@ -2,6 +2,7 @@ import Integration from '../Integration';
 import { IntegrationEnum } from '../IntegrationEnum';
 import KeyValuePair from '../../../KeyValuePair';
 import CorrelationModel from '../../../CorrelationModel';
+import { EnvironmentEnum } from '../../../EnvironmentEnum';
 
 export default class WebhookIntegration implements Integration {
     constructor() {
@@ -16,4 +17,5 @@ export default class WebhookIntegration implements Integration {
     url: string;
     headers: KeyValuePair[];
     metadata: KeyValuePair[];
+    environment: EnvironmentEnum;
 }

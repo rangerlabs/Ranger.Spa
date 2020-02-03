@@ -18,6 +18,8 @@ import IntegrationService from '../../../../services/IntegrationService';
 import { StatusEnum } from '../../../../models/StatusEnum';
 import { Formik } from 'formik';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
+import FormikSelectValues from '../../../form/interfaces/FormikSelectValuesProp';
+import { EnvironmentEnum } from '../../../../models/EnvironmentEnum';
 
 const integrationService = new IntegrationService();
 
@@ -68,6 +70,11 @@ const mapDispatchToProps = (dispatch: any) => {
         },
     };
 };
+
+const environmentSelectValuesArray = [
+    { value: EnvironmentEnum.TEST, label: 'Test' },
+    { value: EnvironmentEnum.LIVE, label: 'Live' },
+] as FormikSelectValues;
 
 const integrationForm = <P extends object>(Component: React.ComponentType<P>) => {
     class IntegrationFormHOCComponent extends React.Component<IntegrationFormHOCProps, IntegrationFormHOCState> {
@@ -158,6 +165,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                     isSuccess={this.state.isSuccess}
                     serverErrors={this.state.serverErrors}
                     isPendingCreation={this.isPendingCreation}
+                    environmentSelectValuesArray={environmentSelectValuesArray}
                     {...(this.props as P)}
                 />
             );

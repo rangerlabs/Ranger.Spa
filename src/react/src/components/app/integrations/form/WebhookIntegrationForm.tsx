@@ -19,6 +19,9 @@ import FormikSynchronousButton from '../../../form/FormikSynchronousButton';
 import IProject from '../../../../models/app/IProject';
 import FormikDictionaryBuilder from '../../../form/FormikDictionaryBuilder';
 import { IntegrationEnum } from '../../../../models/app/integrations/IntegrationEnum';
+import FormikSelectValues from '../../../form/interfaces/FormikSelectValuesProp';
+import FormikSelect from '../../../form/FormikSelect';
+import { EnvironmentEnum } from '../../../../models/EnvironmentEnum';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -46,6 +49,7 @@ interface IWebhookIntegrationFormProps extends WithStyles<typeof styles>, WithSn
     save: (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => void;
     update: (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => void;
     delete: (formikRef: React.RefObject<Formik>) => void;
+    environmentSelectValuesArray: FormikSelectValues;
     push: typeof push;
     isSuccess: boolean;
     isPendingCreation: boolean;
@@ -86,6 +90,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                 value: Yup.string().required('Required'),
             })
         ),
+        environment: Yup.mixed().required('Environment is required'),
     });
 
     render() {
@@ -113,6 +118,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                           url: '',
                                           headers: [],
                                           metadata: [],
+                                          environment: EnvironmentEnum.TEST,
                                       } as WebhookIntegration)
                             }
                             onSubmit={(values: WebhookIntegration, formikBag: FormikBag<FormikProps<WebhookIntegration>, WebhookIntegration>) => {
@@ -134,6 +140,19 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                             {props => (
                                 <form onSubmit={props.handleSubmit}>
                                     <Grid container spacing={3}>
+                                        <Grid item xs={12}>
+                                            <FormikSelect
+                                                name="environment"
+                                                label="Environment"
+                                                value={props.values.environment}
+                                                selectValues={this.props.environmentSelectValuesArray}
+                                                errorText={props.errors.environment}
+                                                touched={props.touched.environment}
+                                                onChange={props.handleChange}
+                                                onBlur={props.handleBlur}
+                                                required
+                                            />
+                                        </Grid>
                                         <Grid item xs={12}>
                                             <FormikTextField
                                                 name="name"

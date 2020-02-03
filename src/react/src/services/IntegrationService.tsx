@@ -21,6 +21,7 @@ export default class IntegrationService {
                             url: i.url,
                             headers: i.headers,
                             metadata: i.metadata,
+                            environment: i.environment,
                         } as WebhookIntegration);
                         break;
                     }

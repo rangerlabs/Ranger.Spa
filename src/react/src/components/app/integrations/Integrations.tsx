@@ -9,6 +9,7 @@ import RoutePaths from '../../../components/RoutePaths';
 import { IntegrationEnum } from '../../../models/app/integrations/IntegrationEnum';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import titleCase = require('title-case');
+import { EnvironmentEnum } from '../../../models/EnvironmentEnum';
 const MUIDataTable = require('mui-datatables').default;
 
 interface IntegrationsProps {
@@ -57,7 +58,7 @@ class Integrations extends React.Component<IntegrationsProps> {
         const tableIntegrations = new Array<Array<string>>();
         if (integrations) {
             integrations.forEach(value => {
-                tableIntegrations.push([value.name, value.description, titleCase(value.type)]);
+                tableIntegrations.push([value.name, value.description, titleCase(value.type), value.environment === EnvironmentEnum.TEST ? 'Test' : 'Live']);
             });
         }
         return tableIntegrations;
@@ -78,6 +79,12 @@ class Integrations extends React.Component<IntegrationsProps> {
         },
         {
             name: 'Type',
+            options: {
+                filter: true,
+            },
+        },
+        {
+            name: 'Environment',
             options: {
                 filter: true,
             },
