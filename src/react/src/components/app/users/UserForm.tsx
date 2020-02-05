@@ -205,7 +205,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             formikBag.setSubmitting(false);
                                             formikBag.resetForm(newUser);
                                         } else {
-                                            newUser.correlationModel.status = StatusEnum.PENDING;
+                                            newUser.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING };
                                             enqueueSnackbar('Update user request accepted.', { variant: 'info' });
                                             dispatchUpdateUser(newUser);
                                             formikBag.setSubmitting(false);
@@ -223,7 +223,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             formikBag.setSubmitting(false);
                                             formikBag.resetForm(newUser);
                                         } else {
-                                            newUser.correlationModel.status = StatusEnum.PENDING;
+                                            newUser.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING };
                                             enqueueSnackbar('Create user request accepted.', { variant: 'info' });
                                             dispatchAddUser(newUser);
                                             formikBag.setSubmitting(false);
@@ -344,19 +344,14 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 this.props.push('/users');
                                             }}
                                         />
-                                        {props.initialValues.email === '' ? (
-                                            <FormikSynchronousButton
-                                                isValid={props.isValid}
-                                                isSubmitting={props.isSubmitting}
-                                                isSuccess={this.state.success}
-                                                variant="contained"
-                                            >
-                                                Create User
-                                            </FormikSynchronousButton>
-                                        ) : (
-                                            <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
-                                                Update User
-                                            </FormikSynchronousButton>
+                                        <FormikSynchronousButton
+                                            isValid={props.isValid}
+                                            isSubmitting={props.isSubmitting}
+                                            isSuccess={this.state.success}
+                                            variant="contained"
+                                        >
+                                            {props.initialValues.email === '' ? 'Create User' : 'Update User'}
+                                        </FormikSynchronousButton>
                                         )}
                                     </div>
                                 </form>
