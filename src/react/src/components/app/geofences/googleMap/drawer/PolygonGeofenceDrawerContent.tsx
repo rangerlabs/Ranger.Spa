@@ -196,16 +196,22 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     });
 
     getIntegrationNamesByIds(integrationIds: string[]) {
-        return this.props.integrations
-            .filter(i => integrationIds.includes(i.id))
-            .map(i => i.name)
-            .sort();
+        if (integrationIds) {
+            return this.props.integrations
+                .filter(i => integrationIds.includes(i.id))
+                .map(i => i.name)
+                .sort();
+        }
+        return [];
     }
     getIntegrationIdsByNames(integrationNames: string[]) {
-        return this.props.integrations
-            .filter(i => integrationNames.includes(i.name))
-            .map(i => i.id)
-            .sort();
+        if (integrationNames) {
+            return this.props.integrations
+                .filter(i => integrationNames.includes(i.name))
+                .map(i => i.id)
+                .sort();
+        }
+        return [];
     }
 
     isPendingCreation() {
