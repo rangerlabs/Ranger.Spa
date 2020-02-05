@@ -1,5 +1,3 @@
-import WebhookIntegrationRequest from './implementations/WebhookIntegrationRequest';
-import WebhookIntegrationResponse from './implementations/WebhookIntegrationResponse';
+import WebhookIntegration from './implementations/WebhookIntegration';
 
-export type MergedIntegrationRequestType = WebhookIntegrationRequest;
-export type MergedIntegrationResponseType = WebhookIntegrationResponse;
+export type MergedIntegrationType = WebhookIntegration;

@@ -187,7 +187,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                         classes={{ badge: classes.badge }}
                         badgeContent={
                             <Typography className={classes.badgeTypography} variant="caption" align="center">
-                                Coming soon!
+                                Coming soon
                             </Typography>
                         }
                         color="primary"

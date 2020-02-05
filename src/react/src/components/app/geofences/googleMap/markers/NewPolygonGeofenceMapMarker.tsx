@@ -1,9 +1,9 @@
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import Constants from '../../../../../theme/Constants';
 
-const MapMarkerRed = require('../../../../../../assets/map-marker-red.png');
-const MapMarkerPurple = require('../../../../../../assets/map-marker-green.png');
-const CircleFilledRed = require('../../../../../../assets/circle-filled-red.png');
+const MapMarkerDarkGreen = require('../../../../../../assets/map-marker-dark-green.png');
+const MapMarkerPrimaryGreen = require('../../../../../../assets/map-marker-green.png');
+const CircularVertexMarker = require('../../../../../../assets/circle-slice-dark-green.png');
 
 export default class NewPolygonGeofenceMapMarker {
     polygonGeofence: google.maps.Polygon = undefined;
@@ -12,14 +12,16 @@ export default class NewPolygonGeofenceMapMarker {
     polylines = new Array<google.maps.Polyline>();
     polygonPathMarkers = new Array<google.maps.Marker>();
 
+    setAtEventListener: google.maps.MapsEventListener = undefined;
+
     public constructor(
         private map: google.maps.Map,
         latLngArray: google.maps.LatLng[],
-        private addPolygonLatLng: (latLngArray: CoordinatePair[]) => void,
+        private addPolygonLatLng: (lngLatArray: CoordinatePair[]) => void,
         private openInfoWindow: () => void
     ) {
         if (latLngArray.length > 1) {
-            this.addPolygonLatLng(latLngArray.map(v => new CoordinatePair(v.lat(), v.lng())));
+            this.addPolygonLatLng(latLngArray.map(v => new CoordinatePair(v.lng(), v.lat())));
             this.addPolygonGeofence(latLngArray);
             this.setPolygonCenterMarker();
         } else {
@@ -27,19 +29,21 @@ export default class NewPolygonGeofenceMapMarker {
         }
     }
 
-    private addPolygonGeofence(latLngArray: google.maps.LatLng[]) {
+    private addPolygonGeofence(latLngArray: google.maps.LatLng[] | google.maps.MVCArray<google.maps.LatLng>) {
         this.polygonGeofence = new google.maps.Polygon({
             map: this.map,
             paths: latLngArray,
             clickable: true,
             editable: true,
             draggable: true,
+            geodesic: true,
             strokeColor: Constants.COLORS.PRIMARY_COLOR,
             strokeOpacity: 0.8,
             strokeWeight: 2,
             fillColor: Constants.COLORS.PRIMARY_COLOR,
             fillOpacity: 0.3,
         });
+
         this.polygonGeofence.addListener('click', e => {
             const valuesLength = this.polygonGeofence.getPath().getLength();
             if (valuesLength >= 3) {
@@ -48,16 +52,16 @@ export default class NewPolygonGeofenceMapMarker {
         });
         this.polygonGeofence.addListener('mouseover', (e: google.maps.MouseEvent) => {
             if (this.polygonMarker) {
-                this.polygonMarker.setIcon(MapMarkerRed);
+                this.polygonMarker.setIcon(MapMarkerDarkGreen);
                 this.polygonGeofence.setOptions({
-                    strokeColor: '#e53935',
-                    fillColor: '#e53935',
+                    strokeColor: Constants.COLORS.MAP_DARK_GREEN,
+                    fillColor: Constants.COLORS.MAP_DARK_GREEN,
                 });
             }
         });
         this.polygonGeofence.addListener('mouseout', (e: google.maps.MouseEvent) => {
             if (this.polygonMarker) {
-                this.polygonMarker.setIcon(MapMarkerPurple);
+                this.polygonMarker.setIcon(MapMarkerPrimaryGreen);
                 this.polygonGeofence.setOptions({
                     strokeColor: Constants.COLORS.PRIMARY_COLOR,
                     fillColor: Constants.COLORS.PRIMARY_COLOR,
@@ -72,15 +76,26 @@ export default class NewPolygonGeofenceMapMarker {
         polygonPath.addListener('remove_at', e => {
             this.handlePolygonChange();
         });
-        polygonPath.addListener('set_at', e => {
+        this.setAtEventListener = polygonPath.addListener('set_at', e => {
             this.handlePolygonChange();
         });
+        this.polygonGeofence.addListener('dragend', e => {
+            this.setAtEventListener = polygonPath.addListener('set_at', e => {
+                this.handlePolygonChange();
+            });
+            this.handlePolygonChange();
+        });
+        this.polygonGeofence.addListener('dragstart', e => {
+            google.maps.event.removeListener(this.setAtEventListener);
+        });
+        this.polygonGeofence.addListener('drag', e => {
+            this.setPolygonCenterMarker();
+        });
     }
-
     createPolyline(latLng: google.maps.LatLng): void {
         const newPolyline = new google.maps.Polyline({
             map: this.map,
-            strokeColor: '#e53935',
+            strokeColor: Constants.COLORS.MAP_DARK_GREEN,
             strokeOpacity: 0.8,
             strokeWeight: 2,
             path: [latLng],
@@ -171,8 +186,8 @@ export default class NewPolygonGeofenceMapMarker {
 
     private handlePolygonChange() {
         const polyPathArray = this.polygonGeofence.getPath().getArray();
-        const latLngArray = polyPathArray.map(v => new CoordinatePair(v.lat(), v.lng()));
-        this.addPolygonLatLng(latLngArray);
+        const lngLatArray = polyPathArray.map(v => new CoordinatePair(v.lng(), v.lat()));
+        this.addPolygonLatLng(lngLatArray);
         this.setPolygonCenterMarker();
     }
 
@@ -183,7 +198,7 @@ export default class NewPolygonGeofenceMapMarker {
             this.polygonMarker = new google.maps.Marker({
                 map: this.map,
                 position: this.getPolygonCenter(),
-                icon: MapMarkerPurple,
+                icon: MapMarkerPrimaryGreen,
                 animation: google.maps.Animation.BOUNCE,
             });
         }
@@ -193,16 +208,16 @@ export default class NewPolygonGeofenceMapMarker {
         const marker = new google.maps.Marker({
             map: this.map,
             position: latLng,
-            icon: CircleFilledRed,
+            icon: CircularVertexMarker,
         });
         if (this.polylines.length === 1) {
             marker.setClickable(true);
             marker.addListener('click', (e: google.maps.MouseEvent) => {
                 if (this.polylines.length >= 3) {
-                    const latLngArray = this.polylines.map(pl => pl.getPath().getAt(0));
-                    this.addPolygonGeofence(latLngArray);
+                    const lngLatArray = this.polylines.map(pl => pl.getPath().getAt(0));
+                    this.addPolygonGeofence(lngLatArray);
                     this.setPolygonCenterMarker();
-                    this.addPolygonLatLng(latLngArray.map(v => new CoordinatePair(v.lat(), v.lng())));
+                    this.addPolygonLatLng(lngLatArray.map(v => new CoordinatePair(v.lng(), v.lat())));
                     this.removePolylineEventListeners();
                     this.clearPolylinesAndMarkers();
                 }
@@ -217,7 +232,6 @@ export default class NewPolygonGeofenceMapMarker {
         for (let i = 0; i < this.polygonGeofence.getPath().getLength(); i++) {
             bounds.extend(this.polygonGeofence.getPath().getAt(i));
         }
-        console.log('Center: ' + bounds.getCenter());
         return bounds.getCenter();
     }
 }

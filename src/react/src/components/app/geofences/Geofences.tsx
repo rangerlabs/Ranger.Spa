@@ -1,40 +1,36 @@
 import * as React from 'react';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { addGeofence, removeGeofence, GeofencesState } from '../../../redux/actions/GeofenceActions';
+import { addGeofence, GeofencesState } from '../../../redux/actions/GeofenceActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
 import CircleGeofence from '../../../models/app/geofences/CircleGeofence';
-import requireProjectSelection from '../hocs/RequireProjectSelectionHOC';
 import populateGeofencesHOC from '../hocs/PopulateGeofencesHOC';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
-import titleCase = require('title-case');
+import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
+import IProject from '../../../models/app/IProject';
 const MUIDataTable = require('mui-datatables').default;
 
 interface GeofencesProps {
     geofencesState: GeofencesState;
     addGeofence: (geofence: CircleGeofence | PolygonGeofence) => void;
-    removeGeofence: (name: string) => void;
     push: typeof push;
+    selectedProject: IProject;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { geofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.name) };
+    return { geofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.name), selectedProject: state.selectedProject };
 };
 
 const selectedProjectGeofences = (geofences: Array<CircleGeofence | PolygonGeofence>, name: string) => {
-    return geofences.filter(f => f.projectName === name);
+    return geofences.filter(f => f.projectId === name);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
         addGeofence: (geofence: CircleGeofence | PolygonGeofence) => {
             const action = addGeofence(geofence);
-            dispatch(action);
-        },
-        removeGeofence: (name: string) => {
-            const action = removeGeofence(name);
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),
@@ -47,11 +43,11 @@ class Geofences extends React.Component<GeofencesProps> {
     };
 
     editGeofence = (rowData: string[]) => {
-        this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + rowData[0]);
+        this.props.push(`/${this.props.selectedProject.name}/geofences/map/edit?name=${rowData[0]}`);
     };
 
     redirectToNewGeofenceForm = () => {
-        this.props.push('/geofences/map/new');
+        this.props.push(`/${this.props.selectedProject.name}/geofences/map`);
     };
 
     mapGeofencesToTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>): Array<Array<string>> {
@@ -59,9 +55,9 @@ class Geofences extends React.Component<GeofencesProps> {
         if (geofences) {
             geofences.forEach(value => {
                 tableGeofences.push([
-                    value.name,
+                    value.externalId,
                     value.description,
-                    titleCase(value.shape.toString()),
+                    value.shape == ShapePicker.Circle ? 'Circle' : 'Polygon',
                     value.onEnter ? 'True' : 'False',
                     value.onExit ? 'True' : 'False',
                 ]);
@@ -103,6 +99,11 @@ class Geofences extends React.Component<GeofencesProps> {
         },
     ];
     options = {
+        textLabels: {
+            body: {
+                noMatch: 'Your organization has not created any geofences yet.',
+            },
+        },
         print: false,
         download: false,
         customToolbar: () => {
@@ -130,7 +131,4 @@ class Geofences extends React.Component<GeofencesProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(requireProjectSelection(populateIntegrationsHOC(populateGeofencesHOC(Geofences))));
+export default connect(mapStateToProps, mapDispatchToProps)(populateIntegrationsHOC(populateGeofencesHOC(Geofences)));

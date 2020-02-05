@@ -34,17 +34,25 @@ interface FormikSynchronousButtonProps extends WithStyles<typeof styles> {
     isValid: boolean;
     isSubmitting: boolean;
     isSuccess: boolean;
+    disabled?: boolean;
 }
 
 class FormikSynchronousButton extends React.Component<FormikSynchronousButtonProps & ButtonProps> {
     render() {
-        const { denseMargin, isValid, isSubmitting, isSuccess, classes, ...rest } = this.props;
+        const { denseMargin, isValid, isSubmitting, isSuccess, classes, disabled, ...rest } = this.props;
         const buttonClassname = classNames({
             [classes.buttonSuccess]: isSuccess,
         });
         return (
             <div className={denseMargin ? classes.denseMargin : classes.root}>
-                <Button className={buttonClassname} disabled={!isValid || isSubmitting} type="submit" color="primary" variant="contained" {...rest}>
+                <Button
+                    className={buttonClassname}
+                    disabled={disabled ? disabled : false || !isValid || isSubmitting}
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    {...rest}
+                >
                     {this.props.children}
                 </Button>
                 {isSubmitting && !isSuccess && <CircularProgress size={24} className={classes.buttonProgress} />}

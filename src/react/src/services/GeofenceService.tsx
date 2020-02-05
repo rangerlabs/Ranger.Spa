@@ -6,62 +6,67 @@ import { ShapePicker } from '../redux/actions/GoogleMapsActions';
 import CoordinatePair from '../models/app/geofences/CoordinatePair';
 
 export default class GeofenceService {
-    async getGeofences(projectName: string): Promise<Array<CircleGeofence | PolygonGeofence>> {
-        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectName}/geofence/all`).then(geofenceResponse => {
+    async getGeofences(projectName: string): Promise<IRestResponse<Array<CircleGeofence | PolygonGeofence>>> {
+        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectName}/geofences`).then(geofenceResponse => {
             const result = new Array<CircleGeofence | PolygonGeofence>();
-            geofenceResponse.content.forEach(v => {
-                switch (v.shape) {
-                    case ShapePicker.Circle: {
-                        const circle = v as CircleGeofence;
-                        result.push(
-                            new CircleGeofence(
-                                circle.projectName,
-                                circle.name,
-                                circle.labels,
-                                circle.onEnter,
-                                circle.onExit,
-                                circle.enabled,
-                                circle.description,
-                                circle.integrationIds,
-                                [new CoordinatePair(v.coordinates[0].lat, v.coordinates[0].lng)],
-                                circle.metadata,
-                                circle.radius
-                            )
-                        );
-                        break;
+            if (geofenceResponse.content) {
+                geofenceResponse.content.forEach(v => {
+                    switch (v.shape) {
+                        case ShapePicker.Circle: {
+                            const castedShape = v as CircleGeofence;
+                            const circle = new CircleGeofence(
+                                castedShape.projectId,
+                                castedShape.externalId,
+                                castedShape.labels,
+                                castedShape.onEnter,
+                                castedShape.onExit,
+                                castedShape.enabled,
+                                castedShape.description,
+                                castedShape.integrationIds,
+                                [new CoordinatePair(v.coordinates[0].lng, v.coordinates[0].lat)],
+                                castedShape.metadata,
+                                castedShape.radius
+                            );
+                            circle.id = castedShape.id;
+                            result.push(circle);
+                            break;
+                        }
+                        case ShapePicker.Polygon: {
+                            const castedShape = v as PolygonGeofence;
+                            const polygon = new PolygonGeofence(
+                                castedShape.projectId,
+                                castedShape.externalId,
+                                castedShape.labels,
+                                castedShape.onEnter,
+                                castedShape.onExit,
+                                castedShape.enabled,
+                                castedShape.description,
+                                castedShape.integrationIds,
+                                castedShape.coordinates,
+                                castedShape.metadata
+                            );
+                            polygon.id = castedShape.id;
+                            result.push(castedShape);
+                            break;
+                        }
+                        default:
+                            break;
                     }
-                    case ShapePicker.Polygon: {
-                        const polygon = v as PolygonGeofence;
-                        result.push(
-                            new PolygonGeofence(
-                                polygon.projectName,
-                                polygon.name,
-                                polygon.labels,
-                                polygon.onEnter,
-                                polygon.onExit,
-                                polygon.enabled,
-                                polygon.description,
-                                polygon.integrationIds,
-                                polygon.coordinates,
-                                polygon.metadata
-                            )
-                        );
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
-                }
-            });
-            return result;
+                });
+            }
+            return Object.assign({}, geofenceResponse, { content: result } as IRestResponse<Array<CircleGeofence | PolygonGeofence>>) as IRestResponse<
+                Array<CircleGeofence | PolygonGeofence>
+            >;
         });
     }
 
-    async getGeofence(projectName: string, name: string): Promise<IRestResponse<CircleGeofence | PolygonGeofence>> {
-        return RestUtilities.get<CircleGeofence | PolygonGeofence>(`${projectName}/geofence?name=${name}`);
+    async postGeofence(projectName: string, geofence: Geofence): Promise<IRestResponse<void>> {
+        return RestUtilities.post(`${projectName}/geofences`, geofence);
     }
-
-    async postGeofence(projectName: string, name: Geofence): Promise<IRestResponse<CircleGeofence | PolygonGeofence>> {
-        return RestUtilities.post<CircleGeofence | PolygonGeofence>(`${projectName}/geofence`, name);
+    async putGeofence(projectName: string, externalId: string, geofence: Geofence): Promise<IRestResponse<void>> {
+        return RestUtilities.put(`${projectName}/geofences/${externalId}`, geofence);
+    }
+    async deleteGeofence(projectName: string, externalId: string): Promise<IRestResponse<void>> {
+        return RestUtilities.delete(`${projectName}/geofences/${externalId}`);
     }
 }

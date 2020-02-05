@@ -4,23 +4,39 @@ import { red } from '@material-ui/core/colors';
 import { StylesProvider } from '@material-ui/styles';
 import { jss, generateClassName } from '../../../../theme/StylesProviderPropsConfig';
 import Constants from '../../../../theme/Constants';
+import Pencil from 'mdi-material-ui/Pencil';
+import PencilPlus from 'mdi-material-ui/PencilPlus';
+import Delete from 'mdi-material-ui/Delete';
 
-const styles = (theme: Theme) =>
-    createStyles({
+const styles = (theme: Theme) => {
+    return createStyles({
         root: {
-            paddingRight: '12px',
-            paddingBottom: '12px',
             textAlign: 'center',
+            marginLeft: '7px',
+            marginTop: '7px',
+            marginBottom: '7px',
         },
         warning: {
             color: red[600],
             fontFamily: "'Lato', sans-serif",
+            '&:hover': {
+                backgroundColor: '#e539351c',
+                color: theme.palette.error.main,
+            },
+            marginRight: theme.spacing(1),
+            borderRadius: '0px',
         },
         primary: {
-            color: Constants.COLORS.PRIMARY_COLOR,
+            backgroundColor: Constants.COLORS.PRIMARY_COLOR,
+            color: Constants.COLORS.WHITE,
             fontFamily: "'Lato', sans-serif",
+            '&:hover': {
+                backgroundColor: Constants.COLORS.MAP_DARK_GREEN,
+            },
+            borderRadius: '0px',
         },
     });
+};
 
 interface GoogleMapsInfoWindowProps extends WithStyles<typeof styles> {
     name?: string;
@@ -28,6 +44,7 @@ interface GoogleMapsInfoWindowProps extends WithStyles<typeof styles> {
     onCreate?: () => void;
     clear?: () => void;
 }
+
 class GoogleMapsInfoWindow extends React.Component<GoogleMapsInfoWindowProps> {
     render() {
         const { classes } = this.props;
@@ -41,10 +58,11 @@ class GoogleMapsInfoWindow extends React.Component<GoogleMapsInfoWindowProps> {
                             </Typography>
                             <Button
                                 className={classes.primary}
-                                variant="text"
+                                variant="contained"
                                 onClick={e => {
                                     this.props.onEdit();
                                 }}
+                                startIcon={<Pencil />}
                             >
                                 Edit
                             </Button>
@@ -57,15 +75,17 @@ class GoogleMapsInfoWindow extends React.Component<GoogleMapsInfoWindowProps> {
                                 onClick={e => {
                                     this.props.clear();
                                 }}
+                                startIcon={<Delete />}
                             >
                                 Clear
                             </Button>
                             <Button
                                 className={classes.primary}
-                                variant="text"
+                                variant="contained"
                                 onClick={e => {
                                     this.props.onCreate();
                                 }}
+                                startIcon={<PencilPlus />}
                             >
                                 Create
                             </Button>

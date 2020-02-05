@@ -7,9 +7,9 @@ import PolygonGeofence from '../../../../models/app/geofences/PolygonGeofence';
 import classNames = require('classnames');
 import GeofenceDrawer from './drawer/GeofenceDrawer';
 import GoogleMapsWrapper from './GoogleMapsWrapper';
-import requireProjectSelection from '../../hocs/RequireProjectSelectionHOC';
 import populateGeofencesHOC from '../../hocs/PopulateGeofencesHOC';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
+import { clearGeofence } from '../../../../redux/actions/GoogleMapsActions';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -48,10 +48,20 @@ const styles = (theme: Theme) =>
 interface IFenceFormProps extends WithStyles<typeof styles> {
     geofenceDrawerOpen: boolean;
     geofences: Array<CircleGeofence | PolygonGeofence>;
+    removeMapGeofenceFromState: () => void;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return { geofenceDrawerOpen: state.geofenceDrawer.isOpen, geofences: state.geofencesState.geofences };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        removeMapGeofenceFromState: () => {
+            const clearGeofenceAction = clearGeofence();
+            dispatch(clearGeofenceAction);
+        },
+    };
 };
 
 type FenceFormState = {
@@ -85,6 +95,7 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
                                     streetViewControl: false,
                                     mapTypeControl: false,
                                     fullscreenControl: false,
+                                    clickableIcons: false,
                                 }}
                                 mapFullyLoadedCallback={() => {
                                     this.setState({ isMapFullyLoaded: true });
@@ -94,8 +105,14 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
                     </div>
                     {this.state.isMapFullyLoaded && (
                         <GeofenceDrawer
-                            clearNewCircleGeofence={this.mapWrappedRef.current.clearCircle}
-                            clearNewPolygonGeofence={this.mapWrappedRef.current.clearPolygon}
+                            clearNewCircleGeofence={() => {
+                                this.mapWrappedRef.current.clearCircle();
+                                this.props.removeMapGeofenceFromState();
+                            }}
+                            clearNewPolygonGeofence={() => {
+                                this.mapWrappedRef.current.clearPolygon();
+                                this.props.removeMapGeofenceFromState();
+                            }}
                             enableMapClick={this.mapWrappedRef.current.registerMapClickHandler}
                         />
                     )}
@@ -105,7 +122,4 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    null
-)(withStyles(styles)(requireProjectSelection(populateIntegrationsHOC(populateGeofencesHOC(GeofenceForm)))));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateIntegrationsHOC(populateGeofencesHOC(GeofenceForm))));

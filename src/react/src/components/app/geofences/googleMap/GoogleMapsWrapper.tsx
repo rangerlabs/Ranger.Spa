@@ -13,6 +13,7 @@ import {
     addPolygonGeofence,
     clearGeofence,
     selectShapePicker,
+    setInfoWindowVisible,
 } from '../../../../redux/actions/GoogleMapsActions';
 import CoordinatePair from '../../../../models/app/geofences/CoordinatePair';
 import CircleGeofence from '../../../../models/app/geofences/CircleGeofence';
@@ -24,11 +25,12 @@ import NewPolygonGeofenceMapMarker from './markers/NewPolygonGeofenceMapMarker';
 import { push } from 'connected-react-router';
 import { openGeofenceDrawer } from '../../../../redux/actions/GeofenceDrawerActions';
 import { closeGeofenceDrawer } from '../../../../redux/actions/GeofenceDrawerActions';
-import { removeGeofence } from '../../../../redux/actions/GeofenceActions';
+import { addGeofenceToPendingDeletion, removeGeofenceByExternalId } from '../../../../redux/actions/GeofenceActions';
 const hash = require('object-hash');
 import * as queryString from 'query-string';
 import Constants from '../../../../theme/Constants';
 import Loading from '../../loading/Loading';
+import GoogleMapsInfoWindowOpener from './GoogleMapsInfoWindowOpener';
 
 const DEFAULT_RADIUS = 100;
 
@@ -37,6 +39,8 @@ const styles = (theme: Theme) =>
         autoComplete: {
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1),
+            paddingLeft: theme.spacing(1),
+            paddingRight: theme.spacing(1),
             borderTop: '0px',
             borderRight: '0px',
             borderLeft: '0px',
@@ -62,26 +66,26 @@ const StyledSearchTextField = withStyles({
 const mapStateToProps = (state: ApplicationState) => {
     return {
         selectedShape: state.googleMaps.selectedShapePicker,
-        CircleGeofence: state.googleMaps.CircleGeofence,
+        circleGeofence: state.googleMaps.circleGeofence,
         polygonGeofence: state.googleMaps.polygonGeofence,
-        existingGeofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.name),
+        existingGeofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.projectId),
         geofenceDrawerOpen: state.geofenceDrawer.isOpen,
     };
 };
 
 const selectedProjectGeofences = (geofences: (CircleGeofence | PolygonGeofence)[], id: string) => {
-    return geofences.filter(f => f.projectName === id);
+    return geofences.filter(f => f.projectId === id);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
         push: (path: string) => dispatch(push(path)),
-        addCircleGeofence: (latLng: CoordinatePair, radius: number) => {
-            const addCircleGeofenceAction = addCircleGeofence({ center: latLng, radius: radius });
+        addCircleGeofence: (lngLat: CoordinatePair, radius: number) => {
+            const addCircleGeofenceAction = addCircleGeofence({ center: lngLat, radius: radius });
             dispatch(addCircleGeofenceAction);
         },
-        addPolygonLatLngArray: (latLngArray: CoordinatePair[]) => {
-            const addPolygonGeofenceAction = addPolygonGeofence({ coordinatePairArray: latLngArray });
+        addPolygonLatLngArray: (lngLatArray: CoordinatePair[]) => {
+            const addPolygonGeofenceAction = addPolygonGeofence({ coordinatePairArray: lngLatArray });
             dispatch(addPolygonGeofenceAction);
         },
         removeMapGeofenceFromState: () => {
@@ -100,8 +104,12 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = closeGeofenceDrawer();
             dispatch(action);
         },
-        removeGeofenceFromState: (name: string) => {
-            const action = removeGeofence(name);
+        removeGeofenceByExternalId: (externalId: string) => {
+            const action = removeGeofenceByExternalId(externalId);
+            dispatch(action);
+        },
+        setInfoWindowVisible: (isVisible: boolean) => {
+            const action = setInfoWindowVisible(isVisible);
             dispatch(action);
         },
     };
@@ -111,20 +119,21 @@ const mergeProps = (stateProps: any, dispatchProps: any, own: any) => ({ ...stat
 
 interface WrapperProps extends WithStyles<typeof styles> {
     selectedShape: ShapePicker;
-    CircleGeofence: CircleGeofenceState;
+    circleGeofence: CircleGeofenceState;
     polygonGeofence: PolygonGeofenceState;
     existingGeofences: (CircleGeofence | PolygonGeofence)[];
     geofenceDrawerOpen: boolean;
     push: (path: string) => void;
-    addCircleGeofence: (latLng: CoordinatePair, radius: number) => void;
-    addPolygonLatLngArray: (latLngArray: CoordinatePair[]) => void;
+    addCircleGeofence: (lngLat: CoordinatePair, radius: number) => void;
+    addPolygonLatLngArray: (lngLatArray: CoordinatePair[]) => void;
     removeMapGeofenceFromState: () => void;
     selectShapePicker: (shape: ShapePicker) => void;
     openDrawer: (geofence?: CircleGeofence | PolygonGeofence) => void;
     closeDrawer: () => void;
-    removeGeofenceFromState: (name: string) => void;
+    removeGeofenceByExternalId: (name: string) => void;
     mapFullyLoadedCallback: () => void;
     onMapLoad?: (map: google.maps.Map) => void;
+    setInfoWindowVisible: (isVisible: boolean) => void;
     innerRef?: any;
     id: string;
     options: google.maps.MapOptions;
@@ -141,7 +150,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     autoComplete: google.maps.places.Autocomplete = undefined;
     infoWindow: google.maps.InfoWindow = undefined;
     markers: Array<CircleGeofenceMapMarker | PolygonGeofenceMapMarker> = [];
-    markerClusterer: MarkerClusterer;
 
     mapClickListener: google.maps.MapsEventListener = undefined;
     autoCompletePlaceChangedListener: google.maps.MapsEventListener = undefined;
@@ -159,7 +167,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             const markerScript = document.createElement('script');
             mapScript.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_KEY}&libraries=geometry,drawing,places`;
             mapScript.async = true;
-            markerScript.src = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
             document.body.appendChild(mapScript);
             document.body.appendChild(markerScript);
             mapScript.addEventListener('load', e => {
@@ -184,12 +191,12 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 }
             }
 
-            if (hash.MD5(prevProps.existingGeofences) !== hash.MD5(this.props.existingGeofences)) {
+            if (hash.sha1(prevProps.existingGeofences) !== hash.sha1(this.props.existingGeofences)) {
                 const newlyAddedGeofences = this.props.existingGeofences.filter(v => {
-                    return !prevProps.existingGeofences.find(f => f.name === v.name);
+                    return !prevProps.existingGeofences.find(f => f.externalId === v.externalId);
                 });
                 const deletedGeofences = prevProps.existingGeofences.filter(v => {
-                    return !this.props.existingGeofences.find(f => f.name === v.name);
+                    return !this.props.existingGeofences.find(f => f.externalId === v.externalId);
                 });
                 if (newlyAddedGeofences && newlyAddedGeofences.length > 0) {
                     this.createGeofenceMarkers(newlyAddedGeofences, true);
@@ -223,7 +230,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         });
         google.maps.event.addListenerOnce(this.map, 'idle', () => {
             this.setState({ isMapFullyLoaded: true });
-            this.initMarkerClusterer();
             this.createGeofenceMarkers(this.props.existingGeofences, false);
             this.props.mapFullyLoadedCallback();
 
@@ -244,27 +250,8 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         }
     };
 
-    private initMarkerClusterer() {
-        this.markerClusterer = new MarkerClusterer(
-            this.map,
-            this.markers.map(v => v.getMarker()),
-            {
-                averageCenter: true,
-                imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
-            }
-        );
-        this.markerClusterer.addListener('click', (e: google.maps.MouseEvent, cluster: Cluster) => {
-            if (this.markerClusterer.getZoomOnClick()) {
-                this.map.setCenter(cluster.getCenter());
-                this.map.setZoom(this.markerClusterer.getMaxZoom() + 1);
-                this.map.fitBounds(cluster.getBounds());
-            }
-            e.stop();
-        });
-    }
-
     private initializeEditGeofence(name: string) {
-        const editGeofence = this.props.existingGeofences.find(s => s.name === name);
+        const editGeofence = this.props.existingGeofences.find(s => s.externalId === name);
         if (editGeofence) {
             switch (editGeofence.shape) {
                 case ShapePicker.Circle: {
@@ -290,34 +277,38 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     }
 
     getGeofenceFromStateByName(name: string): CircleGeofence | PolygonGeofence {
-        return this.props.existingGeofences.find(marker => marker.name === name);
+        return this.props.existingGeofences.find(marker => marker.externalId === name);
     }
 
     removeGeofenceMarkers(markersForRemoval: (CircleGeofence | PolygonGeofence)[]) {
         if (markersForRemoval) {
             markersForRemoval.forEach(markerToRemove => {
                 const markerIndex = this.markers.findIndex(existingMarker => {
-                    return existingMarker.id === markerToRemove.name;
+                    return existingMarker.id === markerToRemove.externalId;
                 });
                 if (markerIndex >= 0) {
                     this.markers[markerIndex].destroy();
                     this.markers.splice(markerIndex, 1);
-                    this.markerClusterer.removeMarker(this.markers[markerIndex].getMarker());
                 }
             });
         }
+    }
+
+    removeMapClickAndOpenDrawer() {
+        google.maps.event.removeListener(this.mapClickListener);
+        this.props.openDrawer();
     }
 
     createGeofenceMarkers(markersForCreation: (CircleGeofence | PolygonGeofence)[], animate: boolean = false) {
         markersForCreation.forEach((geofence, index) => {
             switch (geofence.shape) {
                 case ShapePicker.Circle: {
-                    const CircleGeofence = geofence as CircleGeofence;
+                    const circleGeofence = geofence as CircleGeofence;
                     const marker = new CircleGeofenceMapMarker(
                         this.map,
-                        CircleGeofence.name,
-                        new google.maps.LatLng(CircleGeofence.coordinates[0].lat, CircleGeofence.coordinates[0].lng),
-                        CircleGeofence.radius,
+                        circleGeofence.externalId,
+                        new google.maps.LatLng(circleGeofence.coordinates[0].lat, circleGeofence.coordinates[0].lng),
+                        circleGeofence.radius,
                         (latLng: google.maps.LatLng, geofenceName: string) => {
                             if (this.newCircleGeofenceMapMarker) {
                                 this.openInfoWindow(this.newCircleGeofenceMapMarker.getCenter());
@@ -331,14 +322,13 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         animate
                     );
                     this.markers.push(marker);
-                    this.markerClusterer.addMarker(marker.getMarker());
                     break;
                 }
                 case ShapePicker.Polygon: {
                     const polygonGeofence = geofence as PolygonGeofence;
                     const marker = new PolygonGeofenceMapMarker(
                         this.map,
-                        polygonGeofence.name,
+                        polygonGeofence.externalId,
                         polygonGeofence.coordinates.map(v => new google.maps.LatLng(v.lat, v.lng)),
                         (latLng: google.maps.LatLng, geofenceName: string) => {
                             if (this.newCircleGeofenceMapMarker) {
@@ -353,7 +343,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         animate
                     );
                     this.markers.push(marker);
-                    this.markerClusterer.addMarker(marker.getMarker());
                     break;
                 }
             }
@@ -378,7 +367,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     } else {
                         this.closeInfoWindow();
                         this.map.panTo(e.latLng);
-                        this.map.setZoom(16);
                         this.newCircleGeofenceMapMarker = new NewCircleGeofenceMapMarker(
                             this.map,
                             e.latLng,
@@ -392,7 +380,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                             this.props.addCircleGeofence
                         );
                         if (this.props.geofenceDrawerOpen) {
-                            this.props.openDrawer();
+                            this.removeMapClickAndOpenDrawer();
                         }
                     }
                     break;
@@ -406,12 +394,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         }
                     } else {
                         this.closeInfoWindow();
-                        this.map.setZoom(16);
                         this.newPolygonGeofenceMapMarker = new NewPolygonGeofenceMapMarker(this.map, [e.latLng], this.props.addPolygonLatLngArray, () => {
                             this.openInfoWindow(this.newPolygonGeofenceMapMarker.getPolygonCenter());
                         });
                         if (this.props.geofenceDrawerOpen) {
-                            this.props.openDrawer();
+                            this.removeMapClickAndOpenDrawer();
                         }
                     }
                     break;
@@ -473,9 +460,23 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         });
     }
 
+    handleInfoWindowOpenerClick() {
+        switch (this.props.selectedShape) {
+            case ShapePicker.Circle: {
+                this.openInfoWindow(this.newCircleGeofenceMapMarker.getCenter());
+                break;
+            }
+            case ShapePicker.Polygon: {
+                this.openInfoWindow(this.newPolygonGeofenceMapMarker.getPolygonCenter());
+                break;
+            }
+        }
+    }
+
     closeInfoWindow() {
         if (this.infoWindow) {
             this.infoWindow.close();
+            this.props.setInfoWindowVisible(false);
         }
     }
 
@@ -495,9 +496,13 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 position: latLng,
             });
             this.infoWindow.set('name', geofenceName);
+            this.infoWindow.addListener('closeclick', () => {
+                this.props.setInfoWindowVisible(false);
+                this.registerMapClickHandler();
+            });
             this.infoWindow.addListener('domready', () => {
                 const geofenceName = this.infoWindow.get('name');
-                const geofence = this.props.existingGeofences.find(f => f.name === geofenceName);
+                const geofence = this.props.existingGeofences.find(f => f.externalId === geofenceName);
                 const infoWindow =
                     this.props.selectedShape === ShapePicker.Circle ? (
                         <GoogleMapsInfoWindow
@@ -506,13 +511,14 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                                 this.clearCircle();
                                 this.props.removeMapGeofenceFromState();
                                 this.props.closeDrawer();
+                                this.registerMapClickHandler();
                             }}
                             onEdit={() => {
                                 this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + geofenceName);
                                 this.editCircleGeofenceMarker(geofence as CircleGeofence);
                             }}
                             onCreate={() => {
-                                this.props.openDrawer();
+                                this.removeMapClickAndOpenDrawer();
                                 this.closeInfoWindow();
                             }}
                         />
@@ -523,13 +529,14 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                                 this.clearPolygon();
                                 this.props.removeMapGeofenceFromState();
                                 this.props.closeDrawer();
+                                this.registerMapClickHandler();
                             }}
                             onEdit={() => {
                                 this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + geofenceName);
                                 this.editPolygonGeofenceMarker(geofence as PolygonGeofence);
                             }}
                             onCreate={() => {
-                                this.props.openDrawer();
+                                this.removeMapClickAndOpenDrawer();
                                 this.closeInfoWindow();
                             }}
                         />
@@ -539,6 +546,8 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     const existingMarker = this.getGeofenceFromStateByName(geofenceName) as CircleGeofence;
                     this.props.openDrawer(existingMarker);
                 }
+                this.removeMapClickHandler();
+                this.props.setInfoWindowVisible(true);
             });
         }
         this.infoWindow.open(this.map);
@@ -549,7 +558,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.Polygon);
         this.props.openDrawer(geofence);
-        this.props.removeGeofenceFromState(geofence.name);
+        this.props.removeGeofenceByExternalId(geofence.externalId);
         this.newPolygonGeofenceMapMarker = new NewPolygonGeofenceMapMarker(
             this.map,
             geofence.coordinates.map(v => new google.maps.LatLng(v.lat, v.lng)),
@@ -565,7 +574,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.Circle);
         this.props.openDrawer(geofence);
-        this.props.removeGeofenceFromState(geofence.name);
+        this.props.removeGeofenceByExternalId(geofence.externalId);
         this.newCircleGeofenceMapMarker = new NewCircleGeofenceMapMarker(
             this.map,
             new google.maps.LatLng(geofence.coordinates[0].lat, geofence.coordinates[0].lng),
@@ -585,7 +594,17 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 <StyledSearchTextField className={classes.autoComplete} id="google-places-search" variant="outlined" fullWidth />
                 {!this.state.isMapFullyLoaded && <Loading message="Initializing map." />}
                 <div className={classes.mapContainer} id={this.props.id} />
-                {this.state.isMapFullyLoaded && <GoogleMapsShapePicker map={this.map} />}
+                {this.state.isMapFullyLoaded && (
+                    <React.Fragment>
+                        <GoogleMapsShapePicker map={this.map} />
+                        <GoogleMapsInfoWindowOpener
+                            map={this.map}
+                            onClick={() => {
+                                this.handleInfoWindowOpenerClick();
+                            }}
+                        />
+                    </React.Fragment>
+                )}
             </React.Fragment>
         );
     }

@@ -4,7 +4,7 @@ import { SnackbarProvider, withSnackbar, WithSnackbarProps, SnackbarProviderProp
 import { bindActionCreators } from 'redux';
 import { removeSnackbar } from '../../redux/actions/SnackbarActions';
 import { connect } from 'react-redux';
-import { CloseCircle } from 'mdi-material-ui';
+import CloseCircle from 'mdi-material-ui/CloseCircle';
 import Constants from '../../theme/Constants';
 
 const notistackStyle = (theme: Theme) => {

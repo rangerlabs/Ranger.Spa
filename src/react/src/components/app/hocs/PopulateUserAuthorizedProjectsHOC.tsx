@@ -45,9 +45,7 @@ const populateUserAuthorizedProjectsHOC = <P extends object>(Component: React.Co
                             userService.getAuthorizedProjects(email).then(ap => {
                                 if (!ap.is_error) {
                                     const user = { ...v.content, authorizedProjects: ap.content };
-                                    setTimeout(() => {
-                                        this.setState({ user: user, isLoaded: true });
-                                    }, 250);
+                                    this.setState({ user: user, isLoaded: true });
                                 }
                             });
                         } else {

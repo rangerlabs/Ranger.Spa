@@ -1,6 +1,5 @@
 import { ADD_PROJECT, REMOVE_PROJECT, POPULATE_PROJECTS, UPDATE_PROJECT, ProjectAction, ProjectArrayAction, ProjectsState } from '../actions/ProjectActions';
 import IProject from '../../models/app/IProject';
-import { ApplicationState } from '../../stores';
 
 export function projectReducer(state: ProjectsState = { isLoaded: false, projects: [] }, action: ProjectAction & ProjectArrayAction) {
     switch (action.type) {

@@ -19,7 +19,7 @@ import {
 } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExpandLess from '@material-ui/icons/ExpandLess';
-import ViewDashboardOutline from 'mdi-material-ui/ViewDashboardOutline';
+import ViewDashboard from 'mdi-material-ui/ViewDashboardOutline';
 import Lock from '@material-ui/icons/Lock';
 import FileDocumentBoxOutline from 'mdi-material-ui/FileDocumentBoxOutline';
 import CurrencyUsd from 'mdi-material-ui/CurrencyUsd';
@@ -114,7 +114,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                     {this.props.user && !this.props.user.expired && (
                         <ListItem button onClick={() => this.props.push(RoutePaths.Dashboard)}>
                             <ListItemIcon>
-                                <ViewDashboardOutline />
+                                <ViewDashboard />
                             </ListItemIcon>
                             <ListItemText primary="Dashboard" />
                         </ListItem>
@@ -209,9 +209,4 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
     }
 }
 
-export default withStyles(styles, { withTheme: true })(
-    connect(
-        null,
-        { push }
-    )(LandingMenu)
-);
+export default withStyles(styles, { withTheme: true })(connect(null, { push })(LandingMenu));

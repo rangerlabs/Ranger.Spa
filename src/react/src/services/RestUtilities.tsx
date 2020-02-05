@@ -72,15 +72,15 @@ export default class RestUtilities {
             })
             .then((response: Response) => {
                 isError = response.status === 304 || (response.status >= 400 && response.status <= 500);
-                correlationId = response.headers.has('X-Operation') ? response.headers.get('X-Operation').replace('operations/', '') : null;
+                correlationId = response.headers.has('x-operation') ? response.headers.get('x-operation').replace('operations/', '') : null;
                 return response.text();
             })
             .then((responseContent: string) => {
-                const responseContentJson = responseContent ? JSON.parse(responseContent) : {};
+                const responseContentJson = responseContent ? JSON.parse(responseContent) : undefined;
                 let response: IRestResponse<T> = {
                     is_error: isError,
-                    error_content: isError ? (responseContentJson as IErrorContent) : null,
-                    content: isError ? null : responseContentJson,
+                    error_content: isError ? (responseContentJson as IErrorContent) : undefined,
+                    content: isError ? undefined : responseContentJson,
                     correlationId: correlationId,
                 };
                 return response;

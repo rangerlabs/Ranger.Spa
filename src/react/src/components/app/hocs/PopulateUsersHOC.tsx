@@ -32,11 +32,9 @@ const populateUsersHOC = <P extends object>(Component: React.ComponentType<P>) =
         componentDidMount() {
             if (!this.props.usersState.isLoaded) {
                 userService.getUsers().then(userResponse => {
-                    setTimeout(() => {
-                        if (userResponse.content) {
-                            this.props.setUsers(userResponse.content ? userResponse.content : new Array<IUser>());
-                        }
-                    }, 250);
+                    if (!userResponse.is_error) {
+                        this.props.setUsers(userResponse.content ? userResponse.content : new Array<IUser>());
+                    }
                 });
             }
         }

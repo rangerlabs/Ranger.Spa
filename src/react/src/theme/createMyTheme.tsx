@@ -55,16 +55,27 @@ export default function createRangerTheme(options: ThemeOptions) {
             width: '100%',
         },
         overrides: {
+            MuiTableCell: {
+                root: {
+                    borderBottom: '0px',
+                },
+            },
             MuiBadge: {
                 badge: {
                     right: -3,
                     border: `2px solid ${Constants.COLORS.WHITE}`,
                     padding: '0 4px',
+                    borderRadius: '3px',
                 },
             },
             MuiDrawer: {
                 paperAnchorDockedLeft: {
                     borderRight: 'none',
+                },
+            },
+            MuiPaper: {
+                rounded: {
+                    borderRadius: '0px',
                 },
             },
             MuiToolbar: {
@@ -79,6 +90,7 @@ export default function createRangerTheme(options: ThemeOptions) {
             },
             MuiButton: {
                 root: {
+                    borderRadius: '0px',
                     '&:hover': {
                         backgroundColor: Constants.COLORS.MENU_BACKGROUND_COLOR,
                     },
@@ -117,8 +129,6 @@ export default function createRangerTheme(options: ThemeOptions) {
             },
             MuiListItem: {
                 button: {
-                    // height: toolbarHeight,
-                    // borderRadius: '0 30px 30px 0',
                     '&:hover': {
                         backgroundColor: Constants.COLORS.LIST_TABLE_HOVER_COLOR,
                     },

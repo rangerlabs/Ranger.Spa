@@ -120,13 +120,23 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     }
 
     getProjectNamesByProjectIds(projectIds: string[]) {
-        return this.props.projects
-            .filter(p => projectIds.includes(p.projectId))
-            .map(p => p.name)
-            .sort();
+        if (projectIds) {
+            return this.props.projects
+                .filter(p => projectIds.includes(p.projectId))
+                .map(p => p.name)
+                .sort();
+        }
+        return [];
     }
+
     getProjectIdsByProjectNames(projectNames: string[]) {
-        return this.props.projects.filter(p => projectNames.includes(p.name)).map(p => p.projectId);
+        if (projectNames) {
+            return this.props.projects
+                .filter(p => projectNames.includes(p.name))
+                .map(p => p.projectId)
+                .sort();
+        }
+        return [];
     }
     getAssignableRolesFromCurrentUser(user: User): FormikSelectValues {
         const roleArray: FormikSelectValues = [];
@@ -178,7 +188,6 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                     : { email: '', firstName: '', lastName: '', role: 'User', authorizedProjects: [] }
                             }
                             onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
-                                console.log(values);
                                 const newUser = {
                                     email: values.email,
                                     firstName: values.firstName,
@@ -196,7 +205,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             formikBag.setSubmitting(false);
                                             formikBag.resetForm(newUser);
                                         } else {
-                                            newUser.status = StatusEnum.PENDING;
+                                            newUser.correlationModel.status = StatusEnum.PENDING;
                                             enqueueSnackbar('Update user request accepted.', { variant: 'info' });
                                             dispatchUpdateUser(newUser);
                                             formikBag.setSubmitting(false);
@@ -214,7 +223,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             formikBag.setSubmitting(false);
                                             formikBag.resetForm(newUser);
                                         } else {
-                                            newUser.status = StatusEnum.PENDING;
+                                            newUser.correlationModel.status = StatusEnum.PENDING;
                                             enqueueSnackbar('Create user request accepted.', { variant: 'info' });
                                             dispatchAddUser(newUser);
                                             formikBag.setSubmitting(false);

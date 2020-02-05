@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import IProject from '../../../models/app/IProject';
 import populateProjectsHOC from './PopulateProjectsHOC';
 import Loading from '../loading/Loading';
+import requireProjectSelection from './RequireProjectSelectionHOC';
 
 const geofenceService = new GeofenceService();
 
@@ -32,14 +33,22 @@ const mapDispatchToProps = (dispatch: any) => {
 
 const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P>) => {
     class PopulateGeofencesComponent extends React.Component<PopulateGeofencesComponentProps> {
-        componentDidMount() {
-            if (!this.props.geofencesState.isLoaded) {
+        componentDidUpdate(prevProps: PopulateGeofencesComponentProps) {
+            if (!this.props.geofencesState.isLoaded && this.props.selectedProject.name && this.props.selectedProject.name !== prevProps.selectedProject.name) {
                 geofenceService.getGeofences(this.props.selectedProject.name).then(geofenceResponse => {
-                    setTimeout(() => {
-                        if (geofenceResponse) {
-                            this.props.setGeofences(geofenceResponse);
-                        }
-                    }, 250);
+                    if (geofenceResponse) {
+                        this.props.setGeofences(geofenceResponse.content ? geofenceResponse.content : new Array<CircleGeofence | PolygonGeofence>());
+                    }
+                });
+            }
+        }
+
+        componentDidMount() {
+            if (!this.props.geofencesState.isLoaded && this.props.selectedProject.name) {
+                geofenceService.getGeofences(this.props.selectedProject.name).then(geofenceResponse => {
+                    if (geofenceResponse) {
+                        this.props.setGeofences(geofenceResponse.content ? geofenceResponse.content : new Array<CircleGeofence | PolygonGeofence>());
+                    }
                 });
             }
         }
@@ -49,7 +58,7 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
         }
     }
 
-    return connect(mapStateToProps, mapDispatchToProps)(populateProjectsHOC(PopulateGeofencesComponent));
+    return connect(mapStateToProps, mapDispatchToProps)(requireProjectSelection(populateProjectsHOC(PopulateGeofencesComponent)));
 };
 
 export default populateGeofencesHOC;

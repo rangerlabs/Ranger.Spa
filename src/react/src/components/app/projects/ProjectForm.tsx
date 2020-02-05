@@ -194,7 +194,6 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             enableReinitialize
                             initialValues={this.state.initialProject ? this.state.initialProject : { name: '', description: '', version: 0, enabled: true }}
                             onSubmit={(values: IProject, formikBag: FormikBag<FormikProps<IProject>, IProject>) => {
-                                console.log(values);
                                 this.setState({ serverErrors: undefined });
                                 const inputProject = {
                                     name: values.name,
@@ -362,7 +361,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         />
                                         {userIsInRole(this.props.user, RoleEnum.ADMIN) && (
                                             <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
-                                                {props.initialValues.name === '' ? 'Create' : 'Update'}
+                                                {props.initialValues.name === '' ? 'Create Project' : 'Update Project'}
                                             </FormikSynchronousButton>
                                         )}
                                     </div>

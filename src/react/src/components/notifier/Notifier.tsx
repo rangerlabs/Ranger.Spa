@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Unsubscribe } from 'redux';
 import { connect } from 'react-redux';
 import { removeSnackbar, SnackbarNotification } from '../../redux/actions/SnackbarActions';
 import { ApplicationState, OidcState } from '../../stores';
@@ -14,6 +14,12 @@ import GenericDomainUserHandler from './pusherHandlers/GenericDomainUserHandler'
 import TokenRefreshHandler from './pusherHandlers/TokenRefreshHandler';
 import PermissionsUpdatedHandler from './pusherHandlers/PermissionsUpdatedHandler';
 import ForceSignoutHandler from './pusherHandlers/ForceSignoutHandler';
+import GeofenceUpdateHandler from './pusherHandlers/GeofenceUpdateHandler';
+import GeofenceCreateHandler from './pusherHandlers/GeofenceCreateHandler';
+import GeofenceDeleteHandler from './pusherHandlers/GeofenceDeleteHandler';
+import IntegrationUpdateHandler from './pusherHandlers/IntegrationUpdateHandler';
+import IntegrationCreateHandler from './pusherHandlers/IntegrationCreateHandler';
+import IntegrationDeleteHandler from './pusherHandlers/IntegrationDeleteHandler';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -26,6 +32,11 @@ class Notifier extends React.Component<NotifierProps> {
     registrationChannel = undefined as Pusher.Channel;
     domainUserChannel = undefined as Pusher.Channel;
     currentTenantOnbaordChannel = '';
+    unsubscriber: Unsubscribe;
+
+    componentWillUnmount() {
+        this.unsubscriber();
+    }
 
     componentDidUpdate() {
         const { notifications = [] } = this.props;
@@ -78,7 +89,7 @@ class Notifier extends React.Component<NotifierProps> {
             forceTLS: true,
         });
 
-        ReduxStore.getStore().subscribe(() => {
+        this.unsubscriber = ReduxStore.getStore().subscribe(() => {
             const stateDomain = ReduxStore.getState().domain;
             const oidcState = ReduxStore.getState().oidc;
             if (this.canSubscribeToRegistration(stateDomain)) {
@@ -124,6 +135,12 @@ class Notifier extends React.Component<NotifierProps> {
         this.domainUserChannel.bind('token-refresh', TokenRefreshHandler);
         this.domainUserChannel.bind('permissions-updated', PermissionsUpdatedHandler);
         this.domainUserChannel.bind('force-signout', ForceSignoutHandler);
+        this.domainUserChannel.bind('geofence-created', GeofenceCreateHandler);
+        this.domainUserChannel.bind('geofence-updated', GeofenceUpdateHandler);
+        this.domainUserChannel.bind('geofence-deleted', GeofenceDeleteHandler);
+        this.domainUserChannel.bind('integration-created', IntegrationCreateHandler);
+        this.domainUserChannel.bind('integration-updated', IntegrationUpdateHandler);
+        this.domainUserChannel.bind('integration-deleted', IntegrationDeleteHandler);
     }
 
     private subscribeTenantOnboardChannelEvent(stateDomain: DomainState) {

@@ -100,6 +100,11 @@ class Projects extends React.Component<ProjectsProps> {
         },
     ];
     options = {
+        textLabels: {
+            body: {
+                noMatch: 'Your organization has not created any projects yet.',
+            },
+        },
         print: false,
         download: false,
         customToolbar: () => {

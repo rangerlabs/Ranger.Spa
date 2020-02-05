@@ -39,7 +39,7 @@ interface CustomizedBreadcrumbsProps extends WithStyles<typeof styles> {
 class CustomizedBreadcrumbs extends React.Component<CustomizedBreadcrumbsProps> {
     handleClick(path: string) {
         let pushPath = path;
-        if (this.props.selectedProject) {
+        if (this.props.selectedProject.name) {
             pushPath = path.replace(':appName', this.props.selectedProject.name);
         }
         this.props.push(pushPath);
@@ -68,7 +68,4 @@ class CustomizedBreadcrumbs extends React.Component<CustomizedBreadcrumbsProps> 
     }
 }
 
-export default connect(
-    mapStateToProps,
-    { push }
-)(withStyles(styles)(CustomizedBreadcrumbs));
+export default connect(mapStateToProps, { push })(withStyles(styles)(CustomizedBreadcrumbs));

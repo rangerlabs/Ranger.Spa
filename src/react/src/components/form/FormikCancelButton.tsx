@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Button, withStyles, createStyles, Theme, WithStyles } from "@material-ui/core";
-import { ButtonProps } from "@material-ui/core/Button";
+import * as React from 'react';
+import { Button, withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
+import { ButtonProps } from '@material-ui/core/Button';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -16,8 +16,8 @@ class FormikCancelButton extends React.Component<FormikCancelButtonProps & Butto
     render() {
         const { isSubmitting, classes, onClick, ...rest } = this.props;
         return (
-            <Button className={classes.root} onClick={onClick} {...rest}>
-                {isSubmitting ? "Close" : "Cancel"}
+            <Button className={classes.root} onClick={onClick} disabled={isSubmitting} {...rest}>
+                Cancel
             </Button>
         );
     }

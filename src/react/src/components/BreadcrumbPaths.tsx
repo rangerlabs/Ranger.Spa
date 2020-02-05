@@ -111,10 +111,10 @@ export default class BreadcrumbPaths {
         return new BreadcrumbPath(new Array<Breadcrumb>(projectsBreadcrumb));
     }
 
-    public static GetProjectBreadCrumb(appName: string) {
-        if (!appName) {
+    public static GetProjectBreadCrumb(projectName: string) {
+        if (!projectName) {
             throw new Error('appName parameter is required');
         }
-        return new Breadcrumb(appName, RoutePaths.ProjectsSelect);
+        return new Breadcrumb(projectName, RoutePaths.ProjectsSelect);
     }
 }

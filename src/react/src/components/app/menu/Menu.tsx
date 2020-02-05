@@ -14,10 +14,11 @@ import {
     Collapse,
     Fade,
     Button,
+    Badge,
 } from '@material-ui/core';
 import People from '@material-ui/icons/People';
 import MapMarker from 'mdi-material-ui/MapMarker';
-import ViewDashboardOutline from 'mdi-material-ui/ViewDashboardOutline';
+import ViewDashboard from 'mdi-material-ui/ViewDashboardOutline';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import Lock from '@material-ui/icons/Lock';
@@ -35,8 +36,10 @@ import RoutePaths from '../../../components/RoutePaths';
 import { User } from 'oidc-client';
 import IProject from '../../../models/app/IProject';
 import { userIsInRole } from '../../../helpers/Helpers';
-import { Logout } from 'mdi-material-ui';
-import { Settings } from 'mdi-material-ui';
+import Logout from 'mdi-material-ui/Logout';
+import CreditCard from 'mdi-material-ui/CreditCard';
+import MapMarkerPath from 'mdi-material-ui/MapMarkerPath';
+import Settings from 'mdi-material-ui/Settings';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -59,6 +62,13 @@ const styles = (theme: Theme) =>
             '&:hover': {
                 background: 'none',
             },
+        },
+        badge: {
+            height: '100%',
+            right: '-25px',
+        },
+        badgeTypography: {
+            lineHeight: 'inherit',
         },
     });
 interface MenuProps extends WithStyles<typeof styles> {
@@ -100,7 +110,7 @@ class Menu extends React.Component<MenuProps> {
 
     handleMenuNavigation = (path: string) => {
         let pushPath = path;
-        if (this.props.selectedProject) {
+        if (this.props.selectedProject.name) {
             pushPath = path.replace(':appName', this.props.selectedProject.name);
         }
         this.props.push(pushPath);
@@ -113,7 +123,7 @@ class Menu extends React.Component<MenuProps> {
             <List>
                 <ListItem id="home" button onClick={() => this.handleMenuNavigation(RoutePaths.Dashboard)}>
                     <ListItemIcon>
-                        <ViewDashboardOutline />
+                        <ViewDashboard />
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItem>
@@ -150,6 +160,23 @@ class Menu extends React.Component<MenuProps> {
                     <ListItemText primary="Integrations" />
                 </ListItem>
 
+                <ListItem id="breadcrumbs" button>
+                    <Badge
+                        classes={{ badge: classes.badge }}
+                        badgeContent={
+                            <Typography className={classes.badgeTypography} variant="caption" align="center">
+                                Coming soon
+                            </Typography>
+                        }
+                        color="primary"
+                    >
+                        <ListItemIcon>
+                            <MapMarkerPath />
+                        </ListItemIcon>
+                        <ListItemText primary="Breadcrumbs" />
+                    </Badge>
+                </ListItem>
+
                 <ListItem
                     id="projects"
                     button
@@ -182,12 +209,20 @@ class Menu extends React.Component<MenuProps> {
                                     <ListItemText primary="Users" />
                                 </ListItem>
                                 {userIsInRole(this.props.user, RoleEnum.OWNER) && (
-                                    <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
-                                        <ListItemIcon>
-                                            <Domain />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Domain" />
-                                    </ListItem>
+                                    <React.Fragment>
+                                        <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
+                                            <ListItemIcon>
+                                                <Domain />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Organization" />
+                                        </ListItem>
+                                        <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
+                                            <ListItemIcon>
+                                                <CreditCard />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Billing" />
+                                        </ListItem>
+                                    </React.Fragment>
                                 )}
                             </List>
                         </Collapse>

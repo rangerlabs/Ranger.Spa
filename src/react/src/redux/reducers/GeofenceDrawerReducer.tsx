@@ -4,7 +4,7 @@ export function geofenceDrawerReducer(state: GeofenceDrawerState = { isOpen: fal
     switch (action.type) {
         case OPEN_GEOFENCE_DRAWER:
         case CLOSE_GEOFENCE_DRAWER:
-            return action.geofenceDrawer;
+            return Object.assign({}, action.geofenceDrawer);
         default:
             return state;
     }

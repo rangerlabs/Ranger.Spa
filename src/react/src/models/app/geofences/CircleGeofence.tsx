@@ -1,13 +1,16 @@
 import Geofence from './Geofence';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import CoordinatePair from './CoordinatePair';
+import CorrelationModel from '../../CorrelationModel';
 
 export default class CircleGeofence implements Geofence {
     shape: ShapePicker;
+    correlationModel: CorrelationModel;
+    id: string; //assigned when correlationModel.status is Complete
 
     public constructor(
-        public projectName: string,
-        public name: string,
+        public projectId: string,
+        public externalId: string,
         public labels: string[] = [],
         public onEnter: boolean,
         public onExit: boolean,

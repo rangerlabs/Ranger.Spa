@@ -1,21 +1,20 @@
 import * as React from 'react';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { addIntegration, removeIntegration, IntegrationsState } from '../../../redux/actions/IntegrationActions';
+import { addIntegration, IntegrationsState } from '../../../redux/actions/IntegrationActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
-import { MergedIntegrationResponseType } from '../../../models/app/integrations/MergedIntegrationTypes';
-import requireProjectSelection from '../hocs/RequireProjectSelectionHOC';
+import { MergedIntegrationType } from '../../../models/app/integrations/MergedIntegrationTypes';
 import RoutePaths from '../../../components/RoutePaths';
 import { IntegrationEnum } from '../../../models/app/integrations/IntegrationEnum';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import titleCase = require('title-case');
+import { EnvironmentEnum } from '../../../models/EnvironmentEnum';
 const MUIDataTable = require('mui-datatables').default;
 
 interface IntegrationsProps {
     integrationsState: IntegrationsState;
-    addIntegration: (integration: MergedIntegrationResponseType) => void;
-    removeIntegration: (name: string) => void;
+    addIntegration: (integration: MergedIntegrationType) => void;
     push: typeof push;
 }
 
@@ -23,18 +22,14 @@ const mapStateToProps = (state: ApplicationState) => {
     return { integrationsState: selectedProjectIntegrations(state.integrationsState.integrations, state.selectedProject.name) };
 };
 
-const selectedProjectIntegrations = (integrations: MergedIntegrationResponseType[], id: string) => {
+const selectedProjectIntegrations = (integrations: MergedIntegrationType[], id: string) => {
     return integrations.filter(i => i.projectName === id);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        addIntegration: (integration: MergedIntegrationResponseType) => {
+        addIntegration: (integration: MergedIntegrationType) => {
             const action = addIntegration(integration);
-            dispatch(action);
-        },
-        removeIntegration: (name: string) => {
-            const action = removeIntegration(name);
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),
@@ -59,11 +54,11 @@ class Integrations extends React.Component<IntegrationsProps> {
         this.props.push(RoutePaths.IntegrationsNew);
     };
 
-    mapIntegrationsToTableIntegrations(integrations: MergedIntegrationResponseType[]): Array<Array<string>> {
+    mapIntegrationsToTableIntegrations(integrations: MergedIntegrationType[]): Array<Array<string>> {
         const tableIntegrations = new Array<Array<string>>();
         if (integrations) {
             integrations.forEach(value => {
-                tableIntegrations.push([value.name, value.description, titleCase(value.type)]);
+                tableIntegrations.push([value.name, value.description, titleCase(value.type), value.environment === EnvironmentEnum.TEST ? 'Test' : 'Live']);
             });
         }
         return tableIntegrations;
@@ -88,9 +83,20 @@ class Integrations extends React.Component<IntegrationsProps> {
                 filter: true,
             },
         },
+        {
+            name: 'Environment',
+            options: {
+                filter: true,
+            },
+        },
     ];
 
     options = {
+        textLabels: {
+            body: {
+                noMatch: 'Your organization has not created any integrations yet.',
+            },
+        },
         print: false,
         download: false,
         customToolbar: () => {
@@ -118,4 +124,4 @@ class Integrations extends React.Component<IntegrationsProps> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requireProjectSelection(populateIntegrationsHOC(Integrations)));
+export default connect(mapStateToProps, mapDispatchToProps)(populateIntegrationsHOC(Integrations));

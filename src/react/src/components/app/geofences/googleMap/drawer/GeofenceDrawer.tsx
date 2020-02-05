@@ -11,7 +11,7 @@ import { closeGeofenceDrawer } from '../../../../../redux/actions/GeofenceDrawer
 import CircleGeofenceDrawerContent from './CircleGeofenceDrawerContent';
 import PolygonGeofenceDrawerContent from './PolygonGeofenceDrawerContent';
 import IProject from '../../../../../models/app/IProject';
-import { MergedIntegrationResponseType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
+import { MergedIntegrationType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -29,18 +29,6 @@ const styles = (theme: Theme) =>
             display: 'flex',
             justifyContent: 'flex-end',
         },
-        // drawer: {
-        //     zIndex: theme.zIndex.appBar - 1,
-        //     width: "100%",
-        //     [theme.breakpoints.up("sm")]: {
-        //         width: "40%",
-        //     },
-        //     [theme.breakpoints.up("md")]: {
-        //         padding: theme.spacing(2),
-        //         width: `calc((100% - ${theme.drawer.width}px) * .35)`,
-        //     },
-        //     flexShrink: 0,
-        // },
         toolbar: {
             height: theme.toolbar.height,
         },
@@ -61,7 +49,7 @@ const mapStateToProps = (state: ApplicationState) => {
 const getMapGeofence = (state: ApplicationState): CircleGeofenceState | PolygonGeofenceState => {
     switch (state.googleMaps.selectedShapePicker) {
         case ShapePicker.Circle: {
-            return state.googleMaps.CircleGeofence;
+            return state.googleMaps.circleGeofence;
         }
         case ShapePicker.Polygon: {
             return state.googleMaps.polygonGeofence;
@@ -101,7 +89,7 @@ interface GeofenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarPro
     geofenceDrawerOpen: boolean;
     selectedShape: ShapePicker;
     selectedProject: IProject;
-    integrations: MergedIntegrationResponseType[];
+    integrations: MergedIntegrationType[];
     openDialog: (dialogCotent: DialogContent) => void;
     closeDrawer: () => void;
     clearNewCircleGeofence: () => void;
@@ -155,7 +143,4 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
         );
     }
 }
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles, { withTheme: true })(withSnackbar(GeofenceDrawer)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(withSnackbar(GeofenceDrawer)));

@@ -6,20 +6,17 @@ import Menu from './menu/Menu';
 import { connect } from 'react-redux';
 import { CssBaseline, Fade, Theme } from '@material-ui/core';
 import Dialog from '../dialog/Dialog';
-import UserManager from '../../services/UserManager';
 import { ApplicationState } from '../../stores';
 import { User } from 'oidc-client';
-import UserService from '../../services/UserService';
-import IUser from '../../models/app/IUser';
-import { populateUsers } from '../../redux/actions/UserActions';
 import IProject from '../../models/app/IProject';
 import BreadcrumbPath from '../../models/app/BreadcrumbPath';
 import BreadcrumbPaths from '../BreadcrumbPaths';
 import Breadcrumb from '../../models/app/Breadcrumb';
-import Notifier from '../../components/notifier/Notifier';
 import authorizedRoute from './hocs/AuthorizedRouteHOC';
 import { addDomain, DomainState } from '../../redux/actions/DomainActions';
 import { getSubDomain } from '../../helpers/Helpers';
+import { resetGeofences } from '../../redux/actions/GeofenceActions';
+import { resetIntegrations } from '../../redux/actions/IntegrationActions';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -45,7 +42,11 @@ interface AppLayoutProps extends WithStyles<typeof styles> {
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { user: state.oidc.user, selectedProject: state.selectedProject, domain: state.domain.domain };
+    return {
+        user: state.oidc.user,
+        selectedProject: state.selectedProject,
+        domain: state.domain.domain,
+    };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -62,7 +63,6 @@ class AppLayout extends React.Component<AppLayoutProps> {
         mobileOpen: false,
     };
 
-    //hydrate the store when the first AppLayout path is to be rendered
     componentDidMount = () => {
         if (!this.props.domain) {
             this.props.setDomain(getSubDomain());
@@ -77,7 +77,7 @@ class AppLayout extends React.Component<AppLayoutProps> {
         const { breadcrumbPath } = this.props;
         let result = breadcrumbPath.breadcrumbs;
         if (breadcrumbPath.requiresLeadingProjectBreadcrumb) {
-            if (this.props.selectedProject) {
+            if (this.props.selectedProject.name) {
                 const appBreadcrumbIncluded = Object.assign<Breadcrumb[], Breadcrumb[]>([], breadcrumbPath.breadcrumbs);
                 appBreadcrumbIncluded.unshift(BreadcrumbPaths.GetProjectBreadCrumb(this.props.selectedProject.name));
                 result = appBreadcrumbIncluded;

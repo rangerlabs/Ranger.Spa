@@ -1,13 +1,12 @@
 import CoordinatePair from '../../models/app/geofences/CoordinatePair';
 
 export enum ShapePicker {
-    Circle = 'Circle',
-    Polygon = 'Polygon',
+    Circle = 0,
+    Polygon = 1,
 }
 
+export const IS_INFO_WINDOW_VISIBILE = 'IS_INFO_WINDOW_VISIBILE';
 export const SELECT_SHAPE_PICKER = 'SELECT_SHAPE_PICKER';
-export const ENABLE_SHAPE_PICKER = 'ENABLE_SHAPE_PICKER';
-export const DISABLE_SHAPE_PICKER = 'DISABLE_SHAPE_PICKER';
 export const ADD_CIRCLE_GEOFENCE = 'ADD_CIRCLE_GEOFENCE';
 export const ADD_POLYGON_GEOFENCE = 'ADD_POLYGON_GEOFENCE';
 export const CLEAR_GEOFENCE = 'CLEAR_GEOFENCE';
@@ -18,9 +17,9 @@ export interface GoogleMapsAction {
 }
 
 export interface GoogleMapsState {
+    isInfoWindowVisible: boolean;
     selectedShapePicker: ShapePicker;
-    shapePickerEnabled: boolean;
-    CircleGeofence: CircleGeofenceState;
+    circleGeofence: CircleGeofenceState;
     polygonGeofence: PolygonGeofenceState;
 }
 
@@ -46,7 +45,7 @@ export function addCircleGeofence(CircleGeofence: CircleGeofenceState): GoogleMa
     return {
         type: ADD_CIRCLE_GEOFENCE,
         googleMaps: {
-            CircleGeofence: CircleGeofence,
+            circleGeofence: CircleGeofence,
         } as GoogleMapsState,
     };
 }
@@ -56,6 +55,15 @@ export function addPolygonGeofence(polygonGeofence: PolygonGeofenceState): Googl
         type: ADD_POLYGON_GEOFENCE,
         googleMaps: {
             polygonGeofence: polygonGeofence,
+        } as GoogleMapsState,
+    };
+}
+
+export function setInfoWindowVisible(isVisible: boolean): GoogleMapsAction {
+    return {
+        type: IS_INFO_WINDOW_VISIBILE,
+        googleMaps: {
+            isInfoWindowVisible: isVisible,
         } as GoogleMapsState,
     };
 }

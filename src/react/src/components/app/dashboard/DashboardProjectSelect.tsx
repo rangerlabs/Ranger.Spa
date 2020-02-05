@@ -27,6 +27,8 @@ import RoutePaths from '../../RoutePaths';
 const IntegrationApi = require('../../../../assets/integration-api.png');
 import { ProjectsState } from '../../../redux/actions/ProjectActions';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
+import { resetGeofences } from '../../../redux/actions/GeofenceActions';
+import { resetIntegrations } from '../../../redux/actions/IntegrationActions';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -74,13 +76,17 @@ const styles = (theme: Theme) =>
 
 interface ProjectsSelectProps extends WithStyles<typeof styles> {
     projectsState: ProjectsState;
+    selectedProject: IProject;
     selectProject: (project: IProject) => void;
     push: typeof push;
+    resetGeofences: () => void;
+    resetIntegrations: () => void;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
         projectsState: state.projectsState,
+        selectedProjected: state.selectedProject,
     };
 };
 
@@ -91,20 +97,38 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),
+        resetGeofences: () => {
+            dispatch(resetGeofences());
+        },
+        resetIntegrations: () => {
+            dispatch(resetIntegrations());
+        },
     };
 };
 
 class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
     handleProjectGeofencesClick(project: IProject) {
-        this.props.selectProject(project);
+        if (this.props.selectedProject?.projectId !== project.projectId) {
+            this.props.selectProject(project);
+            this.props.resetGeofences();
+            this.props.resetIntegrations();
+        }
         this.props.push(RoutePaths.GeofenceMap);
     }
     handleProjectIntegrationsClick(project: IProject) {
-        this.props.selectProject(project);
+        if (this.props.selectedProject?.projectId !== project.projectId) {
+            this.props.selectProject(project);
+            this.props.resetGeofences();
+            this.props.resetIntegrations();
+        }
         this.props.push(RoutePaths.Integrations);
     }
     handleProjectClick(project: IProject) {
-        this.props.selectProject(project);
+        if (this.props.selectedProject?.projectId !== project.projectId) {
+            this.props.selectProject(project);
+            this.props.resetGeofences();
+            this.props.resetIntegrations();
+        }
         this.props.push(RoutePaths.Projects);
     }
     render() {
@@ -112,11 +136,11 @@ class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
         return (
             <React.Fragment>
                 <div className={classes.root}>
-                    <GridList className={classes.gridList} cols={2.5}>
+                    <GridList className={classes.gridList} cols={2.75}>
                         {projectsState.projects &&
                             projectsState.projects.map(project => (
                                 <GridListTile className={classes.gridListTile} key={project.name}>
-                                    <Card className={classes.card}>
+                                    <Card elevation={3} className={classes.card}>
                                         <CardHeader title={project.name} />
                                         <CardContent classes={{ root: classes.cardContent }}>
                                             <Typography component="p">{project.description}</Typography>
@@ -158,7 +182,4 @@ class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(populateProjectsHOC(DashboardProjectSelect)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateProjectsHOC(DashboardProjectSelect)));
