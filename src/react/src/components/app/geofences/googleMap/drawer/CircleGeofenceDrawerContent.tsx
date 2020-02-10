@@ -21,7 +21,6 @@ import { getIntegrationsFromIntegrationIds } from '../../../../../helpers/Helper
 import FormikAutocompleteLabelMultiselect from '../../../../form/FormikAutocompleteLabelMultiselect';
 import GeofenceService from '../../../../../services/GeofenceService';
 import { StatusEnum } from '../../../../../models/StatusEnum';
-import CorrelationModel from '../../../../../models/CorrelationModel';
 
 const geofenceService = new GeofenceService();
 
@@ -228,19 +227,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                               ...this.props.editGeofence,
                               integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
                           } as CircleGeofence)
-                        : new CircleGeofence(
-                              this.props.selectedProject.projectId,
-                              '',
-                              [],
-                              true,
-                              true,
-                              true,
-                              '',
-                              [],
-                              [new CoordinatePair(0, 0)],
-                              new Map<string, object>(),
-                              0
-                          )
+                        : new CircleGeofence(this.props.selectedProject.projectId, '', [], true, true, true, '', [], [new CoordinatePair(0, 0)], [], 0)
                 }
                 isInitialValid={this.props.editGeofence ? true : false}
                 onSubmit={(values: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
@@ -254,7 +241,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                         values.description,
                         this.getIntegrationIdsByNames(values.integrationIds),
                         [new CoordinatePair(this.props.mapGeofence.center.lng, this.props.mapGeofence.center.lat)],
-                        new Map<string, object>(),
+                        [],
                         this.props.mapGeofence.radius
                     );
                     newFence.id = this.props.editGeofence?.id;
@@ -295,6 +282,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                             <Grid container item xs={12} spacing={0}>
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <FormikCheckbox
+                                        infoText="Whether the geofence should execute integrations."
                                         name="enabled"
                                         label="Enabled"
                                         value={props.values.enabled}
@@ -306,6 +294,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikTextField
+                                    infoText="A unique identifier for the geofences assigned by you."
                                     name="externalId"
                                     label="External Id"
                                     value={props.values.externalId}
@@ -320,6 +309,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikTextField
+                                    infoText="An optional description for the geofence."
                                     name="description"
                                     label="Description"
                                     value={props.values.description}
@@ -333,6 +323,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikAutocompleteLabelMultiselect
+                                    infoText="The integrations to execute for the geofence."
                                     name="integrations"
                                     label="Integrations"
                                     placeholder=""

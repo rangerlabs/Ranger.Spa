@@ -10,16 +10,21 @@ import { IntegrationEnum } from '../../../models/app/integrations/IntegrationEnu
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import titleCase = require('title-case');
 import { EnvironmentEnum } from '../../../models/EnvironmentEnum';
+import IProject from '../../../models/app/IProject';
 const MUIDataTable = require('mui-datatables').default;
 
 interface IntegrationsProps {
     integrationsState: IntegrationsState;
     addIntegration: (integration: MergedIntegrationType) => void;
     push: typeof push;
+    selectedProject: IProject;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { integrationsState: selectedProjectIntegrations(state.integrationsState.integrations, state.selectedProject.name) };
+    return {
+        integrationsState: selectedProjectIntegrations(state.integrationsState.integrations, state.selectedProject.name),
+        selectedProject: state.selectedProject,
+    };
 };
 
 const selectedProjectIntegrations = (integrations: MergedIntegrationType[], id: string) => {
@@ -42,10 +47,10 @@ class Integrations extends React.Component<IntegrationsProps> {
     };
 
     editIntegration = (rowData: string[]) => {
-        const integrationType = rowData[2] as keyof typeof IntegrationEnum;
+        const integrationType = rowData[2].toUpperCase() as keyof typeof IntegrationEnum;
         switch (integrationType) {
             case IntegrationEnum.WEBHOOK: {
-                this.props.push(`${RoutePaths.IntegrationsEditWebhook}?name=${rowData[0]}`);
+                this.props.push(`${RoutePaths.IntegrationsEditWebhook.replace(':appName', this.props.selectedProject.name)}?name=${rowData[0]}`);
             }
         }
     };

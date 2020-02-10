@@ -352,7 +352,6 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                         >
                                             {props.initialValues.email === '' ? 'Create User' : 'Update User'}
                                         </FormikSynchronousButton>
-                                        )}
                                     </div>
                                 </form>
                             )}

@@ -17,6 +17,11 @@ const useStyles = makeStyles((theme: Theme) =>
         addContainerMargin: {
             marginTop: theme.spacing(1),
         },
+        infoText: {
+            position: 'relative',
+            top: '3px',
+            left: '14px',
+        },
     })
 );
 
@@ -38,19 +43,17 @@ interface FormikDictionaryBuilderProps {
 export default function FormikDictionaryBuilder(props: FormikDictionaryBuilderProps) {
     const classes = useStyles(props);
 
-    const addRow = () => {
-        props.valueArray.push({ key: '', value: '' } as KeyValuePair);
-    };
-
     return (
         <Grid item xs={12}>
-            <Grid container>
-                <Grid classes={{ item: classes.titlePadding }} item xs={12}>
+            <Grid container alignContent="center" justify="center">
+                <Grid classes={{ item: classes.titlePadding }} item xs={11}>
                     <Typography display="inline" color="primary" variant="subtitle1">
                         {props.title}
                     </Typography>
+                </Grid>
+                <Grid item xs={1}>
                     {props.infoText && (
-                        <Tooltip title={props.infoText} placement="right">
+                        <Tooltip className={classes.infoText} title={props.infoText} placement="right">
                             <InformationOutline fontSize="small" />
                         </Tooltip>
                     )}
@@ -63,41 +66,49 @@ export default function FormikDictionaryBuilder(props: FormikDictionaryBuilderPr
                         render={arrayHelpers => (
                             <React.Fragment>
                                 {props.valueArray.map((v, i) => (
-                                    <Grid container spacing={1} justify="space-between">
-                                        <Grid item xs={5}>
-                                            <FormikTextField
-                                                name={`${props.name}.${i}.key`}
-                                                label="Name"
-                                                value={v.key}
-                                                fullWidth
-                                                errorText={props.errorsArray ? props.errorsArray[i]?.key : null}
-                                                touched={props.touchedArray ? props.touchedArray[i]?.key : null}
-                                                onBlur={props.onBlur}
-                                                onChange={props.onChange}
-                                                autoComplete="off"
-                                                required={props.keyRequired ? props.keyRequired : false}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={5}>
-                                            <FormikTextField
-                                                name={`${props.name}.${i}.value`}
-                                                label="Value"
-                                                value={v.value}
-                                                fullWidth
-                                                errorText={props.errorsArray ? props.errorsArray[i]?.value : null}
-                                                touched={props.touchedArray ? props.touchedArray[i]?.value : null}
-                                                onBlur={props.onBlur}
-                                                onChange={props.onChange}
-                                                autoComplete="off"
-                                                required={props.valueRequired ? props.valueRequired : false}
-                                            />
+                                    <Grid container>
+                                        <Grid item xs={11}>
+                                            <Grid container spacing={1} justify="space-between">
+                                                <Grid item xs={6}>
+                                                    <FormikTextField
+                                                        name={`${props.name}.${i}.key`}
+                                                        label="Name"
+                                                        value={v.key}
+                                                        fullWidth
+                                                        errorText={props.errorsArray ? props.errorsArray[i]?.key : null}
+                                                        touched={props.touchedArray ? props.touchedArray[i]?.key : null}
+                                                        onBlur={props.onBlur}
+                                                        onChange={props.onChange}
+                                                        autoComplete="off"
+                                                        required={props.keyRequired ? props.keyRequired : false}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={6}>
+                                                    <FormikTextField
+                                                        name={`${props.name}.${i}.value`}
+                                                        label="Value"
+                                                        value={v.value}
+                                                        fullWidth
+                                                        errorText={props.errorsArray ? props.errorsArray[i]?.value : null}
+                                                        touched={props.touchedArray ? props.touchedArray[i]?.value : null}
+                                                        onBlur={props.onBlur}
+                                                        onChange={props.onChange}
+                                                        autoComplete="off"
+                                                        required={props.valueRequired ? props.valueRequired : false}
+                                                    />
+                                                </Grid>
+                                            </Grid>
                                         </Grid>
                                         <Grid item xs={1}>
-                                            <Tooltip title="Delete entry." placement="left">
-                                                <IconButton aria-label="delete row" color="primary" onClick={() => arrayHelpers.remove(i)}>
-                                                    <Delete />
-                                                </IconButton>
-                                            </Tooltip>
+                                            <Grid container alignContent="center" justify="center">
+                                                <Grid item xs={12}>
+                                                    <Tooltip title="Delete entry." placement="left">
+                                                        <IconButton aria-label="delete row" color="primary" onClick={() => arrayHelpers.remove(i)}>
+                                                            <Delete />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </Grid>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
                                 ))}

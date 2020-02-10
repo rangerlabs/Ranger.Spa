@@ -129,7 +129,7 @@ class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
             this.props.resetGeofences();
             this.props.resetIntegrations();
         }
-        this.props.push(RoutePaths.Projects);
+        this.props.push(`${RoutePaths.ProjectsEdit}?name=${project.name}`);
     }
     render() {
         const { classes, projectsState } = this.props;

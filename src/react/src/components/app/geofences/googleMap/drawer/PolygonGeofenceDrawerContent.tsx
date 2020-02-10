@@ -230,18 +230,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                               ...this.props.editGeofence,
                               integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
                           } as PolygonGeofence)
-                        : new PolygonGeofence(
-                              this.props.selectedProject.projectId,
-                              '',
-                              [],
-                              true,
-                              true,
-                              true,
-                              '',
-                              [],
-                              [new CoordinatePair(0, 0)],
-                              new Map<string, object>()
-                          )
+                        : new PolygonGeofence(this.props.selectedProject.projectId, '', [], true, true, true, '', [], [new CoordinatePair(0, 0)], [])
                 }
                 isInitialValid={this.props.editGeofence ? true : false}
                 onSubmit={(values: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
@@ -255,7 +244,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                         values.description,
                         this.getIntegrationIdsByNames(values.integrationIds),
                         this.props.mapGeofence.coordinatePairArray,
-                        new Map<string, object>()
+                        []
                     );
                     newFence.id = this.props.editGeofence?.id;
 
@@ -286,6 +275,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                             <Grid container item xs={12} spacing={0}>
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <FormikCheckbox
+                                        infoText="Whether the geofence should execute integrations."
                                         name="enabled"
                                         label="Enabled"
                                         value={props.values.enabled}
@@ -297,6 +287,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikTextField
+                                    infoText="A unique identifier for the geofences assigned by you."
                                     name="externalId"
                                     label="External Id"
                                     value={props.values.externalId}
@@ -311,6 +302,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikTextField
+                                    infoText="An optional description for the geofence."
                                     name="description"
                                     label="Description"
                                     value={props.values.description}
@@ -324,6 +316,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikAutocompleteLabelMultiselect
+                                    infoText="The integrations to execute for the geofence."
                                     name="integrations"
                                     label="Integrations"
                                     placeholder=""

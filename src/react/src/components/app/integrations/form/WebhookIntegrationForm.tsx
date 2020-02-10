@@ -2,7 +2,7 @@ import * as React from 'react';
 import IntegrationService from '../../../../services/IntegrationService';
 import { Formik, FormikProps, FormikBag, FormikErrors, FormikTouched } from 'formik';
 import * as Yup from 'yup';
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem } from '@material-ui/core';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, Tooltip } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../../form/FormikTextField';
 import FormikCancelButton from '../../../form/FormikCancelButton';
@@ -142,6 +142,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                     <Grid container spacing={3}>
                                         <Grid item xs={12}>
                                             <FormikSelect
+                                                infoText="The API key environment for which the integration will be called."
                                                 name="environment"
                                                 label="Environment"
                                                 value={props.values.environment}
@@ -155,6 +156,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormikTextField
+                                                infoText="The name of the integration."
                                                 name="name"
                                                 label="Name"
                                                 value={props.values.name}
@@ -163,12 +165,12 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
-                                                disabled={props.initialValues.name === '' ? false : true}
                                                 required
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormikTextField
+                                                infoText="An optional description for the integration."
                                                 name="description"
                                                 label="Description"
                                                 value={props.values.description}
@@ -181,6 +183,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormikTextField
+                                                infoText="The REST endpoint to forward events to."
                                                 name="url"
                                                 label="URL"
                                                 value={props.values.url}
