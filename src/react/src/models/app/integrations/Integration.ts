@@ -5,6 +5,7 @@ import { EnvironmentEnum } from '../../EnvironmentEnum';
 export default interface Integration {
     readonly type: IntegrationEnum;
     correlationModel: CorrelationModel;
+    enabled: boolean;
     id: string;
     name: string;
     description: string;

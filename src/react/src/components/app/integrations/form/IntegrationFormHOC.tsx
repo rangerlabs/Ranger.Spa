@@ -128,9 +128,10 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                     this.props.saveIntegrationToState(integration);
                     this.props.enqueueSnackbar(`Integration '${integration.name}' is pending creation.`, { variant: 'info' });
                     this.props.push('/' + this.props.selectedProject.name + '/integrations');
+                } else {
+                    formikRef.current.setSubmitting(false);
+                    this.setState({ isSuccess: false });
                 }
-                formikRef.current.setSubmitting(false);
-                this.setState({ isSuccess: false });
             });
         };
 
@@ -145,9 +146,10 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                     this.props.saveIntegrationToState(integration);
                     this.props.enqueueSnackbar(`Integration '${integration.name}' is pending update.`, { variant: 'info' });
                     this.props.push('/' + this.props.selectedProject.name + '/integrations');
+                } else {
+                    formikRef.current.setSubmitting(false);
+                    this.setState({ isSuccess: false });
                 }
-                formikRef.current.setSubmitting(false);
-                this.setState({ isSuccess: false });
             });
         };
 
@@ -156,11 +158,13 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                 if (!v.is_error) {
                     this.state.editIntegration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                     this.props.addIntegrationToPendingDeletion(this.state.editIntegration);
+                    this.props.removeIntegration(this.state.editIntegration.name);
                     this.props.enqueueSnackbar(`Integration '${this.state.editIntegration.name}' is pending deletion.`, { variant: 'info' });
                     this.props.push('/' + this.props.selectedProject.name + '/integrations');
+                } else {
+                    formikRef.current.setSubmitting(false);
+                    this.setState({ isSuccess: false });
                 }
-                formikRef.current.setSubmitting(false);
-                this.setState({ isSuccess: false });
             });
         };
 

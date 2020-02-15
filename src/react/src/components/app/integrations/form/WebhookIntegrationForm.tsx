@@ -22,6 +22,7 @@ import { IntegrationEnum } from '../../../../models/app/integrations/Integration
 import FormikSelectValues from '../../../form/interfaces/FormikSelectValuesProp';
 import FormikSelect from '../../../form/FormikSelect';
 import { EnvironmentEnum } from '../../../../models/EnvironmentEnum';
+import FormikCheckbox from '../../../form/FormikCheckbox';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -149,6 +150,19 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             </Grid>
                                         </Grid>
                                     )}
+                                    <Grid container item xs={12} spacing={0}>
+                                        <Grid item xs={12}>
+                                            <FormikCheckbox
+                                                infoText="Whether the integration will execute for geofences."
+                                                name="enabled"
+                                                label="Enabled"
+                                                value={props.values.enabled}
+                                                onChange={props.handleChange}
+                                                onBlur={props.handleBlur}
+                                                disabled={this.props.isPendingCreation}
+                                            />
+                                        </Grid>
+                                    </Grid>
                                     <Grid container spacing={3}>
                                         <Grid item xs={12}>
                                             <FormikSelect
