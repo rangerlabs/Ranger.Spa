@@ -13,6 +13,7 @@ import {
     addIntegration,
     addIntegrationToPendingDeletion,
     addIntegrationToPendingUpdate,
+    removeIntegrationByName,
 } from '../../../../redux/actions/IntegrationActions';
 import IntegrationService from '../../../../services/IntegrationService';
 import { StatusEnum } from '../../../../models/StatusEnum';
@@ -36,6 +37,7 @@ interface DispatchProps {
     addIntegrationToPendingDeletion: (integration: MergedIntegrationType) => void;
     addIntegrationToPendingUpdate: (integration: MergedIntegrationType) => void;
     push: (path: string) => void;
+    removeIntegration: (name: string) => void;
 }
 
 interface IntegrationFormHOCState {
@@ -63,6 +65,10 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         addIntegrationToPendingUpdate: (integration: MergedIntegrationType) => {
             const action = addIntegrationToPendingUpdate(integration);
+            dispatch(action);
+        },
+        removeIntegration: (name: string) => {
+            const action = removeIntegrationByName(name);
             dispatch(action);
         },
         push: (path: string) => {
@@ -100,10 +106,13 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                     const name = params['name'] as string;
                     if (name) {
                         result = this.props.integrationsState.integrations.find(i => i.name === name);
+                        if (!result) {
+                            this.props.push(RoutePaths.Dashboard);
+                        }
                         if (result.type === IntegrationEnum.WEBHOOK) {
                             this.setState({ editIntegration: result });
                         } else {
-                            this.props.push('/');
+                            this.props.push(RoutePaths.Dashboard);
                         }
                     }
                     break;
@@ -126,10 +135,12 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
         };
 
         updateIntegration = (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => {
-            integrationService.putIntegration(this.props.selectedProject.name, integration.name, integration).then(v => {
+            integration.version = this.state.editIntegration.version + 1;
+            integrationService.putIntegration(this.props.selectedProject.name, this.state.editIntegration.id, integration).then(v => {
                 if (!v.is_error) {
                     this.setState({ isSuccess: true });
                     integration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
+                    this.props.removeIntegration(this.state.editIntegration.name);
                     this.props.addIntegrationToPendingUpdate(this.state.editIntegration);
                     this.props.saveIntegrationToState(integration);
                     this.props.enqueueSnackbar(`Integration '${integration.name}' is pending update.`, { variant: 'info' });
@@ -153,7 +164,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
             });
         };
 
-        isPendingCreation = this.state.editIntegration?.correlationModel?.status === StatusEnum.PENDING && !this.state.editIntegration?.id;
+        // isPendingCreation = this.state.editIntegration?.correlationModel?.status === StatusEnum.PENDING && !this.state.editIntegration?.id;
 
         render() {
             return (
@@ -164,7 +175,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                     delete={this.deleteIntegration}
                     isSuccess={this.state.isSuccess}
                     serverErrors={this.state.serverErrors}
-                    isPendingCreation={this.isPendingCreation}
+                    isPendingCreation={this.state.editIntegration?.correlationModel?.status === StatusEnum.PENDING && !this.state.editIntegration?.id}
                     environmentSelectValuesArray={environmentSelectValuesArray}
                     {...(this.props as P)}
                 />

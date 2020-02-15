@@ -11,11 +11,11 @@ export default class WebhookIntegration implements Integration {
     correlationModel: CorrelationModel;
     type: IntegrationEnum;
     id: string;
-    projectName: string;
     name: string;
     description: string;
     url: string;
     headers: KeyValuePair[];
     metadata: KeyValuePair[];
     environment: EnvironmentEnum;
+    version: number;
 }

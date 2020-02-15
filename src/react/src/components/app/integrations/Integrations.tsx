@@ -22,13 +22,9 @@ interface IntegrationsProps {
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        integrationsState: selectedProjectIntegrations(state.integrationsState.integrations, state.selectedProject.name),
+        integrationsState: state.integrationsState,
         selectedProject: state.selectedProject,
     };
-};
-
-const selectedProjectIntegrations = (integrations: MergedIntegrationType[], id: string) => {
-    return integrations.filter(i => i.projectName === id);
 };
 
 const mapDispatchToProps = (dispatch: any) => {

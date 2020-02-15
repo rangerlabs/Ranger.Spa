@@ -9,4 +9,5 @@ export default interface Integration {
     name: string;
     description: string;
     environment: EnvironmentEnum;
+    version: number;
 }

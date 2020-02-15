@@ -29,7 +29,7 @@ interface FormikTextFieldProps extends WithStyles<typeof styles> {
 
 class FormikTextField extends React.Component<FormikTextFieldProps & TextFieldProps> {
     render() {
-        const { name, label, errorText, touched, onBlur, onChange, classes, value, ...rest } = this.props;
+        const { name, label, errorText, touched, onBlur, onChange, classes, value, infoText, ...rest } = this.props;
         return (
             <Grid container alignContent="center" justify="center">
                 <Grid item xs={this.props.infoText ? 11 : 12}>

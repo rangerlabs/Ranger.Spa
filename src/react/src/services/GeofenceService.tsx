@@ -63,8 +63,8 @@ export default class GeofenceService {
     async postGeofence(projectName: string, geofence: Geofence): Promise<IRestResponse<void>> {
         return RestUtilities.post(`${projectName}/geofences`, geofence);
     }
-    async putGeofence(projectName: string, externalId: string, geofence: Geofence): Promise<IRestResponse<void>> {
-        return RestUtilities.put(`${projectName}/geofences/${externalId}`, geofence);
+    async putGeofence(projectName: string, id: string, geofence: Geofence): Promise<IRestResponse<void>> {
+        return RestUtilities.put(`${projectName}/geofences/${id}`, geofence);
     }
     async deleteGeofence(projectName: string, externalId: string): Promise<IRestResponse<void>> {
         return RestUtilities.delete(`${projectName}/geofences/${externalId}`);

@@ -65,7 +65,7 @@ export function integrationReducer(
             const idToRestore = state.integrations.find(
                 (v: Integration) => v.correlationModel?.correlationId === action.integration.correlationModel.correlationId
             ).id;
-            const integrationToRestore = state.pendingUpdate.find((v: Integration) => v.id == idToRestore);
+            const integrationToRestore = state.pendingUpdate.find((v: Integration) => v.id === idToRestore);
             return Object.assign({}, state, {
                 pendingUpdate: state.pendingUpdate.filter((v: Integration) => v.id !== idToRestore),
                 integrations: state.integrations.filter((v: Integration) => v.id !== idToRestore).concat(integrationToRestore),

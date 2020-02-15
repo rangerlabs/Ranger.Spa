@@ -112,7 +112,6 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                     ? this.props.editIntegration
                                     : ({
                                           type: IntegrationEnum.WEBHOOK,
-                                          projectName: '',
                                           name: '',
                                           description: '',
                                           url: '',
@@ -124,7 +123,8 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                             onSubmit={(values: WebhookIntegration, formikBag: FormikBag<FormikProps<WebhookIntegration>, WebhookIntegration>) => {
                                 this.setState({ serverErrors: undefined });
                                 const newIntegration = new WebhookIntegration();
-                                newIntegration.projectName = this.props.selectedProject.name;
+                                newIntegration.id = this.props.editIntegration?.id;
+                                newIntegration.environment = values.environment;
                                 newIntegration.name = values.name;
                                 newIntegration.description = values.description;
                                 newIntegration.url = values.url;
@@ -139,6 +139,16 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                         >
                             {props => (
                                 <form onSubmit={props.handleSubmit}>
+                                    {this.props.isPendingCreation && (
+                                        <Grid container item xs={12} spacing={0}>
+                                            <Grid item xs={12}>
+                                                <Typography align="center" color="error">
+                                                    This integration is pending creation. Please wait until the integration is successfully created to issue
+                                                    updates.
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                    )}
                                     <Grid container spacing={3}>
                                         <Grid item xs={12}>
                                             <FormikSelect
@@ -152,6 +162,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 required
+                                                disabled={this.props.isPendingCreation}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -166,6 +177,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
                                                 required
+                                                disabled={this.props.isPendingCreation}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -179,6 +191,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
+                                                disabled={this.props.isPendingCreation}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -193,6 +206,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                                 onBlur={props.handleBlur}
                                                 autoComplete="off"
                                                 required
+                                                disabled={this.props.isPendingCreation}
                                             />
                                         </Grid>
                                         <FormikDictionaryBuilder
@@ -207,6 +221,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             onBlur={props.handleBlur}
                                             keyRequired
                                             valueRequired
+                                            disabled={this.props.isPendingCreation}
                                         />
                                         <FormikDictionaryBuilder
                                             name="metadata"
@@ -220,6 +235,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             onBlur={props.handleBlur}
                                             keyRequired
                                             valueRequired
+                                            disabled={this.props.isPendingCreation}
                                         />
                                         {this.props.serverErrors && (
                                             <Grid item xs={12}>
@@ -242,6 +258,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                                     dialogTitle="Delete integration?"
                                                     confirmText="Delete"
                                                     dialogContent={'Are you sure you want to delete integration ' + props.values.name + '?'}
+                                                    disabled={this.props.isPendingCreation}
                                                 >
                                                     Delete
                                                 </FormikDeleteButton>
@@ -252,6 +269,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             onClick={() => {
                                                 this.props.push(RoutePaths.Integrations);
                                             }}
+                                            disabled={this.props.isPendingCreation}
                                         />
                                         <FormikSynchronousButton
                                             isValid={props.isValid}

@@ -38,6 +38,7 @@ interface FormikDictionaryBuilderProps {
     valueArray: Array<KeyValuePair>;
     keyRequired?: boolean;
     valueRequired?: boolean;
+    disabled?: boolean;
 }
 
 export default function FormikDictionaryBuilder(props: FormikDictionaryBuilderProps) {
@@ -66,7 +67,7 @@ export default function FormikDictionaryBuilder(props: FormikDictionaryBuilderPr
                         render={arrayHelpers => (
                             <React.Fragment>
                                 {props.valueArray.map((v, i) => (
-                                    <Grid container>
+                                    <Grid container key={`${props.name}.${i}.key`}>
                                         <Grid item xs={11}>
                                             <Grid container spacing={1} justify="space-between">
                                                 <Grid item xs={6}>
@@ -81,6 +82,7 @@ export default function FormikDictionaryBuilder(props: FormikDictionaryBuilderPr
                                                         onChange={props.onChange}
                                                         autoComplete="off"
                                                         required={props.keyRequired ? props.keyRequired : false}
+                                                        disabled={props.disabled}
                                                     />
                                                 </Grid>
                                                 <Grid item xs={6}>
@@ -95,6 +97,7 @@ export default function FormikDictionaryBuilder(props: FormikDictionaryBuilderPr
                                                         onChange={props.onChange}
                                                         autoComplete="off"
                                                         required={props.valueRequired ? props.valueRequired : false}
+                                                        disabled={props.disabled}
                                                     />
                                                 </Grid>
                                             </Grid>
@@ -103,9 +106,16 @@ export default function FormikDictionaryBuilder(props: FormikDictionaryBuilderPr
                                             <Grid container alignContent="center" justify="center">
                                                 <Grid item xs={12}>
                                                     <Tooltip title="Delete entry." placement="left">
-                                                        <IconButton aria-label="delete row" color="primary" onClick={() => arrayHelpers.remove(i)}>
-                                                            <Delete />
-                                                        </IconButton>
+                                                        <span>
+                                                            <IconButton
+                                                                aria-label="delete row"
+                                                                color="primary"
+                                                                disabled={props.disabled}
+                                                                onClick={() => arrayHelpers.remove(i)}
+                                                            >
+                                                                <Delete />
+                                                            </IconButton>
+                                                        </span>
                                                     </Tooltip>
                                                 </Grid>
                                             </Grid>
@@ -115,9 +125,16 @@ export default function FormikDictionaryBuilder(props: FormikDictionaryBuilderPr
                                 <Grid container className={classes.addContainerMargin}>
                                     <Grid item>
                                         <Tooltip title={props.addTooltipText} placement="right">
-                                            <IconButton aria-label="add row" color="primary" onClick={() => arrayHelpers.push({ key: '', value: '' })}>
-                                                <PlusCircleOutline />
-                                            </IconButton>
+                                            <span>
+                                                <IconButton
+                                                    aria-label="add row"
+                                                    color="primary"
+                                                    disabled={props.disabled}
+                                                    onClick={() => arrayHelpers.push({ key: '', value: '' })}
+                                                >
+                                                    <PlusCircleOutline />
+                                                </IconButton>
+                                            </span>
                                         </Tooltip>
                                     </Grid>
                                 </Grid>

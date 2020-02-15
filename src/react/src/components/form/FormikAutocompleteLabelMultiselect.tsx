@@ -128,7 +128,7 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                 >
                     <React.Fragment>
                         {props.label}
-                        {classes.infoText && (
+                        {props.infoText && (
                             <Tooltip className={classes.infoText} title={props.infoText} placement="bottom">
                                 <InformationOutline fontSize="small" />
                             </Tooltip>

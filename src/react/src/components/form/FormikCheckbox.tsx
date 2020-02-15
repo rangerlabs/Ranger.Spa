@@ -25,7 +25,7 @@ interface FormikCheckboxProps extends WithStyles<typeof styles> {
 }
 class FormikCheckbox extends React.Component<FormikCheckboxProps & CheckboxProps> {
     render() {
-        const { name, label, onBlur, onChange, classes, value, color, ...rest } = this.props;
+        const { name, label, onBlur, onChange, classes, value, color, infoText, ...rest } = this.props;
         return (
             <React.Fragment>
                 <FormControlLabel
