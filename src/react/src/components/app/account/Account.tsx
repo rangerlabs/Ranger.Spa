@@ -4,7 +4,21 @@ import UserService from '../../../services/UserService';
 import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
 import { UserProfile } from '../../../models/UserProfile';
 import * as Yup from 'yup';
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, ListItem, Button, Typography } from '@material-ui/core';
+import {
+    withStyles,
+    createStyles,
+    Theme,
+    WithStyles,
+    Paper,
+    Grid,
+    CssBaseline,
+    List,
+    ListItemText,
+    ListItem,
+    Button,
+    Typography,
+    Tooltip,
+} from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikPrimaryButton from '../../form/FormikPrimaryButton';
@@ -21,9 +35,12 @@ import DeleteAccountComponent from '../dialogContents/DeleteAccountContent';
 import { openDialog, DialogContent } from '../../../redux/actions/DialogActions';
 import ChangePasswordContent from '../dialogContents/ChangePasswordContent';
 import ChangeEmailContent from '../dialogContents/ChangeEmailContent';
-import { getRole } from '../../../helpers/Helpers';
+import { getRole, userIsInRole } from '../../../helpers/Helpers';
 import IAccountUpdateModel from '../../../models/app/IAccountUpdateModel';
 import UserManager from '../../../services/UserManager';
+import { RoleEnum } from '../../../models/RoleEnum';
+import InformationOutline from 'mdi-material-ui/InformationOutline';
+import TransferOwnershipContent from '../dialogContents/TransferOwnershipContent';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -101,6 +118,8 @@ class Account extends React.Component<AccountProps, AccountState> {
             .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
             .required('Required'),
     });
+
+    isPrimaryOwner = Boolean(userIsInRole(this.props.user, RoleEnum.PRIMARY_OWNER));
 
     render() {
         const { classes, enqueueSnackbar, dispatchAddUser } = this.props;
@@ -212,6 +231,20 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 disabled
+                                                InputProps={
+                                                    this.isPrimaryOwner && {
+                                                        endAdornment: (
+                                                            <Button
+                                                                disabled={props.isSubmitting}
+                                                                onClick={() => {
+                                                                    this.props.openDialog(new DialogContent((<TransferOwnershipContent />)));
+                                                                }}
+                                                            >
+                                                                Transfer
+                                                            </Button>
+                                                        ),
+                                                    }
+                                                }
                                             />
                                         </Grid>
                                         {this.state.serverErrors && (
@@ -231,9 +264,20 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             <FormikDeleteButton
                                                 isSubmitting={props.isSubmitting}
                                                 dialogTitle="Delete account?"
+                                                disabled={this.isPrimaryOwner}
                                                 dialogContent={<DeleteAccountComponent email={(this.props.user.profile as UserProfile).email} />}
                                             >
                                                 Delete
+                                                {this.isPrimaryOwner && (
+                                                    <Tooltip
+                                                        title={
+                                                            'As the Primary Owner, you must transfer ownership of the domain before you can delete your account.'
+                                                        }
+                                                        placement="bottom"
+                                                    >
+                                                        <InformationOutline fontSize="small" />
+                                                    </Tooltip>
+                                                )}
                                             </FormikDeleteButton>
                                             <Button
                                                 onClick={() => {

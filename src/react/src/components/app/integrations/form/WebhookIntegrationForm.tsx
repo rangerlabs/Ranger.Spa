@@ -113,6 +113,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                     ? this.props.editIntegration
                                     : ({
                                           type: IntegrationEnum.WEBHOOK,
+                                          enabled: true,
                                           name: '',
                                           description: '',
                                           url: '',

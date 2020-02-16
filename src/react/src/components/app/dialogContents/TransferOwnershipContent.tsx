@@ -12,16 +12,21 @@ import { UserProfile } from '../../../models/UserProfile';
 import UserService from '../../../services/UserService';
 import { WithSnackbarProps, withSnackbar } from 'notistack';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+import populateUsersHOC from '../hocs/PopulateUsersHOC';
+import FormikAutocompleteSearch from '../../form/FormikAutocompleteSearch';
+import IUser from '../../../models/app/IUser';
 var userService = new UserService();
 
-interface ChangeEmailContentProps extends WithSnackbarProps {
+interface TransferOwnershipContentProps extends WithSnackbarProps {
     user: User;
+    users: IUser[];
     closeDialog: () => void;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
         user: state.oidc.user,
+        users: state.usersState.users.filter(u => u.emailConfirmed === true && u.email !== (state.oidc.user.profile as UserProfile).email),
     };
 };
 
@@ -34,7 +39,8 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): JSX.Element {
+function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnershipContentProps): JSX.Element {
+    const formikRef: React.RefObject<Formik> = React.createRef();
     const [serverError, setServerError] = useState(undefined as string);
     const [success, setSuccess] = useState(false);
 
@@ -47,48 +53,37 @@ function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): J
     return (
         <React.Fragment>
             <Formik
+                ref={formikRef}
                 initialValues={{ email: '' }}
-                onSubmit={(values: IRequestEmailChangeModel, formikBag: FormikBag<FormikProps<IRequestEmailChangeModel>, IRequestEmailChangeModel>) => {
-                    setServerError(undefined);
-                    userService.requestEmailChanage((changeEmailContentProps.user.profile as UserProfile).email, values).then((success: boolean) => {
-                        setTimeout(() => {
-                            if (!success) {
-                                changeEmailContentProps.enqueueSnackbar('Failed to send confirmation email, the provided email is already in use.', {
-                                    variant: 'error',
-                                });
-                                setServerError('The email address is already in use.');
-                                formikBag.setSubmitting(false);
-                            } else {
-                                changeEmailContentProps.enqueueSnackbar('An email confirmation link was sent.', { variant: 'success' });
-                                setSuccess(true);
-                                changeEmailContentProps.closeDialog();
-                            }
-                        }, 350);
-                    });
-                }}
+                onSubmit={(values: ITransferOwnershipModel, formikBag: FormikBag<FormikProps<ITransferOwnershipModel>, ITransferOwnershipModel>) => {}}
                 validationSchema={validationSchema}
             >
                 {props => (
                     <React.Fragment>
-                        <DialogTitle>Change account email</DialogTitle>
+                        <DialogTitle>Transfer Primary Ownership</DialogTitle>
                         <form onSubmit={props.handleSubmit}>
                             <DialogContent>
-                                <DialogContentText>Please enter your new email address.</DialogContentText>
-                                <FormikTextField
+                                <DialogContentText> Please enter the email address of the user you want to transfer primary ownership to.</DialogContentText>
+                                <DialogContentText color="error">
+                                    Once the transfer is accepted you will be assigned the role of Owner and the new Primary Owner may further demote you.
+                                    Proceed with caution.
+                                </DialogContentText>
+                                <FormikAutocompleteSearch
                                     name="email"
                                     label="Email"
-                                    value={props.values.email}
+                                    options={transferOwnershipContentProps.users.map(u => u.email)}
                                     errorText={props.errors.email}
                                     touched={props.touched.email}
-                                    onChange={props.handleChange}
+                                    onChange={(event: React.ChangeEvent<{}>, values: string) => {
+                                        formikRef.current.setFieldValue('email', values, true);
+                                    }}
                                     onBlur={props.handleBlur}
-                                    autoComplete="off"
                                     required
                                 />
                                 {serverError && <Typography color="error">{serverError}</Typography>}
                             </DialogContent>
                             <DialogActions>
-                                <Button disabled={props.isSubmitting} onClick={changeEmailContentProps.closeDialog} color="primary" variant="text">
+                                <Button disabled={props.isSubmitting} onClick={transferOwnershipContentProps.closeDialog} color="primary" variant="text">
                                     Cancel
                                 </Button>
                                 <FormikSynchronousButton
@@ -98,7 +93,7 @@ function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): J
                                     isSubmitting={props.isSubmitting}
                                     variant="text"
                                 >
-                                    Request Email Change
+                                    Transfer Primary Ownership
                                 </FormikSynchronousButton>
                             </DialogActions>
                         </form>
@@ -109,4 +104,4 @@ function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): J
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(ChangeEmailContent));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(populateUsersHOC(TransferOwnershipContent)));

@@ -56,6 +56,7 @@ class Geofences extends React.Component<GeofencesProps> {
         if (geofences) {
             geofences.forEach(value => {
                 tableGeofences.push([
+                    value.enabled ? 'Enabled' : 'Disabled',
                     value.externalId,
                     value.description,
                     value.shape == ShapePicker.Circle ? 'Circle' : 'Polygon',
@@ -68,6 +69,12 @@ class Geofences extends React.Component<GeofencesProps> {
     }
 
     columns = [
+        {
+            name: 'Enabled',
+            options: {
+                filter: true,
+            },
+        },
         {
             name: 'Name',
             options: {

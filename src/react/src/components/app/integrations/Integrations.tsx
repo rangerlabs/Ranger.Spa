@@ -43,7 +43,7 @@ class Integrations extends React.Component<IntegrationsProps> {
     };
 
     editIntegration = (rowData: string[]) => {
-        const integrationType = rowData[2].toUpperCase() as keyof typeof IntegrationEnum;
+        const integrationType = rowData[3].toUpperCase() as keyof typeof IntegrationEnum;
         switch (integrationType) {
             case IntegrationEnum.WEBHOOK: {
                 this.props.push(`${RoutePaths.IntegrationsEditWebhook.replace(':appName', this.props.selectedProject.name)}?name=${rowData[0]}`);
@@ -59,13 +59,25 @@ class Integrations extends React.Component<IntegrationsProps> {
         const tableIntegrations = new Array<Array<string>>();
         if (integrations) {
             integrations.forEach(value => {
-                tableIntegrations.push([value.name, value.description, titleCase(value.type), value.environment === EnvironmentEnum.TEST ? 'Test' : 'Live']);
+                tableIntegrations.push([
+                    value.enabled ? 'Enabled' : 'Disabled',
+                    value.name,
+                    value.description,
+                    titleCase(value.type),
+                    value.environment === EnvironmentEnum.TEST ? 'Test' : 'Live',
+                ]);
             });
         }
         return tableIntegrations;
     }
 
     columns = [
+        {
+            name: 'Enabled',
+            options: {
+                filter: true,
+            },
+        },
         {
             name: 'Name',
             options: {
