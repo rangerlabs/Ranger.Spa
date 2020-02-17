@@ -404,7 +404,9 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         }}
                                         isSubmitting={props.isSubmitting}
                                         disabled={this.isPendingCreation()}
-                                    />
+                                    >
+                                        Delete
+                                    </FormikDeleteButton>
                                 )}
                             </div>
                             <FormikCancelButton isSubmitting={props.isSubmitting} onClick={this.cancelGeofence} />

@@ -35,11 +35,15 @@ export default class UserService {
     }
 
     async updateAccount(email: string, accountUpdateModel: IAccountUpdateModel): Promise<IRestResponse<void>> {
-        return RestUtilities.put(`/accounts/${email}`, accountUpdateModel);
+        return RestUtilities.put(`/account/${email}`, accountUpdateModel);
+    }
+
+    async transferPrimaryOwnership(transferPrimaryOwnershipModel: ITransferOwnershipModel): Promise<IRestResponse<void>> {
+        return RestUtilities.post('/account/transfer-primary-ownership', transferPrimaryOwnershipModel);
     }
 
     async deleteAccount(email: string, accountDeleteModel: IAccountDeleteModel): Promise<IRestResponse<void>> {
-        return RestUtilities.delete(`/accounts/${email}`, accountDeleteModel);
+        return RestUtilities.delete(`/account/${email}`, accountDeleteModel);
     }
 
     async deleteUser(email: string): Promise<IRestResponse<void>> {

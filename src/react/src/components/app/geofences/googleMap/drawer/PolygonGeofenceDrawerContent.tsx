@@ -406,7 +406,9 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                         }}
                                         isSubmitting={props.isSubmitting}
                                         disabled={this.isPendingCreation()}
-                                    />
+                                    >
+                                        Delete
+                                    </FormikDeleteButton>
                                 )}
                             </div>
                             <FormikCancelButton isSubmitting={props.isSubmitting} onClick={this.cancelGeofence} />

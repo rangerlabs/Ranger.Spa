@@ -269,14 +269,16 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             >
                                                 Delete
                                                 {this.isPrimaryOwner && (
-                                                    <Tooltip
-                                                        title={
-                                                            'As the Primary Owner, you must transfer ownership of the domain before you can delete your account.'
-                                                        }
-                                                        placement="bottom"
-                                                    >
-                                                        <InformationOutline fontSize="small" />
-                                                    </Tooltip>
+                                                    <span>
+                                                        <Tooltip
+                                                            title={
+                                                                'As the Primary Owner, you must transfer ownership of the domain before you can delete your account.'
+                                                            }
+                                                            placement="bottom"
+                                                        >
+                                                            <InformationOutline fontSize="small" />
+                                                        </Tooltip>
+                                                    </span>
                                                 )}
                                             </FormikDeleteButton>
                                             <Button

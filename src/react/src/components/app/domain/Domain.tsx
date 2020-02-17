@@ -91,7 +91,7 @@ class Domain extends React.Component<IDomainProps, DomainState> {
                                                 dialogTitle={`Delete ${this.props.domain}?`}
                                                 dialogContent={<DeleteDomainContent name={this.props.domain} />}
                                             >
-                                                Delete Domain
+                                                Delete
                                             </FormikDeleteButton>
                                         </div>
                                     </div>
