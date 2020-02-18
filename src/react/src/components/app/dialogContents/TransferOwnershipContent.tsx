@@ -55,7 +55,17 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
             <Formik
                 ref={formikRef}
                 initialValues={{ email: '' }}
-                onSubmit={(values: ITransferOwnershipModel, formikBag: FormikBag<FormikProps<ITransferOwnershipModel>, ITransferOwnershipModel>) => {}}
+                onSubmit={(values: ITransferOwnershipModel, formikBag: FormikBag<FormikProps<ITransferOwnershipModel>, ITransferOwnershipModel>) => {
+                    userService.transferPrimaryOwnership(values).then(v => {
+                        if (v.is_error) {
+                            setServerError('Failed to submit the transfer request.');
+                            transferOwnershipContentProps.enqueueSnackbar('Failed to submit the transfer request.', { variant: 'error' });
+                        }
+                        formikRef.current.setSubmitting(false);
+                        transferOwnershipContentProps.enqueueSnackbar('Successfully initiated the Primary Owner transfer process.', { variant: 'success' });
+                        transferOwnershipContentProps.closeDialog();
+                    });
+                }}
                 validationSchema={validationSchema}
             >
                 {props => (
@@ -65,8 +75,8 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
                             <DialogContent>
                                 <DialogContentText> Please enter the email address of the user you want to transfer primary ownership to.</DialogContentText>
                                 <DialogContentText color="error">
-                                    Once the transfer is accepted you will be assigned the role of Owner and the new Primary Owner may further demote you.
-                                    Proceed with caution.
+                                    Once the transfer is accepted by the user of your choosing you will be assigned the role of Owner and the new Primary Owner
+                                    may further demote you. Proceed with caution.
                                 </DialogContentText>
                                 <FormikAutocompleteSearch
                                     name="email"

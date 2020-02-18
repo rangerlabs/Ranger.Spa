@@ -4,6 +4,7 @@ import IConfirmModel from '../models/landing/IConfirmModel';
 import IResetPasswordModel from '../models/landing/IPasswordResetModel';
 import IChangeEmailModel from '../models/landing/IChangeEmailModel';
 import IAccountUpdateModel from '../models/app/IAccountUpdateModel';
+import ITransferPrimaryOwnershipModel from '../models/landing/ITransferPrimaryOwnershipModel';
 
 export default class UserService {
     async getUsers(): Promise<IRestResponse<IUser[]>> {
@@ -44,6 +45,24 @@ export default class UserService {
 
     async deleteAccount(email: string, accountDeleteModel: IAccountDeleteModel): Promise<IRestResponse<void>> {
         return RestUtilities.delete(`/account/${email}`, accountDeleteModel);
+    }
+
+    async acceptPrimaryOwnership(domain: string, transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
+        return RestUtilities.post(`/account/accept-primary-ownership`, transferPrimaryOwnershipModel).then(value => {
+            if (value.is_error) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    async refusePrimaryOwnership(domain: string, transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
+        return RestUtilities.post(`/account/refuse-primary-ownership`, transferPrimaryOwnershipModel).then(value => {
+            if (value.is_error) {
+                return false;
+            }
+            return true;
+        });
     }
 
     async deleteUser(email: string): Promise<IRestResponse<void>> {
