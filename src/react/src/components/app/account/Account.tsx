@@ -261,26 +261,16 @@ class Account extends React.Component<AccountProps, AccountState> {
                                     </Grid>
                                     <div className={classes.flexButtonContainer}>
                                         <div className={classes.leftButtons}>
-                                            <FormikDeleteButton
-                                                isSubmitting={props.isSubmitting}
-                                                dialogTitle="Delete account?"
-                                                disabled={this.isPrimaryOwner}
-                                                dialogContent={<DeleteAccountComponent email={(this.props.user.profile as UserProfile).email} />}
-                                            >
-                                                Delete
-                                                {this.isPrimaryOwner && (
-                                                    <span>
-                                                        <Tooltip
-                                                            title={
-                                                                'As the Primary Owner, you must transfer ownership of the domain before you can delete your account.'
-                                                            }
-                                                            placement="bottom"
-                                                        >
-                                                            <InformationOutline fontSize="small" />
-                                                        </Tooltip>
-                                                    </span>
-                                                )}
-                                            </FormikDeleteButton>
+                                            {this.isPrimaryOwner && (
+                                                <FormikDeleteButton
+                                                    isSubmitting={props.isSubmitting}
+                                                    dialogTitle="Delete account?"
+                                                    disabled={this.isPrimaryOwner}
+                                                    dialogContent={<DeleteAccountComponent email={(this.props.user.profile as UserProfile).email} />}
+                                                >
+                                                    Delete
+                                                </FormikDeleteButton>
+                                            )}
                                             <Button
                                                 onClick={() => {
                                                     this.props.openDialog(new DialogContent((<ChangePasswordContent />)));

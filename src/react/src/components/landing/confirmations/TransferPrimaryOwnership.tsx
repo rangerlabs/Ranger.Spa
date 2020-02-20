@@ -120,14 +120,22 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
                     <React.Fragment>
                         <Grid direction="column" container spacing={3} justify="center" alignItems="center">
                             <Grid item>
-                                <Typography gutterBottom align="center" variant="h5">
-                                    {this.getResponseFromParams() === TransferPrimaryOwnershipResponseEnum.ACCEPT
-                                        ? 'You have successfully accepted the role of Primary Owner. Your new permissions will be available shortly.'
-                                        : 'You have successfully declined the role of Primary Owner.'}
-                                    }
-                                </Typography>
+                                {this.getResponseFromParams() === TransferPrimaryOwnershipResponseEnum.ACCEPT ? (
+                                    <React.Fragment>
+                                        <Typography gutterBottom align="center" variant="h5">
+                                            Your request to accept the role of Primary Owner has been accepted.
+                                        </Typography>
+                                        <Typography gutterBottom align="center" variant="h5">
+                                            Your new permissions will be available shortly.
+                                        </Typography>
+                                    </React.Fragment>
+                                ) : (
+                                    <Typography gutterBottom align="center" variant="h5">
+                                        Your request to decline the role of Primary Owner has been accepted.
+                                    </Typography>
+                                )}
                                 <Typography gutterBottom align="center" variant="subtitle1">
-                                    Click below to continue.
+                                    Click below to login to Ranger.
                                 </Typography>
                             </Grid>
                             <Grid item>
