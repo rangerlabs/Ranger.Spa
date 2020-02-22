@@ -47,6 +47,15 @@ export default class UserService {
         return RestUtilities.delete(`/account/${email}`, accountDeleteModel);
     }
 
+    async cancelPrimaryOwnershipTransfer(domain: string, transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
+        return RestUtilities.post(`/account/cancel-ownership-transfer `, transferPrimaryOwnershipModel).then(value => {
+            if (value.is_error) {
+                return false;
+            }
+            return true;
+        });
+    }
+
     async acceptPrimaryOwnership(domain: string, transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
         return RestUtilities.post(`/account/accept-primary-ownership`, transferPrimaryOwnershipModel).then(value => {
             if (value.is_error) {

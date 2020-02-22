@@ -14,6 +14,7 @@ import ConfirmUser from './landing/confirmations/ConfirmUser';
 import PasswordReset from './landing/confirmations/PasswordReset';
 import EmailChange from './landing/confirmations/EmailChange';
 import TransferPrimaryOwnership from './landing/confirmations/TransferPrimaryOwnership';
+import CancelTransferPrimaryOwnership from './landing/confirmations/CancelTransferPrimaryOwnership';
 
 export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: '/error/:code?', component: ErrorPage },
@@ -30,4 +31,5 @@ export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: RoutePaths.PasswordReset, component: PasswordReset },
     { exact: true, path: RoutePaths.EmailChange, component: EmailChange },
     { exact: true, path: RoutePaths.TransferPrimaryOwnership, component: TransferPrimaryOwnership },
+    { exact: true, path: RoutePaths.CancelTransferPrimaryOwnership, component: CancelTransferPrimaryOwnership },
 ];

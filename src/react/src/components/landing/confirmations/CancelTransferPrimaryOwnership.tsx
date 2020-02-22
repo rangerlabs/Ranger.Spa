@@ -45,25 +45,6 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
         isRequesting: true,
     };
 
-    getTokenFromParams(): string {
-        const params = queryString.parse(window.location.search);
-        const token = params['token'] as string;
-        return token;
-    }
-
-    getResponseFromParams(): TransferPrimaryOwnershipResponseEnum {
-        const params = queryString.parse(window.location.search);
-        const response = params['response'] as string;
-        switch (response) {
-            case TransferPrimaryOwnershipResponseEnum.REJECT:
-            case TransferPrimaryOwnershipResponseEnum.ACCEPT: {
-                return response;
-            }
-            default:
-                throw 'Invalid response.';
-        }
-    }
-
     getCorrelationIdFromParams(): string {
         const params = queryString.parse(window.location.search);
         const correlationId = params['correlationId'] as string;
@@ -71,34 +52,19 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
     }
 
     componentDidMount() {
-        const token = this.getTokenFromParams();
         const correlationId = this.getCorrelationIdFromParams();
         const confirmModel = {
             CorrelationId: correlationId,
-            Token: token,
         } as ITransferPrimaryOwnershipModel;
-        switch (this.getResponseFromParams()) {
-            case TransferPrimaryOwnershipResponseEnum.REJECT: {
-                userService
-                    .refusePrimaryOwnership(getSubDomain(), confirmModel)
-                    .then(v => {
-                        this.setState({ confirmed: v, isRequesting: false });
-                    })
-                    .catch(r => {
-                        this.setState({ isRequesting: false });
-                    });
-            }
-            case TransferPrimaryOwnershipResponseEnum.ACCEPT: {
-                userService
-                    .acceptPrimaryOwnership(getSubDomain(), confirmModel)
-                    .then(v => {
-                        this.setState({ confirmed: v, isRequesting: false });
-                    })
-                    .catch(r => {
-                        this.setState({ isRequesting: false });
-                    });
-            }
-        }
+
+        userService
+            .cancelPrimaryOwnershipTransfer(getSubDomain(), confirmModel)
+            .then(v => {
+                this.setState({ confirmed: v, isRequesting: false });
+            })
+            .catch(r => {
+                this.setState({ isRequesting: false });
+            });
     }
 
     render() {
@@ -107,7 +73,7 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
                 {this.state.isRequesting && (
                     <Grid container spacing={3} justify="center" alignItems="center">
                         <Grid item xs={12}>
-                            <Typography variant="h5">Please wait while we process your transfer request.</Typography>
+                            <Typography variant="h5">Please wait while we process your cancellation request.</Typography>
                             <LinearProgress />
                         </Grid>
                     </Grid>
@@ -116,23 +82,14 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
                     <React.Fragment>
                         <Grid direction="column" container spacing={3} justify="center" alignItems="center">
                             <Grid item>
-                                {this.getResponseFromParams() === TransferPrimaryOwnershipResponseEnum.ACCEPT ? (
-                                    <React.Fragment>
-                                        <Typography gutterBottom align="center" variant="h5">
-                                            Your request to accept the role of Primary Owner has been accepted.
-                                        </Typography>
-                                        <Typography gutterBottom align="center" variant="h5">
-                                            Your new permissions will be available shortly.
-                                        </Typography>
-                                    </React.Fragment>
-                                ) : (
+                                <React.Fragment>
                                     <Typography gutterBottom align="center" variant="h5">
-                                        Your request to decline the role of Primary Owner has been accepted.
+                                        Your request to cancel the transfer the of Primary Owner role has been accepted.
                                     </Typography>
-                                )}
-                                <Typography gutterBottom align="center" variant="subtitle1">
-                                    Click below to login to Ranger.
-                                </Typography>
+                                    <Typography gutterBottom align="center" variant="subtitle1">
+                                        Click below to login to Ranger.
+                                    </Typography>
+                                </React.Fragment>
                             </Grid>
                             <Grid item>
                                 <Button
@@ -154,10 +111,10 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
                     <Grid container spacing={3} justify="center" alignItems="center">
                         <Grid item xs={12}>
                             <Typography align="center" variant="h5">
-                                Failed to submit your transfer response.
+                                Failed to submit your request to cancel the Primary Owner Transfer.
                             </Typography>
                             <Typography align="center" variant="subtitle1">
-                                Verify the transfer link was correct.
+                                Verify the cancellation link was correct.
                             </Typography>
                         </Grid>
                     </Grid>
