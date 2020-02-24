@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { Button, DialogContentText, TextField, DialogContent, DialogActions, DialogTitle } from '@material-ui/core';
-import { connect } from 'react-redux';
-import { closeDialog } from '../../../redux/actions/DialogActions';
 
 interface NewProjectApiKeysContentProps {
     liveApiKey: string;

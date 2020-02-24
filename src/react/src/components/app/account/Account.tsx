@@ -4,21 +4,7 @@ import UserService from '../../../services/UserService';
 import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
 import { UserProfile } from '../../../models/UserProfile';
 import * as Yup from 'yup';
-import {
-    withStyles,
-    createStyles,
-    Theme,
-    WithStyles,
-    Paper,
-    Grid,
-    CssBaseline,
-    List,
-    ListItemText,
-    ListItem,
-    Button,
-    Typography,
-    Tooltip,
-} from '@material-ui/core';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, ListItem, Button, Typography } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikPrimaryButton from '../../form/FormikPrimaryButton';
@@ -39,8 +25,10 @@ import { getRole, userIsInRole } from '../../../helpers/Helpers';
 import IAccountUpdateModel from '../../../models/app/IAccountUpdateModel';
 import UserManager from '../../../services/UserManager';
 import { RoleEnum } from '../../../models/RoleEnum';
-import InformationOutline from 'mdi-material-ui/InformationOutline';
 import TransferOwnershipContent from '../dialogContents/TransferOwnershipContent';
+import populatePendingPrimaryOwnerTransferHOC from '../hocs/PopulatePendingPrimaryOwnerTransferHOC';
+import { PendingPrimaryOwnerTransfer } from '../../../models/app/PendingPrimaryOwnerTransfer';
+import CancelOwnershipTransferContent from '../dialogContents/CancelOwnershipTransferContent';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -74,6 +62,7 @@ const styles = (theme: Theme) =>
 
 interface AccountProps extends WithStyles<typeof styles>, WithSnackbarProps {
     user: User;
+    pendingPrimaryOwnerTransfer: PendingPrimaryOwnerTransfer;
     openDialog: (dialogContent: DialogContent) => void;
     dispatchAddUser: (user: IUser) => void;
     expireUser: () => void;
@@ -88,6 +77,7 @@ interface AccountState {
 const mapStateToProps = (state: ApplicationState) => {
     return {
         user: state.oidc.user,
+        pendingPrimaryOwnerTransfer: state.domain.pendingPrimaryOwnerTransfer,
     };
 };
 
@@ -232,18 +222,33 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 onBlur={props.handleBlur}
                                                 disabled
                                                 InputProps={
-                                                    this.isPrimaryOwner && {
-                                                        endAdornment: (
-                                                            <Button
-                                                                disabled={props.isSubmitting}
-                                                                onClick={() => {
-                                                                    this.props.openDialog(new DialogContent((<TransferOwnershipContent />)));
-                                                                }}
-                                                            >
-                                                                Transfer
-                                                            </Button>
-                                                        ),
-                                                    }
+                                                    this.isPrimaryOwner
+                                                        ? this.props.pendingPrimaryOwnerTransfer
+                                                            ? {
+                                                                  endAdornment: (
+                                                                      <Button
+                                                                          disabled={props.isSubmitting}
+                                                                          onClick={() => {
+                                                                              this.props.openDialog(new DialogContent((<CancelOwnershipTransferContent />)));
+                                                                          }}
+                                                                      >
+                                                                          Cancel Transfer
+                                                                      </Button>
+                                                                  ),
+                                                              }
+                                                            : {
+                                                                  endAdornment: (
+                                                                      <Button
+                                                                          disabled={props.isSubmitting}
+                                                                          onClick={() => {
+                                                                              this.props.openDialog(new DialogContent((<TransferOwnershipContent />)));
+                                                                          }}
+                                                                      >
+                                                                          Transfer
+                                                                      </Button>
+                                                                  ),
+                                                              }
+                                                        : null
                                                 }
                                             />
                                         </Grid>
@@ -304,4 +309,4 @@ class Account extends React.Component<AccountProps, AccountState> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withSnackbar(Account)));
+export default connect(mapStateToProps, mapDispatchToProps)(populatePendingPrimaryOwnerTransferHOC(withStyles(styles)(withSnackbar(Account))));

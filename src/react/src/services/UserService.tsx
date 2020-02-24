@@ -47,16 +47,11 @@ export default class UserService {
         return RestUtilities.delete(`/account/${email}`, accountDeleteModel);
     }
 
-    async cancelPrimaryOwnershipTransfer(domain: string, transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
-        return RestUtilities.post(`/account/cancel-ownership-transfer `, transferPrimaryOwnershipModel).then(value => {
-            if (value.is_error) {
-                return false;
-            }
-            return true;
-        });
+    async cancelPrimaryOwnershipTransfer(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<IRestResponse<void>> {
+        return RestUtilities.post(`/account/cancel-ownership-transfer `, transferPrimaryOwnershipModel);
     }
 
-    async acceptPrimaryOwnership(domain: string, transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
+    async acceptPrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
         return RestUtilities.post(`/account/accept-primary-ownership`, transferPrimaryOwnershipModel).then(value => {
             if (value.is_error) {
                 return false;
@@ -65,7 +60,7 @@ export default class UserService {
         });
     }
 
-    async refusePrimaryOwnership(domain: string, transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
+    async refusePrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
         return RestUtilities.post(`/account/refuse-primary-ownership`, transferPrimaryOwnershipModel).then(value => {
             if (value.is_error) {
                 return false;

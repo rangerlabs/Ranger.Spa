@@ -80,7 +80,7 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
         switch (this.getResponseFromParams()) {
             case TransferPrimaryOwnershipResponseEnum.REJECT: {
                 userService
-                    .refusePrimaryOwnership(getSubDomain(), confirmModel)
+                    .refusePrimaryOwnership(confirmModel)
                     .then(v => {
                         this.setState({ confirmed: v, isRequesting: false });
                     })
@@ -90,7 +90,7 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
             }
             case TransferPrimaryOwnershipResponseEnum.ACCEPT: {
                 userService
-                    .acceptPrimaryOwnership(getSubDomain(), confirmModel)
+                    .acceptPrimaryOwnership(confirmModel)
                     .then(v => {
                         this.setState({ confirmed: v, isRequesting: false });
                     })
