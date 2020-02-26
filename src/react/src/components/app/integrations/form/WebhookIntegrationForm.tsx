@@ -125,7 +125,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                             onSubmit={(values: WebhookIntegration, formikBag: FormikBag<FormikProps<WebhookIntegration>, WebhookIntegration>) => {
                                 this.setState({ serverErrors: undefined });
                                 const newIntegration = new WebhookIntegration();
-                                newIntegration.id = this.props.editIntegration?.id;
+                                newIntegration.integrationId = this.props.editIntegration?.integrationId;
                                 newIntegration.environment = values.environment;
                                 newIntegration.name = values.name;
                                 newIntegration.description = values.description;

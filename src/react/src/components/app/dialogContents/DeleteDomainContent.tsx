@@ -14,15 +14,17 @@ import {
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps } from 'formik';
 import * as Yup from 'yup';
-import FormikPrimaryButton from '../../form/FormikPrimaryButton';
 import IProject from '../../../models/app/IProject';
-import ProjectService from '../../../services/ProjectService';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import { closeDialog } from '../../../redux/actions/DialogActions';
+import TenantService from '../../../services/TenantService';
+import RoutePaths from '../../RoutePaths';
+import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+import { ApplicationState } from '../../../stores';
 
-const projectService = new ProjectService();
+const tenantService = new TenantService();
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -38,8 +40,15 @@ interface DeleteDomainContentProps extends WithStyles<typeof styles>, WithSnackb
 }
 
 interface DeleteDomainContentState {
+    isSuccess: boolean;
     serverError: string;
 }
+
+const mapStateToProps = (state: ApplicationState) => {
+    return {
+        name: state.domain.domain,
+    };
+};
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
@@ -51,8 +60,9 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-class DeleteDomainContent extends React.Component<DeleteDomainContentProps> {
+class DeleteDomainContent extends React.Component<DeleteDomainContentProps, DeleteDomainContentState> {
     state = {
+        isSuccess: false,
         serverError: undefined as string,
     };
     validationSchema = Yup.object().shape({
@@ -67,16 +77,16 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps> {
                 <Formik
                     initialValues={{ name: '' }}
                     onSubmit={(values: Partial<IProject>, formikBag: FormikBag<FormikProps<Partial<IProject>>, Partial<IProject>>) => {
-                        this.setState({ serverError: undefined });
-                        // projectService.deleteProject(deleteProjectContentProps.id).then((response: IRestResponse<void>) => {
-                        //     if (response.is_error) {
-                        //         deleteProjectContentProps.enqueueSnackbar('An error occurred deleting the domain', { variant: 'error' });
-                        //     } else {
-                        //         deleteProjectContentProps.closeDialog();
-                        //         deleteProjectContentProps.enqueueSnackbar('Domain deleted', { variant: 'success' });
-                        //         deleteProjectContentProps.push(RoutePaths.Projects);
-                        //     }
-                        // });
+                        tenantService.deleteDomain(values.name).then(v => {
+                            if (!v.is_error) {
+                                this.setState({ isSuccess: true });
+                                this.props.closeDialog();
+                                this.props.push(RoutePaths.Logout);
+                            } else {
+                                this.setState({ serverError: undefined });
+                            }
+                            formikBag.setSubmitting(false);
+                        });
                     }}
                     validationSchema={this.validationSchema}
                 >
@@ -89,8 +99,7 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps> {
                                         We're sorry to see you go. If there is anything we can help with, please contact us at support@rangerlabs.io.
                                     </DialogContentText>
                                     <DialogContentText color="error">
-                                        To delete this domain and all associated data, please confirm the domain name. Once your request is accepted, your data
-                                        cannot be recovered.
+                                        To delete your organization, please enter your domain name as shown below.
                                     </DialogContentText>
                                     <DialogContentText className={this.props.classes.bold} color="error">
                                         {this.props.name}
@@ -112,9 +121,15 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps> {
                                     <Button onClick={this.props.closeDialog} color="primary" variant="text">
                                         Cancel
                                     </Button>
-                                    <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
+                                    <FormikSynchronousButton
+                                        denseMargin
+                                        isValid={props.isValid}
+                                        isSuccess={this.state.isSuccess}
+                                        isSubmitting={props.isSubmitting}
+                                        variant="text"
+                                    >
                                         Delete domain
-                                    </FormikPrimaryButton>
+                                    </FormikSynchronousButton>
                                 </DialogActions>
                             </form>
                         </React.Fragment>
@@ -125,4 +140,4 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps> {
     }
 }
 
-export default withStyles(styles, { withTheme: true })(connect(null, mapDispatchToProps)(withSnackbar(DeleteDomainContent)));
+export default withStyles(styles, { withTheme: true })(connect(mapStateToProps, mapDispatchToProps)(withSnackbar(DeleteDomainContent)));

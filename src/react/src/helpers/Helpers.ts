@@ -17,7 +17,7 @@ export function getSubDomain(): string {
 export function getIntegrationsFromIntegrationIds(integrationIds: string[], integrations: MergedIntegrationType[]) {
     const integrationArray = [] as MergedIntegrationType[];
     integrationIds.map(id => {
-        const integration = integrations.find(i => i.id === id);
+        const integration = integrations.find(i => i.integrationId === id);
         if (integration) {
             integrationArray.push(integration);
         }

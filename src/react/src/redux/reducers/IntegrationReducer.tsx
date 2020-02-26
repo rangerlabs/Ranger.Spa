@@ -30,14 +30,14 @@ export function integrationReducer(
             var integrationIndex = state.integrations.findIndex(g => g.correlationModel?.correlationId === action.integration.correlationModel.correlationId);
             var updatedIntegration = state.integrations[integrationIndex];
             updatedIntegration.correlationModel.status = action.integration.correlationModel.status;
-            updatedIntegration.id = action.integration.correlationModel.resourceId;
+            updatedIntegration.integrationId = action.integration.correlationModel.resourceId;
             let newArray = state.integrations.slice();
             newArray.splice(integrationIndex, 1, updatedIntegration);
             return Object.assign({}, state, { integrations: newArray });
         }
         case UPDATE_INTEGRATION_BY_ID: {
             {
-                const integrationIndex = state.integrations.findIndex(g => g.id == action.integration.id);
+                const integrationIndex = state.integrations.findIndex(g => g.integrationId == action.integration.integrationId);
                 let newArray = state.integrations.slice();
                 newArray.splice(integrationIndex, 1, action.integration);
                 return Object.assign({}, state, { integrations: newArray });
@@ -64,16 +64,16 @@ export function integrationReducer(
         case UNDO_PENDING_UPDATE_INTEGRATION_BY_CORRELATION_ID: {
             const idToRestore = state.integrations.find(
                 (v: Integration) => v.correlationModel?.correlationId === action.integration.correlationModel.correlationId
-            ).id;
-            const integrationToRestore = state.pendingUpdate.find((v: Integration) => v.id === idToRestore);
+            ).integrationId;
+            const integrationToRestore = state.pendingUpdate.find((v: Integration) => v.integrationId === idToRestore);
             return Object.assign({}, state, {
-                pendingUpdate: state.pendingUpdate.filter((v: Integration) => v.id !== idToRestore),
-                integrations: state.integrations.filter((v: Integration) => v.id !== idToRestore).concat(integrationToRestore),
+                pendingUpdate: state.pendingUpdate.filter((v: Integration) => v.integrationId !== idToRestore),
+                integrations: state.integrations.filter((v: Integration) => v.integrationId !== idToRestore).concat(integrationToRestore),
             });
         }
         case REMOVE_PENDING_UPDATE_INTEGRATION_BY_ID: {
             return Object.assign({}, state, {
-                pendingUpdate: state.pendingUpdate.filter((v: Integration) => v.id !== action.integration.id),
+                pendingUpdate: state.pendingUpdate.filter((v: Integration) => v.integrationId !== action.integration.integrationId),
             });
         }
         case ADD_INTEGRATION_TO_PENDING_DELETION: {

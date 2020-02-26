@@ -26,6 +26,10 @@ export default class TenantService {
         return RestUtilities.get<PendingPrimaryOwnerTransfer>(`/tenants/${domain}/primary-owner-transfer`);
     }
 
+    async deleteDomain(domain: string): Promise<IRestResponse<void>> {
+        return RestUtilities.delete(`/tenants/{domain}`);
+    }
+
     async enabled(domain: string): Promise<DomainEnabledResults> {
         return RestUtilities.get<IEnabledModel>(`/tenants/${domain}/enabled`).then(value => {
             if (value.is_error) {

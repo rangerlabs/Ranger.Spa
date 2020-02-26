@@ -205,7 +205,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     getIntegrationNamesByIds(integrationIds: string[]) {
         if (integrationIds) {
             return this.props.integrations
-                .filter(i => integrationIds.includes(i.id))
+                .filter(i => integrationIds.includes(i.integrationId))
                 .map(i => i.name)
                 .sort();
         }
@@ -215,7 +215,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         if (integrationNames) {
             return this.props.integrations
                 .filter(i => integrationNames.includes(i.name))
-                .map(i => i.id)
+                .map(i => i.integrationId)
                 .sort();
         }
         return [];

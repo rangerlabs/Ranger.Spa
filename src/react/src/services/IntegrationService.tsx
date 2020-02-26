@@ -14,7 +14,7 @@ export default class IntegrationService {
                         i = i as WebhookIntegration;
                         result.push({
                             type: IntegrationEnum.WEBHOOK,
-                            id: i.id,
+                            integrationId: i.integrationId,
                             enabled: i.enabled,
                             name: i.name,
                             description: i.description,
