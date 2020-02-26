@@ -21,7 +21,7 @@ import { getIntegrationsFromIntegrationIds } from '../../../../../helpers/Helper
 import FormikAutocompleteLabelMultiselect from '../../../../form/FormikAutocompleteLabelMultiselect';
 import GeofenceService from '../../../../../services/GeofenceService';
 import { StatusEnum } from '../../../../../models/StatusEnum';
-import CorrelationModel from '../../../../../models/CorrelationModel';
+import FormikDictionaryBuilder from '../../../../form/FormikDictionaryBuilder';
 
 const geofenceService = new GeofenceService();
 
@@ -143,7 +143,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     updateGeofence = (geofence: CircleGeofence) => {
-        geofenceService.putGeofence(this.props.selectedProject.name, geofence.externalId, geofence).then(v => {
+        geofenceService.putGeofence(this.props.selectedProject.name, geofence.id, geofence).then(v => {
             if (!v.is_error) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
@@ -191,12 +191,18 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     validationSchema = Yup.object().shape({
         externalId: Yup.string().required('Required'),
         description: Yup.string().notRequired(),
+        metadata: Yup.array().of(
+            Yup.object().shape({
+                key: Yup.string().required('Required'),
+                value: Yup.string().required('Required'),
+            })
+        ),
     });
 
     getIntegrationNamesByIds(integrationIds: string[]) {
         if (integrationIds) {
             return this.props.integrations
-                .filter(i => integrationIds.includes(i.id))
+                .filter(i => integrationIds.includes(i.integrationId))
                 .map(i => i.name)
                 .sort();
         }
@@ -206,7 +212,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         if (integrationNames) {
             return this.props.integrations
                 .filter(i => integrationNames.includes(i.name))
-                .map(i => i.id)
+                .map(i => i.integrationId)
                 .sort();
         }
         return [];
@@ -228,19 +234,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                               ...this.props.editGeofence,
                               integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
                           } as CircleGeofence)
-                        : new CircleGeofence(
-                              this.props.selectedProject.projectId,
-                              '',
-                              [],
-                              true,
-                              true,
-                              true,
-                              '',
-                              [],
-                              [new CoordinatePair(0, 0)],
-                              new Map<string, object>(),
-                              0
-                          )
+                        : new CircleGeofence(this.props.selectedProject.projectId, '', [], true, true, true, '', [], [new CoordinatePair(0, 0)], [], 0)
                 }
                 isInitialValid={this.props.editGeofence ? true : false}
                 onSubmit={(values: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
@@ -254,7 +248,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                         values.description,
                         this.getIntegrationIdsByNames(values.integrationIds),
                         [new CoordinatePair(this.props.mapGeofence.center.lng, this.props.mapGeofence.center.lat)],
-                        new Map<string, object>(),
+                        values.metadata,
                         this.props.mapGeofence.radius
                     );
                     newFence.id = this.props.editGeofence?.id;
@@ -286,7 +280,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                             {this.isPendingCreation() && (
                                 <Grid container item xs={12} spacing={0}>
                                     <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                        <Typography>
+                                        <Typography align="center" color="error">
                                             This geofence is pending creation. Please wait until the geofence is successfully created to issue updates.
                                         </Typography>
                                     </Grid>
@@ -295,6 +289,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                             <Grid container item xs={12} spacing={0}>
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <FormikCheckbox
+                                        infoText="Whether the geofence should execute integrations."
                                         name="enabled"
                                         label="Enabled"
                                         value={props.values.enabled}
@@ -303,46 +298,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         disabled={this.isPendingCreation()}
                                     />
                                 </Grid>
-                            </Grid>
-                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikTextField
-                                    name="externalId"
-                                    label="External Id"
-                                    value={props.values.externalId}
-                                    errorText={props.errors.externalId}
-                                    touched={props.touched.externalId}
-                                    onChange={props.handleChange}
-                                    onBlur={props.handleBlur}
-                                    autoComplete="off"
-                                    required
-                                    disabled={this.isPendingCreation()}
-                                />
-                            </Grid>
-                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikTextField
-                                    name="description"
-                                    label="Description"
-                                    value={props.values.description}
-                                    errorText={props.errors.description}
-                                    touched={props.touched.description}
-                                    onChange={props.handleChange}
-                                    onBlur={props.handleBlur}
-                                    autoComplete="off"
-                                    disabled={this.isPendingCreation()}
-                                />
-                            </Grid>
-                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikAutocompleteLabelMultiselect
-                                    name="integrations"
-                                    label="Integrations"
-                                    placeholder=""
-                                    enabled={!this.isPendingCreation()}
-                                    options={this.props.integrations.map(v => v.name)}
-                                    defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
-                                    onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
-                                        this.formikRef.current.setFieldValue('integrationIds', values, true);
-                                    }}
-                                />
                             </Grid>
                             <Grid container item xs={12} spacing={0}>
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
@@ -369,6 +324,62 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     />
                                 </Grid>
                             </Grid>
+                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                <FormikTextField
+                                    infoText="A unique identifier for the geofence."
+                                    name="externalId"
+                                    label="External Id"
+                                    value={props.values.externalId}
+                                    errorText={props.errors.externalId}
+                                    touched={props.touched.externalId}
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    autoComplete="off"
+                                    required
+                                    disabled={this.isPendingCreation()}
+                                />
+                            </Grid>
+                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                <FormikTextField
+                                    infoText="An optional description for the geofence."
+                                    name="description"
+                                    label="Description"
+                                    value={props.values.description}
+                                    errorText={props.errors.description}
+                                    touched={props.touched.description}
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    autoComplete="off"
+                                    disabled={this.isPendingCreation()}
+                                />
+                            </Grid>
+                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                <FormikAutocompleteLabelMultiselect
+                                    infoText="The integrations to execute for the geofence."
+                                    name="integrations"
+                                    label="Integrations"
+                                    placeholder=""
+                                    enabled={!this.isPendingCreation()}
+                                    options={this.props.integrations.map(v => v.name)}
+                                    defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
+                                    onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
+                                        this.formikRef.current.setFieldValue('integrationIds', values, true);
+                                    }}
+                                />
+                            </Grid>
+                            <FormikDictionaryBuilder
+                                name="metadata"
+                                title="Metadata"
+                                addTooltipText="Add a metadata."
+                                infoText="Metadata are static fields that are sent as a part of the request body. All metadata are encrypted at rest."
+                                valueArray={props.values.metadata}
+                                errorsArray={props.errors.metadata as any}
+                                touchedArray={props.touched.metadata as any}
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                keyRequired
+                                valueRequired
+                            />
                             {this.state.serverErrors && (
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <List>
@@ -393,7 +404,9 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         }}
                                         isSubmitting={props.isSubmitting}
                                         disabled={this.isPendingCreation()}
-                                    />
+                                    >
+                                        Delete
+                                    </FormikDeleteButton>
                                 )}
                             </div>
                             <FormikCancelButton isSubmitting={props.isSubmitting} onClick={this.cancelGeofence} />

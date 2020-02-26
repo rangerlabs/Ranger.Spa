@@ -13,5 +13,5 @@ export default interface Geofence {
     onEnter: boolean;
     onExit: boolean;
     enabled: boolean;
-    metadata: Map<string, object>;
+    metadata: [];
 }

@@ -13,6 +13,8 @@ export default class RoutePaths {
     public static ConfirmUser = '/confirm-user';
     public static PasswordReset = '/password-reset';
     public static EmailChange = '/email-change';
+    public static TransferPrimaryOwnership = '/transfer-ownership';
+    public static CancelTransferPrimaryOwnership = '/cancel-ownership-transfer';
 
     public static Dashboard = '/dashboard';
     public static Account = '/account';
@@ -54,7 +56,9 @@ export default class RoutePaths {
             path === RoutePaths.ConfirmDomain ||
             path === RoutePaths.ConfirmUser ||
             path === RoutePaths.PasswordReset ||
-            path === RoutePaths.EmailChange
+            path === RoutePaths.EmailChange ||
+            path === RoutePaths.TransferPrimaryOwnership ||
+            path === RoutePaths.CancelTransferPrimaryOwnership
         ) {
             result = true;
         }

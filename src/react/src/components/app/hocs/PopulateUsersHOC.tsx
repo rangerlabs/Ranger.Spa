@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ApplicationState } from '../../../stores';
 import { connect } from 'react-redux';
-import populateProjectsHOC from './PopulateProjectsHOC';
 import Loading from '../loading/Loading';
 import IUser from '../../../models/app/IUser';
 import { populateUsers, UsersState } from '../../../redux/actions/UserActions';

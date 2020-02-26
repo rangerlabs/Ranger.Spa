@@ -21,9 +21,14 @@ import DeleteAccountComponent from '../dialogContents/DeleteAccountContent';
 import { openDialog, DialogContent } from '../../../redux/actions/DialogActions';
 import ChangePasswordContent from '../dialogContents/ChangePasswordContent';
 import ChangeEmailContent from '../dialogContents/ChangeEmailContent';
-import { getRole } from '../../../helpers/Helpers';
+import { getRole, userIsInRole } from '../../../helpers/Helpers';
 import IAccountUpdateModel from '../../../models/app/IAccountUpdateModel';
 import UserManager from '../../../services/UserManager';
+import { RoleEnum } from '../../../models/RoleEnum';
+import TransferOwnershipContent from '../dialogContents/TransferOwnershipContent';
+import populatePendingPrimaryOwnerTransferHOC from '../hocs/PopulatePendingPrimaryOwnerTransferHOC';
+import { PendingPrimaryOwnerTransfer } from '../../../models/app/PendingPrimaryOwnerTransfer';
+import CancelOwnershipTransferContent from '../dialogContents/CancelOwnershipTransferContent';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -57,6 +62,7 @@ const styles = (theme: Theme) =>
 
 interface AccountProps extends WithStyles<typeof styles>, WithSnackbarProps {
     user: User;
+    pendingPrimaryOwnerTransfer: PendingPrimaryOwnerTransfer;
     openDialog: (dialogContent: DialogContent) => void;
     dispatchAddUser: (user: IUser) => void;
     expireUser: () => void;
@@ -71,6 +77,7 @@ interface AccountState {
 const mapStateToProps = (state: ApplicationState) => {
     return {
         user: state.oidc.user,
+        pendingPrimaryOwnerTransfer: state.domain.pendingPrimaryOwnerTransfer,
     };
 };
 
@@ -101,6 +108,8 @@ class Account extends React.Component<AccountProps, AccountState> {
             .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
             .required('Required'),
     });
+
+    isPrimaryOwner = Boolean(userIsInRole(this.props.user, RoleEnum.PRIMARY_OWNER));
 
     render() {
         const { classes, enqueueSnackbar, dispatchAddUser } = this.props;
@@ -212,6 +221,35 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 disabled
+                                                InputProps={
+                                                    this.isPrimaryOwner
+                                                        ? this.props.pendingPrimaryOwnerTransfer
+                                                            ? {
+                                                                  endAdornment: (
+                                                                      <Button
+                                                                          disabled={props.isSubmitting}
+                                                                          onClick={() => {
+                                                                              this.props.openDialog(new DialogContent((<CancelOwnershipTransferContent />)));
+                                                                          }}
+                                                                      >
+                                                                          Cancel Transfer
+                                                                      </Button>
+                                                                  ),
+                                                              }
+                                                            : {
+                                                                  endAdornment: (
+                                                                      <Button
+                                                                          disabled={props.isSubmitting}
+                                                                          onClick={() => {
+                                                                              this.props.openDialog(new DialogContent((<TransferOwnershipContent />)));
+                                                                          }}
+                                                                      >
+                                                                          Transfer
+                                                                      </Button>
+                                                                  ),
+                                                              }
+                                                        : null
+                                                }
                                             />
                                         </Grid>
                                         {this.state.serverErrors && (
@@ -228,13 +266,16 @@ class Account extends React.Component<AccountProps, AccountState> {
                                     </Grid>
                                     <div className={classes.flexButtonContainer}>
                                         <div className={classes.leftButtons}>
-                                            <FormikDeleteButton
-                                                isSubmitting={props.isSubmitting}
-                                                dialogTitle="Delete account?"
-                                                dialogContent={<DeleteAccountComponent email={(this.props.user.profile as UserProfile).email} />}
-                                            >
-                                                Delete
-                                            </FormikDeleteButton>
+                                            {this.isPrimaryOwner && (
+                                                <FormikDeleteButton
+                                                    isSubmitting={props.isSubmitting}
+                                                    dialogTitle="Delete account?"
+                                                    disabled={this.isPrimaryOwner}
+                                                    dialogContent={<DeleteAccountComponent email={(this.props.user.profile as UserProfile).email} />}
+                                                >
+                                                    Delete
+                                                </FormikDeleteButton>
+                                            )}
                                             <Button
                                                 onClick={() => {
                                                     this.props.openDialog(new DialogContent((<ChangePasswordContent />)));
@@ -268,4 +309,4 @@ class Account extends React.Component<AccountProps, AccountState> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withSnackbar(Account)));
+export default connect(mapStateToProps, mapDispatchToProps)(populatePendingPrimaryOwnerTransferHOC(withStyles(styles)(withSnackbar(Account))));

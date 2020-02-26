@@ -18,7 +18,7 @@ export default class CircleGeofence implements Geofence {
         public description: string,
         public integrationIds: string[] = [],
         public coordinates: Array<CoordinatePair>,
-        public metadata: Map<string, object>,
+        public metadata: [],
         public radius: number
     ) {
         this.shape = ShapePicker.Circle;

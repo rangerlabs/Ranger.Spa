@@ -10,6 +10,7 @@ import populateGeofencesHOC from '../hocs/PopulateGeofencesHOC';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
+import RoutePaths from '../../RoutePaths';
 const MUIDataTable = require('mui-datatables').default;
 
 interface GeofencesProps {
@@ -43,11 +44,11 @@ class Geofences extends React.Component<GeofencesProps> {
     };
 
     editGeofence = (rowData: string[]) => {
-        this.props.push(`/${this.props.selectedProject.name}/geofences/map/edit?name=${rowData[0]}`);
+        this.props.push(`${RoutePaths.GeofencesEdit.replace(':appName', this.props.selectedProject.name)}?name=${rowData[0]}`);
     };
 
     redirectToNewGeofenceForm = () => {
-        this.props.push(`/${this.props.selectedProject.name}/geofences/map`);
+        this.props.push(`${RoutePaths.GeofenceMap.replace(':appName', this.props.selectedProject.name)}`);
     };
 
     mapGeofencesToTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>): Array<Array<string>> {
@@ -55,6 +56,7 @@ class Geofences extends React.Component<GeofencesProps> {
         if (geofences) {
             geofences.forEach(value => {
                 tableGeofences.push([
+                    value.enabled ? 'Enabled' : 'Disabled',
                     value.externalId,
                     value.description,
                     value.shape == ShapePicker.Circle ? 'Circle' : 'Polygon',
@@ -67,6 +69,12 @@ class Geofences extends React.Component<GeofencesProps> {
     }
 
     columns = [
+        {
+            name: 'Enabled',
+            options: {
+                filter: true,
+            },
+        },
         {
             name: 'Name',
             options: {

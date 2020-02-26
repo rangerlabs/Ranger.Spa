@@ -71,7 +71,7 @@ export function undoPendingDeleteIntegrationByCorrelationId(correlationId: strin
 export function removePendingUpdateIntegrationById(id: string): IntegrationAction {
     return {
         type: REMOVE_PENDING_UPDATE_INTEGRATION_BY_ID,
-        integration: { id: id } as MergedIntegrationType,
+        integration: { integrationId: id } as MergedIntegrationType,
     };
 }
 

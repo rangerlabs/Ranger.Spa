@@ -295,7 +295,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormikAutocompleteLabelMultiselect
-                                                name="authorizedProjects2"
+                                                name="authorizedProjects"
                                                 label="Authorized Projects"
                                                 placeholder=""
                                                 enabled={props.values.role.toUpperCase() === RoleEnum.USER.toUpperCase()}
@@ -352,7 +352,6 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                         >
                                             {props.initialValues.email === '' ? 'Create User' : 'Update User'}
                                         </FormikSynchronousButton>
-                                        )}
                                     </div>
                                 </form>
                             )}

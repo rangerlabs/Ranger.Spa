@@ -1,0 +1,3 @@
+interface ITransferOwnershipModel {
+    email: string;
+}

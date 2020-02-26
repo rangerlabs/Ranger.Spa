@@ -5,7 +5,7 @@ import FormikCancelButton from '../../../../form/FormikCancelButton';
 import FormikCheckbox from '../../../../form/FormikCheckbox';
 import PolygonGeofence from '../../../../../models/app/geofences/PolygonGeofence';
 import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
-import { Theme, createStyles, WithStyles, List, ListItem, ListItemText, withStyles, Grid, FormLabel } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, List, ListItem, ListItemText, withStyles, Grid, FormLabel, Typography } from '@material-ui/core';
 import { PolygonGeofenceState } from '../../../../../redux/actions/GoogleMapsActions';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
@@ -24,6 +24,7 @@ import GeofenceService from '../../../../../services/GeofenceService';
 import { StatusEnum } from '../../../../../models/StatusEnum';
 import CircleGeofence from '../../../../../models/app/geofences/CircleGeofence';
 import CorrelationModel from '../../../../../models/CorrelationModel';
+import FormikDictionaryBuilder from '../../../../form/FormikDictionaryBuilder';
 
 const geofenceService = new GeofenceService();
 
@@ -145,7 +146,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     };
 
     updateGeofence = (geofence: PolygonGeofence) => {
-        geofenceService.putGeofence(this.props.selectedProject.name, geofence.externalId, geofence).then(v => {
+        geofenceService.putGeofence(this.props.selectedProject.name, geofence.id, geofence).then(v => {
             if (!v.is_error) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
@@ -193,12 +194,18 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     validationSchema = Yup.object().shape({
         externalId: Yup.string().required('Required'),
         description: Yup.string().notRequired(),
+        metadata: Yup.array().of(
+            Yup.object().shape({
+                key: Yup.string().required('Required'),
+                value: Yup.string().required('Required'),
+            })
+        ),
     });
 
     getIntegrationNamesByIds(integrationIds: string[]) {
         if (integrationIds) {
             return this.props.integrations
-                .filter(i => integrationIds.includes(i.id))
+                .filter(i => integrationIds.includes(i.integrationId))
                 .map(i => i.name)
                 .sort();
         }
@@ -208,7 +215,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         if (integrationNames) {
             return this.props.integrations
                 .filter(i => integrationNames.includes(i.name))
-                .map(i => i.id)
+                .map(i => i.integrationId)
                 .sort();
         }
         return [];
@@ -230,18 +237,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                               ...this.props.editGeofence,
                               integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
                           } as PolygonGeofence)
-                        : new PolygonGeofence(
-                              this.props.selectedProject.projectId,
-                              '',
-                              [],
-                              true,
-                              true,
-                              true,
-                              '',
-                              [],
-                              [new CoordinatePair(0, 0)],
-                              new Map<string, object>()
-                          )
+                        : new PolygonGeofence(this.props.selectedProject.projectId, '', [], true, true, true, '', [], [new CoordinatePair(0, 0)], [])
                 }
                 isInitialValid={this.props.editGeofence ? true : false}
                 onSubmit={(values: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
@@ -255,7 +251,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                         values.description,
                         this.getIntegrationIdsByNames(values.integrationIds),
                         this.props.mapGeofence.coordinatePairArray,
-                        new Map<string, object>()
+                        values.metadata
                     );
                     newFence.id = this.props.editGeofence?.id;
 
@@ -283,9 +279,19 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 {props => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
                         <Grid container direction="column" spacing={4}>
+                            {this.isPendingCreation() && (
+                                <Grid container item xs={12} spacing={0}>
+                                    <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                        <Typography align="center" color="error">
+                                            This geofence is pending creation. Please wait until the geofence is successfully created to issue updates.
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            )}
                             <Grid container item xs={12} spacing={0}>
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <FormikCheckbox
+                                        infoText="Whether the geofence should execute integrations."
                                         name="enabled"
                                         label="Enabled"
                                         value={props.values.enabled}
@@ -294,46 +300,6 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                         disabled={this.isPendingCreation()}
                                     />
                                 </Grid>
-                            </Grid>
-                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikTextField
-                                    name="externalId"
-                                    label="External Id"
-                                    value={props.values.externalId}
-                                    errorText={props.errors.externalId}
-                                    touched={props.touched.externalId}
-                                    onChange={props.handleChange}
-                                    onBlur={props.handleBlur}
-                                    autoComplete="off"
-                                    required
-                                    disabled={this.isPendingCreation()}
-                                />
-                            </Grid>
-                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikTextField
-                                    name="description"
-                                    label="Description"
-                                    value={props.values.description}
-                                    errorText={props.errors.description}
-                                    touched={props.touched.description}
-                                    onChange={props.handleChange}
-                                    onBlur={props.handleBlur}
-                                    autoComplete="off"
-                                    disabled={this.isPendingCreation()}
-                                />
-                            </Grid>
-                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikAutocompleteLabelMultiselect
-                                    name="integrations"
-                                    label="Integrations"
-                                    placeholder=""
-                                    enabled={!this.isPendingCreation()}
-                                    options={this.props.integrations.map(v => v.name)}
-                                    defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
-                                    onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
-                                        this.formikRef.current.setFieldValue('integrationIds', values, true);
-                                    }}
-                                />
                             </Grid>
                             <Grid container item xs={12} spacing={0}>
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
@@ -360,6 +326,62 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                     />
                                 </Grid>
                             </Grid>
+                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                <FormikTextField
+                                    infoText="A unique identifier for the geofence."
+                                    name="externalId"
+                                    label="External Id"
+                                    value={props.values.externalId}
+                                    errorText={props.errors.externalId}
+                                    touched={props.touched.externalId}
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    autoComplete="off"
+                                    required
+                                    disabled={this.isPendingCreation()}
+                                />
+                            </Grid>
+                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                <FormikTextField
+                                    infoText="An optional description for the geofence."
+                                    name="description"
+                                    label="Description"
+                                    value={props.values.description}
+                                    errorText={props.errors.description}
+                                    touched={props.touched.description}
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    autoComplete="off"
+                                    disabled={this.isPendingCreation()}
+                                />
+                            </Grid>
+                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                <FormikAutocompleteLabelMultiselect
+                                    infoText="The integrations to execute for the geofence."
+                                    name="integrations"
+                                    label="Integrations"
+                                    placeholder=""
+                                    enabled={!this.isPendingCreation()}
+                                    options={this.props.integrations.map(v => v.name)}
+                                    defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
+                                    onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
+                                        this.formikRef.current.setFieldValue('integrationIds', values, true);
+                                    }}
+                                />
+                            </Grid>
+                            <FormikDictionaryBuilder
+                                name="metadata"
+                                title="Metadata"
+                                addTooltipText="Add a metadata."
+                                infoText="Metadata are static fields that are sent as a part of the request body. All metadata are encrypted at rest."
+                                valueArray={props.values.metadata}
+                                errorsArray={props.errors.metadata as any}
+                                touchedArray={props.touched.metadata as any}
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                keyRequired
+                                valueRequired
+                            />
                             {this.state.serverErrors && (
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <List>
@@ -384,7 +406,9 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                         }}
                                         isSubmitting={props.isSubmitting}
                                         disabled={this.isPendingCreation()}
-                                    />
+                                    >
+                                        Delete
+                                    </FormikDeleteButton>
                                 )}
                             </div>
                             <FormikCancelButton isSubmitting={props.isSubmitting} onClick={this.cancelGeofence} />

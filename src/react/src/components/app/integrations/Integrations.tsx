@@ -10,20 +10,21 @@ import { IntegrationEnum } from '../../../models/app/integrations/IntegrationEnu
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import titleCase = require('title-case');
 import { EnvironmentEnum } from '../../../models/EnvironmentEnum';
+import IProject from '../../../models/app/IProject';
 const MUIDataTable = require('mui-datatables').default;
 
 interface IntegrationsProps {
     integrationsState: IntegrationsState;
     addIntegration: (integration: MergedIntegrationType) => void;
     push: typeof push;
+    selectedProject: IProject;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { integrationsState: selectedProjectIntegrations(state.integrationsState.integrations, state.selectedProject.name) };
-};
-
-const selectedProjectIntegrations = (integrations: MergedIntegrationType[], id: string) => {
-    return integrations.filter(i => i.projectName === id);
+    return {
+        integrationsState: state.integrationsState,
+        selectedProject: state.selectedProject,
+    };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -42,10 +43,10 @@ class Integrations extends React.Component<IntegrationsProps> {
     };
 
     editIntegration = (rowData: string[]) => {
-        const integrationType = rowData[2] as keyof typeof IntegrationEnum;
+        const integrationType = rowData[3].toUpperCase() as keyof typeof IntegrationEnum;
         switch (integrationType) {
             case IntegrationEnum.WEBHOOK: {
-                this.props.push(`${RoutePaths.IntegrationsEditWebhook}?name=${rowData[0]}`);
+                this.props.push(`${RoutePaths.IntegrationsEditWebhook.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
             }
         }
     };
@@ -58,13 +59,25 @@ class Integrations extends React.Component<IntegrationsProps> {
         const tableIntegrations = new Array<Array<string>>();
         if (integrations) {
             integrations.forEach(value => {
-                tableIntegrations.push([value.name, value.description, titleCase(value.type), value.environment === EnvironmentEnum.TEST ? 'Test' : 'Live']);
+                tableIntegrations.push([
+                    value.enabled ? 'Enabled' : 'Disabled',
+                    value.name,
+                    value.description,
+                    titleCase(value.type),
+                    value.environment === EnvironmentEnum.TEST ? 'Test' : 'Live',
+                ]);
             });
         }
         return tableIntegrations;
     }
 
     columns = [
+        {
+            name: 'Enabled',
+            options: {
+                filter: true,
+            },
+        },
         {
             name: 'Name',
             options: {

@@ -98,6 +98,10 @@ interface GeofenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarPro
 }
 
 class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
+    componentWillUnmount() {
+        this.props.closeDrawer();
+    }
+
     render() {
         const { classes, theme } = this.props;
         return (

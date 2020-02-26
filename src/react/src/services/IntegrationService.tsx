@@ -14,14 +14,15 @@ export default class IntegrationService {
                         i = i as WebhookIntegration;
                         result.push({
                             type: IntegrationEnum.WEBHOOK,
-                            id: i.id,
-                            projectName: i.projectName,
+                            integrationId: i.integrationId,
+                            enabled: i.enabled,
                             name: i.name,
                             description: i.description,
                             url: i.url,
                             headers: i.headers,
                             metadata: i.metadata,
                             environment: i.environment,
+                            version: i.version,
                         } as WebhookIntegration);
                         break;
                     }
@@ -42,10 +43,10 @@ export default class IntegrationService {
         }
     }
 
-    async putIntegration(projectName: string, name: string, integration: Integration): Promise<IRestResponse<void>> {
+    async putIntegration(projectName: string, id: string, integration: Integration): Promise<IRestResponse<void>> {
         switch (integration.type) {
             case IntegrationEnum.WEBHOOK: {
-                return RestUtilities.put(`${projectName}/integrations/webhook/${name}`, integration);
+                return RestUtilities.put(`${projectName}/integrations/webhook/${id}`, integration);
             }
             default: {
                 throw 'Invalid integration type';

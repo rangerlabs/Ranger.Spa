@@ -1,12 +1,12 @@
 import React, { ChangeEvent } from 'react';
-import { useTheme, fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Popper from '@material-ui/core/Popper';
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputBase from '@material-ui/core/InputBase';
-import { ClickAwayListener, Button, Checkbox, Fade, Typography, ListItem, ListItemText, List, ListItemIcon, TextField } from '@material-ui/core';
+import { Button, Checkbox, Typography, ListItem, ListItemText, List, Grid, Tooltip } from '@material-ui/core';
 import CheckboxMarked from 'mdi-material-ui/CheckboxMarked';
 import CheckboxBlankOutline from 'mdi-material-ui/CheckboxBlankOutline';
-import { FieldArray } from 'formik';
+import InformationOutline from 'mdi-material-ui/InformationOutline';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -70,6 +70,10 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingBottom: theme.spacing(0.5),
             marginBottom: '3px',
         },
+        infoText: {
+            position: 'relative',
+            left: '8px',
+        },
     })
 );
 
@@ -81,6 +85,7 @@ interface FormikAutocompleteLabelMultiselectProps {
     enabled: boolean;
     defaultValue?: string[];
     onChange: (event: ChangeEvent<{}>, values: string[]) => void;
+    infoText?: string;
 }
 
 export default function FormikAutocompleteLabelMultiselect(props: FormikAutocompleteLabelMultiselectProps) {
@@ -121,7 +126,14 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                     aria-describedby={id}
                     onClick={handleClick}
                 >
-                    {props.label}
+                    <React.Fragment>
+                        {props.label}
+                        {props.infoText && (
+                            <Tooltip className={classes.infoText} title={props.infoText} placement="bottom">
+                                <InformationOutline fontSize="small" />
+                            </Tooltip>
+                        )}
+                    </React.Fragment>
                 </Button>
                 {props.enabled && (
                     <List>
@@ -160,7 +172,7 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                     noOptionsText="No options available"
                     renderOption={(option: string, { selected }) => (
                         <React.Fragment>
-                            <Checkbox color="primary" icon={icon} checkedIcon={checkedIcon} className={classes.checkbox} checked={selected} />{' '}
+                            <Checkbox color="primary" icon={icon} checkedIcon={checkedIcon} className={classes.checkbox} checked={selected} />
                             <Typography variant="subtitle1">{option}</Typography>
                         </React.Fragment>
                     )}

@@ -4,6 +4,7 @@ import IConfirmModel from '../models/landing/IConfirmModel';
 import IResetPasswordModel from '../models/landing/IPasswordResetModel';
 import IChangeEmailModel from '../models/landing/IChangeEmailModel';
 import IAccountUpdateModel from '../models/app/IAccountUpdateModel';
+import ITransferPrimaryOwnershipModel from '../models/landing/ITransferPrimaryOwnershipModel';
 
 export default class UserService {
     async getUsers(): Promise<IRestResponse<IUser[]>> {
@@ -35,11 +36,37 @@ export default class UserService {
     }
 
     async updateAccount(email: string, accountUpdateModel: IAccountUpdateModel): Promise<IRestResponse<void>> {
-        return RestUtilities.put(`/accounts/${email}`, accountUpdateModel);
+        return RestUtilities.put(`/account/${email}`, accountUpdateModel);
+    }
+
+    async transferPrimaryOwnership(transferPrimaryOwnershipModel: ITransferOwnershipModel): Promise<IRestResponse<void>> {
+        return RestUtilities.post('/account/transfer-primary-ownership', transferPrimaryOwnershipModel);
     }
 
     async deleteAccount(email: string, accountDeleteModel: IAccountDeleteModel): Promise<IRestResponse<void>> {
-        return RestUtilities.delete(`/accounts/${email}`, accountDeleteModel);
+        return RestUtilities.delete(`/account/${email}`, accountDeleteModel);
+    }
+
+    async cancelPrimaryOwnershipTransfer(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<IRestResponse<void>> {
+        return RestUtilities.post(`/account/cancel-ownership-transfer `, transferPrimaryOwnershipModel);
+    }
+
+    async acceptPrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
+        return RestUtilities.post(`/account/accept-primary-ownership`, transferPrimaryOwnershipModel).then(value => {
+            if (value.is_error) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    async refusePrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
+        return RestUtilities.post(`/account/refuse-primary-ownership`, transferPrimaryOwnershipModel).then(value => {
+            if (value.is_error) {
+                return false;
+            }
+            return true;
+        });
     }
 
     async deleteUser(email: string): Promise<IRestResponse<void>> {

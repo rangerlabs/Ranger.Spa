@@ -249,6 +249,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     <Grid container spacing={3}>
                                         <Grid className={classes.disableBottomPadding} item xs={12}>
                                             <FormikCheckbox
+                                                infoText="Whether the project should accept incoming requests."
                                                 name="enabled"
                                                 label="Enabled"
                                                 value={props.values.enabled}
@@ -260,6 +261,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
 
                                         <Grid item xs={12}>
                                             <FormikTextField
+                                                infoText="A unique identifier for the project."
                                                 name="name"
                                                 label="Name"
                                                 value={props.values.name}
@@ -274,6 +276,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormikTextField
+                                                infoText="An optional description for the project."
                                                 name="description"
                                                 label="Description"
                                                 value={props.values.description}
