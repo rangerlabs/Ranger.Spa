@@ -73,7 +73,7 @@ interface DocumentationProps extends WithStyles<typeof styles> {
 }
 
 interface DocumentationState {
-    expandedSection: string;
+    currentSelection: string;
     mobileSectionName: string;
     mobileOpen: boolean;
     atPageTop: boolean;
@@ -87,13 +87,13 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
     state: DocumentationState = {
         mobileOpen: false,
         atPageTop: true,
-        expandedSection: '',
+        currentSelection: '',
         mobileSectionName: 'Getting Started',
     };
 
     handleMenuToggle = (name: string) => {
-        const expandedSection = this.state.expandedSection === name ? '' : name;
-        this.setState({ expandedSection: expandedSection });
+        const currentSelection = this.state.currentSelection === name ? '' : name;
+        this.setState({ currentSelection: currentSelection });
     };
 
     openMobileDrawer = () => {

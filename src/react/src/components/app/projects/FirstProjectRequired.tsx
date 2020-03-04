@@ -61,7 +61,11 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                                 )}
                                 {!window.location.pathname.startsWith(RoutePaths.Dashboard) ? (
                                     <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
-                                        You must first create a project to access these resources.
+                                        Your organization must first create a project to access these resources.
+                                    </Typography>
+                                ) : userIsInRole(this.props.user, RoleEnum.ADMIN) ? (
+                                    <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                        Your organization does not have any projects created yet.
                                     </Typography>
                                 ) : (
                                     <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
@@ -69,7 +73,7 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                                     </Typography>
                                 )}
                                 <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
-                                    Click below to create your first project.
+                                    Click below to create your organization's first project.
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>

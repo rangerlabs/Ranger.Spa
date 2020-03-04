@@ -12,13 +12,12 @@ import {
     ListItemIcon,
     Typography,
     Collapse,
-    Fade,
     Button,
     Badge,
 } from '@material-ui/core';
 import People from '@material-ui/icons/People';
 import MapMarker from 'mdi-material-ui/MapMarker';
-import ViewDashboard from 'mdi-material-ui/ViewDashboardOutline';
+import ViewDashboard from 'mdi-material-ui/ViewDashboard';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import Lock from '@material-ui/icons/Lock';
@@ -40,6 +39,8 @@ import Logout from 'mdi-material-ui/Logout';
 import CreditCard from 'mdi-material-ui/CreditCard';
 import MapMarkerPath from 'mdi-material-ui/MapMarkerPath';
 import Settings from 'mdi-material-ui/Settings';
+import Constants from '../../../theme/Constants';
+import classNames from 'classnames';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -51,6 +52,7 @@ const styles = (theme: Theme) =>
         },
         drawerPaper: {
             width: theme.drawer.width,
+            borderRight: '1px solid rgba(0, 0, 0, 0.12)',
         },
         headerPush: {
             ...theme.mixins.toolbar,
@@ -70,6 +72,20 @@ const styles = (theme: Theme) =>
         badgeTypography: {
             lineHeight: 'inherit',
         },
+        selected: {
+            backgroundColor: Constants.COLORS.LIST_TABLE_HOVER_COLOR,
+        },
+        expandIcon: {
+            transition: theme.transitions.create(['transform'], {
+                duration: 500,
+            }),
+        },
+        expanded: {
+            transform: 'rotate(-180deg)',
+        },
+        closed: {
+            transform: 'rotate(0)',
+        },
     });
 interface MenuProps extends WithStyles<typeof styles> {
     theme: Theme;
@@ -78,22 +94,22 @@ interface MenuProps extends WithStyles<typeof styles> {
     mobileOpen: boolean;
     handleDrawerToggle: () => void;
     push: typeof push;
-    expandedSection: string;
-    dispatchExpandSection: (section: string) => void;
+    currentSelection: string;
+    dispatchMenuSelection: (section: string) => void;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
         selectedProject: state.selectedProject,
         user: state.oidc.user,
-        expandedSection: state.menu.expandedSection,
+        currentSelection: state.menu.currentSelection,
     };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        dispatchExpandSection: (section: string) => {
-            const action = expandSection({ expandedSection: section });
+        dispatchMenuSelection: (section: string) => {
+            const action = expandSection({ currentSelection: section });
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),
@@ -104,12 +120,13 @@ const timeout = { enter: 0, exit: 500 };
 
 class Menu extends React.Component<MenuProps> {
     handleMenuToggle = (name: string) => {
-        const expandedSection = this.props.expandedSection === name ? '' : name;
-        this.props.dispatchExpandSection(expandedSection);
+        const currentSelection = this.props.currentSelection === name ? '' : name;
+        this.props.dispatchMenuSelection(currentSelection);
     };
 
-    handleMenuNavigation = (path: string) => {
+    handleMenuNavigation = (path: string, currentSelection: string) => {
         let pushPath = path;
+        this.handleMenuToggle(currentSelection);
         if (this.props.selectedProject.name) {
             pushPath = path.replace(':appName', this.props.selectedProject.name);
         }
@@ -121,30 +138,48 @@ class Menu extends React.Component<MenuProps> {
 
         const drawerContent = (
             <List>
-                <ListItem id="home" button onClick={() => this.handleMenuNavigation(RoutePaths.Dashboard)}>
+                <ListItem
+                    className={this.props.currentSelection === 'dashboard' ? classes.selected : ''}
+                    id="dashboard"
+                    button
+                    onClick={() => this.handleMenuNavigation(RoutePaths.Dashboard, 'dashboard')}
+                >
                     <ListItemIcon>
                         <ViewDashboard />
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItem>
-                <ListItem id="geofences" button onClick={() => this.handleMenuToggle('geofences')}>
+                <ListItem
+                    className={this.props.currentSelection === 'geofences' ? classes.selected : ''}
+                    id="geofences"
+                    button
+                    onClick={() => this.handleMenuToggle('geofences')}
+                >
                     <ListItemIcon>
                         <MapMarker />
                     </ListItemIcon>
                     <ListItemText primary="Geofences" />
-                    <Fade in={this.props.expandedSection === 'geofences'} timeout={timeout}>
-                        <ExpandLess />
-                    </Fade>
+                    <ExpandLess
+                        className={classNames(classes.expandIcon, this.props.currentSelection.startsWith('geofences') ? classes.expanded : classes.closed)}
+                    />
                 </ListItem>
-                <Collapse in={this.props.expandedSection === 'geofences'} timeout={500} unmountOnExit>
+                <Collapse in={this.props.currentSelection.startsWith('geofences')} timeout={500} unmountOnExit>
                     <List disablePadding>
-                        <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceMap)}>
+                        <ListItem
+                            className={classNames(classes.nested, this.props.currentSelection === 'geofences.map' ? classes.selected : '')}
+                            button
+                            onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceMap, 'geofences.map')}
+                        >
                             <ListItemIcon>
                                 <Map />
                             </ListItemIcon>
                             <ListItemText primary="Map" />
                         </ListItem>
-                        <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceTable)}>
+                        <ListItem
+                            className={classNames(classes.nested, this.props.currentSelection === 'geofences.table' ? classes.selected : '')}
+                            button
+                            onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceTable, 'geofences.table')}
+                        >
                             <ListItemIcon>
                                 <FormatListBulleted />
                             </ListItemIcon>
@@ -153,14 +188,19 @@ class Menu extends React.Component<MenuProps> {
                     </List>
                 </Collapse>
 
-                <ListItem id="integrations" button onClick={() => this.handleMenuNavigation(RoutePaths.Integrations)}>
+                <ListItem
+                    className={this.props.currentSelection === 'integrations' ? classes.selected : ''}
+                    id="integrations"
+                    button
+                    onClick={() => this.handleMenuNavigation(RoutePaths.Integrations, 'integrations')}
+                >
                     <ListItemIcon>
                         <ArrowDecision />
                     </ListItemIcon>
                     <ListItemText primary="Integrations" />
                 </ListItem>
 
-                <ListItem id="breadcrumbs" button>
+                <ListItem className={this.props.currentSelection === 'breadcrumbs' ? classes.selected : ''} id="breadcrumbs" button>
                     <Badge
                         classes={{ badge: classes.badge }}
                         badgeContent={
@@ -178,10 +218,11 @@ class Menu extends React.Component<MenuProps> {
                 </ListItem>
 
                 <ListItem
+                    className={this.props.currentSelection === 'projects' ? classes.selected : ''}
                     id="projects"
                     button
                     onClick={() => {
-                        this.handleMenuNavigation(RoutePaths.Projects);
+                        this.handleMenuNavigation(RoutePaths.Projects, 'projects');
                     }}
                 >
                     <ListItemIcon>
@@ -191,18 +232,30 @@ class Menu extends React.Component<MenuProps> {
                 </ListItem>
                 {userIsInRole(this.props.user, RoleEnum.ADMIN) && (
                     <React.Fragment>
-                        <ListItem id="administration" button onClick={() => this.handleMenuToggle('administration')}>
+                        <ListItem
+                            className={this.props.currentSelection === 'administration' ? classes.selected : ''}
+                            id="administration"
+                            button
+                            onClick={() => this.handleMenuToggle('administration')}
+                        >
                             <ListItemIcon>
                                 <Lock />
                             </ListItemIcon>
                             <ListItemText primary="Administration" />
-                            <Fade in={this.props.expandedSection === 'administration'} timeout={timeout}>
-                                <ExpandLess />
-                            </Fade>
+                            <ExpandLess
+                                className={classNames(
+                                    classes.expandIcon,
+                                    this.props.currentSelection.startsWith('administration') ? classes.expanded : classes.closed
+                                )}
+                            />
                         </ListItem>
-                        <Collapse in={this.props.expandedSection === 'administration'} timeout={500} unmountOnExit>
+                        <Collapse in={this.props.currentSelection.startsWith('administration')} timeout={500} unmountOnExit>
                             <List component="div" disablePadding>
-                                <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Users)}>
+                                <ListItem
+                                    className={classNames(classes.nested, this.props.currentSelection === 'administration.users' ? classes.selected : '')}
+                                    button
+                                    onClick={() => this.handleMenuNavigation(RoutePaths.Users, 'administration.users')}
+                                >
                                     <ListItemIcon>
                                         <People />
                                     </ListItemIcon>
@@ -210,13 +263,27 @@ class Menu extends React.Component<MenuProps> {
                                 </ListItem>
                                 {userIsInRole(this.props.user, RoleEnum.OWNER) && (
                                     <React.Fragment>
-                                        <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
+                                        <ListItem
+                                            className={classNames(
+                                                classes.nested,
+                                                this.props.currentSelection === 'administration.organization' ? classes.selected : ''
+                                            )}
+                                            button
+                                            onClick={() => this.handleMenuNavigation(RoutePaths.Domain, 'administration.organization')}
+                                        >
                                             <ListItemIcon>
                                                 <Domain />
                                             </ListItemIcon>
                                             <ListItemText primary="Organization" />
                                         </ListItem>
-                                        <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Domain)}>
+                                        <ListItem
+                                            className={classNames(
+                                                classes.nested,
+                                                this.props.currentSelection === 'administration.billing' ? classes.selected : ''
+                                            )}
+                                            button
+                                            onClick={() => this.handleMenuNavigation(RoutePaths.Domain, 'administration.billing')}
+                                        >
                                             <ListItemIcon>
                                                 <CreditCard />
                                             </ListItemIcon>
@@ -230,25 +297,36 @@ class Menu extends React.Component<MenuProps> {
                 )}
 
                 <Hidden mdUp implementation="css">
-                    <ListItem id="account" button onClick={() => this.handleMenuToggle('account')}>
+                    <ListItem id="settings" button onClick={() => this.handleMenuToggle('settings')}>
                         <ListItemIcon>
                             <Settings />
                         </ListItemIcon>
                         <ListItemText primary="Settings" />
-                        <Fade in={this.props.expandedSection === 'account'} timeout={timeout}>
-                            <ExpandLess />
-                        </Fade>
+                        <ExpandLess
+                            className={classNames(
+                                classes.expandIcon,
+                                this.props.currentSelection.startsWith('administration') ? classes.expanded : classes.closed
+                            )}
+                        />
                     </ListItem>
-                    <Collapse in={this.props.expandedSection === 'account'} timeout={500} unmountOnExit>
+                    <Collapse in={this.props.currentSelection === 'settings'} timeout={500} unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItem button className={classes.nested} onClick={() => this.handleMenuNavigation(RoutePaths.Account)}>
+                            <ListItem
+                                className={classNames(classes.nested, this.props.currentSelection === 'settings.account' ? classes.selected : '')}
+                                button
+                                onClick={() => this.handleMenuNavigation(RoutePaths.Account, 'settings.account')}
+                            >
                                 <ListItemIcon>
                                     <AccountCircle />
                                 </ListItemIcon>
                                 <ListItemText primary="Account" />
                             </ListItem>
 
-                            <ListItem button className={classes.nested} onClick={() => this.props.push(RoutePaths.Logout)}>
+                            <ListItem
+                                className={classNames(classes.nested, this.props.currentSelection === 'settings.logout' ? classes.selected : '')}
+                                button
+                                onClick={() => this.props.push(RoutePaths.Logout, 'settings.logout')}
+                            >
                                 <ListItemIcon>
                                     <Logout />
                                 </ListItemIcon>

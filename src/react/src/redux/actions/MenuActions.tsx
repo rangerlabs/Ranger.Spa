@@ -1,4 +1,4 @@
-export const EXPANDED_SECTION = "EXPANDED_SECTION";
+export const EXPANDED_SECTION = 'EXPANDED_SECTION';
 
 export interface MenuAction {
     type: string;
@@ -6,7 +6,7 @@ export interface MenuAction {
 }
 
 export interface MenuState {
-    expandedSection: string;
+    currentSelection: string;
 }
 
 export function expandSection(menu: MenuState): MenuAction {

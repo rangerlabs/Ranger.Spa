@@ -66,7 +66,7 @@ export default function FormikDictionaryBuilder(props: FormikDictionaryBuilderPr
                         name={props.name}
                         render={arrayHelpers => (
                             <React.Fragment>
-                                {props.valueArray.map((v, i) => (
+                                {props.valueArray?.map((v, i) => (
                                     <Grid container key={`${props.name}.${i}.key`}>
                                         <Grid item xs={11}>
                                             <Grid container spacing={1} justify="space-between">
