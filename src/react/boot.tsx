@@ -30,13 +30,14 @@ const theme = responsiveFontSizes(
             type: 'light',
             primary: {
                 main: Constants.COLORS.PRIMARY_COLOR,
+                contrastText: Constants.COLORS.WHITE,
             },
             text: {
-                primary: '#000000',
+                primary: Constants.COLORS.BLACK,
             },
             background: {
-                paper: '#FFFFFF',
-                default: '#FFFFFF',
+                paper: '#fafafa',
+                default: '#fafafa',
             },
         },
         typography: {
@@ -45,24 +46,6 @@ const theme = responsiveFontSizes(
             fontWeightRegular: 400,
             fontWeightMedium: 700,
             fontWeightBold: 900,
-            h6: {
-                color: Constants.COLORS.HEADER_COLOR,
-            },
-            h5: {
-                color: Constants.COLORS.HEADER_COLOR,
-            },
-            h4: {
-                color: Constants.COLORS.HEADER_COLOR,
-            },
-            h3: {
-                color: Constants.COLORS.HEADER_COLOR,
-            },
-            h2: {
-                color: Constants.COLORS.HEADER_COLOR,
-            },
-            h1: {
-                color: Constants.COLORS.HEADER_COLOR,
-            },
         },
     })
 );

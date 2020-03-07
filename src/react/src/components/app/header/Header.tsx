@@ -35,15 +35,16 @@ const styles = (theme: Theme) =>
             [theme.breakpoints.up('md')]: {
                 display: 'none',
             },
+            color: theme.palette.common.white,
         },
         headerPrimaryColor: {
-            color: theme.drawer.text.color,
+            color: theme.palette.common.white,
         },
         logoButtonRoot: {
             '&:hover': {
                 background: 'none',
-                color: theme.palette.text.primary,
             },
+            color: theme.palette.common.white,
         },
         toolbarPadding: {
             [theme.breakpoints.up('md')]: {
@@ -72,8 +73,8 @@ class Header extends React.Component<HeaderProps> {
     render() {
         const { classes, breadcrumbs } = this.props;
         return (
-            <AppBar elevation={0} position="fixed" className={classes.appBar}>
-                <Toolbar className={classes.toolbarPadding}>
+            <AppBar elevation={2} position="fixed" className={classes.appBar}>
+                <Toolbar variant="dense" className={classes.toolbarPadding}>
                     <Button
                         className={classes.logoContainer}
                         classes={{ root: classes.logoButtonRoot }}
@@ -89,11 +90,7 @@ class Header extends React.Component<HeaderProps> {
                             <CustomizedBreadcrumbs breadcrumbs={breadcrumbs} />
                         </Hidden>
                     </div>
-                    {this.props.user && (
-                        <Typography variant="subtitle1" className={classes.headerPrimaryColor}>
-                            Hi, {this.props.user.profile.firstName}
-                        </Typography>
-                    )}
+                    {this.props.user && <Typography variant="subtitle1">{this.props.user.profile.firstName}</Typography>}
                     <Hidden smDown implementation="css">
                         <AccountPopOut />
                     </Hidden>

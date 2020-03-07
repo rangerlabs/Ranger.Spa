@@ -9,6 +9,9 @@ const Constants = {
         HEADER_COLOR: '#1b4d10',
         FONT_COLOR: '#2d2d2d',
     },
+    HEIGHT: {
+        TOOLBAR: 48,
+    },
     MAP_MAIN_STYLE: [
         {
             featureType: 'administrative',

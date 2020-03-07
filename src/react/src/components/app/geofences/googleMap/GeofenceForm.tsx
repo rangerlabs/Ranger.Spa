@@ -14,7 +14,7 @@ import { clearGeofence } from '../../../../redux/actions/GoogleMapsActions';
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            height: `calc(100% - ${theme.toolbar.height}px)`,
+            height: `calc(100% - ${theme.toolbar.height}px - 12px)`,
             width: '100%',
             marginLeft: 'auto',
             marginRight: 'auto',

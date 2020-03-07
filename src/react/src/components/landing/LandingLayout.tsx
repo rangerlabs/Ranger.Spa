@@ -17,6 +17,7 @@ const styles = (theme: Theme) =>
         root: {
             display: 'flex',
             height: '100%',
+            backgroundColor: theme.palette.common.white,
         },
         content: {
             flexGrow: 1,

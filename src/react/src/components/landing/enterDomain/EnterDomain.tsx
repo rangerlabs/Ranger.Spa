@@ -28,6 +28,9 @@ const styles = (theme: Theme) =>
             display: 'flex',
             justifyContent: 'flex-end',
         },
+        paper: {
+            backgroundColor: theme.palette.common.white,
+        },
     });
 
 interface EnterDomainProps extends WithStyles<typeof styles>, WithSnackbarProps {}
@@ -60,7 +63,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
-                    <Paper elevation={0}>
+                    <Paper elevation={0} className={classes.paper}>
                         <Formik
                             initialValues={{ domain: '' } as Domain}
                             onSubmit={(values: Domain, formikBag: FormikBag<FormikProps<Domain>, Domain>) => {

@@ -33,6 +33,9 @@ const styles = (theme: Theme) =>
             display: 'flex',
             justifyContent: 'flex-end',
         },
+        paper: {
+            backgroundColor: theme.palette.common.white,
+        },
     });
 
 const steps = ['Select your domain', 'Create your user', 'Submit'];
@@ -131,7 +134,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
-                    <Paper elevation={0}>
+                    <Paper elevation={0} className={classes.paper}>
                         <Typography component="h1" variant="h4" align="center">
                             Welcome to Ranger
                         </Typography>

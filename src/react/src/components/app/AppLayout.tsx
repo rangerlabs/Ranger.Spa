@@ -15,8 +15,7 @@ import Breadcrumb from '../../models/app/Breadcrumb';
 import authorizedRoute from './hocs/AuthorizedRouteHOC';
 import { addDomain, DomainState } from '../../redux/actions/DomainActions';
 import { getSubDomain } from '../../helpers/Helpers';
-import { resetGeofences } from '../../redux/actions/GeofenceActions';
-import { resetIntegrations } from '../../redux/actions/IntegrationActions';
+import Constants from '../../theme/Constants';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -27,7 +26,9 @@ const styles = (theme: Theme) =>
         content: {
             flexGrow: 1,
         },
-        toolbar: theme.mixins.toolbar,
+        toolbar: {
+            height: Constants.HEIGHT.TOOLBAR,
+        },
     });
 
 interface AppLayoutProps extends WithStyles<typeof styles> {

@@ -25,7 +25,7 @@ import NewPolygonGeofenceMapMarker from './markers/NewPolygonGeofenceMapMarker';
 import { push } from 'connected-react-router';
 import { openGeofenceDrawer } from '../../../../redux/actions/GeofenceDrawerActions';
 import { closeGeofenceDrawer } from '../../../../redux/actions/GeofenceDrawerActions';
-import { addGeofenceToPendingDeletion, removeGeofenceByExternalId } from '../../../../redux/actions/GeofenceActions';
+import { removeGeofenceByExternalId } from '../../../../redux/actions/GeofenceActions';
 const hash = require('object-hash');
 import * as queryString from 'query-string';
 import Constants from '../../../../theme/Constants';
@@ -59,6 +59,12 @@ const StyledSearchTextField = withStyles({
             borderLeft: '0px',
             borderRight: '0px',
             borderRadius: '0px',
+        },
+        '& input:hover + fieldset': {
+            boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
+        },
+        '& input:focus+ fieldset': {
+            boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
         },
     },
 })(TextField);

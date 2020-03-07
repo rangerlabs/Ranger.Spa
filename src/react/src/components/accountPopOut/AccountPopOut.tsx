@@ -3,7 +3,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import { Button, createStyles, Theme, WithStyles, withStyles, Fade, Popper, ListItemIcon, ListItemText } from '@material-ui/core';
+import { IconButton, createStyles, Theme, WithStyles, withStyles, Fade, Popper, ListItemIcon, ListItemText } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import RoutePaths from '../RoutePaths';
 import { connect } from 'react-redux';
@@ -15,13 +15,13 @@ import Logout from 'mdi-material-ui/Logout';
 const styles = (theme: Theme) =>
     createStyles({
         paper: {
-            marginRight: theme.spacing(3),
+            backgroundColor: theme.palette.common.white,
         },
         accountButton: {
-            '&:hover ': {
-                backgroundColor: theme.palette.common.white,
-                color: theme.palette.primary.main,
-            },
+            color: theme.palette.common.white,
+        },
+        landingAccountButton: {
+            color: theme.palette.common.black,
         },
         listItemIcon: {
             minWidth: theme.spacing(4),
@@ -68,19 +68,19 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
         const { classes } = this.props;
         return (
             <div>
-                <Button
-                    className={classes.accountButton}
+                <IconButton
+                    className={RoutePaths.IsCurrentLocationWhiteListed() ? classes.landingAccountButton : classes.accountButton}
                     buttonRef={this.anchorEl}
                     aria-owns={open ? 'menu-list-grow' : undefined}
                     aria-haspopup="true"
                     onClick={this.handleToggle}
                 >
                     <Settings />
-                </Button>
+                </IconButton>
                 <Popper open={this.state.open} anchorEl={this.anchorEl.current} transition disablePortal>
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
-                            <Paper elevation={1}>
+                            <Paper elevation={1} className={classes.paper}>
                                 <ClickAwayListener onClickAway={this.handleClose}>
                                     <MenuList>
                                         {RoutePaths.IsCurrentLocationWhiteListed() && (

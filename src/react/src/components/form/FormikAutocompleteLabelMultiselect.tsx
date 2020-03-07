@@ -3,7 +3,7 @@ import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import Popper from '@material-ui/core/Popper';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputBase from '@material-ui/core/InputBase';
-import { Button, Checkbox, Typography, ListItem, ListItemText, List, Grid, Tooltip } from '@material-ui/core';
+import { Button, Checkbox, Typography, ListItem, ListItemText, List, Grid, Tooltip, FormControlLabel } from '@material-ui/core';
 import CheckboxMarked from 'mdi-material-ui/CheckboxMarked';
 import CheckboxBlankOutline from 'mdi-material-ui/CheckboxBlankOutline';
 import InformationOutline from 'mdi-material-ui/InformationOutline';
@@ -172,8 +172,10 @@ export default function FormikAutocompleteLabelMultiselect(props: FormikAutocomp
                     noOptionsText="No options available"
                     renderOption={(option: string, { selected }) => (
                         <React.Fragment>
-                            <Checkbox color="primary" icon={icon} checkedIcon={checkedIcon} className={classes.checkbox} checked={selected} />
-                            <Typography variant="subtitle1">{option}</Typography>
+                            <FormControlLabel
+                                control={<Checkbox color="primary" icon={icon} checkedIcon={checkedIcon} className={classes.checkbox} checked={selected} />}
+                                label={option}
+                            />
                         </React.Fragment>
                     )}
                     options={props.options.sort((a, b) => {

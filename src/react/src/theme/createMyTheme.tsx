@@ -38,7 +38,6 @@ declare module '@material-ui/core/styles/createMuiTheme' {
 }
 
 export default function createRangerTheme(options: ThemeOptions) {
-    const toolbarHeight = 64;
     return createMuiTheme({
         drawer: {
             width: 240,
@@ -49,7 +48,7 @@ export default function createRangerTheme(options: ThemeOptions) {
             leavingDuration: 450,
         },
         toolbar: {
-            height: toolbarHeight,
+            height: Constants.HEIGHT.TOOLBAR,
         },
         notistack: {
             width: '100%',
@@ -68,6 +67,11 @@ export default function createRangerTheme(options: ThemeOptions) {
                     borderRadius: '3px',
                 },
             },
+            MuiCard: {
+                root: {
+                    backgroundColor: Constants.COLORS.WHITE,
+                },
+            },
             MuiDrawer: {
                 paperAnchorDockedLeft: {
                     borderRight: 'none',
@@ -76,11 +80,6 @@ export default function createRangerTheme(options: ThemeOptions) {
             MuiPaper: {
                 rounded: {
                     borderRadius: '0px',
-                },
-            },
-            MuiToolbar: {
-                root: {
-                    height: toolbarHeight,
                 },
             },
             MuiTouchRipple: {
@@ -103,14 +102,6 @@ export default function createRangerTheme(options: ThemeOptions) {
                             borderBottomStyle: 'none',
                         },
                     },
-                },
-            },
-            MuiAppBar: {
-                root: {
-                    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-                },
-                colorPrimary: {
-                    backgroundColor: Constants.COLORS.WHITE,
                 },
             },
             MuiSnackbarContent: {

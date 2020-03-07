@@ -33,7 +33,6 @@ import { resetIntegrations } from '../../../redux/actions/IntegrationActions';
 const styles = (theme: Theme) =>
     createStyles({
         card: {
-            // height: "100%",
             margin: '10px',
         },
         cardContent: {

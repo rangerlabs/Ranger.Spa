@@ -67,7 +67,7 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps, Dele
     };
     validationSchema = Yup.object().shape({
         name: Yup.string()
-            .matches(new RegExp(`${this.props.name}`), `The name entered is not the domain name.`)
+            .matches(new RegExp(`^${this.props.name}$`), `The name entered is not the domain name.`)
             .required('Required'),
     });
 

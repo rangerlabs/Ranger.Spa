@@ -55,7 +55,7 @@ const styles = (theme: Theme) =>
             borderRight: '1px solid rgba(0, 0, 0, 0.12)',
         },
         headerPush: {
-            ...theme.mixins.toolbar,
+            height: Constants.HEIGHT.TOOLBAR,
         },
         nested: {
             paddingLeft: theme.spacing(4),
@@ -67,7 +67,7 @@ const styles = (theme: Theme) =>
         },
         badge: {
             height: '100%',
-            right: '-25px',
+            right: '-35px',
         },
         badgeTypography: {
             lineHeight: 'inherit',
