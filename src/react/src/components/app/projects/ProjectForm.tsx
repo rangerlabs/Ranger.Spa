@@ -117,7 +117,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         if (response.is_error) {
                             const { errors: serverErrors, ...formikErrors } = response.error_content;
                             this.props.enqueueSnackbar('Error resetting API key.', { variant: 'error' });
-                            this.formikRef.current.setErrors(formikErrors as FormikErrors<IProject>);
+                            this.formikRef.current.setStatus(formikErrors as FormikErrors<IProject>);
                             this.setState({ serverErrors: serverErrors });
                             this.formikRef.current.setSubmitting(false);
                         } else {
@@ -206,7 +206,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         if (response.is_error) {
                                             const { errors: serverErrors, ...formikErrors } = response.error_content;
                                             enqueueSnackbar('Error updating project.', { variant: 'error' });
-                                            formikBag.setErrors(formikErrors as FormikErrors<IProject>);
+                                            formikBag.setStatus(formikErrors as FormikErrors<IProject>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
@@ -221,7 +221,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         if (response.is_error) {
                                             const { errors: serverErrors, ...formikErrors } = response.error_content;
                                             enqueueSnackbar('Error creating project.', { variant: 'error' });
-                                            formikBag.setErrors(formikErrors as FormikErrors<IProject>);
+                                            formikBag.setStatus(formikErrors as FormikErrors<IProject>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {

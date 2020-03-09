@@ -4,7 +4,7 @@ import { bindActionCreators, Unsubscribe } from 'redux';
 import { connect } from 'react-redux';
 import { removeSnackbar, SnackbarNotification } from '../../redux/actions/SnackbarActions';
 import { ApplicationState, OidcState } from '../../stores';
-import Pusher from 'pusher-js';
+import Pusher, { Channel, AuthOptions } from 'pusher-js';
 import ReduxStore from '../../ReduxStore';
 import RegistrationHandler from './pusherHandlers/RegistrationHandler';
 import { StatusEnum } from '../../models/StatusEnum';
@@ -28,9 +28,9 @@ interface NotifierProps extends WithSnackbarProps {
 
 class Notifier extends React.Component<NotifierProps> {
     displayed = [] as React.ReactText[];
-    pusher = undefined as Pusher.Pusher;
-    registrationChannel = undefined as Pusher.Channel;
-    domainUserChannel = undefined as Pusher.Channel;
+    pusher = undefined as Pusher;
+    registrationChannel = undefined as Channel;
+    domainUserChannel = undefined as Channel;
     currentTenantOnbaordChannel = '';
     unsubscriber: Unsubscribe;
 
@@ -43,10 +43,11 @@ class Notifier extends React.Component<NotifierProps> {
         notifications.forEach(({ key, message, options = {} }) => {
             if (!this.displayed.includes(key)) {
                 this.props.enqueueSnackbar(message, {
+                    key,
                     ...options,
-                    onClose: (event, reason) => {
+                    onClose: (event, reason, myKey) => {
                         if (options.onClose) {
-                            options.onClose(event, reason);
+                            options.onClose(event, reason, myKey);
                         }
                         this.props.removeSnackbar(key);
                     },
@@ -87,6 +88,7 @@ class Notifier extends React.Component<NotifierProps> {
         this.pusher = new Pusher(PUSHER_KEY, {
             cluster: 'us2',
             forceTLS: true,
+            authEndpoint: 'https://' + API_HOST + BASE_PATH + '/pusher/auth',
         });
 
         this.unsubscriber = ReduxStore.getStore().subscribe(() => {
@@ -100,7 +102,6 @@ class Notifier extends React.Component<NotifierProps> {
                     this.subscribeTenantOnboardChannelEvent(stateDomain);
                 }
             } else if (this.canSubscribeToDomainUser(stateDomain, oidcState)) {
-                this.pusher.config.authEndpoint = 'https://' + API_HOST + BASE_PATH + '/pusher/auth';
                 this.pusher.config.auth = {
                     headers: {
                         Authorization: 'Bearer ' + oidcState.user.access_token,

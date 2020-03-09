@@ -22,6 +22,8 @@ import FormikAutocompleteLabelMultiselect from '../../../../form/FormikAutocompl
 import GeofenceService from '../../../../../services/GeofenceService';
 import { StatusEnum } from '../../../../../models/StatusEnum';
 import FormikDictionaryBuilder from '../../../../form/FormikDictionaryBuilder';
+import FormikScheduleBuilder from '../../../../form/FormikScheduleBuilder';
+import Schedule from '../../../../../models/Schedule';
 
 const geofenceService = new GeofenceService();
 
@@ -41,6 +43,9 @@ const styles = (theme: Theme) =>
         },
         width100TemporaryChromiumFix: {
             width: '100%',
+        },
+        toolbar: {
+            height: theme.toolbar.height,
         },
     });
 
@@ -234,7 +239,20 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                               ...this.props.editGeofence,
                               integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
                           } as CircleGeofence)
-                        : new CircleGeofence(this.props.selectedProject.projectId, '', [], true, true, true, '', [], [new CoordinatePair(0, 0)], [], 0)
+                        : new CircleGeofence(
+                              this.props.selectedProject.projectId,
+                              '',
+                              [],
+                              true,
+                              true,
+                              true,
+                              '',
+                              [],
+                              [new CoordinatePair(0, 0)],
+                              [],
+                              0,
+                              Schedule.FullSchedule()
+                          )
                 }
                 isInitialValid={this.props.editGeofence ? true : false}
                 onSubmit={(values: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
@@ -249,7 +267,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                         this.getIntegrationIdsByNames(values.integrationIds),
                         [new CoordinatePair(this.props.mapGeofence.center.lng, this.props.mapGeofence.center.lat)],
                         values.metadata,
-                        this.props.mapGeofence.radius
+                        this.props.mapGeofence.radius,
+                        Schedule.FullSchedule()
                     );
                     newFence.id = this.props.editGeofence?.id;
 
@@ -276,6 +295,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             >
                 {props => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
+                        <div className={classes.toolbar} />
+                        <Typography variant="h5">{this.props.editGeofence ? 'Edit Geofence' : 'Create Geofence'}</Typography>
                         <Grid container direction="column" spacing={4}>
                             {this.isPendingCreation() && (
                                 <Grid container item xs={12} spacing={0}>
@@ -365,6 +386,16 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
                                         this.formikRef.current.setFieldValue('integrationIds', values, true);
                                     }}
+                                />
+                            </Grid>
+                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                <FormikScheduleBuilder
+                                    name="schedule"
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    touchedArray={props.touched.schedule as any}
+                                    errorsArray={props.errors.schedule as any}
+                                    schedule={props.values.schedule}
                                 />
                             </Grid>
                             <FormikDictionaryBuilder

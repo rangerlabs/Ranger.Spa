@@ -104,7 +104,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         userService.deleteUser(props.values.email).then(response => {
             if (response.is_error) {
                 enqueueSnackbar(`Failed to delete user ${props.values.email}.`, { variant: 'error' });
-                this.formikRef.current.setError('Failed to delete the user. Verify the user exists and try again.');
+                this.formikRef.current.setStatus('Failed to delete the user. Verify the user exists and try again.');
             } else {
                 enqueueSnackbar('User deleted', { variant: 'success' });
                 this.props.dispatchRemoveUser(props.values.email);
@@ -200,7 +200,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                         if (response.is_error) {
                                             const { errors: serverErrors, ...formikErrors } = response.error_content;
                                             enqueueSnackbar('Error updating user.', { variant: 'error' });
-                                            formikBag.setErrors(formikErrors as FormikErrors<IUser>);
+                                            formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                             formikBag.resetForm(newUser);
@@ -218,7 +218,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                         if (response.is_error) {
                                             const { errors: serverErrors, ...formikErrors } = response.error_content;
                                             enqueueSnackbar('Error creating user.', { variant: 'error' });
-                                            formikBag.setErrors(formikErrors as FormikErrors<IUser>);
+                                            formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                             formikBag.resetForm(newUser);

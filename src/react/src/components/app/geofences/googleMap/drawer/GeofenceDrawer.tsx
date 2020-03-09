@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, WithStyles, Drawer, withStyles } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, Drawer, withStyles, Typography } from '@material-ui/core';
 import CircleGeofence from '../../../../../models/app/geofences/CircleGeofence';
 import PolygonGeofence from '../../../../../models/app/geofences/PolygonGeofence';
 import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
@@ -22,15 +22,12 @@ const styles = (theme: Theme) =>
                 width: '40%',
             },
             [theme.breakpoints.up('md')]: {
-                width: `calc((100% - ${theme.drawer.width}px) * .35)`,
+                width: `calc((100% - ${theme.drawer.width}px) * .4)`,
             },
         },
         buttons: {
             display: 'flex',
             justifyContent: 'flex-end',
-        },
-        toolbar: {
-            height: theme.toolbar.height,
         },
     });
 
@@ -120,8 +117,6 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                     unmountOnExit: true,
                 }}
             >
-                <div className={classes.toolbar} />
-                <div className={classes.toolbar} />
                 {this.props.selectedShape === ShapePicker.Circle ? (
                     <CircleGeofenceDrawerContent
                         selectedProject={this.props.selectedProject}

@@ -25,6 +25,7 @@ import { StatusEnum } from '../../../../../models/StatusEnum';
 import CircleGeofence from '../../../../../models/app/geofences/CircleGeofence';
 import CorrelationModel from '../../../../../models/CorrelationModel';
 import FormikDictionaryBuilder from '../../../../form/FormikDictionaryBuilder';
+import Schedule from '../../../../../models/Schedule';
 
 const geofenceService = new GeofenceService();
 
@@ -44,6 +45,9 @@ const styles = (theme: Theme) =>
         },
         width100TemporaryChromiumFix: {
             width: '100%',
+        },
+        toolbar: {
+            height: theme.toolbar.height,
         },
     });
 
@@ -237,7 +241,19 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                               ...this.props.editGeofence,
                               integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
                           } as PolygonGeofence)
-                        : new PolygonGeofence(this.props.selectedProject.projectId, '', [], true, true, true, '', [], [new CoordinatePair(0, 0)], [])
+                        : new PolygonGeofence(
+                              this.props.selectedProject.projectId,
+                              '',
+                              [],
+                              true,
+                              true,
+                              true,
+                              '',
+                              [],
+                              [new CoordinatePair(0, 0)],
+                              [],
+                              Schedule.FullSchedule()
+                          )
                 }
                 isInitialValid={this.props.editGeofence ? true : false}
                 onSubmit={(values: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
@@ -251,7 +267,8 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                         values.description,
                         this.getIntegrationIdsByNames(values.integrationIds),
                         this.props.mapGeofence.coordinatePairArray,
-                        values.metadata
+                        values.metadata,
+                        Schedule.FullSchedule()
                     );
                     newFence.id = this.props.editGeofence?.id;
 
@@ -278,6 +295,8 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             >
                 {props => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
+                        <div className={classes.toolbar} />
+                        <Typography variant="h5">{this.props.editGeofence ? 'Edit Geofence' : 'Create Geofence'}</Typography>
                         <Grid container direction="column" spacing={4}>
                             {this.isPendingCreation() && (
                                 <Grid container item xs={12} spacing={0}>

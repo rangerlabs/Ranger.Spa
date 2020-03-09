@@ -25,7 +25,8 @@ export default class GeofenceService {
                                 castedShape.integrationIds,
                                 [new CoordinatePair(v.coordinates[0].lng, v.coordinates[0].lat)],
                                 castedShape.metadata,
-                                castedShape.radius
+                                castedShape.radius,
+                                castedShape.schedule
                             );
                             circle.id = castedShape.id;
                             result.push(circle);
@@ -43,7 +44,8 @@ export default class GeofenceService {
                                 castedShape.description,
                                 castedShape.integrationIds,
                                 castedShape.coordinates,
-                                castedShape.metadata
+                                castedShape.metadata,
+                                castedShape.schedule
                             );
                             polygon.id = castedShape.id;
                             result.push(castedShape);

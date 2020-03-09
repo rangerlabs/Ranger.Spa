@@ -13,7 +13,6 @@ const UserManagerConfig: UserManagerSettings = {
     filterProtocolClaims: true,
     loadUserInfo: true,
     monitorSession: true,
-    extraQueryParams: getSubDomain(),
 };
 
 function getAuthority(): string {

@@ -143,7 +143,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             if (response.is_error) {
                                                 const { errors: serverErrors, ...formikErrors } = response.error_content;
                                                 enqueueSnackbar('Error updating your account.', { variant: 'error' });
-                                                formikBag.setErrors(formikErrors as FormikErrors<IUser>);
+                                                formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                                 this.setState({ serverErrors: serverErrors });
                                                 formikBag.setSubmitting(false);
                                             } else {
