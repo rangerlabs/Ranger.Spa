@@ -47,7 +47,7 @@ const styles = (theme: Theme) =>
             width: '100%',
         },
         toolbar: {
-            height: theme.toolbar.height,
+            height: theme.toolbar.height * 1.5,
         },
     });
 
@@ -248,6 +248,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                               true,
                               true,
                               true,
+                              true,
                               '',
                               [],
                               [new CoordinatePair(0, 0)],
@@ -262,6 +263,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                         values.externalId,
                         values.labels,
                         values.onEnter,
+                        values.onDwell,
                         values.onExit,
                         values.enabled,
                         values.description,
@@ -440,6 +442,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                 {props.initialValues.externalId === '' ? 'Create Geofence' : 'Update Geofence'}
                             </FormikSynchronousButton>
                         </div>
+                        <div className={classes.toolbar} />
                     </form>
                 )}
             </Formik>

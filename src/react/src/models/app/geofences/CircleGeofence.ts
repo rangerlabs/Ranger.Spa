@@ -15,6 +15,7 @@ export default class CircleGeofence implements Geofence {
         public externalId: string,
         public labels: string[] = [],
         public onEnter: boolean,
+        public onDwell: boolean,
         public onExit: boolean,
         public enabled: boolean,
         public description: string,

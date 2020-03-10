@@ -12,6 +12,7 @@ import CircleGeofenceDrawerContent from './CircleGeofenceDrawerContent';
 import PolygonGeofenceDrawerContent from './PolygonGeofenceDrawerContent';
 import IProject from '../../../../../models/app/IProject';
 import { MergedIntegrationType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
+import AddTimeFormatValidatorToYup from '../../../../../yup/AddTimeGreaterThanValidatorToYup';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -95,6 +96,11 @@ interface GeofenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarPro
 }
 
 class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
+    constructor(props: GeofenceDrawerProps) {
+        super(props);
+        AddTimeFormatValidatorToYup();
+    }
+
     componentWillUnmount() {
         this.props.closeDrawer();
     }

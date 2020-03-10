@@ -1,4 +1,5 @@
 import DailySchedule from './DailySchedule';
+import { endOfToday, startOfToday } from 'date-fns';
 
 export default class Schedule {
     public constructor(
@@ -12,7 +13,7 @@ export default class Schedule {
     ) {}
 
     public static FullDay(): DailySchedule {
-        return new DailySchedule('', '');
+        return new DailySchedule(startOfToday(), endOfToday());
     }
 
     public static FullSchedule(): Schedule {

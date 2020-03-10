@@ -24,6 +24,7 @@ import { StatusEnum } from '../../../../../models/StatusEnum';
 import FormikDictionaryBuilder from '../../../../form/FormikDictionaryBuilder';
 import FormikScheduleBuilder from '../../../../form/FormikScheduleBuilder';
 import Schedule from '../../../../../models/Schedule';
+import { parse, isValid } from 'date-fns';
 
 const geofenceService = new GeofenceService();
 
@@ -45,7 +46,7 @@ const styles = (theme: Theme) =>
             width: '100%',
         },
         toolbar: {
-            height: theme.toolbar.height,
+            height: theme.toolbar.height * 1.5,
         },
     });
 
@@ -202,6 +203,71 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 value: Yup.string().required('Required'),
             })
         ),
+        schedule: Yup.object().shape({
+            Sunday: Yup.object().shape({
+                startTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required(),
+                endTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required()
+                    .timeGreaterThan(),
+            }),
+            Monday: Yup.object().shape({
+                startTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required(),
+                endTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required()
+                    .timeGreaterThan(),
+            }),
+            Tuesday: Yup.object().shape({
+                startTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required(),
+                endTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required()
+                    .timeGreaterThan(),
+            }),
+            Wednesday: Yup.object().shape({
+                startTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required(),
+                endTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required()
+                    .timeGreaterThan(),
+            }),
+            Thursday: Yup.object().shape({
+                startTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required(),
+                endTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required()
+                    .timeGreaterThan(),
+            }),
+            Friday: Yup.object().shape({
+                startTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required(),
+                endTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required()
+                    .timeGreaterThan(),
+            }),
+            Saturday: Yup.object().shape({
+                startTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required(),
+                endTime: Yup.date()
+                    .typeError('Invalid time format.')
+                    .required()
+                    .timeGreaterThan(),
+            }),
+        }),
     });
 
     getIntegrationNamesByIds(integrationIds: string[]) {
@@ -246,6 +312,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                               true,
                               true,
                               true,
+                              true,
                               '',
                               [],
                               [new CoordinatePair(0, 0)],
@@ -261,6 +328,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                         values.externalId,
                         values.labels,
                         values.onEnter,
+                        values.onDwell,
                         values.onExit,
                         values.enabled,
                         values.description,
@@ -296,7 +364,9 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 {props => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
                         <div className={classes.toolbar} />
-                        <Typography variant="h5">{this.props.editGeofence ? 'Edit Geofence' : 'Create Geofence'}</Typography>
+                        <Typography gutterBottom variant="h5">
+                            {this.props.editGeofence ? 'Edit Geofence' : 'Create Geofence'}
+                        </Typography>
                         <Grid container direction="column" spacing={4}>
                             {this.isPendingCreation() && (
                                 <Grid container item xs={12} spacing={0}>
@@ -314,31 +384,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         name="enabled"
                                         label="Enabled"
                                         value={props.values.enabled}
-                                        onChange={props.handleChange}
-                                        onBlur={props.handleBlur}
-                                        disabled={this.isPendingCreation()}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid container item xs={12} spacing={0}>
-                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                    <FormLabel component="label">Trigger geofence on</FormLabel>
-                                </Grid>
-                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                    <FormikCheckbox
-                                        name="onEnter"
-                                        label="Enter"
-                                        value={props.values.onEnter}
-                                        onChange={props.handleChange}
-                                        onBlur={props.handleBlur}
-                                        disabled={this.isPendingCreation()}
-                                    />
-                                </Grid>
-                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                    <FormikCheckbox
-                                        name="onExit"
-                                        label="Exit"
-                                        value={props.values.onExit}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
                                         disabled={this.isPendingCreation()}
@@ -374,6 +419,45 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     disabled={this.isPendingCreation()}
                                 />
                             </Grid>
+                            <Grid container item xs={12} spacing={0}>
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                    <FormLabel component="label">Send events when users</FormLabel>
+                                </Grid>
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                    <FormikCheckbox
+                                        infoText="Send events when a user enters this geofence."
+                                        name="onEnter"
+                                        label="Enter"
+                                        value={props.values.onEnter}
+                                        onChange={props.handleChange}
+                                        onBlur={props.handleBlur}
+                                        disabled={this.isPendingCreation()}
+                                    />
+                                </Grid>
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                    <FormikCheckbox
+                                        infoText="Send events when a user has entered and is continuing to dwell within this geofence."
+                                        name="onDwell"
+                                        label="Dwell"
+                                        value={props.values.onEnter}
+                                        onChange={props.handleChange}
+                                        onBlur={props.handleBlur}
+                                        disabled={this.isPendingCreation()}
+                                    />
+                                </Grid>
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                    <FormikCheckbox
+                                        infoText="Send events when a user has entered and then exits this geofence."
+                                        name="onExit"
+                                        label="Exit"
+                                        value={props.values.onExit}
+                                        onChange={props.handleChange}
+                                        onBlur={props.handleBlur}
+                                        disabled={this.isPendingCreation()}
+                                    />
+                                </Grid>
+                            </Grid>
+
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikAutocompleteLabelMultiselect
                                     infoText="The integrations to execute for the geofence."
@@ -391,10 +475,12 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikScheduleBuilder
                                     name="schedule"
-                                    onChange={props.handleChange}
+                                    onChange={(fieldName: string, value: Date) => {
+                                        this.formikRef.current.setFieldValue(fieldName, isValid(value) ? value.toISOString() : value, true);
+                                    }}
                                     onBlur={props.handleBlur}
-                                    touchedArray={props.touched.schedule as any}
-                                    errorsArray={props.errors.schedule as any}
+                                    touched={props.touched.schedule as any}
+                                    errors={props.errors.schedule as any}
                                     schedule={props.values.schedule}
                                 />
                             </Grid>
@@ -450,6 +536,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                 {props.initialValues.externalId === '' ? 'Create Geofence' : 'Update Geofence'}
                             </FormikSynchronousButton>
                         </div>
+                        <div className={classes.toolbar} />
                     </form>
                 )}
             </Formik>
