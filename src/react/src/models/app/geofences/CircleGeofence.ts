@@ -23,7 +23,7 @@ export default class CircleGeofence implements Geofence {
         public coordinates: Array<CoordinatePair>,
         public metadata: [],
         public radius: number,
-        public schedule: Schedule
+        public schedule?: Schedule
     ) {
         this.shape = ShapePicker.Circle;
     }

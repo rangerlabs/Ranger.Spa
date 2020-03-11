@@ -204,6 +204,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             })
         ),
         schedule: Yup.object().shape({
+            TimeZoneId: Yup.string().required('Required.'),
             Sunday: Yup.object().shape({
                 startTime: Yup.date()
                     .typeError('Invalid time format.')
@@ -336,7 +337,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                         [new CoordinatePair(this.props.mapGeofence.center.lng, this.props.mapGeofence.center.lat)],
                         values.metadata,
                         this.props.mapGeofence.radius,
-                        Schedule.FullSchedule()
+                        Schedule.IsUtcFullSchedule(values.schedule) ? null : values.schedule
                     );
                     newFence.id = this.props.editGeofence?.id;
 
@@ -475,8 +476,11 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikScheduleBuilder
                                     name="schedule"
-                                    onChange={(fieldName: string, value: Date) => {
+                                    onScheduleChange={(fieldName: string, value: Date) => {
                                         this.formikRef.current.setFieldValue(fieldName, isValid(value) ? value.toISOString() : value, true);
+                                    }}
+                                    onTimeZoneChange={(fieldName: string, value: string) => {
+                                        this.formikRef.current.setFieldValue(fieldName, value, true);
                                     }}
                                     onBlur={props.handleBlur}
                                     touched={props.touched.schedule as any}

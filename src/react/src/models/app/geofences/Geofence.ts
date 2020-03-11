@@ -16,5 +16,5 @@ export default interface Geofence {
     onExit: boolean;
     enabled: boolean;
     metadata: [];
-    schedule: Schedule;
+    schedule?: Schedule;
 }

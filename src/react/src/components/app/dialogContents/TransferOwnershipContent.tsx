@@ -81,6 +81,7 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
                                 <FormikAutocompleteSearch
                                     name="email"
                                     label="Email"
+                                    renderOption={(option: string) => <Typography variant="subtitle1">{option}</Typography>}
                                     options={transferOwnershipContentProps.users.map(u => u.email)}
                                     errorText={props.errors.email}
                                     touched={props.touched.email}

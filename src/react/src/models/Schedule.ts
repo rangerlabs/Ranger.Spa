@@ -1,8 +1,10 @@
 import DailySchedule from './DailySchedule';
 import { endOfToday, startOfToday } from 'date-fns';
+var deepEqual = require('deep-equal');
 
 export default class Schedule {
     public constructor(
+        public TimeZoneId: string,
         public Sunday: DailySchedule,
         public Monday: DailySchedule,
         public Tuesday: DailySchedule,
@@ -18,6 +20,7 @@ export default class Schedule {
 
     public static FullSchedule(): Schedule {
         return new Schedule(
+            'UTC',
             Schedule.FullDay(),
             Schedule.FullDay(),
             Schedule.FullDay(),
@@ -26,5 +29,9 @@ export default class Schedule {
             Schedule.FullDay(),
             Schedule.FullDay()
         );
+    }
+
+    public static IsUtcFullSchedule(schedule: Schedule): boolean {
+        return deepEqual(schedule, Schedule.FullSchedule());
     }
 }

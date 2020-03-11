@@ -241,20 +241,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                               ...this.props.editGeofence,
                               integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
                           } as PolygonGeofence)
-                        : new PolygonGeofence(
-                              this.props.selectedProject.projectId,
-                              '',
-                              [],
-                              true,
-                              true,
-                              true,
-                              true,
-                              '',
-                              [],
-                              [new CoordinatePair(0, 0)],
-                              [],
-                              Schedule.FullSchedule()
-                          )
+                        : new PolygonGeofence(this.props.selectedProject.projectId, '', [], true, true, true, true, '', [], [new CoordinatePair(0, 0)], [])
                 }
                 isInitialValid={this.props.editGeofence ? true : false}
                 onSubmit={(values: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
@@ -269,8 +256,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                         values.description,
                         this.getIntegrationIdsByNames(values.integrationIds),
                         this.props.mapGeofence.coordinatePairArray,
-                        values.metadata,
-                        Schedule.FullSchedule()
+                        values.metadata
                     );
                     newFence.id = this.props.editGeofence?.id;
 

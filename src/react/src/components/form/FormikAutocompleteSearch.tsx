@@ -34,7 +34,9 @@ const useStyles = makeStyles((theme: Theme) =>
 interface FormikAutocompleteSearchProps {
     name: string;
     label: string;
+    renderOption: (displayOption: string) => JSX.Element;
     options: string[];
+    value?: string;
     disabled?: boolean;
     onChange: (event: ChangeEvent<{}>, values: string) => void;
     onBlur: (event: ChangeEvent<{}>, values: string) => void;
@@ -45,11 +47,10 @@ interface FormikAutocompleteSearchProps {
 
 export default function FormikAutocompleteSearch(props: FormikAutocompleteSearchProps) {
     const classes = useStyles(props);
-    const [inputValue, setInputValue] = useState('');
+    const { value: value } = props;
 
     const handleChange = (event: React.ChangeEvent<{}>, value: string) => {
         value = value ? value : '';
-        setInputValue(value);
         props.onChange(event, value);
     };
 
@@ -61,16 +62,16 @@ export default function FormikAutocompleteSearch(props: FormikAutocompleteSearch
                     paper: classes.paper,
                 }}
                 noOptionsText="No options available"
-                renderOption={(option: string) => <Typography variant="subtitle1">{option}</Typography>}
+                renderOption={props.renderOption}
                 options={props.options.sort()}
-                value={inputValue}
+                value={value}
                 onChange={handleChange}
                 clearOnEscape
                 renderInput={(params: any) => (
                     <FormikTextField
                         name={props.name}
                         label={props.label}
-                        value={inputValue}
+                        value={value}
                         errorText={props.errorText}
                         touched={props.touched}
                         onChange={() => {}}

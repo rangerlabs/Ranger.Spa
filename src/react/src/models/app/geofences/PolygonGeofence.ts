@@ -22,7 +22,7 @@ export default class PolygonGeofence implements Geofence {
         public integrationIds: string[] = [],
         public coordinates: Array<CoordinatePair>,
         public metadata: [],
-        public schedule: Schedule
+        public schedule?: Schedule
     ) {
         this.shape = ShapePicker.Polygon;
     }
