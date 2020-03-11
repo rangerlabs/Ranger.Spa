@@ -149,21 +149,26 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     updateGeofence = (geofence: CircleGeofence) => {
-        geofenceService.putGeofence(this.props.selectedProject.name, geofence.id, geofence).then(v => {
-            if (!v.is_error) {
-                this.setState({ isSuccess: true });
-                geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
-                this.props.addGeofenceToPendingUpdate(this.props.editGeofence);
-                this.props.saveGeofenceToState(geofence);
-                this.props.enqueueSnackbar(`Geofence '${geofence.externalId}' is pending update.`, { variant: 'info' });
-                this.props.clearNewCircleGeofence();
-                this.props.enableMapClick();
-                this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
-                this.props.closeDrawer();
-            }
-            this.formikRef.current.setSubmitting(false);
-            this.setState({ isSuccess: false });
-        });
+        geofenceService
+            .putGeofence(this.props.selectedProject.name, geofence.id, {
+                ...geofence,
+                schedule: Schedule.IsUtcFullSchedule(geofence.schedule) ? null : geofence.schedule,
+            } as CircleGeofence)
+            .then(v => {
+                if (!v.is_error) {
+                    this.setState({ isSuccess: true });
+                    geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
+                    this.props.addGeofenceToPendingUpdate(this.props.editGeofence);
+                    this.props.saveGeofenceToState(geofence);
+                    this.props.enqueueSnackbar(`Geofence '${geofence.externalId}' is pending update.`, { variant: 'info' });
+                    this.props.clearNewCircleGeofence();
+                    this.props.enableMapClick();
+                    this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+                    this.props.closeDrawer();
+                }
+                this.formikRef.current.setSubmitting(false);
+                this.setState({ isSuccess: false });
+            });
     };
 
     deleteGeofence = () => {
@@ -337,7 +342,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                         [new CoordinatePair(this.props.mapGeofence.center.lng, this.props.mapGeofence.center.lat)],
                         values.metadata,
                         this.props.mapGeofence.radius,
-                        Schedule.IsUtcFullSchedule(values.schedule) ? null : values.schedule
+                        values.schedule
                     );
                     newFence.id = this.props.editGeofence?.id;
 

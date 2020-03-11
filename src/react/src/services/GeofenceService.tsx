@@ -4,6 +4,7 @@ import PolygonGeofence from '../models/app/geofences/PolygonGeofence';
 import CircleGeofence from '../models/app/geofences/CircleGeofence';
 import { ShapePicker } from '../redux/actions/GoogleMapsActions';
 import CoordinatePair from '../models/app/geofences/CoordinatePair';
+import Schedule from '../models/Schedule';
 
 export default class GeofenceService {
     async getGeofences(projectName: string): Promise<IRestResponse<Array<CircleGeofence | PolygonGeofence>>> {
@@ -27,7 +28,7 @@ export default class GeofenceService {
                                 [new CoordinatePair(v.coordinates[0].lng, v.coordinates[0].lat)],
                                 castedShape.metadata,
                                 castedShape.radius,
-                                castedShape.schedule
+                                castedShape.schedule ? castedShape.schedule : Schedule.FullSchedule()
                             );
                             circle.id = castedShape.id;
                             result.push(circle);
@@ -47,7 +48,7 @@ export default class GeofenceService {
                                 castedShape.integrationIds,
                                 castedShape.coordinates,
                                 castedShape.metadata,
-                                castedShape.schedule
+                                castedShape.schedule ? castedShape.schedule : Schedule.FullSchedule()
                             );
                             polygon.id = castedShape.id;
                             result.push(castedShape);
