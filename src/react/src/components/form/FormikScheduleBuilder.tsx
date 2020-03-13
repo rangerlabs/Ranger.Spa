@@ -87,7 +87,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
     const classes = useStyles(props);
     const { name, schedule, touched, errors } = props;
     const [expanded, setExpanded] = useState(false);
-    const [isUtcFullSchedule, setCanReset] = useState(Schedule.IsUtcFullSchedule(schedule));
+    const [isUtcFullSchedule, setCanReset] = useState(Schedule.IsFullUtcSchedule(schedule));
 
     function assertIsDay(val: string): asserts val is ScheduleEnum {
         if (!(val.toUpperCase() in ScheduleEnum)) {
@@ -96,7 +96,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
     }
 
     useEffect(() => {
-        setCanReset(Schedule.IsUtcFullSchedule(schedule));
+        setCanReset(Schedule.IsFullUtcSchedule(schedule));
     }, [schedule]);
 
     const errorTextStartTime = (v: ScheduleEnum): string | null =>

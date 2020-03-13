@@ -28,6 +28,7 @@ const styles = (theme: Theme) =>
         },
         stepper: {
             padding: `${theme.spacing(3)}px 0 ${theme.spacing(5)}px`,
+            backgroundColor: theme.palette.common.white,
         },
         buttons: {
             display: 'flex',

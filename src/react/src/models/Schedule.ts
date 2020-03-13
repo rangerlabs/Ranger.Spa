@@ -18,7 +18,7 @@ export default class Schedule {
         return new DailySchedule(startOfToday(), endOfToday());
     }
 
-    public static FullSchedule(): Schedule {
+    public static FullUtcSchedule(): Schedule {
         return new Schedule(
             'UTC',
             Schedule.FullDay(),
@@ -31,7 +31,7 @@ export default class Schedule {
         );
     }
 
-    public static IsUtcFullSchedule(schedule: Schedule): boolean {
-        return deepEqual(schedule, Schedule.FullSchedule());
+    public static IsFullUtcSchedule(schedule: Schedule): boolean {
+        return deepEqual(schedule, Schedule.FullUtcSchedule());
     }
 }

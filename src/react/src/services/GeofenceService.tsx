@@ -28,7 +28,7 @@ export default class GeofenceService {
                                 [new CoordinatePair(v.coordinates[0].lng, v.coordinates[0].lat)],
                                 castedShape.metadata,
                                 castedShape.radius,
-                                castedShape.schedule ? castedShape.schedule : Schedule.FullSchedule()
+                                castedShape.schedule ?? Schedule.FullUtcSchedule()
                             );
                             circle.id = castedShape.id;
                             result.push(circle);
@@ -48,7 +48,7 @@ export default class GeofenceService {
                                 castedShape.integrationIds,
                                 castedShape.coordinates,
                                 castedShape.metadata,
-                                castedShape.schedule ? castedShape.schedule : Schedule.FullSchedule()
+                                castedShape.schedule ?? Schedule.FullUtcSchedule()
                             );
                             polygon.id = castedShape.id;
                             result.push(castedShape);
@@ -66,10 +66,16 @@ export default class GeofenceService {
     }
 
     async postGeofence(projectName: string, geofence: Geofence): Promise<IRestResponse<void>> {
-        return RestUtilities.post(`${projectName}/geofences`, geofence);
+        return RestUtilities.post(`${projectName}/geofences`, {
+            ...geofence,
+            schedule: Schedule.IsFullUtcSchedule(geofence.schedule) ? null : geofence.schedule,
+        } as Geofence);
     }
     async putGeofence(projectName: string, id: string, geofence: Geofence): Promise<IRestResponse<void>> {
-        return RestUtilities.put(`${projectName}/geofences/${id}`, geofence);
+        return RestUtilities.put(`${projectName}/geofences/${id}`, {
+            ...geofence,
+            schedule: Schedule.IsFullUtcSchedule(geofence.schedule) ? null : geofence.schedule,
+        } as Geofence);
     }
     async deleteGeofence(projectName: string, externalId: string): Promise<IRestResponse<void>> {
         return RestUtilities.delete(`${projectName}/geofences/${externalId}`);
