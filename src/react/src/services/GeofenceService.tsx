@@ -28,7 +28,7 @@ export default class GeofenceService {
                                 [new CoordinatePair(v.coordinates[0].lng, v.coordinates[0].lat)],
                                 castedShape.metadata,
                                 castedShape.radius,
-                                castedShape.schedule ?? Schedule.FullUtcSchedule()
+                                castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule()
                             );
                             circle.id = castedShape.id;
                             result.push(circle);
@@ -48,10 +48,10 @@ export default class GeofenceService {
                                 castedShape.integrationIds,
                                 castedShape.coordinates,
                                 castedShape.metadata,
-                                castedShape.schedule ?? Schedule.FullUtcSchedule()
+                                castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule()
                             );
                             polygon.id = castedShape.id;
-                            result.push(castedShape);
+                            result.push(polygon);
                             break;
                         }
                         default:
@@ -66,15 +66,17 @@ export default class GeofenceService {
     }
 
     async postGeofence(projectName: string, geofence: Geofence): Promise<IRestResponse<void>> {
+        var schedule = Schedule.IsFullUtcSchedule(geofence.schedule) ? null : geofence.schedule.ToLocalTimeSchedule();
         return RestUtilities.post(`${projectName}/geofences`, {
             ...geofence,
-            schedule: Schedule.IsFullUtcSchedule(geofence.schedule) ? null : geofence.schedule,
+            schedule,
         } as Geofence);
     }
     async putGeofence(projectName: string, id: string, geofence: Geofence): Promise<IRestResponse<void>> {
+        var schedule = Schedule.IsFullUtcSchedule(geofence.schedule) ? null : geofence.schedule.ToLocalTimeSchedule();
         return RestUtilities.put(`${projectName}/geofences/${id}`, {
             ...geofence,
-            schedule: Schedule.IsFullUtcSchedule(geofence.schedule) ? null : geofence.schedule,
+            schedule,
         } as Geofence);
     }
     async deleteGeofence(projectName: string, externalId: string): Promise<IRestResponse<void>> {

@@ -11,7 +11,7 @@ import { CircleGeofenceState } from '../../../../../redux/actions/GoogleMapsActi
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { addGeofence, addGeofenceToPendingDeletion, updateGeofenceById, addGeofenceToPendingUpdate } from '../../../../../redux/actions/GeofenceActions';
+import { addGeofence, addGeofenceToPendingDeletion, addGeofenceToPendingUpdate } from '../../../../../redux/actions/GeofenceActions';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
@@ -24,7 +24,7 @@ import { StatusEnum } from '../../../../../models/StatusEnum';
 import FormikDictionaryBuilder from '../../../../form/FormikDictionaryBuilder';
 import FormikScheduleBuilder from '../../../../form/FormikScheduleBuilder';
 import Schedule from '../../../../../models/Schedule';
-import { parse, isValid } from 'date-fns';
+import { isValid } from 'date-fns';
 
 const geofenceService = new GeofenceService();
 
@@ -47,6 +47,9 @@ const styles = (theme: Theme) =>
         },
         toolbar: {
             height: theme.toolbar.height * 1.5,
+        },
+        bottomPush: {
+            height: theme.toolbar.height,
         },
     });
 
@@ -204,8 +207,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             })
         ),
         schedule: Yup.object().shape({
-            TimeZoneId: Yup.string().required('Required.'),
-            Sunday: Yup.object().shape({
+            timeZoneId: Yup.string().required('Required.'),
+            sunday: Yup.object().shape({
                 startTime: Yup.date()
                     .typeError('Invalid time format.')
                     .required(),
@@ -214,7 +217,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                     .required()
                     .timeGreaterThan(),
             }),
-            Monday: Yup.object().shape({
+            monday: Yup.object().shape({
                 startTime: Yup.date()
                     .typeError('Invalid time format.')
                     .required(),
@@ -223,7 +226,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                     .required()
                     .timeGreaterThan(),
             }),
-            Tuesday: Yup.object().shape({
+            tuesday: Yup.object().shape({
                 startTime: Yup.date()
                     .typeError('Invalid time format.')
                     .required(),
@@ -232,7 +235,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                     .required()
                     .timeGreaterThan(),
             }),
-            Wednesday: Yup.object().shape({
+            wednesday: Yup.object().shape({
                 startTime: Yup.date()
                     .typeError('Invalid time format.')
                     .required(),
@@ -241,7 +244,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                     .required()
                     .timeGreaterThan(),
             }),
-            Thursday: Yup.object().shape({
+            thursday: Yup.object().shape({
                 startTime: Yup.date()
                     .typeError('Invalid time format.')
                     .required(),
@@ -250,7 +253,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                     .required()
                     .timeGreaterThan(),
             }),
-            Friday: Yup.object().shape({
+            friday: Yup.object().shape({
                 startTime: Yup.date()
                     .typeError('Invalid time format.')
                     .required(),
@@ -259,7 +262,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                     .required()
                     .timeGreaterThan(),
             }),
-            Saturday: Yup.object().shape({
+            saturday: Yup.object().shape({
                 startTime: Yup.date()
                     .typeError('Invalid time format.')
                     .required(),
@@ -322,7 +325,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                               Schedule.FullUtcSchedule()
                           )
                 }
-                isInitialValid={this.props.editGeofence ? true : false}
                 onSubmit={(values: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
                     const newFence = new CircleGeofence(
                         this.props.selectedProject.projectId,
@@ -540,7 +542,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                 {props.initialValues.externalId === '' ? 'Create Geofence' : 'Update Geofence'}
                             </FormikSynchronousButton>
                         </div>
-                        <div className={classes.toolbar} />
+                        <div className={classes.bottomPush} />
                     </form>
                 )}
             </Formik>

@@ -1,9 +1,9 @@
 export enum ScheduleEnum {
-    SUNDAY = 'Sunday',
-    MONDAY = 'Monday',
-    TUESDAY = 'Tuesday',
-    WEDNESDAY = 'Wednesday',
-    THURSDAY = 'Thursday',
-    FRIDAY = 'Friday',
-    SATURDAY = 'Saturday',
+    sunday = 'sunday',
+    monday = 'monday',
+    tuesday = 'tuesday',
+    wednesday = 'wednesday',
+    thursday = 'thursday',
+    friday = 'friday',
+    saturday = 'saturday',
 }

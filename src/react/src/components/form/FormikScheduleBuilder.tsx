@@ -90,7 +90,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
     const [isUtcFullSchedule, setCanReset] = useState(Schedule.IsFullUtcSchedule(schedule));
 
     function assertIsDay(val: string): asserts val is ScheduleEnum {
-        if (!(val.toUpperCase() in ScheduleEnum)) {
+        if (!(val in ScheduleEnum)) {
             throw new AssertionError({ message: 'Value not a day!' });
         }
     }
@@ -141,15 +141,15 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                 <Collapse in={expanded} timeout={500}>
                     <Box marginBottom={2}>
                         <FormikAutocompleteSearch
-                            name={`${name}.TimeZoneId`}
+                            name={`${name}.timeZoneId`}
                             label="Timezone Id"
                             renderOption={(option: string) => <Typography variant="subtitle1">{`${option} (GMT${moment.tz(option).format('Z')})`}</Typography>}
                             options={timeZoneIds}
-                            value={schedule.TimeZoneId}
-                            errorText={errors?.TimeZoneId}
-                            touched={touched?.TimeZoneId}
+                            value={schedule.timeZoneId}
+                            errorText={errors?.timeZoneId}
+                            touched={touched?.timeZoneId}
                             onChange={(event: React.ChangeEvent<{}>, values: string) => {
-                                props.onTimeZoneChange(`${name}.TimeZoneId`, values);
+                                props.onTimeZoneChange(`${name}.timeZoneId`, values);
                             }}
                             onBlur={props.onBlur}
                             required
@@ -275,7 +275,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                     <Button
                         className={classes.warning}
                         onClick={() => {
-                            props.onTimeZoneChange(`${name}.TimeZoneId`, 'UTC');
+                            props.onTimeZoneChange(`${name}.timeZoneId`, 'UTC');
                             Object.values(ScheduleEnum).map((v, i) => {
                                 assertIsDay(v);
                                 props.onScheduleChange(`${name}.${v}.startTime`, startOfToday());
