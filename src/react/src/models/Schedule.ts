@@ -23,25 +23,16 @@ export default class Schedule {
     }
 
     public ToLocalTimeSchedule(): Schedule {
-        this.sunday = this.IsoDailyToLocalTimeDailySchedule(this.sunday);
-        this.monday = this.IsoDailyToLocalTimeDailySchedule(this.monday);
-        this.tuesday = this.IsoDailyToLocalTimeDailySchedule(this.tuesday);
-        this.wednesday = this.IsoDailyToLocalTimeDailySchedule(this.wednesday);
-        this.thursday = this.IsoDailyToLocalTimeDailySchedule(this.thursday);
-        this.friday = this.IsoDailyToLocalTimeDailySchedule(this.friday);
-        this.saturday = this.IsoDailyToLocalTimeDailySchedule(this.saturday);
-        return this;
-    }
-
-    public ToIsoSchedule(): Schedule {
-        this.sunday = Schedule.LocalTimeDailyScheduleToIsoDaily(this.sunday);
-        this.monday = Schedule.LocalTimeDailyScheduleToIsoDaily(this.monday);
-        this.tuesday = Schedule.LocalTimeDailyScheduleToIsoDaily(this.tuesday);
-        this.wednesday = Schedule.LocalTimeDailyScheduleToIsoDaily(this.wednesday);
-        this.thursday = Schedule.LocalTimeDailyScheduleToIsoDaily(this.thursday);
-        this.friday = Schedule.LocalTimeDailyScheduleToIsoDaily(this.friday);
-        this.saturday = Schedule.LocalTimeDailyScheduleToIsoDaily(this.saturday);
-        return this;
+        return new Schedule(
+            this.timeZoneId,
+            this.IsoDailyToLocalTimeDailySchedule(this.sunday),
+            this.IsoDailyToLocalTimeDailySchedule(this.monday),
+            this.IsoDailyToLocalTimeDailySchedule(this.tuesday),
+            this.IsoDailyToLocalTimeDailySchedule(this.wednesday),
+            this.IsoDailyToLocalTimeDailySchedule(this.thursday),
+            this.IsoDailyToLocalTimeDailySchedule(this.friday),
+            this.IsoDailyToLocalTimeDailySchedule(this.saturday)
+        );
     }
 
     public static CreateIsoScheduleFromResponse(response: Object): Schedule {

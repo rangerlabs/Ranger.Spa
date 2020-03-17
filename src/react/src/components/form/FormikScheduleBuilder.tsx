@@ -190,16 +190,19 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextStartTime(v)}
                                                             error={isErrorStartTime(v)}
                                                             onChange={(date: Date, value?: string) => {
+                                                                date.setMilliseconds(999);
                                                                 props.onScheduleChange(`${name}.${v}.startTime`, date);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={props.onBlur}
                                                             fullWidth
+                                                            format="hh:mm:ss"
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
                                                             autoComplete="off"
-                                                            mask="__:__ _M"
+                                                            mask="__:__:__ _M"
+                                                            views={['hours', 'minutes', 'seconds']}
                                                         />
                                                     </Grid>
                                                     <Grid item xs={6}>
@@ -212,16 +215,19 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextEndTime(v)}
                                                             error={isErrorEndTime(v)}
                                                             onChange={(date: Date, value?: string) => {
+                                                                date.setMilliseconds(999);
                                                                 props.onScheduleChange(`${name}.${v}.endTime`, date);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={props.onBlur}
                                                             fullWidth
+                                                            format="hh:mm:ss"
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
                                                             autoComplete="off"
-                                                            mask="__:__ _M"
+                                                            mask="__:__:__ _M"
+                                                            views={['hours', 'minutes', 'seconds']}
                                                         />
                                                     </Grid>
                                                 </Grid>
