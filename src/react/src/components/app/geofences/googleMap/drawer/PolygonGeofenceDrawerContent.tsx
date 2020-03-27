@@ -441,7 +441,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                         infoText="Send events when a user has entered and is continuing to dwell within this geofence."
                                         name="onDwell"
                                         label="Dwell"
-                                        value={props.values.onEnter}
+                                        value={props.values.onDwell}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
                                         disabled={this.isPendingCreation()}
@@ -547,7 +547,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         );
     }
     private showNoIntegrationsWithTriggersDialog(newFence: PolygonGeofence) {
-        return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onEnter);
+        return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onDwell || newFence.onExit);
     }
 }
 

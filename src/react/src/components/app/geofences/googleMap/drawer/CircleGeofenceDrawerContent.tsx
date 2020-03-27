@@ -442,7 +442,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         infoText="Send events when a user has entered and is continuing to dwell within this geofence."
                                         name="onDwell"
                                         label="Dwell"
-                                        value={props.values.onEnter}
+                                        value={props.values.onDwell}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
                                         disabled={this.isPendingCreation()}
@@ -549,7 +549,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         );
     }
     private showNoIntegrationsWithTriggersDialog(newFence: CircleGeofence) {
-        return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onEnter);
+        return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onDwell || newFence.onExit);
     }
 }
 
