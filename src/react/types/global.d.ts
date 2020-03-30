@@ -7,9 +7,3 @@ declare var BASE_PATH: string;
 declare var PUSHER_AUTHENDPOINT: string;
 declare var PUSHER_KEY: string;
 declare var GOOGLE_MAPS_KEY: string;
-
-declare global {
-    interface Window {
-        google: typeof google;
-    }
-}

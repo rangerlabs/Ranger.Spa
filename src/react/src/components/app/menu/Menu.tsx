@@ -282,7 +282,7 @@ class Menu extends React.Component<MenuProps> {
                                                 this.props.currentSelection === 'administration.billing' ? classes.selected : ''
                                             )}
                                             button
-                                            onClick={() => this.handleMenuNavigation(RoutePaths.Domain, 'administration.billing')}
+                                            onClick={() => this.handleMenuNavigation(RoutePaths.Billing, 'administration.billing')}
                                         >
                                             <ListItemIcon>
                                                 <CreditCard />

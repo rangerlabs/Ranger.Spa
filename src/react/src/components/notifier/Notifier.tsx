@@ -105,7 +105,6 @@ class Notifier extends React.Component<NotifierProps> {
                 this.pusher.config.auth = {
                     headers: {
                         Authorization: 'Bearer ' + oidcState.user.access_token,
-                        'x-ranger-domain': stateDomain.domain,
                         'api-version': '1.0',
                     },
                     params: {

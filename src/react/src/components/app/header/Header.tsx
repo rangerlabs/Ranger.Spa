@@ -37,9 +37,6 @@ const styles = (theme: Theme) =>
             },
             color: theme.palette.common.white,
         },
-        headerPrimaryColor: {
-            color: theme.palette.common.white,
-        },
         logoButtonRoot: {
             '&:hover': {
                 background: 'none',

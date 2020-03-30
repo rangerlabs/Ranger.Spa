@@ -32,6 +32,10 @@ const theme = responsiveFontSizes(
                 main: Constants.COLORS.PRIMARY_COLOR,
                 contrastText: Constants.COLORS.WHITE,
             },
+            secondary: {
+                main: Constants.COLORS.WHITE,
+                contrastText: Constants.COLORS.WHITE,
+            },
             text: {
                 primary: Constants.COLORS.BLACK,
             },

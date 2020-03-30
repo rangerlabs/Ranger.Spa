@@ -53,7 +53,6 @@ export default class RestUtilities {
             headers.set('Authorization', `Bearer ${accessToken}`);
         }
         headers.set('Accept', 'application/json');
-        headers.set('x-ranger-domain', location.host.split('.')[0]);
         headers.set('api-version', '1.0');
         headers.set('Content-Type', 'application/json');
         if (data) {
