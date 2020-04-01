@@ -31,7 +31,7 @@ interface PlanCardProps {
     planId: string;
     planName: string;
     cost: string;
-    onUpgrade: (event: any) => void;
+    onUpgrade: (planId: string) => void;
 }
 
 export default function PlanCard(props: PlanCardProps) {
@@ -53,7 +53,14 @@ export default function PlanCard(props: PlanCardProps) {
                 </Typography>
             </CardContent>
             <CardActions className={classes.buttons}>
-                <Button onClick={props.onUpgrade} variant="outlined" data-cb-type="checkout" data-cb-plan-id={props.planId}>
+                <Button
+                    onClick={() => {
+                        props.onUpgrade(props.planId);
+                    }}
+                    variant="outlined"
+                    data-cb-type="checkout"
+                    data-cb-plan-id={props.planId}
+                >
                     Upgrade
                 </Button>
             </CardActions>

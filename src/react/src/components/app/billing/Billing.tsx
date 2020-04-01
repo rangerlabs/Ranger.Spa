@@ -31,11 +31,11 @@ class Billing extends React.Component<BillingProps, BillingState> {
         };
         this.upgrade = this.upgrade.bind(this);
     }
-    upgrade(event: any) {
+    upgrade(planId: string) {
         this.setState({ loading: true });
         this.state.cbInstance.openCheckout({
             hostedPage: () => {
-                return subscriptionsService.getCheckoutExistingHostedPageUrl().then(response => response.content);
+                return subscriptionsService.getCheckoutExistingHostedPageUrl(planId).then(response => response.content);
             },
             success(hostedPageId: string) {
                 console.log(hostedPageId);
