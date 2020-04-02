@@ -11,6 +11,7 @@ import { ProjectsState } from '../redux/actions/ProjectActions';
 import { GeofencesState } from '../redux/actions/GeofenceActions';
 import { IntegrationsState } from '../redux/actions/IntegrationActions';
 import { UsersState } from '../redux/actions/UserActions';
+import { SubscriptionLimitDetailsState } from '../redux/actions/SubscriptionLimitDetailsActions';
 
 export interface OidcState {
     isLoadingUser: boolean;
@@ -31,4 +32,5 @@ export interface ApplicationState {
     integrationsState: IntegrationsState;
     domain: DomainState;
     notifications: SnackbarNotification[];
+    subscriptionLimitDetailsState: SubscriptionLimitDetailsState;
 }

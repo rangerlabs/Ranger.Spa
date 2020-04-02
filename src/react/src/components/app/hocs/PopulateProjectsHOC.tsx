@@ -5,6 +5,7 @@ import IProject from '../../../models/app/IProject';
 import { populateProjects, ProjectsState } from '../../../redux/actions/ProjectActions';
 import ProjectService from '../../../services/ProjectService';
 import Loading from '../loading/Loading';
+import populateSubscriptionLimitDataHOC from './PopulateSubscriptionLimitDataHOC';
 
 const projectService = new ProjectService();
 
@@ -44,7 +45,7 @@ const populateProjectsHOC = <P extends object>(Component: React.ComponentType<P>
         }
     }
 
-    return connect(mapStateToProps, mapDispatchToProps)(PopulateProjectsComponent);
+    return connect(mapStateToProps, mapDispatchToProps)(populateSubscriptionLimitDataHOC(PopulateProjectsComponent));
 };
 
 export default populateProjectsHOC;
