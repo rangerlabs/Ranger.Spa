@@ -21,16 +21,16 @@ const notistackStyle = (theme: Theme) => {
 
 const styles = (theme: Theme) =>
     createStyles({
-        snackContainer: {
-            //     bottom: '0px !important',
-            //     right: '0px !important',
-            //     width: '100%',
-            //     marginBottom: '-2px',
-            textAlign: 'right',
-            // '> div:nth-of-type(1)': {
-            // padding: '0px !important',
-            // },
-        },
+        // snackContainer: {
+        //     //     bottom: '0px !important',
+        //     //     right: '0px !important',
+        //     //     width: '100%',
+        //     //     marginBottom: '-2px',
+        //     textAlign: 'right',
+        //     // '> div:nth-of-type(1)': {
+        //     // padding: '0px !important',
+        //     // },
+        // },
         success: { ...notistackStyle(theme), backgroundColor: theme.palette.primary.main },
         error: { ...notistackStyle(theme), backgroundColor: theme.palette.error.main },
         info: { ...notistackStyle(theme), backgroundColor: '#2e2e2e' },
@@ -66,8 +66,7 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
                 )}
                 preventDuplicate={true}
                 hideIconVariant={true}
-                dense
-                maxSnack={1}
+                maxSnack={3}
                 // anchorOrigin={{
                 //     vertical: 'bottom',
                 //     horizontal: 'center',
