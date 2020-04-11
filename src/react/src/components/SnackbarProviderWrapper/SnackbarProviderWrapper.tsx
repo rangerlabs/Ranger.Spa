@@ -59,7 +59,7 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
                     variantWarning: classes.warning,
                     variantInfo: classes.info,
                 }}
-                action={key => (
+                action={(key) => (
                     <IconButton onClick={this.onClickDismiss(key)} aria-label="delete" size="small">
                         <CloseCircle htmlColor={Constants.COLORS.WHITE} fontSize="inherit" />
                     </IconButton>

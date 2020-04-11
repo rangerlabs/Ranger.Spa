@@ -105,7 +105,4 @@ class Landing extends Component<LandingProps, LandingState> {
     }
 }
 
-export default connect(
-    null,
-    { enqueueSnackbar }
-)(withStyles(styles)(Landing));
+export default connect(null, { enqueueSnackbar })(withStyles(styles)(Landing));
