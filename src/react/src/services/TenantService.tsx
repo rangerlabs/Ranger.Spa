@@ -14,8 +14,8 @@ export enum DomainEnabledResults {
 
 export default class TenantService {
     async exists(domain: string): Promise<boolean> {
-        return RestUtilities.get(`/tenants/${domain}/exists`).then(value => {
-            if (value.is_error) {
+        return RestUtilities.get(`/tenants/${domain}/exists`).then((value) => {
+            if (value.isError) {
                 return false;
             }
             return true;
@@ -31,11 +31,11 @@ export default class TenantService {
     }
 
     async enabled(domain: string): Promise<DomainEnabledResults> {
-        return RestUtilities.get<IEnabledModel>(`/tenants/${domain}/enabled`).then(value => {
-            if (value.is_error) {
+        return RestUtilities.get<IEnabledModel>(`/tenants/${domain}/enabled`).then((value) => {
+            if (value.isError) {
                 return DomainEnabledResults.NotFound;
             }
-            if (value.content.enabled) {
+            if (value.result.enabled) {
                 return DomainEnabledResults.Enabled;
             }
             return DomainEnabledResults.Disabled;
@@ -43,8 +43,8 @@ export default class TenantService {
     }
 
     async confirm(domain: string, confirmModel: IConfirmModel): Promise<boolean> {
-        return RestUtilities.put(`/tenants/${domain}/confirm`, confirmModel).then(value => {
-            if (value.is_error) {
+        return RestUtilities.put(`/tenants/${domain}/confirm`, confirmModel).then((value) => {
+            if (value.isError) {
                 return false;
             }
             return true;
@@ -52,8 +52,8 @@ export default class TenantService {
     }
 
     async post(reviewForm: IReviewForm): Promise<boolean> {
-        return RestUtilities.post('/tenants', reviewForm).then(value => {
-            const result = !value.is_error;
+        return RestUtilities.post('/tenants', reviewForm).then((value) => {
+            const result = !value.isError;
             if (result) {
                 const snackbarNotification = {
                     message: 'Domain request accepted.',

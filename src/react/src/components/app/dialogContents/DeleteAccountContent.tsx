@@ -78,9 +78,14 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
             <Formik
                 initialValues={{ password: '' }}
                 onSubmit={(values: Password, formikBag: FormikBag<FormikProps<Password>, Password>) => {
-                    userService.deleteAccount(deleteAccountContentProps.email, { password: values.password }).then(response => {
-                        if (response.is_error) {
-                            deleteAccountContentProps.enqueueSnackbar(`Failed to delete your account. ${response.error_content.errors}`, { variant: 'error' });
+                    userService.deleteAccount(deleteAccountContentProps.email, { password: values.password }).then((response) => {
+                        if (response.isError) {
+                            deleteAccountContentProps.enqueueSnackbar(
+                                `Failed to delete your account. ${response.responseException.exceptionMessage.error.message}`,
+                                {
+                                    variant: 'error',
+                                }
+                            );
                         } else {
                             UserManager.removeUser();
                             deleteAccountContentProps.enqueueSnackbar('Your account has been deleted.', { variant: 'success' });
@@ -92,7 +97,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                 }}
                 validationSchema={validationSchema}
             >
-                {props => (
+                {(props) => (
                     <React.Fragment>
                         <DialogTitle>Delete account?</DialogTitle>
                         <form onSubmit={props.handleSubmit}>
@@ -127,7 +132,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                                 {serverErrors && (
                                     <List>
                                         <ListItem>
-                                            {serverErrors.map(error => (
+                                            {serverErrors.map((error) => (
                                                 <ListItemText primary={error} />
                                             ))}
                                         </ListItem>

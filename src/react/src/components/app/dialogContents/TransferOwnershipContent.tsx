@@ -26,7 +26,7 @@ interface TransferOwnershipContentProps extends WithSnackbarProps {
 const mapStateToProps = (state: ApplicationState) => {
     return {
         user: state.oidc.user,
-        users: state.usersState.users.filter(u => u.emailConfirmed === true && u.email !== (state.oidc.user.profile as UserProfile).email),
+        users: state.usersState.users.filter((u) => u.emailConfirmed === true && u.email !== (state.oidc.user.profile as UserProfile).email),
     };
 };
 
@@ -45,9 +45,7 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
     const [success, setSuccess] = useState(false);
 
     const validationSchema = Yup.object().shape({
-        email: Yup.string()
-            .required('Required')
-            .email('Must be a valid email address'),
+        email: Yup.string().required('Required').email('Must be a valid email address'),
     });
 
     return (
@@ -56,8 +54,8 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
                 ref={formikRef}
                 initialValues={{ email: '' }}
                 onSubmit={(values: ITransferOwnershipModel, formikBag: FormikBag<FormikProps<ITransferOwnershipModel>, ITransferOwnershipModel>) => {
-                    userService.transferPrimaryOwnership(values).then(v => {
-                        if (v.is_error) {
+                    userService.transferPrimaryOwnership(values).then((v) => {
+                        if (v.isError) {
                             setServerError('Failed to submit the transfer request.');
                             transferOwnershipContentProps.enqueueSnackbar('Failed to submit the transfer request.', { variant: 'error' });
                         }
@@ -68,7 +66,7 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
                 }}
                 validationSchema={validationSchema}
             >
-                {props => (
+                {(props) => (
                     <React.Fragment>
                         <DialogTitle>Transfer Primary Ownership</DialogTitle>
                         <form onSubmit={props.handleSubmit}>
@@ -82,7 +80,7 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
                                     name="email"
                                     label="Email"
                                     renderOption={(option: string) => <Typography variant="subtitle1">{option}</Typography>}
-                                    options={transferOwnershipContentProps.users.map(u => u.email)}
+                                    options={transferOwnershipContentProps.users.map((u) => u.email)}
                                     errorText={props.errors.email}
                                     touched={props.touched.email}
                                     onChange={(event: React.ChangeEvent<{}>, values: string) => {

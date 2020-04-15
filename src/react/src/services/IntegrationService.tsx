@@ -6,9 +6,9 @@ import Integration from '../models/app/integrations/Integration';
 
 export default class IntegrationService {
     async getIntegrations(projectName: string): Promise<Array<MergedIntegrationType>> {
-        return RestUtilities.get<MergedIntegrationType[]>(`${projectName}/integrations`).then(integrationResponse => {
+        return RestUtilities.get<MergedIntegrationType[]>(`${projectName}/integrations`).then((integrationResponse) => {
             const result = new Array<MergedIntegrationType>();
-            integrationResponse.content?.forEach(i => {
+            integrationResponse.result?.forEach((i) => {
                 switch (i.type) {
                     case IntegrationEnum.WEBHOOK: {
                         i = i as WebhookIntegration;

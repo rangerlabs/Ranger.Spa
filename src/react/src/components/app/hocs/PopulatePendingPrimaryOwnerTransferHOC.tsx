@@ -44,11 +44,11 @@ const populatePendingPrimaryOwnerTransferHOC = <P extends object>(Component: Rea
 
         componentDidMount() {
             if (userIsInRole(this.props.user, RoleEnum.PRIMARY_OWNER)) {
-                tenantService.getPrimaryOwnerTransfer(getSubDomain()).then(response => {
-                    if (!response.is_error) {
+                tenantService.getPrimaryOwnerTransfer(getSubDomain()).then((response) => {
+                    if (!response.isError) {
                         this.setState({ isLoaded: true });
-                        if (response.content) {
-                            this.props.addPendingPrimaryOwnerTransfer(response.content);
+                        if (response.result) {
+                            this.props.addPendingPrimaryOwnerTransfer(response.result);
                         }
                     }
                 });

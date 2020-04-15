@@ -39,12 +39,12 @@ const populateUserAuthorizedProjectsHOC = <P extends object>(Component: React.Co
             const params = queryString.parse(window.location.search);
             const email = params['email'] as string;
             if (email && !this.state.isLoaded) {
-                userService.getUser(email).then(v => {
-                    if (!v.is_error) {
-                        if (v.content.email !== (this.props.user.profile as UserProfile).email) {
-                            userService.getAuthorizedProjects(email).then(ap => {
-                                if (!ap.is_error) {
-                                    const user = { ...v.content, authorizedProjects: ap.content };
+                userService.getUser(email).then((v) => {
+                    if (!v.isError) {
+                        if (v.result.email !== (this.props.user.profile as UserProfile).email) {
+                            userService.getAuthorizedProjects(email).then((ap) => {
+                                if (!ap.isError) {
+                                    const user = { ...v.result, authorizedProjects: ap.result };
                                     this.setState({ user: user, isLoaded: true });
                                 }
                             });

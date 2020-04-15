@@ -8,8 +8,9 @@ import { ApplicationState } from '../../../stores/index';
 import { Formik } from 'formik';
 import FormikCancelButton from '../../form/FormikCancelButton';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
-import FormikServerErrors from '../../form/FormikServerErrors';
+import FormikValidationErrors from '../../form/FormikServerErrors';
 import DeleteDomainContent from '../dialogContents/DeleteDomainContent';
+import { IValidationError } from '../../../services/RestUtilities';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -56,12 +57,12 @@ const mapStateToProps = (state: ApplicationState) => {
 };
 
 type DomainState = {
-    serverErrors: string[];
+    serverErrors: IValidationError[];
 };
 
 class Domain extends React.Component<IDomainProps, DomainState> {
     state: DomainState = {
-        serverErrors: undefined as string[],
+        serverErrors: undefined as IValidationError[],
     };
 
     render() {
@@ -75,12 +76,12 @@ class Domain extends React.Component<IDomainProps, DomainState> {
                             Edit Domain
                         </Typography>
                         <Formik enableReinitialize initialValues={{}} onSubmit={() => {}} validationSchema={{}}>
-                            {props => (
+                            {(props) => (
                                 <form onSubmit={props.handleSubmit}>
                                     <Grid container spacing={3}>
                                         {this.state.serverErrors && (
                                             <Grid item xs={12}>
-                                                <FormikServerErrors errors={this.state.serverErrors} />
+                                                <FormikValidationErrors errors={this.state.serverErrors} />
                                             </Grid>
                                         )}
                                     </Grid>

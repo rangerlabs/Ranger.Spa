@@ -8,10 +8,10 @@ import Schedule from '../models/Schedule';
 
 export default class GeofenceService {
     async getGeofences(projectName: string): Promise<IRestResponse<Array<CircleGeofence | PolygonGeofence>>> {
-        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectName}/geofences`).then(geofenceResponse => {
+        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectName}/geofences`).then((geofenceResponse) => {
             const result = new Array<CircleGeofence | PolygonGeofence>();
-            if (geofenceResponse.content) {
-                geofenceResponse.content.forEach(v => {
+            if (geofenceResponse.result) {
+                geofenceResponse.result.forEach((v) => {
                     switch (v.shape) {
                         case ShapePicker.Circle: {
                             const castedShape = v as CircleGeofence;
@@ -59,7 +59,7 @@ export default class GeofenceService {
                     }
                 });
             }
-            return Object.assign({}, geofenceResponse, { content: result } as IRestResponse<Array<CircleGeofence | PolygonGeofence>>) as IRestResponse<
+            return Object.assign({}, geofenceResponse, { result: result } as IRestResponse<Array<CircleGeofence | PolygonGeofence>>) as IRestResponse<
                 Array<CircleGeofence | PolygonGeofence>
             >;
         });

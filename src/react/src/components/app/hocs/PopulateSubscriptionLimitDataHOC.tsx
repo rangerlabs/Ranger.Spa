@@ -30,9 +30,9 @@ const populateSubscriptionLimitDataHOC = <P extends object>(Component: React.Com
     class PopulateSubscriptionLimitDetailsComponent extends React.Component<PopulateSubscriptionLimitDetailsComponentProps> {
         componentDidMount() {
             if (!this.props.subscriptionLimitDetailsState.isLoaded) {
-                subscriptionService.getSubscriptionLimitDetails().then(response => {
-                    if (!response.is_error) {
-                        this.props.setSubscriptionLimitDetails(response.content ? response.content : ({} as ISubscriptionLimitDetails));
+                subscriptionService.getSubscriptionLimitDetails().then((response) => {
+                    if (!response.isError) {
+                        this.props.setSubscriptionLimitDetails(response.result ? response.result : ({} as ISubscriptionLimitDetails));
                     }
                 });
             }

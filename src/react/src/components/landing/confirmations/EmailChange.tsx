@@ -90,10 +90,10 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                         }
                         onSubmit={(values: IChangeEmailModel, formikBag: FormikBag<FormikProps<IChangeEmailModel>, IChangeEmailModel>) => {
                             const userId = this.getUserIdFromParams();
-                            userService.changeEmail(userId, values).then(v => {
-                                if (v.is_error) {
+                            userService.changeEmail(userId, values).then((v) => {
+                                if (v.isError) {
                                     formikBag.setSubmitting(false);
-                                    this.setState({ success: false, serverError: v.error_content.errors[0] });
+                                    this.setState({ success: false, serverError: v.responseException.validationErrors[0].reason });
                                 } else {
                                     setTimeout(() => {
                                         formikBag.setSubmitting(false);
@@ -104,7 +104,7 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                         }}
                         validationSchema={this.validationSchema}
                     >
-                        {props => (
+                        {(props) => (
                             <form onSubmit={props.handleSubmit}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>

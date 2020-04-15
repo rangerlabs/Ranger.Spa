@@ -105,7 +105,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                     const params = queryString.parse(window.location.search);
                     const name = params['name'] as string;
                     if (name) {
-                        result = this.props.integrationsState.integrations.find(i => i.name === name);
+                        result = this.props.integrationsState.integrations.find((i) => i.name === name);
                         if (!result) {
                             this.props.push(RoutePaths.Dashboard);
                         }
@@ -121,8 +121,8 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
         }
 
         saveIntegration = (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => {
-            integrationService.postIntegration(this.props.selectedProject.name, integration).then(v => {
-                if (!v.is_error) {
+            integrationService.postIntegration(this.props.selectedProject.name, integration).then((v) => {
+                if (!v.isError) {
                     this.setState({ isSuccess: true });
                     integration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                     this.props.saveIntegrationToState(integration);
@@ -137,8 +137,8 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
 
         updateIntegration = (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => {
             integration.version = this.state.editIntegration.version + 1;
-            integrationService.putIntegration(this.props.selectedProject.name, this.state.editIntegration.integrationId, integration).then(v => {
-                if (!v.is_error) {
+            integrationService.putIntegration(this.props.selectedProject.name, this.state.editIntegration.integrationId, integration).then((v) => {
+                if (!v.isError) {
                     this.setState({ isSuccess: true });
                     integration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                     this.props.removeIntegration(this.state.editIntegration.name);
@@ -154,8 +154,8 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
         };
 
         deleteIntegration = (formikRef: React.RefObject<Formik>) => {
-            integrationService.deleteIntegration(this.props.selectedProject.name, this.state.editIntegration.name).then(v => {
-                if (!v.is_error) {
+            integrationService.deleteIntegration(this.props.selectedProject.name, this.state.editIntegration.name).then((v) => {
+                if (!v.isError) {
                     this.state.editIntegration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                     this.props.addIntegrationToPendingDeletion(this.state.editIntegration);
                     this.props.removeIntegration(this.state.editIntegration.name);

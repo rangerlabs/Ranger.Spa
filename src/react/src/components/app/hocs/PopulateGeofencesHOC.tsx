@@ -35,9 +35,9 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
     class PopulateGeofencesComponent extends React.Component<PopulateGeofencesComponentProps> {
         componentDidUpdate(prevProps: PopulateGeofencesComponentProps) {
             if (!this.props.geofencesState.isLoaded && this.props.selectedProject.name && this.props.selectedProject.name !== prevProps.selectedProject.name) {
-                geofenceService.getGeofences(this.props.selectedProject.name).then(geofenceResponse => {
+                geofenceService.getGeofences(this.props.selectedProject.name).then((geofenceResponse) => {
                     if (geofenceResponse) {
-                        this.props.setGeofences(geofenceResponse.content ? geofenceResponse.content : new Array<CircleGeofence | PolygonGeofence>());
+                        this.props.setGeofences(geofenceResponse.result ? geofenceResponse.result : new Array<CircleGeofence | PolygonGeofence>());
                     }
                 });
             }
@@ -45,9 +45,9 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
 
         componentDidMount() {
             if (!this.props.geofencesState.isLoaded && this.props.selectedProject.name) {
-                geofenceService.getGeofences(this.props.selectedProject.name).then(geofenceResponse => {
+                geofenceService.getGeofences(this.props.selectedProject.name).then((geofenceResponse) => {
                     if (geofenceResponse) {
-                        this.props.setGeofences(geofenceResponse.content ? geofenceResponse.content : new Array<CircleGeofence | PolygonGeofence>());
+                        this.props.setGeofences(geofenceResponse.result ? geofenceResponse.result : new Array<CircleGeofence | PolygonGeofence>());
                     }
                 });
             }

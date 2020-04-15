@@ -32,9 +32,9 @@ const populateProjectsHOC = <P extends object>(Component: React.ComponentType<P>
     class PopulateProjectsComponent extends React.Component<PopulateProjectsComponentProps> {
         componentDidMount() {
             if (!this.props.projectsState.isLoaded) {
-                projectService.getProjects().then(projectResponse => {
-                    if (!projectResponse.is_error) {
-                        this.props.setProjects(projectResponse.content ? projectResponse.content : new Array<IProject>());
+                projectService.getProjects().then((projectResponse) => {
+                    if (!projectResponse.isError) {
+                        this.props.setProjects(projectResponse.result ? projectResponse.result : new Array<IProject>());
                     }
                 });
             }

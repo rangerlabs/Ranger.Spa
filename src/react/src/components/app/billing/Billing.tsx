@@ -39,7 +39,7 @@ class Billing extends React.Component<BillingProps, BillingState> {
         this.setState({ loading: true });
         this.state.cbInstance.openCheckout({
             hostedPage: () => {
-                return subscriptionsService.getCheckoutExistingHostedPageUrl(planId).then(response => response.content);
+                return subscriptionsService.getCheckoutExistingHostedPageUrl(planId).then((response) => response.result);
             },
             success(hostedPageId: string) {
                 console.log(hostedPageId);

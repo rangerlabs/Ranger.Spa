@@ -30,9 +30,9 @@ const populateUsersHOC = <P extends object>(Component: React.ComponentType<P>) =
     class PopulateUsersComponent extends React.Component<PopulateUsersComponentProps> {
         componentDidMount() {
             if (!this.props.usersState.isLoaded) {
-                userService.getUsers().then(userResponse => {
-                    if (!userResponse.is_error) {
-                        this.props.setUsers(userResponse.content ? userResponse.content : new Array<IUser>());
+                userService.getUsers().then((userResponse) => {
+                    if (!userResponse.isError) {
+                        this.props.setUsers(userResponse.result ? userResponse.result : new Array<IUser>());
                     }
                 });
             }

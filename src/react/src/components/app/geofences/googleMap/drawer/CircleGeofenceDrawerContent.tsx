@@ -135,8 +135,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     saveGeofence = (geofence: CircleGeofence) => {
-        geofenceService.postGeofence(this.props.selectedProject.name, geofence).then(v => {
-            if (!v.is_error) {
+        geofenceService.postGeofence(this.props.selectedProject.name, geofence).then((v) => {
+            if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.saveGeofenceToState(geofence);
@@ -152,8 +152,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     updateGeofence = (geofence: CircleGeofence) => {
-        geofenceService.putGeofence(this.props.selectedProject.name, geofence.id, geofence).then(v => {
-            if (!v.is_error) {
+        geofenceService.putGeofence(this.props.selectedProject.name, geofence.id, geofence).then((v) => {
+            if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingUpdate(this.props.editGeofence);
@@ -170,8 +170,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     deleteGeofence = () => {
-        geofenceService.deleteGeofence(this.props.selectedProject.name, this.props.editGeofence.externalId).then(v => {
-            if (!v.is_error) {
+        geofenceService.deleteGeofence(this.props.selectedProject.name, this.props.editGeofence.externalId).then((v) => {
+            if (!v.isError) {
                 this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
                 this.props.clearNewCircleGeofence();
@@ -209,67 +209,32 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         schedule: Yup.object().shape({
             timeZoneId: Yup.string().required('Required.'),
             sunday: Yup.object().shape({
-                startTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required(),
-                endTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required()
-                    .timeGreaterThan(),
+                startTime: Yup.date().typeError('Invalid time format.').required(),
+                endTime: Yup.date().typeError('Invalid time format.').required().timeGreaterThan(),
             }),
             monday: Yup.object().shape({
-                startTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required(),
-                endTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required()
-                    .timeGreaterThan(),
+                startTime: Yup.date().typeError('Invalid time format.').required(),
+                endTime: Yup.date().typeError('Invalid time format.').required().timeGreaterThan(),
             }),
             tuesday: Yup.object().shape({
-                startTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required(),
-                endTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required()
-                    .timeGreaterThan(),
+                startTime: Yup.date().typeError('Invalid time format.').required(),
+                endTime: Yup.date().typeError('Invalid time format.').required().timeGreaterThan(),
             }),
             wednesday: Yup.object().shape({
-                startTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required(),
-                endTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required()
-                    .timeGreaterThan(),
+                startTime: Yup.date().typeError('Invalid time format.').required(),
+                endTime: Yup.date().typeError('Invalid time format.').required().timeGreaterThan(),
             }),
             thursday: Yup.object().shape({
-                startTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required(),
-                endTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required()
-                    .timeGreaterThan(),
+                startTime: Yup.date().typeError('Invalid time format.').required(),
+                endTime: Yup.date().typeError('Invalid time format.').required().timeGreaterThan(),
             }),
             friday: Yup.object().shape({
-                startTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required(),
-                endTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required()
-                    .timeGreaterThan(),
+                startTime: Yup.date().typeError('Invalid time format.').required(),
+                endTime: Yup.date().typeError('Invalid time format.').required().timeGreaterThan(),
             }),
             saturday: Yup.object().shape({
-                startTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required(),
-                endTime: Yup.date()
-                    .typeError('Invalid time format.')
-                    .required()
-                    .timeGreaterThan(),
+                startTime: Yup.date().typeError('Invalid time format.').required(),
+                endTime: Yup.date().typeError('Invalid time format.').required().timeGreaterThan(),
             }),
         }),
     });
@@ -277,8 +242,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     getIntegrationNamesByIds(integrationIds: string[]) {
         if (integrationIds) {
             return this.props.integrations
-                .filter(i => integrationIds.includes(i.integrationId))
-                .map(i => i.name)
+                .filter((i) => integrationIds.includes(i.integrationId))
+                .map((i) => i.name)
                 .sort();
         }
         return [];
@@ -286,8 +251,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     getIntegrationIdsByNames(integrationNames: string[]) {
         if (integrationNames) {
             return this.props.integrations
-                .filter(i => integrationNames.includes(i.name))
-                .map(i => i.integrationId)
+                .filter((i) => integrationNames.includes(i.name))
+                .map((i) => i.integrationId)
                 .sort();
         }
         return [];
@@ -364,7 +329,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 }}
                 validationSchema={this.validationSchema}
             >
-                {props => (
+                {(props) => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
                         <div className={classes.toolbar} />
                         <Typography gutterBottom variant="h5">
@@ -468,7 +433,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     label="Integrations"
                                     placeholder=""
                                     enabled={!this.isPendingCreation()}
-                                    options={this.props.integrations.map(v => v.name)}
+                                    options={this.props.integrations.map((v) => v.name)}
                                     defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
                                     onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
                                         this.formikRef.current.setFieldValue('integrationIds', values, true);
@@ -507,7 +472,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                     <List>
                                         <ListItem>
-                                            {this.state.serverErrors.map(error => (
+                                            {this.state.serverErrors.map((error) => (
                                                 <ListItemText primary={error} />
                                             ))}
                                         </ListItem>

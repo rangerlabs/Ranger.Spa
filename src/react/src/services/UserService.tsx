@@ -52,8 +52,8 @@ export default class UserService {
     }
 
     async acceptPrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
-        return RestUtilities.post(`/account/accept-primary-ownership`, transferPrimaryOwnershipModel).then(value => {
-            if (value.is_error) {
+        return RestUtilities.post(`/account/accept-primary-ownership`, transferPrimaryOwnershipModel).then((value) => {
+            if (value.isError) {
                 return false;
             }
             return true;
@@ -61,8 +61,8 @@ export default class UserService {
     }
 
     async refusePrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
-        return RestUtilities.post(`/account/refuse-primary-ownership`, transferPrimaryOwnershipModel).then(value => {
-            if (value.is_error) {
+        return RestUtilities.post(`/account/refuse-primary-ownership`, transferPrimaryOwnershipModel).then((value) => {
+            if (value.isError) {
                 return false;
             }
             return true;
@@ -74,8 +74,8 @@ export default class UserService {
     }
 
     async requestPasswordReset(userEmail: string, passwordReset: IRequestPasswordResetModel): Promise<boolean> {
-        return RestUtilities.put(`/users/${userEmail}/password-reset`, passwordReset).then(value => {
-            if (value.is_error) {
+        return RestUtilities.put(`/users/${userEmail}/password-reset`, passwordReset).then((value) => {
+            if (value.isError) {
                 return false;
             }
             return true;
@@ -83,8 +83,8 @@ export default class UserService {
     }
 
     async requestEmailChanage(currentUserEmail: string, emailChange: IRequestEmailChangeModel): Promise<boolean> {
-        return RestUtilities.put(`/users/${currentUserEmail}/email-change`, emailChange).then(value => {
-            if (value.is_error) {
+        return RestUtilities.put(`/users/${currentUserEmail}/email-change`, emailChange).then((value) => {
+            if (value.isError) {
                 return false;
             }
             return true;

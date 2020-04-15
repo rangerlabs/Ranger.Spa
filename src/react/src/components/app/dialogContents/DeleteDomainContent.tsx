@@ -77,8 +77,8 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps, Dele
                 <Formik
                     initialValues={{ name: '' }}
                     onSubmit={(values: Partial<IProject>, formikBag: FormikBag<FormikProps<Partial<IProject>>, Partial<IProject>>) => {
-                        tenantService.deleteDomain(values.name).then(v => {
-                            if (!v.is_error) {
+                        tenantService.deleteDomain(values.name).then((v) => {
+                            if (!v.isError) {
                                 this.setState({ isSuccess: true });
                                 this.props.closeDialog();
                                 this.props.push(RoutePaths.Logout);
@@ -90,7 +90,7 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps, Dele
                     }}
                     validationSchema={this.validationSchema}
                 >
-                    {props => (
+                    {(props) => (
                         <React.Fragment>
                             <DialogTitle>Delete project?</DialogTitle>
                             <form onSubmit={props.handleSubmit}>

@@ -11,7 +11,7 @@ import FormikPrimaryButton from '../../form/FormikPrimaryButton';
 import FormikUpdateButton from '../../form/FormikUpdateButton';
 import FormikCancelButton from '../../form/FormikCancelButton';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
-import { IRestResponse } from '../../../services/RestUtilities';
+import { IRestResponse, IValidationError } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import { User } from 'oidc-client';
@@ -71,7 +71,7 @@ interface AccountProps extends WithStyles<typeof styles>, WithSnackbarProps {
 }
 
 interface AccountState {
-    serverErrors: string[];
+    serverErrors: IValidationError[];
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -93,7 +93,7 @@ const mapDispatchToProps = (dispatch: any) => {
 
 class Account extends React.Component<AccountProps, AccountState> {
     state = {
-        serverErrors: undefined as string[],
+        serverErrors: undefined as IValidationError[],
     };
 
     validationSchema = Yup.object().shape({
@@ -140,8 +140,8 @@ class Account extends React.Component<AccountProps, AccountState> {
                                     .updateAccount((this.props.user.profile as UserProfile).email, accountUpdate)
                                     .then((response: IRestResponse<void>) => {
                                         setTimeout(() => {
-                                            if (response.is_error) {
-                                                const { errors: serverErrors, ...formikErrors } = response.error_content;
+                                            if (response.isError) {
+                                                const { validationErrors: serverErrors, ...formikErrors } = response.responseException;
                                                 enqueueSnackbar('Error updating your account.', { variant: 'error' });
                                                 formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                                 this.setState({ serverErrors: serverErrors });
@@ -157,7 +157,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                             }}
                             validationSchema={this.validationSchema}
                         >
-                            {props => (
+                            {(props) => (
                                 <form onSubmit={props.handleSubmit}>
                                     <Grid container spacing={3}>
                                         <Grid item xs={12}>
@@ -202,7 +202,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                         <Button
                                                             disabled={props.isSubmitting}
                                                             onClick={() => {
-                                                                this.props.openDialog(new DialogContent((<ChangeEmailContent />)));
+                                                                this.props.openDialog(new DialogContent(<ChangeEmailContent />));
                                                             }}
                                                         >
                                                             Change
@@ -229,7 +229,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                                       <Button
                                                                           disabled={props.isSubmitting}
                                                                           onClick={() => {
-                                                                              this.props.openDialog(new DialogContent((<CancelOwnershipTransferContent />)));
+                                                                              this.props.openDialog(new DialogContent(<CancelOwnershipTransferContent />));
                                                                           }}
                                                                       >
                                                                           Cancel Transfer
@@ -241,7 +241,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                                       <Button
                                                                           disabled={props.isSubmitting}
                                                                           onClick={() => {
-                                                                              this.props.openDialog(new DialogContent((<TransferOwnershipContent />)));
+                                                                              this.props.openDialog(new DialogContent(<TransferOwnershipContent />));
                                                                           }}
                                                                       >
                                                                           Transfer
@@ -256,7 +256,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             <Grid item xs={12}>
                                                 <List>
                                                     <ListItem>
-                                                        {this.state.serverErrors.map(error => (
+                                                        {this.state.serverErrors.map((error) => (
                                                             <ListItemText primary={error} />
                                                         ))}
                                                     </ListItem>
@@ -278,7 +278,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             )}
                                             <Button
                                                 onClick={() => {
-                                                    this.props.openDialog(new DialogContent((<ChangePasswordContent />)));
+                                                    this.props.openDialog(new DialogContent(<ChangePasswordContent />));
                                                 }}
                                                 className={classes.changePassword}
                                                 disabled={props.isSubmitting}

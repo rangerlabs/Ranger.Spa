@@ -55,7 +55,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                 onSubmit={(values: Partial<IProject>, formikBag: FormikBag<FormikProps<Partial<IProject>>, Partial<IProject>>) => {
                     setServerErrors(undefined);
                     projectService.deleteProject(deleteProjectContentProps.id).then((response: IRestResponse<void>) => {
-                        if (response.is_error) {
+                        if (response.isError) {
                             deleteProjectContentProps.enqueueSnackbar('An error occurred deleting the project.', { variant: 'error' });
                         } else {
                             deleteProjectContentProps.closeDialog();
@@ -67,7 +67,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                 }}
                 validationSchema={validationSchema}
             >
-                {props => (
+                {(props) => (
                     <React.Fragment>
                         <DialogTitle>Delete project?</DialogTitle>
                         <form onSubmit={props.handleSubmit}>
@@ -88,7 +88,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                                 {serverErrors && (
                                     <List>
                                         <ListItem>
-                                            {serverErrors.map(error => (
+                                            {serverErrors.map((error) => (
                                                 <ListItemText primary={error} />
                                             ))}
                                         </ListItem>
