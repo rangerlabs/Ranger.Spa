@@ -14,7 +14,8 @@ import { DomainState, addDomain } from '../../../redux/actions/DomainActions';
 import { connect } from 'react-redux';
 
 const tenantService = new TenantService();
-const domainUnavailableErrorText = 'Sorry, this domain is already taken.';
+const domainUnavailableErrorText = 'Sorry, this domain is unavailable.';
+
 interface DomainFormProps {
     setSignUpDomainStateValues: (domainFormValues: IDomainForm) => void;
     addDomain: (domain: DomainState) => void;
@@ -58,14 +59,16 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
     }
 
     componentDidMount() {
-        this.subscription = this.onSearch$.pipe(debounceTime(300)).subscribe(v => {
-            tenantService.exists(v).then(v => {
-                if (v) {
-                    this.setState({ hasUnavailableDomain: true });
-                    this.setUnavailableDomainError();
-                }
-                this.setState({ isValidatingDomain: false });
-            });
+        this.subscription = this.onSearch$.pipe(debounceTime(300)).subscribe((v) => {
+            if (v && v.length >= 3) {
+                tenantService.exists(v).then((v) => {
+                    if (v) {
+                        this.setState({ hasUnavailableDomain: true });
+                        this.setUnavailableDomainError();
+                    }
+                    this.setState({ isValidatingDomain: false });
+                });
+            }
         });
     }
 
@@ -111,7 +114,7 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
                     }}
                     isInitialValid={this.props.isReturn}
                     onSubmit={(values: IDomainForm, formikBag: FormikBag<FormikProps<IDomainForm>, IDomainForm>) => {
-                        tenantService.exists(values.domain).then(v => {
+                        tenantService.exists(values.domain).then((v) => {
                             if (v) {
                                 this.setUnavailableDomainError();
                                 formikBag.props.setSubmitting(false);
@@ -133,7 +136,7 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
                         });
                     }}
                     validationSchema={this.validationSchema}
-                    validate={values => {
+                    validate={(values) => {
                         if (this.state.hasUnavailableDomain) {
                             const errors = {} as FormikErrors<IDomainForm>;
                             errors.domain = domainUnavailableErrorText;
@@ -141,7 +144,7 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
                         }
                     }}
                 >
-                    {props => (
+                    {(props) => (
                         <form onSubmit={props.handleSubmit}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
@@ -184,7 +187,4 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
     }
 }
 
-export default connect(
-    null,
-    mapDispatchToState
-)(DomainForm);
+export default connect(null, mapDispatchToState)(DomainForm);
