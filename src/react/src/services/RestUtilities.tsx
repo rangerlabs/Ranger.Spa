@@ -1,22 +1,12 @@
 import UserManager from '../services/UserManager';
 import ReduxStore from '../ReduxStore';
-import TheatersRounded from '@material-ui/icons/TheatersRounded';
 import { openDialog, DialogContent } from '../redux/actions/DialogActions';
 import { STATUS_CODES } from 'http';
-
-export interface ResponseException {
-    exceptionMessage: IExceptionMessage;
-    validationErrors: IValidationError[];
-}
-
-export interface IExceptionMessage {
-    error: IError;
-}
+import { AssertionError } from 'assert';
 
 export interface IError {
-    code: string;
     message: string;
-    innerError: IError;
+    validationErrors: IValidationError[];
 }
 
 export interface IValidationError {
@@ -26,8 +16,9 @@ export interface IValidationError {
 
 export interface IRestResponse<T> {
     statusCode: number;
+    message: string;
     isError: boolean;
-    responseException?: ResponseException;
+    error?: IError;
     result?: T;
     correlationId?: string;
 }
@@ -62,6 +53,7 @@ export default class RestUtilities {
     static request<T>(method: string, url: string, data: any = null): Promise<IRestResponse<T>> {
         const user = ReduxStore.getStore().getState().oidc.user;
         let statusCode = 0;
+        let message = '';
         let isError = false;
         let correlationId = '';
         let body = data;
@@ -96,16 +88,30 @@ export default class RestUtilities {
             })
             .then((responseContent: string) => {
                 const responseContentJson = responseContent ? JSON.parse(responseContent) : undefined;
+                this.assertIsRestResponse(responseContentJson);
                 let response: IRestResponse<T> = {
                     statusCode: statusCode,
+                    message: responseContentJson.message,
                     isError: isError,
-                    responseException: isError ? (responseContentJson as ResponseException) : undefined,
-                    result: isError ? undefined : responseContentJson,
+                    error: isError ? (responseContentJson.error as IError) : undefined,
+                    result: isError ? undefined : responseContentJson.result,
                     correlationId: correlationId,
                 };
                 return response;
             });
     }
+
+    private static assertIsRestResponse(object: any): asserts object is IRestResponse<any> {
+        if (
+            !(object as IRestResponse<any>).statusCode &&
+            !(object as IRestResponse<any>).message &&
+            !(object as IRestResponse<any>).isError &&
+            (!(object as IRestResponse<any>).error || !(object as IRestResponse<any>).result)
+        ) {
+            throw new AssertionError({ message: 'Value not a valid Rest Response!' });
+        }
+    }
+
     private static FormatUrl(url: string) {
         if (url.startsWith('/')) {
             url = this.baseAddress + url;

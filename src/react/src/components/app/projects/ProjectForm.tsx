@@ -115,7 +115,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                     const project = { version: this.state.initialProject.version + 1 } as IProject;
                     projectService.apiKeyReset(project, this.state.initialProject.projectId, environment).then((response: IRestResponse<IProject>) => {
                         if (response.isError) {
-                            const { validationErrors: serverErrors, ...formikErrors } = response.responseException;
+                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
                             this.props.enqueueSnackbar('Error resetting API key.', { variant: 'error' });
                             this.formikRef.current.setStatus(formikErrors as FormikErrors<IProject>);
                             this.setState({ serverErrors: serverErrors });
@@ -202,7 +202,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     const editedProject = Object.assign({}, inputProject, { version: this.state.initialProject.version + 1 }) as IProject;
                                     projectService.putProject(editedProject, this.state.initialProject.projectId).then((response: IRestResponse<IProject>) => {
                                         if (response.isError) {
-                                            const { validationErrors: serverErrors, ...formikErrors } = response.responseException;
+                                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
                                             enqueueSnackbar('Error updating project.', { variant: 'error' });
                                             formikBag.setStatus(formikErrors as FormikErrors<IProject>);
                                             this.setState({ serverErrors: serverErrors });
@@ -217,7 +217,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                 } else {
                                     projectService.postProject(inputProject).then((response: IRestResponse<IProject>) => {
                                         if (response.isError) {
-                                            const { validationErrors: serverErrors, ...formikErrors } = response.responseException;
+                                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
                                             enqueueSnackbar('Error creating project.', { variant: 'error' });
                                             formikBag.setStatus(formikErrors as FormikErrors<IProject>);
                                             this.setState({ serverErrors: serverErrors });

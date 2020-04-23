@@ -15,10 +15,10 @@ export enum DomainEnabledResults {
 export default class TenantService {
     async exists(domain: string): Promise<boolean> {
         return RestUtilities.get(`/tenants/${domain}/exists`).then((value) => {
-            if (value.isError || !value.result) {
+            if (value.isError) {
                 return false;
             }
-            return true;
+            return Boolean(value.result);
         });
     }
 

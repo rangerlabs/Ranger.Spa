@@ -141,7 +141,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                     .then((response: IRestResponse<void>) => {
                                         setTimeout(() => {
                                             if (response.isError) {
-                                                const { validationErrors: serverErrors, ...formikErrors } = response.responseException;
+                                                const { validationErrors: serverErrors, ...formikErrors } = response.error;
                                                 enqueueSnackbar('Error updating your account.', { variant: 'error' });
                                                 formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                                 this.setState({ serverErrors: serverErrors });

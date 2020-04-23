@@ -196,7 +196,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                 if (this.props.initialUser) {
                                     userService.putUser(newUser.email, newUser).then((response: IRestResponse<IUser>) => {
                                         if (response.isError) {
-                                            const { validationErrors: serverErrors, ...formikErrors } = response.responseException;
+                                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
                                             enqueueSnackbar('Error updating user.', { variant: 'error' });
                                             formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
@@ -214,7 +214,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                 } else {
                                     userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
                                         if (response.isError) {
-                                            const { validationErrors: serverErrors, ...formikErrors } = response.responseException;
+                                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
                                             enqueueSnackbar('Error creating user.', { variant: 'error' });
                                             formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });

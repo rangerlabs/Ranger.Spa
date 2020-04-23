@@ -7,7 +7,7 @@ import { titleCase } from 'change-case';
 const dashboardBreadcrumb = new Breadcrumb('Dashboard', RoutePaths.Dashboard);
 const accountBreadcrumb = new Breadcrumb('Account', RoutePaths.Account);
 const domainBreadcrumb = new Breadcrumb('Domain', RoutePaths.Domain);
-const billingBreadcrumb = new Breadcrumb('Billing', RoutePaths.Billing);
+const subscriptionBreadcrumb = new Breadcrumb('Subscription', RoutePaths.Subscription);
 
 const geofenceMapBreadcrumb = new Breadcrumb('Geofence Map', RoutePaths.GeofenceMap);
 const geofenceTableBreadcrumb = new Breadcrumb('Geofence Table', RoutePaths.GeofenceTable);
@@ -38,8 +38,8 @@ export default class BreadcrumbPaths {
         return new BreadcrumbPath(new Array<Breadcrumb>(domainBreadcrumb));
     }
 
-    public static Billing() {
-        return new BreadcrumbPath(new Array<Breadcrumb>(billingBreadcrumb));
+    public static Subscription() {
+        return new BreadcrumbPath(new Array<Breadcrumb>(subscriptionBreadcrumb));
     }
 
     public static GeofenceMap() {

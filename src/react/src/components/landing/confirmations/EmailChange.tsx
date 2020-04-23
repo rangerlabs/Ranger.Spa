@@ -93,7 +93,7 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                             userService.changeEmail(userId, values).then((v) => {
                                 if (v.isError) {
                                     formikBag.setSubmitting(false);
-                                    this.setState({ success: false, serverError: v.responseException.validationErrors[0].reason });
+                                    this.setState({ success: false, serverError: v.error.validationErrors[0].reason });
                                 } else {
                                     setTimeout(() => {
                                         formikBag.setSubmitting(false);

@@ -80,12 +80,9 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                 onSubmit={(values: Password, formikBag: FormikBag<FormikProps<Password>, Password>) => {
                     userService.deleteAccount(deleteAccountContentProps.email, { password: values.password }).then((response) => {
                         if (response.isError) {
-                            deleteAccountContentProps.enqueueSnackbar(
-                                `Failed to delete your account. ${response.responseException.exceptionMessage.error.message}`,
-                                {
-                                    variant: 'error',
-                                }
-                            );
+                            deleteAccountContentProps.enqueueSnackbar(`Failed to delete your account. ${response.error.message}`, {
+                                variant: 'error',
+                            });
                         } else {
                             UserManager.removeUser();
                             deleteAccountContentProps.enqueueSnackbar('Your account has been deleted.', { variant: 'success' });

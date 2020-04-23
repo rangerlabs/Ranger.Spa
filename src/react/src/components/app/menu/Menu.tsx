@@ -279,15 +279,15 @@ class Menu extends React.Component<MenuProps> {
                                         <ListItem
                                             className={classNames(
                                                 classes.nested,
-                                                this.props.currentSelection === 'administration.billing' ? classes.selected : ''
+                                                this.props.currentSelection === 'administration.subscription' ? classes.selected : ''
                                             )}
                                             button
-                                            onClick={() => this.handleMenuNavigation(RoutePaths.Billing, 'administration.billing')}
+                                            onClick={() => this.handleMenuNavigation(RoutePaths.Subscription, 'administration.subscription')}
                                         >
                                             <ListItemIcon>
                                                 <CreditCard />
                                             </ListItemIcon>
-                                            <ListItemText primary="Billing" />
+                                            <ListItemText primary="Subscription" />
                                         </ListItem>
                                     </React.Fragment>
                                 )}

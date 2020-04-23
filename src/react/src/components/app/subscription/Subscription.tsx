@@ -15,16 +15,16 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface BillingProps extends WithStyles<typeof styles> {}
+interface SubscriptionProps extends WithStyles<typeof styles> {}
 
-interface BillingState {
+interface SubscriptionState {
     cbInstance: any;
     loading: boolean;
     errorMsg: string;
 }
 
-class Billing extends React.Component<BillingProps, BillingState> {
-    constructor(props: BillingProps) {
+class Subscription extends React.Component<SubscriptionProps, SubscriptionState> {
+    constructor(props: SubscriptionProps) {
         super(props);
         this.state = {
             cbInstance: window.Chargebee.init({
@@ -78,4 +78,4 @@ class Billing extends React.Component<BillingProps, BillingState> {
     }
 }
 
-export default withStyles(styles)(Billing);
+export default withStyles(styles)(Subscription);
