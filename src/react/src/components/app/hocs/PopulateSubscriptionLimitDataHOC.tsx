@@ -12,6 +12,9 @@ interface PopulateSubscriptionLimitDetailsComponentProps {
     setSubscriptionLimitDetails: (limitDetails: ISubscriptionLimitDetails) => void;
     subscriptionLimitDetailsState: SubscriptionLimitDetailsState;
 }
+interface PopulateSubscriptionLimitDetailsComponentState {
+    wasError: boolean;
+}
 
 const mapStateToProps = (state: ApplicationState) => {
     return { subscriptionLimitDetailsState: state.subscriptionLimitDetailsState };
@@ -27,11 +30,19 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 const populateSubscriptionLimitDataHOC = <P extends object>(Component: React.ComponentType<P>) => {
-    class PopulateSubscriptionLimitDetailsComponent extends React.Component<PopulateSubscriptionLimitDetailsComponentProps> {
+    class PopulateSubscriptionLimitDetailsComponent extends React.Component<
+        PopulateSubscriptionLimitDetailsComponentProps,
+        PopulateSubscriptionLimitDetailsComponentState
+    > {
+        state: PopulateSubscriptionLimitDetailsComponentState = {
+            wasError: false,
+        };
         componentDidMount() {
             if (!this.props.subscriptionLimitDetailsState.isLoaded) {
                 subscriptionService.getSubscriptionLimitDetails().then((response) => {
-                    if (!response.isError) {
+                    if (response.isError) {
+                        this.setState({ wasError: true });
+                    } else {
                         this.props.setSubscriptionLimitDetails(response.result ? response.result : ({} as ISubscriptionLimitDetails));
                     }
                 });
@@ -39,10 +50,10 @@ const populateSubscriptionLimitDataHOC = <P extends object>(Component: React.Com
         }
 
         render() {
-            return this.props.subscriptionLimitDetailsState.isLoaded ? (
+            return this.props.subscriptionLimitDetailsState.isLoaded && !this.state.wasError ? (
                 <Component {...(this.props as P)} />
             ) : (
-                <Loading message="Retrieving subscription details." />
+                <Loading wasError={this.state.wasError} message="Retrieving subscription details" />
             );
         }
     }

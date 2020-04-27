@@ -8,6 +8,7 @@ import TenantService, { DomainEnabledResults } from '../../../services/TenantSer
 import UserManager from '../../../services/UserManager';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import RoutePaths from '../../RoutePaths';
+import { IRestResponse } from '../../../services/RestUtilities';
 
 const tenantService = new TenantService();
 
@@ -68,33 +69,28 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                             initialValues={{ domain: '' } as Domain}
                             onSubmit={(values: Domain, formikBag: FormikBag<FormikProps<Domain>, Domain>) => {
                                 const domain = values.domain;
-                                tenantService.enabled(domain).then(v => {
-                                    switch (v) {
-                                        case DomainEnabledResults.Disabled: {
-                                            enqueueSnackbar('Domain not confirmed. Please confirm the domain to login.', { variant: 'error' });
-                                            formikBag.setSubmitting(false);
-                                            break;
-                                        }
-                                        case DomainEnabledResults.Enabled: {
+                                tenantService.confirmed(domain).then((v: IRestResponse<boolean>) => {
+                                    if (v.isError) {
+                                        enqueueSnackbar(v.error.message, { variant: 'error' });
+                                        formikBag.setSubmitting(false);
+                                    } else {
+                                        if (v.result) {
                                             this.setState({ isSuccess: true });
-                                            enqueueSnackbar('Domain found.', { variant: 'success' });
+                                            enqueueSnackbar('The domain was successfully found', { variant: 'success' });
                                             setTimeout(() => {
                                                 const loginPath = 'https://' + domain + '.' + SPA_HOST + RoutePaths.Login;
                                                 window.location.href = loginPath;
                                             }, 350);
-                                            break;
-                                        }
-                                        default: {
-                                            enqueueSnackbar('Domain not found.', { variant: 'error' });
+                                        } else {
+                                            enqueueSnackbar('Could not find the requested domain', { variant: 'error' });
                                             formikBag.setSubmitting(false);
-                                            break;
                                         }
                                     }
                                 });
                             }}
                             validationSchema={this.validationSchema}
                         >
-                            {props => (
+                            {(props) => (
                                 <form onSubmit={props.handleSubmit}>
                                     <Grid container spacing={3}>
                                         <Grid item xs={12}>

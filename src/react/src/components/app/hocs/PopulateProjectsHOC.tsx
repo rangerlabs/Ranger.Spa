@@ -15,6 +15,10 @@ interface PopulateProjectsComponentProps {
     projectsState: ProjectsState;
 }
 
+interface PopulateProjectsComponentState {
+    wasError: boolean;
+}
+
 const mapStateToProps = (state: ApplicationState) => {
     return { projectsState: state.projectsState, selectedProject: state.selectedProject };
 };
@@ -29,11 +33,17 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 const populateProjectsHOC = <P extends object>(Component: React.ComponentType<P>) => {
-    class PopulateProjectsComponent extends React.Component<PopulateProjectsComponentProps> {
+    class PopulateProjectsComponent extends React.Component<PopulateProjectsComponentProps, PopulateProjectsComponentState> {
+        state: PopulateProjectsComponentState = {
+            wasError: false,
+        };
+
         componentDidMount() {
             if (!this.props.projectsState.isLoaded) {
                 projectService.getProjects().then((projectResponse) => {
-                    if (!projectResponse.isError) {
+                    if (projectResponse.isError) {
+                        this.setState({ wasError: true });
+                    } else {
                         this.props.setProjects(projectResponse.result ? projectResponse.result : new Array<IProject>());
                     }
                 });
@@ -41,7 +51,11 @@ const populateProjectsHOC = <P extends object>(Component: React.ComponentType<P>
         }
 
         render() {
-            return this.props.projectsState.isLoaded ? <Component {...(this.props as P)} /> : <Loading message="Retrieving projects." />;
+            return this.props.projectsState.isLoaded && !this.state.wasError ? (
+                <Component {...(this.props as P)} />
+            ) : (
+                <Loading wasError={this.state.wasError} message="Retrieving projects" />
+            );
         }
     }
 

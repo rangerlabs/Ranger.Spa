@@ -71,7 +71,7 @@ class AppLayout extends React.Component<AppLayoutProps> {
     };
 
     handleDrawerToggle = () => {
-        this.setState(state => ({ mobileOpen: !this.state.mobileOpen }));
+        this.setState((state) => ({ mobileOpen: !this.state.mobileOpen }));
     };
 
     completeBreadcrumbsWithProjectName = () => {
@@ -92,7 +92,7 @@ class AppLayout extends React.Component<AppLayoutProps> {
         return (
             <Route
                 {...rest}
-                render={props => (
+                render={(props) => (
                     <div className={classes.root}>
                         <CssBaseline />
                         <Dialog />

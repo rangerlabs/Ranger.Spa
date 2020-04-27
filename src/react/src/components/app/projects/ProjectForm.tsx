@@ -98,14 +98,13 @@ type ProjectFormState = {
 };
 
 class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
-    formikRef: React.RefObject<Formik> = React.createRef();
     state: ProjectFormState = {
         serverErrors: undefined as IValidationError[],
         initialProject: undefined,
         isSuccess: false,
     };
 
-    resetApiKey(environment: string) {
+    resetApiKey(environment: string, formikProps: FormikProps<any>) {
         this.props.openDialog(
             new DialogContent(
                 `Are you sure you want to reset the ${titleCase(environment)} API key this project? The current API key will become ineffective immediately.`,
@@ -116,13 +115,13 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                     projectService.apiKeyReset(project, this.state.initialProject.projectId, environment).then((response: IRestResponse<IProject>) => {
                         if (response.isError) {
                             const { validationErrors: serverErrors, ...formikErrors } = response.error;
-                            this.props.enqueueSnackbar('Error resetting API key.', { variant: 'error' });
-                            this.formikRef.current.setStatus(formikErrors as FormikErrors<IProject>);
+                            this.props.enqueueSnackbar(response.error.message, { variant: 'error' });
+                            formikProps.setStatus(formikErrors as FormikErrors<IProject>);
                             this.setState({ serverErrors: serverErrors });
-                            this.formikRef.current.setSubmitting(false);
+                            formikProps.setSubmitting(false);
                         } else {
                             this.setState({ isSuccess: true });
-                            this.props.enqueueSnackbar('API key reset.', { variant: 'success' });
+                            this.props.enqueueSnackbar(response.message, { variant: 'success' });
                             if (environment === ProjectEnvironmentEnum.LIVE) {
                                 this.props.openDialog(
                                     new DialogContent(
@@ -152,8 +151,6 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
             )
         );
     }
-
-    deleteProject(id: string, enqueueSnackbar: any) {}
 
     componentDidMount() {
         const project = this.getProjectByName(this.props.projectsState.projects);
@@ -188,7 +185,6 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             {this.state.initialProject ? (userIsInRole(this.props.user, RoleEnum.ADMIN) ? 'Edit Project' : 'View Project') : 'New Project'}
                         </Typography>
                         <Formik
-                            ref={this.formikRef}
                             enableReinitialize
                             initialValues={this.state.initialProject ? this.state.initialProject : { name: '', description: '', version: 0, enabled: true }}
                             onSubmit={(values: IProject, formikBag: FormikBag<FormikProps<IProject>, IProject>) => {
@@ -203,13 +199,13 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     projectService.putProject(editedProject, this.state.initialProject.projectId).then((response: IRestResponse<IProject>) => {
                                         if (response.isError) {
                                             const { validationErrors: serverErrors, ...formikErrors } = response.error;
-                                            enqueueSnackbar('Error updating project.', { variant: 'error' });
+                                            enqueueSnackbar(response.error.message, { variant: 'error' });
                                             formikBag.setStatus(formikErrors as FormikErrors<IProject>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
                                             this.setState({ isSuccess: true });
-                                            enqueueSnackbar('Project updated.', { variant: 'success' });
+                                            enqueueSnackbar(response.message, { variant: 'success' });
                                             dispatchUpdateProject(response.result);
                                             this.props.push(RoutePaths.Projects);
                                         }
@@ -218,13 +214,13 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     projectService.postProject(inputProject).then((response: IRestResponse<IProject>) => {
                                         if (response.isError) {
                                             const { validationErrors: serverErrors, ...formikErrors } = response.error;
-                                            enqueueSnackbar('Error creating project.', { variant: 'error' });
+                                            enqueueSnackbar(response.error.message, { variant: 'error' });
                                             formikBag.setStatus(formikErrors as FormikErrors<IProject>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
                                             this.setState({ isSuccess: true });
-                                            enqueueSnackbar('Project created.', { variant: 'success' });
+                                            enqueueSnackbar(response.message, { variant: 'success' });
                                             dispatchAddProject(response.result);
                                             this.props.openDialog(
                                                 new DialogContent(
@@ -300,7 +296,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                                     <Button
                                                                         disabled={props.isSubmitting}
                                                                         onClick={() => {
-                                                                            this.resetApiKey('live');
+                                                                            this.resetApiKey('live', props);
                                                                         }}
                                                                     >
                                                                         Reset
@@ -322,7 +318,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                                     <Button
                                                                         disabled={props.isSubmitting}
                                                                         onClick={() => {
-                                                                            this.resetApiKey('test');
+                                                                            this.resetApiKey('test', props);
                                                                         }}
                                                                     >
                                                                         Reset

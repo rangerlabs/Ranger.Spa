@@ -19,6 +19,9 @@ import CloseCircleOutline from 'mdi-material-ui/CloseCircleOutline';
 import Restore from 'mdi-material-ui/Restore';
 import { red } from '@material-ui/core/colors';
 import FormikAutocompleteSearch from './FormikAutocompleteSearch';
+import { titleCase } from 'change-case';
+import { useFormikContext } from 'formik';
+import Geofence from '../../models/app/geofences/Geofence';
 var moment = require('moment-timezone');
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -75,38 +78,37 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface FormikScheduleBuilderProps {
     name: string;
-    onScheduleChange: (fieldName: string, value: Date) => void;
-    onTimeZoneChange: (fieldName: string, values: string) => void;
-    onBlur(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): void;
-    touched: FormikTouched<Schedule>;
-    errors: FormikErrors<Schedule>;
-    schedule: Schedule;
 }
 
 export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps) {
     const classes = useStyles(props);
-    const { name, schedule, touched, errors } = props;
+    const { name } = props;
     const [expanded, setExpanded] = useState(false);
-    const [isUtcFullSchedule, setCanReset] = useState(Schedule.IsFullUtcSchedule(schedule));
+    const { values, setFieldValue, handleBlur, touched, errors } = useFormikContext<Geofence>();
+    const [isUtcFullSchedule, setCanReset] = useState(Schedule.IsFullUtcSchedule(values.schedule));
 
     function assertIsDay(val: string): asserts val is ScheduleEnum {
         if (!(val in ScheduleEnum)) {
-            throw new AssertionError({ message: 'Value not a day!' });
+            throw new AssertionError({ message: 'Value is not a day!' });
         }
     }
 
     useEffect(() => {
-        setCanReset(Schedule.IsFullUtcSchedule(schedule));
-    }, [schedule]);
+        setCanReset(Schedule.IsFullUtcSchedule(values.schedule));
+    }, [values.schedule]);
 
     const errorTextStartTime = (v: ScheduleEnum): string | null =>
-        touched && errors && touched[v]?.startTime && Boolean(errors[v]?.startTime) ? (errors[v]?.startTime as string) : '';
-    const errorTextEndTime = (v: ScheduleEnum): string | null => (errors && Boolean(errors[v]?.endTime) ? (errors[v]?.endTime as string) : '');
-    const isErrorStartTime = (v: ScheduleEnum): boolean => touched && errors && touched[v]?.startTime && Boolean(errors[v]?.startTime);
-    const isErrorEndTime = (v: ScheduleEnum): boolean => errors && Boolean(errors[v]?.endTime);
+        touched.schedule && errors.schedule && touched.schedule[v]?.startTime && Boolean(errors.schedule[v]?.startTime)
+            ? (errors.schedule[v]?.startTime as string)
+            : '';
+    const errorTextEndTime = (v: ScheduleEnum): string | null =>
+        errors.schedule && Boolean(errors.schedule[v]?.endTime) ? (errors.schedule[v]?.endTime as string) : '';
+    const isErrorStartTime = (v: ScheduleEnum): boolean =>
+        touched.schedule && errors.schedule && touched.schedule[v]?.startTime && Boolean(errors.schedule[v]?.startTime);
+    const isErrorEndTime = (v: ScheduleEnum): boolean => errors.schedule && Boolean(errors.schedule[v]?.endTime);
     const areDatesEqual = (v: ScheduleEnum): boolean => {
-        const start = parseISO(schedule[v].startTime);
-        const end = parseISO(schedule[v].endTime);
+        const start = parseISO(values.schedule[v].startTime);
+        const end = parseISO(values.schedule[v].endTime);
         return isValid(start) && isValid(end) && isEqual(start, end);
     };
     const timeZoneIds = moment.tz.names();
@@ -138,25 +140,26 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                     </Grid>
                 </Grid>
                 {!expanded && <Typography variant="caption">Expand to modify this geofence's schedule</Typography>}
-                <Collapse in={expanded} timeout={500}>
+                <Collapse unmountOnExit in={expanded} timeout={500}>
                     <Box marginBottom={2}>
                         <FormikAutocompleteSearch
                             name={`${name}.timeZoneId`}
                             label="Timezone Id"
                             renderOption={(option: string) => <Typography variant="subtitle1">{`${option} (GMT${moment.tz(option).format('Z')})`}</Typography>}
                             options={timeZoneIds}
-                            value={schedule.timeZoneId}
-                            errorText={errors?.timeZoneId}
-                            touched={touched?.timeZoneId}
+                            value={values.schedule.timeZoneId}
+                            errorText={errors.schedule?.timeZoneId}
+                            touched={touched.schedule?.timeZoneId}
                             onChange={(event: React.ChangeEvent<{}>, values: string) => {
-                                props.onTimeZoneChange(`${name}.timeZoneId`, values);
+                                setFieldValue(`${name}.timeZoneId`, values, true);
                             }}
-                            onBlur={props.onBlur}
+                            onBlur={handleBlur}
                             required
                         />
                     </Box>
                     <React.Fragment>
                         {Object.values(ScheduleEnum).map((v, i) => {
+                            const isInactive = areDatesEqual(v);
                             assertIsDay(v);
                             return (
                                 <Grid container spacing={1} key={`${name}.${v}.{i}`}>
@@ -165,8 +168,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                             <Grid item xs={3}>
                                                 <Grid container alignContent="center" justify="center">
                                                     <Grid item xs={12}>
-                                                        <Typography variant="body1">{v}</Typography>
-                                                        <Fade in={areDatesEqual(v)} timeout={350}>
+                                                        <Typography variant="body1">{titleCase(v)}</Typography>
+                                                        <Fade in={isInactive} timeout={350}>
                                                             <Tooltip
                                                                 className={classes.infoText}
                                                                 title="Events will not be sent for this day. Alter the times to active this day."
@@ -178,11 +181,11 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                     </Grid>
                                                 </Grid>
                                             </Grid>
-                                            <Grid item xs={8} className={classNames(classes.relativePosition, areDatesEqual(v) ? classes.strikeThrough : '')}>
+                                            <Grid item xs={8} className={classNames(classes.relativePosition, isInactive ? classes.strikeThrough : '')}>
                                                 <Grid container spacing={1}>
                                                     <Grid item xs={6}>
                                                         <KeyboardTimePicker
-                                                            value={schedule[v].startTime}
+                                                            value={values.schedule[v].startTime}
                                                             FormHelperTextProps={{ className: classes.helperText }}
                                                             id={`${name}.${v}.startTime`}
                                                             name={`${name}.${v}.startTime`}
@@ -191,10 +194,10 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             error={isErrorStartTime(v)}
                                                             onChange={(date: Date, value?: string) => {
                                                                 date.setMilliseconds(999);
-                                                                props.onScheduleChange(`${name}.${v}.startTime`, date);
+                                                                setFieldValue(`${name}.${v}.startTime`, isValid(date) ? date.toISOString() : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
-                                                            onBlur={props.onBlur}
+                                                            onBlur={handleBlur}
                                                             fullWidth
                                                             format="hh:mm:ss"
                                                             InputLabelProps={{
@@ -207,7 +210,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <KeyboardTimePicker
-                                                            value={schedule[v].endTime}
+                                                            value={values.schedule[v].endTime}
                                                             FormHelperTextProps={{ className: classes.helperText }}
                                                             id={`${name}.${v}.endTime`}
                                                             name={`${name}.${v}.endTime`}
@@ -216,10 +219,10 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             error={isErrorEndTime(v)}
                                                             onChange={(date: Date, value?: string) => {
                                                                 date.setMilliseconds(999);
-                                                                props.onScheduleChange(`${name}.${v}.endTime`, date);
+                                                                setFieldValue(`${name}.${v}.startTime`, isValid(date) ? date.toISOString() : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
-                                                            onBlur={props.onBlur}
+                                                            onBlur={handleBlur}
                                                             fullWidth
                                                             format="hh:mm:ss"
                                                             InputLabelProps={{
@@ -242,8 +245,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                         aria-label="reset day"
                                                                         color="primary"
                                                                         onClick={() => {
-                                                                            props.onScheduleChange(`${name}.${v}.startTime`, startOfToday());
-                                                                            props.onScheduleChange(`${name}.${v}.endTime`, endOfToday());
+                                                                            setFieldValue(`${name}.${v}.startTime`, startOfToday());
+                                                                            setFieldValue(`${name}.${v}.endTime`, endOfToday());
                                                                         }}
                                                                     >
                                                                         <Restore />
@@ -259,8 +262,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                             color="inherit"
                                                                             onClick={() => {
                                                                                 var date = startOfToday();
-                                                                                props.onScheduleChange(`${name}.${v}.startTime`, date);
-                                                                                props.onScheduleChange(`${name}.${v}.endTime`, date);
+                                                                                setFieldValue(`${name}.${v}.startTime`, date);
+                                                                                setFieldValue(`${name}.${v}.endTime`, date);
                                                                             }}
                                                                         >
                                                                             <CloseCircleOutline />
@@ -281,11 +284,11 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                     <Button
                         className={classes.warning}
                         onClick={() => {
-                            props.onTimeZoneChange(`${name}.timeZoneId`, 'UTC');
+                            setFieldValue(`${name}.timeZoneId`, 'UTC', true);
                             Object.values(ScheduleEnum).map((v, i) => {
                                 assertIsDay(v);
-                                props.onScheduleChange(`${name}.${v}.startTime`, startOfToday());
-                                props.onScheduleChange(`${name}.${v}.endTime`, endOfToday());
+                                setFieldValue(`${name}.${v}.startTime`, startOfToday());
+                                setFieldValue(`${name}.${v}.endTime`, endOfToday());
                             });
                         }}
                         disabled={isUtcFullSchedule}

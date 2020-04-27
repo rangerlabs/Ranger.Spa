@@ -17,7 +17,7 @@ import {
 } from '../../../../redux/actions/IntegrationActions';
 import IntegrationService from '../../../../services/IntegrationService';
 import { StatusEnum } from '../../../../models/StatusEnum';
-import { Formik } from 'formik';
+import { Formik, FormikBag, FormikProps } from 'formik';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 import FormikSelectValues from '../../../form/interfaces/FormikSelectValuesProp';
 import { EnvironmentEnum } from '../../../../models/EnvironmentEnum';
@@ -120,22 +120,21 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
             }
         }
 
-        saveIntegration = (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => {
+        saveIntegration = (formikBag: FormikBag<FormikProps<MergedIntegrationType>, MergedIntegrationType>, integration: MergedIntegrationType) => {
             integrationService.postIntegration(this.props.selectedProject.name, integration).then((v) => {
                 if (!v.isError) {
                     this.setState({ isSuccess: true });
                     integration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                     this.props.saveIntegrationToState(integration);
-                    this.props.enqueueSnackbar(`Integration '${integration.name}' is pending creation.`, { variant: 'info' });
                     this.props.push('/' + this.props.selectedProject.name + '/integrations');
                 } else {
-                    formikRef.current.setSubmitting(false);
+                    formikBag.setSubmitting(false);
                     this.setState({ isSuccess: false });
                 }
             });
         };
 
-        updateIntegration = (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => {
+        updateIntegration = (formikBag: FormikBag<FormikProps<MergedIntegrationType>, MergedIntegrationType>, integration: MergedIntegrationType) => {
             integration.version = this.state.editIntegration.version + 1;
             integrationService.putIntegration(this.props.selectedProject.name, this.state.editIntegration.integrationId, integration).then((v) => {
                 if (!v.isError) {
@@ -144,25 +143,23 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                     this.props.removeIntegration(this.state.editIntegration.name);
                     this.props.addIntegrationToPendingUpdate(this.state.editIntegration);
                     this.props.saveIntegrationToState(integration);
-                    this.props.enqueueSnackbar(`Integration '${integration.name}' is pending update.`, { variant: 'info' });
                     this.props.push('/' + this.props.selectedProject.name + '/integrations');
                 } else {
-                    formikRef.current.setSubmitting(false);
+                    formikBag.setSubmitting(false);
                     this.setState({ isSuccess: false });
                 }
             });
         };
 
-        deleteIntegration = (formikRef: React.RefObject<Formik>) => {
+        deleteIntegration = (formikProps: FormikProps<MergedIntegrationType>) => {
             integrationService.deleteIntegration(this.props.selectedProject.name, this.state.editIntegration.name).then((v) => {
                 if (!v.isError) {
                     this.state.editIntegration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                     this.props.addIntegrationToPendingDeletion(this.state.editIntegration);
                     this.props.removeIntegration(this.state.editIntegration.name);
-                    this.props.enqueueSnackbar(`Integration '${this.state.editIntegration.name}' is pending deletion.`, { variant: 'info' });
                     this.props.push('/' + this.props.selectedProject.name + '/integrations');
                 } else {
-                    formikRef.current.setSubmitting(false);
+                    formikProps.setSubmitting(false);
                     this.setState({ isSuccess: false });
                 }
             });

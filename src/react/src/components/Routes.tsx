@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Switch, RouteComponentProps, Route } from 'react-router-dom';
-import { hot } from 'react-hot-loader';
 import RoutePaths from './RoutePaths';
 import NotFound from '../components/error/NotFound';
 import AppLayout from './app/AppLayout';
@@ -28,4 +27,4 @@ class Routes extends React.Component<RouteComponentProps<{}>> {
     }
 }
 
-export default hot(module)(Routes);
+export default Routes;

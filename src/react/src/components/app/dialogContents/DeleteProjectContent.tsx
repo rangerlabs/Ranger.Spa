@@ -56,11 +56,11 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                     setServerErrors(undefined);
                     projectService.deleteProject(deleteProjectContentProps.id).then((response: IRestResponse<void>) => {
                         if (response.isError) {
-                            deleteProjectContentProps.enqueueSnackbar('An error occurred deleting the project.', { variant: 'error' });
+                            deleteProjectContentProps.enqueueSnackbar(response.error.message, { variant: 'error' });
                         } else {
                             deleteProjectContentProps.closeDialog();
                             deleteProjectContentProps.dispatchRemoveProject(deleteProjectContentProps.id);
-                            deleteProjectContentProps.enqueueSnackbar('Project deleted.', { variant: 'success' });
+                            deleteProjectContentProps.enqueueSnackbar(response.message, { variant: 'success' });
                             deleteProjectContentProps.push(RoutePaths.Projects);
                         }
                     });

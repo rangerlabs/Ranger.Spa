@@ -12,6 +12,7 @@ import { UserProfile } from '../../../models/UserProfile';
 import UserService from '../../../services/UserService';
 import { WithSnackbarProps, withSnackbar } from 'notistack';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+import { IRestResponse } from '../../../services/RestUtilities';
 var userService = new UserService();
 
 interface ChangeEmailContentProps extends WithSnackbarProps {
@@ -39,9 +40,7 @@ function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): J
     const [success, setSuccess] = useState(false);
 
     const validationSchema = Yup.object().shape({
-        email: Yup.string()
-            .required('Required')
-            .email('Must be a valid email address'),
+        email: Yup.string().required('Required').email('Must be a valid email address'),
     });
 
     return (
@@ -50,25 +49,27 @@ function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): J
                 initialValues={{ email: '' }}
                 onSubmit={(values: IRequestEmailChangeModel, formikBag: FormikBag<FormikProps<IRequestEmailChangeModel>, IRequestEmailChangeModel>) => {
                     setServerError(undefined);
-                    userService.requestEmailChanage((changeEmailContentProps.user.profile as UserProfile).email, values).then((success: boolean) => {
-                        setTimeout(() => {
-                            if (!success) {
-                                changeEmailContentProps.enqueueSnackbar('Failed to send confirmation email, the provided email is already in use.', {
+                    userService
+                        .requestEmailChanage((changeEmailContentProps.user.profile as UserProfile).email, values)
+                        .then((response: IRestResponse<boolean>) => {
+                            if (!response.isError) {
+                                if (response.result) {
+                                    changeEmailContentProps.enqueueSnackbar(response.message, { variant: 'success' });
+                                    setSuccess(true);
+                                    changeEmailContentProps.closeDialog();
+                                }
+                            } else {
+                                changeEmailContentProps.enqueueSnackbar(response.error.message, {
                                     variant: 'error',
                                 });
                                 setServerError('The email address is already in use.');
                                 formikBag.setSubmitting(false);
-                            } else {
-                                changeEmailContentProps.enqueueSnackbar('An email confirmation link was sent.', { variant: 'success' });
-                                setSuccess(true);
-                                changeEmailContentProps.closeDialog();
                             }
-                        }, 350);
-                    });
+                        });
                 }}
                 validationSchema={validationSchema}
             >
-                {props => (
+                {(props) => (
                     <React.Fragment>
                         <DialogTitle>Change account email</DialogTitle>
                         <form onSubmit={props.handleSubmit}>

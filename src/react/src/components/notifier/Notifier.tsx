@@ -32,10 +32,10 @@ class Notifier extends React.Component<NotifierProps> {
     registrationChannel = undefined as Channel;
     domainUserChannel = undefined as Channel;
     currentTenantOnbaordChannel = '';
-    unsubscriber: Unsubscribe;
+    unsubscribe: Unsubscribe;
 
     componentWillUnmount() {
-        this.unsubscriber();
+        this.unsubscribe();
     }
 
     componentDidUpdate() {
@@ -91,17 +91,17 @@ class Notifier extends React.Component<NotifierProps> {
             authEndpoint: 'https://' + API_HOST + BASE_PATH + '/pusher/auth',
         });
 
-        this.unsubscriber = ReduxStore.getStore().subscribe(() => {
+        this.unsubscribe = ReduxStore.getStore().subscribe(() => {
             const stateDomain = ReduxStore.getState().domain;
             const oidcState = ReduxStore.getState().oidc;
-            if (this.canSubscribeToRegistration(stateDomain)) {
+            if (this.cancomponentDidMountToRegistration(stateDomain)) {
                 if (!this.registrationChannel) {
-                    this.subscribeTenantOnboardChannelEvent(stateDomain);
+                    this.componentDidMountTenantOnboardChannelEvent(stateDomain);
                 } else if (this.registrationChannel.name !== this.currentTenantOnbaordChannel) {
                     this.pusher.unsubscribe(this.currentTenantOnbaordChannel);
-                    this.subscribeTenantOnboardChannelEvent(stateDomain);
+                    this.componentDidMountTenantOnboardChannelEvent(stateDomain);
                 }
-            } else if (this.canSubscribeToDomainUser(stateDomain, oidcState)) {
+            } else if (this.cancomponentDidMountToDomainUser(stateDomain, oidcState)) {
                 this.pusher.config.auth = {
                     headers: {
                         Authorization: 'Bearer ' + oidcState.user.access_token,
@@ -113,21 +113,21 @@ class Notifier extends React.Component<NotifierProps> {
                 };
 
                 if (!this.domainUserChannel) {
-                    this.subscribeDomainUserChannelEvents(stateDomain, oidcState.user);
+                    this.componentDidMountDomainUserChannelEvents(stateDomain, oidcState.user);
                 }
             }
         });
     }
 
-    private canSubscribeToDomainUser(stateDomain: DomainState, oidc: OidcState) {
+    private cancomponentDidMountToDomainUser(stateDomain: DomainState, oidc: OidcState) {
         return stateDomain && stateDomain.domain && !oidc.isLoadingUser && oidc.user && !oidc.user.expired;
     }
 
-    private canSubscribeToRegistration(stateDomain: DomainState) {
+    private cancomponentDidMountToRegistration(stateDomain: DomainState) {
         return stateDomain && stateDomain.domain && stateDomain.status === StatusEnum.PENDING;
     }
 
-    private subscribeDomainUserChannelEvents(stateDomain: DomainState, user: User) {
+    private componentDidMountDomainUserChannelEvents(stateDomain: DomainState, user: User) {
         const channel = `private-${stateDomain.domain}-${user.profile.email}`;
         this.domainUserChannel = this.pusher.subscribe(channel);
         this.domainUserChannel.bind('user-created', GenericDomainUserHandler);
@@ -143,7 +143,7 @@ class Notifier extends React.Component<NotifierProps> {
         this.domainUserChannel.bind('integration-deleted', IntegrationDeleteHandler);
     }
 
-    private subscribeTenantOnboardChannelEvent(stateDomain: DomainState) {
+    private componentDidMountTenantOnboardChannelEvent(stateDomain: DomainState) {
         const channel = `ranger-labs-${stateDomain.domain}`;
         this.registrationChannel = this.pusher.subscribe(channel);
         this.registrationChannel.bind('tenant-onboard', RegistrationHandler);

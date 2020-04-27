@@ -12,7 +12,7 @@ const styles = (theme: Theme) =>
     createStyles({
         layout: {
             width: 'auto',
-            marginTop: theme.toolbar.height * 2,
+            marginTop: '20%',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
@@ -46,7 +46,7 @@ class Callback extends React.Component<CallbackProps> {
                 <div className={this.props.classes.layout}>
                     <Grid container spacing={3} justify="center" alignItems="baseline">
                         <Grid item xs={12}>
-                            <Typography variant="h5">Loading Ranger.</Typography>
+                            <Typography variant="h5">Loading Ranger</Typography>
                             <LinearProgress />
                         </Grid>
                     </Grid>

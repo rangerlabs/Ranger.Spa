@@ -80,7 +80,7 @@ const mapStateToProps = (state: ApplicationState) => {
 };
 
 const selectedProjectGeofences = (geofences: (CircleGeofence | PolygonGeofence)[], id: string) => {
-    return geofences.filter(f => f.projectId === id);
+    return geofences.filter((f) => f.projectId === id);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -175,7 +175,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             mapScript.async = true;
             document.body.appendChild(mapScript);
             document.body.appendChild(markerScript);
-            mapScript.addEventListener('load', e => {
+            mapScript.addEventListener('load', (e) => {
                 this.initMap();
             });
         } else {
@@ -198,11 +198,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             }
 
             if (hash.sha1(prevProps.existingGeofences) !== hash.sha1(this.props.existingGeofences)) {
-                const newlyAddedGeofences = this.props.existingGeofences.filter(v => {
-                    return !prevProps.existingGeofences.find(f => f.externalId === v.externalId);
+                const newlyAddedGeofences = this.props.existingGeofences.filter((v) => {
+                    return !prevProps.existingGeofences.find((f) => f.externalId === v.externalId);
                 });
-                const deletedGeofences = prevProps.existingGeofences.filter(v => {
-                    return !this.props.existingGeofences.find(f => f.externalId === v.externalId);
+                const deletedGeofences = prevProps.existingGeofences.filter((v) => {
+                    return !this.props.existingGeofences.find((f) => f.externalId === v.externalId);
                 });
                 if (newlyAddedGeofences && newlyAddedGeofences.length > 0) {
                     this.createGeofenceMarkers(newlyAddedGeofences, true);
@@ -216,7 +216,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
     initMap = () => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
+            navigator.geolocation.getCurrentPosition((position) => {
                 this.initMapLocation(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
             }, this.handleLocationError);
         } else {
@@ -257,7 +257,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     };
 
     private initializeEditGeofence(name: string) {
-        const editGeofence = this.props.existingGeofences.find(s => s.externalId === name);
+        const editGeofence = this.props.existingGeofences.find((s) => s.externalId === name);
         if (editGeofence) {
             switch (editGeofence.shape) {
                 case ShapePicker.Circle: {
@@ -283,13 +283,13 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     }
 
     getGeofenceFromStateByName(name: string): CircleGeofence | PolygonGeofence {
-        return this.props.existingGeofences.find(marker => marker.externalId === name);
+        return this.props.existingGeofences.find((marker) => marker.externalId === name);
     }
 
     removeGeofenceMarkers(markersForRemoval: (CircleGeofence | PolygonGeofence)[]) {
         if (markersForRemoval) {
-            markersForRemoval.forEach(markerToRemove => {
-                const markerIndex = this.markers.findIndex(existingMarker => {
+            markersForRemoval.forEach((markerToRemove) => {
+                const markerIndex = this.markers.findIndex((existingMarker) => {
                     return existingMarker.id === markerToRemove.externalId;
                 });
                 if (markerIndex >= 0) {
@@ -335,7 +335,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     const marker = new PolygonGeofenceMapMarker(
                         this.map,
                         polygonGeofence.externalId,
-                        polygonGeofence.coordinates.map(v => new google.maps.LatLng(v.lat, v.lng)),
+                        polygonGeofence.coordinates.map((v) => new google.maps.LatLng(v.lat, v.lng)),
                         (latLng: google.maps.LatLng, geofenceName: string) => {
                             if (this.newCircleGeofenceMapMarker) {
                                 this.openInfoWindow(this.newCircleGeofenceMapMarker.getCenter());
@@ -508,7 +508,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             });
             this.infoWindow.addListener('domready', () => {
                 const geofenceName = this.infoWindow.get('name');
-                const geofence = this.props.existingGeofences.find(f => f.externalId === geofenceName);
+                const geofence = this.props.existingGeofences.find((f) => f.externalId === geofenceName);
                 const infoWindow =
                     this.props.selectedShape === ShapePicker.Circle ? (
                         <GoogleMapsInfoWindow
@@ -567,7 +567,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.props.removeGeofenceByExternalId(geofence.externalId);
         this.newPolygonGeofenceMapMarker = new NewPolygonGeofenceMapMarker(
             this.map,
-            geofence.coordinates.map(v => new google.maps.LatLng(v.lat, v.lng)),
+            geofence.coordinates.map((v) => new google.maps.LatLng(v.lat, v.lng)),
             this.props.addPolygonLatLngArray,
             () => {
                 this.openInfoWindow(this.newPolygonGeofenceMapMarker.getPolygonCenter());
@@ -598,7 +598,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         return (
             <React.Fragment>
                 <StyledSearchTextField className={classes.autoComplete} id="google-places-search" variant="outlined" fullWidth />
-                {!this.state.isMapFullyLoaded && <Loading message="Initializing map." />}
+                {!this.state.isMapFullyLoaded && <Loading wasError={false} message="Initializing map" />}
                 <div className={classes.mapContainer} id={this.props.id} />
                 {this.state.isMapFullyLoaded && (
                     <React.Fragment>

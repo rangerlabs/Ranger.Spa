@@ -18,6 +18,10 @@ interface PopulateGeofencesComponentProps {
     geofencesState: GeofencesState;
 }
 
+interface PopulateGeofencesState {
+    wasError: boolean;
+}
+
 const mapStateToProps = (state: ApplicationState) => {
     return { geofencesState: state.geofencesState, selectedProject: state.selectedProject };
 };
@@ -32,11 +36,16 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P>) => {
-    class PopulateGeofencesComponent extends React.Component<PopulateGeofencesComponentProps> {
+    class PopulateGeofencesComponent extends React.Component<PopulateGeofencesComponentProps, PopulateGeofencesState> {
+        state: PopulateGeofencesState = {
+            wasError: false,
+        };
         componentDidUpdate(prevProps: PopulateGeofencesComponentProps) {
             if (!this.props.geofencesState.isLoaded && this.props.selectedProject.name && this.props.selectedProject.name !== prevProps.selectedProject.name) {
                 geofenceService.getGeofences(this.props.selectedProject.name).then((geofenceResponse) => {
-                    if (geofenceResponse) {
+                    if (geofenceResponse.isError) {
+                        this.setState({ wasError: true });
+                    } else {
                         this.props.setGeofences(geofenceResponse.result ? geofenceResponse.result : new Array<CircleGeofence | PolygonGeofence>());
                     }
                 });
@@ -46,7 +55,9 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
         componentDidMount() {
             if (!this.props.geofencesState.isLoaded && this.props.selectedProject.name) {
                 geofenceService.getGeofences(this.props.selectedProject.name).then((geofenceResponse) => {
-                    if (geofenceResponse) {
+                    if (geofenceResponse.isError) {
+                        this.setState({ wasError: true });
+                    } else {
                         this.props.setGeofences(geofenceResponse.result ? geofenceResponse.result : new Array<CircleGeofence | PolygonGeofence>());
                     }
                 });
@@ -54,7 +65,11 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
         }
 
         render() {
-            return this.props.geofencesState.isLoaded ? <Component {...(this.props as P)} /> : <Loading message="Retrieving geofences." />;
+            return this.props.geofencesState.isLoaded && !this.state.wasError ? (
+                <Component {...(this.props as P)} />
+            ) : (
+                <Loading wasError={this.state.wasError} message="Retrieving geofences" />
+            );
         }
     }
 

@@ -7,6 +7,7 @@ import FormikPrimaryButton from '../../form/FormikPrimaryButton';
 import IReviewForm from '../../../models/landing/IReviewForm';
 import { InputAdornment, Typography, Theme, createStyles, WithStyles, withStyles } from '@material-ui/core';
 import TenantService from '../../../services/TenantService';
+import { IRestResponse } from '../../../services/RestUtilities';
 
 const tenantService = new TenantService();
 const styles = (theme: Theme) =>
@@ -49,14 +50,14 @@ class Review extends React.Component<ReviewProps> {
                                 confirmPassword: values.userForm.confirmPassword,
                             },
                         } as IReviewForm;
-                        tenantService.post(reviewForm).then((result: boolean) => {
-                            if (result) {
+                        tenantService.post(reviewForm).then((result: IRestResponse<void>) => {
+                            if (!result.isError) {
                                 this.props.handleNext();
                             }
                         });
                     }}
                 >
-                    {props => (
+                    {(props) => (
                         <form onSubmit={props.handleSubmit}>
                             <Grid container spacing={3}>
                                 <Grid classes={{ item: classes.gridItem }} item xs={12}>

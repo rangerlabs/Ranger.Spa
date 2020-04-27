@@ -121,8 +121,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         }
     }
 
-    formikRef: React.RefObject<Formik> = React.createRef();
-
     state: CircleGeofenceFormState = {
         serverErrors: undefined,
         selectedIntegrations: [],
@@ -134,37 +132,35 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         formikBag.setSubmitting(false);
     };
 
-    saveGeofence = (geofence: CircleGeofence) => {
+    saveGeofence = (geofence: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
         geofenceService.postGeofence(this.props.selectedProject.name, geofence).then((v) => {
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.saveGeofenceToState(geofence);
                 this.props.clearNewCircleGeofence();
-                this.props.enqueueSnackbar(`Geofence '${geofence.externalId}' is pending creation.`, { variant: 'info' });
                 this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
             }
-            this.formikRef.current.setSubmitting(false);
+            formikBag.setSubmitting(false);
             this.setState({ isSuccess: false });
         });
     };
 
-    updateGeofence = (geofence: CircleGeofence) => {
+    updateGeofence = (geofence: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
         geofenceService.putGeofence(this.props.selectedProject.name, geofence.id, geofence).then((v) => {
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingUpdate(this.props.editGeofence);
                 this.props.saveGeofenceToState(geofence);
-                this.props.enqueueSnackbar(`Geofence '${geofence.externalId}' is pending update.`, { variant: 'info' });
                 this.props.clearNewCircleGeofence();
                 this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
             }
-            this.formikRef.current.setSubmitting(false);
+            formikBag.setSubmitting(false);
             this.setState({ isSuccess: false });
         });
     };
@@ -175,12 +171,10 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
                 this.props.clearNewCircleGeofence();
-                this.props.enqueueSnackbar(`Geofence '${this.props.editGeofence.externalId}' is pending deletion.`, { variant: 'info' });
                 this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
             }
-            this.formikRef.current.setSubmitting(false);
             this.setState({ isSuccess: false });
         });
     };
@@ -266,7 +260,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         const { classes } = this.props;
         return (
             <Formik
-                ref={this.formikRef}
                 enableReinitialize={false}
                 initialValues={
                     this.props.editGeofence
@@ -316,7 +309,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                             'Save geofence with no integrations?',
                             'Save geofence',
                             () => {
-                                saveOrUpdate(newFence);
+                                saveOrUpdate(newFence, formikBag);
                             },
                             () => {
                                 this.cancelSaveGeofence(formikBag);
@@ -324,7 +317,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                         );
                         this.props.openDialog(content);
                     } else {
-                        saveOrUpdate(newFence);
+                        saveOrUpdate(newFence, formikBag);
                     }
                 }}
                 validationSchema={this.validationSchema}
@@ -425,7 +418,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     />
                                 </Grid>
                             </Grid>
-
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikAutocompleteLabelMultiselect
                                     infoText="The integrations to execute for the geofence."
@@ -436,23 +428,23 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     options={this.props.integrations.map((v) => v.name)}
                                     defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
                                     onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
-                                        this.formikRef.current.setFieldValue('integrationIds', values, true);
+                                        props.setFieldValue('integrationIds', values, true);
                                     }}
                                 />
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                 <FormikScheduleBuilder
                                     name="schedule"
-                                    onScheduleChange={(fieldName: string, value: Date) => {
-                                        this.formikRef.current.setFieldValue(fieldName, isValid(value) ? value.toISOString() : value, true);
-                                    }}
-                                    onTimeZoneChange={(fieldName: string, value: string) => {
-                                        this.formikRef.current.setFieldValue(fieldName, value, true);
-                                    }}
-                                    onBlur={props.handleBlur}
-                                    touched={props.touched.schedule as any}
-                                    errors={props.errors.schedule as any}
-                                    schedule={props.values.schedule}
+                                    // onScheduleChange={(fieldName: string, value: Date) => {
+                                    //     props.setFieldValue(fieldName, isValid(value) ? value.toISOString() : value, true);
+                                    // }}
+                                    // onTimeZoneChange={(fieldName: string, value: string) => {
+                                    //     props.setFieldValue(fieldName, value, true);
+                                    // }}
+                                    // onBlur={props.handleBlur}
+                                    // touched={props.touched.schedule as any}
+                                    // errors={props.errors.schedule as any}
+                                    // schedule={props.values.schedule}
                                 />
                             </Grid>
                             <FormikDictionaryBuilder
@@ -489,6 +481,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         confirmText="Delete geofence"
                                         onConfirm={() => {
                                             this.deleteGeofence();
+                                            props.setSubmitting(false);
                                         }}
                                         isSubmitting={props.isSubmitting}
                                         disabled={this.isPendingCreation()}

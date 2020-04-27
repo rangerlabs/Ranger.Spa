@@ -61,13 +61,13 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
             <React.Fragment>
                 <Grid className={classes.push} container justify="space-evenly" alignItems="center">
                     <Grid item xs={12} sm={8} md={4} lg={2}>
-                        <PlanCard planId="sandbox" planName="Sandbox" cost="FREE" onUpgrade={this.upgrade} />
+                        <PlanCard planId="sandbox" planName="Sandbox" cost="FREE" onUpgrade={this.upgrade.bind(this)} />
                     </Grid>
                     <Grid item xs={12} sm={8} md={4} lg={2}>
-                        <PlanCard planId="startup" planName="Startup" cost="$49 / Month" onUpgrade={this.upgrade} />
+                        <PlanCard planId="startup" planName="Startup" cost="$49 / Month" onUpgrade={this.upgrade.bind(this)} />
                     </Grid>
                     <Grid item xs={12} sm={8} md={4} lg={2}>
-                        <PlanCard planId="pro" planName="Pro" cost="$99 / Month" onUpgrade={this.upgrade} />
+                        <PlanCard planId="pro" planName="Pro" cost="$99 / Month" onUpgrade={this.upgrade.bind(this)} />
                     </Grid>
                 </Grid>
                 <Paper className={classes.currentSubscription} elevation={3}>

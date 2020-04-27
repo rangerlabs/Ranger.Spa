@@ -39,7 +39,6 @@ function mapDispatchToState(dispatch: any) {
 }
 
 class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
-    formikRef: React.RefObject<Formik> = React.createRef();
     onSearch$: Subject<string>;
     subscription: Subscription;
 
@@ -58,13 +57,13 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
         this.onSearch$.next(domain);
     }
 
-    componentDidMount() {
+    private componentDidMountToDomainResponse(props: FormikProps<IDomainForm>) {
         this.subscription = this.onSearch$.pipe(debounceTime(300)).subscribe((v) => {
             if (v && v.length >= 3) {
                 tenantService.exists(v).then((v) => {
                     if (v) {
                         this.setState({ hasUnavailableDomain: true });
-                        this.setUnavailableDomainError();
+                        this.setUnavailableDomainError(props);
                     }
                     this.setState({ isValidatingDomain: false });
                 });
@@ -72,9 +71,9 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
         });
     }
 
-    private setUnavailableDomainError() {
-        this.formikRef.current.setFieldTouched('domain');
-        this.formikRef.current.setFieldError('domain', domainUnavailableErrorText);
+    private setUnavailableDomainError(props: FormikProps<IDomainForm>) {
+        props.setFieldTouched('domain');
+        props.setFieldError('domain', domainUnavailableErrorText);
     }
 
     componentWillUnmount() {
@@ -107,7 +106,6 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
         return (
             <React.Fragment>
                 <Formik
-                    ref={this.formikRef}
                     initialValues={{
                         domain: domainForm.domain ? domainForm.domain : '',
                         organizationName: domainForm.organizationName ? domainForm.organizationName : '',
@@ -116,7 +114,7 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
                     onSubmit={(values: IDomainForm, formikBag: FormikBag<FormikProps<IDomainForm>, IDomainForm>) => {
                         tenantService.exists(values.domain).then((v) => {
                             if (v) {
-                                this.setUnavailableDomainError();
+                                this.setUnavailableDomainError(formikBag.props);
                                 formikBag.props.setSubmitting(false);
                             } else {
                                 this.setState({ hasUnavailableDomain: false });
@@ -155,6 +153,9 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
                                         errorText={props.errors.domain}
                                         touched={props.touched.domain}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            if (this.subscription) {
+                                                this.componentDidMountToDomainResponse(props);
+                                            }
                                             this.handleDomainChange(e.target.value);
                                             props.handleChange(e);
                                         }}

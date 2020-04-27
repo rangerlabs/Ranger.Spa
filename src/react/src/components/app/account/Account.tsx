@@ -142,13 +142,13 @@ class Account extends React.Component<AccountProps, AccountState> {
                                         setTimeout(() => {
                                             if (response.isError) {
                                                 const { validationErrors: serverErrors, ...formikErrors } = response.error;
-                                                enqueueSnackbar('Error updating your account.', { variant: 'error' });
+                                                enqueueSnackbar(response.error.message, { variant: 'error' });
                                                 formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                                 this.setState({ serverErrors: serverErrors });
                                                 formikBag.setSubmitting(false);
                                             } else {
                                                 UserManager.signinSilent();
-                                                enqueueSnackbar('Account updated successfully.', { variant: 'success' });
+                                                enqueueSnackbar(response.message, { variant: 'success' });
                                                 // setTimeout(this.props.closeForm, 250);
                                                 formikBag.setSubmitting(false);
                                             }

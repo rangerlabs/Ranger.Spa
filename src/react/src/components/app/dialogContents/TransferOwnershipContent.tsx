@@ -40,7 +40,6 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnershipContentProps): JSX.Element {
-    const formikRef: React.RefObject<Formik> = React.createRef();
     const [serverError, setServerError] = useState(undefined as string);
     const [success, setSuccess] = useState(false);
 
@@ -51,16 +50,15 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
     return (
         <React.Fragment>
             <Formik
-                ref={formikRef}
                 initialValues={{ email: '' }}
                 onSubmit={(values: ITransferOwnershipModel, formikBag: FormikBag<FormikProps<ITransferOwnershipModel>, ITransferOwnershipModel>) => {
                     userService.transferPrimaryOwnership(values).then((v) => {
                         if (v.isError) {
-                            setServerError('Failed to submit the transfer request.');
-                            transferOwnershipContentProps.enqueueSnackbar('Failed to submit the transfer request.', { variant: 'error' });
+                            setServerError(v.error.message);
+                            transferOwnershipContentProps.enqueueSnackbar(v.error.message, { variant: 'error' });
                         }
-                        formikRef.current.setSubmitting(false);
-                        transferOwnershipContentProps.enqueueSnackbar('Successfully initiated the Primary Owner transfer process.', { variant: 'success' });
+                        formikBag.setSubmitting(false);
+                        transferOwnershipContentProps.enqueueSnackbar(v.message, { variant: 'success' });
                         transferOwnershipContentProps.closeDialog();
                     });
                 }}
@@ -84,7 +82,7 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
                                     errorText={props.errors.email}
                                     touched={props.touched.email}
                                     onChange={(event: React.ChangeEvent<{}>, values: string) => {
-                                        formikRef.current.setFieldValue('email', values, true);
+                                        props.setFieldValue('email', values, true);
                                     }}
                                     onBlur={props.handleBlur}
                                     required

@@ -14,8 +14,8 @@ const notistackStyle = (theme: Theme) => {
         // boxShadow: 'none',
         // width: '100%',
         borderRadius: '0px',
-        fontSize: theme.typography.h6.fontSize,
-        fontWeight: theme.typography.fontWeightRegular,
+        // fontSize: theme.typography.h6.fontSize,
+        // fontWeight: theme.typography.fontWeightRegular,
     };
 };
 

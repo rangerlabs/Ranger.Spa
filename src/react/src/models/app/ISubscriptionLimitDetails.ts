@@ -1,4 +1,5 @@
 export default interface ISubscriptionLimitDetails {
+    planId: string;
     utilized: {
         geofences: number;
         integrations: number;

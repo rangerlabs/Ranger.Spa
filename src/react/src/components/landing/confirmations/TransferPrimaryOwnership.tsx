@@ -79,24 +79,22 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
         } as ITransferPrimaryOwnershipModel;
         switch (this.getResponseFromParams()) {
             case TransferPrimaryOwnershipResponseEnum.REJECT: {
-                userService
-                    .refusePrimaryOwnership(confirmModel)
-                    .then(v => {
-                        this.setState({ confirmed: v, isRequesting: false });
-                    })
-                    .catch(r => {
+                userService.refusePrimaryOwnership(confirmModel).then((v) => {
+                    if (v.isError || !v.result) {
                         this.setState({ isRequesting: false });
-                    });
+                    } else {
+                        this.setState({ confirmed: true, isRequesting: false });
+                    }
+                });
             }
             case TransferPrimaryOwnershipResponseEnum.ACCEPT: {
-                userService
-                    .acceptPrimaryOwnership(confirmModel)
-                    .then(v => {
-                        this.setState({ confirmed: v, isRequesting: false });
-                    })
-                    .catch(r => {
+                userService.acceptPrimaryOwnership(confirmModel).then((v) => {
+                    if (v.isError || !v.result) {
                         this.setState({ isRequesting: false });
-                    });
+                    } else {
+                        this.setState({ confirmed: true, isRequesting: false });
+                    }
+                });
             }
         }
     }

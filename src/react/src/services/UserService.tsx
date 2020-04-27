@@ -51,44 +51,24 @@ export default class UserService {
         return RestUtilities.post(`/account/cancel-ownership-transfer `, transferPrimaryOwnershipModel);
     }
 
-    async acceptPrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
-        return RestUtilities.post(`/account/accept-primary-ownership`, transferPrimaryOwnershipModel).then((value) => {
-            if (value.isError) {
-                return false;
-            }
-            return true;
-        });
+    async acceptPrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<IRestResponse<boolean>> {
+        return RestUtilities.post(`/account/accept-primary-ownership`, transferPrimaryOwnershipModel);
     }
 
-    async refusePrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
-        return RestUtilities.post(`/account/refuse-primary-ownership`, transferPrimaryOwnershipModel).then((value) => {
-            if (value.isError) {
-                return false;
-            }
-            return true;
-        });
+    async refusePrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<IRestResponse<boolean>> {
+        return RestUtilities.post(`/account/refuse-primary-ownership`, transferPrimaryOwnershipModel);
     }
 
     async deleteUser(email: string): Promise<IRestResponse<void>> {
         return RestUtilities.delete(`/users/${email}`);
     }
 
-    async requestPasswordReset(userEmail: string, passwordReset: IRequestPasswordResetModel): Promise<boolean> {
-        return RestUtilities.put(`/users/${userEmail}/password-reset`, passwordReset).then((value) => {
-            if (value.isError) {
-                return false;
-            }
-            return true;
-        });
+    async requestPasswordReset(userEmail: string, passwordReset: IRequestPasswordResetModel): Promise<IRestResponse<boolean>> {
+        return RestUtilities.put(`/users/${userEmail}/password-reset`, passwordReset);
     }
 
-    async requestEmailChanage(currentUserEmail: string, emailChange: IRequestEmailChangeModel): Promise<boolean> {
-        return RestUtilities.put(`/users/${currentUserEmail}/email-change`, emailChange).then((value) => {
-            if (value.isError) {
-                return false;
-            }
-            return true;
-        });
+    async requestEmailChanage(currentUserEmail: string, emailChange: IRequestEmailChangeModel): Promise<IRestResponse<boolean>> {
+        return RestUtilities.put(`/users/${currentUserEmail}/email-change`, emailChange);
     }
 
     async changeEmail(email: string, resetModel: IChangeEmailModel): Promise<IRestResponse<void>> {

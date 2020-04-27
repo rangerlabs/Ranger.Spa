@@ -56,10 +56,10 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
             .then((v) => {
                 if (v.isError) {
                     setServerError('Failed to submit the cancellation request.');
-                    transferOwnershipContentProps.enqueueSnackbar('Failed to submit the cancellation request.', { variant: 'error' });
+                    transferOwnershipContentProps.enqueueSnackbar(v.error.message, { variant: 'error' });
                 } else {
                     setSuccess(true);
-                    transferOwnershipContentProps.enqueueSnackbar('The cancellation request was accepted.', { variant: 'success' });
+                    transferOwnershipContentProps.enqueueSnackbar(v.message, { variant: 'success' });
                     transferOwnershipContentProps.closeDialog();
                 }
             });
