@@ -4,8 +4,9 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Link, Box, CardHeader, Button } from '@material-ui/core';
+import { Box, Button, Grid } from '@material-ui/core';
 import Constants from '../../../theme/Constants';
+import ISubscriptionLimitDetails, { ILimitDetails } from '../../../models/app/ISubscriptionLimitDetails';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -15,6 +16,10 @@ const useStyles = makeStyles((theme: Theme) =>
         header: {
             height: 140,
             backgroundColor: Constants.COLORS.PRIMARY_COLOR,
+        },
+        headerFaded: {
+            height: 140,
+            backgroundColor: theme.palette.primary.light,
         },
         buttons: {
             display: 'flex',
@@ -32,14 +37,16 @@ interface PlanCardProps {
     planName: string;
     cost: string;
     onUpgrade: (planId: string) => void;
+    isCurrentPlan: boolean;
+    limitDetails: ILimitDetails;
 }
 
 export default function PlanCard(props: PlanCardProps) {
     const classes = useStyles(props);
 
     return (
-        <Card elevation={3} className={classes.root}>
-            <Box className={classes.header} paddingTop={4}>
+        <Card className={classes.root} elevation={3}>
+            <Box className={props.isCurrentPlan ? classes.headerFaded : classes.header} paddingTop={4}>
                 <Typography className={classes.white} align="center" gutterBottom variant="h4">
                     {props.planName}
                 </Typography>
@@ -48,16 +55,47 @@ export default function PlanCard(props: PlanCardProps) {
                 </Typography>
             </Box>
             <CardContent>
-                <Typography variant="body2" component="p">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
-                </Typography>
+                <Grid container justify="space-between">
+                    <Grid>
+                        <Typography variant="body2">Geofences</Typography>
+                    </Grid>
+                    <Grid>
+                        <Typography variant="body2">{props.limitDetails.geofences}</Typography>
+                    </Grid>
+                </Grid>
+                <Grid container justify="space-between">
+                    <Grid>
+                        <Typography variant="body2">Integrations</Typography>
+                    </Grid>
+                    <Grid>
+                        <Typography variant="body2">{props.limitDetails.integrations}</Typography>
+                    </Grid>
+                </Grid>
+                <Grid container justify="space-between">
+                    <Grid>
+                        <Typography variant="body2">Projects</Typography>
+                    </Grid>
+                    <Grid>
+                        <Typography variant="body2">{props.limitDetails.projects}</Typography>
+                    </Grid>
+                </Grid>
+                <Grid container justify="space-between">
+                    <Grid>
+                        <Typography variant="body2">User Accounts</Typography>
+                    </Grid>
+                    <Grid>
+                        <Typography variant="body2">{props.limitDetails.accounts}</Typography>
+                    </Grid>
+                </Grid>
             </CardContent>
             <CardActions className={classes.buttons}>
                 <Button
                     onClick={() => {
                         props.onUpgrade(props.planId);
                     }}
-                    variant="outlined"
+                    disabled={props.isCurrentPlan}
+                    color="primary"
+                    variant="contained"
                     data-cb-type="checkout"
                     data-cb-plan-id={props.planId}
                 >

@@ -16,8 +16,8 @@ const styles = (theme: Theme) =>
         },
         currentSubscription: {
             width: '100%',
-            height: '120px',
             backgroundColor: theme.palette.common.white,
+            padding: theme.spacing(2),
         },
         columnRoot: {
             height: '100%',
@@ -85,6 +85,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
     }
 
     isNearingLimit = (utilized: number, limit: number): boolean => utilized / limit >= 0.9 || utilized + 1 === limit;
+    isCurrentPlan = (planId: string): boolean => planId === this.props.subscriptionLimitDetails.planId;
 
     render() {
         const { classes } = this.props;
@@ -94,21 +95,46 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                 <Grid className={classes.columnRoot} direction="column" container justify="space-evenly" alignItems="center">
                     <Grid direction="row" container item justify="space-evenly" alignItems="center">
                         <Grid item xs={11} sm={8} md={5} lg={2}>
-                            <PlanCard planId="sandbox" planName="Sandbox" cost="FREE" onUpgrade={this.upgrade.bind(this)} />
+                            <PlanCard
+                                isCurrentPlan={this.isCurrentPlan('sandbox')}
+                                planId="sandbox"
+                                planName="Sandbox"
+                                limitDetails={this.props.subscriptionLimitDetails.limit}
+                                cost="FREE"
+                                onUpgrade={this.upgrade.bind(this)}
+                            />
                         </Grid>
                         <Grid item xs={11} sm={8} md={5} lg={2}>
-                            <PlanCard planId="startup" planName="Startup" cost="$49 / Month" onUpgrade={this.upgrade.bind(this)} />
+                            <PlanCard
+                                isCurrentPlan={this.isCurrentPlan('startup')}
+                                planId="startup"
+                                planName="Startup"
+                                limitDetails={this.props.subscriptionLimitDetails.limit}
+                                cost="$49 / Month"
+                                onUpgrade={this.upgrade.bind(this)}
+                            />
                         </Grid>
                         <Grid item xs={11} sm={8} md={5} lg={2}>
-                            <PlanCard planId="pro" planName="Pro" cost="$99 / Month" onUpgrade={this.upgrade.bind(this)} />
+                            <PlanCard
+                                isCurrentPlan={this.isCurrentPlan('pro')}
+                                planId="pro"
+                                planName="Pro"
+                                limitDetails={this.props.subscriptionLimitDetails.limit}
+                                cost="$99 / Month"
+                                onUpgrade={this.upgrade.bind(this)}
+                            />
                         </Grid>
                     </Grid>
                     <Grid direction="row" container item justify="center">
                         <Grid item xs={10} md={11}>
                             <Paper className={classes.currentSubscription} elevation={3}>
-                                <Box p={2}>
-                                    <Typography variant="h6">Current subscription: {titleCase(this.props.subscriptionLimitDetails.planId)}</Typography>
-                                </Box>
+                                <Typography align="center" variant="h6">
+                                    Current subscription
+                                </Typography>
+                                <Typography align="center" color="primary" variant="h6">
+                                    {titleCase(this.props.subscriptionLimitDetails.planId)}
+                                </Typography>
+
                                 <Grid container justify="space-around">
                                     <Grid item alignContent="center">
                                         <Typography variant="subtitle1">Geofences</Typography>
