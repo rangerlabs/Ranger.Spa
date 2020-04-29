@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Theme, createStyles, WithStyles, withStyles, IconButton } from '@material-ui/core';
-import { SnackbarProvider, withSnackbar, WithSnackbarProps, SnackbarProviderProps } from 'notistack';
-import { bindActionCreators } from 'redux';
+import { SnackbarProvider } from 'notistack';
 import { removeSnackbar } from '../../redux/actions/SnackbarActions';
 import { connect } from 'react-redux';
 import CloseCircle from 'mdi-material-ui/CloseCircle';
@@ -14,8 +13,8 @@ const notistackStyle = (theme: Theme) => {
         // boxShadow: 'none',
         // width: '100%',
         borderRadius: '0px',
-        // fontSize: theme.typography.h6.fontSize,
-        // fontWeight: theme.typography.fontWeightRegular,
+        fontSize: theme.typography.body1.fontSize,
+        fontWeight: theme.typography.fontWeightRegular,
     };
 };
 

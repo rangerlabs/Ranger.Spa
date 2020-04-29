@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import PlanCard from './PlanCard';
-import { Grid, Theme, createStyles, WithStyles, withStyles, Paper, Typography } from '@material-ui/core';
+import { Grid, Theme, createStyles, WithStyles, withStyles, Paper, Typography, Box } from '@material-ui/core';
 import SubscriptionsService from '../../../services/SubscriptionsService';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../../../stores';
+import ISubscriptionLimitDetails from '../../../models/app/ISubscriptionLimitDetails';
+import populateSubscriptionLimitDataHOC from '../hocs/PopulateSubscriptionLimitDataHOC';
+import { titleCase } from 'change-case';
 const subscriptionsService = new SubscriptionsService();
 
 const styles = (theme: Theme) =>
@@ -10,18 +15,30 @@ const styles = (theme: Theme) =>
             marginTop: '10%',
         },
         currentSubscription: {
-            width: '80%',
-            height: '50px',
+            width: '100%',
+            height: '120px',
+            backgroundColor: theme.palette.common.white,
+        },
+        columnRoot: {
+            height: '100%',
         },
     });
 
-interface SubscriptionProps extends WithStyles<typeof styles> {}
+interface SubscriptionProps extends WithStyles<typeof styles> {
+    subscriptionLimitDetails: ISubscriptionLimitDetails;
+}
 
 interface SubscriptionState {
     cbInstance: any;
     loading: boolean;
     errorMsg: string;
 }
+
+const mapStateToProps = (state: ApplicationState) => {
+    return {
+        subscriptionLimitDetails: state.subscriptionLimitDetailsState.subscriptionLimitDetails,
+    };
+};
 
 class Subscription extends React.Component<SubscriptionProps, SubscriptionState> {
     constructor(props: SubscriptionProps) {
@@ -38,8 +55,20 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
     upgrade(planId: string) {
         this.setState({ loading: true });
         this.state.cbInstance.openCheckout({
-            hostedPage: () => {
-                return subscriptionsService.getCheckoutExistingHostedPageUrl(planId).then((response) => response.result);
+            hostedPage: async () => {
+                return new Promise(async (resolve, reject) => {
+                    const result = await subscriptionsService.getCheckoutExistingHostedPageUrl(planId);
+                    const hostedPage = {
+                        id: result.result.id,
+                        type: result.result.type,
+                        url: result.result.url,
+                        state: result.result.state,
+                        embed: result.result.embed,
+                        created_at: result.result.createdAt,
+                        expires_at: result.result.expiresAt,
+                    };
+                    resolve(hostedPage);
+                });
             },
             success(hostedPageId: string) {
                 console.log(hostedPageId);
@@ -55,27 +84,88 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
         event.preventDefault();
     }
 
+    isNearingLimit = (utilized: number, limit: number): boolean => utilized / limit >= 0.9 || utilized + 1 === limit;
+
     render() {
         const { classes } = this.props;
+        const { utilized, limit } = this.props.subscriptionLimitDetails;
         return (
-            <React.Fragment>
-                <Grid className={classes.push} container justify="space-evenly" alignItems="center">
-                    <Grid item xs={12} sm={8} md={4} lg={2}>
-                        <PlanCard planId="sandbox" planName="Sandbox" cost="FREE" onUpgrade={this.upgrade.bind(this)} />
+            <Box height="100%">
+                <Grid className={classes.columnRoot} direction="column" container justify="space-evenly" alignItems="center">
+                    <Grid direction="row" container item justify="space-evenly" alignItems="center">
+                        <Grid item xs={11} sm={8} md={5} lg={2}>
+                            <PlanCard planId="sandbox" planName="Sandbox" cost="FREE" onUpgrade={this.upgrade.bind(this)} />
+                        </Grid>
+                        <Grid item xs={11} sm={8} md={5} lg={2}>
+                            <PlanCard planId="startup" planName="Startup" cost="$49 / Month" onUpgrade={this.upgrade.bind(this)} />
+                        </Grid>
+                        <Grid item xs={11} sm={8} md={5} lg={2}>
+                            <PlanCard planId="pro" planName="Pro" cost="$99 / Month" onUpgrade={this.upgrade.bind(this)} />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={8} md={4} lg={2}>
-                        <PlanCard planId="startup" planName="Startup" cost="$49 / Month" onUpgrade={this.upgrade.bind(this)} />
-                    </Grid>
-                    <Grid item xs={12} sm={8} md={4} lg={2}>
-                        <PlanCard planId="pro" planName="Pro" cost="$99 / Month" onUpgrade={this.upgrade.bind(this)} />
+                    <Grid direction="row" container item justify="center">
+                        <Grid item xs={10} md={11}>
+                            <Paper className={classes.currentSubscription} elevation={3}>
+                                <Box p={2}>
+                                    <Typography variant="h6">Current subscription: {titleCase(this.props.subscriptionLimitDetails.planId)}</Typography>
+                                </Box>
+                                <Grid container justify="space-around">
+                                    <Grid item alignContent="center">
+                                        <Typography variant="subtitle1">Geofences</Typography>
+                                        {this.isNearingLimit(utilized.geofences, limit.geofences) ? (
+                                            <Typography align="center" color="error" variant="subtitle1">
+                                                {utilized.geofences}/{limit.geofences}
+                                            </Typography>
+                                        ) : (
+                                            <Typography align="center" color="primary" variant="subtitle1">
+                                                {utilized.geofences}/{limit.geofences}
+                                            </Typography>
+                                        )}
+                                    </Grid>
+                                    <Grid direction="column" item alignItems="center">
+                                        <Typography variant="subtitle1">Integrations</Typography>
+                                        {this.isNearingLimit(utilized.integrations, limit.integrations) ? (
+                                            <Typography align="center" color="error" variant="subtitle1">
+                                                {utilized.integrations}/{limit.integrations}
+                                            </Typography>
+                                        ) : (
+                                            <Typography align="center" color="primary" variant="subtitle1">
+                                                {utilized.integrations}/{limit.integrations}
+                                            </Typography>
+                                        )}
+                                    </Grid>
+                                    <Grid direction="column" item alignItems="center">
+                                        <Typography variant="subtitle1">Projects</Typography>
+                                        {this.isNearingLimit(utilized.projects, limit.projects) ? (
+                                            <Typography align="center" color="error" variant="subtitle1">
+                                                {utilized.projects}/{limit.projects}
+                                            </Typography>
+                                        ) : (
+                                            <Typography align="center" color="primary" variant="subtitle1">
+                                                {utilized.projects}/{limit.projects}
+                                            </Typography>
+                                        )}
+                                    </Grid>
+                                    <Grid direction="column" item alignItems="center">
+                                        <Typography variant="subtitle1">User Accounts</Typography>
+                                        {this.isNearingLimit(utilized.accounts, limit.accounts) ? (
+                                            <Typography align="center" color="error" variant="subtitle1">
+                                                {utilized.accounts}/{limit.accounts}
+                                            </Typography>
+                                        ) : (
+                                            <Typography align="center" color="primary" variant="subtitle1">
+                                                {utilized.accounts}/{limit.accounts}
+                                            </Typography>
+                                        )}
+                                    </Grid>
+                                </Grid>
+                            </Paper>
+                        </Grid>
                     </Grid>
                 </Grid>
-                <Paper className={classes.currentSubscription} elevation={3}>
-                    <Typography variant="h5">Your current subscription</Typography>
-                </Paper>
-            </React.Fragment>
+            </Box>
         );
     }
 }
 
-export default withStyles(styles)(Subscription);
+export default connect(mapStateToProps, null)(withStyles(styles)(populateSubscriptionLimitDataHOC(Subscription)));
