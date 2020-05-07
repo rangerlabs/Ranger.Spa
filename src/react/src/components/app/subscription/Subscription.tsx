@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PlanCard from './PlanCard';
-import { Grid, Theme, createStyles, WithStyles, withStyles, Paper, Typography, Box } from '@material-ui/core';
+import { Grid, Theme, createStyles, WithStyles, withStyles, Paper, Typography, Box, Link } from '@material-ui/core';
 import SubscriptionsService from '../../../services/SubscriptionsService';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import ISubscriptionLimitDetails from '../../../models/app/ISubscriptionLimitDetails';
 import populateSubscriptionLimitDataHOC from '../hocs/PopulateSubscriptionLimitDataHOC';
 import { titleCase } from 'change-case';
+import RoutePaths from '../../RoutePaths';
 const subscriptionsService = new SubscriptionsService();
 
 const styles = (theme: Theme) =>
@@ -18,6 +19,11 @@ const styles = (theme: Theme) =>
             width: '100%',
             backgroundColor: theme.palette.common.white,
             padding: theme.spacing(2),
+        },
+        downgradeWarning: {
+            width: '100%',
+            backgroundColor: theme.palette.common.white,
+            padding: theme.spacing(1),
         },
         columnRoot: {
             height: '100%',
@@ -84,6 +90,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
         event.preventDefault();
     }
 
+    isLimitReached = (utilized: number, limit: number): boolean => utilized === limit;
     isNearingLimit = (utilized: number, limit: number): boolean => utilized / limit >= 0.9 || utilized + 1 === limit;
     isCurrentPlan = (planId: string): boolean => planId === this.props.subscriptionLimitDetails.planId;
 
@@ -186,6 +193,14 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                     </Grid>
                                 </Grid>
                             </Paper>
+                        </Grid>
+                    </Grid>
+                    <Grid direction="row" container item justify="center">
+                        <Grid item xs={10} md={11}>
+                            <Typography align="center" variant="caption">
+                                Please be aware that when downgrading your subscription resources may need to be removed. To understand how resources are
+                                removed when downgrading your subscription, please refer to the documentation <Link href={RoutePaths.Documentation}>here</Link>.
+                            </Typography>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -20,6 +20,7 @@ import GeofenceDeleteHandler from './pusherHandlers/GeofenceDeleteHandler';
 import IntegrationUpdateHandler from './pusherHandlers/IntegrationUpdateHandler';
 import IntegrationCreateHandler from './pusherHandlers/IntegrationCreateHandler';
 import IntegrationDeleteHandler from './pusherHandlers/IntegrationDeleteHandler';
+import SubscriptionChangedHandler from './pusherHandlers/SubscriptionChangedHandler';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -30,7 +31,8 @@ class Notifier extends React.Component<NotifierProps> {
     displayed = [] as React.ReactText[];
     pusher = undefined as Pusher;
     registrationChannel = undefined as Channel;
-    domainUserChannel = undefined as Channel;
+    userChannel = undefined as Channel;
+    domainChannel = undefined as Channel;
     currentTenantOnbaordChannel = '';
     unsubscribe: Unsubscribe;
 
@@ -112,7 +114,7 @@ class Notifier extends React.Component<NotifierProps> {
                     },
                 };
 
-                if (!this.domainUserChannel) {
+                if (!this.userChannel) {
                     this.componentDidMountDomainUserChannelEvents(stateDomain, oidcState.user);
                 }
             }
@@ -128,19 +130,23 @@ class Notifier extends React.Component<NotifierProps> {
     }
 
     private componentDidMountDomainUserChannelEvents(stateDomain: DomainState, user: User) {
-        const channel = `private-${stateDomain.domain}-${user.profile.email}`;
-        this.domainUserChannel = this.pusher.subscribe(channel);
-        this.domainUserChannel.bind('user-created', GenericDomainUserHandler);
-        this.domainUserChannel.bind('user-updated', GenericDomainUserHandler);
-        this.domainUserChannel.bind('token-refresh', TokenRefreshHandler);
-        this.domainUserChannel.bind('permissions-updated', PermissionsUpdatedHandler);
-        this.domainUserChannel.bind('force-signout', ForceSignoutHandler);
-        this.domainUserChannel.bind('geofence-created', GeofenceCreateHandler);
-        this.domainUserChannel.bind('geofence-updated', GeofenceUpdateHandler);
-        this.domainUserChannel.bind('geofence-deleted', GeofenceDeleteHandler);
-        this.domainUserChannel.bind('integration-created', IntegrationCreateHandler);
-        this.domainUserChannel.bind('integration-updated', IntegrationUpdateHandler);
-        this.domainUserChannel.bind('integration-deleted', IntegrationDeleteHandler);
+        const userChannel = `private-${stateDomain.domain}-${user.profile.email}`;
+        const domainChannel = `private-${stateDomain.domain}`;
+        this.userChannel = this.pusher.subscribe(userChannel);
+        this.domainChannel = this.pusher.subscribe(domainChannel);
+        this.userChannel.bind('user-created', GenericDomainUserHandler);
+        this.userChannel.bind('user-updated', GenericDomainUserHandler);
+        this.userChannel.bind('token-refresh', TokenRefreshHandler);
+        this.userChannel.bind('permissions-updated', PermissionsUpdatedHandler);
+        this.userChannel.bind('force-signout', ForceSignoutHandler);
+        this.userChannel.bind('geofence-created', GeofenceCreateHandler);
+        this.userChannel.bind('geofence-updated', GeofenceUpdateHandler);
+        this.userChannel.bind('geofence-deleted', GeofenceDeleteHandler);
+        this.userChannel.bind('integration-created', IntegrationCreateHandler);
+        this.userChannel.bind('integration-updated', IntegrationUpdateHandler);
+        this.userChannel.bind('integration-deleted', IntegrationDeleteHandler);
+
+        this.domainChannel.bind('subscription-changed', SubscriptionChangedHandler);
     }
 
     private componentDidMountTenantOnboardChannelEvent(stateDomain: DomainState) {

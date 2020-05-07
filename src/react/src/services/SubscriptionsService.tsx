@@ -11,6 +11,6 @@ export default class SubscriptionsService {
         return RestUtilities.get<IPlanId>('/subscriptions/plan-id');
     }
     async getSubscriptionLimitDetails(): Promise<IRestResponse<ISubscriptionLimitDetails>> {
-        return RestUtilities.get<ISubscriptionLimitDetails>('/subscriptions/limit-details');
+        return RestUtilities.get<ISubscriptionLimitDetails>('/subscriptions');
     }
 }

@@ -60,8 +60,8 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
     private componentDidMountToDomainResponse(props: FormikProps<IDomainForm>) {
         this.subscription = this.onSearch$.pipe(debounceTime(300)).subscribe((v) => {
             if (v && v.length >= 3) {
-                tenantService.exists(v).then((v) => {
-                    if (v) {
+                tenantService.exists(v).then((response) => {
+                    if (response.result) {
                         this.setState({ hasUnavailableDomain: true });
                         this.setUnavailableDomainError(props);
                     }
@@ -111,27 +111,20 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
                         organizationName: domainForm.organizationName ? domainForm.organizationName : '',
                     }}
                     isInitialValid={this.props.isReturn}
-                    onSubmit={(values: IDomainForm, formikBag: FormikBag<FormikProps<IDomainForm>, IDomainForm>) => {
-                        tenantService.exists(values.domain).then((v) => {
-                            if (v) {
-                                this.setUnavailableDomainError(formikBag.props);
-                                formikBag.props.setSubmitting(false);
-                            } else {
-                                this.setState({ hasUnavailableDomain: false });
-                                const newDomain = {
-                                    domain: values.domain,
-                                    organizationName: values.organizationName,
-                                } as IDomainForm;
-                                const domain = {
-                                    domain: values.domain,
-                                    correlationId: '',
-                                    status: StatusEnum.PENDING,
-                                } as DomainState;
-                                this.props.addDomain(domain);
-                                this.props.setSignUpDomainStateValues(newDomain);
-                                this.props.handleNext();
-                            }
-                        });
+                    onSubmit={(values: IDomainForm) => {
+                        this.setState({ hasUnavailableDomain: false });
+                        const newDomain = {
+                            domain: values.domain,
+                            organizationName: values.organizationName,
+                        } as IDomainForm;
+                        const domain = {
+                            domain: values.domain,
+                            correlationId: '',
+                            status: StatusEnum.PENDING,
+                        } as DomainState;
+                        this.props.addDomain(domain);
+                        this.props.setSignUpDomainStateValues(newDomain);
+                        this.props.handleNext();
                     }}
                     validationSchema={this.validationSchema}
                     validate={(values) => {
@@ -153,7 +146,7 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
                                         errorText={props.errors.domain}
                                         touched={props.touched.domain}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                            if (this.subscription) {
+                                            if (!this.subscription) {
                                                 this.componentDidMountToDomainResponse(props);
                                             }
                                             this.handleDomainChange(e.target.value);
