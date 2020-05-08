@@ -6,7 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Box, Button, Grid } from '@material-ui/core';
 import Constants from '../../../theme/Constants';
-import ISubscriptionLimitDetails, { ILimitDetails } from '../../../models/app/ISubscriptionLimitDetails';
+import ISubscriptionLimitDetails from '../../../models/app/ISubscriptionLimitDetails';
+import { ILimitDetails } from '../../../models/app/ILimitDetails';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -44,6 +45,10 @@ interface PlanCardProps {
 export default function PlanCard(props: PlanCardProps) {
     const classes = useStyles(props);
 
+    function numberWithCommas(x: number): string {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     return (
         <Card className={classes.root} elevation={3}>
             <Box className={props.isCurrentPlan ? classes.headerFaded : classes.header} paddingTop={4}>
@@ -60,7 +65,7 @@ export default function PlanCard(props: PlanCardProps) {
                         <Typography variant="body2">Geofences</Typography>
                     </Grid>
                     <Grid>
-                        <Typography variant="body2">{props.limitDetails.geofences}</Typography>
+                        <Typography variant="body2">{numberWithCommas(props.limitDetails.geofences)}</Typography>
                     </Grid>
                 </Grid>
                 <Grid container justify="space-between">
@@ -68,7 +73,7 @@ export default function PlanCard(props: PlanCardProps) {
                         <Typography variant="body2">Integrations</Typography>
                     </Grid>
                     <Grid>
-                        <Typography variant="body2">{props.limitDetails.integrations}</Typography>
+                        <Typography variant="body2">{numberWithCommas(props.limitDetails.integrations)}</Typography>
                     </Grid>
                 </Grid>
                 <Grid container justify="space-between">
@@ -76,7 +81,7 @@ export default function PlanCard(props: PlanCardProps) {
                         <Typography variant="body2">Projects</Typography>
                     </Grid>
                     <Grid>
-                        <Typography variant="body2">{props.limitDetails.projects}</Typography>
+                        <Typography variant="body2">{numberWithCommas(props.limitDetails.projects)}</Typography>
                     </Grid>
                 </Grid>
                 <Grid container justify="space-between">
@@ -84,7 +89,7 @@ export default function PlanCard(props: PlanCardProps) {
                         <Typography variant="body2">User Accounts</Typography>
                     </Grid>
                     <Grid>
-                        <Typography variant="body2">{props.limitDetails.accounts}</Typography>
+                        <Typography variant="body2">{numberWithCommas(props.limitDetails.accounts)}</Typography>
                     </Grid>
                 </Grid>
             </CardContent>
@@ -99,7 +104,7 @@ export default function PlanCard(props: PlanCardProps) {
                     data-cb-type="checkout"
                     data-cb-plan-id={props.planId}
                 >
-                    Upgrade
+                    Select Plan
                 </Button>
             </CardActions>
         </Card>

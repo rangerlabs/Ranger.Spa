@@ -1,7 +1,7 @@
 import PusherNotificationModel from '../../../models/PusherNotificationModel';
 import ReduxStore from '../../../ReduxStore';
 import { SnackbarNotification, enqueueSnackbar } from '../../../redux/actions/SnackbarActions';
-import { unloadSubscriptionLimitDetails, populateSubscriptionLimitDetails } from '../../../redux/actions/SubscriptionLimitDetailsActions';
+import { populateSubscriptionLimitDetails } from '../../../redux/actions/SubscriptionLimitDetailsActions';
 import SubscriptionsService from '../../../services/SubscriptionsService';
 
 const subscriptionService = new SubscriptionsService();
@@ -17,8 +17,6 @@ export default function SubscriptionChangedHandler(data: PusherNotificationModel
             },
         } as SnackbarNotification;
         const store = ReduxStore.getStore();
-        const unloadSubscriptionAction = unloadSubscriptionLimitDetails();
-        store.dispatch(unloadSubscriptionAction);
         const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
         store.dispatch(enqueueSnackbarAction);
 

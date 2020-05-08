@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PlanCard from './PlanCard';
-import { Grid, Theme, createStyles, WithStyles, withStyles, Paper, Typography, Box, Link } from '@material-ui/core';
+import { Grid, Theme, createStyles, WithStyles, withStyles, Paper, Typography, Box, Link, Button, Hidden } from '@material-ui/core';
 import SubscriptionsService from '../../../services/SubscriptionsService';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
@@ -8,6 +8,8 @@ import ISubscriptionLimitDetails from '../../../models/app/ISubscriptionLimitDet
 import populateSubscriptionLimitDataHOC from '../hocs/PopulateSubscriptionLimitDataHOC';
 import { titleCase } from 'change-case';
 import RoutePaths from '../../RoutePaths';
+import { getUnixTime } from 'date-fns';
+import { ILimitDetails } from '../../../models/app/ILimitDetails';
 const subscriptionsService = new SubscriptionsService();
 
 const styles = (theme: Theme) =>
@@ -27,6 +29,9 @@ const styles = (theme: Theme) =>
         },
         columnRoot: {
             height: '100%',
+        },
+        gridRoot: {
+            height: `calc((100% - ${theme.toolbar.height}px))`,
         },
     });
 
@@ -70,8 +75,8 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                         url: result.result.url,
                         state: result.result.state,
                         embed: result.result.embed,
-                        created_at: result.result.createdAt,
-                        expires_at: result.result.expiresAt,
+                        created_at: getUnixTime(Date.parse(result.result.createdAt)),
+                        expires_at: getUnixTime(Date.parse(result.result.expiresAt)),
                     };
                     resolve(hostedPage);
                 });
@@ -90,23 +95,51 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
         event.preventDefault();
     }
 
+    openPortal() {
+        this.state.cbInstance.setPortalSession(
+            () =>
+                new Promise(async (resolve, reject) => {
+                    subscriptionsService.getPortalSession().then((response) => {
+                        const portalSession = {
+                            id: response.result.id,
+                            token: response.result.token,
+                            access_url: response.result.accessUrl,
+                            status: response.result.status,
+                            object: response.result.object,
+                            customerId: response.result.customerId,
+                            created_at: getUnixTime(Date.parse(response.result.createdAt)),
+                            expires_at: getUnixTime(Date.parse(response.result.expiresAt)),
+                        };
+                        resolve(portalSession);
+                    });
+                })
+        );
+        let cbPortal = this.state.cbInstance.createChargebeePortal();
+        cbPortal.open({
+            close() {
+                //close callbacks
+            },
+        });
+    }
+
     isLimitReached = (utilized: number, limit: number): boolean => utilized === limit;
     isNearingLimit = (utilized: number, limit: number): boolean => utilized / limit >= 0.9 || utilized + 1 === limit;
     isCurrentPlan = (planId: string): boolean => planId === this.props.subscriptionLimitDetails.planId;
+    numberWithCommas = (x: number): string => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
     render() {
         const { classes } = this.props;
         const { utilized, limit } = this.props.subscriptionLimitDetails;
         return (
-            <Box height="100%">
+            <Box className={classes.gridRoot}>
                 <Grid className={classes.columnRoot} direction="column" container justify="space-evenly" alignItems="center">
-                    <Grid direction="row" container item justify="space-evenly" alignItems="center">
+                    <Grid container item justify="space-evenly" alignItems="center">
                         <Grid item xs={11} sm={8} md={5} lg={2}>
                             <PlanCard
                                 isCurrentPlan={this.isCurrentPlan('sandbox')}
                                 planId="sandbox"
                                 planName="Sandbox"
-                                limitDetails={this.props.subscriptionLimitDetails.limit}
+                                limitDetails={{ geofences: 100, accounts: 1, integrations: 2, projects: 1 } as ILimitDetails}
                                 cost="FREE"
                                 onUpgrade={this.upgrade.bind(this)}
                             />
@@ -116,7 +149,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 isCurrentPlan={this.isCurrentPlan('startup')}
                                 planId="startup"
                                 planName="Startup"
-                                limitDetails={this.props.subscriptionLimitDetails.limit}
+                                limitDetails={{ geofences: 1000, accounts: 3, integrations: 3, projects: 1 } as ILimitDetails}
                                 cost="$49 / Month"
                                 onUpgrade={this.upgrade.bind(this)}
                             />
@@ -126,68 +159,82 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 isCurrentPlan={this.isCurrentPlan('pro')}
                                 planId="pro"
                                 planName="Pro"
-                                limitDetails={this.props.subscriptionLimitDetails.limit}
+                                limitDetails={{ geofences: 10000, accounts: 5, integrations: 5, projects: 1 } as ILimitDetails}
                                 cost="$99 / Month"
                                 onUpgrade={this.upgrade.bind(this)}
                             />
                         </Grid>
                     </Grid>
-                    <Grid direction="row" container item justify="center">
-                        <Grid item xs={10} md={11}>
+                    <Grid container item justify="center">
+                        <Grid item xs={10}>
                             <Paper className={classes.currentSubscription} elevation={3}>
-                                <Typography align="center" variant="h6">
-                                    Current subscription
-                                </Typography>
-                                <Typography align="center" color="primary" variant="h6">
-                                    {titleCase(this.props.subscriptionLimitDetails.planId)}
-                                </Typography>
+                                <Grid container>
+                                    <Hidden smDown>
+                                        <Grid md={2} item />
+                                    </Hidden>
+                                    <Grid md={8} xs={12} item>
+                                        <Typography align="center" variant="h6">
+                                            Your subscription
+                                        </Typography>
+                                        <Typography align="center" color="primary" variant="h6">
+                                            {titleCase(this.props.subscriptionLimitDetails.planId)}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid md={2} xs={12} item>
+                                        <Grid container alignItems="flex-start" justify="flex-end" direction="row">
+                                            <Button color="primary" variant="contained" onClick={this.openPortal.bind(this)} data-cb-type="portal">
+                                                Manage
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
 
                                 <Grid container justify="space-around">
-                                    <Grid item alignContent="center">
+                                    <Grid item>
                                         <Typography variant="subtitle1">Geofences</Typography>
                                         {this.isNearingLimit(utilized.geofences, limit.geofences) ? (
                                             <Typography align="center" color="error" variant="subtitle1">
-                                                {utilized.geofences}/{limit.geofences}
+                                                {this.numberWithCommas(utilized.geofences)}/{this.numberWithCommas(limit.geofences)}
                                             </Typography>
                                         ) : (
                                             <Typography align="center" color="primary" variant="subtitle1">
-                                                {utilized.geofences}/{limit.geofences}
+                                                {this.numberWithCommas(utilized.geofences)}/{this.numberWithCommas(limit.geofences)}
                                             </Typography>
                                         )}
                                     </Grid>
-                                    <Grid direction="column" item alignItems="center">
+                                    <Grid item>
                                         <Typography variant="subtitle1">Integrations</Typography>
                                         {this.isNearingLimit(utilized.integrations, limit.integrations) ? (
                                             <Typography align="center" color="error" variant="subtitle1">
-                                                {utilized.integrations}/{limit.integrations}
+                                                {this.numberWithCommas(utilized.integrations)}/{this.numberWithCommas(limit.integrations)}
                                             </Typography>
                                         ) : (
                                             <Typography align="center" color="primary" variant="subtitle1">
-                                                {utilized.integrations}/{limit.integrations}
+                                                {this.numberWithCommas(utilized.integrations)}/{this.numberWithCommas(limit.integrations)}
                                             </Typography>
                                         )}
                                     </Grid>
-                                    <Grid direction="column" item alignItems="center">
+                                    <Grid item>
                                         <Typography variant="subtitle1">Projects</Typography>
                                         {this.isNearingLimit(utilized.projects, limit.projects) ? (
                                             <Typography align="center" color="error" variant="subtitle1">
-                                                {utilized.projects}/{limit.projects}
+                                                {this.numberWithCommas(utilized.projects)}/{this.numberWithCommas(limit.projects)}
                                             </Typography>
                                         ) : (
                                             <Typography align="center" color="primary" variant="subtitle1">
-                                                {utilized.projects}/{limit.projects}
+                                                {this.numberWithCommas(utilized.projects)}/{this.numberWithCommas(limit.projects)}
                                             </Typography>
                                         )}
                                     </Grid>
-                                    <Grid direction="column" item alignItems="center">
+                                    <Grid item>
                                         <Typography variant="subtitle1">User Accounts</Typography>
                                         {this.isNearingLimit(utilized.accounts, limit.accounts) ? (
                                             <Typography align="center" color="error" variant="subtitle1">
-                                                {utilized.accounts}/{limit.accounts}
+                                                {this.numberWithCommas(utilized.accounts)}/{this.numberWithCommas(limit.accounts)}
                                             </Typography>
                                         ) : (
                                             <Typography align="center" color="primary" variant="subtitle1">
-                                                {utilized.accounts}/{limit.accounts}
+                                                {this.numberWithCommas(utilized.accounts)}/{this.numberWithCommas(limit.accounts)}
                                             </Typography>
                                         )}
                                     </Grid>
@@ -195,11 +242,11 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                             </Paper>
                         </Grid>
                     </Grid>
-                    <Grid direction="row" container item justify="center">
-                        <Grid item xs={10} md={11}>
+                    <Grid container item justify="center" alignContent="center">
+                        <Grid container item justify="center" alignContent="center">
                             <Typography align="center" variant="caption">
-                                Please be aware that when downgrading your subscription resources may need to be removed. To understand how resources are
-                                removed when downgrading your subscription, please refer to the documentation <Link href={RoutePaths.Documentation}>here</Link>.
+                                Please note, when downgrading your subscription resources may need to be removed. To understand how resources are removed when
+                                downgrading, please refer to the documentation <Link href={RoutePaths.Documentation}>here</Link>.
                             </Typography>
                         </Grid>
                     </Grid>

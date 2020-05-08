@@ -4,6 +4,6 @@ export default interface IHostedPageUrl {
     url: string;
     state: string;
     embed: boolean;
-    createdAt: number;
-    expiresAt: number;
+    createdAt: string;
+    expiresAt: string;
 }
