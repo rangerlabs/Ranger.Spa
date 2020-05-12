@@ -52,24 +52,17 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
                 initialValues={{ password: '' }}
                 onSubmit={(values: IRequestPasswordResetModel, formikBag: FormikBag<FormikProps<IRequestPasswordResetModel>, IRequestPasswordResetModel>) => {
                     setServerError(undefined);
-                    userService
-                        .requestPasswordReset((changePasswordContentProps.user.profile as UserProfile).email, values)
-                        .then((response: IRestResponse<boolean>) => {
-                            if (!response.isError) {
-                                if (response.result) {
-                                    changePasswordContentProps.enqueueSnackbar(response.message);
-                                    formikBag.setSubmitting(false);
-                                    setSuccess(true);
-                                    changePasswordContentProps.closeDialog();
-                                }
-                            } else {
-                                changePasswordContentProps.enqueueSnackbar(response.error.message, {
-                                    variant: 'error',
-                                });
-                                setServerError(response.error.message);
-                                formikBag.setSubmitting(false);
-                            }
-                        });
+                    userService.requestPasswordReset(values).then((response: IRestResponse<boolean>) => {
+                        if (!response.isError) {
+                            changePasswordContentProps.enqueueSnackbar(response.message);
+                            formikBag.setSubmitting(false);
+                            setSuccess(true);
+                            changePasswordContentProps.closeDialog();
+                        } else {
+                            setServerError(response.error.message);
+                            formikBag.setSubmitting(false);
+                        }
+                    });
                 }}
                 validationSchema={validationSchema}
             >

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import UserManager from '../../services/UserManager';
 import { User } from 'oidc-client';
-import { RouteComponentProps } from 'react-router';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { CallbackComponent } from 'redux-oidc';

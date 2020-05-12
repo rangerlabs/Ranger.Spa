@@ -5,7 +5,6 @@ import SubscriptionsService from '../../../services/SubscriptionsService';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import ISubscriptionLimitDetails from '../../../models/app/ISubscriptionLimitDetails';
-import populateSubscriptionLimitDataHOC from '../hocs/PopulateSubscriptionLimitDataHOC';
 import { titleCase } from 'change-case';
 import RoutePaths from '../../RoutePaths';
 import { getUnixTime } from 'date-fns';
@@ -142,6 +141,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 limitDetails={{ geofences: 100, accounts: 1, integrations: 2, projects: 1 } as ILimitDetails}
                                 cost="FREE"
                                 onUpgrade={this.upgrade.bind(this)}
+                                forceDisable={!this.props.subscriptionLimitDetails.active}
                             />
                         </Grid>
                         <Grid item xs={11} sm={8} md={5} lg={2}>
@@ -152,6 +152,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 limitDetails={{ geofences: 1000, accounts: 3, integrations: 3, projects: 1 } as ILimitDetails}
                                 cost="$49 / Month"
                                 onUpgrade={this.upgrade.bind(this)}
+                                forceDisable={!this.props.subscriptionLimitDetails.active}
                             />
                         </Grid>
                         <Grid item xs={11} sm={8} md={5} lg={2}>
@@ -162,6 +163,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 limitDetails={{ geofences: 10000, accounts: 5, integrations: 5, projects: 1 } as ILimitDetails}
                                 cost="$99 / Month"
                                 onUpgrade={this.upgrade.bind(this)}
+                                forceDisable={!this.props.subscriptionLimitDetails.active}
                             />
                         </Grid>
                     </Grid>
@@ -256,4 +258,4 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
     }
 }
 
-export default connect(mapStateToProps, null)(withStyles(styles)(populateSubscriptionLimitDataHOC(Subscription)));
+export default connect(mapStateToProps, null)(withStyles(styles)(Subscription));

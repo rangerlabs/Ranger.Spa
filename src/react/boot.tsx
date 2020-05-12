@@ -43,6 +43,9 @@ const theme = responsiveFontSizes(
                 paper: '#fafafa',
                 default: '#fafafa',
             },
+            error: {
+                main: '#bc3025',
+            },
         },
         typography: {
             fontFamily: "'Lato', sans-serif",

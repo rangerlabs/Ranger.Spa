@@ -66,6 +66,7 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
                 preventDuplicate={true}
                 hideIconVariant={true}
                 maxSnack={3}
+                autoHideDuration={7000}
                 // anchorOrigin={{
                 //     vertical: 'bottom',
                 //     horizontal: 'center',

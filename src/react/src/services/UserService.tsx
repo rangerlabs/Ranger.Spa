@@ -63,15 +63,15 @@ export default class UserService {
         return RestUtilities.delete(`/users/${email}`);
     }
 
-    async requestPasswordReset(userEmail: string, passwordReset: IRequestPasswordResetModel): Promise<IRestResponse<boolean>> {
-        return RestUtilities.put(`/users/${userEmail}/password-reset`, passwordReset);
+    async requestPasswordReset(passwordReset: IRequestPasswordResetModel): Promise<IRestResponse<boolean>> {
+        return RestUtilities.put(`/users/password-reset`, passwordReset);
     }
 
-    async requestEmailChanage(currentUserEmail: string, emailChange: IRequestEmailChangeModel): Promise<IRestResponse<boolean>> {
-        return RestUtilities.put(`/users/${currentUserEmail}/email-change`, emailChange);
+    async requestEmailChanage(emailChange: IRequestEmailChangeModel): Promise<IRestResponse<boolean>> {
+        return RestUtilities.put(`/users/email-change`, emailChange);
     }
 
-    async changeEmail(email: string, resetModel: IChangeEmailModel): Promise<IRestResponse<void>> {
-        return RestUtilities.post(`/users/${email}/email-change`, resetModel);
+    async changeEmail(resetModel: IChangeEmailModel): Promise<IRestResponse<void>> {
+        return RestUtilities.post(`/users/email-change`, resetModel);
     }
 }

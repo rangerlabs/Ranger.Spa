@@ -266,16 +266,14 @@ class Account extends React.Component<AccountProps, AccountState> {
                                     </Grid>
                                     <div className={classes.flexButtonContainer}>
                                         <div className={classes.leftButtons}>
-                                            {this.isPrimaryOwner && (
-                                                <FormikDeleteButton
-                                                    isSubmitting={props.isSubmitting}
-                                                    dialogTitle="Delete account?"
-                                                    disabled={this.isPrimaryOwner}
-                                                    dialogContent={<DeleteAccountComponent email={(this.props.user.profile as UserProfile).email} />}
-                                                >
-                                                    Delete
-                                                </FormikDeleteButton>
-                                            )}
+                                            <FormikDeleteButton
+                                                isSubmitting={props.isSubmitting}
+                                                dialogTitle="Delete account?"
+                                                disabled={this.isPrimaryOwner}
+                                                dialogContent={<DeleteAccountComponent email={(this.props.user.profile as UserProfile).email} />}
+                                            >
+                                                Delete
+                                            </FormikDeleteButton>
                                             <Button
                                                 onClick={() => {
                                                     this.props.openDialog(new DialogContent(<ChangePasswordContent />));

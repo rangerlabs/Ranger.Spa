@@ -109,10 +109,8 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
                                     formikBag.setSubmitting(false);
                                     this.setState({ serverError: true });
                                 } else {
-                                    setTimeout(() => {
-                                        formikBag.setSubmitting(false);
-                                        this.setState({ success: true });
-                                    }, 350);
+                                    formikBag.setSubmitting(false);
+                                    this.setState({ success: true });
                                 }
                             });
                         }}

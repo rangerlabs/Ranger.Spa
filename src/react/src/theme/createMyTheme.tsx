@@ -54,6 +54,11 @@ export default function createRangerTheme(options: ThemeOptions) {
             width: '100%',
         },
         overrides: {
+            MuiDialog: {
+                paper: {
+                    minWidth: '30%',
+                },
+            },
             MuiTableCell: {
                 root: {
                     borderBottom: '0px',

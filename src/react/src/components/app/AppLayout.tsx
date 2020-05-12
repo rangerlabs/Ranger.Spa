@@ -16,10 +16,11 @@ import authorizedRoute from './hocs/AuthorizedRouteHOC';
 import { addDomain, DomainState } from '../../redux/actions/DomainActions';
 import { getSubDomain } from '../../helpers/Helpers';
 import Constants from '../../theme/Constants';
-import ISubscriptionLimitDetails from '../../models/app/ISubscriptionLimitDetails';
 import { SubscriptionLimitDetailsState } from '../../redux/actions/SubscriptionLimitDetailsActions';
-import { enqueueSnackbar, SnackbarNotification } from '../../redux/actions/SnackbarActions';
-import { WithSnackbarProps } from 'notistack';
+import { SnackbarNotification } from '../../redux/actions/SnackbarActions';
+import { WithSnackbarProps, withSnackbar } from 'notistack';
+import SubscriptionInactiveFooter from './subscription/SubscriptionInactiveFooter';
+import populateSubscriptionLimitDataHOC from './hocs/PopulateSubscriptionLimitDataHOC';
 const hash = require('object-hash');
 
 const styles = (theme: Theme) =>
@@ -81,25 +82,8 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
         }
     };
 
-    componentDidUpdate(prevProps: AppLayoutProps) {
-        if (
-            (!prevProps && this.props.subscription.isLoaded && !this.props.subscription.subscriptionLimitDetails.active) ||
-            this.changedTo_NOT_Active(prevProps)
-        ) {
-            this.props.enqueueSnackbar({
-                message: 'Your subscription is no longer active. Please contact a domain Owner to reactive your subscription',
-                options: { variant: 'error', persist: true },
-            } as SnackbarNotification);
-        } else if (!prevProps && this.props.subscription.isLoaded && this.props.subscription.subscriptionLimitDetails.daysUntilCancellation) {
-            this.props.enqueueSnackbar({
-                message: `Your subscription is set to expire in ${this.props.subscription.subscriptionLimitDetails.daysUntilCancellation} days. Please contact a domain Owner to avoid interruption`,
-                options: { variant: 'warning', persist: true },
-            } as SnackbarNotification);
-        }
-    }
-
     handleDrawerToggle = () => {
-        this.setState((state) => ({ mobileOpen: !this.state.mobileOpen }));
+        this.setState(() => ({ mobileOpen: !this.state.mobileOpen }));
     };
 
     completeBreadcrumbsWithProjectName = () => {
@@ -114,16 +98,6 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
         }
         return result;
     };
-
-    private changedTo_NOT_Active(prevProps: AppLayoutProps) {
-        return (
-            prevProps &&
-            prevProps.subscription.isLoaded &&
-            this.props.subscription.isLoaded &&
-            prevProps.subscription.subscriptionLimitDetails.active &&
-            !this.props.subscription.subscriptionLimitDetails.active
-        );
-    }
 
     render() {
         const { component: Component, classes, breadcrumbPath, ...rest } = this.props;
@@ -142,6 +116,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                                 <Component {...props} />
                             </main>
                         </Fade>
+                        <SubscriptionInactiveFooter />
                     </div>
                 )}
             />
@@ -149,4 +124,4 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(authorizedRoute(AppLayout)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(authorizedRoute(populateSubscriptionLimitDataHOC(withSnackbar(AppLayout)))));

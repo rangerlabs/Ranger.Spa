@@ -49,23 +49,16 @@ function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): J
                 initialValues={{ email: '' }}
                 onSubmit={(values: IRequestEmailChangeModel, formikBag: FormikBag<FormikProps<IRequestEmailChangeModel>, IRequestEmailChangeModel>) => {
                     setServerError(undefined);
-                    userService
-                        .requestEmailChanage((changeEmailContentProps.user.profile as UserProfile).email, values)
-                        .then((response: IRestResponse<boolean>) => {
-                            if (!response.isError) {
-                                if (response.result) {
-                                    changeEmailContentProps.enqueueSnackbar(response.message, { variant: 'success' });
-                                    setSuccess(true);
-                                    changeEmailContentProps.closeDialog();
-                                }
-                            } else {
-                                changeEmailContentProps.enqueueSnackbar(response.error.message, {
-                                    variant: 'error',
-                                });
-                                setServerError('The email address is already in use.');
-                                formikBag.setSubmitting(false);
-                            }
-                        });
+                    userService.requestEmailChanage(values).then((response: IRestResponse<boolean>) => {
+                        if (!response.isError) {
+                            changeEmailContentProps.enqueueSnackbar(response.message, { variant: 'success' });
+                            setSuccess(true);
+                            changeEmailContentProps.closeDialog();
+                        } else {
+                            setServerError(response.error.message);
+                            formikBag.setSubmitting(false);
+                        }
+                    });
                 }}
                 validationSchema={validationSchema}
             >

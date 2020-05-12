@@ -40,6 +40,7 @@ interface PlanCardProps {
     onUpgrade: (planId: string) => void;
     isCurrentPlan: boolean;
     limitDetails: ILimitDetails;
+    forceDisable: boolean;
 }
 
 export default function PlanCard(props: PlanCardProps) {
@@ -51,7 +52,7 @@ export default function PlanCard(props: PlanCardProps) {
 
     return (
         <Card className={classes.root} elevation={3}>
-            <Box className={props.isCurrentPlan ? classes.headerFaded : classes.header} paddingTop={4}>
+            <Box className={props.isCurrentPlan || props.forceDisable ? classes.headerFaded : classes.header} paddingTop={4}>
                 <Typography className={classes.white} align="center" gutterBottom variant="h4">
                     {props.planName}
                 </Typography>
@@ -98,7 +99,7 @@ export default function PlanCard(props: PlanCardProps) {
                     onClick={() => {
                         props.onUpgrade(props.planId);
                     }}
-                    disabled={props.isCurrentPlan}
+                    disabled={props.isCurrentPlan || props.forceDisable}
                     color="primary"
                     variant="contained"
                     data-cb-type="checkout"

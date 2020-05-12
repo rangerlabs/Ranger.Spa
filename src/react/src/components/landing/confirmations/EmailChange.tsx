@@ -58,12 +58,6 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
         return token;
     }
 
-    getUserIdFromParams(): string {
-        const params = queryString.parse(window.location.search);
-        const userId = params['userId'] as string;
-        return userId;
-    }
-
     getDomainFromParams(): string {
         const params = queryString.parse(window.location.search);
         const domain = params['domain'] as string;
@@ -89,16 +83,13 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                             } as IChangeEmailModel
                         }
                         onSubmit={(values: IChangeEmailModel, formikBag: FormikBag<FormikProps<IChangeEmailModel>, IChangeEmailModel>) => {
-                            const userId = this.getUserIdFromParams();
-                            userService.changeEmail(userId, values).then((v) => {
+                            userService.changeEmail(values).then((v) => {
                                 if (v.isError) {
                                     formikBag.setSubmitting(false);
-                                    this.setState({ success: false, serverError: v.error.validationErrors[0].reason });
+                                    this.setState({ success: false, serverError: v.error.message });
                                 } else {
-                                    setTimeout(() => {
-                                        formikBag.setSubmitting(false);
-                                        this.setState({ success: true });
-                                    }, 350);
+                                    formikBag.setSubmitting(false);
+                                    this.setState({ success: true });
                                 }
                             });
                         }}
@@ -112,7 +103,7 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                                             Change Email
                                         </Typography>
                                         <Typography align="center" variant="subtitle1">
-                                            To change your email, enter your current email.
+                                            To confirm your email change, enter your current email.
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
@@ -149,7 +140,7 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                                 Your email has been successfully changed.
                             </Typography>
                             <Typography gutterBottom align="center" variant="subtitle1">
-                                Click below to sign in using your new email.
+                                Click below to sign in.
                             </Typography>
                         </Grid>
                         <Grid item>

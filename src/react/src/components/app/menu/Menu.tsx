@@ -116,8 +116,6 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-const timeout = { enter: 0, exit: 500 };
-
 class Menu extends React.Component<MenuProps> {
     handleMenuToggle = (name: string) => {
         const currentSelection = this.props.currentSelection === name ? '' : name;

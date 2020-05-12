@@ -80,7 +80,7 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
         switch (this.getResponseFromParams()) {
             case TransferPrimaryOwnershipResponseEnum.REJECT: {
                 userService.refusePrimaryOwnership(confirmModel).then((v) => {
-                    if (v.isError || !v.result) {
+                    if (v.isError) {
                         this.setState({ isRequesting: false });
                     } else {
                         this.setState({ confirmed: true, isRequesting: false });
