@@ -43,8 +43,8 @@ export default class UserService {
         return RestUtilities.post('/account/transfer-primary-ownership', transferPrimaryOwnershipModel);
     }
 
-    async deleteAccount(email: string, accountDeleteModel: IAccountDeleteModel): Promise<IRestResponse<void>> {
-        return RestUtilities.delete(`/account/${email}`, accountDeleteModel);
+    async deleteAccount(accountDeleteModel: IAccountDeleteModel): Promise<IRestResponse<void>> {
+        return RestUtilities.delete(`/account`, accountDeleteModel);
     }
 
     async cancelPrimaryOwnershipTransfer(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<IRestResponse<void>> {

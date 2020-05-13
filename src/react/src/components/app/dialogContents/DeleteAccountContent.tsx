@@ -36,14 +36,7 @@ interface Password {
 interface DeleteAccountContentProps extends WithSnackbarProps {
     closeDialog: () => void;
     push: typeof push;
-    email: string;
 }
-
-const mapStateToProps = (state: ApplicationState) => {
-    return {
-        email: (state.oidc.user.profile as UserProfile).email,
-    };
-};
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
@@ -78,7 +71,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
             <Formik
                 initialValues={{ password: '' }}
                 onSubmit={(values: Password, formikBag: FormikBag<FormikProps<Password>, Password>) => {
-                    userService.deleteAccount(deleteAccountContentProps.email, { password: values.password }).then((response) => {
+                    userService.deleteAccount({ password: values.password }).then((response) => {
                         if (response.isError) {
                             deleteAccountContentProps.enqueueSnackbar(response.error.message, {
                                 variant: 'error',

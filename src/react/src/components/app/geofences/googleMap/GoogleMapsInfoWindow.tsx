@@ -59,7 +59,7 @@ class GoogleMapsInfoWindow extends React.Component<GoogleMapsInfoWindowProps> {
                             <Button
                                 className={classes.primary}
                                 variant="contained"
-                                onClick={e => {
+                                onClick={(e) => {
                                     this.props.onEdit();
                                 }}
                                 startIcon={<Pencil />}
@@ -68,28 +68,16 @@ class GoogleMapsInfoWindow extends React.Component<GoogleMapsInfoWindowProps> {
                             </Button>
                         </React.Fragment>
                     ) : (
-                        <React.Fragment>
-                            <Button
-                                className={classes.warning}
-                                variant="text"
-                                onClick={e => {
-                                    this.props.clear();
-                                }}
-                                startIcon={<Delete />}
-                            >
-                                Clear
-                            </Button>
-                            <Button
-                                className={classes.primary}
-                                variant="contained"
-                                onClick={e => {
-                                    this.props.onCreate();
-                                }}
-                                startIcon={<PencilPlus />}
-                            >
-                                Create
-                            </Button>
-                        </React.Fragment>
+                        <Button
+                            className={classes.primary}
+                            variant="contained"
+                            onClick={(e) => {
+                                this.props.onCreate();
+                            }}
+                            startIcon={<PencilPlus />}
+                        >
+                            Create
+                        </Button>
                     )}
                 </div>
             </StylesProvider>

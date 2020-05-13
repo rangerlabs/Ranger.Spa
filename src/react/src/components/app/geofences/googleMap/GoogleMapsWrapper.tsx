@@ -2,7 +2,6 @@ import * as React from 'react';
 import { createStyles, Theme, withStyles, WithStyles, TextField } from '@material-ui/core';
 import { render } from 'react-dom';
 import GoogleMapsInfoWindow from './GoogleMapsInfoWindow';
-import GoogleMapsShapePicker from './GoogleMapsShapePicker';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../stores';
 import {
@@ -30,7 +29,7 @@ const hash = require('object-hash');
 import * as queryString from 'query-string';
 import Constants from '../../../../theme/Constants';
 import Loading from '../../loading/Loading';
-import GoogleMapsInfoWindowOpener from './GoogleMapsInfoWindowOpener';
+import GoogleMapsSpeedDial from './GoogleMapsSpeedDial';
 
 const DEFAULT_RADIUS = 100;
 
@@ -188,11 +187,9 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             if (prevProps.selectedShape !== this.props.selectedShape) {
                 if (prevProps.selectedShape === ShapePicker.Circle && this.newCircleGeofenceMapMarker) {
                     this.clearCircle();
-                    this.props.removeMapGeofenceFromState();
                     this.props.closeDrawer();
                 } else if (this.newPolygonGeofenceMapMarker) {
                     this.clearPolygon();
-                    this.props.removeMapGeofenceFromState();
                     this.props.closeDrawer();
                 }
             }
@@ -250,7 +247,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             types: ['geocode'],
         });
 
-        this.registerEventHandlers();
+        this.registerAutoCompleteEventHandler();
         if (this.props.onMapLoad) {
             this.props.onMapLoad(this.map);
         }
@@ -355,11 +352,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         });
     }
 
-    registerEventHandlers = () => {
-        this.registerMapClickHandler();
-        this.registerAutoCompleteEventHandler();
-    };
-
     registerMapClickHandler = () => {
         this.mapClickListener = this.map.addListener('click', (e: google.maps.MouseEvent) => {
             switch (this.props.selectedShape) {
@@ -418,19 +410,23 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     };
 
     clearCircle = () => {
+        this.removeMapClickHandler();
         if (this.newCircleGeofenceMapMarker) {
             this.newCircleGeofenceMapMarker.destroy();
             this.newCircleGeofenceMapMarker = undefined;
         }
         this.closeInfoWindow();
+        this.props.removeMapGeofenceFromState();
     };
 
     clearPolygon = () => {
+        this.removeMapClickHandler();
         if (this.newPolygonGeofenceMapMarker) {
             this.newPolygonGeofenceMapMarker.destroy();
             this.newPolygonGeofenceMapMarker = undefined;
         }
         this.closeInfoWindow();
+        this.props.removeMapGeofenceFromState();
     };
 
     registerAutoCompleteEventHandler() {
@@ -441,7 +437,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     if (place.geometry) {
                         if (this.newCircleGeofenceMapMarker) {
                             this.clearCircle();
-                            this.props.removeMapGeofenceFromState();
                             this.props.closeDrawer();
                         }
                         this.map.panTo(place.geometry.location);
@@ -454,7 +449,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     if (place.geometry) {
                         if (this.newPolygonGeofenceMapMarker) {
                             this.clearPolygon();
-                            this.props.removeMapGeofenceFromState();
                             this.props.closeDrawer();
                         }
                         this.map.panTo(place.geometry.location);
@@ -504,7 +498,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             this.infoWindow.set('name', geofenceName);
             this.infoWindow.addListener('closeclick', () => {
                 this.props.setInfoWindowVisible(false);
-                this.registerMapClickHandler();
             });
             this.infoWindow.addListener('domready', () => {
                 const geofenceName = this.infoWindow.get('name');
@@ -515,9 +508,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                             name={geofenceName}
                             clear={() => {
                                 this.clearCircle();
-                                this.props.removeMapGeofenceFromState();
                                 this.props.closeDrawer();
-                                this.registerMapClickHandler();
                             }}
                             onEdit={() => {
                                 this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + geofenceName);
@@ -533,9 +524,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                             name={geofenceName}
                             clear={() => {
                                 this.clearPolygon();
-                                this.props.removeMapGeofenceFromState();
                                 this.props.closeDrawer();
-                                this.registerMapClickHandler();
                             }}
                             onEdit={() => {
                                 this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + geofenceName);
@@ -602,12 +591,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 <div className={classes.mapContainer} id={this.props.id} />
                 {this.state.isMapFullyLoaded && (
                     <React.Fragment>
-                        <GoogleMapsShapePicker map={this.map} />
-                        <GoogleMapsInfoWindowOpener
+                        <GoogleMapsSpeedDial
                             map={this.map}
-                            onClick={() => {
-                                this.handleInfoWindowOpenerClick();
-                            }}
+                            mapClick={this.registerMapClickHandler}
+                            clearCircle={this.clearCircle}
+                            clearPolygon={this.clearPolygon}
                         />
                     </React.Fragment>
                 )}

@@ -270,7 +270,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 isSubmitting={props.isSubmitting}
                                                 dialogTitle="Delete account?"
                                                 disabled={this.isPrimaryOwner}
-                                                dialogContent={<DeleteAccountComponent email={(this.props.user.profile as UserProfile).email} />}
+                                                dialogContent={<DeleteAccountComponent />}
                                             >
                                                 Delete
                                             </FormikDeleteButton>
