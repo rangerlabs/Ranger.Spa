@@ -283,6 +283,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                               Schedule.FullUtcSchedule()
                           )
                 }
+                validateOnMount={false}
                 onSubmit={(values: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
                     const newFence = new PolygonGeofence(
                         this.props.selectedProject.projectId,

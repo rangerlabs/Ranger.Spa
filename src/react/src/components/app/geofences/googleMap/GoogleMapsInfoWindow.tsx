@@ -5,8 +5,6 @@ import { StylesProvider } from '@material-ui/styles';
 import { jss, generateClassName } from '../../../../theme/StylesProviderPropsConfig';
 import Constants from '../../../../theme/Constants';
 import Pencil from 'mdi-material-ui/Pencil';
-import PencilPlus from 'mdi-material-ui/PencilPlus';
-import Delete from 'mdi-material-ui/Delete';
 
 const styles = (theme: Theme) => {
     return createStyles({
@@ -41,8 +39,6 @@ const styles = (theme: Theme) => {
 interface GoogleMapsInfoWindowProps extends WithStyles<typeof styles> {
     name?: string;
     onEdit?: () => void;
-    onCreate?: () => void;
-    clear?: () => void;
 }
 
 class GoogleMapsInfoWindow extends React.Component<GoogleMapsInfoWindowProps> {
@@ -51,34 +47,21 @@ class GoogleMapsInfoWindow extends React.Component<GoogleMapsInfoWindowProps> {
         return (
             <StylesProvider jss={jss} generateClassName={generateClassName}>
                 <div className={classes.root}>
-                    {this.props.name ? (
-                        <React.Fragment>
-                            <Typography align="center" variant="subtitle1">
-                                {this.props.name}
-                            </Typography>
-                            <Button
-                                className={classes.primary}
-                                variant="contained"
-                                onClick={(e) => {
-                                    this.props.onEdit();
-                                }}
-                                startIcon={<Pencil />}
-                            >
-                                Edit
-                            </Button>
-                        </React.Fragment>
-                    ) : (
+                    <React.Fragment>
+                        <Typography align="center" variant="subtitle1">
+                            {this.props.name}
+                        </Typography>
                         <Button
                             className={classes.primary}
                             variant="contained"
                             onClick={(e) => {
-                                this.props.onCreate();
+                                this.props.onEdit();
                             }}
-                            startIcon={<PencilPlus />}
+                            startIcon={<Pencil />}
                         >
-                            Create
+                            Edit
                         </Button>
-                    )}
+                    </React.Fragment>
                 </div>
             </StylesProvider>
         );

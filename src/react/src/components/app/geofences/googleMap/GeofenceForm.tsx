@@ -91,11 +91,12 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
                                 innerRef={this.mapWrappedRef}
                                 id={'map'}
                                 options={{
-                                    zoom: 12,
+                                    zoom: 8,
                                     streetViewControl: false,
                                     mapTypeControl: false,
                                     fullscreenControl: false,
                                     clickableIcons: false,
+                                    zoomControl: true,
                                 }}
                                 mapFullyLoadedCallback={() => {
                                     this.setState({ isMapFullyLoaded: true });

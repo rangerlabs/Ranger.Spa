@@ -283,6 +283,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                               Schedule.FullUtcSchedule()
                           )
                 }
+                validateOnMount={false}
                 onSubmit={(values: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
                     const newFence = new CircleGeofence(
                         this.props.selectedProject.projectId,

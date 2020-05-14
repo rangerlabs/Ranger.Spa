@@ -25,7 +25,7 @@ const mapStateToProps = (state: ApplicationState) => {
 };
 
 const selectedProjectGeofences = (geofences: Array<CircleGeofence | PolygonGeofence>, name: string) => {
-    return geofences.filter(f => f.projectId === name);
+    return geofences.filter((f) => f.projectId === name);
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -54,7 +54,7 @@ class Geofences extends React.Component<GeofencesProps> {
     mapGeofencesToTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>): Array<Array<string>> {
         const tableGeofences = new Array<Array<string>>();
         if (geofences) {
-            geofences.forEach(value => {
+            geofences.forEach((value) => {
                 tableGeofences.push([
                     value.enabled ? 'Enabled' : 'Disabled',
                     value.externalId,
