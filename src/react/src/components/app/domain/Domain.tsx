@@ -71,7 +71,7 @@ class Domain extends React.Component<IDomainProps, DomainState> {
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper elevation={0}>
+                    <Paper elevation={3}>
                         <Typography align="center" variant="h5" gutterBottom>
                             Edit Domain
                         </Typography>

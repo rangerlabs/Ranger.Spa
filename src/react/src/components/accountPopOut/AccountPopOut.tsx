@@ -54,7 +54,7 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
     };
 
     handleToggle = () => {
-        this.setState(prevState => ({ open: !prevState.open }));
+        this.setState((prevState) => ({ open: !prevState.open }));
     };
 
     handleClose = (event: any) => {
@@ -80,12 +80,12 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                 <Popper open={this.state.open} anchorEl={this.anchorEl.current} transition disablePortal>
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
-                            <Paper elevation={1} className={classes.paper}>
+                            <Paper elevation={3} className={classes.paper}>
                                 <ClickAwayListener onClickAway={this.handleClose}>
                                     <MenuList>
                                         {RoutePaths.IsCurrentLocationWhiteListed() && (
                                             <MenuItem
-                                                onClick={e => {
+                                                onClick={(e) => {
                                                     this.props.push(RoutePaths.Dashboard);
                                                     this.handleClose(e);
                                                 }}
@@ -97,7 +97,7 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                             </MenuItem>
                                         )}
                                         <MenuItem
-                                            onClick={e => {
+                                            onClick={(e) => {
                                                 this.props.push(RoutePaths.Account);
                                                 this.handleClose(e);
                                             }}
@@ -108,7 +108,7 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                                             <ListItemText primary="Account" />
                                         </MenuItem>
                                         <MenuItem
-                                            onClick={e => {
+                                            onClick={(e) => {
                                                 this.props.push(RoutePaths.Logout);
                                                 this.handleClose(e);
                                             }}

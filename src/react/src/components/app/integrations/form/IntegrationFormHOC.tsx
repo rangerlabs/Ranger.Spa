@@ -87,12 +87,12 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
         state: IntegrationFormHOCState = {
             editIntegration: undefined as MergedIntegrationType,
             isSuccess: false,
-            serverErrors: [],
+            serverErrors: undefined as string[],
         };
 
         componentDidMount() {
             if (this.props.selectedProject.name) {
-                if (window.location.pathname.includes(RoutePaths.IntegrationsEditWebhook)) {
+                if (window.location.pathname.includes(RoutePaths.IntegrationsEditWebhook.replace('/:appName', ''))) {
                     this.checkIntegrationIsCorrectTypeForRoute(IntegrationEnum.WEBHOOK);
                 }
             }

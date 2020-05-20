@@ -71,7 +71,7 @@ const populateIntegrationsHOC = <P extends object>(Component: React.ComponentTyp
             return this.props.integrationsState.isLoaded && !this.state.wasError ? (
                 <Component {...(this.props as P)} />
             ) : (
-                <Loading wasError={this.state.wasError} message="Retrieving integrations" />
+                <Loading wasError={this.state.wasError} />
             );
         }
     }

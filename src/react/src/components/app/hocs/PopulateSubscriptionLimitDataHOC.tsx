@@ -53,7 +53,7 @@ const populateSubscriptionLimitDataHOC = <P extends object>(Component: React.Com
             return this.props.subscriptionLimitDetailsState.isLoaded && !this.state.wasError ? (
                 <Component {...(this.props as P)} />
             ) : (
-                <Loading wasError={this.state.wasError} message="Retrieving subscription details" />
+                <Loading wasError={this.state.wasError} />
             );
         }
     }

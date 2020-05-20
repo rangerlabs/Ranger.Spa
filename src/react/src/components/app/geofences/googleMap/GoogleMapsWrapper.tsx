@@ -31,6 +31,7 @@ import * as queryString from 'query-string';
 import Constants from '../../../../theme/Constants';
 import Loading from '../../loading/Loading';
 import GoogleMapsSpeedDial from './GoogleMapsSpeedDial';
+const DraggableCursor = require('../../../../../assets/plus-primary.png');
 
 const DEFAULT_RADIUS = 100;
 
@@ -60,10 +61,7 @@ const StyledSearchTextField = withStyles({
             borderRight: '0px',
             borderRadius: '0px',
         },
-        '& input:hover + fieldset': {
-            boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
-        },
-        '& input:focus+ fieldset': {
+        '& input + fieldset': {
             boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
         },
     },
@@ -354,6 +352,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     }
 
     registerMapClickHandler = () => {
+        this.map.setOptions({ draggableCursor: `url(${DraggableCursor}), auto;` });
         this.props.setCreatingGeofence(true);
         this.mapClickListener = this.map.addListener('click', (e: google.maps.MouseEvent) => {
             switch (this.props.selectedShape) {
@@ -387,6 +386,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     };
 
     removeMapClickHandler = () => {
+        this.map.setOptions({ draggableCursor: '' });
         google.maps.event.removeListener(this.mapClickListener);
         this.mapClickListener = undefined;
         this.props.setCreatingGeofence(false);
@@ -534,7 +534,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         return (
             <React.Fragment>
                 <StyledSearchTextField className={classes.autoComplete} id="google-places-search" variant="outlined" fullWidth />
-                {!this.state.isMapFullyLoaded && <Loading wasError={false} message="Initializing map" />}
+                {!this.state.isMapFullyLoaded && <Loading wasError={false} />}
                 <div className={classes.mapContainer} id={this.props.id} />
                 {this.state.isMapFullyLoaded && (
                     <React.Fragment>

@@ -64,7 +64,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
-                    <Paper elevation={0} className={classes.paper}>
+                    <Paper className={classes.paper} elevation={3}>
                         <Formik
                             initialValues={{ domain: '' } as Domain}
                             onSubmit={(values: Domain, formikBag: FormikBag<FormikProps<Domain>, Domain>) => {

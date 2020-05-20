@@ -71,8 +71,8 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
                             <DialogContent>
                                 <DialogContentText> Please enter the email address of the user you want to transfer primary ownership to.</DialogContentText>
                                 <DialogContentText color="error">
-                                    Once the transfer is accepted by the user of your choosing you will be assigned the role of Owner and the new Primary Owner
-                                    may further demote you. Proceed with caution.
+                                    Once the transfer is accepted by the user you will be assigned the role of Owner and the new Primary Owner may further
+                                    demote you.
                                 </DialogContentText>
                                 <FormikAutocompleteSearch
                                     name="email"

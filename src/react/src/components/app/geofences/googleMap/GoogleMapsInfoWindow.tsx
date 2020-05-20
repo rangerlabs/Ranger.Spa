@@ -14,16 +14,6 @@ const styles = (theme: Theme) => {
             marginTop: '7px',
             marginBottom: '7px',
         },
-        warning: {
-            color: red[600],
-            fontFamily: "'Lato', sans-serif",
-            '&:hover': {
-                backgroundColor: '#e539351c',
-                color: theme.palette.error.main,
-            },
-            marginRight: theme.spacing(1),
-            borderRadius: '0px',
-        },
         primary: {
             backgroundColor: Constants.COLORS.PRIMARY_COLOR,
             color: Constants.COLORS.WHITE,

@@ -20,8 +20,8 @@ const styles = (theme: Theme) =>
             marginTop: theme.toolbar.height,
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            [theme.breakpoints.up(400 + theme.spacing(2 * 2))]: {
-                width: 400,
+            [theme.breakpoints.up(500 + theme.spacing(2 * 2))]: {
+                width: 500,
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
@@ -35,7 +35,7 @@ const styles = (theme: Theme) =>
             justifyContent: 'flex-end',
         },
         paper: {
-            backgroundColor: theme.palette.common.white,
+            padding: theme.spacing(4),
         },
     });
 
@@ -109,14 +109,14 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
     };
 
     handleNext = () => {
-        this.setState(state => ({
+        this.setState((state) => ({
             prevStep: state.activeStep,
             activeStep: state.activeStep + 1,
         }));
     };
 
     handleBack = () => {
-        this.setState(state => ({
+        this.setState((state) => ({
             prevStep: state.activeStep,
             activeStep: state.activeStep - 1,
         }));
@@ -135,12 +135,12 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
         return (
             <React.Fragment>
                 <div className={classes.layout}>
-                    <Paper elevation={0} className={classes.paper}>
+                    <Paper className={classes.paper} elevation={3}>
                         <Typography component="h1" variant="h4" align="center">
                             Welcome to Ranger
                         </Typography>
                         <Stepper activeStep={activeStep} className={classes.stepper} alternativeLabel>
-                            {steps.map(label => (
+                            {steps.map((label) => (
                                 <Step key={label}>
                                     <StepLabel>{label}</StepLabel>
                                 </Step>

@@ -20,7 +20,7 @@ const styles = (theme: Theme) =>
     });
 
 interface LoadingProps extends WithStyles<typeof styles> {
-    message: string;
+    message?: string;
     push: typeof push;
     wasError: boolean;
 }

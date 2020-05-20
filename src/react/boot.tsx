@@ -40,7 +40,7 @@ const theme = responsiveFontSizes(
                 primary: Constants.COLORS.BLACK,
             },
             background: {
-                paper: '#fafafa',
+                // paper: '#fafafa',
                 default: '#fafafa',
             },
             error: {

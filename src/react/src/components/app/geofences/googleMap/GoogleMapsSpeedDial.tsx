@@ -32,9 +32,36 @@ const styles = (theme: Theme) =>
             color: theme.palette.error.main,
             border: `2px solid ${theme.palette.error.main}`,
             '&:hover': {
-                backgroundColor: '#d5d5d5',
+                backgroundColor: '#ffe9ea',
                 border: `2px solid ${theme.palette.error.dark}`,
                 color: theme.palette.error.dark,
+            },
+        },
+        clearDisabled: {
+            border: 'none',
+        },
+        action: {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.common.white,
+            '&:hover': {
+                backgroundColor: theme.palette.primary.dark,
+            },
+        },
+        // https://stackoverflow.com/questions/56169750/change-ripple-color-on-click-of-material-ui-button
+        child: {
+            backgroundColor: theme.palette.error.main,
+        },
+        rippleVisible: {
+            opacity: 0.3,
+        },
+        '@keyframes mui-ripple-enter': {
+            '0%': {
+                transform: 'scale(0)',
+                opacity: 0.1,
+            },
+            '100%': {
+                transform: 'scale(1)',
+                opacity: 0.3,
             },
         },
     });
@@ -148,21 +175,37 @@ class GoogleMapsSpeedDial extends React.Component<GoogleMapsSpeedDialProps, Goog
 
     render() {
         const { classes } = this.props;
+        const {
+            speedDial: speedDialClass,
+            save: saveClass,
+            speedDialActions: speedDialActionsClass,
+            clear: clearClass,
+            clearDisabled: clearDisabledClass,
+            action: actionClass,
+            ...rippleClasses
+        } = classes;
+
         return createPortal(
             <React.Fragment>
                 <Grow appear in={!this.props.canCreate && !this.state.transitioning} onExit={this.handleExit} onExited={this.handleExited}>
-                    <Fab disabled={this.props.isDrawerOpen} className={classes.clear} onClick={this.handleClear}>
+                    <Fab
+                        disabled={this.props.isDrawerOpen}
+                        TouchRippleProps={{ classes: rippleClasses }}
+                        classes={{ disabled: classes.clearDisabled }}
+                        className={clearClass}
+                        onClick={this.handleClear}
+                    >
                         <Close />
                     </Fab>
                 </Grow>
                 <Grow appear in={!this.props.canCreate && !this.state.transitioning}>
-                    <Fab disabled={this.props.isDrawerOpen || !this.props.canSave} className={classes.save} color="primary" onClick={this.props.onCreate}>
+                    <Fab disabled={this.props.isDrawerOpen || !this.props.canSave} className={saveClass} color="primary" onClick={this.props.onCreate}>
                         <ContentSaveEdit />
                     </Fab>
                 </Grow>
                 <SpeedDial
-                    className={classes.speedDial}
-                    classes={{ actions: classes.speedDialActions }}
+                    className={speedDialClass}
+                    classes={{ actions: speedDialActionsClass }}
                     ariaLabel="Geofence Control"
                     icon={<SpeedDialIcon />}
                     onOpen={this.handleOpen}
@@ -185,9 +228,7 @@ class GoogleMapsSpeedDial extends React.Component<GoogleMapsSpeedDialProps, Goog
                             tooltipTitle={action.name}
                             tooltipOpen
                             onClick={action.onClick}
-                            FabProps={{
-                                color: 'primary',
-                            }}
+                            classes={{ fab: actionClass, staticTooltipLabel: actionClass }}
                         />
                     ))}
                 </SpeedDial>

@@ -50,9 +50,8 @@ const styles = (theme: Theme) =>
                 flexShrink: 0,
             },
         },
-        drawerPaper: {
+        drawerList: {
             width: theme.drawer.width,
-            borderRight: '1px solid rgba(0, 0, 0, 0.12)',
         },
         headerPush: {
             height: Constants.HEIGHT.TOOLBAR,
@@ -135,7 +134,7 @@ class Menu extends React.Component<MenuProps> {
         const { classes, theme } = this.props;
 
         const drawerContent = (
-            <List>
+            <List className={classes.drawerList}>
                 <ListItem
                     className={this.props.currentSelection === 'dashboard' ? classes.selected : ''}
                     id="dashboard"
@@ -356,9 +355,10 @@ class Menu extends React.Component<MenuProps> {
                 </Hidden>
                 <Hidden smDown implementation="css">
                     <Drawer
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
+                        // classes={{
+                        //     paper: classes.drawerPaper,
+                        // }}
+                        elevation={3}
                         anchor={'left'}
                         variant="permanent"
                         open

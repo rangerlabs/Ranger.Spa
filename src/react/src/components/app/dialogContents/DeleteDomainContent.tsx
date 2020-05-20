@@ -10,6 +10,7 @@ import {
     createStyles,
     WithStyles,
     withStyles,
+    Link,
 } from '@material-ui/core';
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps } from 'formik';
@@ -96,11 +97,10 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps, Dele
                             <form onSubmit={props.handleSubmit}>
                                 <DialogContent>
                                     <DialogContentText>
-                                        We're sorry to see you go. If there is anything we can help with, please contact us at support@rangerlabs.io.
+                                        We're sorry to see you go. If there is anything we can help with, please contact us at
+                                        <Link href="mailto:support@rangerlabs.io">support@rangerlabs.io</Link>.
                                     </DialogContentText>
-                                    <DialogContentText color="error">
-                                        To delete your organization, please enter your domain name as shown below.
-                                    </DialogContentText>
+                                    <DialogContentText>To delete your organization, please enter your domain name as shown below.</DialogContentText>
                                     <DialogContentText className={this.props.classes.bold} color="error">
                                         {this.props.name}
                                     </DialogContentText>

@@ -184,7 +184,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                     </Grid>
                                     <Grid md={2} xs={12} item>
                                         <Grid container alignItems="flex-start" justify="flex-end" direction="row">
-                                            <Button color="primary" variant="contained" onClick={this.openPortal.bind(this)} data-cb-type="portal">
+                                            <Button color="primary" variant="outlined" onClick={this.openPortal.bind(this)} data-cb-type="portal">
                                                 Manage
                                             </Button>
                                         </Grid>

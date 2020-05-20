@@ -45,7 +45,6 @@ class Callback extends React.Component<CallbackProps> {
                 <div className={this.props.classes.layout}>
                     <Grid container spacing={3} justify="center" alignItems="baseline">
                         <Grid item xs={12}>
-                            <Typography variant="h5">Loading Ranger</Typography>
                             <LinearProgress />
                         </Grid>
                     </Grid>

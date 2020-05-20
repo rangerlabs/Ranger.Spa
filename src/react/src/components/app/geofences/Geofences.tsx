@@ -11,9 +11,17 @@ import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
 import RoutePaths from '../../RoutePaths';
+import { Grid, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core';
 const MUIDataTable = require('mui-datatables').default;
 
-interface GeofencesProps {
+const styles = (theme: Theme) =>
+    createStyles({
+        grid: {
+            padding: theme.spacing(2),
+        },
+    });
+
+interface GeofencesProps extends WithStyles<typeof styles> {
     geofencesState: GeofencesState;
     addGeofence: (geofence: CircleGeofence | PolygonGeofence) => void;
     push: typeof push;
@@ -44,7 +52,7 @@ class Geofences extends React.Component<GeofencesProps> {
     };
 
     editGeofence = (rowData: string[]) => {
-        this.props.push(`${RoutePaths.GeofencesEdit.replace(':appName', this.props.selectedProject.name)}?name=${rowData[0]}`);
+        this.props.push(`${RoutePaths.GeofencesEdit.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
     };
 
     redirectToNewGeofenceForm = () => {
@@ -117,7 +125,7 @@ class Geofences extends React.Component<GeofencesProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
         },
-        elevation: 0,
+        elevation: 3,
         selectableRows: 'none',
         responsive: 'stacked',
         viewColumns: false,
@@ -125,18 +133,20 @@ class Geofences extends React.Component<GeofencesProps> {
     };
 
     render() {
-        const { geofencesState: geofencesState } = this.props;
+        const { classes, geofencesState } = this.props;
         return (
-            <React.Fragment>
-                <MUIDataTable
-                    title={'Geofences'}
-                    data={this.mapGeofencesToTableGeofences(geofencesState.geofences)}
-                    columns={this.columns}
-                    options={this.options}
-                />
-            </React.Fragment>
+            <Grid className={classes.grid} container justify="center" alignItems="center">
+                <Grid item xs={12}>
+                    <MUIDataTable
+                        title={'Geofences'}
+                        data={this.mapGeofencesToTableGeofences(geofencesState.geofences)}
+                        columns={this.columns}
+                        options={this.options}
+                    />
+                </Grid>
+            </Grid>
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(populateIntegrationsHOC(populateGeofencesHOC(Geofences)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateIntegrationsHOC(populateGeofencesHOC(Geofences))));

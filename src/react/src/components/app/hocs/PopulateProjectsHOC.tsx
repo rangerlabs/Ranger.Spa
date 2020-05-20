@@ -53,7 +53,7 @@ const populateProjectsHOC = <P extends object>(Component: React.ComponentType<P>
             return this.props.projectsState.isLoaded && !this.state.wasError ? (
                 <Component {...(this.props as P)} />
             ) : (
-                <Loading wasError={this.state.wasError} message="Retrieving projects" />
+                <Loading wasError={this.state.wasError} />
             );
         }
     }

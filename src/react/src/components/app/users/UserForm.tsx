@@ -51,6 +51,9 @@ const styles = (theme: Theme) =>
         leftButtons: {
             flexGrow: 1,
         },
+        paper: {
+            padding: theme.spacing(4),
+        },
     });
 interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     dispatchAddUser: (user: IUser) => void;
@@ -169,9 +172,9 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper elevation={0}>
+                    <Paper className={classes.paper} elevation={3}>
                         <Typography align="center" variant="h5" gutterBottom>
-                            {this.props.initialUser ? 'Edit User' : 'Create User'}
+                            {this.props.initialUser ? 'Edit User' : 'New User'}
                         </Typography>
                         <Formik
                             enableReinitialize

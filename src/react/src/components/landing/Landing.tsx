@@ -48,12 +48,12 @@ class Landing extends Component<LandingProps, LandingState> {
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.props.enqueueSnackbar({
-                message: 'Welcome to Ranger! We are still under active development and all data is subject to deletion. Check back soon for more info.',
-                options: { variant: 'success', persist: true },
-            } as SnackbarNotification);
-        }, 350);
+        // setTimeout(() => {
+        //     this.props.enqueueSnackbar({
+        //         message: 'Welcome to Ranger! We are still under active development and all data is subject to deletion. Check back soon for more info.',
+        //         options: { variant: 'success', persist: true },
+        //     } as SnackbarNotification);
+        // }, 350);
     }
 
     state = {

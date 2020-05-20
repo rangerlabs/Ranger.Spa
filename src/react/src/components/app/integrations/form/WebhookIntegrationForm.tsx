@@ -1,5 +1,4 @@
 import * as React from 'react';
-import IntegrationService from '../../../../services/IntegrationService';
 import { Formik, FormikProps, FormikBag, FormikErrors, FormikTouched } from 'formik';
 import * as Yup from 'yup';
 import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, Tooltip } from '@material-ui/core';
@@ -42,6 +41,9 @@ const styles = (theme: Theme) =>
         },
         leftButtons: {
             flexGrow: 1,
+        },
+        paper: {
+            padding: theme.spacing(4),
         },
     });
 interface IWebhookIntegrationFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
@@ -96,9 +98,9 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper elevation={0}>
+                    <Paper className={classes.paper} elevation={3}>
                         <Typography align="center" variant="h5" gutterBottom>
-                            {this.props.editIntegration ? 'Edit Webhook Integration' : 'Create a Webhook Integration'}
+                            {this.props.editIntegration ? 'Edit Webhook Integration' : 'New Webhook Integration'}
                         </Typography>
 
                         <Formik
@@ -117,6 +119,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                           environment: EnvironmentEnum.TEST,
                                       } as WebhookIntegration)
                             }
+                            validateOnMount={false}
                             onSubmit={(values: WebhookIntegration, formikBag: FormikBag<FormikProps<WebhookIntegration>, WebhookIntegration>) => {
                                 this.setState({ serverErrors: undefined });
                                 const newIntegration = new WebhookIntegration();
@@ -161,7 +164,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                     <Grid container spacing={3}>
                                         <Grid item xs={12}>
                                             <FormikSelect
-                                                infoText="The API key environment for which the integration will be called."
+                                                infoText="The API Key environment for which the integration will be called."
                                                 name="environment"
                                                 label="Environment"
                                                 value={props.values.environment}

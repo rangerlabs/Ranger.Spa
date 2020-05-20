@@ -47,11 +47,7 @@ const populateUsersHOC = <P extends object>(Component: React.ComponentType<P>) =
         }
 
         render() {
-            return this.props.usersState.isLoaded && !this.state.wasError ? (
-                <Component {...(this.props as P)} />
-            ) : (
-                <Loading wasError={this.state.wasError} message="Retrieving users" />
-            );
+            return this.props.usersState.isLoaded && !this.state.wasError ? <Component {...(this.props as P)} /> : <Loading wasError={this.state.wasError} />;
         }
     }
 

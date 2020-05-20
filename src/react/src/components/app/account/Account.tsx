@@ -58,6 +58,9 @@ const styles = (theme: Theme) =>
         changePassword: {
             marginTop: theme.spacing(3),
         },
+        paper: {
+            padding: theme.spacing(4),
+        },
     });
 
 interface AccountProps extends WithStyles<typeof styles>, WithSnackbarProps {
@@ -117,7 +120,7 @@ class Account extends React.Component<AccountProps, AccountState> {
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper elevation={0}>
+                    <Paper className={classes.paper} elevation={3}>
                         <Typography align="center" variant="h5" gutterBottom>
                             Your Account
                         </Typography>

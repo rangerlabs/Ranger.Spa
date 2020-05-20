@@ -70,7 +70,7 @@ const populateUserAuthorizedProjectsHOC = <P extends object>(Component: React.Co
             return this.state.isLoaded && !this.state.wasError ? (
                 <Component {...(this.props as P)} initialUser={this.state.user} />
             ) : (
-                <Loading wasError={this.state.wasError} message="Retrieving user details" />
+                <Loading wasError={this.state.wasError} />
             );
         }
     }

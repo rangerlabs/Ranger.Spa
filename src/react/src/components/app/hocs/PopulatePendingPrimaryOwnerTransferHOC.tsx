@@ -62,11 +62,7 @@ const populatePendingPrimaryOwnerTransferHOC = <P extends object>(Component: Rea
         }
 
         render() {
-            return this.state.isLoaded && !this.state.wasError ? (
-                <Component {...(this.props as P)} />
-            ) : (
-                <Loading wasError={this.state.wasError} message="Loading account" />
-            );
+            return this.state.isLoaded && !this.state.wasError ? <Component {...(this.props as P)} /> : <Loading wasError={this.state.wasError} />;
         }
     }
 

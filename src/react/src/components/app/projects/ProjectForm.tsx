@@ -53,6 +53,9 @@ const styles = (theme: Theme) =>
         disableBottomPadding: {
             paddingBottom: '0px !important',
         },
+        paper: {
+            padding: theme.spacing(4),
+        },
     });
 interface IProjectFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     openDialog: (dialogContent: DialogContent) => void;
@@ -107,7 +110,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
     resetApiKey(environment: string, formikProps: FormikProps<any>) {
         this.props.openDialog(
             new DialogContent(
-                `Are you sure you want to reset the ${titleCase(environment)} API key this project? The current API key will become ineffective immediately.`,
+                `Are you sure you want to reset the ${titleCase(environment)} API Key this project? The current API Key will become ineffective immediately.`,
                 'Reset API Key',
                 `Reset ${titleCase(environment)} API Key`,
                 () => {
@@ -144,7 +147,6 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                 );
                             }
                             this.props.dispatchUpdateProject(response.result);
-                            this.props.push(RoutePaths.Projects);
                         }
                     });
                 }
@@ -180,7 +182,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper elevation={0}>
+                    <Paper className={classes.paper} elevation={3}>
                         <Typography align="center" variant="h5" gutterBottom>
                             {this.state.initialProject ? (userIsInRole(this.props.user, RoleEnum.ADMIN) ? 'Edit Project' : 'View Project') : 'New Project'}
                         </Typography>

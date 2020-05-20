@@ -68,7 +68,7 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
             return this.props.geofencesState.isLoaded && !this.state.wasError ? (
                 <Component {...(this.props as P)} />
             ) : (
-                <Loading wasError={this.state.wasError} message="Retrieving geofences" />
+                <Loading wasError={this.state.wasError} />
             );
         }
     }

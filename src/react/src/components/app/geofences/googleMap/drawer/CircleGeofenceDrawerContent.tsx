@@ -25,6 +25,7 @@ import FormikDictionaryBuilder from '../../../../form/FormikDictionaryBuilder';
 import FormikScheduleBuilder from '../../../../form/FormikScheduleBuilder';
 import Schedule from '../../../../../models/Schedule';
 import { isValid } from 'date-fns';
+import { EnvironmentEnum } from '../../../../../models/EnvironmentEnum';
 
 const geofenceService = new GeofenceService();
 
@@ -142,6 +143,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
+            } else {
+                this.setState({ serverErrors: [v.error.message] });
             }
             formikBag.setSubmitting(false);
             this.setState({ isSuccess: false });
@@ -159,6 +162,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
+            } else {
+                this.setState({ serverErrors: [v.error.message] });
             }
             formikBag.setSubmitting(false);
             this.setState({ isSuccess: false });
@@ -237,15 +242,18 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         if (integrationIds) {
             return this.props.integrations
                 .filter((i) => integrationIds.includes(i.integrationId))
-                .map((i) => i.name)
+                .map((i) => {
+                    return i.environment === EnvironmentEnum.TEST ? `[TEST] ${i.name}` : i.name;
+                })
                 .sort();
         }
         return [];
     }
     getIntegrationIdsByNames(integrationNames: string[]) {
         if (integrationNames) {
+            var unPrefixedNames = integrationNames.map((i) => i.replace('[TEST] ', ''));
             return this.props.integrations
-                .filter((i) => integrationNames.includes(i.name))
+                .filter((i) => unPrefixedNames.includes(i.name))
                 .map((i) => i.integrationId)
                 .sort();
         }
@@ -326,8 +334,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 {(props) => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
                         <div className={classes.toolbar} />
-                        <Typography gutterBottom variant="h5">
-                            {this.props.editGeofence ? 'Edit Geofence' : 'Create Geofence'}
+                        <Typography gutterBottom variant="h5" align="center">
+                            {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
                         </Typography>
                         <Grid container direction="column" spacing={4}>
                             {this.isPendingCreation() && (
@@ -426,7 +434,9 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     label="Integrations"
                                     placeholder=""
                                     enabled={!this.isPendingCreation()}
-                                    options={this.props.integrations.map((v) => v.name)}
+                                    options={this.props.integrations.map((v) => {
+                                        return v.environment === EnvironmentEnum.TEST ? `[TEST] ${v.name}` : v.name;
+                                    })}
                                     defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
                                     onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
                                         props.setFieldValue('integrationIds', values, true);
@@ -434,19 +444,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                 />
                             </Grid>
                             <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikScheduleBuilder
-                                    name="schedule"
-                                    // onScheduleChange={(fieldName: string, value: Date) => {
-                                    //     props.setFieldValue(fieldName, isValid(value) ? value.toISOString() : value, true);
-                                    // }}
-                                    // onTimeZoneChange={(fieldName: string, value: string) => {
-                                    //     props.setFieldValue(fieldName, value, true);
-                                    // }}
-                                    // onBlur={props.handleBlur}
-                                    // touched={props.touched.schedule as any}
-                                    // errors={props.errors.schedule as any}
-                                    // schedule={props.values.schedule}
-                                />
+                                <FormikScheduleBuilder name="schedule" />
                             </Grid>
                             <FormikDictionaryBuilder
                                 name="metadata"
