@@ -5,8 +5,6 @@ import { StylesProvider } from '@material-ui/styles';
 import { jss, generateClassName } from '../../../../theme/StylesProviderPropsConfig';
 import Constants from '../../../../theme/Constants';
 import Pencil from 'mdi-material-ui/Pencil';
-import PencilPlus from 'mdi-material-ui/PencilPlus';
-import Delete from 'mdi-material-ui/Delete';
 
 const styles = (theme: Theme) => {
     return createStyles({
@@ -15,16 +13,6 @@ const styles = (theme: Theme) => {
             marginLeft: '7px',
             marginTop: '7px',
             marginBottom: '7px',
-        },
-        warning: {
-            color: red[600],
-            fontFamily: "'Lato', sans-serif",
-            '&:hover': {
-                backgroundColor: '#e539351c',
-                color: theme.palette.error.main,
-            },
-            marginRight: theme.spacing(1),
-            borderRadius: '0px',
         },
         primary: {
             backgroundColor: Constants.COLORS.PRIMARY_COLOR,
@@ -41,8 +29,6 @@ const styles = (theme: Theme) => {
 interface GoogleMapsInfoWindowProps extends WithStyles<typeof styles> {
     name?: string;
     onEdit?: () => void;
-    onCreate?: () => void;
-    clear?: () => void;
 }
 
 class GoogleMapsInfoWindow extends React.Component<GoogleMapsInfoWindowProps> {
@@ -51,46 +37,21 @@ class GoogleMapsInfoWindow extends React.Component<GoogleMapsInfoWindowProps> {
         return (
             <StylesProvider jss={jss} generateClassName={generateClassName}>
                 <div className={classes.root}>
-                    {this.props.name ? (
-                        <React.Fragment>
-                            <Typography align="center" variant="subtitle1">
-                                {this.props.name}
-                            </Typography>
-                            <Button
-                                className={classes.primary}
-                                variant="contained"
-                                onClick={e => {
-                                    this.props.onEdit();
-                                }}
-                                startIcon={<Pencil />}
-                            >
-                                Edit
-                            </Button>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            <Button
-                                className={classes.warning}
-                                variant="text"
-                                onClick={e => {
-                                    this.props.clear();
-                                }}
-                                startIcon={<Delete />}
-                            >
-                                Clear
-                            </Button>
-                            <Button
-                                className={classes.primary}
-                                variant="contained"
-                                onClick={e => {
-                                    this.props.onCreate();
-                                }}
-                                startIcon={<PencilPlus />}
-                            >
-                                Create
-                            </Button>
-                        </React.Fragment>
-                    )}
+                    <React.Fragment>
+                        <Typography align="center" variant="subtitle1">
+                            {this.props.name}
+                        </Typography>
+                        <Button
+                            className={classes.primary}
+                            variant="contained"
+                            onClick={(e) => {
+                                this.props.onEdit();
+                            }}
+                            startIcon={<Pencil />}
+                        >
+                            Edit
+                        </Button>
+                    </React.Fragment>
                 </div>
             </StylesProvider>
         );

@@ -57,8 +57,8 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
             CorrelationId: correlationId,
         } as ITransferPrimaryOwnershipModel;
 
-        userService.cancelPrimaryOwnershipTransfer(confirmModel).then(v => {
-            if (!v.is_error) {
+        userService.cancelPrimaryOwnershipTransfer(confirmModel).then((v) => {
+            if (!v.isError) {
                 this.setState({ confirmed: true, isRequesting: false });
             }
             this.setState({ confirmed: false });

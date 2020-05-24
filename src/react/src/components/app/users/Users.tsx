@@ -8,10 +8,17 @@ import { push } from 'connected-react-router';
 import { User } from 'oidc-client';
 import { UserProfile } from '../../../models/UserProfile';
 import populateUsersHOC from '../hocs/PopulateUsersHOC';
-import { StatusEnum } from '../../../models/StatusEnum';
+import { Grid, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core';
 const MUIDataTable = require('mui-datatables').default;
 
-interface UsersProps {
+const styles = (theme: Theme) =>
+    createStyles({
+        grid: {
+            padding: theme.spacing(2),
+        },
+    });
+
+interface UsersProps extends WithStyles<typeof styles> {
     users: IUser[];
     addUser: (user: IUser) => void;
     removeUser: (email: string) => void;
@@ -64,7 +71,7 @@ class Users extends React.Component<UsersProps> {
     mapUsersToTableUsers(users: IUser[]): Array<Array<string>> {
         let tableUsers = new Array<Array<string>>();
         if (users) {
-            users.forEach(value => {
+            users.forEach((value) => {
                 if (value.email !== (this.props.user.profile as UserProfile).email) {
                     let status = value.emailConfirmed ? 'Active' : 'Inactive';
                     tableUsers.push([value.firstName, value.lastName, value.email, value.role, status]);
@@ -113,7 +120,7 @@ class Users extends React.Component<UsersProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewUserForm} />;
         },
-        elevation: 0,
+        elevation: 3,
         selectableRows: 'none',
         responsive: 'stacked',
         viewColumns: false,
@@ -121,9 +128,15 @@ class Users extends React.Component<UsersProps> {
     };
 
     render() {
-        const { users } = this.props;
-        return <MUIDataTable title={'Users'} data={this.mapUsersToTableUsers(users)} columns={this.columns} options={this.options} />;
+        const { classes, users } = this.props;
+        return (
+            <Grid className={classes.grid} container justify="center" alignItems="center">
+                <Grid item xs={12}>
+                    <MUIDataTable title={'Users'} data={this.mapUsersToTableUsers(users)} columns={this.columns} options={this.options} />
+                </Grid>
+            </Grid>
+        );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(populateUsersHOC(Users));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateUsersHOC(Users)));

@@ -5,10 +5,10 @@ import WebhookIntegration from '../models/app/integrations/implementations/Webho
 import Integration from '../models/app/integrations/Integration';
 
 export default class IntegrationService {
-    async getIntegrations(projectName: string): Promise<Array<MergedIntegrationType>> {
-        return RestUtilities.get<MergedIntegrationType[]>(`${projectName}/integrations`).then(integrationResponse => {
+    async getIntegrations(projectName: string): Promise<IRestResponse<Array<MergedIntegrationType>>> {
+        return RestUtilities.get<MergedIntegrationType[]>(`${projectName}/integrations`).then((integrationResponse) => {
             const result = new Array<MergedIntegrationType>();
-            integrationResponse.content?.forEach(i => {
+            integrationResponse.result?.forEach((i) => {
                 switch (i.type) {
                     case IntegrationEnum.WEBHOOK: {
                         i = i as WebhookIntegration;
@@ -28,7 +28,9 @@ export default class IntegrationService {
                     }
                 }
             });
-            return result;
+            return Object.assign({}, integrationResponse, { result: result } as IRestResponse<Array<MergedIntegrationType>>) as IRestResponse<
+                Array<MergedIntegrationType>
+            >;
         });
     }
 

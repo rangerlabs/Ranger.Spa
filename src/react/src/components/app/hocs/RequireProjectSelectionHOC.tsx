@@ -99,13 +99,13 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
                     redirectComponentPath = RoutePaths.Dashboard;
                 }
 
-                const requestProject = this.props.projectsState.projects.filter(p => p.name === requestProjectName);
+                const requestProject = this.props.projectsState.projects.filter((p) => p.name === requestProjectName);
                 if (requestProject && requestProject.length === 1) {
                     this.props.selectProject(requestProject[0]);
                 } else if (this.projectIsInReduxStateAndIsValid()) {
                     nextRouteResult.nextPath =
                         '/' +
-                        this.props.projectsState.projects.filter(a => a.name === this.props.selectedProject.name).map(a => a.name) +
+                        this.props.projectsState.projects.filter((a) => a.name === this.props.selectedProject.name).map((a) => a.name) +
                         redirectComponentPath;
                 } else if (this.stateContainsOnlyOneProject()) {
                     this.props.selectProject(this.props.projectsState.projects[0]);
@@ -124,7 +124,7 @@ const requireProjectSelection = <P extends object>(Component: React.ComponentTyp
         }
 
         private projectIsInReduxStateAndIsValid() {
-            return this.props.selectedProject && this.props.projectsState.projects.map(p => p.name).indexOf(this.props.selectedProject.name) >= 0;
+            return this.props.selectedProject && this.props.projectsState.projects.map((p) => p.name).indexOf(this.props.selectedProject.name) >= 0;
         }
 
         render() {

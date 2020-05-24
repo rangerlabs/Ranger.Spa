@@ -3,7 +3,7 @@ import Constants from '../../../../../theme/Constants';
 
 const MapMarkerDarkGreen = require('../../../../../../assets/map-marker-dark-green.png');
 const MapMarkerPrimaryGreen = require('../../../../../../assets/map-marker-green.png');
-const CircularVertexMarker = require('../../../../../../assets/circle-slice-dark-green.png');
+const CircularVertexMarker = require('../../../../../../assets/circle-filled-green.png');
 
 export default class NewPolygonGeofenceMapMarker {
     polygonGeofence: google.maps.Polygon = undefined;
@@ -14,14 +14,9 @@ export default class NewPolygonGeofenceMapMarker {
 
     setAtEventListener: google.maps.MapsEventListener = undefined;
 
-    public constructor(
-        private map: google.maps.Map,
-        latLngArray: google.maps.LatLng[],
-        private addPolygonLatLng: (lngLatArray: CoordinatePair[]) => void,
-        private openInfoWindow: () => void
-    ) {
+    public constructor(private map: google.maps.Map, latLngArray: google.maps.LatLng[], private addPolygonLatLng: (lngLatArray: CoordinatePair[]) => void) {
         if (latLngArray.length > 1) {
-            this.addPolygonLatLng(latLngArray.map(v => new CoordinatePair(v.lng(), v.lat())));
+            this.addPolygonLatLng(latLngArray.map((v) => new CoordinatePair(v.lng(), v.lat())));
             this.addPolygonGeofence(latLngArray);
             this.setPolygonCenterMarker();
         } else {
@@ -44,12 +39,6 @@ export default class NewPolygonGeofenceMapMarker {
             fillOpacity: 0.3,
         });
 
-        this.polygonGeofence.addListener('click', e => {
-            const valuesLength = this.polygonGeofence.getPath().getLength();
-            if (valuesLength >= 3) {
-                this.openInfoWindow();
-            }
-        });
         this.polygonGeofence.addListener('mouseover', (e: google.maps.MouseEvent) => {
             if (this.polygonMarker) {
                 this.polygonMarker.setIcon(MapMarkerDarkGreen);
@@ -70,25 +59,25 @@ export default class NewPolygonGeofenceMapMarker {
         });
 
         const polygonPath = this.polygonGeofence.getPath();
-        polygonPath.addListener('insert_at', e => {
+        polygonPath.addListener('insert_at', (e) => {
             this.handlePolygonChange();
         });
-        polygonPath.addListener('remove_at', e => {
+        polygonPath.addListener('remove_at', (e) => {
             this.handlePolygonChange();
         });
-        this.setAtEventListener = polygonPath.addListener('set_at', e => {
+        this.setAtEventListener = polygonPath.addListener('set_at', (e) => {
             this.handlePolygonChange();
         });
-        this.polygonGeofence.addListener('dragend', e => {
-            this.setAtEventListener = polygonPath.addListener('set_at', e => {
+        this.polygonGeofence.addListener('dragend', (e) => {
+            this.setAtEventListener = polygonPath.addListener('set_at', (e) => {
                 this.handlePolygonChange();
             });
             this.handlePolygonChange();
         });
-        this.polygonGeofence.addListener('dragstart', e => {
+        this.polygonGeofence.addListener('dragstart', (e) => {
             google.maps.event.removeListener(this.setAtEventListener);
         });
-        this.polygonGeofence.addListener('drag', e => {
+        this.polygonGeofence.addListener('drag', (e) => {
             this.setPolygonCenterMarker();
         });
     }
@@ -145,11 +134,11 @@ export default class NewPolygonGeofenceMapMarker {
 
     private removePolylineEventListeners() {
         if (this.polylines) {
-            this.polylines.forEach(pl => google.maps.event.clearInstanceListeners(pl));
+            this.polylines.forEach((pl) => google.maps.event.clearInstanceListeners(pl));
         }
         if (this.polygonPathMarkers) {
-            this.polygonPathMarkers.forEach(pm => {
-                this.polylines.forEach(pm => google.maps.event.clearInstanceListeners(pm));
+            this.polygonPathMarkers.forEach((pm) => {
+                this.polylines.forEach((pm) => google.maps.event.clearInstanceListeners(pm));
             });
         }
         google.maps.event.clearListeners(this.map, 'mousemove');
@@ -157,14 +146,14 @@ export default class NewPolygonGeofenceMapMarker {
 
     private clearPolylinesAndMarkers() {
         if (this.polylines) {
-            this.polylines.forEach(pl => {
+            this.polylines.forEach((pl) => {
                 pl.setMap(null);
                 pl = undefined;
             });
             this.polylines = undefined;
         }
         if (this.polygonPathMarkers) {
-            this.polygonPathMarkers.forEach(pm => {
+            this.polygonPathMarkers.forEach((pm) => {
                 pm.setMap(null);
                 pm = undefined;
             });
@@ -186,7 +175,7 @@ export default class NewPolygonGeofenceMapMarker {
 
     private handlePolygonChange() {
         const polyPathArray = this.polygonGeofence.getPath().getArray();
-        const lngLatArray = polyPathArray.map(v => new CoordinatePair(v.lng(), v.lat()));
+        const lngLatArray = polyPathArray.map((v) => new CoordinatePair(v.lng(), v.lat()));
         this.addPolygonLatLng(lngLatArray);
         this.setPolygonCenterMarker();
     }
@@ -214,10 +203,10 @@ export default class NewPolygonGeofenceMapMarker {
             marker.setClickable(true);
             marker.addListener('click', (e: google.maps.MouseEvent) => {
                 if (this.polylines.length >= 3) {
-                    const lngLatArray = this.polylines.map(pl => pl.getPath().getAt(0));
+                    const lngLatArray = this.polylines.map((pl) => pl.getPath().getAt(0));
                     this.addPolygonGeofence(lngLatArray);
                     this.setPolygonCenterMarker();
-                    this.addPolygonLatLng(lngLatArray.map(v => new CoordinatePair(v.lng(), v.lat())));
+                    this.addPolygonLatLng(lngLatArray.map((v) => new CoordinatePair(v.lng(), v.lat())));
                     this.removePolylineEventListeners();
                     this.clearPolylinesAndMarkers();
                 }

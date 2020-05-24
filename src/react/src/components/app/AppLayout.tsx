@@ -15,8 +15,13 @@ import Breadcrumb from '../../models/app/Breadcrumb';
 import authorizedRoute from './hocs/AuthorizedRouteHOC';
 import { addDomain, DomainState } from '../../redux/actions/DomainActions';
 import { getSubDomain } from '../../helpers/Helpers';
-import { resetGeofences } from '../../redux/actions/GeofenceActions';
-import { resetIntegrations } from '../../redux/actions/IntegrationActions';
+import Constants from '../../theme/Constants';
+import { SubscriptionLimitDetailsState } from '../../redux/actions/SubscriptionLimitDetailsActions';
+import { SnackbarNotification } from '../../redux/actions/SnackbarActions';
+import { WithSnackbarProps, withSnackbar } from 'notistack';
+import SubscriptionInactiveFooter from './subscription/SubscriptionInactiveFooter';
+import populateSubscriptionLimitDataHOC from './hocs/PopulateSubscriptionLimitDataHOC';
+const hash = require('object-hash');
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -27,11 +32,14 @@ const styles = (theme: Theme) =>
         content: {
             flexGrow: 1,
         },
-        toolbar: theme.mixins.toolbar,
+        toolbar: {
+            height: Constants.HEIGHT.TOOLBAR,
+        },
     });
 
-interface AppLayoutProps extends WithStyles<typeof styles> {
+interface AppLayoutProps extends WithStyles<typeof styles>, WithSnackbarProps {
     user: User;
+    subscription: SubscriptionLimitDetailsState;
     component?: any;
     exact?: boolean;
     path?: string | string[];
@@ -41,11 +49,16 @@ interface AppLayoutProps extends WithStyles<typeof styles> {
     setDomain: (domainName: string) => void;
 }
 
+interface AppLayoutState {
+    mobileOpen: boolean;
+}
+
 const mapStateToProps = (state: ApplicationState) => {
     return {
         user: state.oidc.user,
         selectedProject: state.selectedProject,
         domain: state.domain.domain,
+        subscription: state.subscriptionLimitDetailsState,
     };
 };
 
@@ -58,8 +71,8 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-class AppLayout extends React.Component<AppLayoutProps> {
-    state = {
+class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
+    state: AppLayoutState = {
         mobileOpen: false,
     };
 
@@ -70,7 +83,7 @@ class AppLayout extends React.Component<AppLayoutProps> {
     };
 
     handleDrawerToggle = () => {
-        this.setState(state => ({ mobileOpen: !this.state.mobileOpen }));
+        this.setState(() => ({ mobileOpen: !this.state.mobileOpen }));
     };
 
     completeBreadcrumbsWithProjectName = () => {
@@ -91,7 +104,7 @@ class AppLayout extends React.Component<AppLayoutProps> {
         return (
             <Route
                 {...rest}
-                render={props => (
+                render={(props) => (
                     <div className={classes.root}>
                         <CssBaseline />
                         <Dialog />
@@ -103,6 +116,7 @@ class AppLayout extends React.Component<AppLayoutProps> {
                                 <Component {...props} />
                             </main>
                         </Fade>
+                        <SubscriptionInactiveFooter />
                     </div>
                 )}
             />
@@ -110,4 +124,4 @@ class AppLayout extends React.Component<AppLayoutProps> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(authorizedRoute(AppLayout)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(authorizedRoute(populateSubscriptionLimitDataHOC(withSnackbar(AppLayout)))));

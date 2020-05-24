@@ -114,7 +114,7 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                         Which project would you like to view?
                     </Typography>
                     <div className={classes.parallaxContainer}>
-                        <Parallax pages={2} scrolling={true}>
+                        <Parallax pages={1} scrolling={true}>
                             <ParallaxLayer speed={0.7}>
                                 <Grid container spacing={3} direction="row" justify="center" alignItems="baseline">
                                     {projectsState.projects.map(project => (
@@ -130,12 +130,6 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                                                         titleTypographyProps={{ align: 'left' }}
                                                         classes={{ root: classes.rootPadding }}
                                                         title={project.name}
-                                                    />
-                                                    <CardMedia
-                                                        classes={{ root: classes.mediaRoot }}
-                                                        className={classes.media}
-                                                        image={IntegrationApi}
-                                                        title="Api Integration"
                                                     />
                                                     <CardContent classes={{ root: classes.rootPadding }}>
                                                         <Typography align="left" component="p">

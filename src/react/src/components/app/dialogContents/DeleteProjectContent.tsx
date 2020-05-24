@@ -55,19 +55,19 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                 onSubmit={(values: Partial<IProject>, formikBag: FormikBag<FormikProps<Partial<IProject>>, Partial<IProject>>) => {
                     setServerErrors(undefined);
                     projectService.deleteProject(deleteProjectContentProps.id).then((response: IRestResponse<void>) => {
-                        if (response.is_error) {
-                            deleteProjectContentProps.enqueueSnackbar('An error occurred deleting the project.', { variant: 'error' });
+                        if (response.isError) {
+                            deleteProjectContentProps.enqueueSnackbar(response.error.message, { variant: 'error' });
                         } else {
                             deleteProjectContentProps.closeDialog();
                             deleteProjectContentProps.dispatchRemoveProject(deleteProjectContentProps.id);
-                            deleteProjectContentProps.enqueueSnackbar('Project deleted.', { variant: 'success' });
+                            deleteProjectContentProps.enqueueSnackbar(response.message, { variant: 'success' });
                             deleteProjectContentProps.push(RoutePaths.Projects);
                         }
                     });
                 }}
                 validationSchema={validationSchema}
             >
-                {props => (
+                {(props) => (
                     <React.Fragment>
                         <DialogTitle>Delete project?</DialogTitle>
                         <form onSubmit={props.handleSubmit}>
@@ -88,7 +88,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                                 {serverErrors && (
                                     <List>
                                         <ListItem>
-                                            {serverErrors.map(error => (
+                                            {serverErrors.map((error) => (
                                                 <ListItemText primary={error} />
                                             ))}
                                         </ListItem>

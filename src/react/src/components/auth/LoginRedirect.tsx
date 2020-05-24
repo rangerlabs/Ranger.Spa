@@ -42,7 +42,6 @@ class LoginRedirect extends React.Component<LoginRedirectProps> {
             <div className={this.props.classes.layout}>
                 <Grid container spacing={3} justify="center" alignItems="baseline">
                     <Grid item xs={12}>
-                        <Typography variant="h5">Redirecting to Ranger Login.</Typography>
                         <LinearProgress />
                     </Grid>
                 </Grid>

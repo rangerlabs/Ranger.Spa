@@ -10,6 +10,7 @@ import {
     createStyles,
     WithStyles,
     withStyles,
+    Link,
 } from '@material-ui/core';
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps } from 'formik';
@@ -67,7 +68,7 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps, Dele
     };
     validationSchema = Yup.object().shape({
         name: Yup.string()
-            .matches(new RegExp(`${this.props.name}`), `The name entered is not the domain name.`)
+            .matches(new RegExp(`^${this.props.name}$`), `The name entered is not the domain name.`)
             .required('Required'),
     });
 
@@ -77,8 +78,8 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps, Dele
                 <Formik
                     initialValues={{ name: '' }}
                     onSubmit={(values: Partial<IProject>, formikBag: FormikBag<FormikProps<Partial<IProject>>, Partial<IProject>>) => {
-                        tenantService.deleteDomain(values.name).then(v => {
-                            if (!v.is_error) {
+                        tenantService.deleteDomain(values.name).then((v) => {
+                            if (!v.isError) {
                                 this.setState({ isSuccess: true });
                                 this.props.closeDialog();
                                 this.props.push(RoutePaths.Logout);
@@ -90,17 +91,16 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps, Dele
                     }}
                     validationSchema={this.validationSchema}
                 >
-                    {props => (
+                    {(props) => (
                         <React.Fragment>
                             <DialogTitle>Delete project?</DialogTitle>
                             <form onSubmit={props.handleSubmit}>
                                 <DialogContent>
                                     <DialogContentText>
-                                        We're sorry to see you go. If there is anything we can help with, please contact us at support@rangerlabs.io.
+                                        We're sorry to see you go. If there is anything we can help with, please contact us at
+                                        <Link href="mailto:support@rangerlabs.io">support@rangerlabs.io</Link>.
                                     </DialogContentText>
-                                    <DialogContentText color="error">
-                                        To delete your organization, please enter your domain name as shown below.
-                                    </DialogContentText>
+                                    <DialogContentText>To delete your organization, please enter your domain name as shown below.</DialogContentText>
                                     <DialogContentText className={this.props.classes.bold} color="error">
                                         {this.props.name}
                                     </DialogContentText>

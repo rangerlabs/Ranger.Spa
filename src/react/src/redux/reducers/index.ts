@@ -10,6 +10,7 @@ import { integrationReducer } from './IntegrationReducer';
 import { domainReducer } from './DomainReducer';
 import { snackbarReducer } from './SnackbarReducer';
 import { reducer as oidcReducer } from 'redux-oidc';
+import { subscriptionLimitDetailsReducer } from './SubscriptionLimitDetailsReducer';
 
 const reducers = {
     oidc: oidcReducer,
@@ -24,6 +25,7 @@ const reducers = {
     integrationsState: integrationReducer,
     domain: domainReducer,
     notifications: snackbarReducer,
+    subscriptionLimitDetailsState: subscriptionLimitDetailsReducer,
 };
 
 export default reducers;

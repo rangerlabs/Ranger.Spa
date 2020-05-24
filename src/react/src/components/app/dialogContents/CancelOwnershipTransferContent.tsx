@@ -28,7 +28,7 @@ interface TransferOwnershipContentProps extends WithSnackbarProps {
 const mapStateToProps = (state: ApplicationState) => {
     return {
         user: state.oidc.user,
-        users: state.usersState.users.filter(u => u.emailConfirmed === true && u.email !== (state.oidc.user.profile as UserProfile).email),
+        users: state.usersState.users.filter((u) => u.emailConfirmed === true && u.email !== (state.oidc.user.profile as UserProfile).email),
         domain: state.domain,
     };
 };
@@ -53,13 +53,13 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
             .cancelPrimaryOwnershipTransfer({
                 CorrelationId: transferOwnershipContentProps.domain.pendingPrimaryOwnerTransfer.correlationId,
             } as ITransferPrimaryOwnershipModel)
-            .then(v => {
-                if (v.is_error) {
+            .then((v) => {
+                if (v.isError) {
                     setServerError('Failed to submit the cancellation request.');
-                    transferOwnershipContentProps.enqueueSnackbar('Failed to submit the cancellation request.', { variant: 'error' });
+                    transferOwnershipContentProps.enqueueSnackbar(v.error.message, { variant: 'error' });
                 } else {
                     setSuccess(true);
-                    transferOwnershipContentProps.enqueueSnackbar('The cancellation request was accepted.', { variant: 'success' });
+                    transferOwnershipContentProps.enqueueSnackbar(v.message, { variant: 'success' });
                     transferOwnershipContentProps.closeDialog();
                 }
             });

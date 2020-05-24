@@ -7,10 +7,11 @@ import {
     ShapePicker,
     GoogleMapsAction,
     GoogleMapsState,
+    IS_CREATING_GEOFENCE,
 } from '../actions/GoogleMapsActions';
 
 export function googleMapsReducer(
-    state: GoogleMapsState = { selectedShapePicker: ShapePicker.Circle, isInfoWindowVisible: false } as GoogleMapsState,
+    state: GoogleMapsState = { selectedShapePicker: ShapePicker.Circle, isInfoWindowVisible: false, isCreatingGeofence: false } as GoogleMapsState,
     action: GoogleMapsAction
 ) {
     switch (action.type) {
@@ -24,6 +25,8 @@ export function googleMapsReducer(
             return Object.assign({}, state, { circleGeofence: undefined, polygonGeofence: undefined });
         case IS_INFO_WINDOW_VISIBILE:
             return Object.assign({}, state, { isInfoWindowVisible: action.googleMaps.isInfoWindowVisible });
+        case IS_CREATING_GEOFENCE:
+            return Object.assign({}, state, { isCreatingGeofence: action.googleMaps.isCreatingGeofence });
         default:
             return state;
     }

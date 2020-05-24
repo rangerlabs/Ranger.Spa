@@ -6,6 +6,7 @@ export enum ShapePicker {
 }
 
 export const IS_INFO_WINDOW_VISIBILE = 'IS_INFO_WINDOW_VISIBILE';
+export const IS_CREATING_GEOFENCE = 'IS_CREATING_GEOFENCE';
 export const SELECT_SHAPE_PICKER = 'SELECT_SHAPE_PICKER';
 export const ADD_CIRCLE_GEOFENCE = 'ADD_CIRCLE_GEOFENCE';
 export const ADD_POLYGON_GEOFENCE = 'ADD_POLYGON_GEOFENCE';
@@ -18,6 +19,7 @@ export interface GoogleMapsAction {
 
 export interface GoogleMapsState {
     isInfoWindowVisible: boolean;
+    isCreatingGeofence: boolean;
     selectedShapePicker: ShapePicker;
     circleGeofence: CircleGeofenceState;
     polygonGeofence: PolygonGeofenceState;
@@ -67,7 +69,14 @@ export function setInfoWindowVisible(isVisible: boolean): GoogleMapsAction {
         } as GoogleMapsState,
     };
 }
-
+export function setCreatingGeofence(isCreating: boolean): GoogleMapsAction {
+    return {
+        type: IS_CREATING_GEOFENCE,
+        googleMaps: {
+            isCreatingGeofence: isCreating,
+        } as GoogleMapsState,
+    };
+}
 export function clearGeofence(): GoogleMapsAction {
     return {
         type: CLEAR_GEOFENCE,

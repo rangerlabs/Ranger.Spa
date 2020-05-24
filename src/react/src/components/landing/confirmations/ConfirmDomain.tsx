@@ -63,16 +63,13 @@ class ConfirmDomain extends React.Component<ConfirmDomainProps, ConfirmDomainSta
         const confirmModel = {
             Token: token,
         } as IConfirmModel;
-        tenantService
-            .confirm(domain, confirmModel)
-            .then(v => {
-                setTimeout(() => {
-                    this.setState({ confirmed: v, isRequesting: false });
-                }, 375);
-            })
-            .catch(r => {
+        tenantService.confirm(domain, confirmModel).then((v) => {
+            if (v.isError) {
                 this.setState({ isRequesting: false });
-            });
+            } else {
+                this.setState({ confirmed: true, isRequesting: false });
+            }
+        });
     }
 
     render() {

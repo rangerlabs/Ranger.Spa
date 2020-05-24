@@ -19,6 +19,7 @@ export default class RoutePaths {
     public static Dashboard = '/dashboard';
     public static Account = '/account';
     public static Domain = '/domain';
+    public static Subscription = '/subscription';
 
     public static Users = '/users';
     public static UsersNew = '/users/new';

@@ -22,6 +22,7 @@ interface PopulateUserProps {
 interface PopulateUserState {
     isLoaded: boolean;
     user: IUser;
+    wasError: boolean;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -33,18 +34,21 @@ const populateUserAuthorizedProjectsHOC = <P extends object>(Component: React.Co
         state = {
             isLoaded: false,
             user: undefined as IUser,
+            wasError: false,
         };
 
         setInitialUserInStateFromQuery() {
             const params = queryString.parse(window.location.search);
             const email = params['email'] as string;
             if (email && !this.state.isLoaded) {
-                userService.getUser(email).then(v => {
-                    if (!v.is_error) {
-                        if (v.content.email !== (this.props.user.profile as UserProfile).email) {
-                            userService.getAuthorizedProjects(email).then(ap => {
-                                if (!ap.is_error) {
-                                    const user = { ...v.content, authorizedProjects: ap.content };
+                userService.getUser(email).then((v) => {
+                    if (v.isError) {
+                        this.setState({ wasError: true });
+                    } else {
+                        if (v.result.email !== (this.props.user.profile as UserProfile).email) {
+                            userService.getAuthorizedProjects(email).then((ap) => {
+                                if (!ap.isError) {
+                                    const user = { ...v.result, authorizedProjects: ap.result };
                                     this.setState({ user: user, isLoaded: true });
                                 }
                             });
@@ -63,7 +67,11 @@ const populateUserAuthorizedProjectsHOC = <P extends object>(Component: React.Co
         }
 
         render() {
-            return this.state.isLoaded ? <Component {...(this.props as P)} initialUser={this.state.user} /> : <Loading message="Retrieving user details." />;
+            return this.state.isLoaded && !this.state.wasError ? (
+                <Component {...(this.props as P)} initialUser={this.state.user} />
+            ) : (
+                <Loading wasError={this.state.wasError} />
+            );
         }
     }
 

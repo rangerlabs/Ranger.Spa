@@ -26,7 +26,7 @@ interface TransferOwnershipContentProps extends WithSnackbarProps {
 const mapStateToProps = (state: ApplicationState) => {
     return {
         user: state.oidc.user,
-        users: state.usersState.users.filter(u => u.emailConfirmed === true && u.email !== (state.oidc.user.profile as UserProfile).email),
+        users: state.usersState.users.filter((u) => u.emailConfirmed === true && u.email !== (state.oidc.user.profile as UserProfile).email),
     };
 };
 
@@ -40,52 +40,49 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnershipContentProps): JSX.Element {
-    const formikRef: React.RefObject<Formik> = React.createRef();
     const [serverError, setServerError] = useState(undefined as string);
     const [success, setSuccess] = useState(false);
 
     const validationSchema = Yup.object().shape({
-        email: Yup.string()
-            .required('Required')
-            .email('Must be a valid email address'),
+        email: Yup.string().required('Required').email('Must be a valid email address'),
     });
 
     return (
         <React.Fragment>
             <Formik
-                ref={formikRef}
                 initialValues={{ email: '' }}
                 onSubmit={(values: ITransferOwnershipModel, formikBag: FormikBag<FormikProps<ITransferOwnershipModel>, ITransferOwnershipModel>) => {
-                    userService.transferPrimaryOwnership(values).then(v => {
-                        if (v.is_error) {
-                            setServerError('Failed to submit the transfer request.');
-                            transferOwnershipContentProps.enqueueSnackbar('Failed to submit the transfer request.', { variant: 'error' });
+                    userService.transferPrimaryOwnership(values).then((v) => {
+                        if (v.isError) {
+                            setServerError(v.error.message);
+                            transferOwnershipContentProps.enqueueSnackbar(v.error.message, { variant: 'error' });
                         }
-                        formikRef.current.setSubmitting(false);
-                        transferOwnershipContentProps.enqueueSnackbar('Successfully initiated the Primary Owner transfer process.', { variant: 'success' });
+                        formikBag.setSubmitting(false);
+                        transferOwnershipContentProps.enqueueSnackbar(v.message, { variant: 'success' });
                         transferOwnershipContentProps.closeDialog();
                     });
                 }}
                 validationSchema={validationSchema}
             >
-                {props => (
+                {(props) => (
                     <React.Fragment>
                         <DialogTitle>Transfer Primary Ownership</DialogTitle>
                         <form onSubmit={props.handleSubmit}>
                             <DialogContent>
                                 <DialogContentText> Please enter the email address of the user you want to transfer primary ownership to.</DialogContentText>
                                 <DialogContentText color="error">
-                                    Once the transfer is accepted by the user of your choosing you will be assigned the role of Owner and the new Primary Owner
-                                    may further demote you. Proceed with caution.
+                                    Once the transfer is accepted by the user you will be assigned the role of Owner and the new Primary Owner may further
+                                    demote you.
                                 </DialogContentText>
                                 <FormikAutocompleteSearch
                                     name="email"
                                     label="Email"
-                                    options={transferOwnershipContentProps.users.map(u => u.email)}
+                                    renderOption={(option: string) => <Typography variant="subtitle1">{option}</Typography>}
+                                    options={transferOwnershipContentProps.users.map((u) => u.email)}
                                     errorText={props.errors.email}
                                     touched={props.touched.email}
                                     onChange={(event: React.ChangeEvent<{}>, values: string) => {
-                                        formikRef.current.setFieldValue('email', values, true);
+                                        props.setFieldValue('email', values, true);
                                     }}
                                     onBlur={props.handleBlur}
                                     required

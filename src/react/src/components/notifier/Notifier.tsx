@@ -4,7 +4,7 @@ import { bindActionCreators, Unsubscribe } from 'redux';
 import { connect } from 'react-redux';
 import { removeSnackbar, SnackbarNotification } from '../../redux/actions/SnackbarActions';
 import { ApplicationState, OidcState } from '../../stores';
-import Pusher from 'pusher-js';
+import Pusher, { Channel, AuthOptions } from 'pusher-js';
 import ReduxStore from '../../ReduxStore';
 import RegistrationHandler from './pusherHandlers/RegistrationHandler';
 import { StatusEnum } from '../../models/StatusEnum';
@@ -20,6 +20,7 @@ import GeofenceDeleteHandler from './pusherHandlers/GeofenceDeleteHandler';
 import IntegrationUpdateHandler from './pusherHandlers/IntegrationUpdateHandler';
 import IntegrationCreateHandler from './pusherHandlers/IntegrationCreateHandler';
 import IntegrationDeleteHandler from './pusherHandlers/IntegrationDeleteHandler';
+import SubscriptionChangedHandler from './pusherHandlers/SubscriptionChangedHandler';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -28,14 +29,15 @@ interface NotifierProps extends WithSnackbarProps {
 
 class Notifier extends React.Component<NotifierProps> {
     displayed = [] as React.ReactText[];
-    pusher = undefined as Pusher.Pusher;
-    registrationChannel = undefined as Pusher.Channel;
-    domainUserChannel = undefined as Pusher.Channel;
+    pusher = undefined as Pusher;
+    registrationChannel = undefined as Channel;
+    userChannel = undefined as Channel;
+    domainChannel = undefined as Channel;
     currentTenantOnbaordChannel = '';
-    unsubscriber: Unsubscribe;
+    unsubscribe: Unsubscribe;
 
     componentWillUnmount() {
-        this.unsubscriber();
+        this.unsubscribe();
     }
 
     componentDidUpdate() {
@@ -43,10 +45,11 @@ class Notifier extends React.Component<NotifierProps> {
         notifications.forEach(({ key, message, options = {} }) => {
             if (!this.displayed.includes(key)) {
                 this.props.enqueueSnackbar(message, {
+                    key,
                     ...options,
-                    onClose: (event, reason) => {
+                    onClose: (event, reason, myKey) => {
                         if (options.onClose) {
-                            options.onClose(event, reason);
+                            options.onClose(event, reason, myKey);
                         }
                         this.props.removeSnackbar(key);
                     },
@@ -87,24 +90,23 @@ class Notifier extends React.Component<NotifierProps> {
         this.pusher = new Pusher(PUSHER_KEY, {
             cluster: 'us2',
             forceTLS: true,
+            authEndpoint: 'https://' + API_HOST + BASE_PATH + '/pusher/auth',
         });
 
-        this.unsubscriber = ReduxStore.getStore().subscribe(() => {
+        this.unsubscribe = ReduxStore.getStore().subscribe(() => {
             const stateDomain = ReduxStore.getState().domain;
             const oidcState = ReduxStore.getState().oidc;
-            if (this.canSubscribeToRegistration(stateDomain)) {
+            if (this.cancomponentDidMountToRegistration(stateDomain)) {
                 if (!this.registrationChannel) {
-                    this.subscribeTenantOnboardChannelEvent(stateDomain);
+                    this.componentDidMountTenantOnboardChannelEvent(stateDomain);
                 } else if (this.registrationChannel.name !== this.currentTenantOnbaordChannel) {
                     this.pusher.unsubscribe(this.currentTenantOnbaordChannel);
-                    this.subscribeTenantOnboardChannelEvent(stateDomain);
+                    this.componentDidMountTenantOnboardChannelEvent(stateDomain);
                 }
-            } else if (this.canSubscribeToDomainUser(stateDomain, oidcState)) {
-                this.pusher.config.authEndpoint = 'https://' + API_HOST + BASE_PATH + '/pusher/auth';
+            } else if (this.cancomponentDidMountToDomainUser(stateDomain, oidcState)) {
                 this.pusher.config.auth = {
                     headers: {
                         Authorization: 'Bearer ' + oidcState.user.access_token,
-                        'x-ranger-domain': stateDomain.domain,
                         'api-version': '1.0',
                     },
                     params: {
@@ -112,38 +114,42 @@ class Notifier extends React.Component<NotifierProps> {
                     },
                 };
 
-                if (!this.domainUserChannel) {
-                    this.subscribeDomainUserChannelEvents(stateDomain, oidcState.user);
+                if (!this.userChannel) {
+                    this.componentDidMountDomainUserChannelEvents(stateDomain, oidcState.user);
                 }
             }
         });
     }
 
-    private canSubscribeToDomainUser(stateDomain: DomainState, oidc: OidcState) {
+    private cancomponentDidMountToDomainUser(stateDomain: DomainState, oidc: OidcState) {
         return stateDomain && stateDomain.domain && !oidc.isLoadingUser && oidc.user && !oidc.user.expired;
     }
 
-    private canSubscribeToRegistration(stateDomain: DomainState) {
+    private cancomponentDidMountToRegistration(stateDomain: DomainState) {
         return stateDomain && stateDomain.domain && stateDomain.status === StatusEnum.PENDING;
     }
 
-    private subscribeDomainUserChannelEvents(stateDomain: DomainState, user: User) {
-        const channel = `private-${stateDomain.domain}-${user.profile.email}`;
-        this.domainUserChannel = this.pusher.subscribe(channel);
-        this.domainUserChannel.bind('user-created', GenericDomainUserHandler);
-        this.domainUserChannel.bind('user-updated', GenericDomainUserHandler);
-        this.domainUserChannel.bind('token-refresh', TokenRefreshHandler);
-        this.domainUserChannel.bind('permissions-updated', PermissionsUpdatedHandler);
-        this.domainUserChannel.bind('force-signout', ForceSignoutHandler);
-        this.domainUserChannel.bind('geofence-created', GeofenceCreateHandler);
-        this.domainUserChannel.bind('geofence-updated', GeofenceUpdateHandler);
-        this.domainUserChannel.bind('geofence-deleted', GeofenceDeleteHandler);
-        this.domainUserChannel.bind('integration-created', IntegrationCreateHandler);
-        this.domainUserChannel.bind('integration-updated', IntegrationUpdateHandler);
-        this.domainUserChannel.bind('integration-deleted', IntegrationDeleteHandler);
+    private componentDidMountDomainUserChannelEvents(stateDomain: DomainState, user: User) {
+        const userChannel = `private-${stateDomain.domain}-${user.profile.email}`;
+        const domainChannel = `private-${stateDomain.domain}`;
+        this.userChannel = this.pusher.subscribe(userChannel);
+        this.domainChannel = this.pusher.subscribe(domainChannel);
+        this.userChannel.bind('user-created', GenericDomainUserHandler);
+        this.userChannel.bind('user-updated', GenericDomainUserHandler);
+        this.userChannel.bind('token-refresh', TokenRefreshHandler);
+        this.userChannel.bind('permissions-updated', PermissionsUpdatedHandler);
+        this.userChannel.bind('force-signout', ForceSignoutHandler);
+        this.userChannel.bind('geofence-created', GeofenceCreateHandler);
+        this.userChannel.bind('geofence-updated', GeofenceUpdateHandler);
+        this.userChannel.bind('geofence-deleted', GeofenceDeleteHandler);
+        this.userChannel.bind('integration-created', IntegrationCreateHandler);
+        this.userChannel.bind('integration-updated', IntegrationUpdateHandler);
+        this.userChannel.bind('integration-deleted', IntegrationDeleteHandler);
+
+        this.domainChannel.bind('subscription-changed', SubscriptionChangedHandler);
     }
 
-    private subscribeTenantOnboardChannelEvent(stateDomain: DomainState) {
+    private componentDidMountTenantOnboardChannelEvent(stateDomain: DomainState) {
         const channel = `ranger-labs-${stateDomain.domain}`;
         this.registrationChannel = this.pusher.subscribe(channel);
         this.registrationChannel.bind('tenant-onboard', RegistrationHandler);

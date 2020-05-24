@@ -4,13 +4,14 @@ import PolygonGeofence from '../models/app/geofences/PolygonGeofence';
 import CircleGeofence from '../models/app/geofences/CircleGeofence';
 import { ShapePicker } from '../redux/actions/GoogleMapsActions';
 import CoordinatePair from '../models/app/geofences/CoordinatePair';
+import Schedule from '../models/Schedule';
 
 export default class GeofenceService {
     async getGeofences(projectName: string): Promise<IRestResponse<Array<CircleGeofence | PolygonGeofence>>> {
-        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectName}/geofences`).then(geofenceResponse => {
+        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectName}/geofences`).then((geofenceResponse) => {
             const result = new Array<CircleGeofence | PolygonGeofence>();
-            if (geofenceResponse.content) {
-                geofenceResponse.content.forEach(v => {
+            if (geofenceResponse.result) {
+                geofenceResponse.result.forEach((v) => {
                     switch (v.shape) {
                         case ShapePicker.Circle: {
                             const castedShape = v as CircleGeofence;
@@ -19,13 +20,15 @@ export default class GeofenceService {
                                 castedShape.externalId,
                                 castedShape.labels,
                                 castedShape.onEnter,
+                                castedShape.onDwell,
                                 castedShape.onExit,
                                 castedShape.enabled,
                                 castedShape.description,
                                 castedShape.integrationIds,
                                 [new CoordinatePair(v.coordinates[0].lng, v.coordinates[0].lat)],
                                 castedShape.metadata,
-                                castedShape.radius
+                                castedShape.radius,
+                                castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule()
                             );
                             circle.id = castedShape.id;
                             result.push(circle);
@@ -38,15 +41,17 @@ export default class GeofenceService {
                                 castedShape.externalId,
                                 castedShape.labels,
                                 castedShape.onEnter,
+                                castedShape.onDwell,
                                 castedShape.onExit,
                                 castedShape.enabled,
                                 castedShape.description,
                                 castedShape.integrationIds,
                                 castedShape.coordinates,
-                                castedShape.metadata
+                                castedShape.metadata,
+                                castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule()
                             );
                             polygon.id = castedShape.id;
-                            result.push(castedShape);
+                            result.push(polygon);
                             break;
                         }
                         default:
@@ -54,17 +59,23 @@ export default class GeofenceService {
                     }
                 });
             }
-            return Object.assign({}, geofenceResponse, { content: result } as IRestResponse<Array<CircleGeofence | PolygonGeofence>>) as IRestResponse<
+            return Object.assign({}, geofenceResponse, { result: result } as IRestResponse<Array<CircleGeofence | PolygonGeofence>>) as IRestResponse<
                 Array<CircleGeofence | PolygonGeofence>
             >;
         });
     }
 
     async postGeofence(projectName: string, geofence: Geofence): Promise<IRestResponse<void>> {
-        return RestUtilities.post(`${projectName}/geofences`, geofence);
+        return RestUtilities.post(`${projectName}/geofences`, {
+            ...geofence,
+            schedule: Schedule.IsFullUtcSchedule(geofence.schedule) ? null : geofence.schedule.ToLocalTimeSchedule(),
+        });
     }
     async putGeofence(projectName: string, id: string, geofence: Geofence): Promise<IRestResponse<void>> {
-        return RestUtilities.put(`${projectName}/geofences/${id}`, geofence);
+        return RestUtilities.put(`${projectName}/geofences/${id}`, {
+            ...geofence,
+            schedule: Schedule.IsFullUtcSchedule(geofence.schedule) ? null : geofence.schedule.ToLocalTimeSchedule(),
+        });
     }
     async deleteGeofence(projectName: string, externalId: string): Promise<IRestResponse<void>> {
         return RestUtilities.delete(`${projectName}/geofences/${externalId}`);

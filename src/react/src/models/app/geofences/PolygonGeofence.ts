@@ -2,6 +2,8 @@ import Geofence from './Geofence';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import CoordinatePair from './CoordinatePair';
 import CorrelationModel from '../../CorrelationModel';
+import IsoDailySchedule from '../../IsoDailySchedule';
+import Schedule from '../../Schedule';
 
 export default class PolygonGeofence implements Geofence {
     shape: ShapePicker;
@@ -13,12 +15,14 @@ export default class PolygonGeofence implements Geofence {
         public externalId: string,
         public labels: string[],
         public onEnter: boolean,
+        public onDwell: boolean,
         public onExit: boolean,
         public enabled: boolean,
         public description: string,
         public integrationIds: string[] = [],
         public coordinates: Array<CoordinatePair>,
-        public metadata: []
+        public metadata: [],
+        public schedule?: Schedule
     ) {
         this.shape = ShapePicker.Polygon;
     }

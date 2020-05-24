@@ -14,6 +14,7 @@ import { UserProfile } from '../../../models/UserProfile';
 import UserService from '../../../services/UserService';
 import { WithSnackbarProps, withSnackbar } from 'notistack';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+import { IRestResponse } from '../../../services/RestUtilities';
 var userService = new UserService();
 
 interface ChangePasswordContentProps extends WithSnackbarProps {
@@ -51,26 +52,21 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
                 initialValues={{ password: '' }}
                 onSubmit={(values: IRequestPasswordResetModel, formikBag: FormikBag<FormikProps<IRequestPasswordResetModel>, IRequestPasswordResetModel>) => {
                     setServerError(undefined);
-                    userService.requestPasswordReset((changePasswordContentProps.user.profile as UserProfile).email, values).then((success: boolean) => {
-                        setTimeout(() => {
-                            if (!success) {
-                                changePasswordContentProps.enqueueSnackbar('Failed to send reset email, the provided password was invalid.', {
-                                    variant: 'error',
-                                });
-                                setServerError('The password provided was incorrect.');
-                                formikBag.setSubmitting(false);
-                            } else {
-                                changePasswordContentProps.enqueueSnackbar('Password reset email sent.', { variant: 'success' });
-                                formikBag.setSubmitting(false);
-                                setSuccess(true);
-                                changePasswordContentProps.closeDialog();
-                            }
-                        }, 350);
+                    userService.requestPasswordReset(values).then((response: IRestResponse<boolean>) => {
+                        if (!response.isError) {
+                            changePasswordContentProps.enqueueSnackbar(response.message);
+                            formikBag.setSubmitting(false);
+                            setSuccess(true);
+                            changePasswordContentProps.closeDialog();
+                        } else {
+                            setServerError(response.error.message);
+                            formikBag.setSubmitting(false);
+                        }
                     });
                 }}
                 validationSchema={validationSchema}
             >
-                {props => (
+                {(props) => (
                     <React.Fragment>
                         <DialogTitle>Change account password</DialogTitle>
                         <form onSubmit={props.handleSubmit}>

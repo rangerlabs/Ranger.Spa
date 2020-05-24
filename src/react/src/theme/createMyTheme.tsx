@@ -38,7 +38,6 @@ declare module '@material-ui/core/styles/createMuiTheme' {
 }
 
 export default function createRangerTheme(options: ThemeOptions) {
-    const toolbarHeight = 64;
     return createMuiTheme({
         drawer: {
             width: 240,
@@ -49,12 +48,17 @@ export default function createRangerTheme(options: ThemeOptions) {
             leavingDuration: 450,
         },
         toolbar: {
-            height: toolbarHeight,
+            height: Constants.HEIGHT.TOOLBAR,
         },
         notistack: {
             width: '100%',
         },
         overrides: {
+            MuiDialog: {
+                paper: {
+                    minWidth: '30%',
+                },
+            },
             MuiTableCell: {
                 root: {
                     borderBottom: '0px',
@@ -68,19 +72,20 @@ export default function createRangerTheme(options: ThemeOptions) {
                     borderRadius: '3px',
                 },
             },
+            MuiCard: {
+                root: {
+                    backgroundColor: Constants.COLORS.WHITE,
+                },
+            },
             MuiDrawer: {
                 paperAnchorDockedLeft: {
                     borderRight: 'none',
+                    boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
                 },
             },
             MuiPaper: {
                 rounded: {
                     borderRadius: '0px',
-                },
-            },
-            MuiToolbar: {
-                root: {
-                    height: toolbarHeight,
                 },
             },
             MuiTouchRipple: {
@@ -103,14 +108,6 @@ export default function createRangerTheme(options: ThemeOptions) {
                             borderBottomStyle: 'none',
                         },
                     },
-                },
-            },
-            MuiAppBar: {
-                root: {
-                    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-                },
-                colorPrimary: {
-                    backgroundColor: Constants.COLORS.WHITE,
                 },
             },
             MuiSnackbarContent: {

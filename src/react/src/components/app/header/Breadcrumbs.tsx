@@ -6,8 +6,14 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import ChevronRight from 'mdi-material-ui/ChevronRight';
 import IProject from '../../../models/app/IProject';
+import Constants from '../../../theme/Constants';
 
-const styles = (theme: Theme) => createStyles({});
+const styles = (theme: Theme) =>
+    createStyles({
+        textColor: {
+            color: theme.palette.common.white,
+        },
+    });
 
 interface CustomBreadcrumbProps extends WithStyles<typeof styles> {
     label: string;
@@ -18,7 +24,7 @@ class CustomBreadcrumb extends React.Component<CustomBreadcrumbProps> {
     render() {
         const { classes, label, ...rest } = this.props;
         return (
-            <Link key={label} component="button" variant="subtitle1" color="inherit" {...rest}>
+            <Link classes={{ button: classes.textColor }} key={label} component="button" variant="subtitle1" {...rest}>
                 {label}
             </Link>
         );
@@ -46,11 +52,16 @@ class CustomizedBreadcrumbs extends React.Component<CustomizedBreadcrumbsProps> 
     }
 
     render() {
+        const { classes } = this.props;
         return (
-            <Breadcrumbs separator={<ChevronRight fontSize="small" />} arial-label="Breadcrumb">
+            <Breadcrumbs
+                classes={{ li: classes.textColor }}
+                separator={<ChevronRight fontSize="small" htmlColor={Constants.COLORS.WHITE} />}
+                arial-label="Breadcrumb"
+            >
                 {this.props.breadcrumbs.map((b, i, a) => {
                     return i === a.length - 1 ? (
-                        <Typography key={b.path} color="textPrimary">
+                        <Typography variant="subtitle1" key={b.path}>
                             {b.label}
                         </Typography>
                     ) : (

@@ -104,8 +104,8 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                         }
                         onSubmit={(values: IPasswordResetModel, formikBag: FormikBag<FormikProps<IPasswordResetModel>, IPasswordResetModel>) => {
                             const userId = this.getUserIdFromParams();
-                            userService.confirmUserAndPassword(userId, values).then(v => {
-                                if (v.is_error) {
+                            userService.confirmUserAndPassword(userId, values).then((v) => {
+                                if (v.isError) {
                                     formikBag.setSubmitting(false);
                                     this.setState({ serverError: true });
                                 } else {
@@ -118,7 +118,7 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                         }}
                         validationSchema={this.validationSchema}
                     >
-                        {props => (
+                        {(props) => (
                             <form onSubmit={props.handleSubmit}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>

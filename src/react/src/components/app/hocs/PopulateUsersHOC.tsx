@@ -12,6 +12,9 @@ interface PopulateUsersComponentProps {
     setUsers: (users: IUser[]) => void;
     usersState: UsersState;
 }
+interface PopulateUsersComponentState {
+    wasError: boolean;
+}
 
 const mapStateToProps = (state: ApplicationState) => {
     return { usersState: state.usersState, user: state.oidc.user };
@@ -27,19 +30,24 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 const populateUsersHOC = <P extends object>(Component: React.ComponentType<P>) => {
-    class PopulateUsersComponent extends React.Component<PopulateUsersComponentProps> {
+    class PopulateUsersComponent extends React.Component<PopulateUsersComponentProps, PopulateUsersComponentState> {
+        state: PopulateUsersComponentState = {
+            wasError: false,
+        };
         componentDidMount() {
             if (!this.props.usersState.isLoaded) {
-                userService.getUsers().then(userResponse => {
-                    if (!userResponse.is_error) {
-                        this.props.setUsers(userResponse.content ? userResponse.content : new Array<IUser>());
+                userService.getUsers().then((userResponse) => {
+                    if (userResponse.isError) {
+                        this.setState({ wasError: true });
+                    } else {
+                        this.props.setUsers(userResponse.result ? userResponse.result : new Array<IUser>());
                     }
                 });
             }
         }
 
         render() {
-            return this.props.usersState.isLoaded ? <Component {...(this.props as P)} /> : <Loading message="Retrieving users." />;
+            return this.props.usersState.isLoaded && !this.state.wasError ? <Component {...(this.props as P)} /> : <Loading wasError={this.state.wasError} />;
         }
     }
 

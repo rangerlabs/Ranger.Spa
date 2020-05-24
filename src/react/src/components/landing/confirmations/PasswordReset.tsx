@@ -104,21 +104,19 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
                         }
                         onSubmit={(values: IPasswordResetModel, formikBag: FormikBag<FormikProps<IPasswordResetModel>, IPasswordResetModel>) => {
                             const userId = this.getUserIdFromParams();
-                            userService.resetPassword(userId, values).then(v => {
-                                if (v.is_error) {
+                            userService.resetPassword(userId, values).then((v) => {
+                                if (v.isError) {
                                     formikBag.setSubmitting(false);
                                     this.setState({ serverError: true });
                                 } else {
-                                    setTimeout(() => {
-                                        formikBag.setSubmitting(false);
-                                        this.setState({ success: true });
-                                    }, 350);
+                                    formikBag.setSubmitting(false);
+                                    this.setState({ success: true });
                                 }
                             });
                         }}
                         validationSchema={this.validationSchema}
                     >
-                        {props => (
+                        {(props) => (
                             <form onSubmit={props.handleSubmit}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>

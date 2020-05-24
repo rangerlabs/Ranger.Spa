@@ -9,12 +9,10 @@ import {
     CardHeader,
     CardContent,
     Typography,
-    CardMedia,
     CardActions,
     IconButton,
     GridList,
     GridListTile,
-    Paper,
 } from '@material-ui/core';
 import HexagonMultiple from 'mdi-material-ui/HexagonMultiple';
 import ArrowDecision from 'mdi-material-ui/ArrowDecision';
@@ -33,7 +31,6 @@ import { resetIntegrations } from '../../../redux/actions/IntegrationActions';
 const styles = (theme: Theme) =>
     createStyles({
         card: {
-            // height: "100%",
             margin: '10px',
         },
         cardContent: {

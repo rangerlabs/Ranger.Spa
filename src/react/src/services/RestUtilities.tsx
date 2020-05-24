@@ -1,16 +1,25 @@
 import UserManager from '../services/UserManager';
 import ReduxStore from '../ReduxStore';
-import TheatersRounded from '@material-ui/icons/TheatersRounded';
 import { openDialog, DialogContent } from '../redux/actions/DialogActions';
+import { STATUS_CODES } from 'http';
+import { AssertionError } from 'assert';
 
-export interface IErrorContent {
-    errors: string[];
+export interface IError {
+    message: string;
+    validationErrors: IValidationError[];
+}
+
+export interface IValidationError {
+    name: string;
+    reason: string;
 }
 
 export interface IRestResponse<T> {
-    is_error?: boolean;
-    error_content?: IErrorContent;
-    content?: T;
+    statusCode: number;
+    message: string;
+    isError: boolean;
+    error?: IError;
+    result?: T;
     correlationId?: string;
 }
 
@@ -43,6 +52,8 @@ export default class RestUtilities {
 
     static request<T>(method: string, url: string, data: any = null): Promise<IRestResponse<T>> {
         const user = ReduxStore.getStore().getState().oidc.user;
+        let statusCode = 0;
+        let message = '';
         let isError = false;
         let correlationId = '';
         let body = data;
@@ -53,7 +64,6 @@ export default class RestUtilities {
             headers.set('Authorization', `Bearer ${accessToken}`);
         }
         headers.set('Accept', 'application/json');
-        headers.set('x-ranger-domain', location.host.split('.')[0]);
         headers.set('api-version', '1.0');
         headers.set('Content-Type', 'application/json');
         if (data) {
@@ -65,27 +75,43 @@ export default class RestUtilities {
             headers: headers,
             body: body,
         })
-            .catch(response => {
+            .catch((response) => {
                 // const store = ReduxStore.getStore();
                 // const action = openDialog({ message: "An error occured." } as DialogContent);
                 // store.dispatch(action);
             })
             .then((response: Response) => {
-                isError = response.status === 304 || (response.status >= 400 && response.status <= 500);
+                isError = response.status === 304 || (response.status >= 400 && response.status <= 500) ? true : false;
                 correlationId = response.headers.has('x-operation') ? response.headers.get('x-operation').replace('operations/', '') : null;
+                statusCode = response.status;
                 return response.text();
             })
             .then((responseContent: string) => {
                 const responseContentJson = responseContent ? JSON.parse(responseContent) : undefined;
+                this.assertIsRestResponse(responseContentJson);
                 let response: IRestResponse<T> = {
-                    is_error: isError,
-                    error_content: isError ? (responseContentJson as IErrorContent) : undefined,
-                    content: isError ? undefined : responseContentJson,
+                    statusCode: statusCode,
+                    message: responseContentJson.message,
+                    isError: isError,
+                    error: isError ? (responseContentJson.error as IError) : undefined,
+                    result: isError ? undefined : responseContentJson.result,
                     correlationId: correlationId,
                 };
                 return response;
             });
     }
+
+    private static assertIsRestResponse(object: any): asserts object is IRestResponse<any> {
+        if (
+            !(object as IRestResponse<any>).statusCode &&
+            !(object as IRestResponse<any>).message &&
+            !(object as IRestResponse<any>).isError &&
+            (!(object as IRestResponse<any>).error || !(object as IRestResponse<any>).result)
+        ) {
+            throw new AssertionError({ message: 'Value not a valid Rest Response!' });
+        }
+    }
+
     private static FormatUrl(url: string) {
         if (url.startsWith('/')) {
             url = this.baseAddress + url;

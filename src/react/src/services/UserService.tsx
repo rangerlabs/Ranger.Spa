@@ -43,55 +43,35 @@ export default class UserService {
         return RestUtilities.post('/account/transfer-primary-ownership', transferPrimaryOwnershipModel);
     }
 
-    async deleteAccount(email: string, accountDeleteModel: IAccountDeleteModel): Promise<IRestResponse<void>> {
-        return RestUtilities.delete(`/account/${email}`, accountDeleteModel);
+    async deleteAccount(accountDeleteModel: IAccountDeleteModel): Promise<IRestResponse<void>> {
+        return RestUtilities.delete(`/account`, accountDeleteModel);
     }
 
     async cancelPrimaryOwnershipTransfer(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<IRestResponse<void>> {
         return RestUtilities.post(`/account/cancel-ownership-transfer `, transferPrimaryOwnershipModel);
     }
 
-    async acceptPrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
-        return RestUtilities.post(`/account/accept-primary-ownership`, transferPrimaryOwnershipModel).then(value => {
-            if (value.is_error) {
-                return false;
-            }
-            return true;
-        });
+    async acceptPrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<IRestResponse<boolean>> {
+        return RestUtilities.post(`/account/accept-primary-ownership`, transferPrimaryOwnershipModel);
     }
 
-    async refusePrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<boolean> {
-        return RestUtilities.post(`/account/refuse-primary-ownership`, transferPrimaryOwnershipModel).then(value => {
-            if (value.is_error) {
-                return false;
-            }
-            return true;
-        });
+    async refusePrimaryOwnership(transferPrimaryOwnershipModel: ITransferPrimaryOwnershipModel): Promise<IRestResponse<boolean>> {
+        return RestUtilities.post(`/account/refuse-primary-ownership`, transferPrimaryOwnershipModel);
     }
 
     async deleteUser(email: string): Promise<IRestResponse<void>> {
         return RestUtilities.delete(`/users/${email}`);
     }
 
-    async requestPasswordReset(userEmail: string, passwordReset: IRequestPasswordResetModel): Promise<boolean> {
-        return RestUtilities.put(`/users/${userEmail}/password-reset`, passwordReset).then(value => {
-            if (value.is_error) {
-                return false;
-            }
-            return true;
-        });
+    async requestPasswordReset(passwordReset: IRequestPasswordResetModel): Promise<IRestResponse<boolean>> {
+        return RestUtilities.put(`/users/password-reset`, passwordReset);
     }
 
-    async requestEmailChanage(currentUserEmail: string, emailChange: IRequestEmailChangeModel): Promise<boolean> {
-        return RestUtilities.put(`/users/${currentUserEmail}/email-change`, emailChange).then(value => {
-            if (value.is_error) {
-                return false;
-            }
-            return true;
-        });
+    async requestEmailChanage(emailChange: IRequestEmailChangeModel): Promise<IRestResponse<boolean>> {
+        return RestUtilities.put(`/users/email-change`, emailChange);
     }
 
-    async changeEmail(email: string, resetModel: IChangeEmailModel): Promise<IRestResponse<void>> {
-        return RestUtilities.post(`/users/${email}/email-change`, resetModel);
+    async changeEmail(resetModel: IChangeEmailModel): Promise<IRestResponse<void>> {
+        return RestUtilities.post(`/users/email-change`, resetModel);
     }
 }

@@ -18,6 +18,7 @@ interface PopulatePendingPrimaryOwnerTransferHOCProps {
 
 interface PopulatePendingPrimaryOwnerTransferHOCState {
     isLoaded: boolean;
+    wasError: boolean;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -40,15 +41,18 @@ const populatePendingPrimaryOwnerTransferHOC = <P extends object>(Component: Rea
     > {
         state: PopulatePendingPrimaryOwnerTransferHOCState = {
             isLoaded: false,
+            wasError: false,
         };
 
         componentDidMount() {
             if (userIsInRole(this.props.user, RoleEnum.PRIMARY_OWNER)) {
-                tenantService.getPrimaryOwnerTransfer(getSubDomain()).then(response => {
-                    if (!response.is_error) {
+                tenantService.getPrimaryOwnerTransfer(getSubDomain()).then((response) => {
+                    if (response.isError) {
+                        this.setState({ wasError: true });
+                    } else {
                         this.setState({ isLoaded: true });
-                        if (response.content) {
-                            this.props.addPendingPrimaryOwnerTransfer(response.content);
+                        if (response.result) {
+                            this.props.addPendingPrimaryOwnerTransfer(response.result);
                         }
                     }
                 });
@@ -58,7 +62,7 @@ const populatePendingPrimaryOwnerTransferHOC = <P extends object>(Component: Rea
         }
 
         render() {
-            return this.state.isLoaded ? <Component {...(this.props as P)} /> : <Loading message="Loading account." />;
+            return this.state.isLoaded && !this.state.wasError ? <Component {...(this.props as P)} /> : <Loading wasError={this.state.wasError} />;
         }
     }
 

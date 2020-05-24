@@ -1,5 +1,6 @@
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import CorrelationModel from '../../CorrelationModel';
+import Schedule from '../../Schedule';
 
 export default interface Geofence {
     correlationModel: CorrelationModel;
@@ -11,7 +12,9 @@ export default interface Geofence {
     labels: string[];
     description: string;
     onEnter: boolean;
+    onDwell: boolean;
     onExit: boolean;
     enabled: boolean;
     metadata: [];
+    schedule?: Schedule;
 }

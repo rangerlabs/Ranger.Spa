@@ -15,8 +15,6 @@ export default class NewCircleGeofenceMapMarker {
         private map: google.maps.Map,
         latLng: google.maps.LatLng,
         radius: number,
-        private openInfoWindow: Function,
-        private closeInfoWindow: Function,
         private addCircleGeofence: (lngLat: CoordinatePair, radius: number) => void
     ) {
         this.addCircleGeofenceMarkers(latLng, radius);
@@ -80,33 +78,10 @@ export default class NewCircleGeofenceMapMarker {
     };
 
     addCircleEventHandlers() {
-        this.clickEvents();
         this.mouseOverEvents();
         this.mouseOutEvents();
-        this.dragStartEvents();
         this.dragEvents();
         this.dragEndEvents();
-    }
-
-    private clickEvents() {
-        this.circleClickMarker.addListener('click', (e: google.maps.MouseEvent) => {
-            this.openInfoWindow();
-        });
-        this.circleGeofenceCenterMarker.addListener('click', (e: google.maps.MouseEvent) => {
-            this.openInfoWindow();
-        });
-    }
-
-    private dragStartEvents() {
-        this.circleClickMarker.addListener('dragstart', (e: google.maps.MouseEvent) => {
-            this.closeInfoWindow();
-        });
-        this.circleGeofenceCenterMarker.addListener('dragstart', (e: google.maps.MouseEvent) => {
-            this.closeInfoWindow();
-        });
-        this.extenderMarker.addListener('dragstart', (e: google.maps.MouseEvent) => {
-            this.closeInfoWindow();
-        });
     }
 
     private dragEndEvents() {

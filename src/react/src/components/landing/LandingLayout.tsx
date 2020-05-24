@@ -17,6 +17,7 @@ const styles = (theme: Theme) =>
         root: {
             display: 'flex',
             height: '100%',
+            backgroundColor: theme.palette.common.white,
         },
         content: {
             flexGrow: 1,
@@ -52,7 +53,7 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
     };
 
     handleDrawerToggle = () => {
-        this.setState(prevState => ({ mobileOpen: !prevState.mobileOpen }));
+        this.setState((prevState) => ({ mobileOpen: !prevState.mobileOpen }));
     };
 
     componentDidMount() {
@@ -64,7 +65,7 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
         return (
             <Route
                 {...rest}
-                render={props => (
+                render={(props) => (
                     <div className={classes.root}>
                         <CssBaseline />
                         <Dialog />

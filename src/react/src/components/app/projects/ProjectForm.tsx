@@ -7,7 +7,7 @@ import { withStyles, createStyles, Theme, Button, WithStyles, Paper, Grid, CssBa
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikCancelButton from '../../form/FormikCancelButton';
-import { IRestResponse } from '../../../services/RestUtilities';
+import { IRestResponse, IValidationError } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
@@ -19,7 +19,7 @@ import * as queryString from 'query-string';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import DeleteProjectContent from '../dialogContents/DeleteProjectContent';
 import FormikCheckbox from '../../form/FormikCheckbox';
-import FormikServerErrors from '../../form/FormikServerErrors';
+import FormikValidationErrors from '../../form/FormikServerErrors';
 import { openDialog, closeDialog, DialogContent } from '../../../redux/actions/DialogActions';
 import NewProjectApiKeysContent from '../dialogContents/NewProjectApiKeysContent';
 import NewProjectEnvironmentApiKeyContent from '../dialogContents/NewProjectEnvironmentApiKeyContent';
@@ -52,6 +52,9 @@ const styles = (theme: Theme) =>
         },
         disableBottomPadding: {
             paddingBottom: '0px !important',
+        },
+        paper: {
+            padding: theme.spacing(4),
         },
     });
 interface IProjectFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
@@ -92,43 +95,42 @@ const mapStateToProps = (state: ApplicationState) => {
 };
 
 type ProjectFormState = {
-    serverErrors: string[];
+    serverErrors: IValidationError[];
     initialProject: IProject;
     isSuccess: boolean;
 };
 
 class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
-    formikRef: React.RefObject<Formik> = React.createRef();
     state: ProjectFormState = {
-        serverErrors: undefined as string[],
+        serverErrors: undefined as IValidationError[],
         initialProject: undefined,
         isSuccess: false,
     };
 
-    resetApiKey(environment: string) {
+    resetApiKey(environment: string, formikProps: FormikProps<any>) {
         this.props.openDialog(
             new DialogContent(
-                `Are you sure you want to reset the ${titleCase(environment)} API key this project? The current API key will become ineffective immediately.`,
+                `Are you sure you want to reset the ${titleCase(environment)} API Key this project? The current API Key will become ineffective immediately.`,
                 'Reset API Key',
                 `Reset ${titleCase(environment)} API Key`,
                 () => {
                     const project = { version: this.state.initialProject.version + 1 } as IProject;
                     projectService.apiKeyReset(project, this.state.initialProject.projectId, environment).then((response: IRestResponse<IProject>) => {
-                        if (response.is_error) {
-                            const { errors: serverErrors, ...formikErrors } = response.error_content;
-                            this.props.enqueueSnackbar('Error resetting API key.', { variant: 'error' });
-                            this.formikRef.current.setErrors(formikErrors as FormikErrors<IProject>);
+                        if (response.isError) {
+                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                            this.props.enqueueSnackbar(response.error.message, { variant: 'error' });
+                            formikProps.setStatus(formikErrors as FormikErrors<IProject>);
                             this.setState({ serverErrors: serverErrors });
-                            this.formikRef.current.setSubmitting(false);
+                            formikProps.setSubmitting(false);
                         } else {
                             this.setState({ isSuccess: true });
-                            this.props.enqueueSnackbar('API key reset.', { variant: 'success' });
+                            this.props.enqueueSnackbar(response.message, { variant: 'success' });
                             if (environment === ProjectEnvironmentEnum.LIVE) {
                                 this.props.openDialog(
                                     new DialogContent(
                                         NewProjectEnvironmentApiKeyContent({
                                             environment: ProjectEnvironmentEnum.LIVE,
-                                            newApiKey: response.content.liveApiKey,
+                                            newApiKey: response.result.liveApiKey,
                                             onClose: this.props.closeDialog,
                                         })
                                     )
@@ -138,22 +140,19 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     new DialogContent(
                                         NewProjectEnvironmentApiKeyContent({
                                             environment: ProjectEnvironmentEnum.TEST,
-                                            newApiKey: response.content.testApiKey,
+                                            newApiKey: response.result.testApiKey,
                                             onClose: this.props.closeDialog,
                                         })
                                     )
                                 );
                             }
-                            this.props.dispatchUpdateProject(response.content);
-                            this.props.push(RoutePaths.Projects);
+                            this.props.dispatchUpdateProject(response.result);
                         }
                     });
                 }
             )
         );
     }
-
-    deleteProject(id: string, enqueueSnackbar: any) {}
 
     componentDidMount() {
         const project = this.getProjectByName(this.props.projectsState.projects);
@@ -167,16 +166,14 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
         const params = queryString.parse(window.location.search);
         const name = params['name'] as string;
         if (name && projects) {
-            result = projects.find(p => p.name === name);
+            result = projects.find((p) => p.name === name);
         }
 
         return result;
     };
 
     validationSchema = Yup.object().shape({
-        name: Yup.string()
-            .required('Required')
-            .max(140, 'Must be 140 characters or less.'),
+        name: Yup.string().required('Required').max(140, 'Must be 140 characters or less.'),
     });
 
     render() {
@@ -185,12 +182,11 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper elevation={0}>
+                    <Paper className={classes.paper} elevation={3}>
                         <Typography align="center" variant="h5" gutterBottom>
                             {this.state.initialProject ? (userIsInRole(this.props.user, RoleEnum.ADMIN) ? 'Edit Project' : 'View Project') : 'New Project'}
                         </Typography>
                         <Formik
-                            ref={this.formikRef}
                             enableReinitialize
                             initialValues={this.state.initialProject ? this.state.initialProject : { name: '', description: '', version: 0, enabled: true }}
                             onSubmit={(values: IProject, formikBag: FormikBag<FormikProps<IProject>, IProject>) => {
@@ -203,36 +199,36 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                 if (this.state.initialProject) {
                                     const editedProject = Object.assign({}, inputProject, { version: this.state.initialProject.version + 1 }) as IProject;
                                     projectService.putProject(editedProject, this.state.initialProject.projectId).then((response: IRestResponse<IProject>) => {
-                                        if (response.is_error) {
-                                            const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                            enqueueSnackbar('Error updating project.', { variant: 'error' });
-                                            formikBag.setErrors(formikErrors as FormikErrors<IProject>);
+                                        if (response.isError) {
+                                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                                            enqueueSnackbar(response.error.message, { variant: 'error' });
+                                            formikBag.setStatus(formikErrors as FormikErrors<IProject>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
                                             this.setState({ isSuccess: true });
-                                            enqueueSnackbar('Project updated.', { variant: 'success' });
-                                            dispatchUpdateProject(response.content);
+                                            enqueueSnackbar(response.message, { variant: 'success' });
+                                            dispatchUpdateProject(response.result);
                                             this.props.push(RoutePaths.Projects);
                                         }
                                     });
                                 } else {
                                     projectService.postProject(inputProject).then((response: IRestResponse<IProject>) => {
-                                        if (response.is_error) {
-                                            const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                            enqueueSnackbar('Error creating project.', { variant: 'error' });
-                                            formikBag.setErrors(formikErrors as FormikErrors<IProject>);
+                                        if (response.isError) {
+                                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                                            enqueueSnackbar(response.error.message, { variant: 'error' });
+                                            formikBag.setStatus(formikErrors as FormikErrors<IProject>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
                                         } else {
                                             this.setState({ isSuccess: true });
-                                            enqueueSnackbar('Project created.', { variant: 'success' });
-                                            dispatchAddProject(response.content);
+                                            enqueueSnackbar(response.message, { variant: 'success' });
+                                            dispatchAddProject(response.result);
                                             this.props.openDialog(
                                                 new DialogContent(
                                                     NewProjectApiKeysContent({
-                                                        liveApiKey: response.content.liveApiKey,
-                                                        testApiKey: response.content.testApiKey,
+                                                        liveApiKey: response.result.liveApiKey,
+                                                        testApiKey: response.result.testApiKey,
                                                         onClose: this.props.closeDialog,
                                                     })
                                                 )
@@ -244,7 +240,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             }}
                             validationSchema={this.validationSchema}
                         >
-                            {props => (
+                            {(props) => (
                                 <form onSubmit={props.handleSubmit}>
                                     <Grid container spacing={3}>
                                         <Grid className={classes.disableBottomPadding} item xs={12}>
@@ -302,7 +298,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                                     <Button
                                                                         disabled={props.isSubmitting}
                                                                         onClick={() => {
-                                                                            this.resetApiKey('live');
+                                                                            this.resetApiKey('live', props);
                                                                         }}
                                                                     >
                                                                         Reset
@@ -324,7 +320,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                                     <Button
                                                                         disabled={props.isSubmitting}
                                                                         onClick={() => {
-                                                                            this.resetApiKey('test');
+                                                                            this.resetApiKey('test', props);
                                                                         }}
                                                                     >
                                                                         Reset
@@ -338,7 +334,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         )}
                                         {this.state.serverErrors && (
                                             <Grid item xs={12}>
-                                                <FormikServerErrors errors={this.state.serverErrors} />
+                                                <FormikValidationErrors errors={this.state.serverErrors} />
                                             </Grid>
                                         )}
                                     </Grid>

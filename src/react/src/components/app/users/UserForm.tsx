@@ -10,7 +10,7 @@ import FormikTextField from '../../form/FormikTextField';
 import FormikSelect from '../../form/FormikSelect';
 import FormikCancelButton from '../../form/FormikCancelButton';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
-import { IRestResponse } from '../../../services/RestUtilities';
+import { IRestResponse, IValidationError } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import { User } from 'oidc-client';
@@ -51,6 +51,9 @@ const styles = (theme: Theme) =>
         leftButtons: {
             flexGrow: 1,
         },
+        paper: {
+            padding: theme.spacing(4),
+        },
     });
 interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     dispatchAddUser: (user: IUser) => void;
@@ -64,7 +67,7 @@ interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
 
 type UserFormState = {
     assignableRoles: FormikSelectValues;
-    serverErrors: string[];
+    serverErrors: IValidationError[];
     selectedProjects: string[];
     success: boolean;
 };
@@ -92,21 +95,20 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 class UserForm extends React.Component<IUserFormProps, UserFormState> {
-    formikRef: React.RefObject<Formik> = React.createRef();
     state = {
         assignableRoles: [] as FormikSelectValues,
-        serverErrors: undefined as string[],
+        serverErrors: undefined as IValidationError[],
         selectedProjects: [] as string[],
         success: false,
     };
 
     deleteUser(props: FormikProps<Partial<IUser>>, enqueueSnackbar: any) {
-        userService.deleteUser(props.values.email).then(response => {
-            if (response.is_error) {
-                enqueueSnackbar(`Failed to delete user ${props.values.email}.`, { variant: 'error' });
-                this.formikRef.current.setError('Failed to delete the user. Verify the user exists and try again.');
+        userService.deleteUser(props.values.email).then((response) => {
+            if (response.isError) {
+                enqueueSnackbar(response.error.message, { variant: 'error' });
+                props.setStatus(response.error.message);
             } else {
-                enqueueSnackbar('User deleted', { variant: 'success' });
+                enqueueSnackbar(response.message, { variant: 'success' });
                 this.props.dispatchRemoveUser(props.values.email);
                 this.props.push(RoutePaths.Users);
             }
@@ -122,8 +124,8 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     getProjectNamesByProjectIds(projectIds: string[]) {
         if (projectIds) {
             return this.props.projects
-                .filter(p => projectIds.includes(p.projectId))
-                .map(p => p.name)
+                .filter((p) => projectIds.includes(p.projectId))
+                .map((p) => p.name)
                 .sort();
         }
         return [];
@@ -132,8 +134,8 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     getProjectIdsByProjectNames(projectNames: string[]) {
         if (projectNames) {
             return this.props.projects
-                .filter(p => projectNames.includes(p.name))
-                .map(p => p.projectId)
+                .filter((p) => projectNames.includes(p.name))
+                .map((p) => p.projectId)
                 .sort();
         }
         return [];
@@ -143,7 +145,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
 
         var role = getRole(user.profile.role as string[]);
         var cascadedRoles = getCascadedRoles(role).reverse();
-        cascadedRoles.forEach(value => {
+        cascadedRoles.forEach((value) => {
             if (value != RoleEnum.PRIMARY_OWNER) roleArray.push({ value: value, label: value });
         });
         return roleArray;
@@ -160,9 +162,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
             .max(48, 'Max 48 characters')
             .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
             .required('Required'),
-        email: Yup.string()
-            .email('Invalid email')
-            .required('Required'),
+        email: Yup.string().email('Invalid email').required('Required'),
         role: Yup.mixed().required('Role is required'),
     });
 
@@ -172,12 +172,11 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
             <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper elevation={0}>
+                    <Paper className={classes.paper} elevation={3}>
                         <Typography align="center" variant="h5" gutterBottom>
-                            {this.props.initialUser ? 'Edit User' : 'Create User'}
+                            {this.props.initialUser ? 'Edit User' : 'New User'}
                         </Typography>
                         <Formik
-                            ref={this.formikRef}
                             enableReinitialize
                             initialValues={
                                 this.props.initialUser
@@ -197,16 +196,15 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                 } as IUser;
                                 if (this.props.initialUser) {
                                     userService.putUser(newUser.email, newUser).then((response: IRestResponse<IUser>) => {
-                                        if (response.is_error) {
-                                            const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                            enqueueSnackbar('Error updating user.', { variant: 'error' });
-                                            formikBag.setErrors(formikErrors as FormikErrors<IUser>);
+                                        if (response.isError) {
+                                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                                            enqueueSnackbar(response.error.message, { variant: 'error' });
+                                            formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
-                                            formikBag.resetForm(newUser);
+                                            formikBag.resetForm({ values: newUser });
                                         } else {
                                             newUser.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING };
-                                            enqueueSnackbar('Update user request accepted.', { variant: 'info' });
                                             dispatchUpdateUser(newUser);
                                             formikBag.setSubmitting(false);
                                             this.setState({ success: true });
@@ -215,16 +213,15 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                     });
                                 } else {
                                     userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
-                                        if (response.is_error) {
-                                            const { errors: serverErrors, ...formikErrors } = response.error_content;
-                                            enqueueSnackbar('Error creating user.', { variant: 'error' });
-                                            formikBag.setErrors(formikErrors as FormikErrors<IUser>);
+                                        if (response.isError) {
+                                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                                            enqueueSnackbar(response.error.message, { variant: 'error' });
+                                            formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                             this.setState({ serverErrors: serverErrors });
                                             formikBag.setSubmitting(false);
-                                            formikBag.resetForm(newUser);
+                                            formikBag.resetForm({ values: newUser });
                                         } else {
                                             newUser.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING };
-                                            enqueueSnackbar('Create user request accepted.', { variant: 'info' });
                                             dispatchAddUser(newUser);
                                             formikBag.setSubmitting(false);
                                             this.setState({ success: true });
@@ -235,7 +232,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                             }}
                             validationSchema={this.validationSchema}
                         >
-                            {props => (
+                            {(props) => (
                                 <form onSubmit={props.handleSubmit}>
                                     <Grid container spacing={3}>
                                         <Grid item xs={12}>
@@ -299,12 +296,12 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 label="Authorized Projects"
                                                 placeholder=""
                                                 enabled={props.values.role.toUpperCase() === RoleEnum.USER.toUpperCase()}
-                                                options={this.props.projects.map(p => p.name)}
+                                                options={this.props.projects.map((p) => p.name)}
                                                 defaultValue={
                                                     this.props.initialUser ? this.getProjectNamesByProjectIds(this.props.initialUser.authorizedProjects) : []
                                                 }
                                                 onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
-                                                    this.formikRef.current.setFieldValue('authorizedProjects', values, true);
+                                                    props.setFieldValue('authorizedProjects', values, true);
                                                 }}
                                             />
                                             {props.values.role.toUpperCase() !== RoleEnum.USER.toUpperCase() && (
@@ -315,7 +312,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             <Grid item xs={12}>
                                                 <List>
                                                     <ListItem>
-                                                        {this.state.serverErrors.map(error => (
+                                                        {this.state.serverErrors.map((error) => (
                                                             <ListItemText primary={error} />
                                                         ))}
                                                     </ListItem>

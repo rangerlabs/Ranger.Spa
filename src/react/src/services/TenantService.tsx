@@ -13,13 +13,8 @@ export enum DomainEnabledResults {
 }
 
 export default class TenantService {
-    async exists(domain: string): Promise<boolean> {
-        return RestUtilities.get(`/tenants/${domain}/exists`).then(value => {
-            if (value.is_error) {
-                return false;
-            }
-            return true;
-        });
+    async exists(domain: string): Promise<IRestResponse<boolean>> {
+        return RestUtilities.get(`/tenants/${domain}/exists`);
     }
 
     async getPrimaryOwnerTransfer(domain: string): Promise<IRestResponse<PendingPrimaryOwnerTransfer>> {
@@ -30,38 +25,15 @@ export default class TenantService {
         return RestUtilities.delete(`/tenants/{domain}`);
     }
 
-    async enabled(domain: string): Promise<DomainEnabledResults> {
-        return RestUtilities.get<IEnabledModel>(`/tenants/${domain}/enabled`).then(value => {
-            if (value.is_error) {
-                return DomainEnabledResults.NotFound;
-            }
-            if (value.content.enabled) {
-                return DomainEnabledResults.Enabled;
-            }
-            return DomainEnabledResults.Disabled;
-        });
+    async confirmed(domain: string): Promise<IRestResponse<boolean>> {
+        return RestUtilities.get<boolean>(`/tenants/${domain}/confirmed`);
     }
 
-    async confirm(domain: string, confirmModel: IConfirmModel): Promise<boolean> {
-        return RestUtilities.put(`/tenants/${domain}/confirm`, confirmModel).then(value => {
-            if (value.is_error) {
-                return false;
-            }
-            return true;
-        });
+    async confirm(domain: string, confirmModel: IConfirmModel): Promise<IRestResponse<boolean>> {
+        return RestUtilities.put(`/tenants/${domain}/confirm`, confirmModel);
     }
 
-    async post(reviewForm: IReviewForm): Promise<boolean> {
-        return RestUtilities.post('/tenants', reviewForm).then(value => {
-            const result = !value.is_error;
-            if (result) {
-                const snackbarNotification = {
-                    message: 'Domain request accepted.',
-                } as SnackbarNotification;
-                const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
-                ReduxStore.getStore().dispatch(enqueueSnackbarAction);
-            }
-            return result;
-        });
+    async post(reviewForm: IReviewForm): Promise<IRestResponse<void>> {
+        return RestUtilities.post('/tenants', reviewForm);
     }
 }

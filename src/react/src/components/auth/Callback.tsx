@@ -1,7 +1,6 @@
 import * as React from 'react';
 import UserManager from '../../services/UserManager';
 import { User } from 'oidc-client';
-import { RouteComponentProps } from 'react-router';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { CallbackComponent } from 'redux-oidc';
@@ -12,7 +11,7 @@ const styles = (theme: Theme) =>
     createStyles({
         layout: {
             width: 'auto',
-            marginTop: theme.toolbar.height * 2,
+            marginTop: '20%',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
@@ -46,7 +45,6 @@ class Callback extends React.Component<CallbackProps> {
                 <div className={this.props.classes.layout}>
                     <Grid container spacing={3} justify="center" alignItems="baseline">
                         <Grid item xs={12}>
-                            <Typography variant="h5">Loading Ranger.</Typography>
                             <LinearProgress />
                         </Grid>
                     </Grid>

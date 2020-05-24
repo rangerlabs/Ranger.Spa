@@ -11,9 +11,17 @@ import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import titleCase = require('title-case');
 import { EnvironmentEnum } from '../../../models/EnvironmentEnum';
 import IProject from '../../../models/app/IProject';
+import { Grid, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core';
 const MUIDataTable = require('mui-datatables').default;
 
-interface IntegrationsProps {
+const styles = (theme: Theme) =>
+    createStyles({
+        grid: {
+            padding: theme.spacing(2),
+        },
+    });
+
+interface IntegrationsProps extends WithStyles<typeof styles> {
     integrationsState: IntegrationsState;
     addIntegration: (integration: MergedIntegrationType) => void;
     push: typeof push;
@@ -58,7 +66,7 @@ class Integrations extends React.Component<IntegrationsProps> {
     mapIntegrationsToTableIntegrations(integrations: MergedIntegrationType[]): Array<Array<string>> {
         const tableIntegrations = new Array<Array<string>>();
         if (integrations) {
-            integrations.forEach(value => {
+            integrations.forEach((value) => {
                 tableIntegrations.push([
                     value.enabled ? 'Enabled' : 'Disabled',
                     value.name,
@@ -115,7 +123,7 @@ class Integrations extends React.Component<IntegrationsProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewIntegrationForm} />;
         },
-        elevation: 0,
+        elevation: 3,
         selectableRows: 'none',
         responsive: 'stacked',
         viewColumns: false,
@@ -123,18 +131,20 @@ class Integrations extends React.Component<IntegrationsProps> {
     };
 
     render() {
-        const { integrationsState } = this.props;
+        const { classes, integrationsState } = this.props;
         return (
-            <React.Fragment>
-                <MUIDataTable
-                    title={'Integrations'}
-                    data={this.mapIntegrationsToTableIntegrations(integrationsState.integrations)}
-                    columns={this.columns}
-                    options={this.options}
-                />
-            </React.Fragment>
+            <Grid className={classes.grid} container justify="center" alignItems="center">
+                <Grid item xs={12}>
+                    <MUIDataTable
+                        title={'Integrations'}
+                        data={this.mapIntegrationsToTableIntegrations(integrationsState.integrations)}
+                        columns={this.columns}
+                        options={this.options}
+                    />
+                </Grid>
+            </Grid>
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(populateIntegrationsHOC(Integrations));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateIntegrationsHOC(Integrations)));

@@ -17,7 +17,7 @@ import {
 } from '../../../../redux/actions/IntegrationActions';
 import IntegrationService from '../../../../services/IntegrationService';
 import { StatusEnum } from '../../../../models/StatusEnum';
-import { Formik } from 'formik';
+import { Formik, FormikBag, FormikProps } from 'formik';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 import FormikSelectValues from '../../../form/interfaces/FormikSelectValuesProp';
 import { EnvironmentEnum } from '../../../../models/EnvironmentEnum';
@@ -87,12 +87,12 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
         state: IntegrationFormHOCState = {
             editIntegration: undefined as MergedIntegrationType,
             isSuccess: false,
-            serverErrors: [],
+            serverErrors: undefined as string[],
         };
 
         componentDidMount() {
             if (this.props.selectedProject.name) {
-                if (window.location.pathname === RoutePaths.IntegrationsEditWebhook.replace(':appName', this.props.selectedProject.name)) {
+                if (window.location.pathname.includes(RoutePaths.IntegrationsEditWebhook.replace('/:appName', ''))) {
                     this.checkIntegrationIsCorrectTypeForRoute(IntegrationEnum.WEBHOOK);
                 }
             }
@@ -105,7 +105,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                     const params = queryString.parse(window.location.search);
                     const name = params['name'] as string;
                     if (name) {
-                        result = this.props.integrationsState.integrations.find(i => i.name === name);
+                        result = this.props.integrationsState.integrations.find((i) => i.name === name);
                         if (!result) {
                             this.props.push(RoutePaths.Dashboard);
                         }
@@ -120,49 +120,46 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
             }
         }
 
-        saveIntegration = (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => {
-            integrationService.postIntegration(this.props.selectedProject.name, integration).then(v => {
-                if (!v.is_error) {
+        saveIntegration = (formikBag: FormikBag<FormikProps<MergedIntegrationType>, MergedIntegrationType>, integration: MergedIntegrationType) => {
+            integrationService.postIntegration(this.props.selectedProject.name, integration).then((v) => {
+                if (!v.isError) {
                     this.setState({ isSuccess: true });
                     integration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                     this.props.saveIntegrationToState(integration);
-                    this.props.enqueueSnackbar(`Integration '${integration.name}' is pending creation.`, { variant: 'info' });
                     this.props.push('/' + this.props.selectedProject.name + '/integrations');
                 } else {
-                    formikRef.current.setSubmitting(false);
+                    formikBag.setSubmitting(false);
                     this.setState({ isSuccess: false });
                 }
             });
         };
 
-        updateIntegration = (formikRef: React.RefObject<Formik>, integration: MergedIntegrationType) => {
+        updateIntegration = (formikBag: FormikBag<FormikProps<MergedIntegrationType>, MergedIntegrationType>, integration: MergedIntegrationType) => {
             integration.version = this.state.editIntegration.version + 1;
-            integrationService.putIntegration(this.props.selectedProject.name, this.state.editIntegration.integrationId, integration).then(v => {
-                if (!v.is_error) {
+            integrationService.putIntegration(this.props.selectedProject.name, this.state.editIntegration.integrationId, integration).then((v) => {
+                if (!v.isError) {
                     this.setState({ isSuccess: true });
                     integration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                     this.props.removeIntegration(this.state.editIntegration.name);
                     this.props.addIntegrationToPendingUpdate(this.state.editIntegration);
                     this.props.saveIntegrationToState(integration);
-                    this.props.enqueueSnackbar(`Integration '${integration.name}' is pending update.`, { variant: 'info' });
                     this.props.push('/' + this.props.selectedProject.name + '/integrations');
                 } else {
-                    formikRef.current.setSubmitting(false);
+                    formikBag.setSubmitting(false);
                     this.setState({ isSuccess: false });
                 }
             });
         };
 
-        deleteIntegration = (formikRef: React.RefObject<Formik>) => {
-            integrationService.deleteIntegration(this.props.selectedProject.name, this.state.editIntegration.name).then(v => {
-                if (!v.is_error) {
+        deleteIntegration = (formikProps: FormikProps<MergedIntegrationType>) => {
+            integrationService.deleteIntegration(this.props.selectedProject.name, this.state.editIntegration.name).then((v) => {
+                if (!v.isError) {
                     this.state.editIntegration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                     this.props.addIntegrationToPendingDeletion(this.state.editIntegration);
                     this.props.removeIntegration(this.state.editIntegration.name);
-                    this.props.enqueueSnackbar(`Integration '${this.state.editIntegration.name}' is pending deletion.`, { variant: 'info' });
                     this.props.push('/' + this.props.selectedProject.name + '/integrations');
                 } else {
-                    formikRef.current.setSubmitting(false);
+                    formikProps.setSubmitting(false);
                     this.setState({ isSuccess: false });
                 }
             });

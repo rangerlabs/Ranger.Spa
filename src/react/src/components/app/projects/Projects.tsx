@@ -6,13 +6,21 @@ import { addProject, removeProject, ProjectsState } from '../../../redux/actions
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
-const MUIDataTable = require('mui-datatables').default;
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import { User } from 'oidc-client';
 import { userIsInRole } from '../../../helpers/Helpers';
 import { RoleEnum } from '../../../models/RoleEnum';
+import { Grid, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core';
+const MUIDataTable = require('mui-datatables').default;
 
-interface ProjectsProps {
+const styles = (theme: Theme) =>
+    createStyles({
+        grid: {
+            padding: theme.spacing(2),
+        },
+    });
+
+interface ProjectsProps extends WithStyles<typeof styles> {
     projectsState: ProjectsState;
     addProject: (project: IProject) => void;
     removeProject: (name: string) => void;
@@ -54,7 +62,7 @@ class Projects extends React.Component<ProjectsProps> {
     mapProjectsToTableProjects(projects: IProject[]): Array<Array<string>> {
         const tableProjects = new Array<Array<string>>();
         if (projects) {
-            projects.forEach(value => {
+            projects.forEach((value) => {
                 tableProjects.push([
                     value.enabled ? 'Enabled' : 'Disabled',
                     value.name,
@@ -87,13 +95,13 @@ class Projects extends React.Component<ProjectsProps> {
             },
         },
         {
-            name: 'Live Api Key Prefix',
+            name: 'Live API Key Prefix',
             options: {
                 filter: false,
             },
         },
         {
-            name: 'Test Api Key Prefix',
+            name: 'Test API Key Prefix',
             options: {
                 filter: false,
             },
@@ -110,7 +118,7 @@ class Projects extends React.Component<ProjectsProps> {
         customToolbar: () => {
             return Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN)) ? <CustomAddToolbar toggleFormFlag={this.redirectToNewProjectForm} /> : null;
         },
-        elevation: 0,
+        elevation: 3,
         selectableRows: 'none',
         responsive: 'stacked',
         viewColumns: false,
@@ -118,13 +126,20 @@ class Projects extends React.Component<ProjectsProps> {
     };
 
     render() {
-        const { projectsState } = this.props;
+        const { classes, projectsState } = this.props;
         return (
-            <React.Fragment>
-                <MUIDataTable title={'Projects'} data={this.mapProjectsToTableProjects(projectsState.projects)} columns={this.columns} options={this.options} />
-            </React.Fragment>
+            <Grid className={classes.grid} container justify="center" alignItems="center">
+                <Grid item xs={12}>
+                    <MUIDataTable
+                        title={'Projects'}
+                        data={this.mapProjectsToTableProjects(projectsState.projects)}
+                        columns={this.columns}
+                        options={this.options}
+                    />
+                </Grid>
+            </Grid>
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(populateProjectsHOC(Projects));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateProjectsHOC(Projects)));
