@@ -4,6 +4,7 @@ import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import RoutePaths from '../RoutePaths';
 import { createStyles, Theme, Grid, Typography, LinearProgress, withStyles, WithStyles } from '@material-ui/core';
+import Loading from '../app/loading/Loading';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -38,15 +39,7 @@ class LoginRedirect extends React.Component<LoginRedirectProps> {
     }
 
     render() {
-        return (
-            <div className={this.props.classes.layout}>
-                <Grid container spacing={3} justify="center" alignItems="baseline">
-                    <Grid item xs={12}>
-                        <LinearProgress />
-                    </Grid>
-                </Grid>
-            </div>
-        );
+        return <Loading />;
     }
 }
 

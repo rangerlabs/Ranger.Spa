@@ -6,21 +6,19 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Box, Button, Grid } from '@material-ui/core';
 import Constants from '../../../theme/Constants';
-import ISubscriptionLimitDetails from '../../../models/app/ISubscriptionLimitDetails';
 import { ILimitDetails } from '../../../models/app/ILimitDetails';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             maxWidth: 345,
+            padding: theme.spacing(2),
         },
         header: {
-            height: 140,
-            backgroundColor: Constants.COLORS.PRIMARY_COLOR,
+            textAlign: 'center',
         },
         headerFaded: {
-            height: 140,
-            backgroundColor: theme.palette.primary.light,
+            textAlign: 'center',
         },
         buttons: {
             display: 'flex',
@@ -52,15 +50,21 @@ export default function PlanCard(props: PlanCardProps) {
 
     return (
         <Card className={classes.root} elevation={3}>
-            <Box className={props.isCurrentPlan || props.forceDisable ? classes.headerFaded : classes.header} paddingTop={4}>
-                <Typography className={classes.white} align="center" gutterBottom variant="h4">
+            <Box className={props.isCurrentPlan || props.forceDisable ? classes.headerFaded : classes.header}>
+                <Typography color="primary" align="center" variant="h6">
                     {props.planName}
                 </Typography>
-                <Typography className={classes.white} align="center" gutterBottom variant="h6">
+                <Box paddingTop={1} paddingBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
+                <Typography color="primary" align="center" variant="h4">
                     {props.cost}
                 </Typography>
+                <Box paddingTop={1} paddingBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
             </Box>
             <CardContent>
+                <Grid container justify="space-between">
+                    <Typography variant="subtitle1">Perfect for getting started</Typography>
+                    <Box paddingTop={1} paddingBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
+                </Grid>
                 <Grid container justify="space-between">
                     <Grid>
                         <Typography variant="body2">Geofences</Typography>
@@ -101,7 +105,7 @@ export default function PlanCard(props: PlanCardProps) {
                     }}
                     disabled={props.isCurrentPlan || props.forceDisable}
                     color="primary"
-                    variant="contained"
+                    variant="outlined"
                     data-cb-type="checkout"
                     data-cb-plan-id={props.planId}
                 >
