@@ -22,7 +22,7 @@ const styles = (theme: Theme) =>
 interface LoadingProps extends WithStyles<typeof styles> {
     message?: string;
     push: typeof push;
-    wasError: boolean;
+    wasError?: boolean;
 }
 
 interface LoadingState {

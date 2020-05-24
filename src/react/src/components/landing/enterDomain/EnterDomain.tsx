@@ -31,6 +31,7 @@ const styles = (theme: Theme) =>
         },
         paper: {
             backgroundColor: theme.palette.common.white,
+            padding: theme.spacing(4),
         },
     });
 
