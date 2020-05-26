@@ -8,14 +8,15 @@ import { connectRouter } from 'connected-react-router';
 import logger from 'redux-logger';
 import UserManager from './services/UserManager';
 import RoutePaths from './components/RoutePaths';
+import GlobalConfig from './helpers/GlobalConfig';
 
 export default function ConfigureStore(history: History, initialState?: ApplicationState) {
-    UserManager.events.addSilentRenewError(function(error) {
+    UserManager.events.addSilentRenewError(function (error) {
         console.error('Error while renewing the access token.', error);
         const domains = window.location.hostname.split('.');
         if (domains.length === 3) {
             const domain = domains[0];
-            const redirectUri = `https://${domain}.${SPA_HOST}/callback`;
+            const redirectUri = `https://${domain}.${GlobalConfig.SPA_HOST}/callback`;
             UserManager.signinRedirect({ acr_values: 'tenant:' + domain, redirect_uri: redirectUri, data: { redirectUrl: RoutePaths.Dashboard } });
         } else {
             history.push('/');
@@ -40,7 +41,9 @@ export default function ConfigureStore(history: History, initialState?: Applicat
 }
 
 function buildRootReducer(history: History, allReducers: ReducersMapObject) {
-    return combineReducers<ApplicationState>(Object.assign({}, allReducers, {
-        router: connectRouter(history),
-    }) as any);
+    return combineReducers<ApplicationState>(
+        Object.assign({}, allReducers, {
+            router: connectRouter(history),
+        }) as any
+    );
 }

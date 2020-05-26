@@ -14,6 +14,14 @@ export function getSubDomain(): string {
     return domain;
 }
 
+export function getHost(): string {
+    let host = '';
+    if (window && window.location) {
+        var subdomain = getSubDomain();
+        return window.location.host.replace(new RegExp(`^${subdomain}\.`), '');
+    }
+}
+
 export function getIntegrationsFromIntegrationIds(integrationIds: string[], integrations: MergedIntegrationType[]) {
     const integrationArray = [] as MergedIntegrationType[];
     integrationIds.map((id) => {

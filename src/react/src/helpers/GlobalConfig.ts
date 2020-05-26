@@ -1,9 +1,11 @@
+import { getHost } from './Helpers';
+
 export default class GlobalConfig {
     public static get IDENTITY_AUTHORITY(): string {
         if (window.location.host.includes('localhost')) {
             return 'localhost.io:5000';
         } else {
-            return `${window.location.host}/auth`;
+            return `${getHost()}/auth`;
         }
     }
 
@@ -11,7 +13,7 @@ export default class GlobalConfig {
         if (window.location.host.includes('localhost')) {
             return 'localhost.io:8081';
         } else {
-            return `${window.location.host}`;
+            return getHost();
         }
     }
 
@@ -19,7 +21,7 @@ export default class GlobalConfig {
         if (window.location.host.includes('localhost')) {
             return 'localhost.io:8080';
         } else {
-            return `${window.location.host}`;
+            return getHost();
         }
     }
 
