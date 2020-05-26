@@ -18,7 +18,11 @@ export function getHost(): string {
     let host = '';
     if (window && window.location) {
         var subdomain = getSubDomain();
-        return window.location.host.replace(new RegExp(`^${subdomain}\.`), '');
+        if (subdomain) {
+            return window.location.host.replace(new RegExp(`^${subdomain}\\.`), '');
+        } else {
+            return window.location.host;
+        }
     }
 }
 
