@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import FormikTextField from '../../form/FormikTextField';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import IChangeEmailModel from '../../../models/landing/IChangeEmailModel';
+import GlobalConfig from '../../../helpers/GlobalConfig';
 const userService = new UserService();
 
 const styles = (theme: Theme) =>
@@ -149,7 +150,7 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                                 variant="contained"
                                 onClick={() => {
                                     this.state.domain
-                                        ? window.location.assign(`https://${this.state.domain}.${SPA_HOST}${RoutePaths.Login}`)
+                                        ? window.location.assign(`https://${this.state.domain}.${GlobalConfig.SPA_HOST}${RoutePaths.Login}`)
                                         : this.props.push(RoutePaths.Landing);
                                 }}
                             >

@@ -6,6 +6,7 @@ import IConfirmModel from '../../../models/landing/IConfirmModel';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
+import GlobalConfig from '../../../helpers/GlobalConfig';
 const tenantService = new TenantService();
 
 const styles = (theme: Theme) =>
@@ -100,7 +101,7 @@ class ConfirmDomain extends React.Component<ConfirmDomainProps, ConfirmDomainSta
                                     variant="contained"
                                     onClick={() => {
                                         this.state.domain
-                                            ? window.location.assign(`https://${this.state.domain}.${SPA_HOST}${RoutePaths.Login}`)
+                                            ? window.location.assign(`https://${this.state.domain}.${GlobalConfig.SPA_HOST}${RoutePaths.Login}`)
                                             : this.props.push(RoutePaths.Landing);
                                     }}
                                 >

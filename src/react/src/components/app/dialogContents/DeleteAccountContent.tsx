@@ -26,6 +26,7 @@ import UserManager from '../../../services/UserManager';
 import { ApplicationState } from '../../../stores';
 import { UserProfile } from '../../../models/UserProfile';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+import GlobalConfig from '../../../helpers/GlobalConfig';
 
 const userService = new UserService();
 
@@ -79,7 +80,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                         } else {
                             UserManager.removeUser();
                             deleteAccountContentProps.enqueueSnackbar(response.message, { variant: 'success' });
-                            push(SPA_HOST);
+                            push(GlobalConfig.SPA_HOST);
                             setSuccess(true);
                         }
                         formikBag.setSubmitting(false);

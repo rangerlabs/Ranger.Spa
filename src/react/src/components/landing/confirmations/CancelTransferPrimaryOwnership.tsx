@@ -8,6 +8,7 @@ import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 import { TransferPrimaryOwnershipResponseEnum } from '../../../models/TransferPrimaryOwnershipResponseEnum';
 import { getSubDomain } from '../../../helpers/Helpers';
+import GlobalConfig from '../../../helpers/GlobalConfig';
 
 const userService = new UserService();
 
@@ -95,7 +96,7 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
                                     variant="contained"
                                     onClick={() => {
                                         getSubDomain()
-                                            ? window.location.assign(`https://${getSubDomain()}.${SPA_HOST}${RoutePaths.Login}`)
+                                            ? window.location.assign(`https://${getSubDomain()}.${GlobalConfig.SPA_HOST}${RoutePaths.Login}`)
                                             : this.props.push(RoutePaths.Landing);
                                     }}
                                 >

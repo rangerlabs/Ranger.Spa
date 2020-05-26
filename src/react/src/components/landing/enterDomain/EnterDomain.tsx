@@ -9,6 +9,7 @@ import UserManager from '../../../services/UserManager';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import RoutePaths from '../../RoutePaths';
 import { IRestResponse } from '../../../services/RestUtilities';
+import GlobalConfig from '../../../helpers/GlobalConfig';
 
 const tenantService = new TenantService();
 
@@ -79,7 +80,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                                             this.setState({ isSuccess: true });
                                             enqueueSnackbar('The domain was successfully found', { variant: 'success' });
                                             setTimeout(() => {
-                                                const loginPath = 'https://' + domain + '.' + SPA_HOST + RoutePaths.Login;
+                                                const loginPath = 'https://' + domain + '.' + GlobalConfig.SPA_HOST + RoutePaths.Login;
                                                 window.location.href = loginPath;
                                             }, 350);
                                         } else {

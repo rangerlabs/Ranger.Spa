@@ -16,8 +16,8 @@ export function getSubDomain(): string {
 
 export function getIntegrationsFromIntegrationIds(integrationIds: string[], integrations: MergedIntegrationType[]) {
     const integrationArray = [] as MergedIntegrationType[];
-    integrationIds.map(id => {
-        const integration = integrations.find(i => i.integrationId === id);
+    integrationIds.map((id) => {
+        const integration = integrations.find((i) => i.integrationId === id);
         if (integration) {
             integrationArray.push(integration);
         }
@@ -28,7 +28,7 @@ export function getIntegrationsFromIntegrationIds(integrationIds: string[], inte
 export function userIsInRole(user: User, role: RoleEnum) {
     if (user) {
         if (Array.isArray((user.profile as UserProfile).role)) {
-            return ((user.profile as UserProfile).role as string[]).find(r => r.toUpperCase() === role.toUpperCase());
+            return ((user.profile as UserProfile).role as string[]).find((r) => r.toUpperCase() === role.toUpperCase());
         } else {
             return ((user.profile as UserProfile).role as string).toUpperCase() === role.toUpperCase();
         }
@@ -58,11 +58,11 @@ export function getCascadedRoles(role: string): RoleEnum[] {
 
 export function getRole(roles: string | string[]) {
     if (Array.isArray(roles)) {
-        if (roles.find(r => r === RoleEnum.PRIMARY_OWNER)) {
+        if (roles.find((r) => r === RoleEnum.PRIMARY_OWNER)) {
             return RoleEnum.PRIMARY_OWNER;
-        } else if (roles.find(r => r === RoleEnum.OWNER)) {
+        } else if (roles.find((r) => r === RoleEnum.OWNER)) {
             return RoleEnum.OWNER;
-        } else if (roles.find(r => r === RoleEnum.ADMIN)) {
+        } else if (roles.find((r) => r === RoleEnum.ADMIN)) {
             return RoleEnum.ADMIN;
         } else {
             return RoleEnum.USER;

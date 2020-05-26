@@ -3,6 +3,7 @@ import ReduxStore from '../ReduxStore';
 import { openDialog, DialogContent } from '../redux/actions/DialogActions';
 import { STATUS_CODES } from 'http';
 import { AssertionError } from 'assert';
+import GlobalConfig from '../helpers/GlobalConfig';
 
 export interface IError {
     message: string;
@@ -24,7 +25,7 @@ export interface IRestResponse<T> {
 }
 
 export default class RestUtilities {
-    private static baseAddress = 'https://' + API_HOST + BASE_PATH;
+    private static baseAddress = 'https://' + GlobalConfig.API_HOST + GlobalConfig.BASE_PATH;
 
     static get<T>(url: string): Promise<IRestResponse<T>> {
         url = RestUtilities.FormatUrl(url);

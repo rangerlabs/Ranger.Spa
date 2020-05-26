@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import RoutePaths from '../RoutePaths';
 import { createStyles, Theme, Grid, Typography, LinearProgress, withStyles, WithStyles } from '@material-ui/core';
 import Loading from '../app/loading/Loading';
+import GlobalConfig from '../../helpers/GlobalConfig';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -31,7 +32,7 @@ class LoginRedirect extends React.Component<LoginRedirectProps> {
         const domains = window.location.hostname.split('.');
         if (domains.length === 3) {
             const domain = domains[0];
-            const redirectUri = `https://${domain}.${SPA_HOST}/callback`;
+            const redirectUri = `https://${domain}.${GlobalConfig.SPA_HOST}/callback`;
             UserManager.signinRedirect({ acr_values: 'tenant:' + domain, redirect_uri: redirectUri, data: { redirectUrl: RoutePaths.Dashboard } });
         } else {
             this.props.push('/enterdomain');

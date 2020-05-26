@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 import FormikTextField from '../../form/FormikTextField';
 import FormikBackButton from '../../form/FormikBackButton';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+import GlobalConfig from '../../../helpers/GlobalConfig';
 const userService = new UserService();
 
 const styles = (theme: Theme) =>
@@ -190,7 +191,7 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                                     variant="contained"
                                     onClick={() => {
                                         this.state.domain
-                                            ? window.location.assign(`https://${this.state.domain}.${SPA_HOST}${RoutePaths.Login}`)
+                                            ? window.location.assign(`https://${this.state.domain}.${GlobalConfig.SPA_HOST}${RoutePaths.Login}`)
                                             : this.props.push(RoutePaths.Landing);
                                     }}
                                 >

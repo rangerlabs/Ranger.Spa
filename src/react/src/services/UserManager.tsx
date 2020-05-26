@@ -1,6 +1,7 @@
 import { createUserManager } from 'redux-oidc';
 import { UserManagerSettings } from 'oidc-client';
 import { getSubDomain } from '../helpers/Helpers';
+import GlobalConfig from '../helpers/GlobalConfig';
 
 const UserManagerConfig: UserManagerSettings = {
     client_id: 'react',
@@ -16,10 +17,10 @@ const UserManagerConfig: UserManagerSettings = {
 };
 
 function getAuthority(): string {
-    let authority = 'https://' + IDENTITY_AUTHORITY;
+    let authority = 'https://' + GlobalConfig.IDENTITY_AUTHORITY;
     const domain = getSubDomain();
     if (domain.length > 0) {
-        authority = 'https://' + domain + '.' + IDENTITY_AUTHORITY;
+        authority = 'https://' + domain + '.' + GlobalConfig.IDENTITY_AUTHORITY;
     }
     return authority;
 }
@@ -28,7 +29,7 @@ function getSilentRedirectUri(): string {
     let redirectUri = '';
     const domain = getSubDomain();
     if (domain.length > 0) {
-        redirectUri = 'https://' + domain + '.' + SPA_HOST + '/silent-refresh.html';
+        redirectUri = 'https://' + domain + '.' + GlobalConfig.SPA_HOST + '/silent-refresh.html';
     }
     return redirectUri;
 }
@@ -37,7 +38,7 @@ function getRedirectUri(): string {
     let redirectUri = '';
     const domain = getSubDomain();
     if (domain.length > 0) {
-        redirectUri = 'https://' + domain + '.' + SPA_HOST + '/callback';
+        redirectUri = 'https://' + domain + '.' + GlobalConfig.SPA_HOST + '/callback';
     }
     return redirectUri;
 }

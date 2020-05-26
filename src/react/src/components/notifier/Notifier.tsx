@@ -21,6 +21,7 @@ import IntegrationUpdateHandler from './pusherHandlers/IntegrationUpdateHandler'
 import IntegrationCreateHandler from './pusherHandlers/IntegrationCreateHandler';
 import IntegrationDeleteHandler from './pusherHandlers/IntegrationDeleteHandler';
 import SubscriptionChangedHandler from './pusherHandlers/SubscriptionChangedHandler';
+import GlobalConfig from '../../helpers/GlobalConfig';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -90,7 +91,7 @@ class Notifier extends React.Component<NotifierProps> {
         this.pusher = new Pusher(PUSHER_KEY, {
             cluster: 'us2',
             forceTLS: true,
-            authEndpoint: 'https://' + API_HOST + BASE_PATH + '/pusher/auth',
+            authEndpoint: 'https://' + GlobalConfig.API_HOST + GlobalConfig.BASE_PATH + '/pusher/auth',
         });
 
         this.unsubscribe = ReduxStore.getStore().subscribe(() => {
