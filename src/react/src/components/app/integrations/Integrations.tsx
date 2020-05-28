@@ -12,12 +12,18 @@ import titleCase = require('title-case');
 import { EnvironmentEnum } from '../../../models/EnvironmentEnum';
 import IProject from '../../../models/app/IProject';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
+import CheckBoxMarked from 'mdi-material-ui/CheckBoxMarked';
+import CheckboxBlankOffOutline from 'mdi-material-ui/CheckboxBlankOffOutline';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
     createStyles({
         grid: {
             padding: theme.spacing(2),
+        },
+        footer: {
+            display: 'block',
+            height: '54px',
         },
     });
 
@@ -79,11 +85,18 @@ class Integrations extends React.Component<IntegrationsProps> {
         return tableIntegrations;
     }
 
+    booleanRender = (value: string, trueValue: string): JSX.Element => {
+        return value === trueValue ? <CheckBoxMarked color="primary" /> : <CheckboxBlankOffOutline color="error" />;
+    };
+
     columns = [
         {
             name: 'Enabled',
             options: {
                 filter: true,
+            },
+            customBodyRender: (value: string) => {
+                return this.booleanRender(value, 'Enabled');
             },
         },
         {
@@ -123,7 +136,7 @@ class Integrations extends React.Component<IntegrationsProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewIntegrationForm} />;
         },
-        customFooter: this.props.integrationsState.integrations?.length > 10 ? null : () => <TableFooter />,
+        customFooter: this.props.integrationsState.integrations?.length > 10 ? null : () => <TableFooter className={this.props.classes.footer} />,
         elevation: 3,
         selectableRows: 'none',
         responsive: 'stacked',

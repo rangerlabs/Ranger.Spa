@@ -11,12 +11,18 @@ import { User } from 'oidc-client';
 import { userIsInRole } from '../../../helpers/Helpers';
 import { RoleEnum } from '../../../models/RoleEnum';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
+import CheckBoxMarked from 'mdi-material-ui/CheckBoxMarked';
+import CheckboxBlankOffOutline from 'mdi-material-ui/CheckboxBlankOffOutline';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
     createStyles({
         grid: {
             padding: theme.spacing(2),
+        },
+        footer: {
+            display: 'block',
+            height: '54px',
         },
     });
 
@@ -75,11 +81,17 @@ class Projects extends React.Component<ProjectsProps> {
         return tableProjects;
     }
 
+    booleanRender = (value: string, trueValue: string): JSX.Element => {
+        return value === trueValue ? <CheckBoxMarked color="primary" /> : <CheckboxBlankOffOutline color="error" />;
+    };
     columns = [
         {
             name: 'Enabled',
             options: {
                 filter: true,
+            },
+            customBodyRender: (value: string) => {
+                return this.booleanRender(value, 'Enabled');
             },
         },
         {
@@ -118,7 +130,7 @@ class Projects extends React.Component<ProjectsProps> {
         customToolbar: () => {
             return Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN)) ? <CustomAddToolbar toggleFormFlag={this.redirectToNewProjectForm} /> : null;
         },
-        customFooter: this.props.projectsState.projects?.length > 10 ? undefined : () => <TableFooter />,
+        customFooter: this.props.projectsState.projects?.length > 10 ? null : () => <TableFooter className={this.props.classes.footer} />,
         elevation: 3,
         selectableRows: 'none',
         responsive: 'stacked',

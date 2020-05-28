@@ -12,12 +12,18 @@ import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
 import RoutePaths from '../../RoutePaths';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
+import CheckBoxMarked from 'mdi-material-ui/CheckBoxMarked';
+import CheckboxBlankOffOutline from 'mdi-material-ui/CheckboxBlankOffOutline';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
     createStyles({
         grid: {
             padding: theme.spacing(2),
+        },
+        footer: {
+            display: 'block',
+            height: '54px',
         },
     });
 
@@ -76,11 +82,17 @@ class Geofences extends React.Component<GeofencesProps> {
         return tableGeofences;
     }
 
+    booleanRender = (value: string, trueValue: string): JSX.Element => {
+        return value === trueValue ? <CheckBoxMarked color="primary" /> : <CheckboxBlankOffOutline color="error" />;
+    };
     columns = [
         {
             name: 'Enabled',
             options: {
                 filter: true,
+            },
+            customBodyRender: (value: string) => {
+                return this.booleanRender(value, 'Enabled');
             },
         },
         {
@@ -106,11 +118,17 @@ class Geofences extends React.Component<GeofencesProps> {
             options: {
                 filter: true,
             },
+            customBodyRender: (value: string) => {
+                return this.booleanRender(value, 'True');
+            },
         },
         {
             name: 'On Exit',
             options: {
                 filter: true,
+            },
+            customBodyRender: (value: string) => {
+                return this.booleanRender(value, 'True');
             },
         },
     ];
@@ -125,7 +143,7 @@ class Geofences extends React.Component<GeofencesProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
         },
-        // customFooter: this.props.geofencesState.geofences?.length > 10 ? null : () => <TableFooter />,
+        customFooter: this.props.geofencesState.geofences?.length > 10 ? null : () => <TableFooter className={this.props.classes.footer} />,
         elevation: 3,
         selectableRows: 'none',
         responsive: 'stacked',
