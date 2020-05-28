@@ -100,11 +100,13 @@ class Projects extends React.Component<ProjectsProps> {
                 },
                 customHeadRender: () => {
                     return {
-                        MUIDataTableHeadCell: {
-                            justifyContent: 'center',
-                        },
-                        sortAction: {
-                            justifyContent: 'center',
+                        classes: {
+                            MUIDataTableHeadCell: {
+                                justifyContent: 'center',
+                            },
+                            sortAction: {
+                                justifyContent: 'center',
+                            },
                         },
                     };
                 },
