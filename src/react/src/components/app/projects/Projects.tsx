@@ -85,16 +85,26 @@ class Projects extends React.Component<ProjectsProps> {
             name: 'Enabled',
             options: {
                 filter: true,
-                customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
+                customBodyRender: (value: boolean) => {
                     return this.booleanRender(value);
                 },
                 customFilterListOptions: {
-                    render: (v: string) => titleCase(v),
+                    render: (v: any) => titleCase(v.toString()),
                 },
-                setCellProps: (value: string) => {
+                setCellProps: () => {
                     return {
                         style: {
                             textAlign: 'center',
+                        },
+                    };
+                },
+                customHeadRender: () => {
+                    return {
+                        MUIDataTableHeadCell: {
+                            justifyContent: 'center',
+                        },
+                        sortAction: {
+                            justifyContent: 'center',
                         },
                     };
                 },
