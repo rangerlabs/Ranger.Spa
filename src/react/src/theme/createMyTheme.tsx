@@ -61,7 +61,8 @@ export default function createRangerTheme(theme: ThemeOptions) {
             },
             MuiTable: {
                 root: {
-                    padding: '16px',
+                    margin: '0px 16px',
+                    width: `calc(100% - 32px)`,
                 },
             },
             MuiTableRow: {
@@ -70,8 +71,6 @@ export default function createRangerTheme(theme: ThemeOptions) {
                     '&$hover:hover': {
                         backgroundColor: Constants.COLORS.LIST_TABLE_HOVER_COLOR,
                     },
-                    marginLeft: '16px',
-                    marginRight: '16px',
                 },
             },
             MuiTableCell: {

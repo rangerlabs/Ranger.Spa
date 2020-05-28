@@ -91,6 +91,13 @@ class Projects extends React.Component<ProjectsProps> {
                 customFilterListOptions: {
                     render: (v: string) => titleCase(v),
                 },
+                setCellProps: (value: string) => {
+                    return {
+                        style: {
+                            textAlign: 'center',
+                        },
+                    };
+                },
             },
         },
         {
