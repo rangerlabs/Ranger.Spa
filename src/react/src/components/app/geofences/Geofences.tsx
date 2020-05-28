@@ -12,8 +12,8 @@ import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
 import RoutePaths from '../../RoutePaths';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
-import CheckBoxMarked from 'mdi-material-ui/CheckBoxMarked';
-import CheckboxBlankOffOutline from 'mdi-material-ui/CheckboxBlankOffOutline';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -83,7 +83,7 @@ class Geofences extends React.Component<GeofencesProps> {
     }
 
     booleanRender = (value: string, trueValue: string): JSX.Element => {
-        return value === trueValue ? <CheckBoxMarked color="primary" /> : <CheckboxBlankOffOutline color="error" />;
+        return value === trueValue ? <CheckCircleOutlineIcon color="primary" /> : <HighlightOffIcon color="error" />;
     };
     columns = [
         {

@@ -9,8 +9,6 @@ import { User } from 'oidc-client';
 import { UserProfile } from '../../../models/UserProfile';
 import populateUsersHOC from '../hocs/PopulateUsersHOC';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
-import CheckBoxMarked from 'mdi-material-ui/CheckBoxMarked';
-import CheckboxBlankOffOutline from 'mdi-material-ui/CheckboxBlankOffOutline';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
