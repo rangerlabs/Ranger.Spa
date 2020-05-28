@@ -65,33 +65,22 @@ class Projects extends React.Component<ProjectsProps> {
         this.props.push(RoutePaths.ProjectsNew);
     };
 
-    mapProjectsToTableProjects(projects: IProject[]): Array<Array<string>> {
-        const tableProjects = new Array<Array<string>>();
-        if (projects) {
-            projects.forEach((value) => {
-                tableProjects.push([
-                    value.enabled ? 'Enabled' : 'Disabled',
-                    value.name,
-                    value.description,
-                    `${value.liveApiKeyPrefix}...`,
-                    `${value.testApiKeyPrefix}...`,
-                ]);
-            });
-        }
-        return tableProjects;
-    }
-
-    booleanRender = (value: string, trueValue: string): JSX.Element => {
-        return value === trueValue ? <CheckCircleOutlineIcon color="primary" /> : <HighlightOffIcon color="error" />;
+    booleanRender = (value: boolean): JSX.Element => {
+        return value ? <CheckCircleOutlineIcon color="primary" /> : <HighlightOffIcon color="error" />;
     };
+
+    apiKeyRender = (value: string): string => {
+        return `${value}...`;
+    };
+
     columns = [
         {
             name: 'Enabled',
             options: {
                 filter: true,
             },
-            customBodyRender: (value: string) => {
-                return this.booleanRender(value, 'Enabled');
+            customBodyRender: (value: boolean) => {
+                return this.booleanRender(value);
             },
         },
         {
@@ -111,11 +100,17 @@ class Projects extends React.Component<ProjectsProps> {
             options: {
                 filter: false,
             },
+            customBodyRender: (value: string) => {
+                return this.apiKeyRender(value);
+            },
         },
         {
             name: 'Test API Key Prefix',
             options: {
                 filter: false,
+            },
+            customBodyRender: (value: string) => {
+                return this.apiKeyRender(value);
             },
         },
     ];
@@ -143,12 +138,7 @@ class Projects extends React.Component<ProjectsProps> {
         return (
             <Grid className={classes.grid} container justify="center" alignItems="center">
                 <Grid item xs={12}>
-                    <MUIDataTable
-                        title={'Projects'}
-                        data={this.mapProjectsToTableProjects(projectsState.projects)}
-                        columns={this.columns}
-                        options={this.options}
-                    />
+                    <MUIDataTable title={'Projects'} data={projectsState.projects} columns={this.columns} options={this.options} />
                 </Grid>
             </Grid>
         );

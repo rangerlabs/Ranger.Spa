@@ -65,25 +65,8 @@ class Geofences extends React.Component<GeofencesProps> {
         this.props.push(`${RoutePaths.GeofenceMap.replace(':appName', this.props.selectedProject.name)}`);
     };
 
-    mapGeofencesToTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>): Array<Array<string>> {
-        const tableGeofences = new Array<Array<string>>();
-        if (geofences) {
-            geofences.forEach((value) => {
-                tableGeofences.push([
-                    value.enabled ? 'Enabled' : 'Disabled',
-                    value.externalId,
-                    value.description,
-                    value.shape == ShapePicker.Circle ? 'Circle' : 'Polygon',
-                    value.onEnter ? 'True' : 'False',
-                    value.onExit ? 'True' : 'False',
-                ]);
-            });
-        }
-        return tableGeofences;
-    }
-
-    booleanRender = (value: string, trueValue: string): JSX.Element => {
-        return value === trueValue ? <CheckCircleOutlineIcon color="primary" /> : <HighlightOffIcon color="error" />;
+    booleanRender = (value: boolean): JSX.Element => {
+        return value ? <CheckCircleOutlineIcon color="primary" /> : <HighlightOffIcon color="error" />;
     };
     columns = [
         {
@@ -91,8 +74,8 @@ class Geofences extends React.Component<GeofencesProps> {
             options: {
                 filter: true,
             },
-            customBodyRender: (value: string) => {
-                return this.booleanRender(value, 'Enabled');
+            customBodyRender: (value: boolean) => {
+                return this.booleanRender(value);
             },
         },
         {
@@ -112,14 +95,17 @@ class Geofences extends React.Component<GeofencesProps> {
             options: {
                 filter: true,
             },
+            customBodyRender: (value: ShapePicker) => {
+                return value == ShapePicker.Circle ? 'Circle' : 'Polygon';
+            },
         },
         {
             name: 'On Enter',
             options: {
                 filter: true,
             },
-            customBodyRender: (value: string) => {
-                return this.booleanRender(value, 'True');
+            customBodyRender: (value: boolean) => {
+                return this.booleanRender(value);
             },
         },
         {
@@ -127,8 +113,8 @@ class Geofences extends React.Component<GeofencesProps> {
             options: {
                 filter: true,
             },
-            customBodyRender: (value: string) => {
-                return this.booleanRender(value, 'True');
+            customBodyRender: (value: boolean) => {
+                return this.booleanRender(value);
             },
         },
     ];
@@ -156,12 +142,7 @@ class Geofences extends React.Component<GeofencesProps> {
         return (
             <Grid className={classes.grid} container justify="center" alignItems="center">
                 <Grid item xs={12}>
-                    <MUIDataTable
-                        title={'Geofences'}
-                        data={this.mapGeofencesToTableGeofences(geofencesState.geofences)}
-                        columns={this.columns}
-                        options={this.options}
-                    />
+                    <MUIDataTable title={'Geofences'} data={geofencesState.geofences} columns={this.columns} options={this.options} />
                 </Grid>
             </Grid>
         );
