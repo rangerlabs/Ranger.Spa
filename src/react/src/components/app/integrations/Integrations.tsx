@@ -11,7 +11,7 @@ import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import titleCase = require('title-case');
 import { EnvironmentEnum } from '../../../models/EnvironmentEnum';
 import IProject from '../../../models/app/IProject';
-import { Grid, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -124,7 +124,7 @@ class Integrations extends React.Component<IntegrationsProps> {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewIntegrationForm} />;
         },
         customFooter: () => {
-            return this.props.integrationsState.integrations?.length > 10 ? <React.Fragment /> : null;
+            return this.props.integrationsState.integrations?.length > 10 ? null : <TableFooter />;
         },
         elevation: 3,
         selectableRows: 'none',

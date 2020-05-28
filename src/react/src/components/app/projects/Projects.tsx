@@ -10,7 +10,7 @@ import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import { User } from 'oidc-client';
 import { userIsInRole } from '../../../helpers/Helpers';
 import { RoleEnum } from '../../../models/RoleEnum';
-import { Grid, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -119,7 +119,7 @@ class Projects extends React.Component<ProjectsProps> {
             return Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN)) ? <CustomAddToolbar toggleFormFlag={this.redirectToNewProjectForm} /> : null;
         },
         customFooter: () => {
-            return this.props.projectsState.projects?.length > 10 ? <React.Fragment /> : null;
+            return this.props.projectsState.projects?.length > 10 ? null : <TableFooter />;
         },
         elevation: 3,
         selectableRows: 'none',

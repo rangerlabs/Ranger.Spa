@@ -11,7 +11,7 @@ import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
 import RoutePaths from '../../RoutePaths';
-import { Grid, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -126,7 +126,7 @@ class Geofences extends React.Component<GeofencesProps> {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
         },
         customFooter: () => {
-            return this.props.geofencesState.geofences?.length > 10 ? <React.Fragment /> : null;
+            return this.props.geofencesState.geofences?.length > 10 ? null : <TableFooter />;
         },
         elevation: 3,
         selectableRows: 'none',
