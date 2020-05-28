@@ -37,7 +37,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
     }
 }
 
-export default function createRangerTheme(options: ThemeOptions) {
+export default function createRangerTheme(theme: ThemeOptions) {
     return createMuiTheme({
         drawer: {
             width: 240,
@@ -70,11 +70,14 @@ export default function createRangerTheme(options: ThemeOptions) {
                     '&$hover:hover': {
                         backgroundColor: Constants.COLORS.LIST_TABLE_HOVER_COLOR,
                     },
+                    marginLeft: '16px',
+                    marginRight: '16px',
                 },
             },
             MuiTableCell: {
                 root: {
-                    fontSize: '1.25rem',
+                    fontSize: '1rem',
+                    lineHeight: 1.5,
                     borderBottom: '0px',
                 },
             },
@@ -143,6 +146,6 @@ export default function createRangerTheme(options: ThemeOptions) {
                 },
             },
         },
-        ...options,
+        ...theme,
     });
 }
