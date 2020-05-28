@@ -98,7 +98,7 @@ class Projects extends React.Component<ProjectsProps> {
                         },
                     };
                 },
-                customHeadRender: () => {
+                setCellHeaderProps: () => {
                     return {
                         classes: {
                             MUIDataTableHeadCell: {
