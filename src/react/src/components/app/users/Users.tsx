@@ -72,6 +72,19 @@ class Users extends React.Component<UsersProps> {
         this.props.push('/users/new');
     };
 
+    mapUsersToTableUsers(users: IUser[]): Array<Array<string>> {
+        let tableUsers = new Array<Array<string>>();
+        if (users) {
+            users.forEach((value) => {
+                if (value.email !== (this.props.user.profile as UserProfile).email) {
+                    let status = value.emailConfirmed ? 'Active' : 'Inactive';
+                    tableUsers.push([value.firstName, value.lastName, value.email, value.role, status]);
+                }
+            });
+        }
+        return tableUsers;
+    }
+
     columns = [
         {
             name: 'Firstname',
@@ -103,9 +116,6 @@ class Users extends React.Component<UsersProps> {
             options: {
                 filter: true,
             },
-            customBodyRender: (value: boolean) => {
-                return value ? 'Active' : 'Inactive';
-            },
         },
     ];
     options = {
@@ -127,7 +137,7 @@ class Users extends React.Component<UsersProps> {
         return (
             <Grid className={classes.grid} container justify="center" alignItems="center">
                 <Grid item xs={12}>
-                    <MUIDataTable title={'Users'} data={users} columns={this.columns} options={this.options} />
+                    <MUIDataTable title={'Users'} data={this.mapUsersToTableUsers(users)} columns={this.columns} options={this.options} />
                 </Grid>
             </Grid>
         );

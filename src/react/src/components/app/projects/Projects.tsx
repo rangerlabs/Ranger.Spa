@@ -65,12 +65,18 @@ class Projects extends React.Component<ProjectsProps> {
         this.props.push(RoutePaths.ProjectsNew);
     };
 
+    mapProjectsToTableProjects(projects: IProject[]): Array<Array<any>> {
+        const tableProjects = new Array<Array<any>>();
+        if (projects) {
+            projects.forEach((value) => {
+                tableProjects.push([value.enabled, value.name, value.description, `${value.liveApiKeyPrefix}...`, `${value.testApiKeyPrefix}...`]);
+            });
+        }
+        return tableProjects;
+    }
+
     booleanRender = (value: boolean): JSX.Element => {
         return value ? <CheckCircleOutlineIcon color="primary" /> : <HighlightOffIcon color="error" />;
-    };
-
-    apiKeyRender = (value: string): string => {
-        return `${value}...`;
     };
 
     columns = [
@@ -100,17 +106,11 @@ class Projects extends React.Component<ProjectsProps> {
             options: {
                 filter: false,
             },
-            customBodyRender: (value: string) => {
-                return this.apiKeyRender(value);
-            },
         },
         {
             name: 'Test API Key Prefix',
             options: {
                 filter: false,
-            },
-            customBodyRender: (value: string) => {
-                return this.apiKeyRender(value);
             },
         },
     ];
@@ -138,7 +138,12 @@ class Projects extends React.Component<ProjectsProps> {
         return (
             <Grid className={classes.grid} container justify="center" alignItems="center">
                 <Grid item xs={12}>
-                    <MUIDataTable title={'Projects'} data={projectsState.projects} columns={this.columns} options={this.options} />
+                    <MUIDataTable
+                        title={'Projects'}
+                        data={this.mapProjectsToTableProjects(projectsState.projects)}
+                        columns={this.columns}
+                        options={this.options}
+                    />
                 </Grid>
             </Grid>
         );

@@ -69,6 +69,22 @@ class Integrations extends React.Component<IntegrationsProps> {
         this.props.push(RoutePaths.IntegrationsNew);
     };
 
+    mapIntegrationsToTableIntegrations(integrations: MergedIntegrationType[]): Array<Array<any>> {
+        const tableIntegrations = new Array<Array<any>>();
+        if (integrations) {
+            integrations.forEach((value) => {
+                tableIntegrations.push([
+                    value.enabled,
+                    value.name,
+                    value.description,
+                    titleCase(value.type),
+                    value.environment === EnvironmentEnum.TEST ? 'Test' : 'Live',
+                ]);
+            });
+        }
+        return tableIntegrations;
+    }
+
     booleanRender = (value: boolean): JSX.Element => {
         return value ? <CheckCircleOutlineIcon color="primary" /> : <HighlightOffIcon color="error" />;
     };
@@ -100,17 +116,11 @@ class Integrations extends React.Component<IntegrationsProps> {
             options: {
                 filter: true,
             },
-            customBodyRender: (value: string) => {
-                return titleCase(value);
-            },
         },
         {
             name: 'Environment',
             options: {
                 filter: true,
-            },
-            customBodyRender: (value: EnvironmentEnum) => {
-                return value == EnvironmentEnum.TEST ? 'Test' : 'Live';
             },
         },
     ];
@@ -139,7 +149,12 @@ class Integrations extends React.Component<IntegrationsProps> {
         return (
             <Grid className={classes.grid} container justify="center" alignItems="center">
                 <Grid item xs={12}>
-                    <MUIDataTable title={'Integrations'} data={integrationsState.integrations} columns={this.columns} options={this.options} />
+                    <MUIDataTable
+                        title={'Integrations'}
+                        data={this.mapIntegrationsToTableIntegrations(integrationsState.integrations)}
+                        columns={this.columns}
+                        options={this.options}
+                    />
                 </Grid>
             </Grid>
         );
