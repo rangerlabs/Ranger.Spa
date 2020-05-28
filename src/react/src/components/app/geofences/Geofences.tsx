@@ -14,6 +14,7 @@ import RoutePaths from '../../RoutePaths';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import titleCase = require('title-case');
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -93,6 +94,9 @@ class Geofences extends React.Component<GeofencesProps> {
                 customBodyRender: (value: boolean) => {
                     return this.booleanRender(value);
                 },
+                customFilterListOptions: {
+                    render: (v: string) => titleCase(v),
+                },
             },
         },
         {
@@ -120,6 +124,9 @@ class Geofences extends React.Component<GeofencesProps> {
                 customBodyRender: (value: boolean) => {
                     return this.booleanRender(value);
                 },
+                customFilterListOptions: {
+                    render: (v: string) => titleCase(v),
+                },
             },
         },
         {
@@ -128,6 +135,9 @@ class Geofences extends React.Component<GeofencesProps> {
                 filter: true,
                 customBodyRender: (value: boolean) => {
                     return this.booleanRender(value);
+                },
+                customFilterListOptions: {
+                    render: (v: string) => titleCase(v),
                 },
             },
         },

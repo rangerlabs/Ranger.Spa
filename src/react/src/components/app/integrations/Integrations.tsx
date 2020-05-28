@@ -8,12 +8,12 @@ import { MergedIntegrationType } from '../../../models/app/integrations/MergedIn
 import RoutePaths from '../../../components/RoutePaths';
 import { IntegrationEnum } from '../../../models/app/integrations/IntegrationEnum';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
-import titleCase = require('title-case');
 import { EnvironmentEnum } from '../../../models/EnvironmentEnum';
 import IProject from '../../../models/app/IProject';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import titleCase = require('title-case');
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -96,6 +96,9 @@ class Integrations extends React.Component<IntegrationsProps> {
                 filter: true,
                 customBodyRender: (value: boolean) => {
                     return this.booleanRender(value);
+                },
+                customFilterListOptions: {
+                    render: (v: string) => titleCase(v),
                 },
             },
         },

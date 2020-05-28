@@ -59,8 +59,22 @@ export default function createRangerTheme(options: ThemeOptions) {
                     minWidth: '30%',
                 },
             },
+            MuiTable: {
+                root: {
+                    padding: '16px',
+                },
+            },
+            MuiTableRow: {
+                root: {
+                    //https://github.com/gregnb/mui-datatables/issues/748#issuecomment-524245251
+                    '&$hover:hover': {
+                        backgroundColor: Constants.COLORS.LIST_TABLE_HOVER_COLOR,
+                    },
+                },
+            },
             MuiTableCell: {
                 root: {
+                    fontSize: '1.25rem',
                     borderBottom: '0px',
                 },
             },
@@ -114,14 +128,6 @@ export default function createRangerTheme(options: ThemeOptions) {
                 action: {
                     marginLeft: '0px',
                     marginRight: '0px',
-                },
-            },
-            MuiTableRow: {
-                root: {
-                    //https://github.com/gregnb/mui-datatables/issues/748#issuecomment-524245251
-                    '&$hover:hover': {
-                        backgroundColor: Constants.COLORS.LIST_TABLE_HOVER_COLOR,
-                    },
                 },
             },
             MuiListItem: {

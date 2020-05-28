@@ -13,6 +13,7 @@ import { RoleEnum } from '../../../models/RoleEnum';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import titleCase = require('title-case');
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -87,6 +88,9 @@ class Projects extends React.Component<ProjectsProps> {
                 customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
                     return this.booleanRender(value);
                 },
+                customFilterListOptions: {
+                    render: (v: string) => titleCase(v),
+                },
             },
         },
         {
@@ -120,7 +124,7 @@ class Projects extends React.Component<ProjectsProps> {
                 noMatch: 'Your organization has not created any projects yet.',
             },
         },
-        filterType: 'dropdown',
+        filterType: 'multiSelect',
         print: false,
         download: false,
         customToolbar: () => {
