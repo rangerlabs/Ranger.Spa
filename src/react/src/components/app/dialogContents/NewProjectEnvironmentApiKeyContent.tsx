@@ -16,8 +16,8 @@ function NewProjectEnvironmentApiKeyContent(newProjectEnvironmentApiKeyContentPr
             <DialogTitle>API Keys</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    We've re-generated the API Key for your project's {newProjectEnvironmentApiKeyContentProps.environment} environment. Keep this safe. For the
-                    security of your application this cannot be recovered once this dialog is closed, even by Ranger.
+                    This is the API Key for your project's {newProjectEnvironmentApiKeyContentProps.environment} environment. Keep this safe. For the security
+                    of your application this cannot be recovered once this dialog is closed.
                 </DialogContentText>
                 <Grid container>
                     <Grid item xs={11}>

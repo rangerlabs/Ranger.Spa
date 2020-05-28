@@ -123,6 +123,9 @@ class Integrations extends React.Component<IntegrationsProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewIntegrationForm} />;
         },
+        customFooter: () => {
+            return this.props.integrationsState.integrations?.length > 10 ? <React.Fragment /> : null;
+        },
         elevation: 3,
         selectableRows: 'none',
         responsive: 'stacked',

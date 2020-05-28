@@ -15,8 +15,8 @@ function NewProjectApiKeysContent(newProjectApiKeysContentProps: NewProjectApiKe
             <DialogTitle>API Keys</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    We've generated the API Keys for your project. Keep these safe. For the security of your application these cannot be recovered once this
-                    dialog is closed, even by Ranger.
+                    These are the API Keys for your project. Keep these safe. For the security of your application these cannot be recovered once this dialog is
+                    closed.
                 </DialogContentText>
                 <Grid container>
                     <Grid item xs={11}>

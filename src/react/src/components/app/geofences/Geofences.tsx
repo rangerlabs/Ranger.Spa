@@ -125,6 +125,9 @@ class Geofences extends React.Component<GeofencesProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
         },
+        customFooter: () => {
+            return this.props.geofencesState.geofences?.length > 10 ? <React.Fragment /> : null;
+        },
         elevation: 3,
         selectableRows: 'none',
         responsive: 'stacked',

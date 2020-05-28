@@ -35,7 +35,7 @@ class LoginRedirect extends React.Component<LoginRedirectProps> {
             const redirectUri = `https://${domain}.${GlobalConfig.SPA_HOST}/callback`;
             UserManager.signinRedirect({ acr_values: 'tenant:' + domain, redirect_uri: redirectUri, data: { redirectUrl: RoutePaths.Dashboard } });
         } else {
-            this.props.push('/enterdomain');
+            this.props.push(RoutePaths.EnterDomain);
         }
     }
 
