@@ -120,9 +120,7 @@ class Users extends React.Component<UsersProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewUserForm} />;
         },
-        customFooter: () => {
-            return this.props.users?.length > 10 ? null : <TableFooter />;
-        },
+        customFooter: this.props.users?.length > 10 ? null : () => <TableFooter />,
         elevation: 3,
         selectableRows: 'none',
         responsive: 'stacked',
