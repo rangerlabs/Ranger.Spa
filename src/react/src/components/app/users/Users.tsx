@@ -8,7 +8,7 @@ import { push } from 'connected-react-router';
 import { User } from 'oidc-client';
 import { UserProfile } from '../../../models/UserProfile';
 import populateUsersHOC from '../hocs/PopulateUsersHOC';
-import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter, TableRow } from '@material-ui/core';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -120,7 +120,7 @@ class Users extends React.Component<UsersProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewUserForm} />;
         },
-        customFooter: this.props.users?.length > 10 ? null : () => <TableFooter />,
+        customFooter: this.props.users?.length > 10 ? null : () => <TableRow />,
         elevation: 3,
         selectableRows: 'none',
         responsive: 'stacked',
