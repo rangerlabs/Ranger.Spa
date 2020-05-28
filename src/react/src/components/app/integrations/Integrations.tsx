@@ -94,9 +94,9 @@ class Integrations extends React.Component<IntegrationsProps> {
             name: 'Enabled',
             options: {
                 filter: true,
-            },
-            customBodyRender: (value: boolean) => {
-                return this.booleanRender(value);
+                customBodyRender: (value: boolean) => {
+                    return this.booleanRender(value);
+                },
             },
         },
         {

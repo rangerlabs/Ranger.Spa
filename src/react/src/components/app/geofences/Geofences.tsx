@@ -90,9 +90,9 @@ class Geofences extends React.Component<GeofencesProps> {
             name: 'Enabled',
             options: {
                 filter: true,
-            },
-            customBodyRender: (value: boolean) => {
-                return this.booleanRender(value);
+                customBodyRender: (value: boolean) => {
+                    return this.booleanRender(value);
+                },
             },
         },
         {
@@ -117,18 +117,18 @@ class Geofences extends React.Component<GeofencesProps> {
             name: 'On Enter',
             options: {
                 filter: true,
-            },
-            customBodyRender: (value: boolean) => {
-                return this.booleanRender(value);
+                customBodyRender: (value: boolean) => {
+                    return this.booleanRender(value);
+                },
             },
         },
         {
             name: 'On Exit',
             options: {
                 filter: true,
-            },
-            customBodyRender: (value: boolean) => {
-                return this.booleanRender(value);
+                customBodyRender: (value: boolean) => {
+                    return this.booleanRender(value);
+                },
             },
         },
     ];

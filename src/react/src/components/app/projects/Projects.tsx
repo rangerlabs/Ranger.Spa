@@ -84,9 +84,9 @@ class Projects extends React.Component<ProjectsProps> {
             name: 'Enabled',
             options: {
                 filter: true,
-            },
-            customBodyRender: (value: boolean) => {
-                return this.booleanRender(value);
+                customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
+                    return this.booleanRender(value);
+                },
             },
         },
         {
@@ -120,6 +120,7 @@ class Projects extends React.Component<ProjectsProps> {
                 noMatch: 'Your organization has not created any projects yet.',
             },
         },
+        filterType: 'dropdown',
         print: false,
         download: false,
         customToolbar: () => {
