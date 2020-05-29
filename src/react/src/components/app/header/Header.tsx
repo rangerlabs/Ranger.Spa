@@ -86,10 +86,10 @@ class Header extends React.Component<HeaderProps> {
                             <CustomizedBreadcrumbs breadcrumbs={breadcrumbs} />
                         </Hidden>
                     </div>
-                    {this.props.user && <Typography variant="subtitle1">{this.props.user.profile.firstName}</Typography>}
                     <Hidden smDown implementation="css">
                         <AccountPopOut />
                     </Hidden>
+                    {this.props.user && <Typography variant="subtitle1">{this.props.user.profile.firstName}</Typography>}
                     <Hidden mdUp implementation="css">
                         <IconButton className={classes.menuButton} aria-label="Menu" onClick={this.props.handleDrawerToggle}>
                             <MenuIcon />

@@ -8,7 +8,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import RoutePaths from '../RoutePaths';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import Settings from 'mdi-material-ui/Settings';
+import DotsVertical from 'mdi-material-ui/DotsVertical';
 import ViewDashboard from 'mdi-material-ui/ViewDashboard';
 import Logout from 'mdi-material-ui/Logout';
 
@@ -75,7 +75,7 @@ class AccountPopOut extends React.Component<AccountPopOutProps, AccountPopOutSta
                     aria-haspopup="true"
                     onClick={this.handleToggle}
                 >
-                    <Settings />
+                    <DotsVertical />
                 </IconButton>
                 <Popper open={this.state.open} anchorEl={this.anchorEl.current} transition disablePortal>
                     {({ TransitionProps }) => (
