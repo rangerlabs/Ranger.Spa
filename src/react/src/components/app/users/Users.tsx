@@ -8,11 +8,25 @@ import { push } from 'connected-react-router';
 import { User } from 'oidc-client';
 import { UserProfile } from '../../../models/UserProfile';
 import populateUsersHOC from '../hocs/PopulateUsersHOC';
-import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter, Paper, Typography } from '@material-ui/core';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
     createStyles({
+        layout: {
+            width: 'auto',
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
+            marginTop: theme.toolbar.height,
+            [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
+                width: 600,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            },
+        },
+        paper: {
+            padding: theme.spacing(4),
+        },
         grid: {
             padding: theme.spacing(2),
         },
@@ -28,10 +42,15 @@ interface UsersProps extends WithStyles<typeof styles> {
     removeUser: (email: string) => void;
     push: typeof push;
     user: User;
+    canAccessUsersPage: boolean;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { users: state.usersState.users, user: state.oidc.user };
+    return {
+        users: state.usersState.users,
+        user: state.oidc.user,
+        canAccessUsersPage: state.subscriptionLimitDetailsState.subscriptionLimitDetails.limit.accounts > 1 || state.usersState.users.length > 1,
+    };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -133,13 +152,21 @@ class Users extends React.Component<UsersProps> {
     };
 
     render() {
-        const { classes, users } = this.props;
-        return (
+        const { classes, users, canAccessUsersPage } = this.props;
+        return canAccessUsersPage ? (
             <Grid className={classes.grid} container justify="center" alignItems="center">
                 <Grid item xs={12}>
                     <MUIDataTable title={'Users'} data={this.mapUsersToTableUsers(users)} columns={this.columns} options={this.options} />
                 </Grid>
             </Grid>
+        ) : (
+            <main className={classes.layout}>
+                <Paper className={classes.paper} elevation={3}>
+                    <Typography align="center" variant="h5" gutterBottom>
+                        This page is unavailable for your current subscription. Please upgrade your subscription to access this page.
+                    </Typography>
+                </Paper>
+            </main>
         );
     }
 }

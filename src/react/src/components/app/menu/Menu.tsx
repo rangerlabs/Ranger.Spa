@@ -95,6 +95,7 @@ interface MenuProps extends WithStyles<typeof styles> {
     push: typeof push;
     currentSelection: string;
     dispatchMenuSelection: (section: string) => void;
+    canAccessUsersPage: boolean;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -102,6 +103,7 @@ const mapStateToProps = (state: ApplicationState) => {
         selectedProject: state.selectedProject,
         user: state.oidc.user,
         currentSelection: state.menu.currentSelection,
+        canAccessUsersPage: state.subscriptionLimitDetailsState.subscriptionLimitDetails.limit.accounts > 1 || state.usersState.users.length > 1,
     };
 };
 
@@ -248,16 +250,18 @@ class Menu extends React.Component<MenuProps> {
                         </ListItem>
                         <Collapse in={this.props.currentSelection.startsWith('administration')} timeout={500} unmountOnExit>
                             <List component="div" disablePadding>
-                                <ListItem
-                                    className={classNames(classes.nested, this.props.currentSelection === 'administration.users' ? classes.selected : '')}
-                                    button
-                                    onClick={() => this.handleMenuNavigation(RoutePaths.Users, 'administration.users')}
-                                >
-                                    <ListItemIcon>
-                                        <People />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Users" />
-                                </ListItem>
+                                {this.props.canAccessUsersPage && (
+                                    <ListItem
+                                        className={classNames(classes.nested, this.props.currentSelection === 'administration.users' ? classes.selected : '')}
+                                        button
+                                        onClick={() => this.handleMenuNavigation(RoutePaths.Users, 'administration.users')}
+                                    >
+                                        <ListItemIcon>
+                                            <People />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Users" />
+                                    </ListItem>
+                                )}
                                 {userIsInRole(this.props.user, RoleEnum.OWNER) && (
                                     <React.Fragment>
                                         <ListItem

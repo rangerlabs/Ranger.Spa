@@ -13,7 +13,7 @@ import IProject from '../../../models/app/IProject';
 import RoutePaths from '../../RoutePaths';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import CheckCircle from '@material-ui/icons/CheckCircleOutline';
 import titleCase = require('title-case');
 const MUIDataTable = require('mui-datatables').default;
 
@@ -90,12 +90,12 @@ class Geofences extends React.Component<GeofencesProps> {
     booleanRender = (value: string, trueValue: string): JSX.Element => {
         return value === trueValue ? (
             <React.Fragment>
-                <CheckCircleOutlineIcon fontSize="small" className={this.props.classes.tableIcon} color="primary" />
+                <CheckCircle style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="primary" />
                 {value}
             </React.Fragment>
         ) : (
             <React.Fragment>
-                <HighlightOffIcon fontSize="small" className={this.props.classes.tableIcon} color="error" />
+                <HighlightOffIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="error" />
                 {value}
             </React.Fragment>
         );
