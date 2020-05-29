@@ -32,9 +32,6 @@ const styles = (theme: Theme) =>
         content: {
             flexGrow: 1,
         },
-        toolbar: {
-            height: Constants.HEIGHT.TOOLBAR,
-        },
     });
 
 interface AppLayoutProps extends WithStyles<typeof styles>, WithSnackbarProps {
@@ -112,7 +109,6 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                         <Menu handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={550}>
                             <main className={classes.content}>
-                                <div className={classes.toolbar} />
                                 <Component {...props} />
                             </main>
                         </Fade>
