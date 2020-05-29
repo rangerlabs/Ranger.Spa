@@ -25,6 +25,9 @@ const hash = require('object-hash');
 
 const styles = (theme: Theme) =>
     createStyles({
+        toolbar: {
+            height: Constants.HEIGHT.TOOLBAR,
+        },
         root: {
             display: 'flex',
             height: '100%',
@@ -109,6 +112,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                         <Menu handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={550}>
                             <main className={classes.content}>
+                                <div className={classes.toolbar} />
                                 <Component {...props} />
                             </main>
                         </Fade>
