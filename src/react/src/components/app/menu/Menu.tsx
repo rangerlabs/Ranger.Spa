@@ -133,6 +133,12 @@ class Menu extends React.Component<MenuProps> {
         this.props.push(pushPath);
     };
 
+    getSpaVersion = () => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; spa-version=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    };
+
     render() {
         const { classes, theme } = this.props;
 
@@ -342,7 +348,13 @@ class Menu extends React.Component<MenuProps> {
                         </Collapse>
                     </Hidden>
                 </List>
-                <Box position="absolute" height="50px" width="100%" bottom="0px" left="0px"></Box>
+                <Box position="absolute" height="50px" width="100%" bottom="0px" left="0px">
+                    <Box marginBottom={2}>
+                        <Typography align="center" variant="caption">
+                            {this.getSpaVersion()}
+                        </Typography>
+                    </Box>
+                </Box>
             </React.Fragment>
         );
 
