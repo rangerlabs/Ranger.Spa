@@ -353,6 +353,9 @@ class Menu extends React.Component<MenuProps> {
                         <Typography align="center" variant="caption">
                             v{this.getSpaVersion()}
                         </Typography>
+                        <Typography align="center" variant="caption">
+                            © 2020 Ranger Labs, LLC
+                        </Typography>
                     </Box>
                 </Hidden>
             </React.Fragment>
