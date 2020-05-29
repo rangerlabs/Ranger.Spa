@@ -29,6 +29,7 @@ import TransferOwnershipContent from '../dialogContents/TransferOwnershipContent
 import populatePendingPrimaryOwnerTransferHOC from '../hocs/PopulatePendingPrimaryOwnerTransferHOC';
 import { PendingPrimaryOwnerTransfer } from '../../../models/app/PendingPrimaryOwnerTransfer';
 import CancelOwnershipTransferContent from '../dialogContents/CancelOwnershipTransferContent';
+import classNames from 'classnames';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -71,6 +72,7 @@ interface AccountProps extends WithStyles<typeof styles>, WithSnackbarProps {
     expireUser: () => void;
     closeForm: () => void;
     push: typeof push;
+    canTransferOwnership: boolean;
 }
 
 interface AccountState {
@@ -81,6 +83,7 @@ const mapStateToProps = (state: ApplicationState) => {
     return {
         user: state.oidc.user,
         pendingPrimaryOwnerTransfer: state.domain.pendingPrimaryOwnerTransfer,
+        canTransferOwnership: state.usersState.users.length > 1,
     };
 };
 
@@ -224,35 +227,6 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 disabled
-                                                InputProps={
-                                                    this.isPrimaryOwner
-                                                        ? this.props.pendingPrimaryOwnerTransfer
-                                                            ? {
-                                                                  endAdornment: (
-                                                                      <Button
-                                                                          disabled={props.isSubmitting}
-                                                                          onClick={() => {
-                                                                              this.props.openDialog(new DialogContent(<CancelOwnershipTransferContent />));
-                                                                          }}
-                                                                      >
-                                                                          Cancel Transfer
-                                                                      </Button>
-                                                                  ),
-                                                              }
-                                                            : {
-                                                                  endAdornment: (
-                                                                      <Button
-                                                                          disabled={props.isSubmitting}
-                                                                          onClick={() => {
-                                                                              this.props.openDialog(new DialogContent(<TransferOwnershipContent />));
-                                                                          }}
-                                                                      >
-                                                                          Transfer
-                                                                      </Button>
-                                                                  ),
-                                                              }
-                                                        : null
-                                                }
                                             />
                                         </Grid>
                                         {this.state.serverErrors && (
@@ -304,6 +278,30 @@ class Account extends React.Component<AccountProps, AccountState> {
                             )}
                         </Formik>
                     </Paper>
+
+                    {this.props.canTransferOwnership && this.isPrimaryOwner && (
+                        <Paper className={classes.paper} elevation={3}>
+                            <Typography variant="h5">Transfer Domain Ownerhship</Typography>
+                            <Typography variant="subtitle1">Transfer primary ownership of a domain to an existing user.</Typography>
+                            {this.props.pendingPrimaryOwnerTransfer ? (
+                                <Button
+                                    onClick={() => {
+                                        this.props.openDialog(new DialogContent(<CancelOwnershipTransferContent />));
+                                    }}
+                                >
+                                    Cancel Transfer
+                                </Button>
+                            ) : (
+                                <Button
+                                    onClick={() => {
+                                        this.props.openDialog(new DialogContent(<TransferOwnershipContent />));
+                                    }}
+                                >
+                                    Transfer
+                                </Button>
+                            )}
+                        </Paper>
+                    )}
                 </main>
             </React.Fragment>
         );
