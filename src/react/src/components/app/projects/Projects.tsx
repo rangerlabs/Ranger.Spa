@@ -25,9 +25,6 @@ const styles = (theme: Theme) =>
             display: 'block',
             height: '54px',
         },
-        centeredHeader: {
-            justifyContent: 'center',
-        },
     });
 
 interface ProjectsProps extends WithStyles<typeof styles> {
@@ -80,7 +77,17 @@ class Projects extends React.Component<ProjectsProps> {
     }
 
     booleanRender = (value: boolean): JSX.Element => {
-        return value ? <CheckCircleOutlineIcon color="primary" /> : <HighlightOffIcon color="error" />;
+        return value ? (
+            <React.Fragment>
+                <CheckCircleOutlineIcon color="primary" />
+                Enabled
+            </React.Fragment>
+        ) : (
+            <React.Fragment>
+                <HighlightOffIcon color="error" />
+                Disabled
+            </React.Fragment>
+        );
     };
 
     columns = [
@@ -93,21 +100,6 @@ class Projects extends React.Component<ProjectsProps> {
                 },
                 customFilterListOptions: {
                     render: (v: any) => titleCase(v.toString()),
-                },
-                setCellProps: () => {
-                    return {
-                        style: {
-                            textAlign: 'center',
-                        },
-                    };
-                },
-                setCellHeaderProps: () => {
-                    return {
-                        classes: {
-                            MUIDataTableHeadCell: this.props.classes.centeredHeader,
-                            sortAction: this.props.classes.centeredHeader,
-                        },
-                    };
                 },
             },
         },
