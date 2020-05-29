@@ -348,13 +348,13 @@ class Menu extends React.Component<MenuProps> {
                         </Collapse>
                     </Hidden>
                 </List>
-                <Box position="absolute" height="50px" width="100%" bottom="0px" left="0px">
-                    <Box marginBottom={2}>
+                <Hidden mdUp>
+                    <Box textAlign="center" position="absolute" height="32px" width="100%" bottom="0px" left="0px">
                         <Typography align="center" variant="caption">
-                            {this.getSpaVersion()}
+                            v{this.getSpaVersion()}
                         </Typography>
                     </Box>
-                </Box>
+                </Hidden>
             </React.Fragment>
         );
 
