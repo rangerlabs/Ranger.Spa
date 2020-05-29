@@ -12,7 +12,7 @@ import { EnvironmentEnum } from '../../../models/EnvironmentEnum';
 import IProject from '../../../models/app/IProject';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import CheckCircle from '@material-ui/icons/CheckCircle';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import titleCase = require('title-case');
 const MUIDataTable = require('mui-datatables').default;
 

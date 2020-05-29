@@ -12,7 +12,7 @@ import { userIsInRole } from '../../../helpers/Helpers';
 import { RoleEnum } from '../../../models/RoleEnum';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import CheckCircle from '@material-ui/icons/CheckCircle';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
