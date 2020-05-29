@@ -14,6 +14,7 @@ import {
     Collapse,
     Button,
     Badge,
+    Box,
 } from '@material-ui/core';
 import People from '@material-ui/icons/People';
 import MapMarker from 'mdi-material-ui/MapMarker';
@@ -136,70 +137,71 @@ class Menu extends React.Component<MenuProps> {
         const { classes, theme } = this.props;
 
         const drawerContent = (
-            <List className={classes.drawerList}>
-                <ListItem
-                    className={this.props.currentSelection === 'dashboard' ? classes.selected : ''}
-                    id="dashboard"
-                    button
-                    onClick={() => this.handleMenuNavigation(RoutePaths.Dashboard, 'dashboard')}
-                >
-                    <ListItemIcon>
-                        <ViewDashboard />
-                    </ListItemIcon>
-                    <ListItemText primary="Dashboard" />
-                </ListItem>
-                <ListItem
-                    className={this.props.currentSelection === 'geofences' ? classes.selected : ''}
-                    id="geofences"
-                    button
-                    onClick={() => this.handleMenuToggle('geofences')}
-                >
-                    <ListItemIcon>
-                        <MapMarker />
-                    </ListItemIcon>
-                    <ListItemText primary="Geofences" />
-                    <ExpandLess
-                        className={classNames(classes.expandIcon, this.props.currentSelection.startsWith('geofences') ? classes.expanded : classes.closed)}
-                    />
-                </ListItem>
-                <Collapse in={this.props.currentSelection.startsWith('geofences')} timeout={500} unmountOnExit>
-                    <List disablePadding>
-                        <ListItem
-                            className={classNames(classes.nested, this.props.currentSelection === 'geofences.map' ? classes.selected : '')}
-                            button
-                            onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceMap, 'geofences.map')}
-                        >
-                            <ListItemIcon>
-                                <Map />
-                            </ListItemIcon>
-                            <ListItemText primary="Map" />
-                        </ListItem>
-                        <ListItem
-                            className={classNames(classes.nested, this.props.currentSelection === 'geofences.table' ? classes.selected : '')}
-                            button
-                            onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceTable, 'geofences.table')}
-                        >
-                            <ListItemIcon>
-                                <FormatListBulleted />
-                            </ListItemIcon>
-                            <ListItemText primary="Table" />
-                        </ListItem>
-                    </List>
-                </Collapse>
+            <React.Fragment>
+                <List className={classes.drawerList}>
+                    <ListItem
+                        className={this.props.currentSelection === 'dashboard' ? classes.selected : ''}
+                        id="dashboard"
+                        button
+                        onClick={() => this.handleMenuNavigation(RoutePaths.Dashboard, 'dashboard')}
+                    >
+                        <ListItemIcon>
+                            <ViewDashboard />
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard" />
+                    </ListItem>
+                    <ListItem
+                        className={this.props.currentSelection === 'geofences' ? classes.selected : ''}
+                        id="geofences"
+                        button
+                        onClick={() => this.handleMenuToggle('geofences')}
+                    >
+                        <ListItemIcon>
+                            <MapMarker />
+                        </ListItemIcon>
+                        <ListItemText primary="Geofences" />
+                        <ExpandLess
+                            className={classNames(classes.expandIcon, this.props.currentSelection.startsWith('geofences') ? classes.expanded : classes.closed)}
+                        />
+                    </ListItem>
+                    <Collapse in={this.props.currentSelection.startsWith('geofences')} timeout={500} unmountOnExit>
+                        <List disablePadding>
+                            <ListItem
+                                className={classNames(classes.nested, this.props.currentSelection === 'geofences.map' ? classes.selected : '')}
+                                button
+                                onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceMap, 'geofences.map')}
+                            >
+                                <ListItemIcon>
+                                    <Map />
+                                </ListItemIcon>
+                                <ListItemText primary="Map" />
+                            </ListItem>
+                            <ListItem
+                                className={classNames(classes.nested, this.props.currentSelection === 'geofences.table' ? classes.selected : '')}
+                                button
+                                onClick={() => this.handleMenuNavigation(RoutePaths.GeofenceTable, 'geofences.table')}
+                            >
+                                <ListItemIcon>
+                                    <FormatListBulleted />
+                                </ListItemIcon>
+                                <ListItemText primary="Table" />
+                            </ListItem>
+                        </List>
+                    </Collapse>
 
-                <ListItem
-                    className={this.props.currentSelection === 'integrations' ? classes.selected : ''}
-                    id="integrations"
-                    button
-                    onClick={() => this.handleMenuNavigation(RoutePaths.Integrations, 'integrations')}
-                >
-                    <ListItemIcon>
-                        <ArrowDecision />
-                    </ListItemIcon>
-                    <ListItemText primary="Integrations" />
-                </ListItem>
+                    <ListItem
+                        className={this.props.currentSelection === 'integrations' ? classes.selected : ''}
+                        id="integrations"
+                        button
+                        onClick={() => this.handleMenuNavigation(RoutePaths.Integrations, 'integrations')}
+                    >
+                        <ListItemIcon>
+                            <ArrowDecision />
+                        </ListItemIcon>
+                        <ListItemText primary="Integrations" />
+                    </ListItem>
 
-                <ListItem className={this.props.currentSelection === 'breadcrumbs' ? classes.selected : ''} id="breadcrumbs" button>
+                    {/* <ListItem className={this.props.currentSelection === 'breadcrumbs' ? classes.selected : ''} id="breadcrumbs" button>
                     <Badge
                         classes={{ badge: classes.badge }}
                         badgeContent={
@@ -214,33 +216,98 @@ class Menu extends React.Component<MenuProps> {
                         </ListItemIcon>
                         <ListItemText primary="Breadcrumbs" />
                     </Badge>
-                </ListItem>
+                </ListItem> */}
 
-                <ListItem
-                    className={this.props.currentSelection === 'projects' ? classes.selected : ''}
-                    id="projects"
-                    button
-                    onClick={() => {
-                        this.handleMenuNavigation(RoutePaths.Projects, 'projects');
-                    }}
-                >
-                    <ListItemIcon>
-                        <HexagonMultiple />
-                    </ListItemIcon>
-                    <ListItemText primary="Projects" />
-                </ListItem>
-                {userIsInRole(this.props.user, RoleEnum.ADMIN) && (
-                    <React.Fragment>
-                        <ListItem
-                            className={this.props.currentSelection === 'administration' ? classes.selected : ''}
-                            id="administration"
-                            button
-                            onClick={() => this.handleMenuToggle('administration')}
-                        >
+                    <ListItem
+                        className={this.props.currentSelection === 'projects' ? classes.selected : ''}
+                        id="projects"
+                        button
+                        onClick={() => {
+                            this.handleMenuNavigation(RoutePaths.Projects, 'projects');
+                        }}
+                    >
+                        <ListItemIcon>
+                            <HexagonMultiple />
+                        </ListItemIcon>
+                        <ListItemText primary="Projects" />
+                    </ListItem>
+                    {userIsInRole(this.props.user, RoleEnum.ADMIN) && (
+                        <React.Fragment>
+                            <ListItem
+                                className={this.props.currentSelection === 'administration' ? classes.selected : ''}
+                                id="administration"
+                                button
+                                onClick={() => this.handleMenuToggle('administration')}
+                            >
+                                <ListItemIcon>
+                                    <Lock />
+                                </ListItemIcon>
+                                <ListItemText primary="Administration" />
+                                <ExpandLess
+                                    className={classNames(
+                                        classes.expandIcon,
+                                        this.props.currentSelection.startsWith('administration') ? classes.expanded : classes.closed
+                                    )}
+                                />
+                            </ListItem>
+                            <Collapse in={this.props.currentSelection.startsWith('administration')} timeout={500} unmountOnExit>
+                                <List component="div" disablePadding>
+                                    {this.props.canAccessUsersPage && (
+                                        <ListItem
+                                            className={classNames(
+                                                classes.nested,
+                                                this.props.currentSelection === 'administration.users' ? classes.selected : ''
+                                            )}
+                                            button
+                                            onClick={() => this.handleMenuNavigation(RoutePaths.Users, 'administration.users')}
+                                        >
+                                            <ListItemIcon>
+                                                <People />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Users" />
+                                        </ListItem>
+                                    )}
+                                    {userIsInRole(this.props.user, RoleEnum.OWNER) && (
+                                        <React.Fragment>
+                                            <ListItem
+                                                className={classNames(
+                                                    classes.nested,
+                                                    this.props.currentSelection === 'administration.organization' ? classes.selected : ''
+                                                )}
+                                                button
+                                                onClick={() => this.handleMenuNavigation(RoutePaths.Domain, 'administration.organization')}
+                                            >
+                                                <ListItemIcon>
+                                                    <Domain />
+                                                </ListItemIcon>
+                                                <ListItemText primary="Organization" />
+                                            </ListItem>
+                                            <ListItem
+                                                className={classNames(
+                                                    classes.nested,
+                                                    this.props.currentSelection === 'administration.subscription' ? classes.selected : ''
+                                                )}
+                                                button
+                                                onClick={() => this.handleMenuNavigation(RoutePaths.Subscription, 'administration.subscription')}
+                                            >
+                                                <ListItemIcon>
+                                                    <CreditCard />
+                                                </ListItemIcon>
+                                                <ListItemText primary="Subscription" />
+                                            </ListItem>
+                                        </React.Fragment>
+                                    )}
+                                </List>
+                            </Collapse>
+                        </React.Fragment>
+                    )}
+
+                    <Hidden mdUp implementation="css">
+                        <ListItem id="settings" button onClick={() => this.handleMenuToggle('settings')}>
                             <ListItemIcon>
-                                <Lock />
+                                <Settings />
                             </ListItemIcon>
-                            <ListItemText primary="Administration" />
+                            <ListItemText primary="Settings" />
                             <ExpandLess
                                 className={classNames(
                                     classes.expandIcon,
@@ -248,95 +315,35 @@ class Menu extends React.Component<MenuProps> {
                                 )}
                             />
                         </ListItem>
-                        <Collapse in={this.props.currentSelection.startsWith('administration')} timeout={500} unmountOnExit>
+                        <Collapse in={this.props.currentSelection === 'settings'} timeout={500} unmountOnExit>
                             <List component="div" disablePadding>
-                                {this.props.canAccessUsersPage && (
-                                    <ListItem
-                                        className={classNames(classes.nested, this.props.currentSelection === 'administration.users' ? classes.selected : '')}
-                                        button
-                                        onClick={() => this.handleMenuNavigation(RoutePaths.Users, 'administration.users')}
-                                    >
-                                        <ListItemIcon>
-                                            <People />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Users" />
-                                    </ListItem>
-                                )}
-                                {userIsInRole(this.props.user, RoleEnum.OWNER) && (
-                                    <React.Fragment>
-                                        <ListItem
-                                            className={classNames(
-                                                classes.nested,
-                                                this.props.currentSelection === 'administration.organization' ? classes.selected : ''
-                                            )}
-                                            button
-                                            onClick={() => this.handleMenuNavigation(RoutePaths.Domain, 'administration.organization')}
-                                        >
-                                            <ListItemIcon>
-                                                <Domain />
-                                            </ListItemIcon>
-                                            <ListItemText primary="Organization" />
-                                        </ListItem>
-                                        <ListItem
-                                            className={classNames(
-                                                classes.nested,
-                                                this.props.currentSelection === 'administration.subscription' ? classes.selected : ''
-                                            )}
-                                            button
-                                            onClick={() => this.handleMenuNavigation(RoutePaths.Subscription, 'administration.subscription')}
-                                        >
-                                            <ListItemIcon>
-                                                <CreditCard />
-                                            </ListItemIcon>
-                                            <ListItemText primary="Subscription" />
-                                        </ListItem>
-                                    </React.Fragment>
-                                )}
+                                <ListItem
+                                    className={classNames(classes.nested, this.props.currentSelection === 'settings.account' ? classes.selected : '')}
+                                    button
+                                    onClick={() => this.handleMenuNavigation(RoutePaths.Account, 'settings.account')}
+                                >
+                                    <ListItemIcon>
+                                        <AccountCircle />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Account" />
+                                </ListItem>
+
+                                <ListItem
+                                    className={classNames(classes.nested, this.props.currentSelection === 'settings.logout' ? classes.selected : '')}
+                                    button
+                                    onClick={() => this.props.push(RoutePaths.Logout, 'settings.logout')}
+                                >
+                                    <ListItemIcon>
+                                        <Logout />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Logout" />
+                                </ListItem>
                             </List>
                         </Collapse>
-                    </React.Fragment>
-                )}
-
-                <Hidden mdUp implementation="css">
-                    <ListItem id="settings" button onClick={() => this.handleMenuToggle('settings')}>
-                        <ListItemIcon>
-                            <Settings />
-                        </ListItemIcon>
-                        <ListItemText primary="Settings" />
-                        <ExpandLess
-                            className={classNames(
-                                classes.expandIcon,
-                                this.props.currentSelection.startsWith('administration') ? classes.expanded : classes.closed
-                            )}
-                        />
-                    </ListItem>
-                    <Collapse in={this.props.currentSelection === 'settings'} timeout={500} unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItem
-                                className={classNames(classes.nested, this.props.currentSelection === 'settings.account' ? classes.selected : '')}
-                                button
-                                onClick={() => this.handleMenuNavigation(RoutePaths.Account, 'settings.account')}
-                            >
-                                <ListItemIcon>
-                                    <AccountCircle />
-                                </ListItemIcon>
-                                <ListItemText primary="Account" />
-                            </ListItem>
-
-                            <ListItem
-                                className={classNames(classes.nested, this.props.currentSelection === 'settings.logout' ? classes.selected : '')}
-                                button
-                                onClick={() => this.props.push(RoutePaths.Logout, 'settings.logout')}
-                            >
-                                <ListItemIcon>
-                                    <Logout />
-                                </ListItemIcon>
-                                <ListItemText primary="Logout" />
-                            </ListItem>
-                        </List>
-                    </Collapse>
-                </Hidden>
-            </List>
+                    </Hidden>
+                </List>
+                <Box position="absolute" height="50px" width="100%" bottom="0px" left="0px"></Box>
+            </React.Fragment>
         );
 
         return (

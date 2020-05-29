@@ -347,7 +347,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             isSuccess={this.state.success}
                                             variant="contained"
                                         >
-                                            {props.initialValues.email === '' ? 'Create User' : 'Update User'}
+                                            {props.initialValues.email === '' ? 'Create' : 'Update'}
                                         </FormikSynchronousButton>
                                     </div>
                                 </form>

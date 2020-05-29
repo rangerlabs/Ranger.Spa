@@ -289,7 +289,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             isSuccess={this.props.isSuccess}
                                             disabled={this.props.isPendingCreation}
                                         >
-                                            {props.initialValues.name === '' ? 'Create Webhook' : 'Update Webhook'}
+                                            {props.initialValues.name === '' ? 'Create' : 'Update'}
                                         </FormikSynchronousButton>
                                     </div>
                                 </form>

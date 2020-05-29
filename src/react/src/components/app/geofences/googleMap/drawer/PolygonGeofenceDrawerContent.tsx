@@ -495,7 +495,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                 isSuccess={this.state.isSuccess}
                                 disabled={this.isPendingCreation()}
                             >
-                                {props.initialValues.externalId === '' ? 'Create Geofence' : 'Update Geofence'}
+                                {props.initialValues.externalId === '' ? 'Create' : 'Update'}
                             </FormikSynchronousButton>
                         </div>
                         <div className={classes.bottomPush} />

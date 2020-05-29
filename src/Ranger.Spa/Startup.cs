@@ -54,7 +54,7 @@ namespace Ranger.Spa
                 OnPrepareResponse = context =>
                 {
                     var headers = context.Context.Response.Headers;
-                    headers.Add("X-Spa-Version", configuration["DOCKER_IMAGE_TAG"]);
+                    context.Context.Response.Cookies.Append("Spa-Version", configuration["DOCKER_IMAGE_TAG"]);
                     var contentType = headers["Content-Type"];
 
                     if (contentType != "application/x-gzip" && !context.File.Name.EndsWith(".gz"))

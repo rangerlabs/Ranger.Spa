@@ -360,7 +360,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         />
                                         {userIsInRole(this.props.user, RoleEnum.ADMIN) && (
                                             <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
-                                                {props.initialValues.name === '' ? 'Create Project' : 'Update Project'}
+                                                {props.initialValues.name === '' ? 'Create' : 'Update'}
                                             </FormikSynchronousButton>
                                         )}
                                     </div>

@@ -496,7 +496,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                 isSuccess={this.state.isSuccess}
                                 disabled={this.isPendingCreation()}
                             >
-                                {props.initialValues.externalId === '' ? 'Create Geofence' : 'Update Geofence'}
+                                {props.initialValues.externalId === '' ? 'Create' : 'Update'}
                             </FormikSynchronousButton>
                         </div>
                         <div className={classes.bottomPush} />
