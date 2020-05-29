@@ -26,6 +26,10 @@ const styles = (theme: Theme) =>
             display: 'block',
             height: '54px',
         },
+        tableIcon: {
+            paddingRight: theme.spacing(1),
+            verticalAlign: 'inherit',
+        },
     });
 
 interface GeofencesProps extends WithStyles<typeof styles> {
@@ -66,36 +70,44 @@ class Geofences extends React.Component<GeofencesProps> {
         this.props.push(`${RoutePaths.GeofenceMap.replace(':appName', this.props.selectedProject.name)}`);
     };
 
-    mapGeofencesToTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>): Array<Array<any>> {
-        const tableGeofences = new Array<Array<any>>();
+    mapGeofencesToTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>): Array<Array<string>> {
+        const tableGeofences = new Array<Array<string>>();
         if (geofences) {
             geofences.forEach((value) => {
                 tableGeofences.push([
-                    value.enabled,
+                    value.enabled ? 'Enabled' : 'Disabled',
                     value.externalId,
                     value.description,
                     value.shape == ShapePicker.Circle ? 'Circle' : 'Polygon',
-                    value.onEnter,
-                    value.onExit,
+                    value.onEnter ? 'True' : 'False',
+                    value.onExit ? 'True' : 'False',
                 ]);
             });
         }
         return tableGeofences;
     }
 
-    booleanRender = (value: boolean): JSX.Element => {
-        return value ? <CheckCircleOutlineIcon color="primary" /> : <HighlightOffIcon color="error" />;
+    booleanRender = (value: string, trueValue: string): JSX.Element => {
+        return value === trueValue ? (
+            <React.Fragment>
+                <CheckCircleOutlineIcon fontSize="small" className={this.props.classes.tableIcon} color="primary" />
+                {value}
+            </React.Fragment>
+        ) : (
+            <React.Fragment>
+                <HighlightOffIcon fontSize="small" className={this.props.classes.tableIcon} color="error" />
+                {value}
+            </React.Fragment>
+        );
     };
+
     columns = [
         {
             name: 'Enabled',
             options: {
                 filter: true,
-                customBodyRender: (value: boolean) => {
-                    return this.booleanRender(value);
-                },
-                customFilterListOptions: {
-                    render: (v: string) => titleCase(v),
+                customBodyRender: (value: string) => {
+                    return this.booleanRender(value, 'Enabled');
                 },
             },
         },
@@ -121,11 +133,8 @@ class Geofences extends React.Component<GeofencesProps> {
             name: 'On Enter',
             options: {
                 filter: true,
-                customBodyRender: (value: boolean) => {
-                    return this.booleanRender(value);
-                },
-                customFilterListOptions: {
-                    render: (v: string) => titleCase(v),
+                customBodyRender: (value: string) => {
+                    return this.booleanRender(value, 'True');
                 },
             },
         },
@@ -133,11 +142,8 @@ class Geofences extends React.Component<GeofencesProps> {
             name: 'On Exit',
             options: {
                 filter: true,
-                customBodyRender: (value: boolean) => {
-                    return this.booleanRender(value);
-                },
-                customFilterListOptions: {
-                    render: (v: string) => titleCase(v),
+                customBodyRender: (value: string) => {
+                    return this.booleanRender(value, 'True');
                 },
             },
         },

@@ -13,7 +13,6 @@ import { RoleEnum } from '../../../models/RoleEnum';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import titleCase = require('title-case');
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -24,6 +23,10 @@ const styles = (theme: Theme) =>
         footer: {
             display: 'block',
             height: '54px',
+        },
+        tableIcon: {
+            paddingRight: theme.spacing(1),
+            verticalAlign: 'inherit',
         },
     });
 
@@ -66,26 +69,32 @@ class Projects extends React.Component<ProjectsProps> {
         this.props.push(RoutePaths.ProjectsNew);
     };
 
-    mapProjectsToTableProjects(projects: IProject[]): Array<Array<any>> {
-        const tableProjects = new Array<Array<any>>();
+    mapProjectsToTableProjects(projects: IProject[]): Array<Array<string>> {
+        const tableProjects = new Array<Array<string>>();
         if (projects) {
             projects.forEach((value) => {
-                tableProjects.push([value.enabled, value.name, value.description, `${value.liveApiKeyPrefix}...`, `${value.testApiKeyPrefix}...`]);
+                tableProjects.push([
+                    value.enabled ? 'Enabled' : 'Disabled',
+                    value.name,
+                    value.description,
+                    `${value.liveApiKeyPrefix}...`,
+                    `${value.testApiKeyPrefix}...`,
+                ]);
             });
         }
         return tableProjects;
     }
 
-    booleanRender = (value: boolean): JSX.Element => {
-        return value ? (
+    booleanRender = (value: string, trueValue: string): JSX.Element => {
+        return value === trueValue ? (
             <React.Fragment>
-                <CheckCircleOutlineIcon color="primary" />
-                Enabled
+                <CheckCircleOutlineIcon fontSize="small" className={this.props.classes.tableIcon} color="primary" />
+                {value}
             </React.Fragment>
         ) : (
             <React.Fragment>
-                <HighlightOffIcon color="error" />
-                Disabled
+                <HighlightOffIcon fontSize="small" className={this.props.classes.tableIcon} color="error" />
+                {value}
             </React.Fragment>
         );
     };
@@ -95,11 +104,8 @@ class Projects extends React.Component<ProjectsProps> {
             name: 'Enabled',
             options: {
                 filter: true,
-                customBodyRender: (value: boolean) => {
-                    return this.booleanRender(value);
-                },
-                customFilterListOptions: {
-                    render: (v: any) => titleCase(v.toString()),
+                customBodyRender: (value: string) => {
+                    return this.booleanRender(value, 'Enabled');
                 },
             },
         },

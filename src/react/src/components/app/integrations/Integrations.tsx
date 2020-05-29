@@ -25,6 +25,10 @@ const styles = (theme: Theme) =>
             display: 'block',
             height: '54px',
         },
+        tableIcon: {
+            paddingRight: theme.spacing(1),
+            verticalAlign: 'inherit',
+        },
     });
 
 interface IntegrationsProps extends WithStyles<typeof styles> {
@@ -69,12 +73,12 @@ class Integrations extends React.Component<IntegrationsProps> {
         this.props.push(RoutePaths.IntegrationsNew);
     };
 
-    mapIntegrationsToTableIntegrations(integrations: MergedIntegrationType[]): Array<Array<any>> {
-        const tableIntegrations = new Array<Array<any>>();
+    mapIntegrationsToTableIntegrations(integrations: MergedIntegrationType[]): Array<Array<string>> {
+        const tableIntegrations = new Array<Array<string>>();
         if (integrations) {
             integrations.forEach((value) => {
                 tableIntegrations.push([
-                    value.enabled,
+                    value.enabled ? 'Enabled' : 'Disabled',
                     value.name,
                     value.description,
                     titleCase(value.type),
@@ -85,8 +89,18 @@ class Integrations extends React.Component<IntegrationsProps> {
         return tableIntegrations;
     }
 
-    booleanRender = (value: boolean): JSX.Element => {
-        return value ? <CheckCircleOutlineIcon color="primary" /> : <HighlightOffIcon color="error" />;
+    booleanRender = (value: string, trueValue: string): JSX.Element => {
+        return value === trueValue ? (
+            <React.Fragment>
+                <CheckCircleOutlineIcon fontSize="small" className={this.props.classes.tableIcon} color="primary" />
+                {value}
+            </React.Fragment>
+        ) : (
+            <React.Fragment>
+                <HighlightOffIcon fontSize="small" className={this.props.classes.tableIcon} color="error" />
+                {value}
+            </React.Fragment>
+        );
     };
 
     columns = [
@@ -94,11 +108,8 @@ class Integrations extends React.Component<IntegrationsProps> {
             name: 'Enabled',
             options: {
                 filter: true,
-                customBodyRender: (value: boolean) => {
-                    return this.booleanRender(value);
-                },
-                customFilterListOptions: {
-                    render: (v: string) => titleCase(v),
+                customBodyRender: (value: string) => {
+                    return this.booleanRender(value, 'Enabled');
                 },
             },
         },
