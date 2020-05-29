@@ -12,7 +12,7 @@ import { userIsInRole } from '../../../helpers/Helpers';
 import { RoleEnum } from '../../../models/RoleEnum';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import CheckCircle from '@material-ui/icons/CheckCircleOutline';
+import CheckCircle from '@material-ui/icons/CheckCircle';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -88,7 +88,7 @@ class Projects extends React.Component<ProjectsProps> {
     booleanRender = (value: string, trueValue: string): JSX.Element => {
         return value === trueValue ? (
             <React.Fragment>
-                <CheckCircle style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="primary" />
+                <CheckCircleIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="primary" />
                 {value}
             </React.Fragment>
         ) : (
