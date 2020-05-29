@@ -75,8 +75,6 @@ export default function createRangerTheme(theme: ThemeOptions) {
             },
             MuiTableCell: {
                 root: {
-                    fontSize: '1rem',
-                    lineHeight: 1.5,
                     borderBottom: '0px',
                 },
             },

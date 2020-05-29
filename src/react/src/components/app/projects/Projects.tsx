@@ -25,6 +25,9 @@ const styles = (theme: Theme) =>
             display: 'block',
             height: '54px',
         },
+        centeredHeader: {
+            justifyContent: 'center',
+        },
     });
 
 interface ProjectsProps extends WithStyles<typeof styles> {
@@ -101,12 +104,8 @@ class Projects extends React.Component<ProjectsProps> {
                 setCellHeaderProps: () => {
                     return {
                         classes: {
-                            MUIDataTableHeadCell: {
-                                justifyContent: 'center',
-                            },
-                            sortAction: {
-                                justifyContent: 'center',
-                            },
+                            MUIDataTableHeadCell: this.props.classes.centeredHeader,
+                            sortAction: this.props.classes.centeredHeader,
                         },
                     };
                 },
