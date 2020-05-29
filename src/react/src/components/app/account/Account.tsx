@@ -34,17 +34,7 @@ import classNames from 'classnames';
 const userService = new UserService();
 const styles = (theme: Theme) =>
     createStyles({
-        layout: {
-            width: 'auto',
-            marginLeft: theme.spacing(2),
-            marginRight: theme.spacing(2),
-            marginTop: theme.toolbar.height,
-            [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
-                width: 600,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-            },
-        },
+        layout: {},
 
         buttons: {
             display: 'flex',
@@ -61,6 +51,15 @@ const styles = (theme: Theme) =>
         },
         paper: {
             padding: theme.spacing(4),
+            width: 'auto',
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
+            marginTop: theme.toolbar.height,
+            [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
+                width: 600,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            },
         },
     });
 
@@ -120,190 +119,185 @@ class Account extends React.Component<AccountProps, AccountState> {
     render() {
         const { classes, enqueueSnackbar, dispatchAddUser } = this.props;
         return (
-            <React.Fragment>
-                <CssBaseline />
-                <main className={classes.layout}>
-                    <Paper className={classes.paper} elevation={3}>
-                        <Typography align="center" variant="h5" gutterBottom>
-                            Your Account
-                        </Typography>
-                        <Formik
-                            enableReinitialize
-                            initialValues={{
-                                email: (this.props.user.profile as UserProfile).email,
-                                firstName: (this.props.user.profile as UserProfile).firstName,
-                                lastName: (this.props.user.profile as UserProfile).lastName,
-                                role: getRole((this.props.user.profile as UserProfile).role),
-                                authorizedProjects: (this.props.user.profile as UserProfile).authorizedProjects,
-                            }}
-                            onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
-                                this.setState({ serverErrors: undefined });
-                                const accountUpdate = {
-                                    firstName: values.firstName,
-                                    lastName: values.lastName,
-                                } as IAccountUpdateModel;
-                                userService
-                                    .updateAccount((this.props.user.profile as UserProfile).email, accountUpdate)
-                                    .then((response: IRestResponse<void>) => {
-                                        setTimeout(() => {
-                                            if (response.isError) {
-                                                const { validationErrors: serverErrors, ...formikErrors } = response.error;
-                                                enqueueSnackbar(response.error.message, { variant: 'error' });
-                                                formikBag.setStatus(formikErrors as FormikErrors<IUser>);
-                                                this.setState({ serverErrors: serverErrors });
-                                                formikBag.setSubmitting(false);
-                                            } else {
-                                                UserManager.signinSilent();
-                                                enqueueSnackbar(response.message, { variant: 'success' });
-                                                // setTimeout(this.props.closeForm, 250);
-                                                formikBag.setSubmitting(false);
-                                            }
-                                        }, 250);
-                                    });
-                            }}
-                            validationSchema={this.validationSchema}
-                        >
-                            {(props) => (
-                                <form onSubmit={props.handleSubmit}>
-                                    <Grid container spacing={3}>
-                                        <Grid item xs={12}>
-                                            <FormikTextField
-                                                name="firstName"
-                                                label="Firstname"
-                                                value={props.values.firstName}
-                                                errorText={props.errors.firstName}
-                                                touched={props.touched.firstName}
-                                                onChange={props.handleChange}
-                                                onBlur={props.handleBlur}
-                                                autoComplete="off"
-                                                required
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <FormikTextField
-                                                name="lastName"
-                                                label="Lastname"
-                                                value={props.values.lastName}
-                                                errorText={props.errors.lastName}
-                                                touched={props.touched.lastName}
-                                                onChange={props.handleChange}
-                                                onBlur={props.handleBlur}
-                                                autoComplete="off"
-                                                required
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <FormikTextField
-                                                name="email"
-                                                label="Email"
-                                                value={props.values.email}
-                                                errorText={props.errors.email}
-                                                touched={props.touched.email}
-                                                onChange={props.handleChange}
-                                                onBlur={props.handleBlur}
-                                                autoComplete="off"
-                                                disabled
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <Button
-                                                            disabled={props.isSubmitting}
-                                                            onClick={() => {
-                                                                this.props.openDialog(new DialogContent(<ChangeEmailContent />));
-                                                            }}
-                                                        >
-                                                            Change
-                                                        </Button>
-                                                    ),
-                                                }}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <FormikTextField
-                                                name="role"
-                                                label="Role"
-                                                value={props.values.role}
-                                                errorText={props.errors.role}
-                                                touched={props.touched.role}
-                                                onChange={props.handleChange}
-                                                onBlur={props.handleBlur}
-                                                disabled
-                                            />
-                                        </Grid>
-                                        {this.state.serverErrors && (
-                                            <Grid item xs={12}>
-                                                <List>
-                                                    <ListItem>
-                                                        {this.state.serverErrors.map((error) => (
-                                                            <ListItemText primary={error} />
-                                                        ))}
-                                                    </ListItem>
-                                                </List>
-                                            </Grid>
-                                        )}
+            <div>
+                <Paper className={classes.paper} elevation={3}>
+                    <Typography align="center" variant="h5" gutterBottom>
+                        Your Account
+                    </Typography>
+                    <Formik
+                        enableReinitialize
+                        initialValues={{
+                            email: (this.props.user.profile as UserProfile).email,
+                            firstName: (this.props.user.profile as UserProfile).firstName,
+                            lastName: (this.props.user.profile as UserProfile).lastName,
+                            role: getRole((this.props.user.profile as UserProfile).role),
+                            authorizedProjects: (this.props.user.profile as UserProfile).authorizedProjects,
+                        }}
+                        onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
+                            this.setState({ serverErrors: undefined });
+                            const accountUpdate = {
+                                firstName: values.firstName,
+                                lastName: values.lastName,
+                            } as IAccountUpdateModel;
+                            userService.updateAccount((this.props.user.profile as UserProfile).email, accountUpdate).then((response: IRestResponse<void>) => {
+                                setTimeout(() => {
+                                    if (response.isError) {
+                                        const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                                        enqueueSnackbar(response.error.message, { variant: 'error' });
+                                        formikBag.setStatus(formikErrors as FormikErrors<IUser>);
+                                        this.setState({ serverErrors: serverErrors });
+                                        formikBag.setSubmitting(false);
+                                    } else {
+                                        UserManager.signinSilent();
+                                        enqueueSnackbar(response.message, { variant: 'success' });
+                                        // setTimeout(this.props.closeForm, 250);
+                                        formikBag.setSubmitting(false);
+                                    }
+                                }, 250);
+                            });
+                        }}
+                        validationSchema={this.validationSchema}
+                    >
+                        {(props) => (
+                            <form onSubmit={props.handleSubmit}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12}>
+                                        <FormikTextField
+                                            name="firstName"
+                                            label="Firstname"
+                                            value={props.values.firstName}
+                                            errorText={props.errors.firstName}
+                                            touched={props.touched.firstName}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            autoComplete="off"
+                                            required
+                                        />
                                     </Grid>
-                                    <div className={classes.flexButtonContainer}>
-                                        <div className={classes.leftButtons}>
-                                            <FormikDeleteButton
-                                                isSubmitting={props.isSubmitting}
-                                                dialogTitle="Delete account?"
-                                                disabled={this.isPrimaryOwner}
-                                                dialogContent={<DeleteAccountComponent />}
-                                            >
-                                                Delete
-                                            </FormikDeleteButton>
-                                            <Button
-                                                onClick={() => {
-                                                    this.props.openDialog(new DialogContent(<ChangePasswordContent />));
-                                                }}
-                                                className={classes.changePassword}
-                                                disabled={props.isSubmitting}
-                                                variant="text"
-                                            >
-                                                Change password
-                                            </Button>
-                                        </div>
-                                        <FormikCancelButton
-                                            isSubmitting={props.isSubmitting}
-                                            onClick={() => {
-                                                this.props.push(RoutePaths.Dashboard);
+                                    <Grid item xs={12}>
+                                        <FormikTextField
+                                            name="lastName"
+                                            label="Lastname"
+                                            value={props.values.lastName}
+                                            errorText={props.errors.lastName}
+                                            touched={props.touched.lastName}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            autoComplete="off"
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormikTextField
+                                            name="email"
+                                            label="Email"
+                                            value={props.values.email}
+                                            errorText={props.errors.email}
+                                            touched={props.touched.email}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            autoComplete="off"
+                                            disabled
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <Button
+                                                        disabled={props.isSubmitting}
+                                                        onClick={() => {
+                                                            this.props.openDialog(new DialogContent(<ChangeEmailContent />));
+                                                        }}
+                                                    >
+                                                        Change
+                                                    </Button>
+                                                ),
                                             }}
                                         />
-                                        {props.initialValues.email === '' ? (
-                                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
-                                        ) : (
-                                            <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
-                                        )}
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormikTextField
+                                            name="role"
+                                            label="Role"
+                                            value={props.values.role}
+                                            errorText={props.errors.role}
+                                            touched={props.touched.role}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            disabled
+                                        />
+                                    </Grid>
+                                    {this.state.serverErrors && (
+                                        <Grid item xs={12}>
+                                            <List>
+                                                <ListItem>
+                                                    {this.state.serverErrors.map((error) => (
+                                                        <ListItemText primary={error} />
+                                                    ))}
+                                                </ListItem>
+                                            </List>
+                                        </Grid>
+                                    )}
+                                </Grid>
+                                <div className={classes.flexButtonContainer}>
+                                    <div className={classes.leftButtons}>
+                                        <FormikDeleteButton
+                                            isSubmitting={props.isSubmitting}
+                                            dialogTitle="Delete account?"
+                                            disabled={this.isPrimaryOwner}
+                                            dialogContent={<DeleteAccountComponent />}
+                                        >
+                                            Delete
+                                        </FormikDeleteButton>
+                                        <Button
+                                            onClick={() => {
+                                                this.props.openDialog(new DialogContent(<ChangePasswordContent />));
+                                            }}
+                                            className={classes.changePassword}
+                                            disabled={props.isSubmitting}
+                                            variant="text"
+                                        >
+                                            Change password
+                                        </Button>
                                     </div>
-                                </form>
-                            )}
-                        </Formik>
-                    </Paper>
+                                    <FormikCancelButton
+                                        isSubmitting={props.isSubmitting}
+                                        onClick={() => {
+                                            this.props.push(RoutePaths.Dashboard);
+                                        }}
+                                    />
+                                    {props.initialValues.email === '' ? (
+                                        <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
+                                    ) : (
+                                        <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
+                                    )}
+                                </div>
+                            </form>
+                        )}
+                    </Formik>
+                </Paper>
 
-                    {this.props.canTransferOwnership && this.isPrimaryOwner && (
-                        <Paper className={classes.paper} elevation={3}>
-                            <Typography variant="h5">Transfer Domain Ownerhship</Typography>
-                            <Typography variant="subtitle1">Transfer primary ownership of a domain to an existing user.</Typography>
-                            {this.props.pendingPrimaryOwnerTransfer ? (
-                                <Button
-                                    onClick={() => {
-                                        this.props.openDialog(new DialogContent(<CancelOwnershipTransferContent />));
-                                    }}
-                                >
-                                    Cancel Transfer
-                                </Button>
-                            ) : (
-                                <Button
-                                    onClick={() => {
-                                        this.props.openDialog(new DialogContent(<TransferOwnershipContent />));
-                                    }}
-                                >
-                                    Transfer
-                                </Button>
-                            )}
-                        </Paper>
-                    )}
-                </main>
-            </React.Fragment>
+                {this.props.canTransferOwnership && this.isPrimaryOwner && (
+                    <Paper className={classes.paper} elevation={3}>
+                        <Typography variant="h5">Transfer Domain Ownerhship</Typography>
+                        <Typography variant="subtitle1">Transfer primary ownership of a domain to an existing user.</Typography>
+                        {this.props.pendingPrimaryOwnerTransfer ? (
+                            <Button
+                                onClick={() => {
+                                    this.props.openDialog(new DialogContent(<CancelOwnershipTransferContent />));
+                                }}
+                            >
+                                Cancel Transfer
+                            </Button>
+                        ) : (
+                            <Button
+                                onClick={() => {
+                                    this.props.openDialog(new DialogContent(<TransferOwnershipContent />));
+                                }}
+                            >
+                                Transfer
+                            </Button>
+                        )}
+                    </Paper>
+                )}
+            </div>
         );
     }
 }

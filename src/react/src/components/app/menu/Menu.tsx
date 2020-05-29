@@ -350,12 +350,16 @@ class Menu extends React.Component<MenuProps> {
                 </List>
                 <Hidden mdDown>
                     <Box textAlign="center" position="absolute" height="32px" width="100%" bottom="0px" left="0px">
-                        <Typography align="center" variant="caption">
-                            v{this.getSpaVersion()}
-                        </Typography>
-                        <Typography align="center" variant="caption">
-                            © 2020 Ranger Labs, LLC
-                        </Typography>
+                        <div>
+                            <Typography align="center" variant="caption">
+                                v{this.getSpaVersion()}
+                            </Typography>
+                        </div>
+                        <div>
+                            <Typography align="center" variant="caption">
+                                © 2020 Ranger Labs, LLC
+                            </Typography>
+                        </div>
                     </Box>
                 </Hidden>
             </React.Fragment>
