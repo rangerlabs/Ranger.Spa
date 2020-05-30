@@ -23,8 +23,8 @@ import { StatusEnum } from '../../../../../models/StatusEnum';
 import FormikDictionaryBuilder from '../../../../form/FormikDictionaryBuilder';
 import FormikScheduleBuilder from '../../../../form/FormikScheduleBuilder';
 import Schedule from '../../../../../models/Schedule';
-import ArrowRight from 'mdi-material-ui/ArrowRight';
 import { EnvironmentEnum } from '../../../../../models/EnvironmentEnum';
+import FormikCancelButton from '../../../../form/FormikCancelButton';
 
 const geofenceService = new GeofenceService();
 
@@ -41,10 +41,6 @@ const styles = (theme: Theme) =>
         },
         width100TemporaryChromiumFix: {
             width: '100%',
-        },
-        return: {
-            position: 'absolute',
-            top: theme.toolbar.height + theme.spacing(2),
         },
         toolbar: {
             height: theme.toolbar.height * 1.5,
@@ -353,14 +349,9 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 {(props) => (
                     <React.Fragment>
                         <div className={classes.toolbar} />
-                        <div className={classes.title}>
-                            <IconButton className={classes.return} disabled={props.isSubmitting} onClick={this.cancelGeofence}>
-                                <ArrowRight />
-                            </IconButton>
-                            <Typography gutterBottom variant="h5" align="center">
-                                {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
-                            </Typography>
-                        </div>
+                        <Typography gutterBottom variant="h5" align="center">
+                            {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
+                        </Typography>
                         <form className={classes.form} onSubmit={props.handleSubmit}>
                             <Grid container direction="column" spacing={4}>
                                 {this.isPendingCreation() && (
@@ -516,6 +507,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     </FormikDeleteButton>
                                 )}
                             </div>
+                            <FormikCancelButton isSubmitting={props.isSubmitting} onClick={this.cancelGeofence} />
                             <FormikSynchronousButton
                                 isValid={props.isValid}
                                 isSubmitting={props.isSubmitting}

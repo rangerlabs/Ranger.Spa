@@ -24,8 +24,8 @@ import { StatusEnum } from '../../../../../models/StatusEnum';
 import FormikDictionaryBuilder from '../../../../form/FormikDictionaryBuilder';
 import Schedule from '../../../../../models/Schedule';
 import FormikScheduleBuilder from '../../../../form/FormikScheduleBuilder';
-import ArrowRight from 'mdi-material-ui/ArrowRight';
 import { EnvironmentEnum } from '../../../../../models/EnvironmentEnum';
+import FormikCancelButton from '../../../../form/FormikCancelButton';
 
 const geofenceService = new GeofenceService();
 
@@ -42,10 +42,6 @@ const styles = (theme: Theme) =>
         },
         width100TemporaryChromiumFix: {
             width: '100%',
-        },
-        return: {
-            position: 'absolute',
-            top: theme.toolbar.height + theme.spacing(2),
         },
         toolbar: {
             height: theme.toolbar.height * 1.5,
@@ -344,9 +340,6 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                     <React.Fragment>
                         <form className={classes.form} onSubmit={props.handleSubmit}>
                             <div className={classes.toolbar} />
-                            <IconButton className={classes.return} disabled={props.isSubmitting} onClick={this.cancelGeofence}>
-                                <ArrowRight />
-                            </IconButton>
                             <Typography gutterBottom variant="h5" align="center">
                                 {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
                             </Typography>
@@ -504,6 +497,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                     </FormikDeleteButton>
                                 )}
                             </div>
+                            <FormikCancelButton isSubmitting={props.isSubmitting} onClick={this.cancelGeofence} />
                             <FormikSynchronousButton
                                 isValid={props.isValid}
                                 isSubmitting={props.isSubmitting}
