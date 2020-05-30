@@ -4,11 +4,10 @@ import UserService from '../../../services/UserService';
 import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
 import FormikSelectValues from '../../form/interfaces/FormikSelectValuesProp';
 import * as Yup from 'yup';
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, CssBaseline, List, ListItemText, Typography, ListItem, TextField } from '@material-ui/core';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, List, ListItemText, Typography, ListItem, IconButton } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikSelect from '../../form/FormikSelect';
-import FormikCancelButton from '../../form/FormikCancelButton';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
 import { IRestResponse, IValidationError } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
@@ -25,21 +24,18 @@ import { StatusEnum } from '../../../models/StatusEnum';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import FormikAutocompleteLabelMultiselect from '../../form/FormikAutocompleteLabelMultiselect';
 import { getRole, getCascadedRoles } from '../../../helpers/Helpers';
+import ArrowLeft from 'mdi-material-ui/ArrowLeft';
+import Constants from '../../../theme/Constants';
 
 const userService = new UserService();
 
 const styles = (theme: Theme) =>
     createStyles({
-        layout: {
-            width: 'auto',
-            marginLeft: theme.spacing(2),
-            marginRight: theme.spacing(2),
-            marginTop: theme.toolbar.height,
-            [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
-                width: 600,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-            },
+        return: {
+            margin: theme.spacing(4),
+        },
+        toolbar: {
+            height: Constants.HEIGHT.TOOLBAR,
         },
         buttons: {
             display: 'flex',
@@ -53,6 +49,15 @@ const styles = (theme: Theme) =>
         },
         paper: {
             padding: theme.spacing(4),
+            width: 'auto',
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
+            marginTop: theme.toolbar.height,
+            [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
+                width: 600,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            },
         },
     });
 interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
@@ -169,193 +174,194 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     render() {
         const { classes, enqueueSnackbar, dispatchAddUser, dispatchUpdateUser } = this.props;
         return (
-            <React.Fragment>
-                <CssBaseline />
-                <main className={classes.layout}>
-                    <Paper className={classes.paper} elevation={3}>
-                        <Typography align="center" variant="h5" gutterBottom>
-                            {this.props.initialUser ? 'Edit User' : 'New User'}
-                        </Typography>
-                        <Formik
-                            enableReinitialize
-                            initialValues={
-                                this.props.initialUser
-                                    ? {
-                                          ...this.props.initialUser,
-                                          authorizedProjects: this.getProjectNamesByProjectIds(this.props.initialUser.authorizedProjects),
-                                      }
-                                    : { email: '', firstName: '', lastName: '', role: 'User', authorizedProjects: [] }
+            <Formik
+                enableReinitialize
+                initialValues={
+                    this.props.initialUser
+                        ? {
+                              ...this.props.initialUser,
+                              authorizedProjects: this.getProjectNamesByProjectIds(this.props.initialUser.authorizedProjects),
+                          }
+                        : { email: '', firstName: '', lastName: '', role: 'User', authorizedProjects: [] }
+                }
+                onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
+                    const newUser = {
+                        email: values.email,
+                        firstName: values.firstName,
+                        lastName: values.lastName,
+                        role: values.role,
+                        authorizedProjects: this.getProjectIdsByProjectNames(values.authorizedProjects),
+                    } as IUser;
+                    if (this.props.initialUser) {
+                        userService.putUser(newUser.email, newUser).then((response: IRestResponse<IUser>) => {
+                            if (response.isError) {
+                                const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                                enqueueSnackbar(response.error.message, { variant: 'error' });
+                                formikBag.setStatus(formikErrors as FormikErrors<IUser>);
+                                this.setState({ serverErrors: serverErrors });
+                                formikBag.setSubmitting(false);
+                                formikBag.resetForm({ values: newUser });
+                            } else {
+                                newUser.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING };
+                                dispatchUpdateUser(newUser);
+                                formikBag.setSubmitting(false);
+                                this.setState({ success: true });
+                                this.props.push(RoutePaths.Users);
                             }
-                            onSubmit={(values: IUser, formikBag: FormikBag<FormikProps<Partial<IUser>>, Partial<IUser>>) => {
-                                const newUser = {
-                                    email: values.email,
-                                    firstName: values.firstName,
-                                    lastName: values.lastName,
-                                    role: values.role,
-                                    authorizedProjects: this.getProjectIdsByProjectNames(values.authorizedProjects),
-                                } as IUser;
-                                if (this.props.initialUser) {
-                                    userService.putUser(newUser.email, newUser).then((response: IRestResponse<IUser>) => {
-                                        if (response.isError) {
-                                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
-                                            enqueueSnackbar(response.error.message, { variant: 'error' });
-                                            formikBag.setStatus(formikErrors as FormikErrors<IUser>);
-                                            this.setState({ serverErrors: serverErrors });
-                                            formikBag.setSubmitting(false);
-                                            formikBag.resetForm({ values: newUser });
-                                        } else {
-                                            newUser.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING };
-                                            dispatchUpdateUser(newUser);
-                                            formikBag.setSubmitting(false);
-                                            this.setState({ success: true });
-                                            this.props.push(RoutePaths.Users);
-                                        }
-                                    });
-                                } else {
-                                    userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
-                                        if (response.isError) {
-                                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
-                                            enqueueSnackbar(response.error.message, { variant: 'error' });
-                                            formikBag.setStatus(formikErrors as FormikErrors<IUser>);
-                                            this.setState({ serverErrors: serverErrors });
-                                            formikBag.setSubmitting(false);
-                                            formikBag.resetForm({ values: newUser });
-                                        } else {
-                                            newUser.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING };
-                                            dispatchAddUser(newUser);
-                                            formikBag.setSubmitting(false);
-                                            this.setState({ success: true });
-                                            this.props.push(RoutePaths.Users);
-                                        }
-                                    });
-                                }
-                            }}
-                            validationSchema={this.validationSchema}
-                        >
-                            {(props) => (
-                                <form onSubmit={props.handleSubmit}>
-                                    <Grid container spacing={3}>
-                                        <Grid item xs={12}>
-                                            <FormikTextField
-                                                name="firstName"
-                                                label="Firstname"
-                                                value={props.values.firstName}
-                                                errorText={props.errors.firstName}
-                                                touched={props.touched.firstName}
-                                                onChange={props.handleChange}
-                                                onBlur={props.handleBlur}
-                                                autoComplete="off"
-                                                disabled={props.initialValues.firstName === '' ? false : true}
-                                                required={!Boolean(this.props.initialUser)}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <FormikTextField
-                                                name="lastName"
-                                                label="Lastname"
-                                                value={props.values.lastName}
-                                                errorText={props.errors.lastName}
-                                                touched={props.touched.lastName}
-                                                onChange={props.handleChange}
-                                                onBlur={props.handleBlur}
-                                                autoComplete="off"
-                                                disabled={props.initialValues.lastName === '' ? false : true}
-                                                required={!Boolean(this.props.initialUser)}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <FormikTextField
-                                                name="email"
-                                                label="Email"
-                                                value={props.values.email}
-                                                errorText={props.errors.email}
-                                                touched={props.touched.email}
-                                                onChange={props.handleChange}
-                                                onBlur={props.handleBlur}
-                                                autoComplete="off"
-                                                disabled={props.initialValues.email === '' ? false : true}
-                                                required={!Boolean(this.props.initialUser)}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <FormikSelect
-                                                name="role"
-                                                label="Role"
-                                                value={props.values.role}
-                                                selectValues={this.state.assignableRoles}
-                                                errorText={props.errors.role}
-                                                touched={props.touched.role}
-                                                onChange={props.handleChange}
-                                                onBlur={props.handleBlur}
-                                                required
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <FormikAutocompleteLabelMultiselect
-                                                name="authorizedProjects"
-                                                label="Authorized Projects"
-                                                placeholder=""
-                                                enabled={props.values.role.toUpperCase() === RoleEnum.USER.toUpperCase()}
-                                                options={this.props.projects.map((p) => p.name)}
-                                                defaultValue={
-                                                    this.props.initialUser ? this.getProjectNamesByProjectIds(this.props.initialUser.authorizedProjects) : []
-                                                }
-                                                onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
-                                                    props.setFieldValue('authorizedProjects', values, true);
-                                                }}
-                                            />
-                                            {props.values.role.toUpperCase() !== RoleEnum.USER.toUpperCase() && (
-                                                <Typography variant="subtitle1">Admins and Owners have access to all projects.</Typography>
-                                            )}
-                                        </Grid>
-                                        {this.state.serverErrors && (
-                                            <Grid item xs={12}>
-                                                <List>
-                                                    <ListItem>
-                                                        {this.state.serverErrors.map((error) => (
-                                                            <ListItemText primary={error} />
-                                                        ))}
-                                                    </ListItem>
-                                                </List>
-                                            </Grid>
-                                        )}
+                        });
+                    } else {
+                        userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
+                            if (response.isError) {
+                                const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                                enqueueSnackbar(response.error.message, { variant: 'error' });
+                                formikBag.setStatus(formikErrors as FormikErrors<IUser>);
+                                this.setState({ serverErrors: serverErrors });
+                                formikBag.setSubmitting(false);
+                                formikBag.resetForm({ values: newUser });
+                            } else {
+                                newUser.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING };
+                                dispatchAddUser(newUser);
+                                formikBag.setSubmitting(false);
+                                this.setState({ success: true });
+                                this.props.push(RoutePaths.Users);
+                            }
+                        });
+                    }
+                }}
+                validationSchema={this.validationSchema}
+            >
+                {(props) => (
+                    <React.Fragment>
+                        <div className={classes.toolbar}>
+                            <IconButton
+                                size="small"
+                                className={classes.return}
+                                disabled={props.isSubmitting}
+                                onClick={() => this.props.push(RoutePaths.Integrations)}
+                            >
+                                <ArrowLeft />
+                            </IconButton>
+                        </div>
+                        <Paper className={classes.paper} elevation={3}>
+                            <Typography align="center" variant="h5" gutterBottom>
+                                {this.props.initialUser ? 'Edit User' : 'New User'}
+                            </Typography>
+                            <form onSubmit={props.handleSubmit}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12}>
+                                        <FormikTextField
+                                            name="firstName"
+                                            label="Firstname"
+                                            value={props.values.firstName}
+                                            errorText={props.errors.firstName}
+                                            touched={props.touched.firstName}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            autoComplete="off"
+                                            disabled={props.initialValues.firstName === '' ? false : true}
+                                            required={!Boolean(this.props.initialUser)}
+                                        />
                                     </Grid>
-                                    <div className={classes.flexButtonContainer}>
-                                        <div className={classes.leftButtons}>
-                                            <FormikDeleteButton
-                                                isSubmitting={props.isSubmitting}
-                                                onConfirm={() => {
-                                                    this.deleteUser(props, enqueueSnackbar);
-                                                }}
-                                                dialogTitle="Delete user?"
-                                                confirmText="Delete"
-                                                dialogContent={'Are you sure you want to delete user ' + props.values.email + '?'}
-                                                disabled={!Boolean(this.props.initialUser)}
-                                            >
-                                                Delete
-                                            </FormikDeleteButton>
-                                        </div>
-                                        <FormikCancelButton
-                                            isSubmitting={props.isSubmitting}
-                                            onClick={() => {
-                                                this.props.push('/users');
+                                    <Grid item xs={12}>
+                                        <FormikTextField
+                                            name="lastName"
+                                            label="Lastname"
+                                            value={props.values.lastName}
+                                            errorText={props.errors.lastName}
+                                            touched={props.touched.lastName}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            autoComplete="off"
+                                            disabled={props.initialValues.lastName === '' ? false : true}
+                                            required={!Boolean(this.props.initialUser)}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormikTextField
+                                            name="email"
+                                            label="Email"
+                                            value={props.values.email}
+                                            errorText={props.errors.email}
+                                            touched={props.touched.email}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            autoComplete="off"
+                                            disabled={props.initialValues.email === '' ? false : true}
+                                            required={!Boolean(this.props.initialUser)}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormikSelect
+                                            name="role"
+                                            label="Role"
+                                            value={props.values.role}
+                                            selectValues={this.state.assignableRoles}
+                                            errorText={props.errors.role}
+                                            touched={props.touched.role}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormikAutocompleteLabelMultiselect
+                                            name="authorizedProjects"
+                                            label="Authorized Projects"
+                                            placeholder=""
+                                            enabled={props.values.role.toUpperCase() === RoleEnum.USER.toUpperCase()}
+                                            options={this.props.projects.map((p) => p.name)}
+                                            defaultValue={
+                                                this.props.initialUser ? this.getProjectNamesByProjectIds(this.props.initialUser.authorizedProjects) : []
+                                            }
+                                            onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
+                                                props.setFieldValue('authorizedProjects', values, true);
                                             }}
                                         />
-                                        <FormikSynchronousButton
-                                            isValid={props.isValid}
+                                        {props.values.role.toUpperCase() !== RoleEnum.USER.toUpperCase() && (
+                                            <Typography variant="subtitle1">Admins and Owners have access to all projects.</Typography>
+                                        )}
+                                    </Grid>
+                                    {this.state.serverErrors && (
+                                        <Grid item xs={12}>
+                                            <List>
+                                                <ListItem>
+                                                    {this.state.serverErrors.map((error) => (
+                                                        <ListItemText primary={error} />
+                                                    ))}
+                                                </ListItem>
+                                            </List>
+                                        </Grid>
+                                    )}
+                                </Grid>
+                                <div className={classes.flexButtonContainer}>
+                                    <div className={classes.leftButtons}>
+                                        <FormikDeleteButton
                                             isSubmitting={props.isSubmitting}
-                                            isSuccess={this.state.success}
-                                            variant="contained"
+                                            onConfirm={() => {
+                                                this.deleteUser(props, enqueueSnackbar);
+                                            }}
+                                            dialogTitle="Delete user?"
+                                            confirmText="Delete"
+                                            dialogContent={'Are you sure you want to delete user ' + props.values.email + '?'}
+                                            disabled={!Boolean(this.props.initialUser)}
                                         >
-                                            {props.initialValues.email === '' ? 'Create' : 'Update'}
-                                        </FormikSynchronousButton>
+                                            Delete
+                                        </FormikDeleteButton>
                                     </div>
-                                </form>
-                            )}
-                        </Formik>
-                    </Paper>
-                </main>
-            </React.Fragment>
+                                    <FormikSynchronousButton
+                                        isValid={props.isValid}
+                                        isSubmitting={props.isSubmitting}
+                                        isSuccess={this.state.success}
+                                        variant="contained"
+                                    >
+                                        {props.initialValues.email === '' ? 'Create' : 'Update'}
+                                    </FormikSynchronousButton>
+                                </div>
+                            </form>
+                        </Paper>
+                    </React.Fragment>
+                )}
+            </Formik>
         );
     }
 }

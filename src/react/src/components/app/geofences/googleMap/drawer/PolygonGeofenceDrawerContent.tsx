@@ -5,7 +5,7 @@ import FormikCancelButton from '../../../../form/FormikCancelButton';
 import FormikCheckbox from '../../../../form/FormikCheckbox';
 import PolygonGeofence from '../../../../../models/app/geofences/PolygonGeofence';
 import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
-import { Theme, createStyles, WithStyles, List, ListItem, ListItemText, withStyles, Grid, FormLabel, Typography } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, List, ListItem, ListItemText, withStyles, Grid, FormLabel, Typography, IconButton } from '@material-ui/core';
 import { PolygonGeofenceState } from '../../../../../redux/actions/GoogleMapsActions';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
@@ -25,7 +25,7 @@ import { StatusEnum } from '../../../../../models/StatusEnum';
 import FormikDictionaryBuilder from '../../../../form/FormikDictionaryBuilder';
 import Schedule from '../../../../../models/Schedule';
 import FormikScheduleBuilder from '../../../../form/FormikScheduleBuilder';
-import { isValid } from 'date-fns';
+import ArrowRight from 'mdi-material-ui/ArrowRight';
 import { EnvironmentEnum } from '../../../../../models/EnvironmentEnum';
 
 const geofenceService = new GeofenceService();
@@ -46,6 +46,9 @@ const styles = (theme: Theme) =>
         },
         width100TemporaryChromiumFix: {
             width: '100%',
+        },
+        return: {
+            margin: theme.spacing(4),
         },
         toolbar: {
             height: theme.toolbar.height * 1.5,
@@ -333,6 +336,9 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 {(props) => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
                         <div className={classes.toolbar} />
+                        <IconButton size="small" className={classes.return} disabled={props.isSubmitting} onClick={this.cancelGeofence}>
+                            <ArrowRight />
+                        </IconButton>
                         <Typography gutterBottom variant="h5" align="center">
                             {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
                         </Typography>
@@ -488,7 +494,6 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                     </FormikDeleteButton>
                                 )}
                             </div>
-                            <FormikCancelButton isSubmitting={props.isSubmitting} onClick={this.cancelGeofence} />
                             <FormikSynchronousButton
                                 isValid={props.isValid}
                                 isSubmitting={props.isSubmitting}

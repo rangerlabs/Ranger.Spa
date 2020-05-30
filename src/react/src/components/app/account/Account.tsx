@@ -9,14 +9,12 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikPrimaryButton from '../../form/FormikPrimaryButton';
 import FormikUpdateButton from '../../form/FormikUpdateButton';
-import FormikCancelButton from '../../form/FormikCancelButton';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
 import { IRestResponse, IValidationError } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import { User } from 'oidc-client';
 import { push } from 'connected-react-router';
-import RoutePaths from '../../RoutePaths';
 import DeleteAccountComponent from '../dialogContents/DeleteAccountContent';
 import { openDialog, DialogContent } from '../../../redux/actions/DialogActions';
 import ChangePasswordContent from '../dialogContents/ChangePasswordContent';
@@ -36,7 +34,7 @@ const userService = new UserService();
 const styles = (theme: Theme) =>
     createStyles({
         return: {
-            padding: theme.spacing(4),
+            margin: theme.spacing(4),
         },
         toolbar: {
             height: Constants.HEIGHT.TOOLBAR,
@@ -159,7 +157,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                 {(props) => (
                     <React.Fragment>
                         <div className={classes.toolbar}>
-                            <IconButton className={classes.return} color="primary" disabled={props.isSubmitting} onClick={() => window.history.back()}>
+                            <IconButton size="small" className={classes.return} disabled={props.isSubmitting} onClick={window.history.back}>
                                 <ArrowLeft />
                             </IconButton>
                         </div>
@@ -265,12 +263,6 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             Change password
                                         </Button>
                                     </div>
-                                    <FormikCancelButton
-                                        isSubmitting={props.isSubmitting}
-                                        onClick={() => {
-                                            this.props.push(RoutePaths.Dashboard);
-                                        }}
-                                    />
                                     {props.initialValues.email === '' ? (
                                         <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
                                     ) : (
