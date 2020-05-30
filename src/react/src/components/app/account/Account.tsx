@@ -257,16 +257,6 @@ class Account extends React.Component<AccountProps, AccountState> {
                                         >
                                             Delete
                                         </FormikDeleteButton>
-                                        <Button
-                                            onClick={() => {
-                                                this.props.openDialog(new DialogContent(<ChangePasswordContent />));
-                                            }}
-                                            className={classes.changePassword}
-                                            disabled={props.isSubmitting}
-                                            variant="text"
-                                        >
-                                            Change password
-                                        </Button>
                                     </div>
                                     {props.initialValues.email === '' ? (
                                         <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
@@ -275,6 +265,22 @@ class Account extends React.Component<AccountProps, AccountState> {
                                     )}
                                 </div>
                             </form>
+
+                            {
+                                <Paper className={classes.paper} elevation={3}>
+                                    <Typography variant="h5">Change Password</Typography>
+                                    <Button
+                                        onClick={() => {
+                                            this.props.openDialog(new DialogContent(<ChangePasswordContent />));
+                                        }}
+                                        className={classes.changePassword}
+                                        disabled={props.isSubmitting}
+                                        variant="outlined"
+                                    >
+                                        Change password
+                                    </Button>
+                                </Paper>
+                            }
 
                             {this.props.canTransferOwnership && this.isPrimaryOwner && (
                                 <Paper className={classes.paper} elevation={3}>
@@ -285,6 +291,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             onClick={() => {
                                                 this.props.openDialog(new DialogContent(<CancelOwnershipTransferContent />));
                                             }}
+                                            variant="outlined"
                                         >
                                             Cancel Transfer
                                         </Button>
@@ -293,6 +300,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             onClick={() => {
                                                 this.props.openDialog(new DialogContent(<TransferOwnershipContent />));
                                             }}
+                                            variant="outlined"
                                         >
                                             Transfer
                                         </Button>
