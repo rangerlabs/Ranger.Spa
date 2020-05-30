@@ -254,7 +254,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 <Grid container justify="flex-end">
                                     <Grid item>
                                         {props.initialValues.email === '' ? (
-                                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="outlined" />
+                                            <FormikPrimaryButton color="primary" isValid={props.isValid} isSubmitting={props.isSubmitting} variant="outlined" />
                                         ) : (
                                             <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
                                         )}
@@ -271,6 +271,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                         onClick={() => {
                                             this.props.openDialog(new DialogContent(<ChangePasswordContent />));
                                         }}
+                                        color="primary"
                                         className={classes.changePassword}
                                         disabled={props.isSubmitting}
                                         variant="outlined"
@@ -289,6 +290,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                         onClick={() => {
                                             this.props.openDialog(new DialogContent(<ChangeEmailContent />));
                                         }}
+                                        color="primary"
                                         className={classes.changePassword}
                                         disabled={props.isSubmitting}
                                         variant="outlined"
@@ -309,6 +311,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 onClick={() => {
                                                     this.props.openDialog(new DialogContent(<CancelOwnershipTransferContent />));
                                                 }}
+                                                color="primary"
                                                 className={classes.transfer}
                                                 variant="outlined"
                                             >
@@ -319,6 +322,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 onClick={() => {
                                                     this.props.openDialog(new DialogContent(<TransferOwnershipContent />));
                                                 }}
+                                                color="primary"
                                                 className={classes.transfer}
                                                 variant="outlined"
                                             >
