@@ -29,6 +29,7 @@ import { PendingPrimaryOwnerTransfer } from '../../../models/app/PendingPrimaryO
 import CancelOwnershipTransferContent from '../dialogContents/CancelOwnershipTransferContent';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import Constants from '../../../theme/Constants';
+import RoutePaths from '../../RoutePaths';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -158,7 +159,11 @@ class Account extends React.Component<AccountProps, AccountState> {
             >
                 {(props) => (
                     <React.Fragment>
-                        <IconButton className={classes.return} disabled={props.isSubmitting} onClick={window.history.back}>
+                        <IconButton
+                            className={classes.return}
+                            disabled={props.isSubmitting}
+                            onClick={window.history.length ? window.history.back : () => this.props.push(RoutePaths.Dashboard)}
+                        >
                             <ArrowLeft />
                         </IconButton>
                         <Paper className={classes.paper} elevation={3}>

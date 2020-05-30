@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Formik, FormikProps, FormikBag } from 'formik';
 import FormikTextField from '../../../../form/FormikTextField';
-import FormikCancelButton from '../../../../form/FormikCancelButton';
 import FormikCheckbox from '../../../../form/FormikCheckbox';
 import PolygonGeofence from '../../../../../models/app/geofences/PolygonGeofence';
 import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
