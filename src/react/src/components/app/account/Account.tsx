@@ -175,9 +175,12 @@ class Account extends React.Component<AccountProps, AccountState> {
                             <ArrowLeft />
                         </IconButton>
                         <Paper className={classes.paper} elevation={3}>
-                            <Typography align="center" variant="h5" gutterBottom>
+                            <Typography align="center" variant="h5">
                                 Your Account
                             </Typography>
+                        </Paper>
+                        <Paper className={classes.paper} elevation={3}>
+                            <Typography variant="h6">Account Details</Typography>
                             <form onSubmit={props.handleSubmit}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
@@ -255,7 +258,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                             </form>
                         </Paper>
                         <Paper className={classNames(classes.paper)} elevation={3}>
-                            <Typography variant="h5">Change Password</Typography>
+                            <Typography variant="h6">Change Password</Typography>
                             <Typography variant="subtitle1">Request a password reset email.</Typography>
                             <Grid container justify="flex-end">
                                 <Grid item>
@@ -273,7 +276,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                             </Grid>
                         </Paper>
                         <Paper className={classNames(classes.paper)} elevation={3}>
-                            <Typography variant="h5">Change Email</Typography>
+                            <Typography variant="h6">Change Email</Typography>
                             <Typography variant="subtitle1">Change your account email address.</Typography>
                             <Grid container justify="flex-end">
                                 <Grid item>
@@ -292,7 +295,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                         </Paper>
                         {this.props.canTransferOwnership && this.isPrimaryOwner && (
                             <Paper className={classNames(classes.paper)} elevation={3}>
-                                <Typography variant="h5">Transfer Domain Ownerhship</Typography>
+                                <Typography variant="h6">Transfer Domain Ownerhship</Typography>
                                 <Typography variant="subtitle1">Transfer primary ownership of the domain to an existing user.</Typography>
                                 <Grid container justify="flex-end">
                                     <Grid item>
@@ -323,7 +326,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                         )}
                         {!this.isPrimaryOwner && (
                             <Paper className={classNames(classes.paper)} elevation={3}>
-                                <Typography variant="h5">Delete Account</Typography>
+                                <Typography variant="h6">Delete Account</Typography>
                                 <Typography variant="subtitle1">Remove your account from your organization.</Typography>
                                 <Grid container justify="flex-end">
                                     <Grid item>
