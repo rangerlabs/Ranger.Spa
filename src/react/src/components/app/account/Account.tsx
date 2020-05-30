@@ -158,7 +158,7 @@ class Account extends React.Component<AccountProps, AccountState> {
             >
                 {(props) => (
                     <React.Fragment>
-                        <IconButton size="small" className={classes.return} disabled={props.isSubmitting} onClick={window.history.back}>
+                        <IconButton className={classes.return} disabled={props.isSubmitting} onClick={window.history.back}>
                             <ArrowLeft />
                         </IconButton>
                         <Paper className={classes.paper} elevation={3}>

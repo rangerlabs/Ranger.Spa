@@ -243,7 +243,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
             >
                 {(props) => (
                     <React.Fragment>
-                        <IconButton size="small" className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Projects)}>
+                        <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Projects)}>
                             <ArrowLeft />
                         </IconButton>
                         <Paper className={classes.paper} elevation={3}>

@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, List, ListItemText, Typography, ListItem, Tooltip, IconButton } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../../form/FormikTextField';
-import FormikCancelButton from '../../../form/FormikCancelButton';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../stores/index';
 import { push } from 'connected-react-router';
@@ -139,12 +138,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
             >
                 {(props) => (
                     <React.Fragment>
-                        <IconButton
-                            size="small"
-                            className={classes.return}
-                            disabled={props.isSubmitting}
-                            onClick={() => this.props.push(RoutePaths.Integrations)}
-                        >
+                        <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Integrations)}>
                             <ArrowLeft />
                         </IconButton>
                         <Paper className={classes.paper} elevation={3}>

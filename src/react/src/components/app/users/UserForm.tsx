@@ -234,12 +234,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
             >
                 {(props) => (
                     <React.Fragment>
-                        <IconButton
-                            size="small"
-                            className={classes.return}
-                            disabled={props.isSubmitting}
-                            onClick={() => this.props.push(RoutePaths.Integrations)}
-                        >
+                        <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Integrations)}>
                             <ArrowLeft />
                         </IconButton>
                         <Paper className={classes.paper} elevation={3}>

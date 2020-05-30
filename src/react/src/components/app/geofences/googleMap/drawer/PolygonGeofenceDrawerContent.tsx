@@ -336,7 +336,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 {(props) => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
                         <div className={classes.toolbar} />
-                        <IconButton size="small" className={classes.return} disabled={props.isSubmitting} onClick={this.cancelGeofence}>
+                        <IconButton className={classes.return} disabled={props.isSubmitting} onClick={this.cancelGeofence}>
                             <ArrowRight />
                         </IconButton>
                         <Typography gutterBottom variant="h5" align="center">

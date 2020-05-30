@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Formik, FormikProps, FormikBag } from 'formik';
 import FormikTextField from '../../../../form/FormikTextField';
-import FormikCancelButton from '../../../../form/FormikCancelButton';
 import FormikDeleteButton from '../../../../form/FormikDeleteButton';
 import FormikCheckbox from '../../../../form/FormikCheckbox';
 import CircleGeofence from '../../../../../models/app/geofences/CircleGeofence';
@@ -337,7 +336,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 {(props) => (
                     <form className={classes.form} onSubmit={props.handleSubmit}>
                         <div className={classes.toolbar} />
-                        <IconButton size="small" className={classes.return} disabled={props.isSubmitting} onClick={this.cancelGeofence}>
+                        <IconButton className={classes.return} disabled={props.isSubmitting} onClick={this.cancelGeofence}>
                             <ArrowRight />
                         </IconButton>
                         <Typography gutterBottom variant="h5" align="center">
