@@ -1,21 +1,7 @@
 import * as React from 'react';
 import { Formik, FormikProps, FormikBag, FormikErrors, FormikTouched } from 'formik';
 import * as Yup from 'yup';
-import {
-    withStyles,
-    createStyles,
-    Theme,
-    WithStyles,
-    Paper,
-    Grid,
-    CssBaseline,
-    List,
-    ListItemText,
-    Typography,
-    ListItem,
-    Tooltip,
-    IconButton,
-} from '@material-ui/core';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, List, ListItemText, Typography, ListItem, Tooltip, IconButton } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../../form/FormikTextField';
 import FormikCancelButton from '../../../form/FormikCancelButton';
@@ -59,7 +45,9 @@ const styles = (theme: Theme) =>
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            marginTop: theme.toolbar.height,
+            [theme.breakpoints.down(600 + theme.spacing(2 * 2))]: {
+                marginTop: theme.toolbar.height,
+            },
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
                 marginLeft: 'auto',
@@ -151,16 +139,14 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
             >
                 {(props) => (
                     <React.Fragment>
-                        <div className={classes.toolbar}>
-                            <IconButton
-                                size="small"
-                                className={classes.return}
-                                disabled={props.isSubmitting}
-                                onClick={() => this.props.push(RoutePaths.Integrations)}
-                            >
-                                <ArrowLeft />
-                            </IconButton>
-                        </div>
+                        <IconButton
+                            size="small"
+                            className={classes.return}
+                            disabled={props.isSubmitting}
+                            onClick={() => this.props.push(RoutePaths.Integrations)}
+                        >
+                            <ArrowLeft />
+                        </IconButton>
                         <Paper className={classes.paper} elevation={3}>
                             <Typography align="center" variant="h5" gutterBottom>
                                 {this.props.editIntegration ? 'Edit Webhook Integration' : 'New Webhook Integration'}

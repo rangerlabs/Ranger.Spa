@@ -3,20 +3,7 @@ import IProject from '../../../models/app/IProject';
 import ProjectService from '../../../services/ProjectService';
 import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
 import * as Yup from 'yup';
-import {
-    withStyles,
-    createStyles,
-    Theme,
-    Button,
-    WithStyles,
-    Paper,
-    Grid,
-    CssBaseline,
-    Typography,
-    TextField,
-    InputAdornment,
-    IconButton,
-} from '@material-ui/core';
+import { withStyles, createStyles, Theme, Button, WithStyles, Paper, Grid, Typography, TextField, InputAdornment, IconButton } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikCancelButton from '../../form/FormikCancelButton';
@@ -68,7 +55,9 @@ const styles = (theme: Theme) =>
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            marginTop: theme.toolbar.height,
+            [theme.breakpoints.down(600 + theme.spacing(2 * 2))]: {
+                marginTop: theme.toolbar.height,
+            },
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
                 marginLeft: 'auto',
@@ -254,16 +243,9 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
             >
                 {(props) => (
                     <React.Fragment>
-                        <div className={classes.toolbar}>
-                            <IconButton
-                                size="small"
-                                className={classes.return}
-                                disabled={props.isSubmitting}
-                                onClick={() => this.props.push(RoutePaths.Projects)}
-                            >
-                                <ArrowLeft />
-                            </IconButton>
-                        </div>
+                        <IconButton size="small" className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Projects)}>
+                            <ArrowLeft />
+                        </IconButton>
                         <Paper className={classes.paper} elevation={3}>
                             <Typography align="center" variant="h5" gutterBottom>
                                 {this.state.initialProject ? (userIsInRole(this.props.user, RoleEnum.ADMIN) ? 'Edit Project' : 'View Project') : 'New Project'}

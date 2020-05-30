@@ -52,7 +52,9 @@ const styles = (theme: Theme) =>
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            marginTop: theme.toolbar.height,
+            [theme.breakpoints.down(600 + theme.spacing(2 * 2))]: {
+                marginTop: theme.toolbar.height,
+            },
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
                 marginLeft: 'auto',
@@ -232,16 +234,14 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
             >
                 {(props) => (
                     <React.Fragment>
-                        <div className={classes.toolbar}>
-                            <IconButton
-                                size="small"
-                                className={classes.return}
-                                disabled={props.isSubmitting}
-                                onClick={() => this.props.push(RoutePaths.Integrations)}
-                            >
-                                <ArrowLeft />
-                            </IconButton>
-                        </div>
+                        <IconButton
+                            size="small"
+                            className={classes.return}
+                            disabled={props.isSubmitting}
+                            onClick={() => this.props.push(RoutePaths.Integrations)}
+                        >
+                            <ArrowLeft />
+                        </IconButton>
                         <Paper className={classes.paper} elevation={3}>
                             <Typography align="center" variant="h5" gutterBottom>
                                 {this.props.initialUser ? 'Edit User' : 'New User'}
