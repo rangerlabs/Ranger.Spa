@@ -30,39 +30,41 @@ import { userIsInRole } from '../../../helpers/Helpers';
 import { RoleEnum } from '../../../models/RoleEnum';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import Constants from '../../../theme/Constants';
+import classNames from 'classnames';
 
 const projectService = new ProjectService();
 
 const styles = (theme: Theme) =>
     createStyles({
-        return: {
-            margin: theme.spacing(4),
-        },
-        toolbar: {
-            height: Constants.HEIGHT.TOOLBAR,
-        },
-        flexButtonContainer: {
-            display: 'flex',
-        },
-        leftButtons: {
-            flexGrow: 1,
-        },
-        disableBottomPadding: {
-            paddingBottom: '0px !important',
-        },
         paper: {
             padding: theme.spacing(4),
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            [theme.breakpoints.down(600 + theme.spacing(2 * 2))]: {
-                marginTop: theme.toolbar.height,
-            },
+            marginTop: theme.spacing(3),
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
+        },
+        return: {
+            position: 'sticky',
+            top: theme.toolbar.height + theme.spacing(4),
+            marginLeft: theme.spacing(4),
+        },
+        toolbar: {
+            height: Constants.HEIGHT.TOOLBAR,
+        },
+        title: {
+            padding: theme.spacing(2),
+            marginTop: 0,
+        },
+        bottomPaper: {
+            marginBottom: theme.spacing(3),
+        },
+        disableBottomPadding: {
+            paddingBottom: '0px !important',
         },
     });
 interface IProjectFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
@@ -185,7 +187,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
     });
 
     render() {
-        const { classes, closeDialog, enqueueSnackbar, dispatchAddProject, dispatchUpdateProject } = this.props;
+        const { classes, enqueueSnackbar, dispatchAddProject, dispatchUpdateProject } = this.props;
         return (
             <Formik
                 enableReinitialize
@@ -246,10 +248,14 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Projects)}>
                             <ArrowLeft />
                         </IconButton>
-                        <Paper className={classes.paper} elevation={3}>
-                            <Typography align="center" variant="h5" gutterBottom>
+                        <Paper className={classNames(classes.title, classes.paper)} elevation={3}>
+                            <Typography align="center" variant="h5">
                                 {this.state.initialProject ? (userIsInRole(this.props.user, RoleEnum.ADMIN) ? 'Edit Project' : 'View Project') : 'New Project'}
                             </Typography>
+                        </Paper>
+                        <Paper className={classes.paper} elevation={3}>
+                            <Typography variant="h6">Project Details</Typography>
+                            <Typography variant="subtitle1">The project's details.</Typography>
                             <form onSubmit={props.handleSubmit}>
                                 <Grid container spacing={3}>
                                     <Grid className={classes.disableBottomPadding} item xs={12}>
@@ -347,28 +353,36 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         </Grid>
                                     )}
                                 </Grid>
-                                <div className={classes.flexButtonContainer}>
-                                    <div className={classes.leftButtons}>
-                                        {userIsInRole(this.props.user, RoleEnum.ADMIN) && this.state.initialProject && (
-                                            <FormikDeleteButton
-                                                isSubmitting={props.isSubmitting}
-                                                dialogTitle={`Delete ${this.state.initialProject.name}?`}
-                                                dialogContent={
-                                                    <DeleteProjectContent id={this.state.initialProject.projectId} name={this.state.initialProject.name} />
-                                                }
-                                            >
-                                                Delete
-                                            </FormikDeleteButton>
-                                        )}
-                                    </div>
-                                    {userIsInRole(this.props.user, RoleEnum.ADMIN) && (
-                                        <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
-                                            {props.initialValues.name === '' ? 'Create' : 'Update'}
-                                        </FormikSynchronousButton>
-                                    )}
-                                </div>
+                                {userIsInRole(this.props.user, RoleEnum.ADMIN) && (
+                                    <Grid container justify="flex-end">
+                                        <Grid item>
+                                            <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
+                                                {props.initialValues.name === '' ? 'Create' : 'Update'}
+                                            </FormikSynchronousButton>
+                                        </Grid>
+                                    </Grid>
+                                )}
                             </form>
                         </Paper>
+                        {userIsInRole(this.props.user, RoleEnum.ADMIN) && this.state.initialProject && (
+                            <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
+                                <Typography variant="h6">Delete</Typography>
+                                <Typography variant="subtitle1">Remove the project.</Typography>
+                                <Grid container justify="flex-end">
+                                    <Grid item>
+                                        <FormikDeleteButton
+                                            isSubmitting={props.isSubmitting}
+                                            dialogTitle={`Delete ${this.state.initialProject.name}?`}
+                                            dialogContent={
+                                                <DeleteProjectContent id={this.state.initialProject.projectId} name={this.state.initialProject.name} />
+                                            }
+                                        >
+                                            Delete
+                                        </FormikDeleteButton>
+                                    </Grid>
+                                </Grid>
+                            </Paper>
+                        )}
                     </React.Fragment>
                 )}
             </Formik>

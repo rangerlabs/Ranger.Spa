@@ -345,7 +345,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             disabled={this.isPrimaryOwner}
                                             dialogContent={<DeleteAccountComponent />}
                                         >
-                                            Delete Account
+                                            Delete
                                         </FormikDeleteButton>
                                     </Grid>
                                 </Grid>
