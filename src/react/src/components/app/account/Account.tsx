@@ -38,7 +38,7 @@ const userService = new UserService();
 const styles = (theme: Theme) =>
     createStyles({
         return: {
-            position: 'stick',
+            position: 'sticky',
             top: theme.toolbar.height + theme.spacing(4),
             marginLeft: theme.spacing(4),
         },
