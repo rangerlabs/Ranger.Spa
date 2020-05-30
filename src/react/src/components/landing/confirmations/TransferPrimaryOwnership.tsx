@@ -17,7 +17,7 @@ const styles = (theme: Theme) =>
         paper: {
             padding: theme.spacing(4),
             width: 'auto',
-            marginTop: theme.toolbar.height * 2,
+            marginTop: '20%',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
