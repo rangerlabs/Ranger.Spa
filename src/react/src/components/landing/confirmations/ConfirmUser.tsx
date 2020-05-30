@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, LinearProgress, createStyles, Theme, WithStyles, Button, withStyles, Grid } from '@material-ui/core';
+import { Typography, LinearProgress, createStyles, Theme, WithStyles, Button, withStyles, Grid, Paper } from '@material-ui/core';
 import * as queryString from 'query-string';
 import IPasswordResetModel from '../../../models/landing/IPasswordResetModel';
 import { connect } from 'react-redux';
@@ -92,7 +92,7 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
     render() {
         const { classes } = this.props;
         return (
-            <div className={classes.layout}>
+            <Paper className={classes.layout} elevation={3}>
                 {!this.state.success ? (
                     <Formik
                         initialValues={
@@ -117,6 +117,7 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                                 }
                             });
                         }}
+                        validateOnMount={false}
                         validationSchema={this.validationSchema}
                     >
                         {(props) => (
@@ -201,7 +202,7 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                         </Grid>
                     </Grid>
                 )}
-            </div>
+            </Paper>
         );
     }
 }

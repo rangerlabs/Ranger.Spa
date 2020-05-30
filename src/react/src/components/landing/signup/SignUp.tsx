@@ -15,17 +15,6 @@ import IReviewForm from '../../../models/landing/IReviewForm';
 
 const styles = (theme: Theme) =>
     createStyles({
-        layout: {
-            width: 'auto',
-            marginTop: theme.toolbar.height,
-            marginLeft: theme.spacing(2),
-            marginRight: theme.spacing(2),
-            [theme.breakpoints.up(500 + theme.spacing(2 * 2))]: {
-                width: 500,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-            },
-        },
         stepper: {
             padding: `${theme.spacing(3)}px 0 ${theme.spacing(5)}px`,
             backgroundColor: theme.palette.common.white,
@@ -36,6 +25,15 @@ const styles = (theme: Theme) =>
         },
         paper: {
             padding: theme.spacing(4),
+            width: 'auto',
+            marginTop: theme.toolbar.height,
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
+            [theme.breakpoints.up(500 + theme.spacing(2 * 2))]: {
+                width: 500,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            },
         },
     });
 
@@ -133,39 +131,35 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
         const { prevStep, activeStep } = this.state;
 
         return (
-            <React.Fragment>
-                <div className={classes.layout}>
-                    <Paper className={classes.paper} elevation={3}>
-                        <Typography component="h1" variant="h4" align="center">
-                            Welcome to Ranger
-                        </Typography>
-                        <Stepper activeStep={activeStep} className={classes.stepper} alternativeLabel>
-                            {steps.map((label) => (
-                                <Step key={label}>
-                                    <StepLabel>{label}</StepLabel>
-                                </Step>
-                            ))}
-                        </Stepper>
+            <Paper className={classes.paper} elevation={3}>
+                <Typography component="h1" variant="h4" align="center">
+                    Welcome to Ranger
+                </Typography>
+                <Stepper activeStep={activeStep} className={classes.stepper} alternativeLabel>
+                    {steps.map((label) => (
+                        <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                        </Step>
+                    ))}
+                </Stepper>
+                <React.Fragment>
+                    {activeStep === steps.length ? (
                         <React.Fragment>
-                            {activeStep === steps.length ? (
-                                <React.Fragment>
-                                    <Typography variant="h5" gutterBottom align="center">
-                                        Thank you for registering.
-                                    </Typography>
-                                    <Typography variant="subtitle1" align="center">
-                                        We're creating your domain and account.
-                                    </Typography>
-                                    <Typography variant="subtitle1" align="center">
-                                        You will receive an email shortly to confirm your domain.
-                                    </Typography>
-                                </React.Fragment>
-                            ) : (
-                                <React.Fragment>{this.getStepContent(activeStep)}</React.Fragment>
-                            )}
+                            <Typography variant="h5" gutterBottom align="center">
+                                Thank you for registering.
+                            </Typography>
+                            <Typography variant="subtitle1" align="center">
+                                We're creating your domain and account.
+                            </Typography>
+                            <Typography variant="subtitle1" align="center">
+                                You will receive an email shortly to confirm your domain.
+                            </Typography>
                         </React.Fragment>
-                    </Paper>
-                </div>
-            </React.Fragment>
+                    ) : (
+                        <React.Fragment>{this.getStepContent(activeStep)}</React.Fragment>
+                    )}
+                </React.Fragment>
+            </Paper>
         );
     }
 }

@@ -30,12 +30,14 @@ import CancelOwnershipTransferContent from '../dialogContents/CancelOwnershipTra
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import Constants from '../../../theme/Constants';
 import RoutePaths from '../../RoutePaths';
+import { red } from '@material-ui/core/colors';
+import classNames from 'classnames';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
     createStyles({
         return: {
-            margin: theme.spacing(4),
+            margin: theme.spacing(3),
         },
         toolbar: {
             height: Constants.HEIGHT.TOOLBAR,
@@ -53,14 +55,25 @@ const styles = (theme: Theme) =>
         changePassword: {
             marginTop: theme.spacing(3),
         },
+        transfer: {
+            marginTop: theme.spacing(3),
+            color: red[600],
+            '&:hover': {
+                backgroundColor: '#e539351c',
+                color: theme.palette.error.main,
+            },
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: red[600],
+        },
+        lowerPaper: {
+            marginTop: theme.spacing(3),
+        },
         paper: {
             padding: theme.spacing(4),
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            [theme.breakpoints.down(600 + theme.spacing(2 * 2))]: {
-                marginTop: theme.toolbar.height,
-            },
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
                 marginLeft: 'auto',
@@ -266,43 +279,53 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 </div>
                             </form>
                         </Paper>
-                        <Paper className={classes.paper} elevation={3}>
+                        <Paper className={classNames(classes.paper, classes.lowerPaper)} elevation={3}>
                             <Typography variant="h5">Change Password</Typography>
-                            <Button
-                                onClick={() => {
-                                    this.props.openDialog(new DialogContent(<ChangePasswordContent />));
-                                }}
-                                className={classes.changePassword}
-                                disabled={props.isSubmitting}
-                                variant="outlined"
-                            >
-                                Change password
-                            </Button>
+                            <Grid container justify="flex-end">
+                                <Grid item>
+                                    <Button
+                                        onClick={() => {
+                                            this.props.openDialog(new DialogContent(<ChangePasswordContent />));
+                                        }}
+                                        className={classes.changePassword}
+                                        disabled={props.isSubmitting}
+                                        variant="outlined"
+                                    >
+                                        Change password
+                                    </Button>
+                                </Grid>
+                            </Grid>
                         </Paper>
 
                         {this.props.canTransferOwnership && this.isPrimaryOwner && (
-                            <Paper className={classes.paper} elevation={3}>
+                            <Paper className={classNames(classes.paper, classes.lowerPaper)} elevation={3}>
                                 <Typography variant="h5">Transfer Domain Ownerhship</Typography>
-                                <Typography variant="subtitle1">Transfer primary ownership of a domain to an existing user.</Typography>
-                                {this.props.pendingPrimaryOwnerTransfer ? (
-                                    <Button
-                                        onClick={() => {
-                                            this.props.openDialog(new DialogContent(<CancelOwnershipTransferContent />));
-                                        }}
-                                        variant="outlined"
-                                    >
-                                        Cancel Transfer
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        onClick={() => {
-                                            this.props.openDialog(new DialogContent(<TransferOwnershipContent />));
-                                        }}
-                                        variant="outlined"
-                                    >
-                                        Transfer
-                                    </Button>
-                                )}
+                                <Typography variant="subtitle1">Transfer primary ownership of the domain to an existing user.</Typography>
+                                <Grid container justify="flex-end">
+                                    <Grid item>
+                                        {this.props.pendingPrimaryOwnerTransfer ? (
+                                            <Button
+                                                onClick={() => {
+                                                    this.props.openDialog(new DialogContent(<CancelOwnershipTransferContent />));
+                                                }}
+                                                className={classes.transfer}
+                                                variant="outlined"
+                                            >
+                                                Cancel Transfer
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                onClick={() => {
+                                                    this.props.openDialog(new DialogContent(<TransferOwnershipContent />));
+                                                }}
+                                                className={classes.transfer}
+                                                variant="outlined"
+                                            >
+                                                Transfer
+                                            </Button>
+                                        )}
+                                    </Grid>
+                                </Grid>
                             </Paper>
                         )}
                     </React.Fragment>
