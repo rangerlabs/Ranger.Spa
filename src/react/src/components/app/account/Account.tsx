@@ -38,9 +38,9 @@ const userService = new UserService();
 const styles = (theme: Theme) =>
     createStyles({
         return: {
-            position: 'absolute',
+            position: 'stick',
             top: theme.toolbar.height + theme.spacing(4),
-            left: theme.spacing(4),
+            marginLeft: theme.spacing(4),
         },
         toolbar: {
             height: Constants.HEIGHT.TOOLBAR,
@@ -176,7 +176,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                         >
                             <ArrowLeft />
                         </IconButton>
-                        <Paper className={classNames(classes.paper, classes.title)} elevation={3}>
+                        <Paper className={classNames(classes.title, classes.paper)} elevation={3}>
                             <Typography align="center" variant="h5">
                                 Your Account
                             </Typography>
@@ -298,7 +298,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                             </Grid>
                         </Paper>
                         {this.props.canTransferOwnership && this.isPrimaryOwner && (
-                            <Paper className={classNames(classes.paper)} elevation={3}>
+                            <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
                                 <Typography variant="h6">Transfer Domain Ownerhship</Typography>
                                 <Typography variant="subtitle1">Transfer primary ownership of the domain to an existing user.</Typography>
                                 <Grid container justify="flex-end">
@@ -329,7 +329,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                             </Paper>
                         )}
                         {!this.isPrimaryOwner && (
-                            <Paper className={classNames(classes.paper, classes.bottomPaper)} elevation={3}>
+                            <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
                                 <Typography variant="h6">Delete Account</Typography>
                                 <Typography variant="subtitle1">Remove your account from your organization.</Typography>
                                 <Grid container justify="flex-end">
