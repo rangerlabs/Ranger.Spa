@@ -148,9 +148,8 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                             </Typography>
                         </Paper>
                         <Paper className={classes.paper} elevation={3}>
-                            <Typography variant="h6">Integration Details</Typography>
-                            <Typography variant="subtitle1" gutterBottom>
-                                The integration's details.
+                            <Typography variant="h6" gutterBottom>
+                                Integration Details
                             </Typography>
                             <form onSubmit={props.handleSubmit}>
                                 {this.props.isPendingCreation && (

@@ -241,9 +241,8 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                             </Typography>
                         </Paper>
                         <Paper className={classes.paper} elevation={3}>
-                            <Typography variant="h6">User Details</Typography>
-                            <Typography variant="subtitle1" gutterBottom>
-                                The user's details.
+                            <Typography variant="h6" gutterBottom>
+                                User Details
                             </Typography>
                             <form onSubmit={props.handleSubmit}>
                                 <Grid container spacing={3}>

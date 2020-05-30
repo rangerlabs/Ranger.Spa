@@ -37,9 +37,6 @@ const styles = (theme: Theme) =>
             paddingBottom: 0,
             paddingLeft: theme.spacing(2),
         },
-        flexButtons: {
-            display: 'flex',
-        },
         leftButtons: {
             flexGrow: 1,
         },
@@ -54,6 +51,14 @@ const styles = (theme: Theme) =>
         },
         bottomPush: {
             height: theme.toolbar.height,
+        },
+        controls: {
+            display: 'flex',
+            position: 'sticky',
+            bottom: '0px',
+            padding: theme.spacing(2),
+            background: theme.palette.common.white,
+            boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
         },
     });
 
@@ -333,149 +338,152 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 validationSchema={this.validationSchema}
             >
                 {(props) => (
-                    <form className={classes.form} onSubmit={props.handleSubmit}>
-                        <div className={classes.toolbar} />
-                        <IconButton className={classes.return} disabled={props.isSubmitting} onClick={this.cancelGeofence}>
-                            <ArrowRight />
-                        </IconButton>
-                        <Typography gutterBottom variant="h5" align="center">
-                            {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
-                        </Typography>
-                        <Grid container direction="column" spacing={4}>
-                            {this.isPendingCreation() && (
+                    <React.Fragment>
+                        <form className={classes.form} onSubmit={props.handleSubmit}>
+                            <div className={classes.toolbar} />
+                            <IconButton className={classes.return} disabled={props.isSubmitting} onClick={this.cancelGeofence}>
+                                <ArrowRight />
+                            </IconButton>
+                            <Typography gutterBottom variant="h5" align="center">
+                                {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
+                            </Typography>
+                            <Grid container direction="column" spacing={4}>
+                                {this.isPendingCreation() && (
+                                    <Grid container item xs={12} spacing={0}>
+                                        <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                            <Typography align="center" color="error">
+                                                This geofence is pending creation. Please wait until the geofence is successfully created to issue updates.
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                )}
                                 <Grid container item xs={12} spacing={0}>
                                     <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                        <Typography align="center" color="error">
-                                            This geofence is pending creation. Please wait until the geofence is successfully created to issue updates.
-                                        </Typography>
+                                        <FormikCheckbox
+                                            infoText="Whether the geofence should execute integrations."
+                                            name="enabled"
+                                            label="Enabled"
+                                            value={props.values.enabled}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            disabled={this.isPendingCreation()}
+                                        />
                                     </Grid>
                                 </Grid>
-                            )}
-                            <Grid container item xs={12} spacing={0}>
                                 <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                    <FormikCheckbox
-                                        infoText="Whether the geofence should execute integrations."
-                                        name="enabled"
-                                        label="Enabled"
-                                        value={props.values.enabled}
+                                    <FormikTextField
+                                        infoText="A unique identifier for the geofence."
+                                        name="externalId"
+                                        label="External Id"
+                                        value={props.values.externalId}
+                                        errorText={props.errors.externalId}
+                                        touched={props.touched.externalId}
                                         onChange={props.handleChange}
                                         onBlur={props.handleBlur}
+                                        autoComplete="off"
+                                        required
                                         disabled={this.isPendingCreation()}
                                     />
                                 </Grid>
-                            </Grid>
-                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikTextField
-                                    infoText="A unique identifier for the geofence."
-                                    name="externalId"
-                                    label="External Id"
-                                    value={props.values.externalId}
-                                    errorText={props.errors.externalId}
-                                    touched={props.touched.externalId}
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                    <FormikTextField
+                                        infoText="An optional description for the geofence."
+                                        name="description"
+                                        label="Description"
+                                        value={props.values.description}
+                                        errorText={props.errors.description}
+                                        touched={props.touched.description}
+                                        onChange={props.handleChange}
+                                        onBlur={props.handleBlur}
+                                        autoComplete="off"
+                                        disabled={this.isPendingCreation()}
+                                    />
+                                </Grid>
+                                <Grid container item xs={12} spacing={0}>
+                                    <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                        <FormLabel component="label">Send events when users</FormLabel>
+                                    </Grid>
+                                    <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                        <FormikCheckbox
+                                            infoText="Send events when a user enters this geofence."
+                                            name="onEnter"
+                                            label="Enter"
+                                            value={props.values.onEnter}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            disabled={this.isPendingCreation()}
+                                        />
+                                    </Grid>
+                                    <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                        <FormikCheckbox
+                                            infoText="Send events when a user has entered and is continuing to dwell within this geofence."
+                                            name="onDwell"
+                                            label="Dwell"
+                                            value={props.values.onDwell}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            disabled={this.isPendingCreation()}
+                                        />
+                                    </Grid>
+                                    <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                        <FormikCheckbox
+                                            infoText="Send events when a user has entered and then exits this geofence."
+                                            name="onExit"
+                                            label="Exit"
+                                            value={props.values.onExit}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            disabled={this.isPendingCreation()}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                    <FormikAutocompleteLabelMultiselect
+                                        infoText="The integrations to execute for the geofence."
+                                        name="integrations"
+                                        label="Integrations"
+                                        placeholder=""
+                                        enabled={!this.isPendingCreation()}
+                                        options={this.props.integrations.map((v) => {
+                                            return v.environment === EnvironmentEnum.TEST ? `[TEST] ${v.name}` : v.name;
+                                        })}
+                                        defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
+                                        onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
+                                            props.setFieldValue('integrationIds', values, true);
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                    <FormikScheduleBuilder name="schedule" />
+                                </Grid>
+                                <FormikDictionaryBuilder
+                                    name="metadata"
+                                    title="Metadata"
+                                    addTooltipText="Add a metadata."
+                                    infoText="Metadata are static fields that are sent as a part of the request body. All metadata are encrypted at rest."
+                                    valueArray={props.values.metadata}
+                                    errorsArray={props.errors.metadata as any}
+                                    touchedArray={props.touched.metadata as any}
                                     onChange={props.handleChange}
                                     onBlur={props.handleBlur}
-                                    autoComplete="off"
-                                    required
-                                    disabled={this.isPendingCreation()}
+                                    keyRequired
+                                    valueRequired
                                 />
+                                {this.state.serverErrors && (
+                                    <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                        <List>
+                                            <ListItem>
+                                                {this.state.serverErrors.map((error) => (
+                                                    <ListItemText primary={error} />
+                                                ))}
+                                            </ListItem>
+                                        </List>
+                                    </Grid>
+                                )}
                             </Grid>
-                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikTextField
-                                    infoText="An optional description for the geofence."
-                                    name="description"
-                                    label="Description"
-                                    value={props.values.description}
-                                    errorText={props.errors.description}
-                                    touched={props.touched.description}
-                                    onChange={props.handleChange}
-                                    onBlur={props.handleBlur}
-                                    autoComplete="off"
-                                    disabled={this.isPendingCreation()}
-                                />
-                            </Grid>
-                            <Grid container item xs={12} spacing={0}>
-                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                    <FormLabel component="label">Send events when users</FormLabel>
-                                </Grid>
-                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                    <FormikCheckbox
-                                        infoText="Send events when a user enters this geofence."
-                                        name="onEnter"
-                                        label="Enter"
-                                        value={props.values.onEnter}
-                                        onChange={props.handleChange}
-                                        onBlur={props.handleBlur}
-                                        disabled={this.isPendingCreation()}
-                                    />
-                                </Grid>
-                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                    <FormikCheckbox
-                                        infoText="Send events when a user has entered and is continuing to dwell within this geofence."
-                                        name="onDwell"
-                                        label="Dwell"
-                                        value={props.values.onDwell}
-                                        onChange={props.handleChange}
-                                        onBlur={props.handleBlur}
-                                        disabled={this.isPendingCreation()}
-                                    />
-                                </Grid>
-                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                    <FormikCheckbox
-                                        infoText="Send events when a user has entered and then exits this geofence."
-                                        name="onExit"
-                                        label="Exit"
-                                        value={props.values.onExit}
-                                        onChange={props.handleChange}
-                                        onBlur={props.handleBlur}
-                                        disabled={this.isPendingCreation()}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikAutocompleteLabelMultiselect
-                                    infoText="The integrations to execute for the geofence."
-                                    name="integrations"
-                                    label="Integrations"
-                                    placeholder=""
-                                    enabled={!this.isPendingCreation()}
-                                    options={this.props.integrations.map((v) => {
-                                        return v.environment === EnvironmentEnum.TEST ? `[TEST] ${v.name}` : v.name;
-                                    })}
-                                    defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
-                                    onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
-                                        props.setFieldValue('integrationIds', values, true);
-                                    }}
-                                />
-                            </Grid>
-                            <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                <FormikScheduleBuilder name="schedule" />
-                            </Grid>
-                            <FormikDictionaryBuilder
-                                name="metadata"
-                                title="Metadata"
-                                addTooltipText="Add a metadata."
-                                infoText="Metadata are static fields that are sent as a part of the request body. All metadata are encrypted at rest."
-                                valueArray={props.values.metadata}
-                                errorsArray={props.errors.metadata as any}
-                                touchedArray={props.touched.metadata as any}
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                keyRequired
-                                valueRequired
-                            />
-                            {this.state.serverErrors && (
-                                <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                    <List>
-                                        <ListItem>
-                                            {this.state.serverErrors.map((error) => (
-                                                <ListItemText primary={error} />
-                                            ))}
-                                        </ListItem>
-                                    </List>
-                                </Grid>
-                            )}
-                        </Grid>
-                        <div className={classes.flexButtons}>
+                            <div className={classes.bottomPush} />
+                        </form>
+                        <div className={classes.controls}>
                             <div className={classes.leftButtons}>
                                 {this.props.editGeofence && (
                                     <FormikDeleteButton
@@ -502,8 +510,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                 {props.initialValues.externalId === '' ? 'Create' : 'Update'}
                             </FormikSynchronousButton>
                         </div>
-                        <div className={classes.bottomPush} />
-                    </form>
+                    </React.Fragment>
                 )}
             </Formik>
         );

@@ -3,10 +3,9 @@ import IProject from '../../../models/app/IProject';
 import ProjectService from '../../../services/ProjectService';
 import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
 import * as Yup from 'yup';
-import { withStyles, createStyles, Theme, Button, WithStyles, Paper, Grid, Typography, TextField, InputAdornment, IconButton } from '@material-ui/core';
+import { withStyles, createStyles, Theme, Button, WithStyles, Paper, Grid, Typography, TextField, IconButton } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
-import FormikCancelButton from '../../form/FormikCancelButton';
 import { IRestResponse, IValidationError } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores/index';
@@ -254,9 +253,8 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             </Typography>
                         </Paper>
                         <Paper className={classes.paper} elevation={3}>
-                            <Typography variant="h6">Project Details</Typography>
-                            <Typography variant="subtitle1" gutterBottom>
-                                The project's details.
+                            <Typography variant="h6" gutterBottom>
+                                Project Details
                             </Typography>
                             <form onSubmit={props.handleSubmit}>
                                 <Grid container spacing={3}>
