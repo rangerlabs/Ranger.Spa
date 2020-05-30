@@ -38,7 +38,9 @@ const userService = new UserService();
 const styles = (theme: Theme) =>
     createStyles({
         return: {
-            margin: theme.spacing(3),
+            position: 'absolute',
+            top: theme.spacing(4),
+            left: theme.spacing(4),
         },
         toolbar: {
             height: Constants.HEIGHT.TOOLBAR,
@@ -61,14 +63,15 @@ const styles = (theme: Theme) =>
             borderStyle: 'solid',
             borderColor: red[600],
         },
-        lowerPaper: {
-            marginTop: theme.spacing(3),
-        },
+        // lowerPaper: {
+        //     marginTop: theme.spacing(3),
+        // },
         paper: {
             padding: theme.spacing(4),
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
+            marginTop: theme.spacing(3),
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
                 marginLeft: 'auto',
