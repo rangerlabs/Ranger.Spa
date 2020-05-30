@@ -63,9 +63,6 @@ const styles = (theme: Theme) =>
             borderStyle: 'solid',
             borderColor: red[600],
         },
-        // lowerPaper: {
-        //     marginTop: theme.spacing(3),
-        // },
         paper: {
             padding: theme.spacing(4),
             width: 'auto',
@@ -257,7 +254,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 </Grid>
                             </form>
                         </Paper>
-                        <Paper className={classNames(classes.paper, classes.lowerPaper)} elevation={3}>
+                        <Paper className={classNames(classes.paper)} elevation={3}>
                             <Typography variant="h5">Change Password</Typography>
                             <Typography variant="subtitle1">Request a password reset email.</Typography>
                             <Grid container justify="flex-end">
@@ -275,7 +272,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 </Grid>
                             </Grid>
                         </Paper>
-                        <Paper className={classNames(classes.paper, classes.lowerPaper)} elevation={3}>
+                        <Paper className={classNames(classes.paper)} elevation={3}>
                             <Typography variant="h5">Change Email</Typography>
                             <Typography variant="subtitle1">Change your account email address.</Typography>
                             <Grid container justify="flex-end">
@@ -294,7 +291,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                             </Grid>
                         </Paper>
                         {this.props.canTransferOwnership && this.isPrimaryOwner && (
-                            <Paper className={classNames(classes.paper, classes.lowerPaper)} elevation={3}>
+                            <Paper className={classNames(classes.paper)} elevation={3}>
                                 <Typography variant="h5">Transfer Domain Ownerhship</Typography>
                                 <Typography variant="subtitle1">Transfer primary ownership of the domain to an existing user.</Typography>
                                 <Grid container justify="flex-end">
@@ -325,7 +322,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                             </Paper>
                         )}
                         {!this.isPrimaryOwner && (
-                            <Paper className={classNames(classes.paper, classes.lowerPaper)} elevation={3}>
+                            <Paper className={classNames(classes.paper)} elevation={3}>
                                 <Typography variant="h5">Delete Account</Typography>
                                 <Typography variant="subtitle1">Remove your account from your organization.</Typography>
                                 <Grid container justify="flex-end">
