@@ -37,6 +37,18 @@ import populateUsersHOC from '../hocs/PopulateUsersHOC';
 const userService = new UserService();
 const styles = (theme: Theme) =>
     createStyles({
+        paper: {
+            padding: theme.spacing(4),
+            width: 'auto',
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
+            marginTop: theme.spacing(3),
+            [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
+                width: 600,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            },
+        },
         return: {
             position: 'sticky',
             top: theme.toolbar.height + theme.spacing(4),
@@ -65,18 +77,6 @@ const styles = (theme: Theme) =>
             borderWidth: '1px',
             borderStyle: 'solid',
             borderColor: red[600],
-        },
-        paper: {
-            padding: theme.spacing(4),
-            width: 'auto',
-            marginLeft: theme.spacing(2),
-            marginRight: theme.spacing(2),
-            marginTop: theme.spacing(3),
-            [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
-                width: 600,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-            },
         },
     });
 
