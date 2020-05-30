@@ -56,9 +56,11 @@ const styles = (theme: Theme) =>
             display: 'flex',
             position: 'sticky',
             bottom: '0px',
-            padding: theme.spacing(2),
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2),
+            paddingBottom: theme.spacing(2),
             background: theme.palette.common.white,
-            boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
+            boxShadow: '0px -3px 3px -2px rgba(0,0,0,0.2), 0px -3px 4px 0px rgba(0,0,0,0.14), 0px -1px 8px 0px rgba(0,0,0,0.12)',
         },
     });
 
@@ -483,6 +485,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     </Grid>
                                 )}
                             </Grid>
+                            <div className={classes.bottomPush} />
                         </form>
                         <div className={classes.controls}>
                             <div className={classes.leftButtons}>
@@ -511,7 +514,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                 {props.initialValues.externalId === '' ? 'Create' : 'Update'}
                             </FormikSynchronousButton>
                         </div>
-                        <div className={classes.bottomPush} />
                     </React.Fragment>
                 )}
             </Formik>

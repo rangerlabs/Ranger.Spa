@@ -44,7 +44,8 @@ const styles = (theme: Theme) =>
             width: '100%',
         },
         return: {
-            margin: theme.spacing(4),
+            position: 'absolute',
+            top: theme.toolbar.height + theme.spacing(2),
         },
         toolbar: {
             height: theme.toolbar.height * 1.5,
@@ -56,9 +57,11 @@ const styles = (theme: Theme) =>
             display: 'flex',
             position: 'sticky',
             bottom: '0px',
-            padding: theme.spacing(2),
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2),
+            paddingBottom: theme.spacing(2),
             background: theme.palette.common.white,
-            boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
+            boxShadow: '0px -3px 3px -2px rgba(0,0,0,0.2), 0px -3px 4px 0px rgba(0,0,0,0.14), 0px -1px 8px 0px rgba(0,0,0,0.12)',
         },
     });
 
