@@ -5,12 +5,16 @@ import Loading from '../loading/Loading';
 import IUser from '../../../models/app/IUser';
 import { populateUsers, UsersState } from '../../../redux/actions/UserActions';
 import UserService from '../../../services/UserService';
+import { User } from 'oidc-client';
+import { userIsInRole } from '../../../helpers/Helpers';
+import { RoleEnum } from '../../../models/RoleEnum';
 
 const userService = new UserService();
 
 interface PopulateUsersComponentProps {
     setUsers: (users: IUser[]) => void;
     usersState: UsersState;
+    user: User;
 }
 interface PopulateUsersComponentState {
     wasError: boolean;
@@ -35,14 +39,18 @@ const populateUsersHOC = <P extends object>(Component: React.ComponentType<P>) =
             wasError: false,
         };
         componentDidMount() {
-            if (!this.props.usersState.isLoaded) {
-                userService.getUsers().then((userResponse) => {
-                    if (userResponse.isError) {
-                        this.setState({ wasError: true });
-                    } else {
-                        this.props.setUsers(userResponse.result ? userResponse.result : new Array<IUser>());
-                    }
-                });
+            if (Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN))) {
+                if (!this.props.usersState.isLoaded) {
+                    userService.getUsers().then((userResponse) => {
+                        if (userResponse.isError) {
+                            this.setState({ wasError: true });
+                        } else {
+                            this.props.setUsers(userResponse.result ? userResponse.result : new Array<IUser>());
+                        }
+                    });
+                }
+            } else {
+                this.props.setUsers(new Array<IUser>());
             }
         }
 
