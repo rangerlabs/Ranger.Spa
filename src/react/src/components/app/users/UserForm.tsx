@@ -26,40 +26,38 @@ import FormikAutocompleteLabelMultiselect from '../../form/FormikAutocompleteLab
 import { getRole, getCascadedRoles } from '../../../helpers/Helpers';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import Constants from '../../../theme/Constants';
+import classNames from 'classnames';
 
 const userService = new UserService();
 
 const styles = (theme: Theme) =>
     createStyles({
-        return: {
-            margin: theme.spacing(4),
-        },
-        toolbar: {
-            height: Constants.HEIGHT.TOOLBAR,
-        },
-        buttons: {
-            display: 'flex',
-            justifyContent: 'flex-end',
-        },
-        flexButtonContainer: {
-            display: 'flex',
-        },
-        leftButtons: {
-            flexGrow: 1,
-        },
         paper: {
             padding: theme.spacing(4),
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            [theme.breakpoints.down(600 + theme.spacing(2 * 2))]: {
-                marginTop: theme.toolbar.height,
-            },
+            marginTop: theme.spacing(3),
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
+        },
+        return: {
+            position: 'sticky',
+            top: theme.toolbar.height + theme.spacing(4),
+            marginLeft: theme.spacing(4),
+        },
+        toolbar: {
+            height: Constants.HEIGHT.TOOLBAR,
+        },
+        title: {
+            padding: theme.spacing(2),
+            marginTop: 0,
+        },
+        bottomPaper: {
+            marginBottom: theme.spacing(3),
         },
     });
 interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
@@ -237,9 +235,15 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                         <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Integrations)}>
                             <ArrowLeft />
                         </IconButton>
-                        <Paper className={classes.paper} elevation={3}>
-                            <Typography align="center" variant="h5" gutterBottom>
+                        <Paper className={classNames(classes.title, classes.paper)} elevation={3}>
+                            <Typography align="center" variant="h5">
                                 {this.props.initialUser ? 'Edit User' : 'New User'}
+                            </Typography>
+                        </Paper>
+                        <Paper className={classes.paper} elevation={3}>
+                            <Typography variant="h6">User Details</Typography>
+                            <Typography variant="subtitle1" gutterBottom>
+                                The user's details.
                             </Typography>
                             <form onSubmit={props.handleSubmit}>
                                 <Grid container spacing={3}>
@@ -328,31 +332,40 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                         </Grid>
                                     )}
                                 </Grid>
-                                <div className={classes.flexButtonContainer}>
-                                    <div className={classes.leftButtons}>
-                                        <FormikDeleteButton
+
+                                <Grid container justify="flex-end">
+                                    <Grid item>
+                                        <FormikSynchronousButton
+                                            isValid={props.isValid}
                                             isSubmitting={props.isSubmitting}
-                                            onConfirm={() => {
-                                                this.deleteUser(props, enqueueSnackbar);
-                                            }}
-                                            dialogTitle="Delete user?"
-                                            confirmText="Delete"
-                                            dialogContent={'Are you sure you want to delete user ' + props.values.email + '?'}
-                                            disabled={!Boolean(this.props.initialUser)}
+                                            isSuccess={this.state.success}
+                                            variant="contained"
                                         >
-                                            Delete
-                                        </FormikDeleteButton>
-                                    </div>
-                                    <FormikSynchronousButton
-                                        isValid={props.isValid}
-                                        isSubmitting={props.isSubmitting}
-                                        isSuccess={this.state.success}
-                                        variant="contained"
-                                    >
-                                        {props.initialValues.email === '' ? 'Create' : 'Update'}
-                                    </FormikSynchronousButton>
-                                </div>
+                                            {props.initialValues.email === '' ? 'Create' : 'Update'}
+                                        </FormikSynchronousButton>
+                                    </Grid>
+                                </Grid>
                             </form>
+                        </Paper>
+                        <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
+                            <Typography variant="h6">Delete</Typography>
+                            <Typography variant="subtitle1">Remove the user from your organization.</Typography>
+                            <Grid container justify="flex-end">
+                                <Grid item>
+                                    <FormikDeleteButton
+                                        isSubmitting={props.isSubmitting}
+                                        onConfirm={() => {
+                                            this.deleteUser(props, enqueueSnackbar);
+                                        }}
+                                        dialogTitle="Delete user?"
+                                        confirmText="Delete"
+                                        dialogContent={'Are you sure you want to delete user ' + props.values.email + '?'}
+                                        disabled={!Boolean(this.props.initialUser)}
+                                    >
+                                        Delete
+                                    </FormikDeleteButton>
+                                </Grid>
+                            </Grid>
                         </Paper>
                     </React.Fragment>
                 )}

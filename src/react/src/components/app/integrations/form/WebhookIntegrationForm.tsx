@@ -23,35 +23,36 @@ import { EnvironmentEnum } from '../../../../models/EnvironmentEnum';
 import FormikCheckbox from '../../../form/FormikCheckbox';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import Constants from '../../../../theme/Constants';
+import classNames from 'classnames';
 
 const styles = (theme: Theme) =>
     createStyles({
-        return: {
-            margin: theme.spacing(4),
-        },
-        toolbar: {
-            height: Constants.HEIGHT.TOOLBAR,
-        },
-
-        flexButtonContainer: {
-            display: 'flex',
-        },
-        leftButtons: {
-            flexGrow: 1,
-        },
         paper: {
             padding: theme.spacing(4),
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            [theme.breakpoints.down(600 + theme.spacing(2 * 2))]: {
-                marginTop: theme.toolbar.height,
-            },
+            marginTop: theme.spacing(3),
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
                 width: 600,
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
+        },
+        return: {
+            position: 'sticky',
+            top: theme.toolbar.height + theme.spacing(4),
+            marginLeft: theme.spacing(4),
+        },
+        toolbar: {
+            height: Constants.HEIGHT.TOOLBAR,
+        },
+        title: {
+            padding: theme.spacing(2),
+            marginTop: 0,
+        },
+        bottomPaper: {
+            marginBottom: theme.spacing(3),
         },
     });
 interface IWebhookIntegrationFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
@@ -141,17 +142,22 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                         <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Integrations)}>
                             <ArrowLeft />
                         </IconButton>
-                        <Paper className={classes.paper} elevation={3}>
-                            <Typography align="center" variant="h5" gutterBottom>
+                        <Paper className={classNames(classes.title, classes.paper)} elevation={3}>
+                            <Typography align="center" variant="h5">
                                 {this.props.editIntegration ? 'Edit Webhook Integration' : 'New Webhook Integration'}
+                            </Typography>
+                        </Paper>
+                        <Paper className={classes.paper} elevation={3}>
+                            <Typography variant="h6">Integration Details</Typography>
+                            <Typography variant="subtitle1" gutterBottom>
+                                The integration's details.
                             </Typography>
                             <form onSubmit={props.handleSubmit}>
                                 {this.props.isPendingCreation && (
                                     <Grid container item xs={12} spacing={0}>
                                         <Grid item xs={12}>
-                                            <Typography align="center" color="error">
-                                                This integration is pending creation. Please wait until the integration is successfully created to issue
-                                                updates.
+                                            <Typography align="center">
+                                                This integration is pending creation. Updates can be issued after the integration is created.
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -268,32 +274,41 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             </List>
                                         </Grid>
                                     )}
-                                </Grid>
-                                <div className={classes.flexButtonContainer}>
-                                    <div className={classes.leftButtons}>
-                                        {this.props.editIntegration && (
-                                            <FormikDeleteButton
+
+                                    <Grid container justify="flex-end">
+                                        <Grid item>
+                                            <FormikSynchronousButton
+                                                isValid={props.isValid}
                                                 isSubmitting={props.isSubmitting}
-                                                onConfirm={() => this.props.delete(props)}
-                                                dialogTitle="Delete integration?"
-                                                confirmText="Delete"
-                                                dialogContent={'Are you sure you want to delete integration ' + props.values.name + '?'}
+                                                isSuccess={this.props.isSuccess}
                                                 disabled={this.props.isPendingCreation}
                                             >
-                                                Delete
-                                            </FormikDeleteButton>
-                                        )}
-                                    </div>
-                                    <FormikSynchronousButton
-                                        isValid={props.isValid}
-                                        isSubmitting={props.isSubmitting}
-                                        isSuccess={this.props.isSuccess}
-                                        disabled={this.props.isPendingCreation}
-                                    >
-                                        {props.initialValues.name === '' ? 'Create' : 'Update'}
-                                    </FormikSynchronousButton>
-                                </div>
+                                                {props.initialValues.name === '' ? 'Create' : 'Update'}
+                                            </FormikSynchronousButton>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
                             </form>
+                        </Paper>
+                        <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
+                            <Typography variant="h6">Delete</Typography>
+                            <Typography variant="subtitle1">Remove the integration</Typography>
+                            <Grid container justify="flex-end">
+                                <Grid item>
+                                    {this.props.editIntegration && (
+                                        <FormikDeleteButton
+                                            isSubmitting={props.isSubmitting}
+                                            onConfirm={() => this.props.delete(props)}
+                                            dialogTitle="Delete integration?"
+                                            confirmText="Delete"
+                                            dialogContent={'Are you sure you want to delete integration ' + props.values.name + '?'}
+                                            disabled={this.props.isPendingCreation}
+                                        >
+                                            Delete
+                                        </FormikDeleteButton>
+                                    )}
+                                </Grid>
+                            </Grid>
                         </Paper>
                     </React.Fragment>
                 )}
