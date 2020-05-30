@@ -272,7 +272,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                         disabled={props.isSubmitting}
                                         variant="outlined"
                                     >
-                                        Change password
+                                        Change
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -291,15 +291,20 @@ class Account extends React.Component<AccountProps, AccountState> {
                                         disabled={props.isSubmitting}
                                         variant="outlined"
                                     >
-                                        Change Email
+                                        Change
                                     </Button>
                                 </Grid>
                             </Grid>
                         </Paper>
                         {this.props.canTransferOwnership && this.isPrimaryOwner && (
                             <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
-                                <Typography variant="h6">Transfer Domain Ownerhship</Typography>
+                                <Typography variant="h6">Transfer Domain Ownership</Typography>
                                 <Typography variant="subtitle1">Transfer primary ownership of the domain to an existing user.</Typography>
+                                {this.props.pendingPrimaryOwnerTransfer && (
+                                    <Typography variant="subtitle1" color="error">
+                                        A transfer has been initiated.
+                                    </Typography>
+                                )}
                                 <Grid container justify="flex-end">
                                     <Grid item>
                                         {this.props.pendingPrimaryOwnerTransfer ? (
@@ -341,7 +346,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             disabled={this.isPrimaryOwner}
                                             dialogContent={<DeleteAccountComponent />}
                                         >
-                                            Delete
+                                            Delete Account
                                         </FormikDeleteButton>
                                     </Grid>
                                 </Grid>
