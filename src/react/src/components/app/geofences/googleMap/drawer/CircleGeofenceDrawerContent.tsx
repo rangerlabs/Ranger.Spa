@@ -52,6 +52,15 @@ const styles = (theme: Theme) =>
         bottomPush: {
             height: theme.toolbar.height,
         },
+        title: {
+            position: 'sticky',
+            top: '0px',
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2),
+            paddingBottom: theme.spacing(2),
+            background: theme.palette.common.white,
+            boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
+        },
         controls: {
             display: 'flex',
             position: 'sticky',
@@ -343,14 +352,16 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             >
                 {(props) => (
                     <React.Fragment>
-                        <form className={classes.form} onSubmit={props.handleSubmit}>
-                            <div className={classes.toolbar} />
+                        <div className={classes.toolbar} />
+                        <div className={classes.title}>
                             <IconButton className={classes.return} disabled={props.isSubmitting} onClick={this.cancelGeofence}>
                                 <ArrowRight />
                             </IconButton>
                             <Typography gutterBottom variant="h5" align="center">
                                 {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
                             </Typography>
+                        </div>
+                        <form className={classes.form} onSubmit={props.handleSubmit}>
                             <Grid container direction="column" spacing={4}>
                                 {this.isPendingCreation() && (
                                     <Grid container item xs={12} spacing={0}>
