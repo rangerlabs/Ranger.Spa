@@ -183,9 +183,8 @@ class Account extends React.Component<AccountProps, AccountState> {
                             </Typography>
                         </Paper>
                         <Paper className={classes.paper} elevation={3}>
-                            <Typography variant="h6" gutterBottom>
-                                Account Details
-                            </Typography>
+                            <Typography variant="h6">Account Details</Typography>
+                            <Typography variant="subtitle1">Your account details.</Typography>
                             <form onSubmit={props.handleSubmit}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
