@@ -255,7 +255,9 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         </Paper>
                         <Paper className={classes.paper} elevation={3}>
                             <Typography variant="h6">Project Details</Typography>
-                            <Typography variant="subtitle1">The project's details.</Typography>
+                            <Typography variant="subtitle1" gutterBottom>
+                                The project's details.
+                            </Typography>
                             <form onSubmit={props.handleSubmit}>
                                 <Grid container spacing={3}>
                                     <Grid className={classes.disableBottomPadding} item xs={12}>
@@ -367,7 +369,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         {userIsInRole(this.props.user, RoleEnum.ADMIN) && this.state.initialProject && (
                             <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
                                 <Typography variant="h6">Delete</Typography>
-                                <Typography variant="subtitle1">Remove the project.</Typography>
+                                <Typography variant="subtitle1">Remove the project and all associated configuration.</Typography>
                                 <Grid container justify="flex-end">
                                     <Grid item>
                                         <FormikDeleteButton

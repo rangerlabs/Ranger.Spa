@@ -184,7 +184,9 @@ class Account extends React.Component<AccountProps, AccountState> {
                         </Paper>
                         <Paper className={classes.paper} elevation={3}>
                             <Typography variant="h6">Account Details</Typography>
-                            <Typography variant="subtitle1">Your account details.</Typography>
+                            <Typography variant="subtitle1" gutterBottom>
+                                Your account details.
+                            </Typography>
                             <form onSubmit={props.handleSubmit}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
@@ -298,7 +300,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                         {this.props.canTransferOwnership && this.isPrimaryOwner && (
                             <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
                                 <Typography variant="h6">Transfer Domain Ownership</Typography>
-                                <Typography variant="subtitle1">Transfer primary ownership of the domain to an existing user.</Typography>
+                                <Typography variant="subtitle1">Transfer primary ownership of the domain to another user.</Typography>
                                 {this.props.pendingPrimaryOwnerTransfer && (
                                     <Typography variant="subtitle1" color="error">
                                         A transfer has been initiated.
