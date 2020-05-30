@@ -253,11 +253,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 </Grid>
                                 <Grid container justify="flex-end">
                                     <Grid item>
-                                        {props.initialValues.email === '' ? (
-                                            <FormikPrimaryButton color="primary" isValid={props.isValid} isSubmitting={props.isSubmitting} variant="outlined" />
-                                        ) : (
-                                            <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
-                                        )}
+                                        <FormikUpdateButton color="primary" isValid={props.isValid} isSubmitting={props.isSubmitting} variant="outlined" />
                                     </Grid>
                                 </Grid>
                             </form>
