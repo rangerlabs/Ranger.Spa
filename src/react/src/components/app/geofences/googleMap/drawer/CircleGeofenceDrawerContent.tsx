@@ -348,11 +348,11 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             >
                 {(props) => (
                     <React.Fragment>
-                        <div className={classes.toolbar} />
-                        <Typography gutterBottom variant="h5" align="center">
-                            {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
-                        </Typography>
                         <form className={classes.form} onSubmit={props.handleSubmit}>
+                            <div className={classes.toolbar} />
+                            <Typography gutterBottom variant="h5" align="center">
+                                {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
+                            </Typography>
                             <Grid container direction="column" spacing={4}>
                                 {this.isPendingCreation() && (
                                     <Grid container item xs={12} spacing={0}>
