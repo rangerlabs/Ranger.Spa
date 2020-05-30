@@ -32,6 +32,7 @@ import Constants from '../../../theme/Constants';
 import RoutePaths from '../../RoutePaths';
 import { red } from '@material-ui/core/colors';
 import classNames from 'classnames';
+import populateUsersHOC from '../hocs/PopulateUsersHOC';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -45,12 +46,6 @@ const styles = (theme: Theme) =>
         buttons: {
             display: 'flex',
             justifyContent: 'flex-end',
-        },
-        flexButtonContainer: {
-            display: 'flex',
-        },
-        leftButtons: {
-            flexGrow: 1,
         },
         changePassword: {
             marginTop: theme.spacing(3),
@@ -222,18 +217,6 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             onBlur={props.handleBlur}
                                             autoComplete="off"
                                             disabled
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <Button
-                                                        disabled={props.isSubmitting}
-                                                        onClick={() => {
-                                                            this.props.openDialog(new DialogContent(<ChangeEmailContent />));
-                                                        }}
-                                                    >
-                                                        Change
-                                                    </Button>
-                                                ),
-                                            }}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -260,27 +243,20 @@ class Account extends React.Component<AccountProps, AccountState> {
                                         </Grid>
                                     )}
                                 </Grid>
-                                <div className={classes.flexButtonContainer}>
-                                    <div className={classes.leftButtons}>
-                                        <FormikDeleteButton
-                                            isSubmitting={props.isSubmitting}
-                                            dialogTitle="Delete account?"
-                                            disabled={this.isPrimaryOwner}
-                                            dialogContent={<DeleteAccountComponent />}
-                                        >
-                                            Delete
-                                        </FormikDeleteButton>
-                                    </div>
-                                    {props.initialValues.email === '' ? (
-                                        <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
-                                    ) : (
-                                        <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
-                                    )}
-                                </div>
+                                <Grid container justify="flex-end">
+                                    <Grid item>
+                                        {props.initialValues.email === '' ? (
+                                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
+                                        ) : (
+                                            <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
+                                        )}
+                                    </Grid>
+                                </Grid>
                             </form>
                         </Paper>
                         <Paper className={classNames(classes.paper, classes.lowerPaper)} elevation={3}>
                             <Typography variant="h5">Change Password</Typography>
+                            <Typography variant="subtitle1">Request a password reset email.</Typography>
                             <Grid container justify="flex-end">
                                 <Grid item>
                                     <Button
@@ -296,7 +272,24 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 </Grid>
                             </Grid>
                         </Paper>
-
+                        <Paper className={classNames(classes.paper, classes.lowerPaper)} elevation={3}>
+                            <Typography variant="h5">Change Email</Typography>
+                            <Typography variant="subtitle1">Change your account email address.</Typography>
+                            <Grid container justify="flex-end">
+                                <Grid item>
+                                    <Button
+                                        onClick={() => {
+                                            this.props.openDialog(new DialogContent(<ChangeEmailContent />));
+                                        }}
+                                        className={classes.changePassword}
+                                        disabled={props.isSubmitting}
+                                        variant="outlined"
+                                    >
+                                        Change Email
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Paper>
                         {this.props.canTransferOwnership && this.isPrimaryOwner && (
                             <Paper className={classNames(classes.paper, classes.lowerPaper)} elevation={3}>
                                 <Typography variant="h5">Transfer Domain Ownerhship</Typography>
@@ -328,6 +321,24 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 </Grid>
                             </Paper>
                         )}
+                        {!this.isPrimaryOwner && (
+                            <Paper className={classNames(classes.paper, classes.lowerPaper)} elevation={3}>
+                                <Typography variant="h5">Delete Account</Typography>
+                                <Typography variant="subtitle1">Remove your account from your organization.</Typography>
+                                <Grid container justify="flex-end">
+                                    <Grid item>
+                                        <FormikDeleteButton
+                                            isSubmitting={props.isSubmitting}
+                                            dialogTitle="Delete Account?"
+                                            disabled={this.isPrimaryOwner}
+                                            dialogContent={<DeleteAccountComponent />}
+                                        >
+                                            Delete
+                                        </FormikDeleteButton>
+                                    </Grid>
+                                </Grid>
+                            </Paper>
+                        )}
                     </React.Fragment>
                 )}
             </Formik>
@@ -335,4 +346,7 @@ class Account extends React.Component<AccountProps, AccountState> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(populatePendingPrimaryOwnerTransferHOC(withStyles(styles)(withSnackbar(Account))));
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(populateUsersHOC(populatePendingPrimaryOwnerTransferHOC(withStyles(styles)(withSnackbar(Account)))));
