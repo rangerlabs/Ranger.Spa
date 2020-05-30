@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, LinearProgress, createStyles, Theme, WithStyles, Button, withStyles, Grid } from '@material-ui/core';
+import { Typography, LinearProgress, createStyles, Theme, WithStyles, Button, withStyles, Grid, Paper } from '@material-ui/core';
 import UserService from '../../../services/UserService';
 import * as queryString from 'query-string';
 import ITransferPrimaryOwnershipModel from '../../../models/landing/ITransferPrimaryOwnershipModel';
@@ -14,7 +14,8 @@ const userService = new UserService();
 
 const styles = (theme: Theme) =>
     createStyles({
-        layout: {
+        paper: {
+            padding: theme.spacing(4),
             width: 'auto',
             marginTop: theme.toolbar.height * 2,
             marginLeft: theme.spacing(2),
@@ -102,7 +103,7 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
 
     render() {
         return (
-            <div className={this.props.classes.layout}>
+            <Paper className={this.props.classes.paper} elevation={3}>
                 {this.state.isRequesting && (
                     <Grid container spacing={3} justify="center" alignItems="center">
                         <Grid item xs={12}>
@@ -161,7 +162,7 @@ class TransferPrimaryOwnership extends React.Component<TransferPrimaryOwnershipP
                         </Grid>
                     </Grid>
                 )}
-            </div>
+            </Paper>
         );
     }
 }
