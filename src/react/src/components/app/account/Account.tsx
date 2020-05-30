@@ -265,49 +265,46 @@ class Account extends React.Component<AccountProps, AccountState> {
                                     )}
                                 </div>
                             </form>
+                        </Paper>
+                        <Paper className={classes.paper} elevation={3}>
+                            <Typography variant="h5">Change Password</Typography>
+                            <Button
+                                onClick={() => {
+                                    this.props.openDialog(new DialogContent(<ChangePasswordContent />));
+                                }}
+                                className={classes.changePassword}
+                                disabled={props.isSubmitting}
+                                variant="outlined"
+                            >
+                                Change password
+                            </Button>
+                        </Paper>
 
-                            {
-                                <Paper className={classes.paper} elevation={3}>
-                                    <Typography variant="h5">Change Password</Typography>
+                        {this.props.canTransferOwnership && this.isPrimaryOwner && (
+                            <Paper className={classes.paper} elevation={3}>
+                                <Typography variant="h5">Transfer Domain Ownerhship</Typography>
+                                <Typography variant="subtitle1">Transfer primary ownership of a domain to an existing user.</Typography>
+                                {this.props.pendingPrimaryOwnerTransfer ? (
                                     <Button
                                         onClick={() => {
-                                            this.props.openDialog(new DialogContent(<ChangePasswordContent />));
+                                            this.props.openDialog(new DialogContent(<CancelOwnershipTransferContent />));
                                         }}
-                                        className={classes.changePassword}
-                                        disabled={props.isSubmitting}
                                         variant="outlined"
                                     >
-                                        Change password
+                                        Cancel Transfer
                                     </Button>
-                                </Paper>
-                            }
-
-                            {this.props.canTransferOwnership && this.isPrimaryOwner && (
-                                <Paper className={classes.paper} elevation={3}>
-                                    <Typography variant="h5">Transfer Domain Ownerhship</Typography>
-                                    <Typography variant="subtitle1">Transfer primary ownership of a domain to an existing user.</Typography>
-                                    {this.props.pendingPrimaryOwnerTransfer ? (
-                                        <Button
-                                            onClick={() => {
-                                                this.props.openDialog(new DialogContent(<CancelOwnershipTransferContent />));
-                                            }}
-                                            variant="outlined"
-                                        >
-                                            Cancel Transfer
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            onClick={() => {
-                                                this.props.openDialog(new DialogContent(<TransferOwnershipContent />));
-                                            }}
-                                            variant="outlined"
-                                        >
-                                            Transfer
-                                        </Button>
-                                    )}
-                                </Paper>
-                            )}
-                        </Paper>
+                                ) : (
+                                    <Button
+                                        onClick={() => {
+                                            this.props.openDialog(new DialogContent(<TransferOwnershipContent />));
+                                        }}
+                                        variant="outlined"
+                                    >
+                                        Transfer
+                                    </Button>
+                                )}
+                            </Paper>
+                        )}
                     </React.Fragment>
                 )}
             </Formik>

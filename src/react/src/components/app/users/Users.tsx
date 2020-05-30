@@ -138,8 +138,14 @@ class Users extends React.Component<UsersProps> {
         },
     ];
     options = {
+        textLabels: {
+            body: {
+                noMatch: 'Your organization has not created any users yet.',
+            },
+        },
         print: false,
         download: false,
+
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewUserForm} />;
         },
