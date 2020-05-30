@@ -50,6 +50,7 @@ const styles = (theme: Theme) =>
         },
         title: {
             padding: theme.spacing(2),
+            marginTop: 0,
         },
         bottomPaper: {
             marginBottom: theme.spacing(3),
@@ -172,7 +173,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                         <IconButton
                             className={classes.return}
                             disabled={props.isSubmitting}
-                            onClick={window.history.length ? window.history.back : () => this.props.push(RoutePaths.Dashboard)}
+                            onClick={() => (window.history.length ? window.history.back() : this.props.push(RoutePaths.Dashboard))}
                         >
                             <ArrowLeft />
                         </IconButton>
@@ -253,7 +254,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 <Grid container justify="flex-end">
                                     <Grid item>
                                         {props.initialValues.email === '' ? (
-                                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="contained" />
+                                            <FormikPrimaryButton isValid={props.isValid} isSubmitting={props.isSubmitting} variant="outlined" />
                                         ) : (
                                             <FormikUpdateButton isValid={props.isValid} isSubmitting={props.isSubmitting} />
                                         )}
