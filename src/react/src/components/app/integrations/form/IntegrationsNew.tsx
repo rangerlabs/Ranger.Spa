@@ -12,7 +12,6 @@ const IntegrationApi = require('../../../../../assets/integration-api.png');
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            padding: theme.spacing(4),
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
