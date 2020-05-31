@@ -79,7 +79,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                     <Paper elevation={3} className={classes.paper}>
                         <Box mb={3}>
                             <Typography gutterBottom variant="h5" align="center">
-                                Select Integration Type
+                                New Integration Type
                             </Typography>
                         </Box>
                         <Grid container spacing={3} direction="column" justify="flex-start" alignItems="center">
@@ -100,9 +100,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                                             />
                                             <div className={classes.details}>
                                                 <CardContent className={classes.content}>
-                                                    <Typography component="h5" variant="h5">
-                                                        Webhook
-                                                    </Typography>
+                                                    <Typography variant="h6">Webhook</Typography>
                                                     <Typography variant="subtitle1" color="textSecondary">
                                                         Forward geofence events to a REST API of your choosing.
                                                     </Typography>
@@ -124,9 +122,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                                             />
                                             <div className={classes.details}>
                                                 <CardContent className={classes.content}>
-                                                    <Typography component="h5" variant="h5">
-                                                        Coming Soon!
-                                                    </Typography>
+                                                    <Typography variant="h6">Coming Soon!</Typography>
                                                     <Typography variant="subtitle1" color="textSecondary">
                                                         More integrations are in the works. Check back soon.
                                                     </Typography>

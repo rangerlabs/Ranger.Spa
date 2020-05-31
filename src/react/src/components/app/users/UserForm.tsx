@@ -235,11 +235,6 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                         <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Integrations)}>
                             <ArrowLeft />
                         </IconButton>
-                        <Paper className={classNames(classes.title, classes.paper)} elevation={3}>
-                            <Typography align="center" variant="h5">
-                                {this.props.initialUser ? 'Edit User' : 'New User'}
-                            </Typography>
-                        </Paper>
                         <Paper className={classes.paper} elevation={3}>
                             <Typography variant="h6" gutterBottom>
                                 User Details
@@ -346,26 +341,28 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                 </Grid>
                             </form>
                         </Paper>
-                        <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
-                            <Typography variant="h6">Delete</Typography>
-                            <Typography variant="subtitle1">Remove the user from your organization.</Typography>
-                            <Grid container justify="flex-end">
-                                <Grid item>
-                                    <FormikDeleteButton
-                                        isSubmitting={props.isSubmitting}
-                                        onConfirm={() => {
-                                            this.deleteUser(props, enqueueSnackbar);
-                                        }}
-                                        dialogTitle="Delete user?"
-                                        confirmText="Delete"
-                                        dialogContent={'Are you sure you want to delete user ' + props.values.email + '?'}
-                                        disabled={!Boolean(this.props.initialUser)}
-                                    >
-                                        Delete
-                                    </FormikDeleteButton>
+                        {this.props.initialUser && (
+                            <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
+                                <Typography variant="h6">Delete</Typography>
+                                <Typography variant="subtitle1">Remove the user from your organization.</Typography>
+                                <Grid container justify="flex-end">
+                                    <Grid item>
+                                        <FormikDeleteButton
+                                            isSubmitting={props.isSubmitting}
+                                            onConfirm={() => {
+                                                this.deleteUser(props, enqueueSnackbar);
+                                            }}
+                                            dialogTitle="Delete user?"
+                                            confirmText="Delete"
+                                            dialogContent={'Are you sure you want to delete user ' + props.values.email + '?'}
+                                            disabled={!Boolean(this.props.initialUser)}
+                                        >
+                                            Delete
+                                        </FormikDeleteButton>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Paper>
+                            </Paper>
+                        )}
                     </React.Fragment>
                 )}
             </Formik>

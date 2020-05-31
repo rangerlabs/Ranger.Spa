@@ -57,7 +57,6 @@ const styles = (theme: Theme) =>
         },
         title: {
             padding: theme.spacing(2),
-            marginTop: 0,
         },
         bottomPaper: {
             marginBottom: theme.spacing(3),
@@ -248,7 +247,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             <ArrowLeft />
                         </IconButton>
                         <Paper className={classNames(classes.title, classes.paper)} elevation={3}>
-                            <Typography align="center" variant="h5">
+                            <Typography align="left" variant="h5">
                                 {this.state.initialProject ? (userIsInRole(this.props.user, RoleEnum.ADMIN) ? 'Edit Project' : 'View Project') : 'New Project'}
                             </Typography>
                         </Paper>

@@ -62,7 +62,6 @@ const styles = (theme: Theme) =>
         },
         title: {
             padding: theme.spacing(2),
-            marginTop: 0,
         },
         bottomPaper: {
             marginBottom: theme.spacing(3),
@@ -152,7 +151,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                         firstName: values.firstName,
                         lastName: values.lastName,
                     } as IAccountUpdateModel;
-                    userService.updateAccount((this.props.user.profile as UserProfile).email, accountUpdate).then((response: IRestResponse<void>) => {
+                    userService.updateAccount(accountUpdate).then((response: IRestResponse<void>) => {
                         if (response.isError) {
                             const { validationErrors: serverErrors, ...formikErrors } = response.error;
                             enqueueSnackbar(response.error.message, { variant: 'error' });
@@ -177,11 +176,9 @@ class Account extends React.Component<AccountProps, AccountState> {
                         >
                             <ArrowLeft />
                         </IconButton>
-                        <Paper className={classNames(classes.title, classes.paper)} elevation={3}>
-                            <Typography align="center" variant="h5">
-                                Your Account
-                            </Typography>
-                        </Paper>
+                        <Typography className={classes.title} align="left" variant="h5">
+                            Your Account
+                        </Typography>
                         <Paper className={classes.paper} elevation={3}>
                             <Typography variant="h6" gutterBottom>
                                 Account Details
