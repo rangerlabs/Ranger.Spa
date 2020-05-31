@@ -246,11 +246,9 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Projects)}>
                             <ArrowLeft />
                         </IconButton>
-                        <Paper className={classNames(classes.title, classes.paper)} elevation={3}>
-                            <Typography align="left" variant="h5">
-                                {this.state.initialProject ? (userIsInRole(this.props.user, RoleEnum.ADMIN) ? 'Edit Project' : 'View Project') : 'New Project'}
-                            </Typography>
-                        </Paper>
+                        <Typography className={classNames(classes.title, classes.paper)} align="left" variant="h5">
+                            {this.state.initialProject ? (userIsInRole(this.props.user, RoleEnum.ADMIN) ? 'Edit Project' : 'View Project') : 'New Project'}
+                        </Typography>
                         <Paper className={classes.paper} elevation={3}>
                             <Typography variant="h6" gutterBottom>
                                 Project Details

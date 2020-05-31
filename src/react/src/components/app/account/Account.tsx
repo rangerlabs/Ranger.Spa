@@ -176,7 +176,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                         >
                             <ArrowLeft />
                         </IconButton>
-                        <Typography className={classes.title} align="left" variant="h5">
+                        <Typography className={classNames(classes.title, classes.paper)} variant="h5">
                             Your Account
                         </Typography>
                         <Paper className={classes.paper} elevation={3}>
