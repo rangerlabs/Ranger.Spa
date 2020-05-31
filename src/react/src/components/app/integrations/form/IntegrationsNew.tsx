@@ -1,24 +1,9 @@
 import * as React from 'react';
-import {
-    Theme,
-    createStyles,
-    WithStyles,
-    withStyles,
-    Card,
-    CardHeader,
-    CardContent,
-    Typography,
-    CardMedia,
-    Grid,
-    ButtonBase,
-    Box,
-    Paper,
-} from '@material-ui/core';
+import { Theme, createStyles, WithStyles, withStyles, Card, CardContent, Typography, CardMedia, Grid, ButtonBase, Box, Paper } from '@material-ui/core';
 import RoutePaths from '../../../RoutePaths';
 import { push } from 'connected-react-router';
 import { IntegrationEnum } from '../../../../models/app/integrations/IntegrationEnum';
 import { connect } from 'react-redux';
-import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 const IntegrationApi = require('../../../../../assets/integration-api.png');
 
@@ -63,8 +48,12 @@ const styles = (theme: Theme) =>
         // },
         title: {
             marginTop: '0px',
-            paddingLeft: '0px',
-            paddingTop: '0px',
+            padding: '0px',
+        },
+        return: {
+            position: 'sticky',
+            top: theme.toolbar.height + theme.spacing(4),
+            marginLeft: theme.spacing(4),
         },
         mediaRoot: {
             backgroundSize: 'contain',
@@ -92,14 +81,15 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
         const { classes } = this.props;
         return (
             <div className={classes.layout}>
-                <Box mb={3}>
-                    <Typography className={classes.title} variant="h5" align="left">
-                        New Integration Type
-                    </Typography>
-                </Box>
+                <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Integrations)}>
+                    <ArrowLeft />
+                </IconButton>
+                <Typography className={classes.title} variant="h5" align="left">
+                    New Integration Type
+                </Typography>
                 <Grid container spacing={3} direction="column" justify="flex-start" alignItems="center">
                     <Grid container item justify="center">
-                        <Grid item xs={8}>
+                        <Grid item xs={12}>
                             <ButtonBase
                                 className={classes.buttonBase}
                                 onClick={() => {
@@ -126,7 +116,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                         </Grid>
                     </Grid>
                     <Grid container item justify="center">
-                        <Grid item xs={8}>
+                        <Grid item xs={12}>
                             <ButtonBase className={classes.buttonBase} onClick={() => {}}>
                                 <Card elevation={4} className={classes.root}>
                                     <CardMedia classes={{ root: classes.mediaRoot }} className={classes.cover} image={IntegrationApi} title="Coming soon" />
