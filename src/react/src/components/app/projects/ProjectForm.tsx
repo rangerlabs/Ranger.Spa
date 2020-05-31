@@ -56,7 +56,9 @@ const styles = (theme: Theme) =>
             height: Constants.HEIGHT.TOOLBAR,
         },
         title: {
-            padding: theme.spacing(2),
+            marginTop: '0px',
+            paddingLeft: '0px',
+            paddingTop: '0px',
         },
         bottomPaper: {
             marginBottom: theme.spacing(3),

@@ -61,7 +61,9 @@ const styles = (theme: Theme) =>
             marginTop: theme.spacing(3),
         },
         title: {
-            padding: theme.spacing(2),
+            marginTop: '0px',
+            paddingLeft: '0px',
+            paddingTop: '0px',
         },
         bottomPaper: {
             marginBottom: theme.spacing(3),

@@ -53,8 +53,9 @@ const styles = (theme: Theme) =>
             height: Constants.HEIGHT.TOOLBAR,
         },
         title: {
-            padding: theme.spacing(2),
-            marginTop: 0,
+            marginTop: '0px',
+            paddingLeft: '0px',
+            paddingTop: '0px',
         },
         bottomPaper: {
             marginBottom: theme.spacing(3),
@@ -235,6 +236,9 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                         <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Integrations)}>
                             <ArrowLeft />
                         </IconButton>
+                        <Typography className={classNames(classes.title, classes.paper)} align="left" variant="h5">
+                            {this.props.initialUser ? 'Edit User' : 'New User'}
+                        </Typography>
                         <Paper className={classes.paper} elevation={3}>
                             <Typography variant="h6" gutterBottom>
                                 User Details

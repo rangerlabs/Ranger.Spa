@@ -340,7 +340,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                     <React.Fragment>
                         <form className={classes.form} onSubmit={props.handleSubmit}>
                             <div className={classes.toolbar} />
-                            <Typography gutterBottom variant="h5" align="center">
+                            <Typography gutterBottom variant="h5" align="left">
                                 {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
                             </Typography>
                             <Grid container direction="column" spacing={4}>
