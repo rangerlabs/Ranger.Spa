@@ -51,15 +51,6 @@ const styles = (theme: Theme) =>
         bottomPush: {
             height: theme.toolbar.height,
         },
-        title: {
-            position: 'sticky',
-            top: '0px',
-            paddingLeft: theme.spacing(2),
-            paddingRight: theme.spacing(2),
-            paddingBottom: theme.spacing(2),
-            background: theme.palette.common.white,
-            boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
-        },
         controls: {
             display: 'flex',
             position: 'sticky',

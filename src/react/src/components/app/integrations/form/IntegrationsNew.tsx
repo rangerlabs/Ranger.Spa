@@ -96,7 +96,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
         const { classes } = this.props;
         return (
             <div className={classes.layout}>
-                <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Integrations)}>
+                <IconButton className={classes.return} onClick={() => this.props.push(RoutePaths.Integrations)}>
                     <ArrowLeft />
                 </IconButton>
                 <Typography className={classes.title} variant="h5" align="left">
