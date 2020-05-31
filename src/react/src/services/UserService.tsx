@@ -35,8 +35,8 @@ export default class UserService {
         return RestUtilities.post(`/users/${email}/password-reset`, resetModel);
     }
 
-    async updateAccount(email: string, accountUpdateModel: IAccountUpdateModel): Promise<IRestResponse<void>> {
-        return RestUtilities.put(`/account/${email}`, accountUpdateModel);
+    async updateAccount(accountUpdateModel: IAccountUpdateModel): Promise<IRestResponse<void>> {
+        return RestUtilities.put(`/account`, accountUpdateModel);
     }
 
     async transferPrimaryOwnership(transferPrimaryOwnershipModel: ITransferOwnershipModel): Promise<IRestResponse<void>> {
