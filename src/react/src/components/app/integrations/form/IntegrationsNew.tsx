@@ -1,25 +1,12 @@
 import * as React from 'react';
-import {
-    Theme,
-    createStyles,
-    WithStyles,
-    withStyles,
-    Card,
-    CardContent,
-    Typography,
-    CardMedia,
-    Grid,
-    ButtonBase,
-    Box,
-    Paper,
-    IconButton,
-} from '@material-ui/core';
+import { Theme, createStyles, WithStyles, withStyles, Card, CardContent, Typography, CardMedia, Grid, ButtonBase, IconButton } from '@material-ui/core';
 import RoutePaths from '../../../RoutePaths';
 import { push } from 'connected-react-router';
 import { IntegrationEnum } from '../../../../models/app/integrations/IntegrationEnum';
 import { connect } from 'react-redux';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
+import classNames from 'classnames';
 const IntegrationApi = require('../../../../../assets/integration-api.png');
 
 const styles = (theme: Theme) =>
@@ -57,10 +44,6 @@ const styles = (theme: Theme) =>
             flexGrow: 1,
             height: '100%',
         },
-        // paper: {
-        //     paddingTop: theme.spacing(4),
-        //     paddingBottom: theme.spacing(4),
-        // },
         title: {
             marginTop: '0px',
             padding: '0px',
@@ -99,10 +82,10 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                 <IconButton className={classes.return} onClick={() => this.props.push(RoutePaths.Integrations)}>
                     <ArrowLeft />
                 </IconButton>
+                <Typography className={classNames(classes.title, classes.layout)} variant="h5" align="left">
+                    New Integration Type
+                </Typography>
                 <div className={classes.layout}>
-                    <Typography className={classes.title} variant="h5" align="left">
-                        New Integration Type
-                    </Typography>
                     <Grid container spacing={3} direction="column" justify="flex-start" alignItems="center">
                         <Grid container item justify="center">
                             <Grid item xs={12}>
