@@ -95,60 +95,62 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
     render() {
         const { classes } = this.props;
         return (
-            <div className={classes.layout}>
+            <React.Fragment>
                 <IconButton className={classes.return} onClick={() => this.props.push(RoutePaths.Integrations)}>
                     <ArrowLeft />
                 </IconButton>
-                <Typography className={classes.title} variant="h5" align="left">
-                    New Integration Type
-                </Typography>
-                <Grid container spacing={3} direction="column" justify="flex-start" alignItems="center">
-                    <Grid container item justify="center">
-                        <Grid item xs={12}>
-                            <ButtonBase
-                                className={classes.buttonBase}
-                                onClick={() => {
-                                    this.handleIntegrationSelect(IntegrationEnum.WEBHOOK);
-                                }}
-                            >
-                                <Card elevation={4} className={classes.root}>
-                                    <CardMedia
-                                        classes={{ root: classes.mediaRoot }}
-                                        className={classes.cover}
-                                        image={IntegrationApi}
-                                        title="Webhook Integration"
-                                    />
-                                    <div className={classes.details}>
-                                        <CardContent className={classes.content}>
-                                            <Typography variant="h6">Webhook</Typography>
-                                            <Typography variant="subtitle1" color="textSecondary">
-                                                Forward geofence events to a REST API of your choosing.
-                                            </Typography>
-                                        </CardContent>
-                                    </div>
-                                </Card>
-                            </ButtonBase>
+                <div className={classes.layout}>
+                    <Typography className={classes.title} variant="h5" align="left">
+                        New Integration Type
+                    </Typography>
+                    <Grid container spacing={3} direction="column" justify="flex-start" alignItems="center">
+                        <Grid container item justify="center">
+                            <Grid item xs={12}>
+                                <ButtonBase
+                                    className={classes.buttonBase}
+                                    onClick={() => {
+                                        this.handleIntegrationSelect(IntegrationEnum.WEBHOOK);
+                                    }}
+                                >
+                                    <Card elevation={4} className={classes.root}>
+                                        <CardMedia
+                                            classes={{ root: classes.mediaRoot }}
+                                            className={classes.cover}
+                                            image={IntegrationApi}
+                                            title="Webhook Integration"
+                                        />
+                                        <div className={classes.details}>
+                                            <CardContent className={classes.content}>
+                                                <Typography variant="h6">Webhook</Typography>
+                                                <Typography variant="subtitle1" color="textSecondary">
+                                                    Forward geofence events to a REST API of your choosing.
+                                                </Typography>
+                                            </CardContent>
+                                        </div>
+                                    </Card>
+                                </ButtonBase>
+                            </Grid>
+                        </Grid>
+                        <Grid container item justify="center">
+                            <Grid item xs={12}>
+                                <ButtonBase className={classes.buttonBase} onClick={() => {}}>
+                                    <Card elevation={4} className={classes.root}>
+                                        <CardMedia classes={{ root: classes.mediaRoot }} className={classes.cover} image={IntegrationApi} title="Coming soon" />
+                                        <div className={classes.details}>
+                                            <CardContent className={classes.content}>
+                                                <Typography variant="h6">Coming Soon!</Typography>
+                                                <Typography variant="subtitle1" color="textSecondary">
+                                                    More integrations are in the works. Check back soon.
+                                                </Typography>
+                                            </CardContent>
+                                        </div>
+                                    </Card>
+                                </ButtonBase>
+                            </Grid>
                         </Grid>
                     </Grid>
-                    <Grid container item justify="center">
-                        <Grid item xs={12}>
-                            <ButtonBase className={classes.buttonBase} onClick={() => {}}>
-                                <Card elevation={4} className={classes.root}>
-                                    <CardMedia classes={{ root: classes.mediaRoot }} className={classes.cover} image={IntegrationApi} title="Coming soon" />
-                                    <div className={classes.details}>
-                                        <CardContent className={classes.content}>
-                                            <Typography variant="h6">Coming Soon!</Typography>
-                                            <Typography variant="subtitle1" color="textSecondary">
-                                                More integrations are in the works. Check back soon.
-                                            </Typography>
-                                        </CardContent>
-                                    </div>
-                                </Card>
-                            </ButtonBase>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </div>
+                </div>
+            </React.Fragment>
         );
     }
 }
