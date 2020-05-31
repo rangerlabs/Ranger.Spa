@@ -39,6 +39,9 @@ const styles = (theme: Theme) =>
         leftButtons: {
             flexGrow: 1,
         },
+        title: {
+            marginBottom: theme.spacing(2),
+        },
         width100TemporaryChromiumFix: {
             width: '100%',
         },
@@ -350,7 +353,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                     <React.Fragment>
                         <form className={classes.form} onSubmit={props.handleSubmit}>
                             <div className={classes.toolbar} />
-                            <Typography gutterBottom variant="h5" align="left">
+                            <Typography className={classes.title} variant="h5" align="left">
                                 {this.props.editGeofence ? 'Edit Geofence' : 'New Geofence'}
                             </Typography>
                             <Grid container direction="column" spacing={4}>
