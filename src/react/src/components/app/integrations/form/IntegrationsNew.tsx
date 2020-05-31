@@ -1,10 +1,25 @@
 import * as React from 'react';
-import { Theme, createStyles, WithStyles, withStyles, Card, CardContent, Typography, CardMedia, Grid, ButtonBase, Box, Paper } from '@material-ui/core';
+import {
+    Theme,
+    createStyles,
+    WithStyles,
+    withStyles,
+    Card,
+    CardContent,
+    Typography,
+    CardMedia,
+    Grid,
+    ButtonBase,
+    Box,
+    Paper,
+    IconButton,
+} from '@material-ui/core';
 import RoutePaths from '../../../RoutePaths';
 import { push } from 'connected-react-router';
 import { IntegrationEnum } from '../../../../models/app/integrations/IntegrationEnum';
 import { connect } from 'react-redux';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
+import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 const IntegrationApi = require('../../../../../assets/integration-api.png');
 
 const styles = (theme: Theme) =>
