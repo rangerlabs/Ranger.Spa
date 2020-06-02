@@ -291,13 +291,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                             <React.Fragment>
                                 <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
                                     <Typography variant="h6">Signing Key</Typography>
-                                    <Typography variant="subtitle1">
-                                        The key used to sign the 'id' of an event payload using the HMAC-SHA-1 algorithm. The signature is present in the
-                                        <Box fontWeight="fontWeightBold">
-                                            <Typography>x-ranger-signature</Typography>
-                                        </Box>
-                                        header.
-                                    </Typography>
+                                    <Typography variant="subtitle1">The key used to sign the ID of an event payload using the HMAC-SHA-1 algorithm.</Typography>
                                     <Grid container justify="flex-end">
                                         <Grid item>
                                             <Typography variant="body1">{props.values.signingKey}</Typography>
