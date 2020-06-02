@@ -85,7 +85,7 @@ const mapStateToProps = (state: ApplicationState) => {
 class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProps> {
     validationSchema = Yup.object().shape({
         name: Yup.string().required('Required'),
-        url: Yup.string().url('Must be a valid URL').required('Required'),
+        url: Yup.string().matches(new RegExp('^https', 'i'), 'Must be HTTPS').url('Must be a valid URL').required('Required'),
         headers: Yup.array().of(
             Yup.object().shape({
                 key: Yup.string().required('Required'),
