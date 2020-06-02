@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Formik, FormikProps, FormikBag, FormikErrors, FormikTouched } from 'formik';
+import { Formik, FormikProps, FormikBag } from 'formik';
 import * as Yup from 'yup';
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, List, ListItemText, Typography, ListItem, Tooltip, IconButton } from '@material-ui/core';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, List, ListItemText, Typography, ListItem, IconButton, Box } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../../form/FormikTextField';
 import { connect } from 'react-redux';
@@ -287,26 +287,45 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                 </Grid>
                             </form>
                         </Paper>
-                        <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
-                            <Typography variant="h6">Delete</Typography>
-                            <Typography variant="subtitle1">Remove the integration</Typography>
-                            <Grid container justify="flex-end">
-                                <Grid item>
-                                    {this.props.editIntegration && (
-                                        <FormikDeleteButton
-                                            isSubmitting={props.isSubmitting}
-                                            onConfirm={() => this.props.delete(props)}
-                                            dialogTitle="Delete integration?"
-                                            confirmText="Delete"
-                                            dialogContent={'Are you sure you want to delete integration ' + props.values.name + '?'}
-                                            disabled={this.props.isPendingCreation}
-                                        >
-                                            Delete
-                                        </FormikDeleteButton>
-                                    )}
-                                </Grid>
-                            </Grid>
-                        </Paper>
+                        {this.props.editIntegration && (
+                            <React.Fragment>
+                                <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
+                                    <Typography variant="h6">Signing Key</Typography>
+                                    <Typography variant="subtitle1">
+                                        The key used to sign the 'id' of an event payload using the HMAC-SHA-1 algorithm. The signature is present in the
+                                        <Box fontWeight="fontWeightBold">
+                                            <Typography>x-ranger-signature</Typography>
+                                        </Box>
+                                        header.
+                                    </Typography>
+                                    <Grid container justify="flex-end">
+                                        <Grid item>
+                                            <Typography variant="body1">{props.values.signingKey}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Paper>
+                                <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
+                                    <Typography variant="h6">Delete</Typography>
+                                    <Typography variant="subtitle1">Remove the integration</Typography>
+                                    <Grid container justify="flex-end">
+                                        <Grid item>
+                                            {this.props.editIntegration && (
+                                                <FormikDeleteButton
+                                                    isSubmitting={props.isSubmitting}
+                                                    onConfirm={() => this.props.delete(props)}
+                                                    dialogTitle="Delete integration?"
+                                                    confirmText="Delete"
+                                                    dialogContent={'Are you sure you want to delete integration ' + props.values.name + '?'}
+                                                    disabled={this.props.isPendingCreation}
+                                                >
+                                                    Delete
+                                                </FormikDeleteButton>
+                                            )}
+                                        </Grid>
+                                    </Grid>
+                                </Paper>
+                            </React.Fragment>
+                        )}
                     </React.Fragment>
                 )}
             </Formik>

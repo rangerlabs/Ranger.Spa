@@ -15,6 +15,7 @@ export default class WebhookIntegration implements Integration {
     name: string;
     description: string;
     url: string;
+    signingKey: string;
     headers: KeyValuePair[];
     metadata: KeyValuePair[];
     environment: EnvironmentEnum;
