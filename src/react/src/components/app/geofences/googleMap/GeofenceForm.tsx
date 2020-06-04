@@ -114,6 +114,10 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
                                 this.mapWrappedRef.current.clearPolygon();
                                 this.props.removeMapGeofenceFromState();
                             }}
+                            clearNewTestRun={() => {
+                                this.mapWrappedRef.current.clearTestRun();
+                                this.props.removeMapGeofenceFromState();
+                            }}
                             enableMapClick={this.mapWrappedRef.current.registerMapClickHandler}
                         />
                     )}
