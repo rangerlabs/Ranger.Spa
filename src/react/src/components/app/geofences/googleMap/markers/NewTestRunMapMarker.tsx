@@ -24,11 +24,18 @@ export default class NewTestRunMapMarker {
             path: [latLng],
             clickable: true,
         });
+        this.map.addListener('mousemove', (e: google.maps.MouseEvent) => {
+            const lastPolyline = this.polylines[this.polylines.length - 1];
+            lastPolyline.setPath([lastPolyline.getPath().getAt(0), e.latLng]);
+        });
         newPolyline.addListener('click', (e: google.maps.MouseEvent) => {
             this.createPolyline(e.latLng);
         });
 
-        if (this.polylines.length === 0) {
+        if (this.polylines.length === 10) {
+            this.removePolylineEventListeners();
+            return;
+        } else if (this.polylines.length === 0) {
             this.polylines.push(newPolyline);
         } else {
             const lastPolyline = this.polylines[this.polylines.length - 1];
@@ -51,6 +58,7 @@ export default class NewTestRunMapMarker {
                 this.polylines.forEach((pm) => google.maps.event.clearInstanceListeners(pm));
             });
         }
+        google.maps.event.clearListeners(this.map, 'mousemove');
     }
 
     private clearPolylinesAndMarkers() {

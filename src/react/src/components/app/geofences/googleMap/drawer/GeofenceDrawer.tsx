@@ -13,6 +13,8 @@ import PolygonGeofenceDrawerContent from './PolygonGeofenceDrawerContent';
 import IProject from '../../../../../models/app/IProject';
 import { MergedIntegrationType } from '../../../../../models/app/integrations/MergedIntegrationTypes';
 import AddTimeFormatValidatorToYup from '../../../../../yup/AddTimeGreaterThanValidatorToYup';
+import TestRun from '../../../../../models/app/geofences/TestRun';
+import TestRunDrawerContent from './TestRunDrawerContent';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -36,7 +38,7 @@ const mapStateToProps = (state: ApplicationState) => {
     return {
         geofences: state.geofencesState.geofences,
         geofenceDrawerOpen: state.geofenceDrawer.isOpen,
-        mapGeofence: getMapGeofence(state),
+        mapObject: getMapObject(state),
         editGeofence: state.geofenceDrawer.editGeofence,
         selectedShape: state.googleMaps.selectedShapePicker,
         selectedProject: state.selectedProject,
@@ -44,13 +46,16 @@ const mapStateToProps = (state: ApplicationState) => {
     };
 };
 
-const getMapGeofence = (state: ApplicationState): CircleGeofenceState | PolygonGeofenceState => {
+const getMapObject = (state: ApplicationState): CircleGeofenceState | PolygonGeofenceState | TestRun => {
     switch (state.googleMaps.selectedShapePicker) {
         case ShapePicker.Circle: {
             return state.googleMaps.circleGeofence;
         }
         case ShapePicker.Polygon: {
             return state.googleMaps.polygonGeofence;
+        }
+        case ShapePicker.TestRun: {
+            return state.googleMaps.testRun;
         }
         default: {
             return undefined;
@@ -86,7 +91,7 @@ const mapDispatchToProps = (dispatch: any) => {
 interface GeofenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarProps {
     theme: Theme;
     geofences?: Array<CircleGeofence | PolygonGeofence>;
-    mapGeofence: CircleGeofenceState | PolygonGeofenceState;
+    mapObject: CircleGeofenceState | PolygonGeofenceState | TestRun;
     editGeofence: CircleGeofence | PolygonGeofence;
     geofenceDrawerOpen: boolean;
     selectedShape: ShapePicker;
@@ -97,6 +102,7 @@ interface GeofenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarPro
     cancelCreatingGeofence: () => void;
     clearNewCircleGeofence: () => void;
     clearNewPolygonGeofence: () => void;
+    clearNewTestRun: () => void;
     enableMapClick: () => void;
 }
 
@@ -109,6 +115,48 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
     closeDrawer = () => {
         this.props.closeDrawer();
         this.props.cancelCreatingGeofence();
+    };
+
+    getContent = () => {
+        switch (this.props.selectedShape) {
+            case ShapePicker.Circle: {
+                return (
+                    <CircleGeofenceDrawerContent
+                        selectedProject={this.props.selectedProject}
+                        mapGeofence={this.props.mapObject as CircleGeofenceState}
+                        editGeofence={this.props.editGeofence as CircleGeofence}
+                        integrations={this.props.integrations}
+                        closeDrawer={this.closeDrawer}
+                        clearNewCircleGeofence={this.props.clearNewCircleGeofence}
+                        enableMapClick={this.props.enableMapClick}
+                    />
+                );
+            }
+            case ShapePicker.Polygon: {
+                return (
+                    <PolygonGeofenceDrawerContent
+                        selectedProject={this.props.selectedProject}
+                        mapGeofence={this.props.mapObject as PolygonGeofenceState}
+                        editGeofence={this.props.editGeofence as PolygonGeofence}
+                        integrations={this.props.integrations}
+                        closeDrawer={this.closeDrawer}
+                        clearNewPolygonGeofence={this.props.clearNewPolygonGeofence}
+                        enableMapClick={this.props.enableMapClick}
+                    />
+                );
+            }
+            case ShapePicker.TestRun: {
+                return (
+                    <TestRunDrawerContent
+                        selectedProject={this.props.selectedProject}
+                        testRun={this.props.mapObject as TestRun}
+                        closeDrawer={this.closeDrawer}
+                        clearNewTestRun={this.props.clearNewTestRun}
+                        enableMapClick={this.props.enableMapClick}
+                    />
+                );
+            }
+        }
     };
 
     render() {
@@ -130,27 +178,7 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                     unmountOnExit: true,
                 }}
             >
-                {this.props.selectedShape === ShapePicker.Circle ? (
-                    <CircleGeofenceDrawerContent
-                        selectedProject={this.props.selectedProject}
-                        mapGeofence={this.props.mapGeofence as CircleGeofenceState}
-                        editGeofence={this.props.editGeofence as CircleGeofence}
-                        integrations={this.props.integrations}
-                        closeDrawer={this.closeDrawer}
-                        clearNewCircleGeofence={this.props.clearNewCircleGeofence}
-                        enableMapClick={this.props.enableMapClick}
-                    />
-                ) : (
-                    <PolygonGeofenceDrawerContent
-                        selectedProject={this.props.selectedProject}
-                        mapGeofence={this.props.mapGeofence as PolygonGeofenceState}
-                        editGeofence={this.props.editGeofence as PolygonGeofence}
-                        integrations={this.props.integrations}
-                        closeDrawer={this.closeDrawer}
-                        clearNewPolygonGeofence={this.props.clearNewPolygonGeofence}
-                        enableMapClick={this.props.enableMapClick}
-                    />
-                )}
+                }
             </Drawer>
         );
     }

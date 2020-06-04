@@ -1,4 +1,5 @@
 import CoordinatePair from '../../models/app/geofences/CoordinatePair';
+import TestRun from '../../models/app/geofences/TestRun';
 
 export enum ShapePicker {
     Circle = 0,
@@ -24,6 +25,7 @@ export interface GoogleMapsState {
     selectedShapePicker: ShapePicker;
     circleGeofence: CircleGeofenceState;
     polygonGeofence: PolygonGeofenceState;
+    testRun: TestRun;
 }
 
 export interface CircleGeofenceState {
