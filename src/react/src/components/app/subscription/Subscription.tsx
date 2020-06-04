@@ -138,6 +138,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 isCurrentPlan={this.isCurrentPlan('sandbox')}
                                 planId="sandbox"
                                 planName="Sandbox"
+                                message="Perfect for getting started"
                                 limitDetails={{ geofences: 100, accounts: 1, integrations: 2, projects: 1 } as ILimitDetails}
                                 cost="FREE"
                                 onUpgrade={this.upgrade.bind(this)}
@@ -149,6 +150,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 isCurrentPlan={this.isCurrentPlan('startup')}
                                 planId="startup"
                                 planName="Startup"
+                                message="When you're ready to start scaling and adding integrations"
                                 limitDetails={{ geofences: 1000, accounts: 3, integrations: 3, projects: 1 } as ILimitDetails}
                                 cost="$49 / Month"
                                 onUpgrade={this.upgrade.bind(this)}
@@ -160,10 +162,23 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 isCurrentPlan={this.isCurrentPlan('pro')}
                                 planId="pro"
                                 planName="Pro"
+                                message="Extend your reach with 10,000 geofences and 5 integrations of your choosing"
                                 limitDetails={{ geofences: 10000, accounts: 5, integrations: 5, projects: 1 } as ILimitDetails}
                                 cost="$99 / Month"
                                 onUpgrade={this.upgrade.bind(this)}
                                 forceDisable={!this.props.subscriptionLimitDetails.active}
+                            />
+                        </Grid>
+                        <Grid item xs={11} sm={8} md={5} lg={2}>
+                            <PlanCard
+                                isCurrentPlan={this.isCurrentPlan('pro')}
+                                planId=""
+                                planName="Coming Soon"
+                                message="More plans are coming soon"
+                                limitDetails={{ geofences: 0, accounts: 0, integrations: 0, projects: 0 } as ILimitDetails}
+                                cost=" "
+                                onUpgrade={() => {}}
+                                forceDisable={true}
                             />
                         </Grid>
                     </Grid>
