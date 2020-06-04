@@ -31,6 +31,8 @@ import * as queryString from 'query-string';
 import Constants from '../../../../theme/Constants';
 import Loading from '../../loading/Loading';
 import GoogleMapsSpeedDial from './GoogleMapsSpeedDial';
+import NewTestRunMapMarker from './markers/NewTestRunMapMarker';
+import TestRun from '../../../../models/app/geofences/TestRun';
 const DraggableCursor = require('../../../../../assets/plus-primary.png');
 
 const DEFAULT_RADIUS = 100;
@@ -165,6 +167,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
     newCircleGeofenceMapMarker: NewCircleGeofenceMapMarker = undefined;
     newPolygonGeofenceMapMarker: NewPolygonGeofenceMapMarker = undefined;
+    newTestRunMapMarker: NewTestRunMapMarker = undefined;
 
     state = {
         isMapFullyLoaded: false,
@@ -381,6 +384,16 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     }
                     break;
                 }
+                case ShapePicker.TestRun: {
+                    if (this.newTestRunMapMarker) {
+                        this.newTestRunMapMarker.createPolyline(e.latLng);
+                    } else {
+                        this.newTestRunMapMarker = new NewTestRunMapMarker(this.map, e.latLng);
+                        if (this.props.geofenceDrawerOpen) {
+                            this.removeMapClickHandler();
+                        }
+                    }
+                }
             }
         });
     };
@@ -411,7 +424,15 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.closeInfoWindow();
         this.props.removeMapGeofenceFromState();
     };
-
+    clearTestRun = () => {
+        this.removeMapClickHandler();
+        if (this.newTestRunMapMarker) {
+            this.newTestRunMapMarker.destroy();
+            this.newTestRunMapMarker = undefined;
+        }
+        this.closeInfoWindow();
+        this.props.removeMapGeofenceFromState();
+    };
     registerAutoCompleteEventHandler() {
         this.autoCompletePlaceChangedListener = this.autoComplete.addListener('place_changed', (e: google.maps.MouseEvent) => {
             switch (this.props.selectedShape) {
@@ -543,6 +564,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                             mapClick={this.registerMapClickHandler}
                             clearCircle={this.clearCircle}
                             clearPolygon={this.clearPolygon}
+                            clearTestRun={this.clearTestRun}
                             onCreate={() => {
                                 this.removeMapClickHandler();
                                 this.props.openDrawer();

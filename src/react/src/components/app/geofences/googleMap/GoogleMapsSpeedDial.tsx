@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { GoogleMapsState, ShapePicker, selectShapePicker } from '../../../../redux/actions/GoogleMapsActions';
 import ShapeCirclePlus from 'mdi-material-ui/ShapeCirclePlus';
 import ShapePolygonPlus from 'mdi-material-ui/ShapePolygonPlus';
+import VectorPolylinePlus from 'mdi-material-ui/VectorPolylinePlus';
 import ContentSaveEdit from 'mdi-material-ui/ContentSaveEdit';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
@@ -100,6 +101,7 @@ interface GoogleMapsSpeedDialProps extends WithStyles<typeof styles> {
     mapClick: () => void;
     clearCircle: () => void;
     clearPolygon: () => void;
+    clearTestRun: () => void;
     onCreate: () => void;
     canCreate: boolean;
     canSave: boolean;
@@ -149,11 +151,21 @@ class GoogleMapsSpeedDial extends React.Component<GoogleMapsSpeedDialProps, Goog
         this.handleClose();
     };
 
+    handleTestRunClick = () => {
+        if (this.props.selectedShape != ShapePicker.TestRun) {
+            this.props.selectShapePicker(ShapePicker.TestRun);
+        }
+        this.props.mapClick();
+        this.handleClose();
+    };
+
     handleClear = () => {
         if (this.props.selectedShape == ShapePicker.Circle) {
             this.props.clearCircle();
         } else if (this.props.selectedShape == ShapePicker.Polygon) {
             this.props.clearPolygon();
+        } else if (this.props.selectedShape == ShapePicker.TestRun) {
+            this.props.clearTestRun();
         }
     };
 
@@ -171,6 +183,7 @@ class GoogleMapsSpeedDial extends React.Component<GoogleMapsSpeedDialProps, Goog
     actions = [
         { icon: <ShapeCirclePlus />, name: 'Circle', onClick: this.handleCirclularClick },
         { icon: <ShapePolygonPlus />, name: 'Polygon', onClick: this.handlePolygonClick },
+        { icon: <VectorPolylinePlus />, name: 'Test Run', onClick: this.handleTestRunClick },
     ];
 
     render() {
