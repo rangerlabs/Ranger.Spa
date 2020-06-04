@@ -163,7 +163,6 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
         const { classes, theme } = this.props;
         return (
             <Drawer
-                // className={classes.drawer}
                 variant="persistent"
                 anchor={'right'}
                 open={this.props.geofenceDrawerOpen}
@@ -178,7 +177,7 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                     unmountOnExit: true,
                 }}
             >
-                }
+                {this.getContent()}
             </Drawer>
         );
     }
