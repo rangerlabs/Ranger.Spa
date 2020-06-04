@@ -19,6 +19,7 @@ export default class IntegrationService {
                             name: i.name,
                             description: i.description,
                             url: i.url,
+                            signingKey: i.signingKey,
                             headers: i.headers,
                             metadata: i.metadata,
                             environment: i.environment,
