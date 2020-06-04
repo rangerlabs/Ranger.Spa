@@ -138,7 +138,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 isCurrentPlan={this.isCurrentPlan('sandbox')}
                                 planId="sandbox"
                                 planName="Sandbox"
-                                message="Perfect for getting started"
+                                message="Perfect for getting a feel and testing your integrations"
                                 limitDetails={{ geofences: 100, accounts: 1, integrations: 2, projects: 1 } as ILimitDetails}
                                 cost="FREE"
                                 onUpgrade={this.upgrade.bind(this)}
@@ -162,7 +162,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 isCurrentPlan={this.isCurrentPlan('pro')}
                                 planId="pro"
                                 planName="Pro"
-                                message="Extend your reach with 10,000 geofences and 5 integrations of your choosing"
+                                message="Extend your reach with 10,000 geofences and 5 integrations"
                                 limitDetails={{ geofences: 10000, accounts: 5, integrations: 5, projects: 1 } as ILimitDetails}
                                 cost="$99 / Month"
                                 onUpgrade={this.upgrade.bind(this)}

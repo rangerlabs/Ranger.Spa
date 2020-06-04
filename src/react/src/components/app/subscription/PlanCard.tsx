@@ -31,6 +31,10 @@ const useStyles = makeStyles((theme: Theme) =>
         cardContent: {
             paddingTop: 0,
         },
+        message: {
+            maxHeight: '66px',
+            minHeight: '66px',
+        },
     })
 );
 
@@ -65,8 +69,10 @@ export default function PlanCard(props: PlanCardProps) {
                 <Box paddingTop={1} paddingBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
             </Box>
             <CardContent className={classes.cardContent}>
-                <Grid container justify="space-between">
-                    <Typography variant="subtitle1">{props.message}</Typography>
+                <Grid container justify="space-between" className={classes.message}>
+                    <Typography variant="subtitle1" align="center">
+                        {props.message}
+                    </Typography>
                 </Grid>
                 <Box paddingTop={1} marginBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
                 <Grid container justify="space-between">
