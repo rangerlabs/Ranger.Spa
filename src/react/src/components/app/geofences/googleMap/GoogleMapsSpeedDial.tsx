@@ -70,7 +70,7 @@ const styles = (theme: Theme) =>
 const mapStateToProps = (state: ApplicationState) => {
     return {
         canCreate: !state.googleMaps.isCreatingGeofence && !state.geofenceDrawer.isOpen,
-        canSave: Boolean(state.googleMaps.circleGeofence) || Boolean(state.googleMaps.polygonGeofence),
+        canSave: Boolean(state.googleMaps.circleGeofence) || Boolean(state.googleMaps.polygonGeofence) || Boolean(state.googleMaps.testRun),
         isDrawerOpen: state.geofenceDrawer.isOpen,
         selectedShape: state.googleMaps.selectedShapePicker,
         enabled: isEnabled(state),

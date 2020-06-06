@@ -35,11 +35,13 @@ export default class NewTestRunMapMarker {
         });
         newPolyline.addListener('click', (e: google.maps.MouseEvent) => {
             this.createPolyline(e.latLng);
+            const lngLatArray = this.polylines.map((pl) => pl.getPath().getAt(0));
+            this.addTestRunLatLng(lngLatArray.map((v) => new CoordinatePair(v.lng(), v.lat())));
         });
 
         if (this.polylines.length === 10) {
             this.removePolylineEventListeners();
-            this.onComplete;
+            this.onComplete();
             return;
         } else if (this.polylines.length === 0) {
             this.polylines.push(newPolyline);
@@ -96,7 +98,5 @@ export default class NewTestRunMapMarker {
             icon: CircularVertexMarker,
         });
         this.testPathMarkers.push(marker);
-        const lngLatArray = this.polylines.map((pl) => pl.getPath().getAt(0));
-        this.addTestRunLatLng(lngLatArray.map((v) => new CoordinatePair(v.lng(), v.lat())));
     }
 }
