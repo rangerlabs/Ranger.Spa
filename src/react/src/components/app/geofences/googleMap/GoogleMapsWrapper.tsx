@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../stores';
 import {
     ShapePicker,
-    PolygonGeofenceState,
-    CircleGeofenceState,
     addCircleGeofence,
     addPolygonGeofence,
     clearGeofence,

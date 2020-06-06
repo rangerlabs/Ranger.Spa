@@ -95,7 +95,7 @@ export default class NewPolygonGeofenceMapMarker {
             lastPolyline.setPath([lastPolyline.getPath().getAt(0), e.latLng]);
         });
         newPolyline.addListener('click', (e: google.maps.MouseEvent) => {
-            this.createPolyline(e.latLng);
+            google.maps.event.trigger(this.map, 'click', e);
         });
 
         if (this.polylines.length === 0) {
