@@ -48,20 +48,10 @@ const styles = (theme: Theme) =>
 interface IFenceFormProps extends WithStyles<typeof styles> {
     geofenceDrawerOpen: boolean;
     geofences: Array<CircleGeofence | PolygonGeofence>;
-    removeMapGeofenceFromState: () => void;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return { geofenceDrawerOpen: state.geofenceDrawer.isOpen, geofences: state.geofencesState.geofences };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        removeMapGeofenceFromState: () => {
-            const clearGeofenceAction = clearGeofence();
-            dispatch(clearGeofenceAction);
-        },
-    };
 };
 
 type FenceFormState = {
@@ -104,15 +94,12 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
                         <GeofenceDrawer
                             clearNewCircleGeofence={() => {
                                 this.mapWrappedRef.current.clearCircle();
-                                this.props.removeMapGeofenceFromState();
                             }}
                             clearNewPolygonGeofence={() => {
                                 this.mapWrappedRef.current.clearPolygon();
-                                this.props.removeMapGeofenceFromState();
                             }}
                             clearNewTestRun={() => {
                                 this.mapWrappedRef.current.clearTestRun();
-                                this.props.removeMapGeofenceFromState();
                             }}
                             enableMapClick={this.mapWrappedRef.current.registerMapClickHandler}
                         />
@@ -123,4 +110,4 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateIntegrationsHOC(populateGeofencesHOC(GeofenceForm))));
+export default connect(mapStateToProps, null)(withStyles(styles)(populateIntegrationsHOC(populateGeofencesHOC(GeofenceForm))));

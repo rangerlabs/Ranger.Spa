@@ -31,7 +31,6 @@ import Constants from '../../../../theme/Constants';
 import Loading from '../../loading/Loading';
 import GoogleMapsSpeedDial from './GoogleMapsSpeedDial';
 import NewTestRunMapMarker from './markers/NewTestRunMapMarker';
-import TestRun from '../../../../models/app/geofences/TestRun';
 const DraggableCursor = require('../../../../../assets/plus-primary.png');
 
 const DEFAULT_RADIUS = 100;
