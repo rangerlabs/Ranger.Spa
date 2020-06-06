@@ -1,5 +1,4 @@
 import Constants from '../../../../../theme/Constants';
-import { ShapePicker } from '../../../../../redux/actions/GoogleMapsActions';
 
 const MapMarkerDarkGreen = require('../../../../../../assets/map-marker-dark-green.png');
 const MapMarkerPrimaryGreen = require('../../../../../../assets/map-marker-green.png');

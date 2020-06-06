@@ -9,7 +9,6 @@ import GeofenceDrawer from './drawer/GeofenceDrawer';
 import GoogleMapsWrapper from './GoogleMapsWrapper';
 import populateGeofencesHOC from '../../hocs/PopulateGeofencesHOC';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
-import { clearGeofence } from '../../../../redux/actions/GoogleMapsActions';
 
 const styles = (theme: Theme) =>
     createStyles({
