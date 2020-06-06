@@ -9,6 +9,7 @@ import { push } from 'connected-react-router';
 import IProject from '../../../../../models/app/IProject';
 import FormikCancelButton from '../../../../form/FormikCancelButton';
 import TestRun from '../../../../../models/app/geofences/TestRun';
+import { TestRunState } from '../../../../../redux/actions/GoogleMapsActions';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -47,7 +48,7 @@ const styles = (theme: Theme) =>
 
 interface TesRunFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     theme: Theme;
-    testRun: TestRun;
+    testRun: TestRunState;
     selectedProject: IProject;
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
@@ -128,7 +129,7 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
         return (
             <Formik
                 enableReinitialize={false}
-                initialValues={this.props.testRun}
+                initialValues={{ coordinates: this.props.testRun.coordinatePairArray } as TestRun}
                 validateOnMount={false}
                 onSubmit={(values: TestRun, formikBag: FormikBag<FormikProps<TestRun>, TestRun>) => {
                     this.postTestRun(values, formikBag);
@@ -144,6 +145,9 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
                                 </Typography>
                                 <Grid container direction="column" spacing={4}>
                                     <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
+                                        {props.values.coordinates.map((c) => {
+                                            return <Typography variant="body1">{(c.lng, c.lat)}</Typography>;
+                                        })}
                                         {/* <FormikTextField
                                             infoText="A unique identifier for the geofence."
                                             name="externalId"

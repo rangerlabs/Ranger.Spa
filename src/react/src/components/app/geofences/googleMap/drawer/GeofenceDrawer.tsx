@@ -6,7 +6,7 @@ import { DialogContent, openDialog } from '../../../../../redux/actions/DialogAc
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../../stores/index';
-import { ShapePicker, PolygonGeofenceState, CircleGeofenceState, setCreatingGeofence } from '../../../../../redux/actions/GoogleMapsActions';
+import { ShapePicker, PolygonGeofenceState, CircleGeofenceState, setCreatingGeofence, TestRunState } from '../../../../../redux/actions/GoogleMapsActions';
 import { closeGeofenceDrawer } from '../../../../../redux/actions/GeofenceDrawerActions';
 import CircleGeofenceDrawerContent from './CircleGeofenceDrawerContent';
 import PolygonGeofenceDrawerContent from './PolygonGeofenceDrawerContent';
@@ -149,7 +149,7 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                 return (
                     <TestRunDrawerContent
                         selectedProject={this.props.selectedProject}
-                        testRun={this.props.mapObject as TestRun}
+                        testRun={this.props.mapObject as TestRunState}
                         closeDrawer={this.closeDrawer}
                         clearNewTestRun={this.props.clearNewTestRun}
                         enableMapClick={this.props.enableMapClick}

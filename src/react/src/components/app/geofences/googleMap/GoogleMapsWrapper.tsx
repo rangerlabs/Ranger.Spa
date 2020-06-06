@@ -14,6 +14,7 @@ import {
     selectShapePicker,
     setInfoWindowVisible,
     setCreatingGeofence,
+    addTestRun,
 } from '../../../../redux/actions/GoogleMapsActions';
 import CoordinatePair from '../../../../models/app/geofences/CoordinatePair';
 import CircleGeofence from '../../../../models/app/geofences/CircleGeofence';
@@ -72,8 +73,6 @@ const StyledSearchTextField = withStyles({
 const mapStateToProps = (state: ApplicationState) => {
     return {
         selectedShape: state.googleMaps.selectedShapePicker,
-        circleGeofence: state.googleMaps.circleGeofence,
-        polygonGeofence: state.googleMaps.polygonGeofence,
         existingGeofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.projectId),
         geofenceDrawerOpen: state.geofenceDrawer.isOpen,
     };
@@ -93,6 +92,10 @@ const mapDispatchToProps = (dispatch: any) => {
         addPolygonLatLngArray: (lngLatArray: CoordinatePair[]) => {
             const addPolygonGeofenceAction = addPolygonGeofence({ coordinatePairArray: lngLatArray });
             dispatch(addPolygonGeofenceAction);
+        },
+        addTestRunLatLngArray: (lngLatArray: CoordinatePair[]) => {
+            const addTestRunAction = addTestRun({ coordinatePairArray: lngLatArray });
+            dispatch(addTestRunAction);
         },
         removeMapGeofenceFromState: () => {
             const clearGeofenceAction = clearGeofence();
@@ -129,13 +132,12 @@ const mergeProps = (stateProps: any, dispatchProps: any, own: any) => ({ ...stat
 
 interface WrapperProps extends WithStyles<typeof styles> {
     selectedShape: ShapePicker;
-    circleGeofence: CircleGeofenceState;
-    polygonGeofence: PolygonGeofenceState;
     existingGeofences: (CircleGeofence | PolygonGeofence)[];
     geofenceDrawerOpen: boolean;
     push: (path: string) => void;
     addCircleGeofence: (lngLat: CoordinatePair, radius: number) => void;
     addPolygonLatLngArray: (lngLatArray: CoordinatePair[]) => void;
+    addTestRunLatLngArray: (lngLatArray: CoordinatePair[]) => void;
     removeMapGeofenceFromState: () => void;
     selectShapePicker: (shape: ShapePicker) => void;
     openDrawer: (geofence?: CircleGeofence | PolygonGeofence) => void;
@@ -388,7 +390,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     if (this.newTestRunMapMarker) {
                         this.newTestRunMapMarker.createPolyline(e.latLng);
                     } else {
-                        this.newTestRunMapMarker = new NewTestRunMapMarker(this.map, e.latLng);
+                        this.newTestRunMapMarker = new NewTestRunMapMarker(this.map, e.latLng, this.props.addTestRunLatLngArray, () => {
+                            this.removeMapClickHandler();
+                            this.props.openDrawer();
+                            this.closeInfoWindow();
+                        });
                         if (this.props.geofenceDrawerOpen) {
                             this.removeMapClickHandler();
                         }

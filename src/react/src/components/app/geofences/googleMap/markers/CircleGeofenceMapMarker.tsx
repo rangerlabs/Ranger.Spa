@@ -54,6 +54,7 @@ export default class CircleGeofenceMapMarker {
         });
         this.circleClickMarker.addListener('mouseover', (e: google.maps.MouseEvent) => {
             this.circleClickMarker.setIcon(MapMarkerDarkGreen);
+            google.maps.event.trigger(this.map, 'mouseover', e); //propogate for drawing polylines
         });
         this.circleClickMarker.addListener('mouseout', (e: google.maps.MouseEvent) => {
             this.circleClickMarker.setIcon(MapMarkerPrimaryGreen);

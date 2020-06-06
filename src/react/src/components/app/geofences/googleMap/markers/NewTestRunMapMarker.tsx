@@ -1,8 +1,6 @@
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import Constants from '../../../../../theme/Constants';
 
-const MapMarkerDarkGreen = require('../../../../../../assets/map-marker-dark-green.png');
-const MapMarkerPrimaryGreen = require('../../../../../../assets/map-marker-green.png');
 const CircularVertexMarker = require('../../../../../../assets/circle-filled-green.png');
 
 export default class NewTestRunMapMarker {
@@ -10,9 +8,16 @@ export default class NewTestRunMapMarker {
     testPathMarkers = new Array<google.maps.Marker>();
 
     setAtEventListener: google.maps.MapsEventListener = undefined;
+    onComplete: () => void;
 
-    public constructor(private map: google.maps.Map, latLngArray: google.maps.LatLng) {
+    public constructor(
+        private map: google.maps.Map,
+        latLngArray: google.maps.LatLng,
+        private addTestRunLatLng: (lngLatArray: CoordinatePair[]) => void,
+        onComplete: () => void
+    ) {
         this.createPolyline(latLngArray);
+        this.onComplete = onComplete;
     }
 
     createPolyline(latLng: google.maps.LatLng): void {
@@ -34,6 +39,7 @@ export default class NewTestRunMapMarker {
 
         if (this.polylines.length === 10) {
             this.removePolylineEventListeners();
+            this.onComplete;
             return;
         } else if (this.polylines.length === 0) {
             this.polylines.push(newPolyline);
@@ -90,5 +96,7 @@ export default class NewTestRunMapMarker {
             icon: CircularVertexMarker,
         });
         this.testPathMarkers.push(marker);
+        const lngLatArray = this.polylines.map((pl) => pl.getPath().getAt(0));
+        this.addTestRunLatLng(lngLatArray.map((v) => new CoordinatePair(v.lng(), v.lat())));
     }
 }

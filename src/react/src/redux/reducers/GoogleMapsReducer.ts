@@ -8,6 +8,7 @@ import {
     GoogleMapsAction,
     GoogleMapsState,
     IS_CREATING_GEOFENCE,
+    ADD_TEST_RUN,
 } from '../actions/GoogleMapsActions';
 
 export function googleMapsReducer(
@@ -21,6 +22,8 @@ export function googleMapsReducer(
             return Object.assign({}, state, { circleGeofence: action.googleMaps.circleGeofence });
         case ADD_POLYGON_GEOFENCE:
             return Object.assign({}, state, { polygonGeofence: action.googleMaps.polygonGeofence });
+        case ADD_TEST_RUN:
+            return Object.assign({}, state, { testRun: action.googleMaps.testRun });
         case CLEAR_GEOFENCE:
             return Object.assign({}, state, { circleGeofence: undefined, polygonGeofence: undefined });
         case IS_INFO_WINDOW_VISIBILE:

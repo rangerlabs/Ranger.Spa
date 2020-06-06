@@ -12,6 +12,7 @@ export const IS_CREATING_GEOFENCE = 'IS_CREATING_GEOFENCE';
 export const SELECT_SHAPE_PICKER = 'SELECT_SHAPE_PICKER';
 export const ADD_CIRCLE_GEOFENCE = 'ADD_CIRCLE_GEOFENCE';
 export const ADD_POLYGON_GEOFENCE = 'ADD_POLYGON_GEOFENCE';
+export const ADD_TEST_RUN = 'ADD_TEST_RUN';
 export const CLEAR_GEOFENCE = 'CLEAR_GEOFENCE';
 
 export interface GoogleMapsAction {
@@ -25,7 +26,7 @@ export interface GoogleMapsState {
     selectedShapePicker: ShapePicker;
     circleGeofence: CircleGeofenceState;
     polygonGeofence: PolygonGeofenceState;
-    testRun: TestRun;
+    testRun: TestRunState;
 }
 
 export interface CircleGeofenceState {
@@ -34,6 +35,10 @@ export interface CircleGeofenceState {
 }
 
 export interface PolygonGeofenceState {
+    coordinatePairArray: CoordinatePair[];
+}
+
+export interface TestRunState {
     coordinatePairArray: CoordinatePair[];
 }
 
@@ -60,6 +65,15 @@ export function addPolygonGeofence(polygonGeofence: PolygonGeofenceState): Googl
         type: ADD_POLYGON_GEOFENCE,
         googleMaps: {
             polygonGeofence: polygonGeofence,
+        } as GoogleMapsState,
+    };
+}
+
+export function addTestRun(testRun: TestRunState): GoogleMapsAction {
+    return {
+        type: ADD_TEST_RUN,
+        googleMaps: {
+            testRun: testRun,
         } as GoogleMapsState,
     };
 }
