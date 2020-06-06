@@ -101,9 +101,7 @@ export default class NewPolygonGeofenceMapMarker {
         if (this.polylines.length === 0) {
             this.polylines.push(newPolyline);
         } else {
-            const lastPolyline = this.polylines[this.polylines.length - 1];
-            google.maps.event.clearInstanceListeners(lastPolyline);
-            const lastPolylinePath = lastPolyline.getPath();
+            const lastPolylinePath = this.polylines[this.polylines.length - 1].getPath();
             lastPolylinePath.push(latLng);
             this.polylines[this.polylines.length - 1].setPath(lastPolylinePath);
             this.polylines.push(newPolyline);

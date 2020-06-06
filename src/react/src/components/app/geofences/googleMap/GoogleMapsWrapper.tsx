@@ -409,6 +409,10 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.props.setCreatingGeofence(false);
     };
 
+    removePolylineMapMouseOverListners = () => {
+        google.maps.event.clearListeners(this.map, 'mousemove');
+    };
+
     clearCircle = () => {
         this.removeMapClickHandler();
         if (this.newCircleGeofenceMapMarker) {
@@ -570,6 +574,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                             clearPolygon={this.clearPolygon}
                             clearTestRun={this.clearTestRun}
                             onCreate={() => {
+                                this.removePolylineMapMouseOverListners();
                                 this.removeMapClickHandler();
                                 this.props.openDrawer();
                                 this.closeInfoWindow();
