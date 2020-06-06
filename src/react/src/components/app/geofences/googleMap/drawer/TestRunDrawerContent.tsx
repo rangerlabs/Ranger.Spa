@@ -119,7 +119,6 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
         this.setState({ cancelClicked: true });
         this.props.clearNewTestRun();
         this.setState({ serverErrors: undefined });
-        this.props.enableMapClick();
         this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
     };

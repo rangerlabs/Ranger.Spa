@@ -75,10 +75,6 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
         isMapFullyLoaded: false,
     };
 
-    clearMapMarkers(): any {
-        throw new Error('Method not implemented.');
-    }
-
     render() {
         const { classes } = this.props;
         return (

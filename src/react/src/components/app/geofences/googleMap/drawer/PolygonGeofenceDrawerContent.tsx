@@ -201,7 +201,6 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         }
         this.props.clearNewPolygonGeofence();
         this.setState({ serverErrors: undefined });
-        this.props.enableMapClick();
         this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
     };

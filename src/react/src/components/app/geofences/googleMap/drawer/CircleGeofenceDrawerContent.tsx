@@ -200,7 +200,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         }
         this.props.clearNewCircleGeofence();
         this.setState({ serverErrors: undefined });
-        this.props.enableMapClick();
+        // this.props.enableMapClick();
         this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
     };
