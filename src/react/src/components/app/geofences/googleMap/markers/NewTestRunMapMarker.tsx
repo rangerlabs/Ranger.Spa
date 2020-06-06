@@ -40,6 +40,7 @@ export default class NewTestRunMapMarker {
         if (this.polylines.length === 10) {
             this.removePolylineEventListeners();
             this.onComplete();
+            this.pushManualTestRunMarker(latLng);
             return;
         }
         if (this.polylines.length === 0) {
@@ -52,6 +53,7 @@ export default class NewTestRunMapMarker {
         }
 
         this.pushManualTestRunMarker(latLng);
+        this.addPolyLineArrayToState();
     }
 
     private removePolylineEventListeners() {
@@ -95,6 +97,9 @@ export default class NewTestRunMapMarker {
             icon: CircularVertexMarker,
         });
         this.testPathMarkers.push(marker);
+    }
+
+    private addPolyLineArrayToState() {
         const lngLatArray = this.polylines.map((pl) => pl.getPath().getAt(0));
         this.addTestRunLatLng(lngLatArray.map((v) => new CoordinatePair(v.lng(), v.lat())));
     }
