@@ -100,7 +100,6 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
                             clearNewTestRun={() => {
                                 this.mapWrappedRef.current.clearTestRun();
                             }}
-                            enableMapClick={this.mapWrappedRef.current.registerMapClickHandler}
                         />
                     )}
                 </main>

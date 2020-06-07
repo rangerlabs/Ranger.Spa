@@ -217,7 +217,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         }
     };
 
-    initMap = () => {
+    private initMap = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
                 this.initMapLocation(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
@@ -227,11 +227,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         }
     };
 
-    handleLocationError = () => {
+    private handleLocationError = () => {
         this.initMapLocation(new google.maps.LatLng(40.754932, -73.984016));
     };
 
-    initMapLocation = (initLocation: google.maps.LatLng) => {
+    private initMapLocation = (initLocation: google.maps.LatLng) => {
         this.map = new window.google.maps.Map(document.getElementById(this.props.id), {
             ...this.props.options,
             center: initLocation,
@@ -277,7 +277,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         }
     }
 
-    getPolygonCenter(polygon: PolygonGeofence) {
+    private getPolygonCenter(polygon: PolygonGeofence) {
         var bounds = new google.maps.LatLngBounds();
         for (let i = 0; i < polygon.coordinates.length; i++) {
             bounds.extend(polygon.coordinates[i]);
@@ -285,11 +285,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         return bounds.getCenter();
     }
 
-    getGeofenceFromStateByName(name: string): CircleGeofence | PolygonGeofence {
+    private getGeofenceFromStateByName(name: string): CircleGeofence | PolygonGeofence {
         return this.props.existingGeofences.find((marker) => marker.externalId === name);
     }
 
-    removeGeofenceMarkers(markersForRemoval: (CircleGeofence | PolygonGeofence)[]) {
+    private removeGeofenceMarkers(markersForRemoval: (CircleGeofence | PolygonGeofence)[]) {
         if (markersForRemoval) {
             markersForRemoval.forEach((markerToRemove) => {
                 const markerIndex = this.markers.findIndex((existingMarker) => {
@@ -303,7 +303,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         }
     }
 
-    createGeofenceMarkers(markersForCreation: (CircleGeofence | PolygonGeofence)[], animate: boolean = false) {
+    private createGeofenceMarkers(markersForCreation: (CircleGeofence | PolygonGeofence)[], animate: boolean = false) {
         markersForCreation.forEach((geofence, index) => {
             switch (geofence.shape) {
                 case ShapePicker.Circle: {
@@ -353,7 +353,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         });
     }
 
-    registerMapClickHandler = () => {
+    private registerMapClickHandler = () => {
         this.map.setOptions({ draggableCursor: `url(${DraggableCursor}), auto;` });
         this.props.setCreatingGeofence(true);
         this.mapClickListener = this.map.addListener('click', (e: google.maps.MouseEvent) => {
@@ -401,14 +401,14 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         });
     };
 
-    removeMapClickHandler = () => {
+    private removeMapClickHandler = () => {
         this.map.setOptions({ draggableCursor: '' });
         google.maps.event.removeListener(this.mapClickListener);
         this.mapClickListener = undefined;
         this.props.setCreatingGeofence(false);
     };
 
-    removePolylineMapMouseOverListners = () => {
+    private removePolylineMapMouseOverListners = () => {
         google.maps.event.clearListeners(this.map, 'mousemove');
     };
 
@@ -440,7 +440,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         // this.closeInfoWindow();
         this.props.removeMapGeofenceFromState();
     };
-    registerAutoCompleteEventHandler() {
+    private registerAutoCompleteEventHandler() {
         this.autoCompletePlaceChangedListener = this.autoComplete.addListener('place_changed', (e: google.maps.MouseEvent) => {
             switch (this.props.selectedShape) {
                 case ShapePicker.Circle: {
@@ -471,19 +471,19 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         });
     }
 
-    closeInfoWindow() {
+    private closeInfoWindow() {
         if (this.infoWindow) {
             this.infoWindow.close();
             this.props.setInfoWindowVisible(false);
         }
     }
 
-    openInfoWindow(latLng: google.maps.LatLng, geofenceName?: string) {
+    private openInfoWindow(latLng: google.maps.LatLng, geofenceName?: string) {
         this.map.panTo(latLng);
         this.createInfoWindow(latLng, geofenceName);
     }
 
-    createInfoWindow = (latLng: google.maps.LatLng, geofenceName?: string) => {
+    private createInfoWindow = (latLng: google.maps.LatLng, geofenceName?: string) => {
         if (this.infoWindow) {
             this.infoWindow.setPosition(latLng);
             this.infoWindow.set('name', geofenceName);

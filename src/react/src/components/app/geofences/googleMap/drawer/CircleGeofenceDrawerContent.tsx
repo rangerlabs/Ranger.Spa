@@ -75,7 +75,6 @@ interface CircleGeofenceFormProps extends WithStyles<typeof styles>, WithSnackba
     addGeofenceToPendingDeletion: (geofence: CircleGeofence) => void;
     addGeofenceToPendingUpdate: (geofence: CircleGeofence) => void;
     clearNewCircleGeofence: () => void;
-    enableMapClick: () => void;
     push: (path: string) => void;
 }
 
@@ -149,7 +148,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.saveGeofenceToState(geofence);
                 this.props.clearNewCircleGeofence();
-                this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
             } else {
@@ -168,7 +166,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 this.props.addGeofenceToPendingUpdate(this.props.editGeofence);
                 this.props.saveGeofenceToState(geofence);
                 this.props.clearNewCircleGeofence();
-                this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
             } else {
@@ -185,7 +182,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
                 this.props.clearNewCircleGeofence();
-                this.props.enableMapClick();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
             }

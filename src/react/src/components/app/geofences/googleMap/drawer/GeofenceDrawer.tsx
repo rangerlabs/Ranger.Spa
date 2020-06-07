@@ -103,7 +103,6 @@ interface GeofenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarPro
     clearNewCircleGeofence: () => void;
     clearNewPolygonGeofence: () => void;
     clearNewTestRun: () => void;
-    enableMapClick: () => void;
 }
 
 class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
@@ -144,7 +143,6 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                         integrations={this.props.integrations}
                         closeDrawer={this.closeDrawer}
                         clearNewCircleGeofence={this.props.clearNewCircleGeofence}
-                        enableMapClick={this.props.enableMapClick}
                     />
                 );
             }
@@ -157,7 +155,6 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                         integrations={this.props.integrations}
                         closeDrawer={this.closeDrawer}
                         clearNewPolygonGeofence={this.props.clearNewPolygonGeofence}
-                        enableMapClick={this.props.enableMapClick}
                     />
                 );
             }
@@ -168,7 +165,6 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                         testRun={this.props.mapObject as TestRunState}
                         closeDrawer={this.closeDrawer}
                         clearNewTestRun={this.props.clearNewTestRun}
-                        enableMapClick={this.props.enableMapClick}
                     />
                 );
             }

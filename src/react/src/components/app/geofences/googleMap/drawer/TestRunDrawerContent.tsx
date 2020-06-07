@@ -10,6 +10,7 @@ import IProject from '../../../../../models/app/IProject';
 import FormikCancelButton from '../../../../form/FormikCancelButton';
 import TestRun from '../../../../../models/app/geofences/TestRun';
 import { TestRunState } from '../../../../../redux/actions/GoogleMapsActions';
+import TestRunService from '../../../../../services/TestRunService';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -53,7 +54,6 @@ interface TesRunFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
     clearNewTestRun: () => void;
-    enableMapClick: () => void;
     push: (path: string) => void;
 }
 
@@ -88,6 +88,8 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
         super(props);
     }
 
+    testRunService = new TestRunService();
+
     state: TestRunFormState = {
         serverErrors: undefined,
         isSuccess: false,
@@ -99,20 +101,18 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
     };
 
     postTestRun = (testRun: TestRun, formikBag: FormikBag<FormikProps<TestRun>, TestRun>) => {
-        // geofenceService.postGeofence(this.props.selectedProject.name, testRun).then((v) => {
-        //     if (!v.isError) {
-        //         this.setState({ isSuccess: true });
-        //         testRun.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
-        //         this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
-        //         this.props.closeDrawer();
-        //         this.props.enableMapClick();
-        //         this.props.clearNewTestRun();
-        //     } else {
-        //         this.setState({ serverErrors: [v.error.message] });
-        //     }
-        //     formikBag.setSubmitting(false);
-        //     this.setState({ isSuccess: false });
-        // });
+        this.testRunService.postTestRun(this.props.selectedProject.name, testRun).then((v) => {
+            if (!v.isError) {
+                this.setState({ isSuccess: true });
+                this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+                this.props.closeDrawer();
+                this.props.clearNewTestRun();
+            } else {
+                this.setState({ serverErrors: [v.error.message] });
+            }
+            formikBag.setSubmitting(false);
+            this.setState({ isSuccess: false });
+        });
     };
 
     cancelGeofence = () => {
@@ -128,7 +128,7 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
         return (
             <Formik
                 enableReinitialize={false}
-                initialValues={{ coordinates: this.props.testRun.coordinatePairArray } as TestRun}
+                initialValues={{ positions: this.props.testRun.coordinatePairArray } as TestRun}
                 validateOnMount={false}
                 onSubmit={(values: TestRun, formikBag: FormikBag<FormikProps<TestRun>, TestRun>) => {
                     this.postTestRun(values, formikBag);
@@ -144,7 +144,7 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
                                 </Typography>
                                 <Grid container direction="column" spacing={4}>
                                     <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                        {props.values.coordinates.map((c) => {
+                                        {props.values.positions.map((c) => {
                                             return <Typography variant="body1">{(c.lng, c.lat)}</Typography>;
                                         })}
                                         {/* <FormikTextField

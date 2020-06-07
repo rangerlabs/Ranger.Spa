@@ -37,12 +37,6 @@ export default class NewTestRunMapMarker {
             google.maps.event.trigger(this.map, 'click', e);
         });
 
-        if (this.polylines.length === 10) {
-            this.removePolylineEventListeners();
-            this.onComplete();
-            this.pushManualTestRunMarker(latLng);
-            return;
-        }
         if (this.polylines.length === 0) {
             this.polylines.push(newPolyline);
         } else {
@@ -51,9 +45,13 @@ export default class NewTestRunMapMarker {
             this.polylines[this.polylines.length - 1].setPath(lastPolylinePath);
             this.polylines.push(newPolyline);
         }
-
         this.pushManualTestRunMarker(latLng);
         this.addPolyLineArrayToState();
+
+        if (this.polylines.length === 10) {
+            this.removePolylineEventListeners();
+            this.onComplete();
+        }
     }
 
     private removePolylineEventListeners() {
