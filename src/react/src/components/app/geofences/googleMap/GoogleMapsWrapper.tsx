@@ -149,8 +149,6 @@ interface WrapperProps extends WithStyles<typeof styles> {
     options: google.maps.MapOptions;
 }
 
-// type GoogleMapsWrapperProps = OwnProps & StateProps & DispatchProps;
-
 interface GoogleMapsWrapperState {
     isMapFullyLoaded: boolean;
 }
@@ -171,6 +169,28 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     state = {
         isMapFullyLoaded: false,
     };
+
+    //This side effect is necessary because the user could nagivate away from the map with the drawer open and/or a geofence defined
+    componentWillUnmount() {
+        this.props.closeDrawer();
+        switch (this.props.selectedShape) {
+            case ShapePicker.Circle: {
+                if (this.newCircleGeofenceMapMarker) {
+                    this.clearCircle();
+                }
+            }
+            case ShapePicker.Polygon: {
+                if (this.newPolygonGeofenceMapMarker) {
+                    this.clearPolygon();
+                }
+            }
+            case ShapePicker.TestRun: {
+                if (this.newTestRunMapMarker) {
+                    this.clearTestRun();
+                }
+            }
+        }
+    }
 
     componentDidMount = () => {
         if (!window.google) {

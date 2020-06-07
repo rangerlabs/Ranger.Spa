@@ -111,22 +111,6 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
         AddTimeFormatValidatorToYup();
     }
 
-    //This side effect is necessary because the user could nagivate away from the map with the drawer open
-    componentWillUnmount() {
-        this.closeDrawer();
-        switch (this.props.selectedShape) {
-            case ShapePicker.Circle: {
-                this.props.clearNewCircleGeofence();
-            }
-            case ShapePicker.Polygon: {
-                this.props.clearNewPolygonGeofence();
-            }
-            case ShapePicker.TestRun: {
-                this.props.clearNewTestRun();
-            }
-        }
-    }
-
     closeDrawer = () => {
         this.props.closeDrawer();
         this.props.cancelCreatingGeofence();
