@@ -7,7 +7,6 @@ import * as Yup from 'yup';
 import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, List, ListItemText, ListItem, Button, Typography, IconButton } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
-import FormikPrimaryButton from '../../form/FormikPrimaryButton';
 import FormikUpdateButton from '../../form/FormikUpdateButton';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
 import { IRestResponse, IValidationError } from '../../../services/RestUtilities';
@@ -275,7 +274,12 @@ class Account extends React.Component<AccountProps, AccountState> {
                                 </Grid>
                             </Grid>
                         </Paper>
-                        <Paper className={classNames(classes.paper)} elevation={3}>
+                        <Paper
+                            className={
+                                !this.props.canTransferOwnership && !this.isPrimaryOwner ? classNames(classes.bottomPaper, classes.paper) : classes.paper
+                            }
+                            elevation={3}
+                        >
                             <Typography variant="h6">Change Email</Typography>
                             <Typography variant="subtitle1">Change your account email address.</Typography>
                             <Grid container justify="flex-end">
