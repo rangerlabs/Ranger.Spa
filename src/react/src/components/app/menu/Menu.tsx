@@ -13,7 +13,6 @@ import {
     Typography,
     Collapse,
     Button,
-    Badge,
     Box,
 } from '@material-ui/core';
 import People from '@material-ui/icons/People';
@@ -38,7 +37,6 @@ import IProject from '../../../models/app/IProject';
 import { userIsInRole } from '../../../helpers/Helpers';
 import Logout from 'mdi-material-ui/Logout';
 import CreditCard from 'mdi-material-ui/CreditCard';
-import MapMarkerPath from 'mdi-material-ui/MapMarkerPath';
 import Settings from 'mdi-material-ui/Settings';
 import Constants from '../../../theme/Constants';
 import classNames from 'classnames';
@@ -349,7 +347,7 @@ class Menu extends React.Component<MenuProps> {
                     </Hidden>
                 </List>
                 <Hidden mdDown>
-                    <Box textAlign="center" position="absolute" height="32px" width="100%" bottom={1} left="0px">
+                    <Box textAlign="center" position="absolute" height="32px" width="100%" bottom={'8px'} left="0px">
                         <div>
                             <Typography align="center" variant="caption">
                                 v{this.getSpaVersion()}
