@@ -18,8 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
             textAlign: 'center',
         },
         pricing: {
-            maxHeight: '32px',
-            minHeight: '32px',
+            maxHeight: theme.spacing(4),
+            minHeight: theme.spacing(4),
+            paddingTop: theme.spacing(1),
         },
         headerFaded: {
             textAlign: 'center',
@@ -70,7 +71,7 @@ export default function PlanCard(props: PlanCardProps) {
                 <Typography className={classes.pricing} color="primary" align="center" variant="h5">
                     {props.cost}
                 </Typography>
-                <Box paddingTop={1} paddingBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
+                <Box paddingBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
             </Box>
             <CardContent className={classes.cardContent}>
                 <Grid container justify="space-between" className={classes.message}>
