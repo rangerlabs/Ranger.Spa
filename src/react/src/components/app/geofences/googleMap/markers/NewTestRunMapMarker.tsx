@@ -83,6 +83,10 @@ export default class NewTestRunMapMarker {
         }
     }
 
+    public getStartingMarker() {
+        return this.polylines[0].getPath().getAt(0);
+    }
+
     public destroy() {
         this.removePolylineEventListeners();
         this.clearPolylinesAndMarkers();

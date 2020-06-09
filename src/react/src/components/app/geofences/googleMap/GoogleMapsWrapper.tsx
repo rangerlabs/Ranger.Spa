@@ -73,6 +73,7 @@ const mapStateToProps = (state: ApplicationState) => {
         existingGeofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.projectId),
         geofenceDrawerOpen: state.geofenceDrawer.isOpen,
         isCreating: state.googleMaps.isCreatingGeofence,
+        isPolygonClosed: Boolean(state.googleMaps.polygonGeofence),
     };
 };
 
@@ -149,6 +150,7 @@ interface WrapperProps extends WithStyles<typeof styles> {
     id: string;
     options: google.maps.MapOptions;
     isCreating: boolean;
+    isPolygonClosed: boolean;
 }
 
 interface GoogleMapsWrapperState {
@@ -339,8 +341,10 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                             if (this.props.isCreating) {
                                 if (this.newCircleGeofenceMapMarker) {
                                     this.map.panTo(this.newCircleGeofenceMapMarker.getCenter());
-                                } else if (this.newPolygonGeofenceMapMarker) {
+                                } else if (this.newPolygonGeofenceMapMarker && this.props.isPolygonClosed) {
                                     this.map.panTo(this.newPolygonGeofenceMapMarker.getPolygonCenter());
+                                } else if (this.newTestRunMapMarker) {
+                                    this.map.panTo(this.newTestRunMapMarker.getStartingMarker());
                                 }
                             } else {
                                 this.props.selectShapePicker(ShapePicker.Circle);
@@ -362,8 +366,10 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                             if (this.props.isCreating) {
                                 if (this.newCircleGeofenceMapMarker) {
                                     this.map.panTo(this.newCircleGeofenceMapMarker.getCenter());
-                                } else if (this.newPolygonGeofenceMapMarker) {
+                                } else if (this.newPolygonGeofenceMapMarker && this.props.isPolygonClosed) {
                                     this.map.panTo(this.newPolygonGeofenceMapMarker.getPolygonCenter());
+                                } else if (this.newTestRunMapMarker) {
+                                    this.map.panTo(this.newTestRunMapMarker.getStartingMarker());
                                 }
                             } else {
                                 this.props.selectShapePicker(ShapePicker.Polygon);
