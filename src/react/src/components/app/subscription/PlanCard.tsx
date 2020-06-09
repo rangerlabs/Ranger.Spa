@@ -67,7 +67,7 @@ export default function PlanCard(props: PlanCardProps) {
                     {props.planName}
                 </Typography>
                 <Box paddingTop={1} paddingBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
-                <Typography className={classes.pricing} color="primary" align="center" variant="h4">
+                <Typography className={classes.pricing} color="primary" align="center" variant="h5">
                     {props.cost}
                 </Typography>
                 <Box paddingTop={1} paddingBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
