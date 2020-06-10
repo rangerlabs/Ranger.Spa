@@ -76,11 +76,10 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
         mobileOpen: false,
     };
 
-    componentDidMount = () => {
-        if (!this.props.domain) {
-            this.props.setDomain(getSubDomain());
-        }
-    };
+    constructor(props: AppLayoutProps) {
+        super(props);
+        this.props.setDomain(getSubDomain());
+    }
 
     handleDrawerToggle = () => {
         this.setState(() => ({ mobileOpen: !this.state.mobileOpen }));
