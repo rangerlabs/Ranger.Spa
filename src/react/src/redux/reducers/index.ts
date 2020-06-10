@@ -7,7 +7,7 @@ import { geofenceDrawerReducer } from './GeofenceDrawerReducer';
 import { googleMapsReducer } from './GoogleMapsReducer';
 import { selectedProjectReducer } from './SelectedProjectReducer';
 import { integrationReducer } from './IntegrationReducer';
-import { domainReducer } from './DomainReducer';
+import { organizationReducer } from './OrganizationReducer';
 import { snackbarReducer } from './SnackbarReducer';
 import { reducer as oidcReducer } from 'redux-oidc';
 import { subscriptionLimitDetailsReducer } from './SubscriptionLimitDetailsReducer';
@@ -23,7 +23,7 @@ const reducers = {
     geofenceDrawer: geofenceDrawerReducer,
     googleMaps: googleMapsReducer,
     integrationsState: integrationReducer,
-    domain: domainReducer,
+    organizationState: organizationReducer,
     notifications: snackbarReducer,
     subscriptionLimitDetailsState: subscriptionLimitDetailsReducer,
 };

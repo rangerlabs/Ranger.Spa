@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Loading from '../loading/Loading';
-import { addPendingPrimaryOwnerTransfer } from '../../../redux/actions/DomainActions';
+import { addPendingPrimaryOwnerTransfer } from '../../../redux/actions/OrganizationActions';
 import { PendingPrimaryOwnerTransfer } from '../../../models/app/PendingPrimaryOwnerTransfer';
 import TenantService from '../../../services/TenantService';
 import { getSubDomain, userIsInRole } from '../../../helpers/Helpers';

@@ -32,15 +32,15 @@ class Review extends React.Component<ReviewProps> {
                 <Formik
                     initialValues={
                         {
-                            domainForm: reviewForm.domainForm,
+                            organizationForm: reviewForm.organizationForm,
                             userForm: reviewForm.userForm,
                         } as IReviewForm
                     }
                     onSubmit={(values: IReviewForm, formikBag: FormikBag<FormikProps<IReviewForm>, IReviewForm>) => {
                         const reviewForm = {
-                            domainForm: {
-                                domain: values.domainForm.domain,
-                                organizationName: values.domainForm.organizationName,
+                            organizationForm: {
+                                domain: values.organizationForm.domain,
+                                organizationName: values.organizationForm.organizationName,
                             },
                             userForm: {
                                 email: values.userForm.email,
@@ -66,9 +66,9 @@ class Review extends React.Component<ReviewProps> {
                                 <Grid item xs={12}>
                                     <FormikTextField
                                         disabled
-                                        name="domainForm.domain"
+                                        name="organizationForm.domain"
                                         label="Domain"
-                                        value={props.initialValues.domainForm.domain}
+                                        value={props.initialValues.organizationForm.domain}
                                         errorText={''}
                                         touched={false}
                                         onChange={props.handleChange}
@@ -80,9 +80,9 @@ class Review extends React.Component<ReviewProps> {
                                 <Grid item xs={12}>
                                     <FormikTextField
                                         disabled
-                                        name="domainForm.organizationName"
+                                        name="organizationForm.organizationName"
                                         label="Organization name"
-                                        value={props.initialValues.domainForm.organizationName}
+                                        value={props.initialValues.organizationForm.organizationName}
                                         errorText={''}
                                         touched={false}
                                         onChange={props.handleChange}

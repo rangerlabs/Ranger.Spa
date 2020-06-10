@@ -98,7 +98,7 @@ interface AccountState {
 const mapStateToProps = (state: ApplicationState) => {
     return {
         user: state.oidc.user,
-        pendingPrimaryOwnerTransfer: state.domain.pendingPrimaryOwnerTransfer,
+        pendingPrimaryOwnerTransfer: state.organizationState.pendingPrimaryOwnerTransfer,
         canTransferOwnership: state.usersState.users.length > 1,
     };
 };

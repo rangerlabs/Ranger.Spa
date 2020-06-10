@@ -34,20 +34,20 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface DeleteDomainContentProps extends WithStyles<typeof styles>, WithSnackbarProps {
+interface DeleteOrganizationContentProps extends WithStyles<typeof styles>, WithSnackbarProps {
     name: string;
     push: typeof push;
     closeDialog: () => void;
 }
 
-interface DeleteDomainContentState {
+interface DeleteOrganizationContentState {
     isSuccess: boolean;
     serverError: string;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        name: state.domain.domain,
+        name: state.organizationState.domain,
     };
 };
 
@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-class DeleteDomainContent extends React.Component<DeleteDomainContentProps, DeleteDomainContentState> {
+class DeleteOrganizationContent extends React.Component<DeleteOrganizationContentProps, DeleteOrganizationContentState> {
     state = {
         isSuccess: false,
         serverError: undefined as string,
@@ -78,7 +78,7 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps, Dele
                 <Formik
                     initialValues={{ name: '' }}
                     onSubmit={(values: Partial<IProject>, formikBag: FormikBag<FormikProps<Partial<IProject>>, Partial<IProject>>) => {
-                        tenantService.deleteDomain(values.name).then((v) => {
+                        tenantService.deleteOrganization(values.name).then((v) => {
                             if (!v.isError) {
                                 this.setState({ isSuccess: true });
                                 this.props.closeDialog();
@@ -107,7 +107,7 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps, Dele
                                     </DialogContentText>
                                     <FormikTextField
                                         name="name"
-                                        label="Domain Name"
+                                        label="Organization Name"
                                         value={props.values.name}
                                         errorText={props.errors.name}
                                         touched={props.touched.name}
@@ -129,7 +129,7 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps, Dele
                                         isSubmitting={props.isSubmitting}
                                         variant="text"
                                     >
-                                        Delete domain
+                                        Delete organization
                                     </FormikSynchronousButton>
                                 </DialogActions>
                             </form>
@@ -141,4 +141,4 @@ class DeleteDomainContent extends React.Component<DeleteDomainContentProps, Dele
     }
 }
 
-export default withStyles(styles, { withTheme: true })(connect(mapStateToProps, mapDispatchToProps)(withSnackbar(DeleteDomainContent)));
+export default withStyles(styles, { withTheme: true })(connect(mapStateToProps, mapDispatchToProps)(withSnackbar(DeleteOrganizationContent)));

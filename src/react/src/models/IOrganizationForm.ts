@@ -1,4 +1,4 @@
-export default interface IDomainForm {
+export default interface IOrganizationForm {
     domain: string;
     organizationName: string;
 }

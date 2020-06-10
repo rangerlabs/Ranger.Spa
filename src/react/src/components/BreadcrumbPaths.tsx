@@ -6,7 +6,7 @@ import { titleCase } from 'change-case';
 
 const dashboardBreadcrumb = new Breadcrumb('Dashboard', RoutePaths.Dashboard);
 const accountBreadcrumb = new Breadcrumb('Account', RoutePaths.Account);
-const domainBreadcrumb = new Breadcrumb('Domain', RoutePaths.Domain);
+const domainBreadcrumb = new Breadcrumb('Domain', RoutePaths.Organization);
 const subscriptionBreadcrumb = new Breadcrumb('Subscription', RoutePaths.Subscription);
 
 const geofenceMapBreadcrumb = new Breadcrumb('Geofence Map', RoutePaths.GeofenceMap);
@@ -34,7 +34,7 @@ export default class BreadcrumbPaths {
         return new BreadcrumbPath(new Array<Breadcrumb>(accountBreadcrumb));
     }
 
-    public static Domain() {
+    public static Organization() {
         return new BreadcrumbPath(new Array<Breadcrumb>(domainBreadcrumb));
     }
 

@@ -5,11 +5,11 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Typography from '@material-ui/core/Typography';
-import DomainForm from './DomainForm';
+import OrganizationForm from './OrgnizationForm';
 import UserForm from './UserForm';
 import Review from './Review';
 import { createStyles, Fade, Theme } from '@material-ui/core';
-import IDomainForm from '../../../models/landing/IDomainForm';
+import IOrganizationForm from '../../../models/IOrganizationForm';
 import IUserForm from '../../../models/landing/IUserForm';
 import IReviewForm from '../../../models/landing/IReviewForm';
 
@@ -37,14 +37,14 @@ const styles = (theme: Theme) =>
         },
     });
 
-const steps = ['Select your domain', 'Create your user', 'Submit'];
+const steps = ['Create your organization', 'Create your user', 'Submit'];
 
 interface SignUpProps extends WithStyles<typeof styles> {}
 
 interface SignUpState {
     prevStep: number;
     activeStep: number;
-    domainForm: IDomainForm;
+    organizationForm: IOrganizationForm;
     userForm: IUserForm;
 }
 
@@ -52,7 +52,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
     state = {
         activeStep: 0,
         prevStep: undefined as number,
-        domainForm: {} as IDomainForm,
+        organizationForm: {} as IOrganizationForm,
         userForm: {} as IUserForm,
     };
 
@@ -60,11 +60,11 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
         switch (step) {
             case 0:
                 return (
-                    <DomainForm
-                        domainForm={this.state.domainForm}
+                    <OrganizationForm
+                        orgnizationForm={this.state.organizationForm}
                         buttonsClassName={this.props.classes.buttons}
                         handleNext={this.handleNext}
-                        setSignUpDomainStateValues={this.setDomainFormValues}
+                        setSignUpOrganizationStateValues={this.setOrganizationFormValues}
                         isReturn={this.isBackStep()}
                     />
                 );
@@ -81,7 +81,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
             case 2:
                 return (
                     <Review
-                        reviewForm={{ domainForm: this.state.domainForm, userForm: this.state.userForm } as IReviewForm}
+                        reviewForm={{ organizationForm: this.state.organizationForm, userForm: this.state.userForm } as IReviewForm}
                         handleBack={this.handleBack}
                         handleNext={this.handleNext}
                         buttonsClassName={this.props.classes.buttons}
@@ -91,8 +91,8 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
                 throw new Error('Unknown step');
         }
     }
-    setDomainFormValues = (domainFormValues: IDomainForm): void => {
-        this.setState({ domainForm: domainFormValues });
+    setOrganizationFormValues = (organizationFormValues: IOrganizationForm): void => {
+        this.setState({ organizationForm: organizationFormValues });
     };
 
     setUserFormValues = (userFormValues: IUserForm): void => {

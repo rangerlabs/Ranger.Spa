@@ -279,7 +279,7 @@ class Menu extends React.Component<MenuProps> {
                                                     this.props.currentSelection === 'administration.organization' ? classes.selected : ''
                                                 )}
                                                 button
-                                                onClick={() => this.handleMenuNavigation(RoutePaths.Domain, 'administration.organization')}
+                                                onClick={() => this.handleMenuNavigation(RoutePaths.Organization, 'administration.organization')}
                                             >
                                                 <ListItemIcon>
                                                     <Domain />

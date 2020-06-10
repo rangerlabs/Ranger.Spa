@@ -47,6 +47,7 @@ const styles = (theme: Theme) =>
             '&:hover': {
                 backgroundColor: theme.palette.primary.dark,
             },
+            whiteSpace: 'pre',
         },
         // https://stackoverflow.com/questions/56169750/change-ripple-color-on-click-of-material-ui-button
         child: {

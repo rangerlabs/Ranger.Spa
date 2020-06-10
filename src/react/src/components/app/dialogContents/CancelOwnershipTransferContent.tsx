@@ -14,7 +14,7 @@ import { WithSnackbarProps, withSnackbar } from 'notistack';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import populateUsersHOC from '../hocs/PopulateUsersHOC';
 import IUser from '../../../models/app/IUser';
-import { DomainState } from '../../../redux/actions/DomainActions';
+import { OrganizationState } from '../../../redux/actions/OrganizationActions';
 import ITransferPrimaryOwnershipModel from '../../../models/landing/ITransferPrimaryOwnershipModel';
 var userService = new UserService();
 
@@ -22,14 +22,14 @@ interface TransferOwnershipContentProps extends WithSnackbarProps {
     user: User;
     users: IUser[];
     closeDialog: () => void;
-    domain: DomainState;
+    domain: OrganizationState;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
         user: state.oidc.user,
         users: state.usersState.users.filter((u) => u.emailConfirmed === true && u.email !== (state.oidc.user.profile as UserProfile).email),
-        domain: state.domain,
+        domain: state.organizationState,
     };
 };
 

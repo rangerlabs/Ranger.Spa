@@ -13,7 +13,7 @@ import BreadcrumbPath from '../../models/app/BreadcrumbPath';
 import BreadcrumbPaths from '../BreadcrumbPaths';
 import Breadcrumb from '../../models/app/Breadcrumb';
 import authorizedRoute from './hocs/AuthorizedRouteHOC';
-import { addDomain, DomainState } from '../../redux/actions/DomainActions';
+import { setDomain, OrganizationState } from '../../redux/actions/OrganizationActions';
 import { getSubDomain } from '../../helpers/Helpers';
 import Constants from '../../theme/Constants';
 import { SubscriptionLimitDetailsState } from '../../redux/actions/SubscriptionLimitDetailsActions';
@@ -57,7 +57,7 @@ const mapStateToProps = (state: ApplicationState) => {
     return {
         user: state.oidc.user,
         selectedProject: state.selectedProject,
-        domain: state.domain.domain,
+        domain: state.organizationState.domain,
         subscription: state.subscriptionLimitDetailsState,
     };
 };
@@ -65,7 +65,7 @@ const mapStateToProps = (state: ApplicationState) => {
 const mapDispatchToProps = (dispatch: any) => {
     return {
         setDomain: (domainName: string) => {
-            const action = addDomain({ domain: domainName } as DomainState);
+            const action = setDomain(domainName);
             dispatch(action);
         },
     };

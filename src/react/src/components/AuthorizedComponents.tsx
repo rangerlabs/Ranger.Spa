@@ -15,13 +15,13 @@ import BreadcrumbPaths from './BreadcrumbPaths';
 import { IntegrationEnum } from '../models/app/integrations/IntegrationEnum';
 import Account from './app/account/Account';
 import FirstProjectRequired from './app/projects/FirstProjectRequired';
-import Domain from './app/domain/Domain';
+import Organization from './app/organization/OrganizationForm';
 import Subscription from './app/subscription/Subscription';
 
 export const AuthorizedComponents: IAppRoute[] = [
     { exact: true, path: RoutePaths.Dashboard, component: Dashboard, breadcrumbPath: BreadcrumbPaths.Dashboard() },
     { exact: true, path: RoutePaths.Account, component: Account, breadcrumbPath: BreadcrumbPaths.Account() },
-    { exact: true, path: RoutePaths.Domain, component: Domain, breadcrumbPath: BreadcrumbPaths.Domain() },
+    { exact: true, path: RoutePaths.Organization, component: Organization, breadcrumbPath: BreadcrumbPaths.Organization() },
     { exact: true, path: RoutePaths.Subscription, component: Subscription, breadcrumbPath: BreadcrumbPaths.Subscription() },
 
     { exact: true, path: RoutePaths.Users, component: Users, breadcrumbPath: BreadcrumbPaths.Users() },

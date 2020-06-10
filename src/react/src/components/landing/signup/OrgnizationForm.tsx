@@ -4,50 +4,50 @@ import Grid from '@material-ui/core/Grid';
 import { Formik, FormikBag, FormikProps, FormikErrors } from 'formik';
 import FormikTextField from '../../form/FormikTextField';
 import FormikNextButton from '../../form/FormikNextButton';
-import IDomainForm from '../../../models/landing/IDomainForm';
+import IOrganizationForm from '../../../models/IOrganizationForm';
 import * as Yup from 'yup';
 import { InputAdornment } from '@material-ui/core';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { StatusEnum } from '../../../models/StatusEnum';
-import { DomainState, addDomain } from '../../../redux/actions/DomainActions';
+import { OrganizationState, setDomain } from '../../../redux/actions/OrganizationActions';
 import { connect } from 'react-redux';
 
-const tenantService = new TenantService();
 const domainUnavailableErrorText = 'Sorry, this domain is unavailable.';
 
-interface DomainFormProps {
-    setSignUpDomainStateValues: (domainFormValues: IDomainForm) => void;
-    addDomain: (domain: DomainState) => void;
+interface IOrganizationFormProps {
+    setSignUpOrganizationStateValues: (organizationFormValues: IOrganizationForm) => void;
+    addDomain: (domain: string) => void;
     handleNext: () => void;
     buttonsClassName: string;
-    domainForm: IDomainForm;
+    orgnizationForm: IOrganizationForm;
     isReturn: boolean;
 }
 
-interface DomainFormState {
+interface OrganizationFormState {
     hasUnavailableDomain: boolean;
     isValidatingDomain: boolean;
 }
 
 function mapDispatchToState(dispatch: any) {
     return {
-        addDomain(domain: DomainState): void {
-            dispatch(addDomain(domain));
+        addDomain(domain: string): void {
+            dispatch(setDomain(domain));
         },
     };
 }
 
-class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
+class OrganizationForm extends React.Component<IOrganizationFormProps, OrganizationFormState> {
+    tenantService = new TenantService();
     onSearch$: Subject<string>;
     subscription: Subscription;
 
-    state: DomainFormState = {
+    state: OrganizationFormState = {
         hasUnavailableDomain: false,
         isValidatingDomain: false,
     };
 
-    constructor(props: DomainFormProps) {
+    constructor(props: IOrganizationFormProps) {
         super(props);
         this.onSearch$ = new Subject<string>();
     }
@@ -57,10 +57,10 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
         this.onSearch$.next(domain);
     }
 
-    private componentDidMountToDomainResponse(props: FormikProps<IDomainForm>) {
+    private componentDidMountToDomainResponse(props: FormikProps<IOrganizationForm>) {
         this.subscription = this.onSearch$.pipe(debounceTime(300)).subscribe((v) => {
             if (v && v.length >= 3) {
-                tenantService.exists(v).then((response) => {
+                this.tenantService.exists(v).then((response) => {
                     if (response.result) {
                         this.setState({ hasUnavailableDomain: true });
                         this.setUnavailableDomainError(props);
@@ -71,7 +71,7 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
         });
     }
 
-    private setUnavailableDomainError(props: FormikProps<IDomainForm>) {
+    private setUnavailableDomainError(props: FormikProps<IOrganizationForm>) {
         props.setFieldTouched('domain');
         props.setFieldError('domain', domainUnavailableErrorText);
     }
@@ -102,34 +102,34 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
     });
 
     render() {
-        const { buttonsClassName, domainForm } = this.props;
+        const { buttonsClassName, orgnizationForm: organizationForm } = this.props;
         return (
             <React.Fragment>
                 <Formik
                     initialValues={{
-                        domain: domainForm.domain ? domainForm.domain : '',
-                        organizationName: domainForm.organizationName ? domainForm.organizationName : '',
+                        domain: organizationForm.domain ? organizationForm.domain : '',
+                        organizationName: organizationForm.organizationName ? organizationForm.organizationName : '',
                     }}
                     isInitialValid={this.props.isReturn}
-                    onSubmit={(values: IDomainForm) => {
+                    onSubmit={(values: IOrganizationForm) => {
                         this.setState({ hasUnavailableDomain: false });
                         const newDomain = {
                             domain: values.domain,
                             organizationName: values.organizationName,
-                        } as IDomainForm;
+                        } as IOrganizationForm;
                         const domain = {
                             domain: values.domain,
                             correlationId: '',
                             status: StatusEnum.PENDING,
-                        } as DomainState;
-                        this.props.addDomain(domain);
-                        this.props.setSignUpDomainStateValues(newDomain);
+                        } as OrganizationState;
+                        this.props.addDomain(domain.domain);
+                        this.props.setSignUpOrganizationStateValues(newDomain);
                         this.props.handleNext();
                     }}
                     validationSchema={this.validationSchema}
                     validate={(values) => {
                         if (this.state.hasUnavailableDomain) {
-                            const errors = {} as FormikErrors<IDomainForm>;
+                            const errors = {} as FormikErrors<IOrganizationForm>;
                             errors.domain = domainUnavailableErrorText;
                             return errors;
                         }
@@ -140,6 +140,7 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
                                     <FormikTextField
+                                        infoText="Your organization's personalized domain."
                                         name="domain"
                                         label="Domain"
                                         value={props.values.domain}
@@ -159,6 +160,7 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormikTextField
+                                        infoText="The name of your organization."
                                         name="organizationName"
                                         label="Organization name"
                                         value={props.values.organizationName}
@@ -181,4 +183,4 @@ class DomainForm extends React.Component<DomainFormProps, DomainFormState> {
     }
 }
 
-export default connect(null, mapDispatchToState)(DomainForm);
+export default connect(null, mapDispatchToState)(OrganizationForm);

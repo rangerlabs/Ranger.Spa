@@ -5,7 +5,7 @@ import { MenuState } from '../redux/actions/MenuActions';
 import IProject from '../models/app/IProject';
 import { GoogleMapsState } from '../redux/actions/GoogleMapsActions';
 import { GeofenceDrawerState } from '../redux/actions/GeofenceDrawerActions';
-import { DomainState } from '../redux/actions/DomainActions';
+import { OrganizationState } from '../redux/actions/OrganizationActions';
 import { SnackbarNotification } from '../redux/actions/SnackbarActions';
 import { ProjectsState } from '../redux/actions/ProjectActions';
 import { GeofencesState } from '../redux/actions/GeofenceActions';
@@ -30,7 +30,7 @@ export interface ApplicationState {
     geofenceDrawer: GeofenceDrawerState;
     googleMaps: GoogleMapsState;
     integrationsState: IntegrationsState;
-    domain: DomainState;
+    organizationState: OrganizationState;
     notifications: SnackbarNotification[];
     subscriptionLimitDetailsState: SubscriptionLimitDetailsState;
 }

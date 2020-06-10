@@ -8,7 +8,7 @@ import Pusher, { Channel, AuthOptions } from 'pusher-js';
 import ReduxStore from '../../ReduxStore';
 import RegistrationHandler from './pusherHandlers/RegistrationHandler';
 import { StatusEnum } from '../../models/StatusEnum';
-import { DomainState } from '../../redux/actions/DomainActions';
+import { OrganizationState } from '../../redux/actions/OrganizationActions';
 import { User } from 'oidc-client';
 import GenericDomainUserHandler from './pusherHandlers/GenericDomainUserHandler';
 import TokenRefreshHandler from './pusherHandlers/TokenRefreshHandler';
@@ -95,7 +95,7 @@ class Notifier extends React.Component<NotifierProps> {
         });
 
         this.unsubscribe = ReduxStore.getStore().subscribe(() => {
-            const stateDomain = ReduxStore.getState().domain;
+            const stateDomain = ReduxStore.getState().organizationState;
             const oidcState = ReduxStore.getState().oidc;
             if (this.cancomponentDidMountToRegistration(stateDomain)) {
                 if (!this.registrationChannel) {
@@ -122,15 +122,15 @@ class Notifier extends React.Component<NotifierProps> {
         });
     }
 
-    private cancomponentDidMountToDomainUser(stateDomain: DomainState, oidc: OidcState) {
+    private cancomponentDidMountToDomainUser(stateDomain: OrganizationState, oidc: OidcState) {
         return stateDomain && stateDomain.domain && !oidc.isLoadingUser && oidc.user && !oidc.user.expired;
     }
 
-    private cancomponentDidMountToRegistration(stateDomain: DomainState) {
+    private cancomponentDidMountToRegistration(stateDomain: OrganizationState) {
         return stateDomain && stateDomain.domain && stateDomain.status === StatusEnum.PENDING;
     }
 
-    private componentDidMountDomainUserChannelEvents(stateDomain: DomainState, user: User) {
+    private componentDidMountDomainUserChannelEvents(stateDomain: OrganizationState, user: User) {
         const userChannel = `private-${stateDomain.domain}-${user.profile.email}`;
         const domainChannel = `private-${stateDomain.domain}`;
         this.userChannel = this.pusher.subscribe(userChannel);
@@ -150,7 +150,7 @@ class Notifier extends React.Component<NotifierProps> {
         this.domainChannel.bind('subscription-changed', SubscriptionChangedHandler);
     }
 
-    private componentDidMountTenantOnboardChannelEvent(stateDomain: DomainState) {
+    private componentDidMountTenantOnboardChannelEvent(stateDomain: OrganizationState) {
         const channel = `ranger-labs-${stateDomain.domain}`;
         this.registrationChannel = this.pusher.subscribe(channel);
         this.registrationChannel.bind('tenant-onboard', RegistrationHandler);
@@ -163,7 +163,7 @@ class Notifier extends React.Component<NotifierProps> {
 }
 
 const mapStateToProps = (store: ApplicationState) => ({
-    domain: store.domain,
+    domain: store.organizationState,
     notifications: store.notifications,
 });
 

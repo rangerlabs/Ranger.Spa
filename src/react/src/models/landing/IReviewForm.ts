@@ -1,7 +1,7 @@
-import IDomainForm from "./IDomainForm";
-import IUserForm from "./IUserForm";
+import IOrganizationForm from '../IOrganizationForm';
+import IUserForm from './IUserForm';
 
 export default interface IReviewForm {
-    domainForm: IDomainForm;
+    organizationForm: IOrganizationForm;
     userForm: IUserForm;
 }
