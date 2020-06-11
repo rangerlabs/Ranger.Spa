@@ -10,12 +10,12 @@ import {
 export function organizationReducer(state: OrganizationState = {} as OrganizationState, action: OrganizationAction) {
     switch (action.type) {
         case SET_DOMAIN:
-            return Object.assign({}, state, action.domain);
+            return Object.assign({}, state, action.organization);
         case POPULATE_ORGANIZATION_NAME:
-            return Object.assign({}, state, action.domain);
+            return Object.assign({}, state, action.organization);
         case ADD_PENDING_PRIMARY_OWNER_TRANSFER:
         case REMOVE_PENDING_PRIMARY_OWNER_TRANSFER:
-            return Object.assign({}, state, action.domain);
+            return Object.assign({}, state, action.organization);
         default:
             return state;
     }

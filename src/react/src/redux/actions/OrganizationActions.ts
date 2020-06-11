@@ -8,7 +8,7 @@ export const REMOVE_PENDING_PRIMARY_OWNER_TRANSFER = 'REMOVE_PENDING_PRIMARY_OWN
 
 export interface OrganizationAction {
     type: string;
-    domain: OrganizationState;
+    organization: OrganizationState;
 }
 
 export interface OrganizationState extends CorrelationModel {
@@ -22,7 +22,7 @@ export interface OrganizationState extends CorrelationModel {
 export function setDomain(domain: string): OrganizationAction {
     return {
         type: SET_DOMAIN,
-        domain: {
+        organization: {
             domain: domain,
         } as OrganizationState,
     };
@@ -31,7 +31,7 @@ export function setDomain(domain: string): OrganizationAction {
 export function populateOrganization(organizationName: string, version: number): OrganizationAction {
     return {
         type: POPULATE_ORGANIZATION_NAME,
-        domain: {
+        organization: {
             isLoaded: true,
             organizationName: organizationName,
             version: version,
@@ -42,13 +42,13 @@ export function populateOrganization(organizationName: string, version: number):
 export function addPendingPrimaryOwnerTransfer(pendingPrimaryOwnerTransfer: PendingPrimaryOwnerTransfer) {
     return {
         type: ADD_PENDING_PRIMARY_OWNER_TRANSFER,
-        domain: { pendingPrimaryOwnerTransfer: pendingPrimaryOwnerTransfer } as OrganizationState,
+        organization: { pendingPrimaryOwnerTransfer: pendingPrimaryOwnerTransfer } as OrganizationState,
     };
 }
 
 export function removePendingPrimaryOwnerTransfer() {
     return {
         type: REMOVE_PENDING_PRIMARY_OWNER_TRANSFER,
-        domain: { pendingPrimaryOwnerTransfer: undefined } as OrganizationState,
+        organization: { pendingPrimaryOwnerTransfer: undefined } as OrganizationState,
     };
 }
