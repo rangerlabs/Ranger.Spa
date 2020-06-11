@@ -14,6 +14,7 @@ export interface OrganizationAction {
 export interface OrganizationState extends CorrelationModel {
     domain: string;
     organizationName: string;
+    version: number;
     pendingPrimaryOwnerTransfer: PendingPrimaryOwnerTransfer;
     isLoaded: boolean;
 }
@@ -27,12 +28,13 @@ export function setDomain(domain: string): OrganizationAction {
     };
 }
 
-export function populateOrganizationName(organizationName: string): OrganizationAction {
+export function populateOrganization(organizationName: string, version: number): OrganizationAction {
     return {
         type: POPULATE_ORGANIZATION_NAME,
         domain: {
             isLoaded: true,
             organizationName: organizationName,
+            version: version,
         } as OrganizationState,
     };
 }

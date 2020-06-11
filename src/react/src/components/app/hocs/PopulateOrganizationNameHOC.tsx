@@ -2,11 +2,11 @@ import * as React from 'react';
 import { ApplicationState } from '../../../stores';
 import { connect } from 'react-redux';
 import Loading from '../loading/Loading';
-import { OrganizationState, populateOrganizationName } from '../../../redux/actions/OrganizationActions';
+import { OrganizationState, populateOrganization } from '../../../redux/actions/OrganizationActions';
 import TenantService from '../../../services/TenantService';
 
 interface PopulateOrganizationNameComponentProps {
-    setOrganizationName: (organizationName: string) => void;
+    setOrganization: (organizationName: string, version: number) => void;
     organizationState: OrganizationState;
 }
 
@@ -20,8 +20,8 @@ const mapStateToProps = (state: ApplicationState) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        setOrganizationName: (organizationName: string) => {
-            const action = populateOrganizationName(organizationName);
+        setOrganization: (organizationName: string, version: number) => {
+            const action = populateOrganization(organizationName, version);
             dispatch(action);
         },
     };
@@ -41,7 +41,7 @@ const populateOrganizationNameHOC = <P extends object>(Component: React.Componen
                     if (organizationResponse.isError) {
                         this.setState({ wasError: true });
                     } else {
-                        this.props.setOrganizationName(organizationResponse.result.organizationName);
+                        this.props.setOrganization(organizationResponse.result.organizationName, organizationResponse.result.version);
                     }
                 });
             }
