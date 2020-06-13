@@ -31,6 +31,7 @@ import Constants from '../../../../theme/Constants';
 import Loading from '../../loading/Loading';
 import GoogleMapsSpeedDial from './GoogleMapsSpeedDial';
 import NewTestRunMapMarker from './markers/NewTestRunMapMarker';
+import GlobalConfig from '../../../../helpers/GlobalConfig';
 const DraggableCursor = require('../../../../../assets/plus-primary.png');
 
 const DEFAULT_RADIUS = 100;
@@ -200,7 +201,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         if (!window.google) {
             const mapScript = document.createElement('script');
             const markerScript = document.createElement('script');
-            mapScript.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_KEY}&libraries=geometry,drawing,places`;
+            mapScript.src = `https://maps.googleapis.com/maps/api/js?key=${GlobalConfig.GOOGLE_MAPS_API_KEY}&libraries=geometry,drawing,places`;
             mapScript.async = true;
             document.body.appendChild(mapScript);
             document.body.appendChild(markerScript);

@@ -32,4 +32,24 @@ export default class GlobalConfig {
             return '/api';
         }
     }
+
+    public static get PUSHER_API_KEY(): string {
+        if (window.location.host.includes('localhost')) {
+            return 'aed7ba7c7247aca9680e';
+        } else if (window.location.host.includes('rangerlabs-staging')) {
+            return '85f307728343fb4f9257';
+        } else {
+            return '0446e961be4e192bd342';
+        }
+    }
+
+    public static get GOOGLE_MAPS_API_KEY(): string {
+        if (window.location.host.includes('localhost')) {
+            return 'AIzaSyCFnqUWfag20Li24AXGUEQigqK8y-Fhakk';
+        } else if (window.location.host.includes('rangerlabs-staging')) {
+            return 'AIzaSyBs_XgfpRN4B8Af7UjoJhSvj5BtR71Zv6U';
+        } else {
+            return 'AIzaSyBs_XgfpRN4B8Af7UjoJhSvj5BtR71Zv6U';
+        }
+    }
 }

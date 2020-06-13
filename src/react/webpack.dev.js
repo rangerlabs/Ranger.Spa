@@ -14,10 +14,6 @@ module.exports = merge(common, {
             template: path.join(__dirname, '/src/index.ejs'),
             inject: true,
         }),
-        new webpack.DefinePlugin({
-            PUSHER_KEY: JSON.stringify('aed7ba7c7247aca9680e'),
-            GOOGLE_MAPS_KEY: JSON.stringify('AIzaSyCFnqUWfag20Li24AXGUEQigqK8y-Fhakk'),
-        }),
     ],
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.css'],

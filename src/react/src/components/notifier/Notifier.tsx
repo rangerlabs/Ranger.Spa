@@ -90,7 +90,7 @@ class Notifier extends React.Component<NotifierProps> {
     };
 
     componentDidMount() {
-        this.pusher = new Pusher(PUSHER_KEY, {
+        this.pusher = new Pusher(GlobalConfig.PUSHER_API_KEY, {
             cluster: 'us2',
             forceTLS: true,
             authEndpoint: 'https://' + GlobalConfig.API_HOST + GlobalConfig.BASE_PATH + '/pusher/auth',
@@ -148,8 +148,8 @@ class Notifier extends React.Component<NotifierProps> {
         this.userChannel.bind('integration-created', IntegrationCreateHandler);
         this.userChannel.bind('integration-updated', IntegrationUpdateHandler);
         this.userChannel.bind('integration-deleted', IntegrationDeleteHandler);
+        this.userChannel.bind('organization-updated', OrganizationUpdateHandler);
 
-        this.domainChannel.bind('organization-updated', OrganizationUpdateHandler);
         this.domainChannel.bind('organization-domain-updated', OrganizationDomainUpdateHandler);
         this.domainChannel.bind('subscription-changed', SubscriptionChangedHandler);
     }

@@ -27,10 +27,6 @@ module.exports = merge(common, {
             minRatio: 0.8,
             deleteOriginalAssets: true,
         }),
-        new webpack.DefinePlugin({
-            PUSHER_KEY: JSON.stringify('0446e961be4e192bd342'),
-            GOOGLE_MAPS_KEY: JSON.stringify('AIzaSyBs_XgfpRN4B8Af7UjoJhSvj5BtR71Zv6U'),
-        }),
         new HtmlWebpackChangeAssetsExtensionPlugin(),
     ],
     module: {
