@@ -77,8 +77,8 @@ function ChangeOrganizationNameContent(changeOrganizationNameProps: ChangeOrgani
                             <DialogContent>
                                 <DialogContentText>Please enter the organization's new name.</DialogContentText>
                                 <FormikTextField
-                                    name="email"
-                                    label="Email"
+                                    name="organizationName"
+                                    label="Organization Name"
                                     value={props.values.organizationName}
                                     errorText={props.errors.organizationName}
                                     touched={props.touched.organizationName}

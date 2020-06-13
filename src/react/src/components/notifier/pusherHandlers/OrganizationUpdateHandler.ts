@@ -2,6 +2,9 @@ import PusherNotificationModel from '../../../models/PusherNotificationModel';
 import ReduxStore from '../../../ReduxStore';
 import { SnackbarNotification, enqueueSnackbar } from '../../../redux/actions/SnackbarActions';
 import { StatusEnum } from '../../../models/StatusEnum';
+import TenantService from '../../../services/TenantService';
+import { populateOrganization } from '../../../redux/actions/OrganizationActions';
+const tenantService = new TenantService();
 
 export default function OrganizationUpdateHandler(data: PusherNotificationModel): void {
     const oidcState = ReduxStore.getState().oidc;
@@ -24,7 +27,14 @@ export default function OrganizationUpdateHandler(data: PusherNotificationModel)
                 },
             } as SnackbarNotification;
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
-            ReduxStore.getStore().dispatch(enqueueSnackbarAction);
+            const store = ReduxStore.getStore();
+            store.dispatch(enqueueSnackbarAction);
+            tenantService.getOrganizationName(store.getState().organizationState.domain).then((organizationResponse) => {
+                if (!organizationResponse.isError) {
+                    const action = populateOrganization(organizationResponse.result.organizationName, organizationResponse.result.version);
+                    store.dispatch(action);
+                }
+            });
         }
     }
 }
