@@ -22,6 +22,8 @@ import IntegrationCreateHandler from './pusherHandlers/IntegrationCreateHandler'
 import IntegrationDeleteHandler from './pusherHandlers/IntegrationDeleteHandler';
 import SubscriptionChangedHandler from './pusherHandlers/SubscriptionChangedHandler';
 import GlobalConfig from '../../helpers/GlobalConfig';
+import OrganizationUpdateHandler from './pusherHandlers/OrganizationUpdateHandler';
+import OrganizationDomainUpdateHandler from './pusherHandlers/OrganizationDomainUpdateHandler';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -147,6 +149,8 @@ class Notifier extends React.Component<NotifierProps> {
         this.userChannel.bind('integration-updated', IntegrationUpdateHandler);
         this.userChannel.bind('integration-deleted', IntegrationDeleteHandler);
 
+        this.domainChannel.bind('organization-updated', OrganizationUpdateHandler);
+        this.domainChannel.bind('organization-domain-updated', OrganizationDomainUpdateHandler);
         this.domainChannel.bind('subscription-changed', SubscriptionChangedHandler);
     }
 

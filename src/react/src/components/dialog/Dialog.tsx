@@ -27,7 +27,7 @@ class Dialog extends React.Component<DialogProps> {
     render() {
         const { dialog, onClose } = this.props;
         return dialog.visible ? (
-            <MuiDialog open onClose={onClose}>
+            <MuiDialog open onClose={onClose} disableBackdropClick disableEscapeKeyDown>
                 {!isString(dialog.content.content) ? (
                     dialog.content.content
                 ) : (
@@ -71,7 +71,4 @@ class Dialog extends React.Component<DialogProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Dialog);
+export default connect(mapStateToProps, mapDispatchToProps)(Dialog);
