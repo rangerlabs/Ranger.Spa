@@ -84,7 +84,7 @@ class DeleteOrganizationContent extends React.Component<DeleteOrganizationConten
                                 this.props.closeDialog();
                                 this.props.push(RoutePaths.Logout);
                             } else {
-                                this.setState({ serverError: undefined });
+                                this.setState({ serverError: v.error.message });
                             }
                             formikBag.setSubmitting(false);
                         });

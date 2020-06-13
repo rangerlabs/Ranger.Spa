@@ -60,6 +60,7 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
                             changePasswordContentProps.closeDialog();
                         } else {
                             setServerError(response.error.message);
+                            changePasswordContentProps.enqueueSnackbar(response.message, { variant: 'error' });
                             formikBag.setSubmitting(false);
                         }
                     });

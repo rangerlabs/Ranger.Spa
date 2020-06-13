@@ -23,8 +23,12 @@ export default class TenantService {
         return RestUtilities.get<PendingPrimaryOwnerTransfer>(`/tenants/${domain}/primary-owner-transfer`);
     }
 
+    async putTenantOrganization(domain: string, organization: IOrganizationForm): Promise<IRestResponse<void>> {
+        return RestUtilities.put(`/tenants/${domain}`, organization);
+    }
+
     async deleteOrganization(domain: string): Promise<IRestResponse<void>> {
-        return RestUtilities.delete(`/tenants/{domain}`);
+        return RestUtilities.delete(`/tenants/${domain}`);
     }
 
     async confirmed(domain: string): Promise<IRestResponse<boolean>> {

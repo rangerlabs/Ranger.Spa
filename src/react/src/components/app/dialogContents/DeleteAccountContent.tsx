@@ -10,6 +10,7 @@ import {
     ListItemText,
     DialogTitle,
     DialogContent,
+    Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
 import FormikTextField from '../../form/FormikTextField';
@@ -51,7 +52,7 @@ const mapDispatchToProps = (dispatch: any) => {
 
 function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentProps): JSX.Element {
     const [passwordVisible, setPasswordVisible] = useState(false);
-    const [serverErrors, setServerErrors] = useState(undefined as string[]);
+    const [serverError, setServerError] = useState(undefined as string);
     const [success, setSuccess] = useState(false);
 
     const validationSchema = Yup.object().shape({
@@ -74,6 +75,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                 onSubmit={(values: Password, formikBag: FormikBag<FormikProps<Password>, Password>) => {
                     userService.deleteAccount({ password: values.password }).then((response) => {
                         if (response.isError) {
+                            setServerError(response.error.message);
                             deleteAccountContentProps.enqueueSnackbar(response.error.message, {
                                 variant: 'error',
                             });
@@ -120,15 +122,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                                         ),
                                     }}
                                 />
-                                {serverErrors && (
-                                    <List>
-                                        <ListItem>
-                                            {serverErrors.map((error) => (
-                                                <ListItemText primary={error} />
-                                            ))}
-                                        </ListItem>
-                                    </List>
-                                )}
+                                {serverError && <Typography color="error">{serverError}</Typography>}
                             </DialogContent>
                             <DialogActions>
                                 <Button onClick={deleteAccountContentProps.closeDialog} color="primary" variant="text">

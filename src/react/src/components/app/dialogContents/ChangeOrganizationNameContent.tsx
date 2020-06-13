@@ -11,14 +11,18 @@ import { WithSnackbarProps, withSnackbar } from 'notistack';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import { IRestResponse } from '../../../services/RestUtilities';
 import IOrganizationForm from '../../../models/IOrganizationForm';
+import TenantService from '../../../services/TenantService';
+import { OrganizationState } from '../../../redux/actions/OrganizationActions';
+
+const tenantService = new TenantService();
 
 interface ChangeOrganizationNameContentProps extends WithSnackbarProps {
     closeDialog: () => void;
-    organizationName: string;
+    organization: OrganizationState;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { organizationName: state.organizationState.organizationName };
+    return { organization: state.organizationState };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -48,19 +52,21 @@ function ChangeOrganizationNameContent(changeOrganizationNameProps: ChangeOrgani
     return (
         <React.Fragment>
             <Formik
-                initialValues={{ organizationName: changeOrganizationNameProps.organizationName } as IOrganizationForm}
+                initialValues={{ organizationName: changeOrganizationNameProps.organization.organizationName } as IOrganizationForm}
                 onSubmit={(values: IOrganizationForm, formikBag: FormikBag<FormikProps<IOrganizationForm>, IOrganizationForm>) => {
+                    values.version = changeOrganizationNameProps.organization.version + 1;
                     setServerError(undefined);
-                    // userService.requestEmailChanage(values).then((response: IRestResponse<boolean>) => {
-                    //     if (!response.isError) {
-                    //         changeOrganizationNameProps.enqueueSnackbar(response.message, { variant: 'success' });
-                    //         setSuccess(true);
-                    //         changeOrganizationNameProps.closeDialog();
-                    //     } else {
-                    //         setServerError(response.error.message);
-                    //         formikBag.setSubmitting(false);
-                    //     }
-                    // });
+                    tenantService.putTenantOrganization(changeOrganizationNameProps.organization.domain, values).then((response: IRestResponse<void>) => {
+                        if (!response.isError) {
+                            changeOrganizationNameProps.enqueueSnackbar(response.message, { variant: 'success' });
+                            setSuccess(true);
+                            changeOrganizationNameProps.closeDialog();
+                        } else {
+                            setServerError(response.error.message);
+                            changeOrganizationNameProps.enqueueSnackbar(response.message, { variant: 'error' });
+                            formikBag.setSubmitting(false);
+                        }
+                    });
                 }}
                 validationSchema={validationSchema}
             >

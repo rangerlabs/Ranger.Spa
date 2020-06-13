@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DialogActions, Button, DialogContentText, List, ListItem, ListItemText, DialogTitle, DialogContent } from '@material-ui/core';
+import { DialogActions, Button, DialogContentText, List, ListItem, ListItemText, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps } from 'formik';
@@ -40,7 +40,7 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentProps): JSX.Element {
-    const [serverErrors, setServerErrors] = useState(undefined as string[]);
+    const [serverError, setServerError] = useState(undefined as string);
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
@@ -53,7 +53,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
             <Formik
                 initialValues={{ name: '' }}
                 onSubmit={(values: Partial<IProject>, formikBag: FormikBag<FormikProps<Partial<IProject>>, Partial<IProject>>) => {
-                    setServerErrors(undefined);
+                    setServerError(undefined);
                     projectService.deleteProject(deleteProjectContentProps.id).then((response: IRestResponse<void>) => {
                         if (response.isError) {
                             deleteProjectContentProps.enqueueSnackbar(response.error.message, { variant: 'error' });
@@ -85,15 +85,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                                     autoComplete="off"
                                     required
                                 />
-                                {serverErrors && (
-                                    <List>
-                                        <ListItem>
-                                            {serverErrors.map((error) => (
-                                                <ListItemText primary={error} />
-                                            ))}
-                                        </ListItem>
-                                    </List>
-                                )}
+                                {serverError && <Typography color="error">{serverError}</Typography>}
                             </DialogContent>
                             <DialogActions>
                                 <Button onClick={deleteProjectContentProps.closeDialog} color="primary" variant="text">

@@ -56,6 +56,7 @@ function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): J
                             changeEmailContentProps.closeDialog();
                         } else {
                             setServerError(response.error.message);
+                            changeEmailContentProps.enqueueSnackbar(response.message, { variant: 'error' });
                             formikBag.setSubmitting(false);
                         }
                     });
