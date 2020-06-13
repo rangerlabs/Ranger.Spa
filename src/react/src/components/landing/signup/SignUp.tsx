@@ -5,7 +5,7 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Typography from '@material-ui/core/Typography';
-import OrganizationForm from './OrgnizationForm';
+import OrganizationForm from './OrganizationForm';
 import UserForm from './UserForm';
 import Review from './Review';
 import { createStyles, Fade, Theme } from '@material-ui/core';

@@ -100,7 +100,7 @@ function ChangeOrganizationNameContent(changeOrganizationNameProps: ChangeOrgani
                                     isSubmitting={props.isSubmitting}
                                     variant="text"
                                 >
-                                    Request Email Change
+                                    Update
                                 </FormikSynchronousButton>
                             </DialogActions>
                         </form>

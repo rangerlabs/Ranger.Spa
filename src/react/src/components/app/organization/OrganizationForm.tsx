@@ -22,6 +22,7 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import TenantService from '../../../services/TenantService';
 import ChangeOrganizationNameContent from '../dialogContents/ChangeOrganizationNameContent';
+import ChangeOrganizationDomainContent from '../dialogContents/ChangeOrganizationDomainContent';
 
 const domainUnavailableErrorText = 'Sorry, this domain is unavailable.';
 
@@ -86,7 +87,33 @@ class OrganizationForm extends React.Component<IOrganizationFormProps> {
                 <Typography className={classNames(classes.title, classes.paper)} align="left" variant="h5">
                     Edit Organization
                 </Typography>
-
+                <Paper className={classes.paper} elevation={3}>
+                    <Typography variant="h6">Domain</Typography>
+                    <Typography variant="subtitle1">Your organization's personalized domain</Typography>
+                    <Grid container>
+                        <Grid item>
+                            <Box marginTop={3} whiteSpace="pre">
+                                <Typography variant="body1">{this.props.organization.domain}</Typography>
+                                <Typography variant="body1" color="textSecondary">
+                                    .rangerlabs.io
+                                </Typography>
+                            </Box>
+                        </Grid>
+                    </Grid>
+                    <Grid container justify="flex-end">
+                        <Grid item>
+                            <Button
+                                onClick={() => {
+                                    this.props.openDialog(new DialogContent(<ChangeOrganizationDomainContent />));
+                                }}
+                                color="primary"
+                                variant="outlined"
+                            >
+                                Change
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Paper>
                 <Paper className={classes.paper} elevation={3}>
                     <Typography variant="h6">Organization Name</Typography>
                     <Typography variant="subtitle1">Your organization's name</Typography>
