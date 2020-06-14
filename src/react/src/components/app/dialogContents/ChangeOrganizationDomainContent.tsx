@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DialogActions, Button, DialogContentText, DialogContent, DialogTitle, Typography } from '@material-ui/core';
+import { DialogActions, Button, DialogContentText, DialogContent, DialogTitle, Typography, InputAdornment } from '@material-ui/core';
 import { useState } from 'react';
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps, FormikErrors } from 'formik';
@@ -19,7 +19,7 @@ import { debounceTime } from 'rxjs/operators';
 const domainUnavailableErrorText = 'Sorry, this domain is unavailable.';
 const tenantService = new TenantService();
 
-interface ChangeOrganizationDomainContentProps extends WithSnackbarProps {
+interface ChangeOrganizationDomainContentProps {
     closeDialog: () => void;
     organization: OrganizationState;
 }
@@ -116,12 +116,10 @@ class ChangeOrganizationDomainContent extends React.Component<ChangeOrganization
                         this.setState({ serverError: undefined });
                         tenantService.putTenantOrganization(this.props.organization.domain, values).then((response: IRestResponse<void>) => {
                             if (!response.isError) {
-                                this.props.enqueueSnackbar(response.message, { variant: 'success' });
                                 this.setState({ success: true });
                                 this.props.closeDialog();
                             } else {
                                 this.setState({ serverError: response.error.message });
-                                this.props.enqueueSnackbar(response.message, { variant: 'error' });
                                 formikBag.setSubmitting(false);
                             }
                         });
@@ -150,8 +148,15 @@ class ChangeOrganizationDomainContent extends React.Component<ChangeOrganization
                                         value={props.values.domain}
                                         errorText={props.errors.domain}
                                         touched={props.touched.domain}
-                                        onChange={props.handleChange}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            if (!this.subscription) {
+                                                this.componentDidMountToDomainResponse(props);
+                                            }
+                                            this.handleDomainChange(e.target.value);
+                                            props.handleChange(e);
+                                        }}
                                         onBlur={props.handleBlur}
+                                        InputProps={{ endAdornment: <InputAdornment position="end">.rangerlabs.io</InputAdornment> }}
                                         autoComplete="off"
                                         required
                                     />
@@ -180,4 +185,4 @@ class ChangeOrganizationDomainContent extends React.Component<ChangeOrganization
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(ChangeOrganizationDomainContent));
+export default connect(mapStateToProps, mapDispatchToProps)(ChangeOrganizationDomainContent);

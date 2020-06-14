@@ -15,7 +15,7 @@ import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import { IRestResponse } from '../../../services/RestUtilities';
 var userService = new UserService();
 
-interface ChangeEmailContentProps extends WithSnackbarProps {
+interface ChangeEmailContentProps {
     user: User;
     closeDialog: () => void;
 }
@@ -51,12 +51,10 @@ function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): J
                     setServerError(undefined);
                     userService.requestEmailChanage(values).then((response: IRestResponse<boolean>) => {
                         if (!response.isError) {
-                            changeEmailContentProps.enqueueSnackbar(response.message, { variant: 'success' });
                             setSuccess(true);
                             changeEmailContentProps.closeDialog();
                         } else {
                             setServerError(response.error.message);
-                            changeEmailContentProps.enqueueSnackbar(response.message, { variant: 'error' });
                             formikBag.setSubmitting(false);
                         }
                     });
@@ -104,4 +102,4 @@ function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): J
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(ChangeEmailContent));
+export default connect(mapStateToProps, mapDispatchToProps)(ChangeEmailContent);

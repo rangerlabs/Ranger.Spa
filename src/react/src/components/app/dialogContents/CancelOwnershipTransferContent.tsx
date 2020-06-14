@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { DialogActions, Button, DialogContentText, DialogContent, DialogTitle, Typography } from '@material-ui/core';
 import { useState } from 'react';
-import FormikTextField from '../../form/FormikTextField';
-import { Formik, FormikBag, FormikProps } from 'formik';
-import * as Yup from 'yup';
 import { closeDialog } from '../../../redux/actions/DialogActions';
 import { connect } from 'react-redux';
 import { User } from 'oidc-client';

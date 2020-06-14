@@ -16,7 +16,7 @@ import { OrganizationState } from '../../../redux/actions/OrganizationActions';
 
 const tenantService = new TenantService();
 
-interface ChangeOrganizationNameContentProps extends WithSnackbarProps {
+interface ChangeOrganizationNameContentProps {
     closeDialog: () => void;
     organization: OrganizationState;
 }
@@ -58,12 +58,10 @@ function ChangeOrganizationNameContent(changeOrganizationNameProps: ChangeOrgani
                     setServerError(undefined);
                     tenantService.putTenantOrganization(changeOrganizationNameProps.organization.domain, values).then((response: IRestResponse<void>) => {
                         if (!response.isError) {
-                            changeOrganizationNameProps.enqueueSnackbar(response.message, { variant: 'success' });
                             setSuccess(true);
                             changeOrganizationNameProps.closeDialog();
                         } else {
                             setServerError(response.error.message);
-                            changeOrganizationNameProps.enqueueSnackbar(response.message, { variant: 'error' });
                             formikBag.setSubmitting(false);
                         }
                     });
@@ -111,4 +109,4 @@ function ChangeOrganizationNameContent(changeOrganizationNameProps: ChangeOrgani
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(ChangeOrganizationNameContent));
+export default connect(mapStateToProps, mapDispatchToProps)(ChangeOrganizationNameContent);

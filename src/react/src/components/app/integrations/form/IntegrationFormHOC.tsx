@@ -17,7 +17,7 @@ import {
 } from '../../../../redux/actions/IntegrationActions';
 import IntegrationService from '../../../../services/IntegrationService';
 import { StatusEnum } from '../../../../models/StatusEnum';
-import { Formik, FormikBag, FormikProps } from 'formik';
+import { FormikBag, FormikProps } from 'formik';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 import FormikSelectValues from '../../../form/interfaces/FormikSelectValuesProp';
 import { EnvironmentEnum } from '../../../../models/EnvironmentEnum';

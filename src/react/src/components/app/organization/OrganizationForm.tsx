@@ -1,30 +1,19 @@
 import * as React from 'react';
-import { withStyles, createStyles, WithStyles, Paper, CssBaseline, Theme, Typography, Grid, IconButton, InputAdornment, Button, Box } from '@material-ui/core';
-import * as Yup from 'yup';
+import { withStyles, createStyles, WithStyles, Paper, Theme, Typography, Grid, IconButton, Button, Box } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import { closeDialog, DialogContent, openDialog } from '../../../redux/actions/DialogActions';
+import { DialogContent, openDialog } from '../../../redux/actions/DialogActions';
 import { ApplicationState } from '../../../stores/index';
-import { Formik, FormikProps } from 'formik';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
-import FormikValidationErrors from '../../form/FormikServerErrors';
 import DeleteOrganizationContent from '../dialogContents/DeleteOrganizationContent';
-import { IValidationError } from '../../../services/RestUtilities';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import Constants from '../../../theme/Constants';
 import classNames from 'classnames';
-import FormikTextField from '../../form/FormikTextField';
 import populateOrganizationNameHOC from '../hocs/PopulateOrganizationNameHOC';
 import { OrganizationState } from '../../../redux/actions/OrganizationActions';
 import RoutePaths from '../../RoutePaths';
-import IOrganizationForm from '../../../models/IOrganizationForm';
-import { Subject, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
-import TenantService from '../../../services/TenantService';
 import ChangeOrganizationNameContent from '../dialogContents/ChangeOrganizationNameContent';
 import ChangeOrganizationDomainContent from '../dialogContents/ChangeOrganizationDomainContent';
-
-const domainUnavailableErrorText = 'Sorry, this domain is unavailable.';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -93,8 +82,10 @@ class OrganizationForm extends React.Component<IOrganizationFormProps> {
                     <Grid container>
                         <Grid item>
                             <Box marginTop={3} whiteSpace="pre">
-                                <Typography variant="body1">{this.props.organization.domain}</Typography>
-                                <Typography variant="body1" color="textSecondary">
+                                <Typography display="inline" variant="body1">
+                                    {this.props.organization.domain}
+                                </Typography>
+                                <Typography display="inline" variant="body1" color="textSecondary">
                                     .rangerlabs.io
                                 </Typography>
                             </Box>
