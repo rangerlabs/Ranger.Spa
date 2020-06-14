@@ -64,6 +64,8 @@ class OrganizationForm extends React.Component<IOrganizationFormProps, Organizat
                     if (response.result) {
                         this.setState({ hasUnavailableDomain: true });
                         this.setUnavailableDomainError(props);
+                    } else {
+                        this.setState({ hasUnavailableDomain: false });
                     }
                     this.setState({ isValidatingDomain: false });
                 });

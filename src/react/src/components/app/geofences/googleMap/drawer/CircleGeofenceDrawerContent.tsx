@@ -202,7 +202,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     validationSchema = Yup.object().shape({
-        externalId: Yup.string().required('Required'),
+        externalId: Yup.string().required('Required').lowercase('Geofence External Ids must be lowercase').length(140),
         description: Yup.string().notRequired(),
         metadata: Yup.array().of(
             Yup.object().shape({

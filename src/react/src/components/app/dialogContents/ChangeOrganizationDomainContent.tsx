@@ -73,6 +73,8 @@ class ChangeOrganizationDomainContent extends React.Component<ChangeOrganization
                     if (response.result) {
                         this.setState({ hasUnavailableDomain: true });
                         this.setUnavailableDomainError(props);
+                    } else {
+                        this.setState({ hasUnavailableDomain: false });
                     }
                     this.setState({ isValidatingDomain: false });
                 });
