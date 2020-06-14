@@ -2,13 +2,12 @@ import * as React from 'react';
 import { Theme, createStyles, WithStyles, LinearProgress, Typography, withStyles, Grid } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
-import RoutePaths from '../../RoutePaths';
 
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
             width: 'auto',
-            marginTop: '20%',
+            paddingTop: '20%',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
