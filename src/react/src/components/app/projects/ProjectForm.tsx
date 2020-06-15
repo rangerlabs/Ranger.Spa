@@ -68,6 +68,11 @@ const styles = (theme: Theme) =>
         disabledInput: {
             color: theme.palette.text.primary,
         },
+        textFieldBorderRadius: {
+            [`& fieldset`]: {
+                borderRadius: 0,
+            },
+        },
     });
 interface IProjectFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     openDialog: (dialogContent: DialogContent) => void;
@@ -283,7 +288,6 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                             disabled={Boolean(!userIsInRole(this.props.user, RoleEnum.ADMIN))}
                                         />
                                     </Grid>
-
                                     <Grid item xs={12}>
                                         <FormikTextField
                                             infoText="A unique identifier for the project."
@@ -334,80 +338,77 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             <Paper className={classes.paper} elevation={3}>
                                 <Typography variant="h6">Reset API Keys</Typography>
                                 <Typography variant="subtitle1">Generate new API keys for this project.</Typography>
-                                <Grid container justify="flex-end">
-                                    <Grid item>
-                                        <React.Fragment>
-                                            <TextField
-                                                label="Live API Key Prefix"
-                                                value={`${this.state.initialProject.liveApiKeyPrefix}...`}
-                                                variant="outlined"
-                                                fullWidth
-                                                disabled
-                                                InputProps={
-                                                    userIsInRole(this.props.user, RoleEnum.ADMIN) && {
-                                                        endAdornment: (
-                                                            <Button
-                                                                disabled={props.isSubmitting}
-                                                                color="primary"
-                                                                variant="outlined"
-                                                                onClick={() => {
-                                                                    this.resetApiKey('live', 'live', props);
-                                                                }}
-                                                            >
-                                                                Reset
-                                                            </Button>
-                                                        ),
-                                                    }
-                                                }
-                                            />
-                                            <TextField
-                                                label="Test API Key Prefix"
-                                                value={`${this.state.initialProject.testApiKeyPrefix}...`}
-                                                variant="outlined"
-                                                fullWidth
-                                                disabled
-                                                color="primary"
-                                                InputProps={
-                                                    userIsInRole(this.props.user, RoleEnum.ADMIN) && {
-                                                        endAdornment: (
-                                                            <Button
-                                                                disabled={props.isSubmitting}
-                                                                color="primary"
-                                                                variant="outlined"
-                                                                onClick={() => {
-                                                                    this.resetApiKey('test', 'test', props);
-                                                                }}
-                                                            >
-                                                                Reset
-                                                            </Button>
-                                                        ),
-                                                    }
-                                                }
-                                            />
-                                            <TextField
-                                                label="Project API Key Prefix"
-                                                value={`${this.state.initialProject.projectApiKeyPrefix}...`}
-                                                variant="outlined"
-                                                fullWidth
-                                                disabled
-                                                InputProps={
-                                                    userIsInRole(this.props.user, RoleEnum.ADMIN) && {
-                                                        endAdornment: (
-                                                            <Button
-                                                                disabled={props.isSubmitting}
-                                                                color="primary"
-                                                                variant="outlined"
-                                                                onClick={() => {
-                                                                    this.resetApiKey('proj', 'project', props);
-                                                                }}
-                                                            >
-                                                                Reset
-                                                            </Button>
-                                                        ),
-                                                    }
-                                                }
-                                            />
-                                        </React.Fragment>
+                                <Grid container>
+                                    <Grid item xs={12} className={classes.textFieldBorderRadius}>
+                                        <TextField
+                                            label="Live API Key Prefix"
+                                            value={`${this.state.initialProject.liveApiKeyPrefix}...`}
+                                            variant="outlined"
+                                            fullWidth
+                                            disabled
+                                            InputProps={{
+                                                classes: { disabled: classes.disabledInput },
+                                                endAdornment: userIsInRole(this.props.user, RoleEnum.ADMIN) && (
+                                                    <Button
+                                                        disabled={props.isSubmitting}
+                                                        variant="outlined"
+                                                        onClick={() => {
+                                                            this.resetApiKey('live', 'live', props);
+                                                        }}
+                                                    >
+                                                        Reset
+                                                    </Button>
+                                                ),
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.textFieldBorderRadius}>
+                                        <TextField
+                                            label="Test API Key Prefix"
+                                            value={`${this.state.initialProject.testApiKeyPrefix}...`}
+                                            variant="outlined"
+                                            fullWidth
+                                            disabled
+                                            color="primary"
+                                            InputProps={{
+                                                classes: { disabled: classes.disabledInput },
+                                                endAdornment: userIsInRole(this.props.user, RoleEnum.ADMIN) && (
+                                                    <Button
+                                                        disabled={props.isSubmitting}
+                                                        variant="outlined"
+                                                        onClick={() => {
+                                                            this.resetApiKey('test', 'test', props);
+                                                        }}
+                                                    >
+                                                        Reset
+                                                    </Button>
+                                                ),
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.textFieldBorderRadius}>
+                                        <TextField
+                                            label="Project API Key Prefix"
+                                            value={`${this.state.initialProject.projectApiKeyPrefix}...`}
+                                            variant="outlined"
+                                            fullWidth
+                                            disabled
+                                            InputProps={{
+                                                classes: { disabled: classes.disabledInput },
+                                                endAdornment: userIsInRole(this.props.user, RoleEnum.ADMIN) && (
+                                                    <Button
+                                                        disabled={props.isSubmitting}
+                                                        color="primary"
+                                                        variant="outlined"
+                                                        onClick={() => {
+                                                            this.resetApiKey('proj', 'project', props);
+                                                        }}
+                                                    >
+                                                        Reset
+                                                    </Button>
+                                                ),
+                                            }}
+                                        />
                                     </Grid>
                                 </Grid>
                             </Paper>
