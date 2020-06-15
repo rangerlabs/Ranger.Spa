@@ -63,7 +63,6 @@ class SnackbarProviderWrapper extends React.Component<SnackbarProviderWrapperPro
                         <CloseCircle htmlColor={Constants.COLORS.WHITE} fontSize="inherit" />
                     </IconButton>
                 )}
-                preventDuplicate={true}
                 hideIconVariant={true}
                 maxSnack={3}
                 autoHideDuration={7000}
