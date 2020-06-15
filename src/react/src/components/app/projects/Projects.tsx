@@ -79,6 +79,7 @@ class Projects extends React.Component<ProjectsProps> {
                     value.description,
                     `${value.liveApiKeyPrefix}...`,
                     `${value.testApiKeyPrefix}...`,
+                    `${value.projectApiKeyPrefix}...`,
                 ]);
             });
         }

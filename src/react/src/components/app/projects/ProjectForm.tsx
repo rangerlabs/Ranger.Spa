@@ -144,7 +144,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         })
                                     )
                                 );
-                            } else {
+                            } else if (environment === ProjectEnvironmentEnum.TEST) {
                                 this.props.openDialog(
                                     new DialogContent(
                                         NewProjectEnvironmentApiKeyContent({
@@ -154,7 +154,17 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         })
                                     )
                                 );
-                            }
+                            } else if (environment === ProjectEnvironmentEnum.PROJECT) {
+                                this.props.openDialog(
+                                    new DialogContent(
+                                        NewProjectEnvironmentApiKeyContent({
+                                            environment: ProjectEnvironmentEnum.PROJECT,
+                                            newApiKey: response.result.projectApiKey,
+                                            onClose: this.props.closeDialog,
+                                        })
+                                    )
+                                );
+                            }}
                             this.props.dispatchUpdateProject(response.result);
                         }
                     });
@@ -231,6 +241,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         NewProjectApiKeysContent({
                                             liveApiKey: response.result.liveApiKey,
                                             testApiKey: response.result.testApiKey,
+                                            projectApiKey: response.result.projectApiKey,
                                             onClose: this.props.closeDialog,
                                         })
                                     )
@@ -325,6 +336,28 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                 <TextField
                                                     label="Test API Key Prefix"
                                                     value={`${this.state.initialProject.testApiKeyPrefix}...`}
+                                                    fullWidth
+                                                    disabled
+                                                    InputProps={
+                                                        userIsInRole(this.props.user, RoleEnum.ADMIN) && {
+                                                            endAdornment: (
+                                                                <Button
+                                                                    disabled={props.isSubmitting}
+                                                                    onClick={() => {
+                                                                        this.resetApiKey('test', props);
+                                                                    }}
+                                                                >
+                                                                    Reset
+                                                                </Button>
+                                                            ),
+                                                        }
+                                                    }
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    label="Project API Key Prefix"
+                                                    value={`${this.state.initialProject.projectApiKeyPrefix}...`}
                                                     fullWidth
                                                     disabled
                                                     InputProps={

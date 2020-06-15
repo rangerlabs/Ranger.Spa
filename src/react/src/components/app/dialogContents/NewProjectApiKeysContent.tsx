@@ -6,6 +6,7 @@ import ContentCopy from 'mdi-material-ui/ContentCopy';
 interface NewProjectApiKeysContentProps {
     liveApiKey: string;
     testApiKey: string;
+    projectApiKey: string;
     onClose: () => void;
 }
 
@@ -32,13 +33,26 @@ function NewProjectApiKeysContent(newProjectApiKeysContentProps: NewProjectApiKe
                         </CopyToClipboard>
                     </Grid>
                 </Grid>
-
                 <Grid container>
                     <Grid item xs={11}>
                         <TextField disabled fullWidth label="Test API Key" value={newProjectApiKeysContentProps.testApiKey}></TextField>
                     </Grid>
                     <Grid item xs={1}>
                         <CopyToClipboard text={newProjectApiKeysContentProps.testApiKey}>
+                            <Tooltip title="Copy API Key" placement="bottom">
+                                <IconButton aria-label="Copy API Key">
+                                    <ContentCopy />
+                                </IconButton>
+                            </Tooltip>
+                        </CopyToClipboard>
+                    </Grid>
+                </Grid>
+                <Grid container>
+                    <Grid item xs={11}>
+                        <TextField disabled fullWidth label="Project API Key" value={newProjectApiKeysContentProps.projectApiKey}></TextField>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <CopyToClipboard text={newProjectApiKeysContentProps.projectApiKey}>
                             <Tooltip title="Copy API Key" placement="bottom">
                                 <IconButton aria-label="Copy API Key">
                                     <ContentCopy />
