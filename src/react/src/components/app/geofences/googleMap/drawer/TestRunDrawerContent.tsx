@@ -152,8 +152,8 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
                                 </Typography>
                                 <Typography className={classes.title} variant="subtitle1" align="left">
                                     Breadcrumb will be simulated at the following {props.values.positions.length} positions. The Test Run will execute
-                                    integrations in the TEST environment with a simulated random accuracy between [0, 30] and with all location times simulated
-                                    at 5 minute intervals.
+                                    integrations in the TEST environment with a simulated random accuracy in the range [0, 30] and with all location times
+                                    simulated at 5 minute intervals.
                                 </Typography>
                                 <Grid container direction="column" spacing={4}>
                                     <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
@@ -161,12 +161,8 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
                                             {props.values.positions.map((c, i) => {
                                                 return (
                                                     <ListItem className={classes.listItems} divider key={`breadcrumb_${i}`}>
-                                                        <Typography display="inline" variant="body1">
-                                                            Lng: {c.lng}
-                                                        </Typography>
-                                                        <Typography display="inline" variant="body1">
-                                                            Lat: {c.lat}
-                                                        </Typography>
+                                                        <Typography variant="body1">Lng: {c.lng}</Typography>
+                                                        <Typography variant="body1">Lat: {c.lat}</Typography>
                                                     </ListItem>
                                                 );
                                             })}
