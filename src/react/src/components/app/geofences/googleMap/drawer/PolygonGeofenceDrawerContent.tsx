@@ -206,7 +206,10 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     };
 
     validationSchema = Yup.object().shape({
-        externalId: Yup.string().required('Required').lowercase('Geofence External Ids must be lowercase').length(140),
+        externalId: Yup.string()
+            .required('Required')
+            .lowercase('Geofence External Ids must be lowercase')
+            .max(140, 'Geofence External Ids must be less than 140 characters'),
         description: Yup.string().notRequired(),
         metadata: Yup.array().of(
             Yup.object().shape({
