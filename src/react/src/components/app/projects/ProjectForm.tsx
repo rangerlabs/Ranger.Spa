@@ -72,6 +72,7 @@ const styles = (theme: Theme) =>
             [`& fieldset`]: {
                 borderRadius: 0,
             },
+            marginTop: theme.spacing(2),
         },
     });
 interface IProjectFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
@@ -351,6 +352,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                 endAdornment: userIsInRole(this.props.user, RoleEnum.ADMIN) && (
                                                     <Button
                                                         disabled={props.isSubmitting}
+                                                        color="primary"
                                                         variant="outlined"
                                                         onClick={() => {
                                                             this.resetApiKey('live', 'live', props);
@@ -369,12 +371,12 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                             variant="outlined"
                                             fullWidth
                                             disabled
-                                            color="primary"
                                             InputProps={{
                                                 classes: { disabled: classes.disabledInput },
                                                 endAdornment: userIsInRole(this.props.user, RoleEnum.ADMIN) && (
                                                     <Button
                                                         disabled={props.isSubmitting}
+                                                        color="primary"
                                                         variant="outlined"
                                                         onClick={() => {
                                                             this.resetApiKey('test', 'test', props);
