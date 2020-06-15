@@ -5,7 +5,7 @@ import titleCase = require('title-case');
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 interface NewProjectApiKeysContentProps {
-    environment: string;
+    environmentName: string;
     newApiKey: string;
     onClose: () => void;
 }
@@ -16,15 +16,15 @@ function NewProjectEnvironmentApiKeyContent(newProjectEnvironmentApiKeyContentPr
             <DialogTitle>API Keys</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    This is the API Key for your project's {newProjectEnvironmentApiKeyContentProps.environment} environment. Keep this safe. For the security
-                    of your application this cannot be recovered once this dialog is closed.
+                    This is the API Key for your project's {newProjectEnvironmentApiKeyContentProps.environmentName} environment. Keep this safe. For the
+                    security of your application this cannot be recovered once this dialog is closed.
                 </DialogContentText>
                 <Grid container>
                     <Grid item xs={11}>
                         <TextField
                             disabled
                             fullWidth
-                            label={`${titleCase(newProjectEnvironmentApiKeyContentProps.environment)} API Key`}
+                            label={`${titleCase(newProjectEnvironmentApiKeyContentProps.environmentName)} API Key`}
                             value={newProjectEnvironmentApiKeyContentProps.newApiKey}
                         ></TextField>
                     </Grid>

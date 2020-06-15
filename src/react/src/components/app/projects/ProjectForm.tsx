@@ -116,12 +116,14 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
         isSuccess: false,
     };
 
-    resetApiKey(environment: string, formikProps: FormikProps<any>) {
+    resetApiKey(environment: string, environmentName: string, formikProps: FormikProps<any>) {
         this.props.openDialog(
             new DialogContent(
-                `Are you sure you want to reset the ${titleCase(environment)} API Key this project? The current API Key will become ineffective immediately.`,
+                `Are you sure you want to reset the ${titleCase(
+                    environmentName
+                )} API Key for this project? The current API Key will become ineffective immediately.`,
                 'Reset API Key',
-                `Reset ${titleCase(environment)} API Key`,
+                `Reset ${titleCase(environmentName)} API Key`,
                 () => {
                     const project = { version: this.state.initialProject.version + 1 } as IProject;
                     projectService.apiKeyReset(project, this.state.initialProject.projectId, environment).then((response: IRestResponse<IProject>) => {
@@ -138,7 +140,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                 this.props.openDialog(
                                     new DialogContent(
                                         NewProjectEnvironmentApiKeyContent({
-                                            environment: ProjectEnvironmentEnum.LIVE,
+                                            environmentName: ProjectEnvironmentEnum.LIVE,
                                             newApiKey: response.result.liveApiKey,
                                             onClose: this.props.closeDialog,
                                         })
@@ -148,7 +150,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                 this.props.openDialog(
                                     new DialogContent(
                                         NewProjectEnvironmentApiKeyContent({
-                                            environment: ProjectEnvironmentEnum.TEST,
+                                            environmentName: ProjectEnvironmentEnum.TEST,
                                             newApiKey: response.result.testApiKey,
                                             onClose: this.props.closeDialog,
                                         })
@@ -158,7 +160,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                 this.props.openDialog(
                                     new DialogContent(
                                         NewProjectEnvironmentApiKeyContent({
-                                            environment: 'project',
+                                            environmentName: 'project',
                                             newApiKey: response.result.projectApiKey,
                                             onClose: this.props.closeDialog,
                                         })
@@ -322,7 +324,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                                 <Button
                                                                     disabled={props.isSubmitting}
                                                                     onClick={() => {
-                                                                        this.resetApiKey('live', props);
+                                                                        this.resetApiKey('live', 'live', props);
                                                                     }}
                                                                 >
                                                                     Reset
@@ -344,7 +346,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                                 <Button
                                                                     disabled={props.isSubmitting}
                                                                     onClick={() => {
-                                                                        this.resetApiKey('test', props);
+                                                                        this.resetApiKey('test', 'test', props);
                                                                     }}
                                                                 >
                                                                     Reset
@@ -366,7 +368,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                                 <Button
                                                                     disabled={props.isSubmitting}
                                                                     onClick={() => {
-                                                                        this.resetApiKey('proj', props);
+                                                                        this.resetApiKey('proj', 'project', props);
                                                                     }}
                                                                 >
                                                                     Reset
