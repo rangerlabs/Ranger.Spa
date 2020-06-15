@@ -134,6 +134,12 @@ class Projects extends React.Component<ProjectsProps> {
                 filter: false,
             },
         },
+        {
+            name: 'Project API Key Prefix',
+            options: {
+                filter: false,
+            },
+        },
     ];
     options = {
         textLabels: {
