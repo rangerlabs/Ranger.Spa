@@ -158,7 +158,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                 this.props.openDialog(
                                     new DialogContent(
                                         NewProjectEnvironmentApiKeyContent({
-                                            environment: ProjectEnvironmentEnum.PROJECT,
+                                            environment: 'project',
                                             newApiKey: response.result.projectApiKey,
                                             onClose: this.props.closeDialog,
                                         })
@@ -366,7 +366,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                                 <Button
                                                                     disabled={props.isSubmitting}
                                                                     onClick={() => {
-                                                                        this.resetApiKey('test', props);
+                                                                        this.resetApiKey('proj', props);
                                                                     }}
                                                                 >
                                                                     Reset
