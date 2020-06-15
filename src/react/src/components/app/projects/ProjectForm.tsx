@@ -164,9 +164,9 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         })
                                     )
                                 );
-                            }}
-                            this.props.dispatchUpdateProject(response.result);
+                            }
                         }
+                        this.props.dispatchUpdateProject(response.result);
                     });
                 }
             )
