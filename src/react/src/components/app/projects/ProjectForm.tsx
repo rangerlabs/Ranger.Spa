@@ -65,6 +65,9 @@ const styles = (theme: Theme) =>
         disableBottomPadding: {
             paddingBottom: '0px !important',
         },
+        disabledInput: {
+            color: theme.palette.text.primary,
+        },
     });
 interface IProjectFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     openDialog: (dialogContent: DialogContent) => void;
@@ -337,6 +340,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                             <TextField
                                                 label="Live API Key Prefix"
                                                 value={`${this.state.initialProject.liveApiKeyPrefix}...`}
+                                                variant="outlined"
                                                 fullWidth
                                                 disabled
                                                 InputProps={
@@ -359,8 +363,10 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                             <TextField
                                                 label="Test API Key Prefix"
                                                 value={`${this.state.initialProject.testApiKeyPrefix}...`}
+                                                variant="outlined"
                                                 fullWidth
                                                 disabled
+                                                color="primary"
                                                 InputProps={
                                                     userIsInRole(this.props.user, RoleEnum.ADMIN) && {
                                                         endAdornment: (
@@ -381,6 +387,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                             <TextField
                                                 label="Project API Key Prefix"
                                                 value={`${this.state.initialProject.projectApiKeyPrefix}...`}
+                                                variant="outlined"
                                                 fullWidth
                                                 disabled
                                                 InputProps={
