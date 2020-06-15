@@ -19,6 +19,7 @@ const styles = (theme: Theme) =>
             paddingRight: theme.spacing(2),
             paddingBottom: 0,
             paddingLeft: theme.spacing(2),
+            height: '100%',
         },
         leftButtons: {
             flexGrow: 1,
@@ -44,6 +45,9 @@ const styles = (theme: Theme) =>
             paddingBottom: theme.spacing(2),
             background: theme.palette.common.white,
             boxShadow: '0px -3px 3px -2px rgba(0,0,0,0.2), 0px -3px 4px 0px rgba(0,0,0,0.14), 0px -1px 8px 0px rgba(0,0,0,0.12)',
+        },
+        height100: {
+            height: '100%',
         },
     });
 
@@ -136,30 +140,33 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
             >
                 {(props) => (
                     <React.Fragment>
-                        <form onSubmit={props.handleSubmit}>
+                        <form className={classes.height100} onSubmit={props.handleSubmit}>
                             <div className={classes.form}>
                                 <div className={classes.toolbar} />
                                 <Typography className={classes.title} variant="h5" align="left">
                                     {'Execute Test Run'}
                                 </Typography>
+                                <Typography className={classes.title} variant="subtitle1" align="left">
+                                    Breadcrumb will be simulated at the following {props.values.positions.length} positions. The Test Run will execute
+                                    integrations in the TEST environment with a simulated random accuracy between [0, 30] and with all location times simulated
+                                    at 5 minute intervals.
+                                </Typography>
                                 <Grid container direction="column" spacing={4}>
                                     <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
-                                        {props.values.positions.map((c) => {
-                                            return <Typography variant="body1">{(c.lng, c.lat)}</Typography>;
-                                        })}
-                                        {/* <FormikTextField
-                                            infoText="A unique identifier for the geofence."
-                                            name="externalId"
-                                            label="External Id"
-                                            value={props.values.externalId}
-                                            errorText={props.errors.externalId}
-                                            touched={props.touched.externalId}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            autoComplete="off"
-                                            required
-                                            disabled={this.isPendingCreation()}
-                                        /> */}
+                                        <List>
+                                            {props.values.positions.map((c, i) => {
+                                                return (
+                                                    <ListItem divider key={`breadcrumb_${i}`}>
+                                                        <Typography display="inline" variant="body1">
+                                                            Lng: {c.lng}
+                                                        </Typography>
+                                                        <Typography display="inline" variant="body1">
+                                                            Lat: {c.lat}
+                                                        </Typography>
+                                                    </ListItem>
+                                                );
+                                            })}
+                                        </List>
                                     </Grid>
                                     {this.state.serverErrors && (
                                         <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>

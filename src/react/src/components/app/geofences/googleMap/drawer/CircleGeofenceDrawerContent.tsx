@@ -35,6 +35,7 @@ const styles = (theme: Theme) =>
             paddingRight: theme.spacing(2),
             paddingBottom: 0,
             paddingLeft: theme.spacing(2),
+            height: '100%',
         },
         leftButtons: {
             flexGrow: 1,
@@ -60,6 +61,9 @@ const styles = (theme: Theme) =>
             paddingBottom: theme.spacing(2),
             background: theme.palette.common.white,
             boxShadow: '0px -3px 3px -2px rgba(0,0,0,0.2), 0px -3px 4px 0px rgba(0,0,0,0.14), 0px -1px 8px 0px rgba(0,0,0,0.12)',
+        },
+        height100: {
+            height: '100%',
         },
     });
 
@@ -338,7 +342,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             >
                 {(props) => (
                     <React.Fragment>
-                        <form onSubmit={props.handleSubmit}>
+                        <form className={classes.height100} onSubmit={props.handleSubmit}>
                             <div className={classes.form}>
                                 <div className={classes.toolbar} />
                                 <Typography className={classes.title} variant="h5" align="left">
