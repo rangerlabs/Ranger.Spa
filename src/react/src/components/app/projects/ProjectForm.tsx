@@ -167,8 +167,8 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     )
                                 );
                             }
+                            this.props.dispatchUpdateProject(response.result);
                         }
-                        this.props.dispatchUpdateProject(response.result);
                     });
                 }
             )
@@ -176,6 +176,14 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
     }
 
     componentDidMount() {
+        this.setInitialProject();
+    }
+
+    componentDidUpdate() {
+        this.setInitialProject();
+    }
+
+    private setInitialProject() {
         const project = this.getProjectByName(this.props.projectsState.projects);
         if (project) {
             this.setState({ initialProject: project });
@@ -201,7 +209,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
         const { classes, enqueueSnackbar, dispatchAddProject, dispatchUpdateProject } = this.props;
         return (
             <Formik
-                enableReinitialize
+                enableReinitialize={true}
                 initialValues={this.state.initialProject ? this.state.initialProject : { name: '', description: '', version: 0, enabled: true }}
                 onSubmit={(values: IProject, formikBag: FormikBag<FormikProps<IProject>, IProject>) => {
                     this.setState({ serverErrors: undefined });
@@ -323,6 +331,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                             endAdornment: (
                                                                 <Button
                                                                     disabled={props.isSubmitting}
+                                                                    color="primary"
                                                                     onClick={() => {
                                                                         this.resetApiKey('live', 'live', props);
                                                                     }}
@@ -345,6 +354,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                             endAdornment: (
                                                                 <Button
                                                                     disabled={props.isSubmitting}
+                                                                    color="primary"
                                                                     onClick={() => {
                                                                         this.resetApiKey('test', 'test', props);
                                                                     }}
@@ -367,6 +377,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                                             endAdornment: (
                                                                 <Button
                                                                     disabled={props.isSubmitting}
+                                                                    color="primary"
                                                                     onClick={() => {
                                                                         this.resetApiKey('proj', 'project', props);
                                                                     }}
