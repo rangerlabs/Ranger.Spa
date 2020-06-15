@@ -23,7 +23,7 @@ import { openDialog, closeDialog, DialogContent } from '../../../redux/actions/D
 import NewProjectApiKeysContent from '../dialogContents/NewProjectApiKeysContent';
 import NewProjectEnvironmentApiKeyContent from '../dialogContents/NewProjectEnvironmentApiKeyContent';
 import titleCase = require('title-case');
-import { ProjectEnvironmentEnum } from '../../../models/ProjectEnvironmentEnum';
+import { ApiKeyPurposeNameEnum } from '../../../models/ApiKeyPurposeNameEnum';
 import { User } from 'oidc-client';
 import { userIsInRole } from '../../../helpers/Helpers';
 import { RoleEnum } from '../../../models/RoleEnum';
@@ -136,27 +136,27 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         } else {
                             this.setState({ isSuccess: true });
                             this.props.enqueueSnackbar(response.message, { variant: 'success' });
-                            if (environment === ProjectEnvironmentEnum.LIVE) {
+                            if (environment === ApiKeyPurposeNameEnum.LIVE) {
                                 this.props.openDialog(
                                     new DialogContent(
                                         NewProjectEnvironmentApiKeyContent({
-                                            environmentName: ProjectEnvironmentEnum.LIVE,
+                                            environmentName: ApiKeyPurposeNameEnum.LIVE,
                                             newApiKey: response.result.liveApiKey,
                                             onClose: this.props.closeDialog,
                                         })
                                     )
                                 );
-                            } else if (environment === ProjectEnvironmentEnum.TEST) {
+                            } else if (environment === ApiKeyPurposeNameEnum.TEST) {
                                 this.props.openDialog(
                                     new DialogContent(
                                         NewProjectEnvironmentApiKeyContent({
-                                            environmentName: ProjectEnvironmentEnum.TEST,
+                                            environmentName: ApiKeyPurposeNameEnum.TEST,
                                             newApiKey: response.result.testApiKey,
                                             onClose: this.props.closeDialog,
                                         })
                                     )
                                 );
-                            } else if (environment === ProjectEnvironmentEnum.PROJECT) {
+                            } else if (environment === ApiKeyPurposeNameEnum.PROJECT) {
                                 this.props.openDialog(
                                     new DialogContent(
                                         NewProjectEnvironmentApiKeyContent({
