@@ -168,6 +168,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                 );
                             }
                             this.props.dispatchUpdateProject(response.result);
+                            this.setState({ initialProject: response.result });
                         }
                     });
                 }
@@ -176,14 +177,6 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
     }
 
     componentDidMount() {
-        this.setInitialProject();
-    }
-
-    componentDidUpdate() {
-        this.setInitialProject();
-    }
-
-    private setInitialProject() {
         const project = this.getProjectByName(this.props.projectsState.projects);
         if (project) {
             this.setState({ initialProject: project });
