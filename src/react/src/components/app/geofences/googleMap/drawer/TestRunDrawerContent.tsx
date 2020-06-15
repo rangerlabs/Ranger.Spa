@@ -47,7 +47,11 @@ const styles = (theme: Theme) =>
             boxShadow: '0px -3px 3px -2px rgba(0,0,0,0.2), 0px -3px 4px 0px rgba(0,0,0,0.14), 0px -1px 8px 0px rgba(0,0,0,0.12)',
         },
         height100: {
-            height: '100%',
+            height: `calc(100% - ${theme.toolbar.height * 1.5}px`,
+        },
+        listItems: {
+            display: 'block',
+            textAlign: 'center',
         },
     });
 
@@ -156,7 +160,7 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
                                         <List>
                                             {props.values.positions.map((c, i) => {
                                                 return (
-                                                    <ListItem divider key={`breadcrumb_${i}`}>
+                                                    <ListItem className={classes.listItems} divider key={`breadcrumb_${i}`}>
                                                         <Typography display="inline" variant="body1">
                                                             Lng: {c.lng}
                                                         </Typography>
