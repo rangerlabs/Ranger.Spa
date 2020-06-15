@@ -132,9 +132,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             this.props.enqueueSnackbar(response.error.message, { variant: 'error' });
                             formikProps.setStatus(formikErrors as FormikErrors<IProject>);
                             this.setState({ serverErrors: serverErrors });
-                            formikProps.setSubmitting(false);
                         } else {
-                            this.setState({ isSuccess: true });
                             this.props.enqueueSnackbar(response.message, { variant: 'success' });
                             if (environment === ApiKeyPurposeNameEnum.LIVE) {
                                 this.props.openDialog(
@@ -171,6 +169,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                             this.setState({ initialProject: response.result });
                         }
                     });
+                    formikProps.setSubmitting(false);
                 }
             )
         );
