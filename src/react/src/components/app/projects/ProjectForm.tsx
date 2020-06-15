@@ -338,7 +338,9 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         {this.state.initialProject && (
                             <Paper className={classes.paper} elevation={3}>
                                 <Typography variant="h6">Reset API Keys</Typography>
-                                <Typography variant="subtitle1">Generate new API keys for this project.</Typography>
+                                <Typography variant="subtitle1">
+                                    Generate new API keys for this project. Use the prefixes below to help identify active keys.
+                                </Typography>
                                 <Grid container>
                                     <Grid item xs={12} className={classes.textFieldBorderRadius}>
                                         <TextField
