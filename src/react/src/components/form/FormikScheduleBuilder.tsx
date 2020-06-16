@@ -11,7 +11,7 @@ import Schedule from '../../models/Schedule';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { ScheduleEnum } from '../../models/ScheduleEnum';
-import { AssertionError } from 'assert';
+import { AssertionError, equal } from 'assert';
 import ClockOutline from 'mdi-material-ui/ClockOutline';
 import { startOfToday, isEqual, parseISO, isValid, endOfToday } from 'date-fns';
 import AlertOutline from 'mdi-material-ui/AlertOutline';
@@ -109,7 +109,11 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
     const areDatesEqual = (v: ScheduleEnum): boolean => {
         const start = parseISO(values.schedule[v].startTime);
         const end = parseISO(values.schedule[v].endTime);
-        return isValid(start) && isValid(end) && isEqual(start, end);
+        const equal = isValid(start) && isValid(end) && isEqual(start, end);
+        console.log('startValid: ' + isValid(start));
+        console.log('endValid: ' + isValid(end));
+        console.log('Are dates equal: ' + equal);
+        return equal;
     };
     const timeZoneIds = moment.tz.names();
 
