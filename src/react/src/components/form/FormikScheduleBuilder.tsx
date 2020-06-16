@@ -198,7 +198,6 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextStartTime(v)}
                                                             error={isErrorStartTime(v)}
                                                             onChange={(date: Date, value?: string) => {
-                                                                date.setMilliseconds(0);
                                                                 setFieldValue(`${name}.${v}.startTime`, isValid(date) ? formatISO(date) : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
@@ -222,17 +221,6 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextEndTime(v)}
                                                             error={isErrorEndTime(v)}
                                                             onChange={(date: Date, value?: string) => {
-                                                                // because when clearing a day times are set to startOfToday(), the user can then alter the time instead of resetting the day
-                                                                // this will lead to the endtime always having a millisecond time of :000 and a 1 second gap if they manually set it to the end of day
-                                                                // we forcibly set milliseconds to the end of the day if they set the time to be the end of day since their intention is to have the geofence be available all day
-                                                                const endTime = endOfToday();
-                                                                if (
-                                                                    date.getHours() === endTime.getHours() &&
-                                                                    date.getMinutes() == endTime.getMinutes() &&
-                                                                    date.getSeconds() == endTime.getSeconds()
-                                                                ) {
-                                                                    date.setMilliseconds(999);
-                                                                }
                                                                 setFieldValue(`${name}.${v}.endTime`, isValid(date) ? formatISO(date) : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
@@ -258,11 +246,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                         aria-label="reset day"
                                                                         color="primary"
                                                                         onClick={() => {
-                                                                            setFieldValue(
-                                                                                `${name}.${v}.startTime`,
-                                                                                formatISO(startOfToday().setMilliseconds(0))
-                                                                            );
-                                                                            setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday().setMilliseconds(999)));
+                                                                            setFieldValue(`${name}.${v}.startTime`, formatISO(startOfToday()));
+                                                                            setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday()));
                                                                         }}
                                                                     >
                                                                         <Restore />
@@ -282,9 +267,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                             aria-label="delete day"
                                                                             color="inherit"
                                                                             onClick={() => {
-                                                                                const startTime = startOfToday();
-                                                                                startTime.setMilliseconds(0);
-                                                                                const date = formatISO(startTime);
+                                                                                const date = formatISO(startOfToday());
                                                                                 setFieldValue(`${name}.${v}.startTime`, date);
                                                                                 setFieldValue(`${name}.${v}.endTime`, date);
                                                                             }}
@@ -313,12 +296,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                             setFieldValue(`${name}.timeZoneId`, 'UTC', true);
                             Object.values(ScheduleEnum).map((v, i) => {
                                 assertIsDay(v);
-                                const startTime = startOfToday();
-                                startTime.setMilliseconds(0);
-                                const endTime = endOfToday();
-                                endTime.setMilliseconds(999);
-                                setFieldValue(`${name}.${v}.startTime`, formatISO(startTime));
-                                setFieldValue(`${name}.${v}.endTime`, formatISO(endTime));
+                                setFieldValue(`${name}.${v}.startTime`, formatISO(startOfToday()));
+                                setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday()));
                             });
                         }}
                         disabled={isUtcFullSchedule}

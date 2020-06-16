@@ -19,12 +19,7 @@ export default class Schedule {
     ) {}
 
     public static FullDay(): IsoDailySchedule {
-        const startTime = startOfToday();
-        startTime.setMilliseconds(0);
-
-        const endTime = endOfToday();
-        endTime.setMilliseconds(999);
-        return new IsoDailySchedule(startTime, endTime);
+        return new IsoDailySchedule(startOfToday(), endOfToday());
     }
 
     public ToLocalTimeSchedule(): Schedule {
@@ -68,13 +63,13 @@ export default class Schedule {
     }
 
     private static LocalTimeDailyScheduleToIsoDaily(localTimeDailySchedule: LocalTimeDailySchedule): IsoDailySchedule {
-        const startTime = moment(localTimeDailySchedule.startTime, 'HH:mm:ss.SSS');
-        const endTime = moment(localTimeDailySchedule.endTime, 'HH:mm:ss.SSS');
+        const startTime = moment(localTimeDailySchedule.startTime, 'HH:mm:ss');
+        const endTime = moment(localTimeDailySchedule.endTime, 'HH:mm:ss');
         return new IsoDailySchedule(startTime, endTime);
     }
 
     private toLocalTimeString(date: Date) {
-        return format(date, 'HH:mm:ss.SSS');
+        return format(date, 'HH:mm:ss');
     }
 
     public static FullUtcSchedule(): Schedule {
