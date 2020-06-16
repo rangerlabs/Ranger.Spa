@@ -73,19 +73,21 @@ export default class Schedule {
     }
 
     public static FullUtcSchedule(): Schedule {
-        return new Schedule(
-            'UTC',
-            Schedule.FullDay(),
-            Schedule.FullDay(),
-            Schedule.FullDay(),
-            Schedule.FullDay(),
-            Schedule.FullDay(),
-            Schedule.FullDay(),
-            Schedule.FullDay()
-        );
+        return Schedule.fullSchedule;
     }
 
     public static IsFullUtcSchedule(schedule: Schedule): boolean {
         return deepEqual(schedule, Schedule.FullUtcSchedule());
     }
+
+    private static fullSchedule = new Schedule(
+        'UTC',
+        Schedule.FullDay(),
+        Schedule.FullDay(),
+        Schedule.FullDay(),
+        Schedule.FullDay(),
+        Schedule.FullDay(),
+        Schedule.FullDay(),
+        Schedule.FullDay()
+    );
 }

@@ -198,6 +198,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextStartTime(v)}
                                                             error={isErrorStartTime(v)}
                                                             onChange={(date: Date, value?: string) => {
+                                                                date.setMilliseconds();
                                                                 setFieldValue(`${name}.${v}.startTime`, isValid(date) ? formatISO(date) : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
@@ -257,8 +258,11 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                         aria-label="reset day"
                                                                         color="primary"
                                                                         onClick={() => {
-                                                                            setFieldValue(`${name}.${v}.startTime`, formatISO(startOfToday()));
-                                                                            setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday()));
+                                                                            setFieldValue(
+                                                                                `${name}.${v}.startTime`,
+                                                                                formatISO(startOfToday().setMilliseconds(0))
+                                                                            );
+                                                                            setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday().setMilliseconds(999)));
                                                                         }}
                                                                     >
                                                                         <Restore />
@@ -278,7 +282,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                             aria-label="delete day"
                                                                             color="inherit"
                                                                             onClick={() => {
-                                                                                var date = formatISO(startOfToday());
+                                                                                var date = formatISO(startOfToday().setMilliseconds(0));
                                                                                 setFieldValue(`${name}.${v}.startTime`, date);
                                                                                 setFieldValue(`${name}.${v}.endTime`, date);
                                                                             }}
@@ -307,8 +311,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                             setFieldValue(`${name}.timeZoneId`, 'UTC', true);
                             Object.values(ScheduleEnum).map((v, i) => {
                                 assertIsDay(v);
-                                setFieldValue(`${name}.${v}.startTime`, formatISO(startOfToday()));
-                                setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday()));
+                                setFieldValue(`${name}.${v}.startTime`, formatISO(startOfToday().setMilliseconds(0)));
+                                setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday().setMilliseconds(999)));
                             });
                         }}
                         disabled={isUtcFullSchedule}
