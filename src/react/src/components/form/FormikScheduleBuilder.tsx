@@ -218,8 +218,10 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextEndTime(v)}
                                                             error={isErrorEndTime(v)}
                                                             onChange={(date: Date, value?: string) => {
+                                                                console.log('Date:' + date);
+                                                                console.log('Value:' + date);
                                                                 date.setMilliseconds(999);
-                                                                setFieldValue(`${name}.${v}.startTime`, isValid(date) ? date.toISOString() : date, true);
+                                                                setFieldValue(`${name}.${v}.endTime`, isValid(date) ? date.toISOString() : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={handleBlur}
