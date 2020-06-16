@@ -108,7 +108,11 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
     const isErrorEndTime = (v: ScheduleEnum): boolean => errors.schedule && Boolean(errors.schedule[v]?.endTime);
     const areDatesEqual = (v: ScheduleEnum): boolean => {
         const start = parseISO(values.schedule[v].startTime);
+        console.log('start: ' + values.schedule[v].startTime);
+        console.log('start iso: ' + end);
         const end = parseISO(values.schedule[v].endTime);
+        console.log('end: ' + values.schedule[v].endTime);
+        console.log('end iso: ' + end);
         const equal = isValid(start) && isValid(end) && isEqual(start, end);
 
         return equal;
@@ -195,7 +199,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextStartTime(v)}
                                                             error={isErrorStartTime(v)}
                                                             onChange={(date: Date, value?: string) => {
-                                                                setFieldValue(`${name}.${v}.startTime`, date, true);
+                                                                setFieldValue(`${name}.${v}.startTime`, isValid(date) ? date.toISOString() : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={handleBlur}
@@ -220,7 +224,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             error={isErrorEndTime(v)}
                                                             onChange={(date: Date, value?: string) => {
                                                                 date.setMilliseconds(999);
-                                                                setFieldValue(`${name}.${v}.endTime`, date, true);
+                                                                setFieldValue(`${name}.${v}.endTime`, isValid(date) ? date.toISOString() : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={handleBlur}
