@@ -109,7 +109,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
     const areDatesEqual = (v: ScheduleEnum): boolean => {
         const start = parseISO(values.schedule[v].startTime);
         console.log('start: ' + values.schedule[v].startTime);
-        console.log('start iso: ' + end);
+        console.log('start iso: ' + start);
         const end = parseISO(values.schedule[v].endTime);
         console.log('end: ' + values.schedule[v].endTime);
         console.log('end iso: ' + end);
