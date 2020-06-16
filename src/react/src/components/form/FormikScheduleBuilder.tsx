@@ -165,8 +165,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                     </Box>
                     <React.Fragment>
                         {Object.values(ScheduleEnum).map((v, i) => {
-                            const isInactive = areDatesEqual(v);
                             assertIsDay(v);
+                            const isInactive = areDatesEqual(v);
                             return (
                                 <Grid container spacing={1} key={`${name}.${v}.{i}`}>
                                     <Grid item xs={12}>
@@ -204,7 +204,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={handleBlur}
                                                             fullWidth
-                                                            format="hh:mm:ss"
+                                                            // format="hh:mm:ss"
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
@@ -229,7 +229,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={handleBlur}
                                                             fullWidth
-                                                            format="hh:mm:ss"
+                                                            // format="hh:mm:ss"
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
