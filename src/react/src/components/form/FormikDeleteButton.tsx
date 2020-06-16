@@ -18,6 +18,9 @@ const styles = (theme: Theme) =>
             borderStyle: 'solid',
             borderColor: red[600],
         },
+        child: {
+            backgroundColor: theme.palette.error.main,
+        },
     });
 
 interface FormikDeleteButtonProps extends WithStyles<typeof styles> {
@@ -48,7 +51,14 @@ class FormikDeleteButton extends React.Component<FormikDeleteButtonProps & Butto
     render() {
         const { isSubmitting, dialogTitle, dialogContent, confirmText, classes, onConfirm, openDialog, variant, ...rest } = this.props;
         return (
-            <Button className={classes.warning} onClick={this.renderDialog} disabled={isSubmitting} {...rest} variant="outlined">
+            <Button
+                TouchRippleProps={{ classes: { child: classes.child } }}
+                className={classes.warning}
+                onClick={this.renderDialog}
+                disabled={isSubmitting}
+                {...rest}
+                variant="outlined"
+            >
                 {this.props.children}
             </Button>
         );

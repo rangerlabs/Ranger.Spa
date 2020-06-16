@@ -60,6 +60,9 @@ const useStyles = makeStyles((theme: Theme) =>
             borderStyle: 'solid',
             borderColor: red[600],
         },
+        child: {
+            backgroundColor: theme.palette.error.main,
+        },
         strikeThrough: {
             '&::before': {
                 content: '""',
@@ -271,6 +274,11 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                 <span>
                                                                     <Box color={red}>
                                                                         <IconButton
+                                                                            TouchRippleProps={{
+                                                                                classes: {
+                                                                                    child: classes.child,
+                                                                                },
+                                                                            }}
                                                                             aria-label="delete day"
                                                                             color="inherit"
                                                                             onClick={() => {
@@ -295,6 +303,9 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                         })}
                     </React.Fragment>
                     <Button
+                        TouchRippleProps={{
+                            classes: { child: classes.child },
+                        }}
                         className={classes.warning}
                         onClick={() => {
                             setFieldValue(`${name}.timeZoneId`, 'UTC', true);
