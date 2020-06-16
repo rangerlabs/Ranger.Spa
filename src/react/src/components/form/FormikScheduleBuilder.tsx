@@ -282,7 +282,9 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                             aria-label="delete day"
                                                                             color="inherit"
                                                                             onClick={() => {
-                                                                                var date = formatISO(startOfToday().setMilliseconds(0));
+                                                                                const startTime = startOfToday();
+                                                                                startTime.setMilliseconds(0);
+                                                                                const date = formatISO(startTime);
                                                                                 setFieldValue(`${name}.${v}.startTime`, date);
                                                                                 setFieldValue(`${name}.${v}.endTime`, date);
                                                                             }}
@@ -311,8 +313,12 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                             setFieldValue(`${name}.timeZoneId`, 'UTC', true);
                             Object.values(ScheduleEnum).map((v, i) => {
                                 assertIsDay(v);
-                                setFieldValue(`${name}.${v}.startTime`, formatISO(startOfToday().setMilliseconds(0)));
-                                setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday().setMilliseconds(999)));
+                                const startTime = startOfToday();
+                                startTime.setMilliseconds(0);
+                                const endTime = endOfToday();
+                                endTime.setMilliseconds(999);
+                                setFieldValue(`${name}.${v}.startTime`, formatISO(startTime));
+                                setFieldValue(`${name}.${v}.endTime`, formatISO(endTime));
                             });
                         }}
                         disabled={isUtcFullSchedule}

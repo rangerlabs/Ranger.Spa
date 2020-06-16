@@ -19,7 +19,12 @@ export default class Schedule {
     ) {}
 
     public static FullDay(): IsoDailySchedule {
-        return new IsoDailySchedule(startOfToday(), endOfToday());
+        const startTime = startOfToday();
+        startTime.setMilliseconds(0);
+
+        const endTime = endOfToday();
+        endTime.setMilliseconds(999);
+        return new IsoDailySchedule(startTime, endTime);
     }
 
     public ToLocalTimeSchedule(): Schedule {
