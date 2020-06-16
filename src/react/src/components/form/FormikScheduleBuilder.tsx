@@ -206,7 +206,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                 shrink: true,
                                                             }}
                                                             autoComplete="off"
-                                                            mask="__:__:__ _M"
+                                                            // mask="__:__:__ _M"
                                                             views={['hours', 'minutes', 'seconds']}
                                                         />
                                                     </Grid>
@@ -221,7 +221,6 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             error={isErrorEndTime(v)}
                                                             onChange={(date: Date, value?: string) => {
                                                                 date.setMilliseconds(999);
-                                                                console.log('endValid: ' + isValid(date));
                                                                 setFieldValue(`${name}.${v}.endTime`, isValid(date) ? date.toISOString() : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
@@ -232,7 +231,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                 shrink: true,
                                                             }}
                                                             autoComplete="off"
-                                                            mask="__:__:__ _M"
+                                                            // mask="__:__:__ _M"
                                                             views={['hours', 'minutes', 'seconds']}
                                                         />
                                                     </Grid>
