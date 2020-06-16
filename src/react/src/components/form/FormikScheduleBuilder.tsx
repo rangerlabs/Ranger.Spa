@@ -198,7 +198,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextStartTime(v)}
                                                             error={isErrorStartTime(v)}
                                                             onChange={(date: Date, value?: string) => {
-                                                                date.setMilliseconds();
+                                                                date.setMilliseconds(0);
                                                                 setFieldValue(`${name}.${v}.startTime`, isValid(date) ? formatISO(date) : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
