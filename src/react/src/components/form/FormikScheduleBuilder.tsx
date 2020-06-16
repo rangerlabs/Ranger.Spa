@@ -110,9 +110,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
         const start = parseISO(values.schedule[v].startTime);
         const end = parseISO(values.schedule[v].endTime);
         const equal = isValid(start) && isValid(end) && isEqual(start, end);
-        console.log('startValid: ' + isValid(start));
-        console.log('endValid: ' + isValid(end));
-        console.log('Are dates equal: ' + equal);
+
         return equal;
     };
     const timeZoneIds = moment.tz.names();
@@ -197,7 +195,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextStartTime(v)}
                                                             error={isErrorStartTime(v)}
                                                             onChange={(date: Date, value?: string) => {
-                                                                date.setMilliseconds(999);
+                                                                date.setMilliseconds(000);
+                                                                console.log('startValid: ' + isValid(date));
                                                                 setFieldValue(`${name}.${v}.startTime`, isValid(date) ? date.toISOString() : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
@@ -222,9 +221,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextEndTime(v)}
                                                             error={isErrorEndTime(v)}
                                                             onChange={(date: Date, value?: string) => {
-                                                                console.log('Date:' + date);
-                                                                console.log('Value:' + date);
                                                                 date.setMilliseconds(999);
+                                                                console.log('endValid: ' + isValid(date));
                                                                 setFieldValue(`${name}.${v}.endTime`, isValid(date) ? date.toISOString() : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
