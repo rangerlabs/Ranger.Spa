@@ -199,17 +199,17 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextStartTime(v)}
                                                             error={isErrorStartTime(v)}
                                                             onChange={(date: Date, value?: string) => {
-                                                                setFieldValue(`${name}.${v}.startTime`, isValid(date) ? date.toISOString() : date, true);
+                                                                setFieldValue(`${name}.${v}.startTime`, isValid(date) ? date.toUTCString() : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={handleBlur}
                                                             fullWidth
-                                                            // format="hh:mm:ss"
+                                                            format="hh:mm:ss"
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
                                                             autoComplete="off"
-                                                            // mask="__:__:__ _M"
+                                                            mask="__:__:__ _M"
                                                             views={['hours', 'minutes', 'seconds']}
                                                         />
                                                     </Grid>
@@ -224,17 +224,17 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             error={isErrorEndTime(v)}
                                                             onChange={(date: Date, value?: string) => {
                                                                 date.setMilliseconds(999);
-                                                                setFieldValue(`${name}.${v}.endTime`, isValid(date) ? date.toISOString() : date, true);
+                                                                setFieldValue(`${name}.${v}.endTime`, isValid(date) ? date.toUTCString() : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={handleBlur}
                                                             fullWidth
-                                                            // format="hh:mm:ss"
+                                                            format="hh:mm:ss"
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
                                                             autoComplete="off"
-                                                            // mask="__:__:__ _M"
+                                                            mask="__:__:__ _M"
                                                             views={['hours', 'minutes', 'seconds']}
                                                         />
                                                     </Grid>
@@ -250,8 +250,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                         aria-label="reset day"
                                                                         color="primary"
                                                                         onClick={() => {
-                                                                            setFieldValue(`${name}.${v}.startTime`, startOfToday());
-                                                                            setFieldValue(`${name}.${v}.endTime`, endOfToday());
+                                                                            setFieldValue(`${name}.${v}.startTime`, startOfToday().toUTCString());
+                                                                            setFieldValue(`${name}.${v}.endTime`, endOfToday().toUTCString());
                                                                         }}
                                                                     >
                                                                         <Restore />
@@ -266,7 +266,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                             aria-label="delete day"
                                                                             color="inherit"
                                                                             onClick={() => {
-                                                                                var date = startOfToday();
+                                                                                var date = startOfToday().toUTCString();
                                                                                 setFieldValue(`${name}.${v}.startTime`, date);
                                                                                 setFieldValue(`${name}.${v}.endTime`, date);
                                                                             }}
@@ -292,8 +292,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                             setFieldValue(`${name}.timeZoneId`, 'UTC', true);
                             Object.values(ScheduleEnum).map((v, i) => {
                                 assertIsDay(v);
-                                setFieldValue(`${name}.${v}.startTime`, startOfToday());
-                                setFieldValue(`${name}.${v}.endTime`, endOfToday());
+                                setFieldValue(`${name}.${v}.startTime`, startOfToday().toUTCString());
+                                setFieldValue(`${name}.${v}.endTime`, endOfToday().toUTCString());
                             });
                         }}
                         disabled={isUtcFullSchedule}
