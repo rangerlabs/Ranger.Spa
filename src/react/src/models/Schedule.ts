@@ -63,8 +63,8 @@ export default class Schedule {
     }
 
     private static LocalTimeDailyScheduleToIsoDaily(localTimeDailySchedule: LocalTimeDailySchedule): IsoDailySchedule {
-        const startTime = moment(localTimeDailySchedule.startTime, 'HH:mm:ss');
-        const endTime = moment(localTimeDailySchedule.endTime, 'HH:mm:ss');
+        const startTime = parse(localTimeDailySchedule.startTime, 'HH:mm:ss', startOfToday());
+        const endTime = parse(localTimeDailySchedule.endTime, 'HH:mm:ss', endOfToday());
         return new IsoDailySchedule(startTime, endTime);
     }
 
