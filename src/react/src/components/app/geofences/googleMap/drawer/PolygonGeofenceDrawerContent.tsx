@@ -36,7 +36,6 @@ const styles = (theme: Theme) =>
             paddingRight: theme.spacing(2),
             paddingBottom: 0,
             paddingLeft: theme.spacing(2),
-            height: '100%',
         },
         leftButtons: {
             flexGrow: 1,
@@ -61,10 +60,7 @@ const styles = (theme: Theme) =>
             paddingRight: theme.spacing(2),
             paddingBottom: theme.spacing(2),
             background: theme.palette.common.white,
-            boxShadow: '0px -3px 3px -2px rgba(0,0,0,0.2), 0px -3px 4px 0px rgba(0,0,0,0.14), 0px -1px 8px 0px rgba(0,0,0,0.12)',
-        },
-        height100: {
-            height: `calc(100% - ${theme.toolbar.height * 1.5}px)`,
+            boxShadow: '0px -3px 3px -2px rgba(0,0,0,0.2), 0px -3px 4px 0px rgba(0,0,0,0.14)',
         },
     });
 
@@ -343,7 +339,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             >
                 {(props) => (
                     <React.Fragment>
-                        <form className={classes.height100} onSubmit={props.handleSubmit}>
+                        <form onSubmit={props.handleSubmit}>
                             <div className={classes.form}>
                                 <div className={classes.toolbar} />
                                 <Typography className={classes.title} variant="h5" align="left">
