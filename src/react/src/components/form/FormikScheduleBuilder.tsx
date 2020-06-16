@@ -226,13 +226,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                 // this will lead to the endtime always having a millisecond time of :000 and a 1 second gap if they manually set it to the end of day
                                                                 // we forcibly set milliseconds to the end of the day if they set the time to be the end of day since their intention is to have the geofence be available all day
                                                                 const endTime = endOfToday();
-                                                                if (
-                                                                    date.getHours() === endTime.getHours() &&
-                                                                    date.getMinutes() == endTime.getMinutes() &&
-                                                                    date.getSeconds() == endTime.getSeconds()
-                                                                ) {
-                                                                    date.setMilliseconds(999);
-                                                                }
+                                                                date.setMilliseconds(0);
                                                                 setFieldValue(`${name}.${v}.endTime`, isValid(date) ? formatISO(date) : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
@@ -262,7 +256,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                                 `${name}.${v}.startTime`,
                                                                                 formatISO(startOfToday().setMilliseconds(0))
                                                                             );
-                                                                            setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday().setMilliseconds(999)));
+                                                                            setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday().setMilliseconds(0)));
                                                                         }}
                                                                     >
                                                                         <Restore />
@@ -312,7 +306,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                             Object.values(ScheduleEnum).map((v, i) => {
                                 assertIsDay(v);
                                 setFieldValue(`${name}.${v}.startTime`, formatISO(startOfToday().setMilliseconds(0)));
-                                setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday().setMilliseconds(999)));
+                                setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday().setMilliseconds(0)));
                             });
                         }}
                         disabled={isUtcFullSchedule}
