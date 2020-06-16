@@ -12,7 +12,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { ScheduleEnum } from '../../models/ScheduleEnum';
 import { AssertionError } from 'assert';
 import ClockOutline from 'mdi-material-ui/ClockOutline';
-import { startOfToday, isEqual, parseISO, isValid, endOfToday } from 'date-fns';
+import { startOfToday, isEqual, parseISO, isValid, endOfToday, formatISO } from 'date-fns';
 import AlertOutline from 'mdi-material-ui/AlertOutline';
 import CloseCircleOutline from 'mdi-material-ui/CloseCircleOutline';
 import Restore from 'mdi-material-ui/Restore';
@@ -106,10 +106,10 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
         touched.schedule && errors.schedule && touched.schedule[v]?.startTime && Boolean(errors.schedule[v]?.startTime);
     const isErrorEndTime = (v: ScheduleEnum): boolean => errors.schedule && Boolean(errors.schedule[v]?.endTime);
     const areDatesEqual = (v: ScheduleEnum): boolean => {
-        const start = values.schedule[v].startTime;
+        const start = parseISO(values.schedule[v].startTime);
         console.log('start: ' + values.schedule[v].startTime);
         console.log('start iso: ' + start);
-        const end = values.schedule[v].endTime;
+        const end = parseISO(values.schedule[v].endTime);
         console.log('end: ' + values.schedule[v].endTime);
         console.log('end iso: ' + end);
         const equal = isValid(start) && isValid(end) && isEqual(start, end);
@@ -198,7 +198,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextStartTime(v)}
                                                             error={isErrorStartTime(v)}
                                                             onChange={(date: Date, value?: string) => {
-                                                                setFieldValue(`${name}.${v}.startTime`, date, true);
+                                                                setFieldValue(`${name}.${v}.startTime`, isValid(date) ? formatISO(date) : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={handleBlur}
@@ -223,7 +223,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             error={isErrorEndTime(v)}
                                                             onChange={(date: Date, value?: string) => {
                                                                 date.setMilliseconds(999);
-                                                                setFieldValue(`${name}.${v}.endTime`, date, true);
+                                                                setFieldValue(`${name}.${v}.endTime`, isValid(date) ? formatISO(date) : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={handleBlur}
@@ -249,8 +249,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                         aria-label="reset day"
                                                                         color="primary"
                                                                         onClick={() => {
-                                                                            setFieldValue(`${name}.${v}.startTime`, startOfToday().toISOString());
-                                                                            setFieldValue(`${name}.${v}.endTime`, endOfToday().toISOString());
+                                                                            setFieldValue(`${name}.${v}.startTime`, formatISO(startOfToday()));
+                                                                            setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday()));
                                                                         }}
                                                                     >
                                                                         <Restore />
@@ -265,7 +265,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                             aria-label="delete day"
                                                                             color="inherit"
                                                                             onClick={() => {
-                                                                                var date = startOfToday().toISOString();
+                                                                                var date = formatISO(startOfToday());
                                                                                 setFieldValue(`${name}.${v}.startTime`, date);
                                                                                 setFieldValue(`${name}.${v}.endTime`, date);
                                                                             }}
@@ -291,8 +291,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                             setFieldValue(`${name}.timeZoneId`, 'UTC', true);
                             Object.values(ScheduleEnum).map((v, i) => {
                                 assertIsDay(v);
-                                setFieldValue(`${name}.${v}.startTime`, startOfToday().toISOString());
-                                setFieldValue(`${name}.${v}.endTime`, endOfToday().toISOString());
+                                setFieldValue(`${name}.${v}.startTime`, formatISO(startOfToday()));
+                                setFieldValue(`${name}.${v}.endTime`, formatISO(endOfToday()));
                             });
                         }}
                         disabled={isUtcFullSchedule}
