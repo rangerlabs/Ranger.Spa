@@ -21,6 +21,7 @@ import FormikAutocompleteSearch from './FormikAutocompleteSearch';
 import { titleCase } from 'change-case';
 import { useFormikContext } from 'formik';
 import Geofence from '../../models/app/geofences/Geofence';
+import { start } from 'repl';
 var moment = require('moment-timezone');
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -208,7 +209,6 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                 shrink: true,
                                                             }}
                                                             autoComplete="off"
-                                                            mask="__:__:__ _M"
                                                             views={['hours', 'minutes', 'seconds']}
                                                         />
                                                     </Grid>
@@ -222,7 +222,17 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             helperText={errorTextEndTime(v)}
                                                             error={isErrorEndTime(v)}
                                                             onChange={(date: Date, value?: string) => {
-                                                                date.setMilliseconds(999);
+                                                                // because when clearing a day times are set to startOfToday(), the user can then alter the time instead of resetting the day
+                                                                // this will lead to the endtime always having a millisecond time of :000 and a 1 second gap if they manually set it to the end of day
+                                                                // we forcibly set milliseconds to the end of the day if they set the time to be the end of day since their intention is to have the geofence be available all day
+                                                                const endTime = endOfToday();
+                                                                if (
+                                                                    date.getHours() === endTime.getHours() &&
+                                                                    date.getMinutes() == endTime.getMinutes() &&
+                                                                    date.getSeconds() == endTime.getSeconds()
+                                                                ) {
+                                                                    date.setMilliseconds(999);
+                                                                }
                                                                 setFieldValue(`${name}.${v}.endTime`, isValid(date) ? formatISO(date) : date, true);
                                                             }}
                                                             keyboardIcon={<ClockOutline />}
@@ -233,7 +243,6 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                                 shrink: true,
                                                             }}
                                                             autoComplete="off"
-                                                            mask="__:__:__ _M"
                                                             views={['hours', 'minutes', 'seconds']}
                                                         />
                                                     </Grid>
