@@ -86,7 +86,7 @@ interface FormikScheduleBuilderProps {
 export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps) {
     const classes = useStyles(props);
     const { name } = props;
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(true);
     const { values, setFieldValue, handleBlur, touched, errors } = useFormikContext<Geofence>();
     const [isUtcFullSchedule, setCanReset] = useState(Schedule.IsFullUtcSchedule(values.schedule));
 
@@ -111,11 +111,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
     const isErrorEndTime = (v: ScheduleEnum): boolean => errors.schedule && Boolean(errors.schedule[v]?.endTime);
     const areDatesEqual = (v: ScheduleEnum): boolean => {
         const start = parseISO(values.schedule[v].startTime);
-        console.log('start: ' + values.schedule[v].startTime);
-        console.log('start iso: ' + start);
         const end = parseISO(values.schedule[v].endTime);
-        console.log('end: ' + values.schedule[v].endTime);
-        console.log('end iso: ' + end);
         const equal = isValid(start) && isValid(end) && isEqual(start, end);
 
         return equal;
