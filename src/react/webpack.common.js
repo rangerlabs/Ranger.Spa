@@ -22,20 +22,14 @@ module.exports = {
                 test: [
                     {
                         folder: './published/wwwroot',
-                        method: filePath => {
+                        method: (filePath) => {
                             return new RegExp(/main.*.[js|gz]$/, 'm').test(filePath);
                         },
                     },
                     {
                         folder: './published/wwwroot',
-                        method: filePath => {
+                        method: (filePath) => {
                             return new RegExp(/index.html$/, 'm').test(filePath);
-                        },
-                    },
-                    {
-                        folder: './published/wwwroot',
-                        method: filePath => {
-                            return new RegExp(/\.(jpg|svg)$/, 'm').test(filePath);
                         },
                     },
                 ],

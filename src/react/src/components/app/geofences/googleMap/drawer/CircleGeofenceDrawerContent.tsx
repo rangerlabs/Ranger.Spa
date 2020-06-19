@@ -460,7 +460,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         name="metadata"
                                         title="Metadata"
                                         addTooltipText="Add a metadata."
-                                        infoText="Metadata are static fields that are sent as a part of the request body. All metadata are encrypted at rest."
+                                        infoText="Metadata are static fields that are sent as a part of the request body. Do not store sensitive data in the metadata."
                                         valueArray={props.values.metadata}
                                         errorsArray={props.errors.metadata as any}
                                         touchedArray={props.touched.metadata as any}

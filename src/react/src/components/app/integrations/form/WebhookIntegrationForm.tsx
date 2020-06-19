@@ -236,7 +236,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         name="headers"
                                         title="Headers"
                                         addTooltipText="Add a header."
-                                        infoText="Headers are sent with each request to the endpoint. All headers are encrypted at rest."
+                                        infoText="Headers are sent with each request to the endpoint. Sensitive data may be stored in the headers. All headers are encrypted at rest."
                                         valueArray={props.values.headers}
                                         errorsArray={props.errors.headers as any}
                                         touchedArray={props.touched.headers as any}
@@ -250,7 +250,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         name="metadata"
                                         title="Metadata"
                                         addTooltipText="Add a metadata."
-                                        infoText="Metadata are static fields that are sent as a part of the request body. All metadata are encrypted at rest."
+                                        infoText="Metadata are static fields that are sent as a part of the request body. Do not store sensitive data in the metadata."
                                         valueArray={props.values.metadata}
                                         errorsArray={props.errors.metadata as any}
                                         touchedArray={props.touched.metadata as any}

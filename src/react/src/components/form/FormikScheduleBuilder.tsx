@@ -86,7 +86,7 @@ interface FormikScheduleBuilderProps {
 export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps) {
     const classes = useStyles(props);
     const { name } = props;
-    const [expanded, setExpanded] = useState(true);
+    const [expanded, setExpanded] = useState(false);
     const { values, setFieldValue, handleBlur, touched, errors } = useFormikContext<Geofence>();
     const [isUtcFullSchedule, setCanReset] = useState(Schedule.IsFullUtcSchedule(values.schedule));
 
