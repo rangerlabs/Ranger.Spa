@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
         parallaxContainer: {
             position: 'absolute',
             top: theme.toolbar.height,
-            height: `calc(100% - ${theme.toolbar.height}px)`,
+            height: `calc(100% - ${theme.spacing(8)}px)`,
             width: '100%',
         },
         scrollToTopContainer: {

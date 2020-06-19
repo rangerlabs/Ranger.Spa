@@ -25,8 +25,8 @@ const styles = (theme: Theme) =>
     createStyles({
         parallaxContainer: {
             position: 'absolute',
-            top: theme.toolbar.height,
-            height: `calc(100% - ${theme.toolbar.height}px)`,
+            top: theme.spacing(8),
+            height: `calc(100% - ${theme.spacing(8)}px)`,
             width: '100%',
             [theme.breakpoints.up('md')]: {
                 width: `calc(100% - ${theme.drawer.width}px)`,
