@@ -1,6 +1,6 @@
 {
-    "name": "Ranger",
-    "short_name": "Ranger",
+    "name": "Ranger Labs",
+    "short_name": "Ranger Labs",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -8,8 +8,8 @@
             "type": "image/png"
         },
         {
-            "src": "/android-chrome-256x256.png",
-            "sizes": "256x256",
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
             "type": "image/png"
         }
     ],
