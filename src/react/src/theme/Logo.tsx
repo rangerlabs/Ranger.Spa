@@ -1,6 +1,6 @@
-import * as React from "react";
-import RangerSvg from "../../assets/RL_WebLogo.svg";
+import * as React from 'react';
+import RangerSvg from '../../assets/Ranger-Pin-Green-wName.svg';
 
-const Logo = () => <RangerSvg width={75} />;
+const Logo = () => <RangerSvg />;
 
 export default Logo;

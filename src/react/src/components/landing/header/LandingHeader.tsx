@@ -11,6 +11,7 @@ import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import RoutePaths from '../../RoutePaths';
 import { Parallax } from 'react-spring/renderprops-addons';
+import Logo from '../../../theme/Logo';
 const classNames = require('classnames').default;
 
 const styles = (theme: Theme) =>
@@ -84,9 +85,7 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                 <Toolbar id="back-to-top-anchor">
                     <div className={classes.toolbarLeft}>
                         <Button classes={{ root: classes.logoButtonRoot }} disableRipple={true} onClick={this.handleLogoClick}>
-                            <Typography align="center" variant="h5">
-                                Ranger
-                            </Typography>
+                            <Logo />
                         </Button>
                     </div>
                     <Hidden smDown implementation="css">
