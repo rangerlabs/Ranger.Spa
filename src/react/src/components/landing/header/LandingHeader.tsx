@@ -85,7 +85,7 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                 <Toolbar id="back-to-top-anchor">
                     <div className={classes.toolbarLeft}>
                         <Button classes={{ root: classes.logoButtonRoot }} disableRipple={true} onClick={this.handleLogoClick}>
-                            <Logo />
+                            <Logo width={130} />
                         </Button>
                     </div>
                     <Hidden smDown implementation="css">

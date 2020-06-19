@@ -1,6 +1,10 @@
 import * as React from 'react';
 import RangerSvg from '../../assets/Ranger-Pin-Green-wName.svg';
 
-const Logo = () => <RangerSvg />;
+interface LogoProps {
+    width: number;
+}
+
+const Logo = (props: LogoProps) => <RangerSvg width={props.width} />;
 
 export default Logo;
