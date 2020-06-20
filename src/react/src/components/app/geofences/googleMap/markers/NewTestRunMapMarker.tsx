@@ -1,7 +1,7 @@
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import Constants from '../../../../../theme/Constants';
 
-const CircularVertexMarker = require('../../../../../../assets/circle-filled-green.png');
+import CircularVertexMarker from '../../../../../../assets/circle-filled-green.png';
 
 export default class NewTestRunMapMarker {
     polylines = new Array<google.maps.Polyline>();

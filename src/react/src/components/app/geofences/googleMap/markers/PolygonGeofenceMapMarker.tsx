@@ -1,7 +1,7 @@
 import Constants from '../../../../../theme/Constants';
 
-const MapMarkerPrimaryGreen = require('../../../../../../assets/map-marker-green.png');
-const MapMarkerDarkGreen = require('../../../../../../assets/map-marker-dark-green.png');
+import MapMarkerPrimaryGreen from '../../../../../../assets/map-marker-green.png';
+import MapMarkerDarkGreen from '../../../../../../assets/map-marker-dark-green.png';
 
 export default class PolygonGeofenceMapMarker {
     polygonGeofence: google.maps.Polygon = undefined;
