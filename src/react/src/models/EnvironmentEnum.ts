@@ -1,4 +1,4 @@
 export enum EnvironmentEnum {
-    TEST = 0,
-    LIVE = 1,
+    TEST = 'Test',
+    LIVE = 'Live',
 }

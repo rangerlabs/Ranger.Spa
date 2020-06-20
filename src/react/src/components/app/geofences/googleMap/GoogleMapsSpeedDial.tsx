@@ -137,35 +137,35 @@ class GoogleMapsSpeedDial extends React.Component<GoogleMapsSpeedDialProps, Goog
     };
 
     handleCirclularClick = () => {
-        if (this.props.selectedShape != ShapePicker.Circle) {
-            this.props.selectShapePicker(ShapePicker.Circle);
+        if (this.props.selectedShape != ShapePicker.CIRCLE) {
+            this.props.selectShapePicker(ShapePicker.CIRCLE);
         }
         this.props.mapClick();
         this.handleClose();
     };
 
     handlePolygonClick = () => {
-        if (this.props.selectedShape != ShapePicker.Polygon) {
-            this.props.selectShapePicker(ShapePicker.Polygon);
+        if (this.props.selectedShape != ShapePicker.POLYGON) {
+            this.props.selectShapePicker(ShapePicker.POLYGON);
         }
         this.props.mapClick();
         this.handleClose();
     };
 
     handleTestRunClick = () => {
-        if (this.props.selectedShape != ShapePicker.TestRun) {
-            this.props.selectShapePicker(ShapePicker.TestRun);
+        if (this.props.selectedShape != ShapePicker.TESTRUN) {
+            this.props.selectShapePicker(ShapePicker.TESTRUN);
         }
         this.props.mapClick();
         this.handleClose();
     };
 
     handleClear = () => {
-        if (this.props.selectedShape == ShapePicker.Circle) {
+        if (this.props.selectedShape == ShapePicker.CIRCLE) {
             this.props.clearCircle();
-        } else if (this.props.selectedShape == ShapePicker.Polygon) {
+        } else if (this.props.selectedShape == ShapePicker.POLYGON) {
             this.props.clearPolygon();
-        } else if (this.props.selectedShape == ShapePicker.TestRun) {
+        } else if (this.props.selectedShape == ShapePicker.TESTRUN) {
             this.props.clearTestRun();
         }
     };

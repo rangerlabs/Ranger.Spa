@@ -84,4 +84,4 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(populateUsersHOC(TransferOwnershipContent)));
+export default connect(mapStateToProps, mapDispatchToProps)(populateUsersHOC(withSnackbar(TransferOwnershipContent)));

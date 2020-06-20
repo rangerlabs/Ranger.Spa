@@ -24,6 +24,6 @@ export default class PolygonGeofence implements Geofence {
         public metadata: [],
         public schedule?: Schedule
     ) {
-        this.shape = ShapePicker.Polygon;
+        this.shape = ShapePicker.POLYGON;
     }
 }

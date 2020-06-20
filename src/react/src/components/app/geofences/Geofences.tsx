@@ -14,7 +14,6 @@ import RoutePaths from '../../RoutePaths';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import titleCase = require('title-case');
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -78,7 +77,7 @@ class Geofences extends React.Component<GeofencesProps> {
                     value.enabled ? 'Enabled' : 'Disabled',
                     value.externalId,
                     value.description,
-                    value.shape == ShapePicker.Circle ? 'Circle' : 'Polygon',
+                    value.shape == ShapePicker.CIRCLE ? 'Circle' : 'Polygon',
                     value.onEnter ? 'True' : 'False',
                     value.onExit ? 'True' : 'False',
                 ]);

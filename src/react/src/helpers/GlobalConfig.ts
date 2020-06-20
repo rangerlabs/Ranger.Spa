@@ -52,4 +52,14 @@ export default class GlobalConfig {
             return 'AIzaSyBs_XgfpRN4B8Af7UjoJhSvj5BtR71Zv6U';
         }
     }
+
+    public static get ENVIRONMENT(): string {
+        if (window.location.host.includes('localhost')) {
+            return 'development';
+        } else if (window.location.host.includes('rangerlabs-staging')) {
+            return 'staging';
+        } else {
+            return 'production';
+        }
+    }
 }

@@ -25,6 +25,6 @@ export default class CircleGeofence implements Geofence {
         public radius: number,
         public schedule?: Schedule
     ) {
-        this.shape = ShapePicker.Circle;
+        this.shape = ShapePicker.CIRCLE;
     }
 }

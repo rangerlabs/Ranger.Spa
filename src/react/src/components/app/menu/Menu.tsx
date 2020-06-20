@@ -34,10 +34,10 @@ import { RoleEnum } from '../../../models/RoleEnum';
 import RoutePaths from '../../../components/RoutePaths';
 import { User } from 'oidc-client';
 import IProject from '../../../models/app/IProject';
-import { userIsInRole } from '../../../helpers/Helpers';
+import { userIsInRole, getSpaVersion } from '../../../helpers/Helpers';
 import Logout from 'mdi-material-ui/Logout';
 import CreditCard from 'mdi-material-ui/CreditCard';
-import Settings from 'mdi-material-ui/Settings';
+import Cog from 'mdi-material-ui/Cog';
 import Constants from '../../../theme/Constants';
 import classNames from 'classnames';
 
@@ -129,12 +129,6 @@ class Menu extends React.Component<MenuProps> {
             pushPath = path.replace(':appName', this.props.selectedProject.name);
         }
         this.props.push(pushPath);
-    };
-
-    getSpaVersion = () => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; spa-version=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
     };
 
     render() {
@@ -309,7 +303,7 @@ class Menu extends React.Component<MenuProps> {
                     <Hidden mdUp implementation="css">
                         <ListItem id="settings" button onClick={() => this.handleMenuToggle('settings')}>
                             <ListItemIcon>
-                                <Settings />
+                                <Cog />
                             </ListItemIcon>
                             <ListItemText primary="Settings" />
                             <ExpandLess
@@ -350,7 +344,7 @@ class Menu extends React.Component<MenuProps> {
                     <Box textAlign="center" position="absolute" height="32px" width="100%" bottom={'8px'} left="0px">
                         <div>
                             <Typography align="center" variant="caption">
-                                v{this.getSpaVersion()}
+                                v{getSpaVersion()}
                             </Typography>
                         </div>
                         <div>

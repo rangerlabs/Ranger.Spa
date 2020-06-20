@@ -13,7 +13,7 @@ import IProject from '../../../models/app/IProject';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import titleCase = require('title-case');
+import { capitalCase } from 'change-case';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -61,7 +61,7 @@ class Integrations extends React.Component<IntegrationsProps> {
     };
 
     editIntegration = (rowData: string[]) => {
-        const integrationType = rowData[3].toUpperCase() as keyof typeof IntegrationEnum;
+        const integrationType = capitalCase(rowData[3]);
         switch (integrationType) {
             case IntegrationEnum.WEBHOOK: {
                 this.props.push(`${RoutePaths.IntegrationsEditWebhook.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
@@ -81,7 +81,7 @@ class Integrations extends React.Component<IntegrationsProps> {
                     value.enabled ? 'Enabled' : 'Disabled',
                     value.name,
                     value.description,
-                    titleCase(value.type),
+                    capitalCase(value.type),
                     value.environment === EnvironmentEnum.TEST ? 'Test' : 'Live',
                 ]);
             });

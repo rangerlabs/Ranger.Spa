@@ -2,7 +2,7 @@ import Breadcrumb from '../models/app/Breadcrumb';
 import BreadcrumbPath from '../models/app/BreadcrumbPath';
 import RoutePaths from './RoutePaths';
 import { IntegrationEnum } from '../models/app/integrations/IntegrationEnum';
-import { titleCase } from 'change-case';
+import { capitalCase } from 'change-case';
 
 const dashboardBreadcrumb = new Breadcrumb('Dashboard', RoutePaths.Dashboard);
 const accountBreadcrumb = new Breadcrumb('Account', RoutePaths.Account);
@@ -60,7 +60,7 @@ export default class BreadcrumbPaths {
             let integrationBreadcrumb = undefined;
             switch (integration) {
                 case IntegrationEnum.WEBHOOK: {
-                    integrationBreadcrumb = new Breadcrumb(titleCase(IntegrationEnum.WEBHOOK), RoutePaths.IntegrationsEditWebhook);
+                    integrationBreadcrumb = new Breadcrumb(capitalCase(IntegrationEnum.WEBHOOK), RoutePaths.IntegrationsEditWebhook);
                     break;
                 }
             }
@@ -75,7 +75,7 @@ export default class BreadcrumbPaths {
             let integrationBreadcrumb = undefined;
             switch (integration) {
                 case IntegrationEnum.WEBHOOK: {
-                    integrationBreadcrumb = new Breadcrumb(titleCase(IntegrationEnum.WEBHOOK), RoutePaths.IntegrationsNewWebhook);
+                    integrationBreadcrumb = new Breadcrumb(capitalCase(IntegrationEnum.WEBHOOK), RoutePaths.IntegrationsNewWebhook);
                     break;
                 }
             }

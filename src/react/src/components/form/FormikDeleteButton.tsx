@@ -65,4 +65,4 @@ class FormikDeleteButton extends React.Component<FormikDeleteButtonProps & Butto
     }
 }
 
-export default withStyles(styles)(connect(null, mapDispatchToProps)(FormikDeleteButton));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(FormikDeleteButton));

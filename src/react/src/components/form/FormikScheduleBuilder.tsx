@@ -18,7 +18,7 @@ import CloseCircleOutline from 'mdi-material-ui/CloseCircleOutline';
 import Restore from 'mdi-material-ui/Restore';
 import { red } from '@material-ui/core/colors';
 import FormikAutocompleteSearch from './FormikAutocompleteSearch';
-import { titleCase } from 'change-case';
+import { capitalCase } from 'change-case';
 import { useFormikContext } from 'formik';
 import Geofence from '../../models/app/geofences/Geofence';
 import { start } from 'repl';
@@ -173,7 +173,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                             <Grid item xs={3}>
                                                 <Grid container alignContent="center" justify="center">
                                                     <Grid item xs={12}>
-                                                        <Typography variant="body1">{titleCase(v)}</Typography>
+                                                        <Typography variant="body1">{capitalCase(v)}</Typography>
                                                         <Fade in={isInactive} timeout={350}>
                                                             <Tooltip
                                                                 className={classes.infoText}

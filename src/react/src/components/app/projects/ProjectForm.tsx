@@ -22,7 +22,6 @@ import FormikValidationErrors from '../../form/FormikServerErrors';
 import { openDialog, closeDialog, DialogContent } from '../../../redux/actions/DialogActions';
 import NewProjectApiKeysContent from '../dialogContents/NewProjectApiKeysContent';
 import NewProjectEnvironmentApiKeyContent from '../dialogContents/NewProjectEnvironmentApiKeyContent';
-import titleCase = require('title-case');
 import { ApiKeyPurposeNameEnum } from '../../../models/ApiKeyPurposeNameEnum';
 import { User } from 'oidc-client';
 import { userIsInRole } from '../../../helpers/Helpers';
@@ -30,6 +29,7 @@ import { RoleEnum } from '../../../models/RoleEnum';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import Constants from '../../../theme/Constants';
 import classNames from 'classnames';
+import { capitalCase } from 'change-case';
 
 const projectService = new ProjectService();
 
@@ -128,11 +128,11 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
     resetApiKey(environment: string, environmentName: string, formikProps: FormikProps<any>) {
         this.props.openDialog(
             new DialogContent(
-                `Are you sure you want to reset the ${titleCase(
+                `Are you sure you want to reset the ${capitalCase(
                     environmentName
                 )} API Key for this project? The current API Key will become ineffective immediately.`,
                 'Reset API Key',
-                `Reset ${titleCase(environmentName)} API Key`,
+                `Reset ${capitalCase(environmentName)} API Key`,
                 () => {
                     const project = { version: this.state.initialProject.version + 1 } as IProject;
                     projectService.apiKeyReset(project, this.state.initialProject.projectId, environment).then((response: IRestResponse<IProject>) => {

@@ -13,7 +13,7 @@ export default class GeofenceService {
             if (geofenceResponse.result) {
                 geofenceResponse.result.forEach((v) => {
                     switch (v.shape) {
-                        case ShapePicker.Circle: {
+                        case ShapePicker.CIRCLE: {
                             const castedShape = v as CircleGeofence;
                             const circle = new CircleGeofence(
                                 castedShape.projectId,
@@ -34,7 +34,7 @@ export default class GeofenceService {
                             result.push(circle);
                             break;
                         }
-                        case ShapePicker.Polygon: {
+                        case ShapePicker.POLYGON: {
                             const castedShape = v as PolygonGeofence;
                             const polygon = new PolygonGeofence(
                                 castedShape.projectId,

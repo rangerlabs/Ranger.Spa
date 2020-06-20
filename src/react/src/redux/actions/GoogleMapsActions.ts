@@ -1,10 +1,9 @@
 import CoordinatePair from '../../models/app/geofences/CoordinatePair';
-import TestRun from '../../models/app/geofences/TestRun';
 
 export enum ShapePicker {
-    Circle = 0,
-    Polygon = 1,
-    TestRun = 2,
+    CIRCLE = 'Circle',
+    POLYGON = 'Polygon',
+    TESTRUN = 'Testrun',
 }
 
 export const IS_INFO_WINDOW_VISIBILE = 'IS_INFO_WINDOW_VISIBILE';

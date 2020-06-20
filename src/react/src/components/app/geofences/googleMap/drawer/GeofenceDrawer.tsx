@@ -48,13 +48,13 @@ const mapStateToProps = (state: ApplicationState) => {
 
 const getMapObject = (state: ApplicationState): CircleGeofenceState | PolygonGeofenceState | TestRun => {
     switch (state.googleMaps.selectedShapePicker) {
-        case ShapePicker.Circle: {
+        case ShapePicker.CIRCLE: {
             return state.googleMaps.circleGeofence;
         }
-        case ShapePicker.Polygon: {
+        case ShapePicker.POLYGON: {
             return state.googleMaps.polygonGeofence;
         }
-        case ShapePicker.TestRun: {
+        case ShapePicker.TESTRUN: {
             return state.googleMaps.testRun;
         }
         default: {
@@ -118,7 +118,7 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
 
     getContent = () => {
         switch (this.props.selectedShape) {
-            case ShapePicker.Circle: {
+            case ShapePicker.CIRCLE: {
                 return (
                     <CircleGeofenceDrawerContent
                         selectedProject={this.props.selectedProject}
@@ -130,7 +130,7 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                     />
                 );
             }
-            case ShapePicker.Polygon: {
+            case ShapePicker.POLYGON: {
                 return (
                     <PolygonGeofenceDrawerContent
                         selectedProject={this.props.selectedProject}
@@ -142,7 +142,7 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                     />
                 );
             }
-            case ShapePicker.TestRun: {
+            case ShapePicker.TESTRUN: {
                 return (
                     <TestRunDrawerContent
                         selectedProject={this.props.selectedProject}

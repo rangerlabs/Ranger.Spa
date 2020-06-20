@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Button, DialogContentText, TextField, DialogContent, DialogActions, DialogTitle, Grid, Tooltip, IconButton } from '@material-ui/core';
 import ContentCopy from 'mdi-material-ui/ContentCopy';
-import titleCase = require('title-case');
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { capitalCase } from 'change-case';
 
 interface NewProjectApiKeysContentProps {
     environmentName: string;
@@ -24,7 +24,7 @@ function NewProjectEnvironmentApiKeyContent(newProjectEnvironmentApiKeyContentPr
                         <TextField
                             disabled
                             fullWidth
-                            label={`${titleCase(newProjectEnvironmentApiKeyContentProps.environmentName)} API Key`}
+                            label={`${capitalCase(newProjectEnvironmentApiKeyContentProps.environmentName)} API Key`}
                             value={newProjectEnvironmentApiKeyContentProps.newApiKey}
                         ></TextField>
                     </Grid>

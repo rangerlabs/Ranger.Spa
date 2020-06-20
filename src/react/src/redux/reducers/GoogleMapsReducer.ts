@@ -12,7 +12,7 @@ import {
 } from '../actions/GoogleMapsActions';
 
 export function googleMapsReducer(
-    state: GoogleMapsState = { selectedShapePicker: ShapePicker.Circle, isInfoWindowVisible: false, isCreatingGeofence: false } as GoogleMapsState,
+    state: GoogleMapsState = { selectedShapePicker: ShapePicker.CIRCLE, isInfoWindowVisible: false, isCreatingGeofence: false } as GoogleMapsState,
     action: GoogleMapsAction
 ) {
     switch (action.type) {

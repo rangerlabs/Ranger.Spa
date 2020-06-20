@@ -3,6 +3,12 @@ import { RoleEnum } from '../models/RoleEnum';
 import { UserProfile } from '../models/UserProfile';
 import { User } from 'oidc-client';
 
+export function getSpaVersion(): string {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; spa-version=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
 export function getSubDomain(): string {
     let domain = '';
     if (window && window.location) {

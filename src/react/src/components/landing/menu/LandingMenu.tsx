@@ -21,7 +21,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ViewDashboard from 'mdi-material-ui/ViewDashboardOutline';
 import Lock from '@material-ui/icons/Lock';
-import FileDocumentBoxOutline from 'mdi-material-ui/FileDocumentBoxOutline';
+import FileDocumentOutline from 'mdi-material-ui/FileDocumentOutline';
 import CurrencyUsd from 'mdi-material-ui/CurrencyUsd';
 import Domain from 'mdi-material-ui/Domain';
 import { User } from 'oidc-client';
@@ -89,7 +89,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
     };
 
     toggleExpanded = () => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             accountListItemExpanded: !prevState.accountListItemExpanded,
         }));
     };
@@ -122,7 +122,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
 
                     <ListItem button onClick={() => this.props.push(RoutePaths.Documentation)}>
                         <ListItemIcon>
-                            <FileDocumentBoxOutline />
+                            <FileDocumentOutline />
                         </ListItemIcon>
                         <ListItemText primary="Documentation" />
                     </ListItem>

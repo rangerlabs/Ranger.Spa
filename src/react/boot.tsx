@@ -19,6 +19,19 @@ import { ThemeProvider, StylesProvider } from '@material-ui/styles';
 import { jss, generateClassName } from './src/theme/StylesProviderPropsConfig';
 import Constants from './src/theme/Constants';
 import Notifier from './src/components/notifier/Notifier';
+import { datadogLogs } from '@datadog/browser-logs';
+import { getSpaVersion } from './src/helpers/Helpers';
+import GlobalConfig from './src/helpers/GlobalConfig';
+
+datadogLogs.init({
+    clientToken: 'pube931a53a3562644ba5faf428d65ed896',
+    datacenter: 'us',
+    service: 'React',
+    forwardErrorsToLogs: true,
+    sampleRate: 100,
+    version: getSpaVersion(),
+    env: GlobalConfig.ENVIRONMENT,
+});
 
 const initialState = {} as ApplicationState;
 ReduxStore.Configure(history, initialState);
@@ -40,7 +53,6 @@ const theme = responsiveFontSizes(
                 primary: Constants.COLORS.BLACK,
             },
             background: {
-                // paper: '#fafafa',
                 default: '#fafafa',
             },
             error: {

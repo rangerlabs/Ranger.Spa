@@ -5,10 +5,10 @@ import SubscriptionsService from '../../../services/SubscriptionsService';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import ISubscriptionLimitDetails from '../../../models/app/ISubscriptionLimitDetails';
-import { titleCase } from 'change-case';
 import RoutePaths from '../../RoutePaths';
 import { getUnixTime } from 'date-fns';
 import { ILimitDetails } from '../../../models/app/ILimitDetails';
+import { capitalCase } from 'change-case';
 const subscriptionsService = new SubscriptionsService();
 
 const styles = (theme: Theme) =>
@@ -194,7 +194,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                             Your subscription
                                         </Typography>
                                         <Typography align="center" color="primary" variant="h6">
-                                            {titleCase(this.props.subscriptionLimitDetails.planId)}
+                                            {capitalCase(this.props.subscriptionLimitDetails.planId)}
                                         </Typography>
                                     </Grid>
                                     <Grid md={2} xs={12} item>

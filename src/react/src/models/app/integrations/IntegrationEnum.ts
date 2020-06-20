@@ -1,3 +1,3 @@
 export enum IntegrationEnum {
-    WEBHOOK = 'WEBHOOK',
+    WEBHOOK = 'Webhook',
 }
