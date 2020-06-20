@@ -1,11 +1,11 @@
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import Constants from '../../../../../theme/Constants';
 
-import HorizontalResizerPrimaryGreen  from '../../../../../../assets/horizontal-resize-primary-green.png';
-import HorizontalResizerDarkGreen  from '../../../../../../assets/horizontal-resize-dark-green.png';
-import VerticalResizerPrimaryGreen  from '../../../../../../assets/vertical-resize-primary-green.png';
-import VerticalResizerDarkGreen  from '../../../../../../assets/vertical-resize-dark-green.png';
-import MapMarkerDarkGreen  from '../../../../../../assets/map-marker-dark-green.png;
+import HorizontalResizerPrimaryGreen from '../../../../../../assets/horizontal-resize-primary-green.png';
+import HorizontalResizerDarkGreen from '../../../../../../assets/horizontal-resize-dark-green.png';
+import VerticalResizerPrimaryGreen from '../../../../../../assets/vertical-resize-primary-green.png';
+import VerticalResizerDarkGreen from '../../../../../../assets/vertical-resize-dark-green.png';
+import MapMarkerDarkGreen from '../../../../../../assets/map-marker-dark-green.png';
 import MapMarkerPrimaryGreen from '../../../../../../assets/map-marker-green.png';
 
 const DEFAULT_RADIUS = 100;
