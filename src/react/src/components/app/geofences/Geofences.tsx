@@ -161,7 +161,7 @@ class Geofences extends React.Component<GeofencesProps> {
         customFooter: this.props.geofencesState.geofences?.length > 10 ? null : () => <TableFooter className={this.props.classes.footer} />,
         elevation: 3,
         selectableRows: 'none',
-        responsive: 'stacked',
+        responsive: 'vertical',
         viewColumns: false,
         onRowClick: this.editGeofence,
     };

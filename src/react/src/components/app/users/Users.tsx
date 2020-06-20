@@ -152,7 +152,7 @@ class Users extends React.Component<UsersProps> {
         customFooter: this.props.users?.length > 10 ? null : () => <TableFooter className={this.props.classes.footer} />,
         elevation: 3,
         selectableRows: 'none',
-        responsive: 'stacked',
+        responsive: 'vertical',
         viewColumns: false,
         onRowClick: this.editUser,
     };

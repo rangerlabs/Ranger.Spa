@@ -153,7 +153,7 @@ class Integrations extends React.Component<IntegrationsProps> {
         customFooter: this.props.integrationsState.integrations?.length > 10 ? null : () => <TableFooter className={this.props.classes.footer} />,
         elevation: 3,
         selectableRows: 'none',
-        responsive: 'stacked',
+        responsive: 'vertical',
         viewColumns: false,
         onRowClick: this.editIntegration,
     };

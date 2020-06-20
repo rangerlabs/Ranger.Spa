@@ -156,7 +156,7 @@ class Projects extends React.Component<ProjectsProps> {
         customFooter: this.props.projectsState.projects?.length > 10 ? null : () => <TableFooter className={this.props.classes.footer} />,
         elevation: 3,
         selectableRows: 'none',
-        responsive: 'stacked',
+        responsive: 'vertical',
         viewColumns: false,
         onRowClick: this.editProject,
     };
