@@ -70,7 +70,7 @@ class OrganizationForm extends React.Component<IOrganizationFormProps> {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <IconButton className={classes.return} onClick={() => this.props.push(RoutePaths.Integrations)}>
+                <IconButton className={classes.return} onClick={() => this.props.push(RoutePaths.Dashboard)}>
                     <ArrowLeft />
                 </IconButton>
                 <Typography className={classNames(classes.title, classes.paper)} align="left" variant="h5">

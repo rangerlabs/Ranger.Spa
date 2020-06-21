@@ -1,7 +1,21 @@
 import * as React from 'react';
 import { Formik, FormikProps, FormikBag } from 'formik';
 import * as Yup from 'yup';
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, List, ListItemText, Typography, ListItem, IconButton, Box } from '@material-ui/core';
+import {
+    withStyles,
+    createStyles,
+    Theme,
+    WithStyles,
+    Paper,
+    Grid,
+    List,
+    ListItemText,
+    Typography,
+    ListItem,
+    IconButton,
+    Box,
+    Tooltip,
+} from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../../form/FormikTextField';
 import { connect } from 'react-redux';
@@ -24,6 +38,8 @@ import FormikCheckbox from '../../../form/FormikCheckbox';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import Constants from '../../../../theme/Constants';
 import classNames from 'classnames';
+import ContentCopy from 'mdi-material-ui/ContentCopy';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -294,10 +310,19 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                     <Typography variant="h6">Signing Key</Typography>
                                     <Typography variant="subtitle1">The key used to sign the ID of an event payload using the HMAC-SHA-1 algorithm.</Typography>
                                     <Grid container>
-                                        <Grid item>
+                                        <Grid item xs={11}>
                                             <Box marginTop={3}>
                                                 <Typography variant="body1">{props.values.signingKey}</Typography>
                                             </Box>
+                                        </Grid>
+                                        <Grid item xs={1}>
+                                            <CopyToClipboard text={props.values.signingKey}>
+                                                <Tooltip title="Copy Signing Key" placement="bottom">
+                                                    <IconButton aria-label="Copy Signing Key">
+                                                        <ContentCopy />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </CopyToClipboard>
                                         </Grid>
                                     </Grid>
                                 </Paper>
@@ -306,7 +331,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         <Typography variant="h6">Delete</Typography>
                                         <Typography variant="subtitle1">Remove the integration</Typography>
                                         <Grid container justify="flex-end">
-                                            <Grid item>
+                                            <Grid item xs={11}>
                                                 {this.props.editIntegration && (
                                                     <FormikDeleteButton
                                                         isSubmitting={props.isSubmitting}

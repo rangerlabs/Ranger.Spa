@@ -48,7 +48,6 @@ class LogoutRedirect extends React.Component<LogoutRedirectProps> {
             <div className={this.props.classes.layout}>
                 <Grid container spacing={3} justify="center" alignItems="baseline">
                     <Grid item xs={12}>
-                        <Typography variant="h5">Logging out of Ranger.</Typography>
                         <LinearProgress />
                     </Grid>
                 </Grid>
