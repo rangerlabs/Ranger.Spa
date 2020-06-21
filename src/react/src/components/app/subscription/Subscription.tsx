@@ -9,7 +9,7 @@ import RoutePaths from '../../RoutePaths';
 import { getUnixTime } from 'date-fns';
 import { ILimitDetails } from '../../../models/app/ILimitDetails';
 import { capitalCase } from 'change-case';
-import { Push } from 'connected-react-router';
+import { Push, push } from 'connected-react-router';
 const subscriptionsService = new SubscriptionsService();
 
 const styles = (theme: Theme) =>
@@ -37,7 +37,7 @@ const styles = (theme: Theme) =>
 
 interface SubscriptionProps extends WithStyles<typeof styles> {
     subscriptionLimitDetails: ISubscriptionLimitDetails;
-    push: Push;
+    push: typeof push;
 }
 
 interface SubscriptionState {
