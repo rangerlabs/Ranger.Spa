@@ -17,6 +17,7 @@ const userService = new UserService();
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
+            padding: theme.spacing(4),
             width: 'auto',
             marginTop: theme.toolbar.height * 2,
             marginLeft: theme.spacing(2),

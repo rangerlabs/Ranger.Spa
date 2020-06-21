@@ -21,7 +21,6 @@ import FormikAutocompleteSearch from './FormikAutocompleteSearch';
 import { capitalCase } from 'change-case';
 import { useFormikContext } from 'formik';
 import Geofence from '../../models/app/geofences/Geofence';
-import { start } from 'repl';
 var moment = require('moment-timezone');
 
 const useStyles = makeStyles((theme: Theme) =>
