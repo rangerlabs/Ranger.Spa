@@ -6,7 +6,7 @@ import { capitalCase } from 'change-case';
 
 const dashboardBreadcrumb = new Breadcrumb('Dashboard', RoutePaths.Dashboard);
 const accountBreadcrumb = new Breadcrumb('Account', RoutePaths.Account);
-const domainBreadcrumb = new Breadcrumb('Domain', RoutePaths.Organization);
+const domainBreadcrumb = new Breadcrumb('Organization', RoutePaths.Organization);
 const subscriptionBreadcrumb = new Breadcrumb('Subscription', RoutePaths.Subscription);
 
 const geofenceMapBreadcrumb = new Breadcrumb('Geofence Map', RoutePaths.GeofenceMap);

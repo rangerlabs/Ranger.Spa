@@ -78,7 +78,7 @@ class Header extends React.Component<HeaderProps> {
                         disableRipple={true}
                         onClick={() => this.props.push(RoutePaths.Landing)}
                     >
-                        <Logo width={40} />
+                        <Logo width={36} />
                     </Button>
                     <div className={classes.toolbarLeft}>
                         <Hidden smDown implementation="css">

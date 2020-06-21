@@ -54,7 +54,7 @@ export default function FormikDictionaryBuilder(props: FormikDictionaryBuilderPr
                 </Grid>
                 <Grid item xs={1}>
                     {props.infoText && (
-                        <Tooltip className={classes.infoText} title={props.infoText} placement="right">
+                        <Tooltip className={classes.infoText} title={props.infoText} placement="left">
                             <InformationOutline fontSize="small" />
                         </Tooltip>
                     )}
@@ -64,7 +64,7 @@ export default function FormikDictionaryBuilder(props: FormikDictionaryBuilderPr
                 <Grid item xs={12}>
                     <FieldArray
                         name={props.name}
-                        render={arrayHelpers => (
+                        render={(arrayHelpers) => (
                             <React.Fragment>
                                 {props.valueArray?.map((v, i) => (
                                     <Grid container key={`${props.name}.${i}.key`}>
