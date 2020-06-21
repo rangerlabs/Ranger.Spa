@@ -288,19 +288,21 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             </List>
                                         </Grid>
                                     )}
-
-                                    <Grid container justify="flex-end">
-                                        <Grid item>
-                                            <FormikSynchronousButton
-                                                isValid={props.isValid}
-                                                isSubmitting={props.isSubmitting}
-                                                isSuccess={this.props.isSuccess}
-                                                disabled={this.props.isPendingCreation || !this.props.canEdit}
-                                            >
-                                                {props.initialValues.name === '' ? 'Create' : 'Update'}
-                                            </FormikSynchronousButton>
+                                    {!this.props.canEdit && (
+                                        <Grid container justify="flex-end">
+                                            <Grid item>
+                                                <FormikSynchronousButton
+                                                    variant="outlined"
+                                                    isValid={props.isValid}
+                                                    isSubmitting={props.isSubmitting}
+                                                    isSuccess={this.props.isSuccess}
+                                                    disabled={this.props.isPendingCreation}
+                                                >
+                                                    {props.initialValues.name === '' ? 'Create' : 'Update'}
+                                                </FormikSynchronousButton>
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
+                                    )}
                                 </Grid>
                             </form>
                         </Paper>

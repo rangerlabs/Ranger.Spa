@@ -9,6 +9,7 @@ import RoutePaths from '../../RoutePaths';
 import { getUnixTime } from 'date-fns';
 import { ILimitDetails } from '../../../models/app/ILimitDetails';
 import { capitalCase } from 'change-case';
+import { Push } from 'connected-react-router';
 const subscriptionsService = new SubscriptionsService();
 
 const styles = (theme: Theme) =>
@@ -36,6 +37,7 @@ const styles = (theme: Theme) =>
 
 interface SubscriptionProps extends WithStyles<typeof styles> {
     subscriptionLimitDetails: ISubscriptionLimitDetails;
+    push: Push;
 }
 
 interface SubscriptionState {
@@ -263,7 +265,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                         <Grid container item justify="center" alignContent="center">
                             <Typography align="center" variant="caption">
                                 Please note, when downgrading your subscription resources may need to be removed. To understand how resources are removed when
-                                downgrading, please refer to the documentation <Link href={RoutePaths.Documentation}>here</Link>.
+                                downgrading, please refer to the documentation <Link onClick={() => this.props.push(RoutePaths.Documentation)}>here</Link>.
                             </Typography>
                         </Grid>
                     </Grid>
@@ -273,4 +275,4 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
     }
 }
 
-export default connect(mapStateToProps, null)(withStyles(styles)(Subscription));
+export default connect(mapStateToProps, { push })(withStyles(styles)(Subscription));

@@ -327,7 +327,12 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                 {userIsInRole(this.props.user, RoleEnum.ADMIN) && (
                                     <Grid container justify="flex-end">
                                         <Grid item>
-                                            <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.isSuccess}>
+                                            <FormikSynchronousButton
+                                                variant="outlined"
+                                                isValid={props.isValid}
+                                                isSubmitting={props.isSubmitting}
+                                                isSuccess={this.state.isSuccess}
+                                            >
                                                 {props.initialValues.name === '' ? 'Create' : 'Update'}
                                             </FormikSynchronousButton>
                                         </Grid>
