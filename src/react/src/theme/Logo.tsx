@@ -1,5 +1,5 @@
 import * as React from 'react';
-import RangerSvg from '../../assets/Ranger-Pin-Green-wName.svg';
+import RangerSvg from '../../assets/Ranger-Pin-White.svg';
 
 interface LogoProps {
     width: number;

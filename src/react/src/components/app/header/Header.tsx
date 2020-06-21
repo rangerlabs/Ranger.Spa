@@ -13,6 +13,7 @@ import CustomizedBreadcrumbs from './Breadcrumbs';
 import Breadcrumb from '../../../models/app/Breadcrumb';
 import RoutePaths from '../../RoutePaths';
 import { push } from 'connected-react-router';
+import Logo from '../../../theme/Logo';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -77,9 +78,7 @@ class Header extends React.Component<HeaderProps> {
                         disableRipple={true}
                         onClick={() => this.props.push(RoutePaths.Landing)}
                     >
-                        <Typography align="center" variant="h5">
-                            Ranger
-                        </Typography>
+                        <Logo width={40} />
                     </Button>
                     <div className={classes.toolbarLeft}>
                         <Hidden smDown implementation="css">
