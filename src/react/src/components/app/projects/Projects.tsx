@@ -26,7 +26,7 @@ const styles = (theme: Theme) =>
         },
         tableIcon: {
             paddingRight: theme.spacing(1),
-            verticalAlign: 'inherit',
+            verticalAlign: 'middle',
         },
     });
 
