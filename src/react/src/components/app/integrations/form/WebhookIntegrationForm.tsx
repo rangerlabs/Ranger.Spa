@@ -301,7 +301,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         </Grid>
                                     </Grid>
                                 </Paper>
-                                {!this.props.canEdit && (
+                                {this.props.canEdit && (
                                     <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
                                         <Typography variant="h6">Delete</Typography>
                                         <Typography variant="subtitle1">Remove the integration</Typography>
