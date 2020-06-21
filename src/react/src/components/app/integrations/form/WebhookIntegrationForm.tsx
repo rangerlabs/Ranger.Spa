@@ -66,6 +66,7 @@ interface IWebhookIntegrationFormProps extends WithStyles<typeof styles>, WithSn
     isSuccess: boolean;
     isPendingCreation: boolean;
     serverErrors: string[];
+    canEdit: boolean;
 }
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -168,7 +169,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             value={props.values.enabled}
                                             onChange={props.handleChange}
                                             onBlur={props.handleBlur}
-                                            disabled={this.props.isPendingCreation}
+                                            disabled={this.props.isPendingCreation || !this.props.canEdit}
                                         />
                                     </Grid>
                                 </Grid>
@@ -185,7 +186,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             onChange={props.handleChange}
                                             onBlur={props.handleBlur}
                                             required
-                                            disabled={this.props.isPendingCreation}
+                                            disabled={this.props.isPendingCreation || !this.props.canEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -200,7 +201,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             onBlur={props.handleBlur}
                                             autoComplete="off"
                                             required
-                                            disabled={this.props.isPendingCreation}
+                                            disabled={this.props.isPendingCreation || !this.props.canEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -214,7 +215,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             onChange={props.handleChange}
                                             onBlur={props.handleBlur}
                                             autoComplete="off"
-                                            disabled={this.props.isPendingCreation}
+                                            disabled={this.props.isPendingCreation || !this.props.canEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -229,7 +230,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             onBlur={props.handleBlur}
                                             autoComplete="off"
                                             required
-                                            disabled={this.props.isPendingCreation}
+                                            disabled={this.props.isPendingCreation || !this.props.canEdit}
                                         />
                                     </Grid>
                                     <FormikDictionaryBuilder
@@ -244,7 +245,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         onBlur={props.handleBlur}
                                         keyRequired
                                         valueRequired
-                                        disabled={this.props.isPendingCreation}
+                                        disabled={this.props.isPendingCreation || !this.props.canEdit}
                                     />
                                     <FormikDictionaryBuilder
                                         name="metadata"
@@ -258,7 +259,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         onBlur={props.handleBlur}
                                         keyRequired
                                         valueRequired
-                                        disabled={this.props.isPendingCreation}
+                                        disabled={this.props.isPendingCreation || !this.props.canEdit}
                                     />
                                     {this.props.serverErrors && (
                                         <Grid item xs={12}>
@@ -278,7 +279,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                                 isValid={props.isValid}
                                                 isSubmitting={props.isSubmitting}
                                                 isSuccess={this.props.isSuccess}
-                                                disabled={this.props.isPendingCreation}
+                                                disabled={this.props.isPendingCreation || !this.props.canEdit}
                                             >
                                                 {props.initialValues.name === '' ? 'Create' : 'Update'}
                                             </FormikSynchronousButton>
@@ -300,26 +301,28 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         </Grid>
                                     </Grid>
                                 </Paper>
-                                <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
-                                    <Typography variant="h6">Delete</Typography>
-                                    <Typography variant="subtitle1">Remove the integration</Typography>
-                                    <Grid container justify="flex-end">
-                                        <Grid item>
-                                            {this.props.editIntegration && (
-                                                <FormikDeleteButton
-                                                    isSubmitting={props.isSubmitting}
-                                                    onConfirm={() => this.props.delete(props)}
-                                                    dialogTitle="Delete integration?"
-                                                    confirmText="Delete"
-                                                    dialogContent={'Are you sure you want to delete integration ' + props.values.name + '?'}
-                                                    disabled={this.props.isPendingCreation}
-                                                >
-                                                    Delete
-                                                </FormikDeleteButton>
-                                            )}
+                                {!this.props.canEdit && (
+                                    <Paper className={classNames(classes.bottomPaper, classes.paper)} elevation={3}>
+                                        <Typography variant="h6">Delete</Typography>
+                                        <Typography variant="subtitle1">Remove the integration</Typography>
+                                        <Grid container justify="flex-end">
+                                            <Grid item>
+                                                {this.props.editIntegration && (
+                                                    <FormikDeleteButton
+                                                        isSubmitting={props.isSubmitting}
+                                                        onConfirm={() => this.props.delete(props)}
+                                                        dialogTitle="Delete integration?"
+                                                        confirmText="Delete"
+                                                        dialogContent={'Are you sure you want to delete integration ' + props.values.name + '?'}
+                                                        disabled={this.props.isPendingCreation}
+                                                    >
+                                                        Delete
+                                                    </FormikDeleteButton>
+                                                )}
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                                </Paper>
+                                    </Paper>
+                                )}
                             </React.Fragment>
                         )}
                     </React.Fragment>

@@ -21,6 +21,9 @@ import { FormikBag, FormikProps } from 'formik';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 import FormikSelectValues from '../../../form/interfaces/FormikSelectValuesProp';
 import { EnvironmentEnum } from '../../../../models/EnvironmentEnum';
+import { User } from 'oidc-client';
+import { userIsInRole } from '../../../../helpers/Helpers';
+import { RoleEnum } from '../../../../models/RoleEnum';
 
 const integrationService = new IntegrationService();
 
@@ -29,6 +32,7 @@ type IntegrationFormHOCProps = StateProps & DispatchProps & OwnProps;
 interface OwnProps extends WithSnackbarProps {}
 
 interface StateProps {
+    user: User;
     integrationsState: IntegrationsState;
     selectedProject: IProject;
 }
@@ -48,6 +52,7 @@ interface IntegrationFormHOCState {
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
     return {
+        user: state.oidc.user,
         integrationsState: state.integrationsState,
         selectedProject: state.selectedProject,
     };
@@ -180,6 +185,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                         this.state.editIntegration?.correlationModel?.status === StatusEnum.PENDING && !this.state.editIntegration?.integrationId
                     }
                     environmentSelectValuesArray={environmentSelectValuesArray}
+                    canEdit={Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN))}
                     {...(this.props as P)}
                 />
             );
