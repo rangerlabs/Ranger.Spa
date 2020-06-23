@@ -348,7 +348,7 @@ class Menu extends React.Component<MenuProps> {
                     </Hidden>
                 </List>
                 <Hidden mdDown>
-                    <Box textAlign="center" position="absolute" height="32px" width="100%" bottom={'8px'} left="0px">
+                    <Box textAlign="center" position="absolute" height="32px" width="100%" bottom={'16px'} left="0px">
                         <div>
                             <Typography align="center" variant="caption">
                                 v{getSpaVersion()}
@@ -356,12 +356,12 @@ class Menu extends React.Component<MenuProps> {
                         </div>
                         <div>
                             <Typography align="center" variant="caption">
-                                Made with ️<Heart className={classes.red} /> in Cleveland
+                                All Systems <Link>GO</Link> <RocketLaunch fontSize="small" />
                             </Typography>
                         </div>
                         <div>
                             <Typography align="center" variant="caption">
-                                All Systems <Link>GO</Link> <RocketLaunch />
+                                Made with ️<Heart fontSize="small" className={classes.red} /> in Cleveland
                             </Typography>
                         </div>
                     </Box>

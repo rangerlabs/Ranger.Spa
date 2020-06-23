@@ -1,23 +1,8 @@
 import * as React from 'react';
-import {
-    Theme,
-    WithStyles,
-    Hidden,
-    Drawer,
-    createStyles,
-    withStyles,
-    List,
-    Fade,
-    ListItem,
-    ListItemText,
-    Collapse,
-    Typography,
-    Badge,
-} from '@material-ui/core';
+import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Collapse, Typography, Badge } from '@material-ui/core';
 import ScrollTop from '../ScrollTop';
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 import Observer, { InView } from 'react-intersection-observer';
-import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 const classNames = require('classnames').default;
 
