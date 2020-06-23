@@ -14,6 +14,7 @@ import {
     Collapse,
     Button,
     Box,
+    Link,
 } from '@material-ui/core';
 import People from '@material-ui/icons/People';
 import MapMarker from 'mdi-material-ui/MapMarker';
@@ -23,6 +24,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import Lock from '@material-ui/icons/Lock';
 import FormatListBulleted from '@material-ui/icons/FormatListBulleted';
 import Domain from 'mdi-material-ui/Domain';
+import Heart from 'mdi-material-ui/Heart';
+import RocketLaunch from 'mdi-material-ui/RocketLaunch';
 import ArrowDecision from 'mdi-material-ui/ArrowDecision';
 import Map from 'mdi-material-ui/Map';
 import HexagonMultiple from 'mdi-material-ui/HexagonMultiple';
@@ -40,6 +43,7 @@ import CreditCard from 'mdi-material-ui/CreditCard';
 import Cog from 'mdi-material-ui/Cog';
 import Constants from '../../../theme/Constants';
 import classNames from 'classnames';
+import { red } from '@material-ui/core/colors';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -83,6 +87,9 @@ const styles = (theme: Theme) =>
         },
         closed: {
             transform: 'rotate(0)',
+        },
+        red: {
+            color: red[500],
         },
     });
 interface MenuProps extends WithStyles<typeof styles> {
@@ -349,7 +356,12 @@ class Menu extends React.Component<MenuProps> {
                         </div>
                         <div>
                             <Typography align="center" variant="caption">
-                                Made with ❤️ in Cleveland
+                                Made with ️<Heart className={classes.red} /> in Cleveland
+                            </Typography>
+                        </div>
+                        <div>
+                            <Typography align="center" variant="caption">
+                                All Systems <Link>GO</Link> <RocketLaunch />
                             </Typography>
                         </div>
                     </Box>
