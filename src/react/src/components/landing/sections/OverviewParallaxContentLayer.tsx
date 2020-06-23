@@ -66,7 +66,7 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
                     </div>
                 </Grid>
                 <Grid item md={5} xs={10}>
-                    <img src={CreateGeofence} alt="Create Geofence" />
+                    <img width="100%" src={CreateGeofence} alt="Create Geofence" />
                 </Grid>
             </Grid>
         );
