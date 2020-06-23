@@ -56,7 +56,7 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <Paper className={classes.layout}>
+                <Paper elevation={3} className={classes.layout}>
                     {userIsInRole(this.props.user, RoleEnum.ADMIN) ? (
                         <Grid container direction="column" justify="center">
                             <Grid item xs={12}>
@@ -71,7 +71,7 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                                     </Typography>
                                 )}
                                 <Typography gutterBottom variant="h6" className={classes.subFont}>
-                                    Click below to create your organization's first project.
+                                    Click below to create your first project.
                                 </Typography>
                             </Grid>
                             <Grid container item justify="flex-end">
@@ -102,7 +102,7 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                                             You have not been assigned to any projects.
                                         </Typography>
                                         <Typography gutterBottom variant="h6" className={classes.subFont}>
-                                            Please request an administrator to assign a project to you.
+                                            Please request that an administrator assign a project to you.
                                         </Typography>
                                     </React.Fragment>
                                 )}
