@@ -24,13 +24,16 @@ const styles = (theme: Theme) =>
             minWidth: '175px',
         },
         textPush: {
-            marginTop: '25%',
+            [theme.breakpoints.up('md')]: {
+                marginTop: '25%',
+            },
+            marginTop: '15%',
         },
         image: {
             [theme.breakpoints.up('md')]: {
                 width: '100%',
             },
-            width: '75%',
+            width: '80%',
         },
     });
 
@@ -62,10 +65,9 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
                         </div>
                     </div>
                 </Grid>
-                <Grid item md={5}>
-                    <img className={classes.image} src={CreateGeofence} alt="Create Geofence" />
+                <Grid item md={5} xs={10}>
+                    <img src={CreateGeofence} alt="Create Geofence" />
                 </Grid>
-                <Grid item md={6} xs={1} />
             </Grid>
         );
     }
