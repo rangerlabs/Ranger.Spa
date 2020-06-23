@@ -1,5 +1,19 @@
 import * as React from 'react';
-import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Collapse, Typography, Badge } from '@material-ui/core';
+import {
+    Theme,
+    WithStyles,
+    Hidden,
+    Drawer,
+    createStyles,
+    withStyles,
+    List,
+    ListItem,
+    ListItemText,
+    Collapse,
+    Typography,
+    Badge,
+    Paper,
+} from '@material-ui/core';
 import ScrollTop from '../ScrollTop';
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 import Observer, { InView } from 'react-intersection-observer';
@@ -50,6 +64,9 @@ const styles = (theme: Theme) =>
         },
         badgeTypography: {
             lineHeight: 'inherit',
+        },
+        section: {
+            padding: theme.spacing(4),
         },
     });
 
@@ -242,10 +259,12 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="getting-started">
-                                        <Typography variant="h5">Getting Started</Typography>
-                                        <Observer onChange={this.handleScrollTop}>
-                                            <div />
-                                        </Observer>
+                                        <Paper className={classes.section}>
+                                            <Typography variant="h5">Getting Started</Typography>
+                                            <Observer onChange={this.handleScrollTop}>
+                                                <div />
+                                            </Observer>
+                                        </Paper>
                                     </section>
                                 </Observer>
                             </ParallaxLayer>
