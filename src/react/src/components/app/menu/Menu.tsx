@@ -91,6 +91,9 @@ const styles = (theme: Theme) =>
         red: {
             color: red[500],
         },
+        tinyIcon: {
+            fontSize: '.875rem',
+        },
     });
 interface MenuProps extends WithStyles<typeof styles> {
     theme: Theme;
@@ -356,12 +359,12 @@ class Menu extends React.Component<MenuProps> {
                         </div>
                         <div>
                             <Typography align="center" variant="caption">
-                                All Systems <Link>GO</Link> <RocketLaunch fontSize="small" />
+                                All Systems <Link>GO</Link> <RocketLaunch className={classes.tinyIcon} />
                             </Typography>
                         </div>
                         <div>
                             <Typography align="center" variant="caption">
-                                Made with ️<Heart fontSize="small" className={classes.red} /> in Cleveland
+                                Made with ️<Heart fontSize="small" className={classNames(classes.red, classes.tinyIcon)} /> in Cleveland
                             </Typography>
                         </div>
                     </Box>
