@@ -27,7 +27,6 @@ const styles = (theme: Theme) =>
             [theme.breakpoints.up('md')]: {
                 marginTop: '25%',
             },
-            marginTop: '15%',
         },
         image: {
             [theme.breakpoints.up('md')]: {

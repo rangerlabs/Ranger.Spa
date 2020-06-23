@@ -11,6 +11,7 @@ import { User } from 'oidc-client';
 import RoutePaths from '../RoutePaths';
 import Notifier from '../../components/notifier/Notifier';
 import { Parallax } from 'react-spring/renderprops-addons';
+import Constants from '../../theme/Constants';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -22,7 +23,9 @@ const styles = (theme: Theme) =>
         content: {
             flexGrow: 1,
         },
-        toolbar: theme.mixins.toolbar,
+        toolbar: {
+            height: '64px',
+        },
     });
 
 interface LandingLayoutProps extends WithStyles<typeof styles> {
