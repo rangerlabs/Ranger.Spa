@@ -23,6 +23,15 @@ const styles = (theme: Theme) =>
             marginTop: theme.spacing(3),
             minWidth: '175px',
         },
+        textPush: {
+            marginTop: '25%',
+        },
+        image: {
+            [theme.breakpoints.up('md')]: {
+                width: '100%',
+            },
+            width: '75%',
+        },
     });
 
 interface OverviewParallaxContentLayerProps extends WithStyles<typeof styles> {
@@ -37,9 +46,9 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
     render() {
         const { classes } = this.props;
         return (
-            <Grid className={classes.gridHeight} container alignContent="center" justify="center">
+            <Grid className={classes.gridHeight} container alignContent="center" justify="center" spacing={5}>
                 <Grid item md={4} xs={10}>
-                    <div>
+                    <div className={classes.textPush}>
                         <Typography gutterBottom className={classes.typography} variant="subtitle1">
                             HOSTED APIs FOR
                         </Typography>
@@ -54,7 +63,7 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
                     </div>
                 </Grid>
                 <Grid item md={5}>
-                    <img src={CreateGeofence} alt="Create Geofence" />
+                    <img className={classes.image} src={CreateGeofence} alt="Create Geofence" />
                 </Grid>
                 <Grid item md={6} xs={1} />
             </Grid>
