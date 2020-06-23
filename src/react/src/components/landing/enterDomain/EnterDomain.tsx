@@ -73,7 +73,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                                 const domain = values.domain;
                                 tenantService.confirmed(domain).then((v: IRestResponse<boolean>) => {
                                     if (v.isError) {
-                                        enqueueSnackbar(v.error.message, { variant: 'error' });
+                                        enqueueSnackbar('Could not find the requested domain', { variant: 'error' });
                                         formikBag.setSubmitting(false);
                                     } else {
                                         if (v.result) {

@@ -9,6 +9,8 @@ import { User } from 'oidc-client';
 import { UserProfile } from '../../../models/UserProfile';
 import { RoleEnum } from '../../../models/RoleEnum';
 import { userIsInRole } from '../../../helpers/Helpers';
+import ArrowRight from 'mdi-material-ui/ArrowRight';
+import Constants from '../../../theme/Constants';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -25,6 +27,9 @@ const styles = (theme: Theme) =>
         },
         subFont: {
             fontWeight: theme.typography.fontWeightRegular,
+        },
+        white: {
+            color: theme.palette.common.white,
         },
     });
 
@@ -52,27 +57,27 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
             <React.Fragment>
                 <div className={classes.layout}>
                     {userIsInRole(this.props.user, RoleEnum.ADMIN) ? (
-                        <Grid container direction="column" alignItems="center" justify="center">
+                        <Grid container direction="column" justify="center">
                             <Grid item xs={12}>
                                 {this.props.welcomeMessage && (
-                                    <Typography gutterBottom variant="h4" align="center">
+                                    <Typography gutterBottom variant="h4">
                                         Welcome to Ranger.
                                     </Typography>
                                 )}
                                 {!window.location.pathname.startsWith(RoutePaths.Dashboard) ? (
-                                    <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                    <Typography gutterBottom variant="h6" className={classes.subFont}>
                                         Your organization must first create a project to access these resources.
                                     </Typography>
                                 ) : userIsInRole(this.props.user, RoleEnum.ADMIN) ? (
-                                    <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                    <Typography gutterBottom variant="h6" className={classes.subFont}>
                                         Your organization does not have any projects created yet.
                                     </Typography>
                                 ) : (
-                                    <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                    <Typography gutterBottom variant="h6" className={classes.subFont}>
                                         You have not been assigned to any projects.
                                     </Typography>
                                 )}
-                                <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                <Typography gutterBottom variant="h6" className={classes.subFont}>
                                     Click below to create your organization's first project.
                                 </Typography>
                             </Grid>
@@ -85,22 +90,23 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                                     }}
                                 >
                                     New Project
+                                    <ArrowRight className={classes.white} />
                                 </Button>
                             </Grid>
                         </Grid>
                     ) : (
-                        <Grid container direction="column" alignItems="center" justify="center">
+                        <Grid container direction="column" justify="center">
                             <Grid item xs={12}>
                                 {!window.location.pathname.startsWith(RoutePaths.Dashboard) ? (
-                                    <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                    <Typography gutterBottom variant="h6" className={classes.subFont}>
                                         You must first be assigned a project to access these resources.
                                     </Typography>
                                 ) : (
                                     <React.Fragment>
-                                        <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                        <Typography gutterBottom variant="h6" className={classes.subFont}>
                                             You have not been assigned to any projects.
                                         </Typography>
-                                        <Typography gutterBottom variant="h6" className={classes.subFont} align="center">
+                                        <Typography gutterBottom variant="h6" className={classes.subFont}>
                                             Please request an administrator to assign a project to you.
                                         </Typography>
                                     </React.Fragment>

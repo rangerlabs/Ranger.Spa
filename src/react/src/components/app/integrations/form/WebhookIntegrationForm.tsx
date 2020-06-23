@@ -288,7 +288,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             </List>
                                         </Grid>
                                     )}
-                                    {!this.props.canEdit && (
+                                    {this.props.canEdit && (
                                         <Grid container justify="flex-end">
                                             <Grid item>
                                                 <FormikSynchronousButton
