@@ -349,7 +349,7 @@ class Menu extends React.Component<MenuProps> {
                         </div>
                         <div>
                             <Typography align="center" variant="caption">
-                                © 2020 Ranger Labs, LLC
+                                Made with ❤️ in Cleveland
                             </Typography>
                         </div>
                     </Box>
@@ -376,15 +376,7 @@ class Menu extends React.Component<MenuProps> {
                     </Drawer>
                 </Hidden>
                 <Hidden smDown implementation="css">
-                    <Drawer
-                        // classes={{
-                        //     paper: classes.drawerPaper,
-                        // }}
-                        elevation={3}
-                        anchor={'left'}
-                        variant="permanent"
-                        open
-                    >
+                    <Drawer elevation={3} anchor={'left'} variant="permanent" open>
                         <div className={classes.headerPush} />
                         {drawerContent}
                     </Drawer>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, withStyles, Typography, Button, WithStyles, Box, Grid } from '@material-ui/core';
+import { Theme, createStyles, withStyles, Typography, Button, WithStyles, Box, Grid, Paper } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import { push } from 'connected-react-router';
@@ -15,6 +15,7 @@ import Constants from '../../../theme/Constants';
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
+            padding: theme.spacing(4),
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
@@ -55,7 +56,7 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <div className={classes.layout}>
+                <Paper className={classes.layout}>
                     {userIsInRole(this.props.user, RoleEnum.ADMIN) ? (
                         <Grid container direction="column" justify="center">
                             <Grid item xs={12}>
@@ -81,17 +82,19 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                                     Click below to create your organization's first project.
                                 </Typography>
                             </Grid>
-                            <Grid item xs={12}>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => {
-                                        this.props.push(RoutePaths.ProjectsNew);
-                                    }}
-                                >
-                                    New Project
-                                    <ArrowRight className={classes.white} />
-                                </Button>
+                            <Grid container item justify="flex-end">
+                                <Grid item>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={() => {
+                                            this.props.push(RoutePaths.ProjectsNew);
+                                        }}
+                                    >
+                                        New Project
+                                        <ArrowRight fontSize="small" className={classes.white} />
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </Grid>
                     ) : (
@@ -114,7 +117,7 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                             </Grid>
                         </Grid>
                     )}
-                </div>
+                </Paper>
             </React.Fragment>
         );
     }
