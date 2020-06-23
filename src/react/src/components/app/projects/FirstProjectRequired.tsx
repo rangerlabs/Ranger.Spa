@@ -62,7 +62,7 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                             <Grid item xs={12}>
                                 {this.props.showWelcomeMessage && (
                                     <Typography gutterBottom variant="h4">
-                                        Welcome to Ranger.
+                                        Welcome to Ranger
                                     </Typography>
                                 )}
                                 {!window.location.pathname.startsWith(RoutePaths.Dashboard) && (
