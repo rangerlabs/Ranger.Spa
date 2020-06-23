@@ -333,7 +333,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         <Typography variant="h6">Delete</Typography>
                                         <Typography variant="subtitle1">Remove the integration</Typography>
                                         <Grid container justify="flex-end">
-                                            <Grid item xs={11}>
+                                            <Grid item>
                                                 {this.props.editIntegration && (
                                                     <FormikDeleteButton
                                                         isSubmitting={props.isSubmitting}
