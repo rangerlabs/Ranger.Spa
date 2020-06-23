@@ -92,7 +92,7 @@ const styles = (theme: Theme) =>
             color: red[500],
         },
         tinyIcon: {
-            fontSize: '.875rem',
+            fontSize: '.75rem',
         },
     });
 interface MenuProps extends WithStyles<typeof styles> {
