@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
+import CreateGeofence from '../../../../assets/create-geofence.gif';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -39,21 +40,22 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
             <Grid className={classes.gridHeight} container alignContent="center" justify="center">
                 <Grid item xs={1} />
                 <Grid item md={5} xs={10}>
-                    <Slide in direction="right" timeout={1200}>
-                        <div>
-                            <Typography gutterBottom className={classes.typography} variant="subtitle1">
-                                HOSTED APIs FOR
-                            </Typography>
-                            <Typography className={classes.typography} variant="h3">
-                                BOUNDLESS GEOFENCING SERVICES
-                            </Typography>
-                            <div className={classes.typography}>
-                                <Button color="primary" variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
-                                    Sign up for free
-                                </Button>
-                            </div>
+                    <div>
+                        <Typography gutterBottom className={classes.typography} variant="subtitle1">
+                            HOSTED APIs FOR
+                        </Typography>
+                        <Typography className={classes.typography} variant="h3">
+                            BOUNDLESS GEO-FENCING SERVICES
+                        </Typography>
+                        <div className={classes.typography}>
+                            <Button color="primary" variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
+                                Sign up for free
+                            </Button>
                         </div>
-                    </Slide>
+                    </div>
+                </Grid>
+                <Grid item md={5}>
+                    <img src={CreateGeofence} alt="Create Geofence" />
                 </Grid>
                 <Grid item md={6} xs={1} />
             </Grid>

@@ -52,7 +52,7 @@ module.exports = merge(common, {
                 use: 'react-svg-loader',
             },
             {
-                test: /\.(png|jpg|woff|woff2|eot|ttf)$/,
+                test: /\.(png|jpg|woff|woff2|eot|ttf|gif)$/,
                 use: 'url-loader?limit=100000',
             },
         ],
