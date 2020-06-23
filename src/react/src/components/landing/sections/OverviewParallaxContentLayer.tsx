@@ -28,12 +28,6 @@ const styles = (theme: Theme) =>
                 marginTop: '25%',
             },
         },
-        image: {
-            [theme.breakpoints.up('md')]: {
-                width: '100%',
-            },
-            width: '80%',
-        },
     });
 
 interface OverviewParallaxContentLayerProps extends WithStyles<typeof styles> {

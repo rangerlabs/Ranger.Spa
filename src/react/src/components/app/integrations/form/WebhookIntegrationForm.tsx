@@ -70,6 +70,10 @@ const styles = (theme: Theme) =>
         bottomPaper: {
             marginBottom: theme.spacing(3),
         },
+        signingKey: {
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+        },
     });
 interface IWebhookIntegrationFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     editIntegration: WebhookIntegration;
@@ -314,7 +318,9 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                     <Grid container>
                                         <Grid item xs={11}>
                                             <Box marginTop={3}>
-                                                <Typography variant="body1">{props.values.signingKey}</Typography>
+                                                <Typography className={classes.signingKey} variant="body1">
+                                                    {props.values.signingKey}
+                                                </Typography>
                                             </Box>
                                         </Grid>
                                         <Grid item xs={1}>
