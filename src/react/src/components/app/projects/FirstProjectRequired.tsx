@@ -37,7 +37,7 @@ const styles = (theme: Theme) =>
 interface FirstProjectRequiredProps extends WithStyles<typeof styles> {
     user: User;
     push: typeof push;
-    welcomeMessage?: boolean;
+    showWelcomeMessage?: boolean;
 }
 const mapStateToProps = (state: ApplicationState) => {
     return {
@@ -60,22 +60,14 @@ class FirstProjectRequired extends React.Component<FirstProjectRequiredProps> {
                     {userIsInRole(this.props.user, RoleEnum.ADMIN) ? (
                         <Grid container direction="column" justify="center">
                             <Grid item xs={12}>
-                                {this.props.welcomeMessage && (
+                                {this.props.showWelcomeMessage && (
                                     <Typography gutterBottom variant="h4">
                                         Welcome to Ranger.
                                     </Typography>
                                 )}
-                                {!window.location.pathname.startsWith(RoutePaths.Dashboard) ? (
+                                {!window.location.pathname.startsWith(RoutePaths.Dashboard) && (
                                     <Typography gutterBottom variant="h6" className={classes.subFont}>
                                         Your organization must first create a project to access these resources.
-                                    </Typography>
-                                ) : userIsInRole(this.props.user, RoleEnum.ADMIN) ? (
-                                    <Typography gutterBottom variant="h6" className={classes.subFont}>
-                                        Your organization does not have any projects created yet.
-                                    </Typography>
-                                ) : (
-                                    <Typography gutterBottom variant="h6" className={classes.subFont}>
-                                        You have not been assigned to any projects.
                                     </Typography>
                                 )}
                                 <Typography gutterBottom variant="h6" className={classes.subFont}>

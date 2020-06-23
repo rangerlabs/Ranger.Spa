@@ -38,7 +38,7 @@ class Dashboard extends React.Component<DashboardProps> {
                             <DashboardProjectSelect />
                         </React.Fragment>
                     ) : (
-                        <FirstProjectRequired welcomeMessage />
+                        <FirstProjectRequired showWelcomeMessage />
                     )}
                 </React.Fragment>
             </div>
@@ -46,7 +46,4 @@ class Dashboard extends React.Component<DashboardProps> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    null
-)(withStyles(styles)(populateProjectsHOC(Dashboard)));
+export default connect(mapStateToProps, null)(withStyles(styles)(populateProjectsHOC(Dashboard)));
