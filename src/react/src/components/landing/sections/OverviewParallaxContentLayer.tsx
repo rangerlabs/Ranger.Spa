@@ -38,13 +38,12 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
         const { classes } = this.props;
         return (
             <Grid className={classes.gridHeight} container alignContent="center" justify="center">
-                <Grid item xs={1} />
-                <Grid item md={5} xs={10}>
+                <Grid item md={4} xs={10}>
                     <div>
                         <Typography gutterBottom className={classes.typography} variant="subtitle1">
                             HOSTED APIs FOR
                         </Typography>
-                        <Typography className={classes.typography} variant="h3">
+                        <Typography className={classes.typography} variant="h4">
                             BOUNDLESS GEO-FENCING SERVICES
                         </Typography>
                         <div className={classes.typography}>
