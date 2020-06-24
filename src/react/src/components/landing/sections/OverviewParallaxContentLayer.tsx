@@ -49,7 +49,7 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
                             HOSTED APIs FOR
                         </Typography>
                         <Typography className={classes.typography} variant="h4">
-                            BOUNDLESS GEO-FENCING SERVICES
+                            BOUNDLESS GEO-FENCING
                         </Typography>
                         <div className={classes.typography}>
                             <Button color="primary" variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
