@@ -7,7 +7,7 @@ import KionaBoldItallic from '../../assets/fonts/Kiona-BoldItallic.ttf';
 import KionaSemiBold from '../../assets/fonts/Kiona-SemiBold.ttf';
 import KionaSemiBoldItallic from '../../assets/fonts/Kiona-SemiBoldItallic.ttf';
 
-const KionaRegularFont = new FontFace('Kiona-Regular, Kiona', 'url("../../assets/fonts/Kiona-Regular.ttf")', {
+const KionaRegularFont = new FontFace('Kiona-Regular, Kiona', KionaRegular, {
     style: 'normal',
 });
 document.fonts.add(KionaRegularFont);
