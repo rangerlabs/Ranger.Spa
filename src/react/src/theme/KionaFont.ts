@@ -1,4 +1,4 @@
-import { Kiona } from './assets/fonts/Kiona-Regular.ttf';
+import { Kiona } from '../../assets/fonts/Kiona-Regular.ttf';
 
 const KionaFont = new FontFace('Kiona-Regular, Kiona', `url(${Kiona})`, {
     style: 'normal',
