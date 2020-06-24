@@ -1,5 +1,4 @@
-const KionaRegularFont = new FontFace('Kiona-Regular, Kiona;', `url(/fonts/Kiona-Regular.ttf)`, {});
-document.fonts.add(KionaRegularFont);
+const KionaRegularFont = new FontFace('Kiona-Regular, Kiona;', `url(/fonts/Kiona-Regular.ttf)`);
 
 // const KionaItallicFont = new FontFace('Kiona-Itallic, Kiona', KionaItallic, {
 //     style: 'normal',

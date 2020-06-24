@@ -35,6 +35,7 @@ datadogLogs.init({
 });
 
 KionaRegularFont.load();
+document.fonts.add(KionaRegularFont);
 
 const initialState = {} as ApplicationState;
 ReduxStore.Configure(history, initialState);
