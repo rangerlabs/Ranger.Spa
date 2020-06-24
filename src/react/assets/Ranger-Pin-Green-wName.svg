@@ -6,7 +6,7 @@
             <![CDATA[
                 @font-face {
                     font-family: Kiona-Regular, Kiona;
-                    src: url('/fonts/Kiona-Regular.ttf');
+                    src: url(/fonts/Kiona-Regular.ttf);
                 }
             ]]>
         </style>
