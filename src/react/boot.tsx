@@ -22,7 +22,7 @@ import Notifier from './src/components/notifier/Notifier';
 import { datadogLogs } from '@datadog/browser-logs';
 import { getSpaVersion } from './src/helpers/Helpers';
 import GlobalConfig from './src/helpers/GlobalConfig';
-import KionaFont from './src/theme/KionaFont';
+import KionaRegularFont from './src/theme/KionaFont';
 
 datadogLogs.init({
     clientToken: 'pube931a53a3562644ba5faf428d65ed896',
@@ -33,7 +33,9 @@ datadogLogs.init({
     version: getSpaVersion(),
     env: GlobalConfig.ENVIRONMENT,
 });
-KionaFont.load();
+
+KionaRegularFont.load();
+
 const initialState = {} as ApplicationState;
 ReduxStore.Configure(history, initialState);
 const store = ReduxStore.getStore();
