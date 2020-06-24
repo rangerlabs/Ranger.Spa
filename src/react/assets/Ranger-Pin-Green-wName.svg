@@ -1,7 +1,16 @@
 <svg id="af5c0c7f-2c88-407a-823b-dc8bb6aa7417" data-name="Layer 1" 
     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 175 130">
     <title>Ranger-Pin-Green-wName</title>
-
+    <defs>
+        <style type="text/css">
+            <![CDATA[
+                @font-face {
+                    font-family: Kiona-Regular, Kiona;
+                    src: url('/fonts/Kiona-Regular.ttf');
+                }
+            ]]>
+        </style>
+    </defs>
     <path d="M80.23,32.05A7.66,7.66,0,1,1,87.5,42.1a7.64,7.64,0,0,1-7.27-10.05M67.5,34.45V69.76l20-12L95.4,53l2.24-1.34.26-.16A20,20,0,0,0,87.55,14.45h-.1a20,20,0,0,0-20,20Z" style="fill:#479131;fill-rule:evenodd"/>
     <polygon points="87.5 57.77 67.5 69.76 87.5 69.76 107.5 69.76 95.4 53.03 87.5 57.77" style="fill:#114f00;fill-rule:evenodd"/>
     <text transform="translate(9.14 112.43) scale(1.05 1)" style="font-size:38px;font-family:Kiona-Regular, Kiona;font-weight:400">
@@ -13,11 +22,3 @@
         <tspan x="125.29" y="0">R</tspan>
     </text>
 </svg>
-<defs>
-    <style type="text/css">
-            @font-face {
-                font-family: Kiona-Regular, Kiona;
-                src: url('/fonts/Kiona-Regular.ttf');
-            }
-    </style>
-</defs>
