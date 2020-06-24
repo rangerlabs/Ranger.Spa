@@ -12,32 +12,32 @@ const KionaRegularFont = new FontFace('Kiona-Regular, Kiona', `url(${KionaRegula
 });
 document.fonts.add(KionaRegularFont);
 
-const KionaItallicFont = new FontFace('Kiona-Itallic, Kiona', KionaItallic, {
+const KionaItallicFont = new FontFace('Kiona-Itallic, Kiona', `url(${KionaItallic})`, {
     style: 'normal',
 });
 document.fonts.add(KionaItallicFont);
 
-const KionaLightFont = new FontFace('Kiona-Light, Kiona', KionaLight, {
+const KionaLightFont = new FontFace('Kiona-Light, Kiona', `url(${KionaLight})`, {
     style: 'normal',
 });
 document.fonts.add(KionaLightFont);
-const KionaLightItallicFont = new FontFace('Kiona-LightItallic, Kiona', KionaLightItallic, {
+const KionaLightItallicFont = new FontFace('Kiona-LightItallic, Kiona', `url(${KionaLightItallic})`, {
     style: 'normal',
 });
 document.fonts.add(KionaLightItallicFont);
-const KionaBoldFont = new FontFace('Kiona-Bold, Kiona', KionaBold, {
+const KionaBoldFont = new FontFace('Kiona-Bold, Kiona', `url(${KionaBold})`, {
     style: 'normal',
 });
 document.fonts.add(KionaBoldFont);
-const KionaBoldItallicFont = new FontFace('Kiona-BoldItallic, Kiona', KionaBoldItallic, {
+const KionaBoldItallicFont = new FontFace('Kiona-BoldItallic, Kiona', `url(${KionaBoldItallic})`, {
     style: 'normal',
 });
 document.fonts.add(KionaBoldItallicFont);
-const KionaSemiBoldFont = new FontFace('Kiona-SemiBold, Kiona', KionaSemiBold, {
+const KionaSemiBoldFont = new FontFace('Kiona-SemiBold, Kiona', `url(${KionaSemiBold})`, {
     style: 'normal',
 });
 document.fonts.add(KionaSemiBoldFont);
-const KionaSemiBoldItallicFont = new FontFace('Kiona-SemiBold, Kiona', KionaSemiBoldItallic, {
+const KionaSemiBoldItallicFont = new FontFace('Kiona-SemiBold, Kiona', `url(${KionaSemiBoldItallic})`, {
     style: 'normal',
 });
 document.fonts.add(KionaSemiBoldItallicFont);
