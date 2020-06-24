@@ -1,13 +1,4 @@
-import KionaRegular from '../../assets/fonts/Kiona-Regular.ttf';
-import KionaItallic from '../../assets/fonts/Kiona-Itallic.ttf';
-import KionaLight from '../../assets/fonts/Kiona-Light.ttf';
-import KionaLightItallic from '../../assets/fonts/Kiona-LightItallic.ttf';
-import KionaBold from '../../assets/fonts/Kiona-Bold.ttf';
-import KionaBoldItallic from '../../assets/fonts/Kiona-BoldItallic.ttf';
-import KionaSemiBold from '../../assets/fonts/Kiona-SemiBold.ttf';
-import KionaSemiBoldItallic from '../../assets/fonts/Kiona-SemiBoldItallic.ttf';
-
-const KionaRegularFont = new FontFace('Kiona-Regular, Kiona', KionaRegular, {
+const KionaRegularFont = new FontFace('Kiona-Regular, Kiona', `url(/fonts/Kiona-Regular.ttf)`, {
     style: 'normal',
 });
 document.fonts.add(KionaRegularFont);
