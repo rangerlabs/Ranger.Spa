@@ -359,7 +359,7 @@ class Menu extends React.Component<MenuProps> {
                         </div>
                         <div>
                             <Typography align="center" variant="caption">
-                                All Systems <Link>GO</Link> <RocketLaunch className={classes.tinyIcon} />
+                                All Systems <Link href="https://rangerlabs.statuspage.io/">GO</Link> <RocketLaunch className={classes.tinyIcon} />
                             </Typography>
                         </div>
                         <div>
