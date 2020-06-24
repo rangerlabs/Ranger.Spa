@@ -48,7 +48,7 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
                         <Typography gutterBottom className={classes.typography} variant="subtitle1">
                             HOSTED APIs FOR
                         </Typography>
-                        <Typography className={classes.typography} variant="h4">
+                        <Typography className={classes.typography} variant="h3">
                             BOUNDLESS GEOFENCING
                         </Typography>
                         <div className={classes.typography}>

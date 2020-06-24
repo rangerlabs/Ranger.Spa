@@ -33,6 +33,7 @@
         "@material-ui/pickers": "^3.2.10",
         "@material-ui/styles": "^4.10.0",
         "@types/classnames": "^2.2.10",
+        "@types/css-font-loading-module": "0.0.4",
         "@types/enzyme": "^3.10.5",
         "@types/enzyme-adapter-react-16": "^1.0.6",
         "@types/fetch-mock": "^7.3.2",
