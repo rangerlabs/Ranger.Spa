@@ -36,7 +36,7 @@ document.fonts.add(KionaBoldItallicFont);
 const KionaSemiBoldFont = new FontFace('Kiona-SemiBold, Kiona', KionaSemiBold, {
     style: 'normal',
 });
-document.fonts.add(KionaSemiBold);
+document.fonts.add(KionaSemiBoldFont);
 const KionaSemiBoldItallicFont = new FontFace('Kiona-SemiBold, Kiona', KionaSemiBoldItallic, {
     style: 'normal',
 });
