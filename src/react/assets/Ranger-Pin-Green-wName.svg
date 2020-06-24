@@ -11,4 +11,12 @@
         <tspan x="102.79" y="0" style="letter-spacing:-0.00997708829432868em">E</tspan>
         <tspan x="125.29" y="0">R</tspan>
     </text>
+    <defs>
+        <style type="text/css">
+            @font-face {
+                font-family: Kiona-Regular, Kiona;
+                src: url('/fonts/Kiona-Regular.ttf');
+            }
+        </style>
+    </defs>
 </svg>
