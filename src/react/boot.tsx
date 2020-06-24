@@ -22,6 +22,7 @@ import Notifier from './src/components/notifier/Notifier';
 import { datadogLogs } from '@datadog/browser-logs';
 import { getSpaVersion } from './src/helpers/Helpers';
 import GlobalConfig from './src/helpers/GlobalConfig';
+import KionaFont from './font';
 
 datadogLogs.init({
     clientToken: 'pube931a53a3562644ba5faf428d65ed896',
@@ -76,8 +77,10 @@ ReactDOM.render(
                 <StylesProvider jss={jss} generateClassName={generateClassName}>
                     <SnackbarProviderWrapper>
                         <ConnectedRouter history={history}>
-                            <App />
-                            <Notifier />
+                            <KionaFont>
+                                <App />
+                                <Notifier />
+                            </KionaFont>
                         </ConnectedRouter>
                     </SnackbarProviderWrapper>
                 </StylesProvider>
