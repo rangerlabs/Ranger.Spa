@@ -4,6 +4,7 @@ import ScrollTop from '../ScrollTop';
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 import Observer, { InView } from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import GettingStarted from './GettingStarted';
 const HashLink = require('react-router-hash-link');
 
 const styles = (theme: Theme) =>
