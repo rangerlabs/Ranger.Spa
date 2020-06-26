@@ -103,6 +103,7 @@
         "react": "^16.13.1",
         "react-copy-to-clipboard": "^5.0.2",
         "react-dom": "^16.13.1",
+        "react-ga": "^3.0.0",
         "react-hot-loader": "^4.12.21",
         "react-input-validation": "^1.0.4",
         "react-inputs-validation": "^4.4.5",

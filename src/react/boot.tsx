@@ -22,16 +22,10 @@ import Notifier from './src/components/notifier/Notifier';
 import { datadogLogs } from '@datadog/browser-logs';
 import { getSpaVersion } from './src/helpers/Helpers';
 import GlobalConfig from './src/helpers/GlobalConfig';
+import ReactGA from 'react-ga';
 
-datadogLogs.init({
-    clientToken: 'pube931a53a3562644ba5faf428d65ed896',
-    datacenter: 'us',
-    service: 'React',
-    forwardErrorsToLogs: true,
-    sampleRate: 100,
-    version: getSpaVersion(),
-    env: GlobalConfig.ENVIRONMENT,
-});
+InitializeDatadogLogging();
+InitializeGoogleAnalyticsInProduction();
 
 const initialState = {} as ApplicationState;
 ReduxStore.Configure(history, initialState);
@@ -86,3 +80,21 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('app')
 );
+function InitializeDatadogLogging() {
+    datadogLogs.init({
+        clientToken: 'pube931a53a3562644ba5faf428d65ed896',
+        datacenter: 'us',
+        service: 'React',
+        forwardErrorsToLogs: true,
+        sampleRate: 100,
+        version: getSpaVersion(),
+        env: GlobalConfig.ENVIRONMENT,
+    });
+}
+
+function InitializeGoogleAnalyticsInProduction() {
+    if (window.location.host.includes('rangerlabs.io')) {
+        ReactGA.initialize('UA-170915922-1');
+        ReactGA.pageview(window.location.pathname + window.location.search);
+    }
+}
