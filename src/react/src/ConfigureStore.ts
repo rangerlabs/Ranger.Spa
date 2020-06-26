@@ -26,6 +26,9 @@ export default function ConfigureStore(history: History, initialState?: Applicat
 
     const rootReducer = buildRootReducer(history, reducers);
 
+    if (window.location.host.includes('rangerlabs.io')) {
+    } else {
+    }
     const store = createStore(rootReducer, initialState, compose(applyMiddleware(logger, routerMiddleware(history))));
 
     loadUser(store, UserManager);
