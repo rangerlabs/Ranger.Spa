@@ -10,6 +10,7 @@ import { getUnixTime } from 'date-fns';
 import { ILimitDetails } from '../../../models/app/ILimitDetails';
 import { capitalCase } from 'change-case';
 import { Push, push } from 'connected-react-router';
+import GlobalConfig from '../../../helpers/GlobalConfig';
 const subscriptionsService = new SubscriptionsService();
 
 const styles = (theme: Theme) =>
@@ -57,7 +58,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
         super(props);
         this.state = {
             cbInstance: window.Chargebee.init({
-                site: 'rangerlabs-test',
+                site: GlobalConfig.CHARGE_BEE_SITE,
             }),
             loading: false,
             errorMsg: '',
@@ -164,8 +165,8 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 isCurrentPlan={this.isCurrentPlan('pro')}
                                 planId="pro"
                                 planName="Pro"
-                                message="Extend your reach with 10,000 geofences and 5 integrations"
-                                limitDetails={{ geofences: 10000, accounts: 5, integrations: 5, projects: 1 } as ILimitDetails}
+                                message="Extend your reach with 5,000 geofences and 5 integrations"
+                                limitDetails={{ geofences: 5000, accounts: 5, integrations: 5, projects: 1 } as ILimitDetails}
                                 cost="$99 / Month"
                                 onUpgrade={this.upgrade.bind(this)}
                                 forceDisable={!this.props.subscriptionLimitDetails.active}

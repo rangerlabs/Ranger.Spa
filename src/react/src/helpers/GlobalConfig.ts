@@ -62,4 +62,14 @@ export default class GlobalConfig {
             return 'production';
         }
     }
+
+    public static get CHARGE_BEE_SITE(): string {
+        if (window.location.host.includes('localhost')) {
+            return 'rangerlabs-test';
+        } else if (window.location.host.includes('rangerlabs-staging')) {
+            return 'rangerlabs-test';
+        } else {
+            return 'rangerlabs';
+        }
+    }
 }
