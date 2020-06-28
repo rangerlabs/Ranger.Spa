@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ApplicationState } from '../../../stores';
 import { connect } from 'react-redux';
-import Loading from '../loading/Loading';
+import Loading from '../../loading/Loading';
 import { OrganizationState, populateOrganization } from '../../../redux/actions/OrganizationActions';
 import TenantService from '../../../services/TenantService';
 

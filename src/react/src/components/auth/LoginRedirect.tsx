@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import RoutePaths from '../RoutePaths';
 import { createStyles, Theme, Grid, Typography, LinearProgress, withStyles, WithStyles } from '@material-ui/core';
-import Loading from '../app/loading/Loading';
+import Loading from '../loading/Loading';
 import GlobalConfig from '../../helpers/GlobalConfig';
 
 const styles = (theme: Theme) =>

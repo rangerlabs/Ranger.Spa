@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import IProject from '../../../models/app/IProject';
 import { populateProjects, ProjectsState } from '../../../redux/actions/ProjectActions';
 import ProjectService from '../../../services/ProjectService';
-import Loading from '../loading/Loading';
+import Loading from '../../loading/Loading';
 
 const projectService = new ProjectService();
 

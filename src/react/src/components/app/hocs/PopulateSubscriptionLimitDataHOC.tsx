@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ApplicationState } from '../../../stores';
 import { connect } from 'react-redux';
-import Loading from '../loading/Loading';
+import Loading from '../../loading/Loading';
 import ISubscriptionLimitDetails from '../../../models/app/ISubscriptionLimitDetails';
 import SubscriptionsService from '../../../services/SubscriptionsService';
 import { populateSubscriptionLimitDetails, SubscriptionLimitDetailsState } from '../../../redux/actions/SubscriptionLimitDetailsActions';

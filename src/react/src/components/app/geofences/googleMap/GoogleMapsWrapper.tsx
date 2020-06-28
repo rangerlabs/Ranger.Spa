@@ -28,7 +28,7 @@ import { removeGeofenceByExternalId } from '../../../../redux/actions/GeofenceAc
 const hash = require('object-hash');
 import * as queryString from 'query-string';
 import Constants from '../../../../theme/Constants';
-import Loading from '../../loading/Loading';
+import Loading from '../../../loading/Loading';
 import GoogleMapsSpeedDial from './GoogleMapsSpeedDial';
 import NewTestRunMapMarker from './markers/NewTestRunMapMarker';
 import GlobalConfig from '../../../../helpers/GlobalConfig';

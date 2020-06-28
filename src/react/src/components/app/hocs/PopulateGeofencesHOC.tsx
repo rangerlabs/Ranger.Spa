@@ -7,7 +7,7 @@ import GeofenceService from '../../../services/GeofenceService';
 import { connect } from 'react-redux';
 import IProject from '../../../models/app/IProject';
 import populateProjectsHOC from './PopulateProjectsHOC';
-import Loading from '../loading/Loading';
+import Loading from '../../loading/Loading';
 import requireProjectSelection from './RequireProjectSelectionHOC';
 
 const geofenceService = new GeofenceService();

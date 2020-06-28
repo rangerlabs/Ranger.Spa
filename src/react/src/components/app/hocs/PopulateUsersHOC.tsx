@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ApplicationState } from '../../../stores';
 import { connect } from 'react-redux';
-import Loading from '../loading/Loading';
+import Loading from '../../loading/Loading';
 import IUser from '../../../models/app/IUser';
 import { populateUsers, UsersState } from '../../../redux/actions/UserActions';
 import UserService from '../../../services/UserService';

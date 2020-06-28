@@ -6,7 +6,7 @@ import { populateIntegrations, IntegrationsState } from '../../../redux/actions/
 import { MergedIntegrationType } from '../../../models/app/integrations/MergedIntegrationTypes';
 import IntegrationService from '../../../services/IntegrationService';
 import populateProjectsHOC from './PopulateProjectsHOC';
-import Loading from '../loading/Loading';
+import Loading from '../../loading/Loading';
 import requireProjectSelection from './RequireProjectSelectionHOC';
 
 const integrationService = new IntegrationService();

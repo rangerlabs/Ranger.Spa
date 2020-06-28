@@ -1,6 +1,13 @@
 import ReactMarkdown from 'react-markdown';
 import React from 'react';
+import markdownRetrieverHOC from '../hoc/MarkdownRetrieverHOC';
+import { DocumentationSectionEnum } from '../../../models/landing/DocumentationSectionEnum';
+import IDocumentationProps from './IDocumentationProps';
 
-export default function GettingStarted(props: any) {
-    return <ReactMarkdown source={`url('https://raw.githubusercontent.com/rangerlabs/Ranger.Docs/master/GettingStarted.md')`} />;
+class GettingStarted extends React.Component<IDocumentationProps> {
+    render() {
+        return <ReactMarkdown source={this.props.sectionContent} />;
+    }
 }
+
+export default markdownRetrieverHOC(DocumentationSectionEnum.GETTING_STARTED, GettingStarted);
