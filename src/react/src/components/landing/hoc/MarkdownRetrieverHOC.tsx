@@ -12,7 +12,7 @@ interface PopulateProjectsComponentState {
 }
 
 const markdownRetrieverHOC = <P extends object>(section: DocumentationSectionEnum, Component: React.ComponentType<P>) => {
-    class MarkdownRetrieverComponent extends React.Component<PopulateProjectsComponentState> {
+    class MarkdownRetrieverComponent extends React.Component {
         state: PopulateProjectsComponentState = {
             wasError: false,
             isLoaded: false,
