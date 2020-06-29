@@ -6,7 +6,7 @@ import IDocumentationProps from './IDocumentationProps';
 
 class GettingStarted extends React.Component<IDocumentationProps> {
     render() {
-        return <ReactMarkdown source={this.props.sectionContent} />;
+        return <ReactMarkdown escapeHtml={false} source={this.props.sectionContent} />;
     }
 }
 

@@ -247,7 +247,6 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                 >
                                     <section id="getting-started">
                                         <Paper className={classes.section}>
-                                            <Typography variant="h5">Getting Started</Typography>
                                             <GettingStarted />
                                             <Observer onChange={this.handleScrollTop}>
                                                 <div />
