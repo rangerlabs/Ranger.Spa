@@ -5,7 +5,7 @@ import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 import Observer, { InView } from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import GettingStarted from './GettingStarted';
-const HashLink = require('react-router-hash-link');
+import Constants from '../../../theme/Constants';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -41,6 +41,7 @@ const styles = (theme: Theme) =>
         },
         content: {
             flexGrow: 1,
+            background: '#fafafa',
         },
         iconAlign: {
             verticalAlign: 'middle',
@@ -255,7 +256,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="getting-started">
-                                        <Paper className={classes.paper}>
+                                        <Paper elevation={3} className={classes.paper}>
                                             <Observer onChange={this.handleScrollTop}>
                                                 <div />
                                             </Observer>
@@ -271,7 +272,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="permissions">
-                                        <Paper className={classes.paper}>
+                                        <Paper elevation={3} className={classes.paper}>
                                             <Typography variant="h5">Permissions</Typography>
                                         </Paper>
                                     </section>
@@ -284,7 +285,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="projects">
-                                        <Paper className={classes.paper}>
+                                        <Paper elevation={3} className={classes.paper}>
                                             <Typography variant="h5">Projects</Typography>
                                         </Paper>
                                     </section>
@@ -297,7 +298,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="geofences">
-                                        <Paper className={classes.paper}>
+                                        <Paper elevation={3} className={classes.paper}>
                                             <Typography variant="h5">Geofences</Typography>
                                         </Paper>
                                     </section>
@@ -310,7 +311,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="integrations">
-                                        <Paper className={classes.paper}>
+                                        <Paper elevation={3} className={classes.paper}>
                                             <Typography variant="h5">Integrations</Typography>
                                         </Paper>
                                     </section>
@@ -323,7 +324,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="api">
-                                        <Paper className={classes.paper}>
+                                        <Paper elevation={3} className={classes.paper}>
                                             <Typography variant="h5">API</Typography>
                                         </Paper>
                                     </section>

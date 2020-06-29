@@ -12,9 +12,6 @@ const styles = (theme: Theme) =>
             textAlign: 'center',
             marginBottom: theme.spacing(3),
         },
-        img: {
-            maxWidth: '70%',
-        },
     });
 
 interface GettingStartedProps extends WithStyles<typeof styles> {}
@@ -23,14 +20,14 @@ const GettingStarted = function (props: GettingStartedProps) {
     const { classes } = props;
     return (
         <React.Fragment>
-            <Typography className={classes.blockText} variant="h4">
+            <Typography className={classes.blockText} variant="h5">
                 Getting Started with Ranger
             </Typography>
             <Typography className={classes.blockText} variant="body1">
                 Welcome to Ranger. At Ranger, we provide hosted APIs for boundless geofencing services. Our growing list of location-centric APIs and
                 Integrations will enable you and your organization to easily implement cloud-native location services into your mobile apps.
             </Typography>
-            <Typography className={classes.blockText} variant="h4" gutterBottom>
+            <Typography className={classes.blockText} variant="h5" gutterBottom>
                 Unrivaled Geofencing
             </Typography>
             <Typography className={classes.blockText} variant="body1">
@@ -41,7 +38,7 @@ const GettingStarted = function (props: GettingStartedProps) {
                 they overlap with existing geofences.
             </Typography>
             <div className={classes.imgContainer}>
-                <img className={classes.img} src={CentralPark} alt="central-park-geofence" />
+                <img style={{ maxWidth: '70%' }} src={CentralPark} alt="central-park-geofence" />
             </div>
             <Typography className={classes.blockText} variant="body1">
                 Furthermore, the Ranger platform enables you to customize what events get triggered and where those events go - all on a per geofence basis.
@@ -53,7 +50,7 @@ const GettingStarted = function (props: GettingStartedProps) {
             <Typography className={classes.blockText} variant="body1">
                 To learn more about Ranger's extensively customizable geofences, take a look at our section dedicated to Geofencing.
             </Typography>
-            <Typography className={classes.blockText} variant="h4" gutterBottom>
+            <Typography className={classes.blockText} variant="h5" gutterBottom>
                 Breadcrumbs
             </Typography>
             <Typography className={classes.blockText} variant="body1">
@@ -61,7 +58,7 @@ const GettingStarted = function (props: GettingStartedProps) {
                 Breadcrumbs to compute whether the device or user has Entered, is Dwelling, or has Exited any combination geofences.
             </Typography>
             <div className={classes.imgContainer}>
-                <img className={classes.img} src={Breadcrumbs} alt="breadcrumbs" />
+                <img style={{ maxWidth: '50%' }} src={Breadcrumbs} alt="breadcrumbs" />
             </div>
             <Typography className={classes.blockText} variant="body1">
                 To learn more about how to start sending Breadcrumbs to Ranger, check-out our section all about Breadcrumbs.
