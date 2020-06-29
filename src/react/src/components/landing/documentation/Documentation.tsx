@@ -52,8 +52,17 @@ const styles = (theme: Theme) =>
         badgeTypography: {
             lineHeight: 'inherit',
         },
-        section: {
+        paper: {
             padding: theme.spacing(4),
+            width: 'auto',
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
+            marginTop: theme.spacing(3),
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
+                width: 800,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            },
         },
     });
 
@@ -246,7 +255,7 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="getting-started">
-                                        <Paper className={classes.section}>
+                                        <Paper className={classes.paper}>
                                             <Observer onChange={this.handleScrollTop}>
                                                 <div />
                                             </Observer>
@@ -262,7 +271,9 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="permissions">
-                                        <Typography variant="h5">Permissions</Typography>
+                                        <Paper className={classes.paper}>
+                                            <Typography variant="h5">Permissions</Typography>
+                                        </Paper>
                                     </section>
                                 </Observer>
                             </ParallaxLayer>
@@ -273,7 +284,9 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="projects">
-                                        <Typography variant="h5">Projects</Typography>
+                                        <Paper className={classes.paper}>
+                                            <Typography variant="h5">Projects</Typography>
+                                        </Paper>
                                     </section>
                                 </Observer>
                             </ParallaxLayer>
@@ -284,7 +297,9 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="geofences">
-                                        <Typography variant="h5">Geofences</Typography>
+                                        <Paper className={classes.paper}>
+                                            <Typography variant="h5">Geofences</Typography>
+                                        </Paper>
                                     </section>
                                 </Observer>
                             </ParallaxLayer>
@@ -295,7 +310,9 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="integrations">
-                                        <Typography variant="h5">Integrations</Typography>
+                                        <Paper className={classes.paper}>
+                                            <Typography variant="h5">Integrations</Typography>
+                                        </Paper>
                                     </section>
                                 </Observer>
                             </ParallaxLayer>
@@ -306,7 +323,9 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                     }}
                                 >
                                     <section id="api">
-                                        <Typography variant="h5">API</Typography>
+                                        <Paper className={classes.paper}>
+                                            <Typography variant="h5">API</Typography>
+                                        </Paper>
                                     </section>
                                 </Observer>
                             </ParallaxLayer>
