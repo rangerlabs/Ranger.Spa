@@ -21,7 +21,7 @@ const GettingStarted = function (props: GettingStartedProps) {
     const { classes } = props;
     return (
         <React.Fragment>
-            <Typography className={classes.blockText} variant="h3">
+            <Typography className={classes.blockText} variant="h4">
                 Getting Started with Ranger
             </Typography>
             <div className={classes.blockText}>
@@ -34,7 +34,7 @@ const GettingStarted = function (props: GettingStartedProps) {
                     left.
                 </Typography>
             </div>
-            <Typography className={classes.blockText} variant="h3" gutterBottom>
+            <Typography className={classes.blockText} variant="h4">
                 Unrivaled Geofencing
             </Typography>
             <div className={classes.blockText}>
@@ -61,45 +61,8 @@ const GettingStarted = function (props: GettingStartedProps) {
                     To learn more about Ranger's extensively customizable geofences, take a look at our section dedicated to Geofencing.
                 </Typography>
             </div>
-            <Typography className={classes.blockText} variant="h3" gutterBottom>
-                Breadcrumbs
-            </Typography>
-            <div className={classes.blockText}>
-                <Typography variant="body1">
-                    Breadcrumbs are the foundation of Ranger. The Ranger API ingests Breadcrumbs from devices running your mobile app and uses the trail of
-                    Breadcrumbs to compute whether the device or user has Entered, is Dwelling, or has Exited any combination geofences.
-                </Typography>
-            </div>
-            <div className={classes.imgContainer}>
-                <img style={{ maxWidth: '50%' }} src={Breadcrumbs} alt="breadcrumbs" />
-            </div>
-            <div className={classes.blockText}>
-                <Typography variant="body1">
-                    To learn more about how to start sending Breadcrumbs to Ranger, check-out our section all about Breadcrumbs in the API documentation.
-                </Typography>
-            </div>
-            <Typography className={classes.blockText} variant="h3" gutterBottom>
-                Projects
-            </Typography>
-            <div className={classes.blockText}>
-                <Typography gutterBottom variant="body1">
-                    Projects are how Ranger groups Geofences and the Integrations they can execute. Additionally, each Project has its own unique API keys to
-                    associate with a mobile app. Depending on your use case, Projects could be scoped to a mobile app, customer, or organizational unit.
-                </Typography>
-                <Typography gutterBottom variant="body1">
-                    Each Project is assigned a pair of unique API keys that enable your Breadcrumb requsts to indicate to Ranger whether it must execute LIVE or
-                    TEST Integrations. A third API key can be used to create and manage Geofence resources.
-                </Typography>
-                <Typography variant="body1">
-                    Projects can be disabled without the need for being deleted and API keys can be re-generated should the need arise.
-                </Typography>
-            </div>
-            <div className={classes.blockText}>
-                <Typography variant="body1">
-                    To learn more about managing Projects and Project security, visit the Project section of our documentation.
-                </Typography>
-            </div>
-            <Typography className={classes.blockText} variant="h3" gutterBottom>
+
+            <Typography className={classes.blockText} variant="h4">
                 Integrations
             </Typography>
             <div className={classes.blockText}>
@@ -108,6 +71,21 @@ const GettingStarted = function (props: GettingStartedProps) {
                     <HttpMethod method="POST" />
                     <HttpMethod method="PUT" />
                     <HttpMethod method="DELETE" />
+                </Typography>
+            </div>
+            <div className={classes.blockText}>
+                <Typography variant="body1">
+                    To learn more about managing Projects and Project security, visit the Project section of our documentation.
+                </Typography>
+            </div>
+
+            <Typography className={classes.blockText} variant="h4">
+                Projects
+            </Typography>
+            <div className={classes.blockText}>
+                <Typography variant="body1">
+                    Projects are how Ranger groups Geofences and the Integrations they can execute. Additionally, each Project has its own unique API keys.
+                    Depending on your use case, Projects could be scoped to a mobile app, customer, or organizational unit.
                 </Typography>
             </div>
             <div className={classes.blockText}>

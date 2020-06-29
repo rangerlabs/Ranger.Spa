@@ -6,7 +6,7 @@ import ErrorPage from './error/Error';
 import LoginRedirect from './auth/LoginRedirect';
 import IRoute from './ILandingRoute';
 import LogoutRedirect from './auth/LogoutRedirect';
-import Documentation from './landing/documentation/Documentation';
+import Docs from './landing/documentation/Docs';
 import Pricing from './landing/pricing/Pricing';
 import Company from './landing/company/Company';
 import ConfirmDomain from './landing/confirmations/ConfirmDomain';
@@ -21,7 +21,7 @@ export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: RoutePaths.Landing, component: Landing },
     { exact: true, path: RoutePaths.SignUp, component: SignUp },
     { exact: true, path: RoutePaths.EnterDomain, component: EnterDomain },
-    { exact: true, path: RoutePaths.Documentation, component: Documentation },
+    { exact: true, path: RoutePaths.Docs, component: Docs },
     { exact: true, path: RoutePaths.Company, component: Company },
     { exact: true, path: RoutePaths.Pricing, component: Pricing },
     { exact: true, path: RoutePaths.Login, component: LoginRedirect },

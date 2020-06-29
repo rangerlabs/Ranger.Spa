@@ -80,7 +80,7 @@ interface DocumentationState {
 
 const timeout = { enter: 0, exit: 500 };
 
-class Documentation extends React.Component<DocumentationProps, DocumentationState> {
+class Docs extends React.Component<DocumentationProps, DocumentationState> {
     parallax: Parallax;
 
     state: DocumentationState = {
@@ -344,4 +344,4 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
     }
 }
 
-export default withStyles(styles, { withTheme: true })(Documentation);
+export default withStyles(styles, { withTheme: true })(Docs);

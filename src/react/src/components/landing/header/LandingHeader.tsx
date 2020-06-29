@@ -73,7 +73,7 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
         this.props.push(RoutePaths.Company);
     };
     handleDocumentationClick = () => {
-        this.props.push(RoutePaths.Documentation);
+        this.props.push(RoutePaths.Docs);
     };
     handlePricingClick = () => {
         this.props.push(RoutePaths.Pricing);

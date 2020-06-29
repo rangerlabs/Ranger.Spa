@@ -5,6 +5,12 @@ import React from 'react';
 
 const styles = (theme: Theme) =>
     createStyles({
+        font: {
+            color: theme.palette.common.white,
+            padding: '2px 8px',
+            fontSize: '0.85rem',
+            fontWeight: 800,
+        },
         get: {
             background: blue[700],
         },
@@ -12,10 +18,10 @@ const styles = (theme: Theme) =>
             background: Constants.COLORS.PRIMARY_COLOR,
         },
         put: {
-            background: yellow[600],
+            background: yellow[700],
         },
         delete: {
-            background: red[500],
+            background: red[700],
         },
     });
 
