@@ -2,6 +2,7 @@ import { Theme, createStyles, WithStyles, withStyles, Typography } from '@materi
 import Constants from '../../../../theme/Constants';
 import { blue, yellow, red } from '@material-ui/core/colors';
 import React from 'react';
+import classNames from 'classnames';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -34,28 +35,28 @@ const HttpMethod = function (props: HttpMethodProps) {
     switch (method) {
         case 'GET': {
             return (
-                <Typography className={classes.get} variant="caption">
+                <Typography className={classNames(classes.font, classes.get)} variant="caption">
                     GET
                 </Typography>
             );
         }
         case 'POST': {
             return (
-                <Typography className={classes.post} variant="caption">
+                <Typography className={classNames(classes.font, classes.post)} variant="caption">
                     POST
                 </Typography>
             );
         }
         case 'PUT': {
             return (
-                <Typography className={classes.put} variant="caption">
+                <Typography className={classNames(classes.font, classes.put)} variant="caption">
                     PUT
                 </Typography>
             );
         }
         case 'DELETE': {
             return (
-                <Typography className={classes.delete} variant="caption">
+                <Typography className={classNames(classes.font, classes.delete)} variant="caption">
                     DELETE
                 </Typography>
             );
