@@ -5,16 +5,12 @@ export default class GithubService {
     async getSection(section: DocumentationSectionEnum): Promise<IRestResponse<string>> {
         let statusCode = 0;
         let isError = false;
-        var noCacheHeaders = new Headers();
-        noCacheHeaders.append('pragma', 'no-cache');
-        noCacheHeaders.append('cache-control', 'no-cache');
 
         switch (section) {
             case DocumentationSectionEnum.GETTING_STARTED: {
                 return fetch('https://raw.githubusercontent.com/rangerlabs/Ranger.Docs/master/GettingStarted/GettingStarted.md', {
                     method: 'GET',
                     mode: 'cors',
-                    headers: noCacheHeaders,
                 })
                     .then((response: Response) => {
                         isError = response.status === 304 || (response.status >= 400 && response.status <= 500) ? true : false;
