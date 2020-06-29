@@ -247,10 +247,10 @@ class Documentation extends React.Component<DocumentationProps, DocumentationSta
                                 >
                                     <section id="getting-started">
                                         <Paper className={classes.section}>
-                                            <GettingStarted />
                                             <Observer onChange={this.handleScrollTop}>
                                                 <div />
                                             </Observer>
+                                            <GettingStarted />
                                         </Paper>
                                     </section>
                                 </Observer>
