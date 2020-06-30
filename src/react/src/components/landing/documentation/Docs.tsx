@@ -120,7 +120,6 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     onClick={() => {
                         this.closeMobileDrawer();
                         document.getElementById('getting-started').scrollIntoView({ behavior: 'smooth' });
-                        location.href = '#getting-started';
                     }}
                 >
                     <ListItemText primary="Getting Started" />
@@ -131,7 +130,6 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     onClick={() => {
                         this.closeMobileDrawer();
                         document.getElementById('permissions').scrollIntoView({ behavior: 'smooth' });
-                        location.href = '#permissions';
                     }}
                 >
                     <ListItemText primary="Permissions" />
@@ -142,7 +140,6 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     onClick={() => {
                         this.closeMobileDrawer();
                         document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
-                        location.href = '#projects';
                     }}
                 >
                     <ListItemText primary="Projects" />
@@ -153,7 +150,6 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     onClick={() => {
                         this.closeMobileDrawer();
                         document.getElementById('geofences').scrollIntoView({ behavior: 'smooth' });
-                        location.href = '#geofences';
                     }}
                 >
                     <ListItemText primary="Geofences" />
@@ -164,7 +160,6 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     onClick={() => {
                         this.closeMobileDrawer();
                         document.getElementById('integrations').scrollIntoView({ behavior: 'smooth' });
-                        location.href = '#integrations';
                     }}
                 >
                     <ListItemText primary="Integrations" />
@@ -175,7 +170,6 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     onClick={() => {
                         this.closeMobileDrawer();
                         document.getElementById('api').scrollIntoView({ behavior: 'smooth' });
-                        location.href = '#api';
                     }}
                 >
                     <ListItemText primary="API" />
@@ -320,8 +314,7 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     <ScrollTop
                         visible={!this.state.atPageTop}
                         onClick={() => {
-                            location.href = '#';
-                            location.href = '#getting-started';
+                            document.getElementById('getting-started').scrollIntoView({ behavior: 'smooth' });
                         }}
                     />
                 </div>
