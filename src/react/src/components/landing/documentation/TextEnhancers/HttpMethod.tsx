@@ -11,18 +11,19 @@ const styles = (theme: Theme) =>
             padding: '2px 8px',
             fontSize: '0.85rem',
             fontWeight: 800,
+            borderRadius: '8px',
         },
         get: {
-            background: blue[700],
+            background: blue[800],
         },
         post: {
             background: Constants.COLORS.PRIMARY_COLOR,
         },
         put: {
-            background: yellow[700],
+            background: yellow[800],
         },
         delete: {
-            background: red[700],
+            background: red[800],
         },
     });
 

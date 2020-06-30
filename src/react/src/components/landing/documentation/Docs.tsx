@@ -119,7 +119,8 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        this.parallax.scrollTo(0);
+                        location.href = '#';
+                        location.href = '#getting-started';
                     }}
                 >
                     <ListItemText primary="Getting Started" />
@@ -129,7 +130,8 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        this.parallax.scrollTo(1);
+                        location.href = '#';
+                        location.href = '#permissions';
                     }}
                 >
                     <ListItemText primary="Permissions" />
@@ -139,7 +141,8 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        this.parallax.scrollTo(2);
+                        location.href = '#';
+                        location.href = '#projects';
                     }}
                 >
                     <ListItemText primary="Projects" />
@@ -159,7 +162,8 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        this.parallax.scrollTo(4);
+                        location.href = '#';
+                        location.href = '#integrations';
                     }}
                 >
                     <ListItemText primary="Integrations" />
@@ -169,13 +173,14 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        this.parallax.scrollTo(5);
+                        location.href = '#';
+                        location.href = '#api';
                     }}
                 >
                     <ListItemText primary="API" />
                 </ListItem>
                 <ListItem
-                    id="skd"
+                    id="sdk"
                     button
                     // onClick={() => {
                     //     this.closeMobileDrawer();
@@ -233,111 +238,91 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                 </nav>
 
                 <div className={classes.content}>
-                    <div className={classes.parallaxContainer}>
-                        <Hidden mdUp implementation="css">
-                            <div className={classes.mobileSectionMenu} onClick={this.openMobileDrawer}>
-                                <Typography align="center" variant="subtitle1">
-                                    {this.state.mobileSectionName}
-                                    <ExpandMore className={classes.iconAlign} />
-                                </Typography>
-                            </div>
-                        </Hidden>
-                        <Parallax
-                            pages={6}
-                            scrolling={true}
-                            ref={(ref: Parallax) => {
-                                this.parallax = ref;
-                            }}
-                        >
-                            <ParallaxLayer offset={0} speed={1}>
-                                <Observer
-                                    onChange={() => {
-                                        this.setState({ mobileSectionName: 'Getting Started' });
-                                    }}
-                                >
-                                    <section id="getting-started">
-                                        <Paper elevation={3} className={classes.paper}>
-                                            <Observer onChange={this.handleScrollTop}>
-                                                <div />
-                                            </Observer>
-                                            <GettingStarted />
-                                        </Paper>
-                                    </section>
+                    <Hidden mdUp implementation="css">
+                        <div className={classes.mobileSectionMenu} onClick={this.openMobileDrawer}>
+                            <Typography align="center" variant="subtitle1">
+                                {this.state.mobileSectionName}
+                                <ExpandMore className={classes.iconAlign} />
+                            </Typography>
+                        </div>
+                    </Hidden>
+
+                    <Observer
+                        onChange={() => {
+                            this.setState({ mobileSectionName: 'Getting Started' });
+                        }}
+                    >
+                        <section id="getting-started">
+                            <Paper elevation={3} className={classes.paper}>
+                                <Observer onChange={this.handleScrollTop}>
+                                    <div />
                                 </Observer>
-                            </ParallaxLayer>
-                            <ParallaxLayer offset={1} speed={1}>
-                                <Observer
-                                    onChange={() => {
-                                        this.setState({ mobileSectionName: 'Permissions' });
-                                    }}
-                                >
-                                    <section id="permissions">
-                                        <Paper elevation={3} className={classes.paper}>
-                                            <Typography variant="h5">Permissions</Typography>
-                                        </Paper>
-                                    </section>
-                                </Observer>
-                            </ParallaxLayer>
-                            <ParallaxLayer offset={2} speed={1}>
-                                <Observer
-                                    onChange={() => {
-                                        this.setState({ mobileSectionName: 'Projects' });
-                                    }}
-                                >
-                                    <section id="projects">
-                                        <Paper elevation={3} className={classes.paper}>
-                                            <Typography variant="h5">Projects</Typography>
-                                        </Paper>
-                                    </section>
-                                </Observer>
-                            </ParallaxLayer>
-                            <ParallaxLayer offset={3} speed={1}>
-                                <Observer
-                                    onChange={() => {
-                                        this.setState({ mobileSectionName: 'Geofences' });
-                                    }}
-                                >
-                                    <section id="geofences">
-                                        <Paper elevation={3} className={classes.paper}>
-                                            <Typography variant="h5">Geofences</Typography>
-                                        </Paper>
-                                    </section>
-                                </Observer>
-                            </ParallaxLayer>
-                            <ParallaxLayer offset={4} speed={1}>
-                                <Observer
-                                    onChange={() => {
-                                        this.setState({ mobileSectionName: 'Integrations' });
-                                    }}
-                                >
-                                    <section id="integrations">
-                                        <Paper elevation={3} className={classes.paper}>
-                                            <Typography variant="h5">Integrations</Typography>
-                                        </Paper>
-                                    </section>
-                                </Observer>
-                            </ParallaxLayer>
-                            <ParallaxLayer offset={5} speed={1}>
-                                <Observer
-                                    onChange={() => {
-                                        this.setState({ mobileSectionName: 'API' });
-                                    }}
-                                >
-                                    <section id="api">
-                                        <Paper elevation={3} className={classes.paper}>
-                                            <Typography variant="h5">API</Typography>
-                                        </Paper>
-                                    </section>
-                                </Observer>
-                            </ParallaxLayer>
-                        </Parallax>
-                        <ScrollTop
-                            visible={!this.state.atPageTop}
-                            onClick={() => {
-                                this.parallax.scrollTo(0);
-                            }}
-                        />
-                    </div>
+                                <GettingStarted />
+                            </Paper>
+                        </section>
+                    </Observer>
+                    <Observer
+                        onChange={() => {
+                            this.setState({ mobileSectionName: 'Permissions' });
+                        }}
+                    >
+                        <section id="permissions">
+                            <Paper elevation={3} className={classes.paper}>
+                                <Typography variant="h5">Permissions</Typography>
+                            </Paper>
+                        </section>
+                    </Observer>
+                    <Observer
+                        onChange={() => {
+                            this.setState({ mobileSectionName: 'Projects' });
+                        }}
+                    >
+                        <section id="projects">
+                            <Paper elevation={3} className={classes.paper}>
+                                <Typography variant="h5">Projects</Typography>
+                            </Paper>
+                        </section>
+                    </Observer>
+                    <Observer
+                        onChange={() => {
+                            this.setState({ mobileSectionName: 'Geofences' });
+                        }}
+                    >
+                        <section id="geofences">
+                            <Paper elevation={3} className={classes.paper}>
+                                <Typography variant="h5">Geofences</Typography>
+                            </Paper>
+                        </section>
+                    </Observer>
+                    <Observer
+                        onChange={() => {
+                            this.setState({ mobileSectionName: 'Integrations' });
+                        }}
+                    >
+                        <section id="integrations">
+                            <Paper elevation={3} className={classes.paper}>
+                                <Typography variant="h5">Integrations</Typography>
+                            </Paper>
+                        </section>
+                    </Observer>
+                    <Observer
+                        onChange={() => {
+                            this.setState({ mobileSectionName: 'API' });
+                        }}
+                    >
+                        <section id="api">
+                            <Paper elevation={3} className={classes.paper}>
+                                <Typography variant="h5">API</Typography>
+                            </Paper>
+                        </section>
+                    </Observer>
+                    <ScrollTop
+                        visible={!this.state.atPageTop}
+                        onClick={() => {
+                            location.href = '#';
+                            location.href = '#getting-started';
+                        }}
+                    />
                 </div>
             </React.Fragment>
         );
