@@ -256,13 +256,11 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                                 <Observer onChange={this.handleScrollTop}>
                                     <div />
                                 </Observer>
-                                <Switch>
-                                    {docComponents.map((props, index) => {
-                                        const { component: Component, ...rest } = props;
-                                        return <Route {...rest} render={(props) => <Component key={index} {...props} />} />;
-                                    })}
-                                    <Route component={NotFound} />
-                                </Switch>
+                                {docComponents.map((props, index) => {
+                                    const { component: Component, ...rest } = props;
+                                    return <Route {...rest} render={(props) => <Component key={index} {...props} />} />;
+                                })}
+                                <Route component={NotFound} />
                             </Paper>
                         </section>
                     </Observer>
