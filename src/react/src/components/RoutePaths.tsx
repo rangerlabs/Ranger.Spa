@@ -4,7 +4,7 @@ export default class RoutePaths {
     public static Callback = '/callback';
     public static Register = '/register';
     public static EnterDomain = '/enter-domain';
-    public static Docs = '/docs';
+    public static Docs = '/docs/*';
     public static Pricing = '/pricing';
     public static Company = '/company';
     public static Login = '/login';
