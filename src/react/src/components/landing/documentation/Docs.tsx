@@ -119,7 +119,7 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        location.href = '#';
+                        document.getElementById('getting-started').scrollIntoView();
                         location.href = '#getting-started';
                     }}
                 >
@@ -130,7 +130,7 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        location.href = '#';
+                        document.getElementById('permissions').scrollIntoView();
                         location.href = '#permissions';
                     }}
                 >
@@ -141,7 +141,7 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        location.href = '#';
+                        document.getElementById('projects').scrollIntoView();
                         location.href = '#projects';
                     }}
                 >
@@ -152,7 +152,8 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        this.parallax.scrollTo(3);
+                        document.getElementById('geofences').scrollIntoView();
+                        location.href = '#geofences';
                     }}
                 >
                     <ListItemText primary="Geofences" />
@@ -162,7 +163,7 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        location.href = '#';
+                        document.getElementById('integrations').scrollIntoView();
                         location.href = '#integrations';
                     }}
                 >
@@ -173,7 +174,7 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        location.href = '#';
+                        document.getElementById('api').scrollIntoView();
                         location.href = '#api';
                     }}
                 >
