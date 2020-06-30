@@ -115,73 +115,73 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
         const drawerContent = (
             <List>
                 <ListItem
-                    id="getting-started"
+                    id="getting-started-link"
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        document.getElementById('getting-started').scrollIntoView();
+                        document.getElementById('getting-started').scrollIntoView({ behavior: 'smooth' });
                         location.href = '#getting-started';
                     }}
                 >
                     <ListItemText primary="Getting Started" />
                 </ListItem>
                 <ListItem
-                    id="permissions"
+                    id="permissions-link"
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        document.getElementById('permissions').scrollIntoView();
+                        document.getElementById('permissions').scrollIntoView({ behavior: 'smooth' });
                         location.href = '#permissions';
                     }}
                 >
                     <ListItemText primary="Permissions" />
                 </ListItem>
                 <ListItem
-                    id="projects"
+                    id="projects-link"
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        document.getElementById('projects').scrollIntoView();
+                        document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
                         location.href = '#projects';
                     }}
                 >
                     <ListItemText primary="Projects" />
                 </ListItem>
                 <ListItem
-                    id="geofences"
+                    id="geofences-link"
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        document.getElementById('geofences').scrollIntoView();
+                        document.getElementById('geofences').scrollIntoView({ behavior: 'smooth' });
                         location.href = '#geofences';
                     }}
                 >
                     <ListItemText primary="Geofences" />
                 </ListItem>
                 <ListItem
-                    id="integrations"
+                    id="integrations-link"
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        document.getElementById('integrations').scrollIntoView();
+                        document.getElementById('integrations').scrollIntoView({ behavior: 'smooth' });
                         location.href = '#integrations';
                     }}
                 >
                     <ListItemText primary="Integrations" />
                 </ListItem>
                 <ListItem
-                    id="api"
+                    id="api-link"
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        document.getElementById('api').scrollIntoView();
+                        document.getElementById('api').scrollIntoView({ behavior: 'smooth' });
                         location.href = '#api';
                     }}
                 >
                     <ListItemText primary="API" />
                 </ListItem>
                 <ListItem
-                    id="sdk"
+                    id="sdk-link"
                     button
                     // onClick={() => {
                     //     this.closeMobileDrawer();
