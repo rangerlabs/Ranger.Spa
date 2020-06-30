@@ -6,6 +6,9 @@ import Observer, { InView } from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import GettingStarted from './GettingStarted';
 import Constants from '../../../theme/Constants';
+import { DocComponents } from './DocumentationComponents';
+import { Switch, RouteComponentProps, Route } from 'react-router-dom';
+import NotFound from '../../error/NotFound';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -111,6 +114,7 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
 
     render() {
         const { classes, theme } = this.props;
+        const docComponents = DocComponents;
 
         const drawerContent = (
             <List>
@@ -252,71 +256,16 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                                 <Observer onChange={this.handleScrollTop}>
                                     <div />
                                 </Observer>
-                                <GettingStarted />
+                                <Switch>
+                                    {docComponents.map((props, index) => {
+                                        const { component: Component, ...rest } = props;
+                                        return <Route {...rest} render={(props) => <Component key={index} {...props} />} />;
+                                    })}
+                                    <Route component={NotFound} />
+                                </Switch>
                             </Paper>
                         </section>
                     </Observer>
-                    <Observer
-                        onChange={() => {
-                            this.setState({ mobileSectionName: 'Permissions' });
-                        }}
-                    >
-                        <section id="permissions">
-                            <Paper elevation={3} className={classes.paper}>
-                                <Typography variant="h5">Permissions</Typography>
-                            </Paper>
-                        </section>
-                    </Observer>
-                    <Observer
-                        onChange={() => {
-                            this.setState({ mobileSectionName: 'Projects' });
-                        }}
-                    >
-                        <section id="projects">
-                            <Paper elevation={3} className={classes.paper}>
-                                <Typography variant="h5">Projects</Typography>
-                            </Paper>
-                        </section>
-                    </Observer>
-                    <Observer
-                        onChange={() => {
-                            this.setState({ mobileSectionName: 'Geofences' });
-                        }}
-                    >
-                        <section id="geofences">
-                            <Paper elevation={3} className={classes.paper}>
-                                <Typography variant="h5">Geofences</Typography>
-                            </Paper>
-                        </section>
-                    </Observer>
-                    <Observer
-                        onChange={() => {
-                            this.setState({ mobileSectionName: 'Integrations' });
-                        }}
-                    >
-                        <section id="integrations">
-                            <Paper elevation={3} className={classes.paper}>
-                                <Typography variant="h5">Integrations</Typography>
-                            </Paper>
-                        </section>
-                    </Observer>
-                    <Observer
-                        onChange={() => {
-                            this.setState({ mobileSectionName: 'API' });
-                        }}
-                    >
-                        <section id="api">
-                            <Paper elevation={3} className={classes.paper}>
-                                <Typography variant="h5">API</Typography>
-                            </Paper>
-                        </section>
-                    </Observer>
-                    <ScrollTop
-                        visible={!this.state.atPageTop}
-                        onClick={() => {
-                            document.getElementById('getting-started').scrollIntoView({ behavior: 'smooth' });
-                        }}
-                    />
                 </div>
             </React.Fragment>
         );

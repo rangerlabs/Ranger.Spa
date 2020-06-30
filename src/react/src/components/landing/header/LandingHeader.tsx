@@ -96,13 +96,10 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                             className={classes.landingLink}
                             onClick={this.handleDocumentationClick}
                         >
-                            Documentation
+                            Docs
                         </Link>
                         <Link component="button" variant="subtitle1" color="textPrimary" className={classes.landingLink} onClick={this.handlePricingClick}>
                             Pricing
-                        </Link>
-                        <Link component="button" variant="subtitle1" color="textPrimary" className={classes.landingLink} onClick={this.handleCompanyClick}>
-                            Company
                         </Link>
                         <div className={classes.actionContainer}>
                             {this.props.user && !this.props.user.expired ? (
