@@ -21,9 +21,6 @@ const styles = (theme: Theme) =>
                 marginLeft: theme.drawer.width,
             },
         },
-        mobileSectionMenu: {
-            background: 'white',
-        },
         drawer: {
             [theme.breakpoints.up('md')]: {
                 width: theme.drawer.width,
@@ -133,7 +130,6 @@ function Docs(props: DocumentationProps): JSX.Element {
                 button
                 onClick={() => {
                     closeMobileDrawer();
-                    document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
                 }}
             >
                 <ListItemText primary="Geofences" />
@@ -143,7 +139,6 @@ function Docs(props: DocumentationProps): JSX.Element {
                 button
                 onClick={() => {
                     closeMobileDrawer();
-                    document.getElementById('integrations').scrollIntoView({ behavior: 'smooth' });
                 }}
             >
                 <ListItemText primary="Integrations" />
@@ -153,19 +148,11 @@ function Docs(props: DocumentationProps): JSX.Element {
                 button
                 onClick={() => {
                     closeMobileDrawer();
-                    document.getElementById('api').scrollIntoView({ behavior: 'smooth' });
                 }}
             >
                 <ListItemText primary="API" />
             </ListItem>
-            <ListItem
-                id="sdk-link"
-                button
-                // onClick={() => {
-                //     this.closeMobileDrawer();
-                //     this.parallax.scrollTo(6);
-                // }}
-            >
+            <ListItem id="sdk-link" button>
                 <Badge
                     classes={{ badge: classes.badge }}
                     badgeContent={
@@ -219,28 +206,19 @@ function Docs(props: DocumentationProps): JSX.Element {
 
             <div className={classes.content}>
                 <Hidden mdUp implementation="css">
-                    <div className={classes.mobileSectionMenu} onClick={openMobileDrawer}>
+                    <div onClick={openMobileDrawer}>
                         <Typography align="center" variant="subtitle1">
                             {mobileSectionName}
                             <ExpandMore className={classes.iconAlign} />
                         </Typography>
                     </div>
                 </Hidden>
-
-                <Observer
-                    onChange={() => {
-                        setMobileSectionName('Getting Started');
-                    }}
-                >
-                    <section id="getting-started">
-                        <Paper elevation={3} className={classes.paper}>
-                            <Observer onChange={handleScrollTop}>
-                                <div />
-                            </Observer>
-                            <Doc />
-                        </Paper>
-                    </section>
-                </Observer>
+                <Paper elevation={3} className={classes.paper}>
+                    <Observer onChange={handleScrollTop}>
+                        <div />
+                    </Observer>
+                    <Doc />
+                </Paper>
             </div>
         </React.Fragment>
     );
