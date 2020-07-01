@@ -5,10 +5,12 @@ import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import GettingStarted from './GettingStarted';
 import { DocComponents } from './DocumentationComponents';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import NotFound from '../../error/NotFound';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
+import { WithRouterProps, useRouteMatch } from 'react-router';
+import { useState } from 'react';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -82,194 +84,179 @@ interface DocumentationState {
     atPageTop: boolean;
 }
 
-class Docs extends React.Component<DocumentationProps, DocumentationState> {
-    parallax: Parallax;
+function Docs(props: DocumentationProps): JSX.Element {
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [atPageTop, setAtPageTop] = useState(true);
+    const [currentSelection, setCurrentSelection] = useState('');
+    const [mobileSectionName, setMobileSectionName] = useState('Getting Started');
+    let match = useRouteMatch();
 
-    state: DocumentationState = {
-        mobileOpen: false,
-        atPageTop: true,
-        currentSelection: '',
-        mobileSectionName: 'Getting Started',
+    const handleMenuToggle = function (name: string) {
+        setCurrentSelection(currentSelection === name ? '' : name);
     };
 
-    handleMenuToggle = (name: string) => {
-        const currentSelection = this.state.currentSelection === name ? '' : name;
-        this.setState({ currentSelection: currentSelection });
+    const openMobileDrawer = function () {
+        setMobileOpen(true);
+    };
+    const closeMobileDrawer = function () {
+        setMobileOpen(false);
+    };
+    const handleScrollTop = function (inView: boolean) {
+        setAtPageTop(inView);
     };
 
-    openMobileDrawer = () => {
-        this.setState({
-            mobileOpen: true,
-        });
-    };
-    closeMobileDrawer = () => {
-        this.setState({
-            mobileOpen: false,
-        });
-    };
-    handleScrollTop = (inView: boolean) => {
-        this.setState({ atPageTop: inView });
-    };
+    const { classes, theme } = props;
+    const docComponents = DocComponents;
+    const { component: Doc } = docComponents.find(({ name }) => name === (match.params as any).name);
 
-    render() {
-        const { classes, theme } = this.props;
-        const docComponents = DocComponents;
+    const drawerContent = (
+        <List>
+            <ListItem
+                id="getting-started-link"
+                button
+                onClick={() => {
+                    closeMobileDrawer();
+                    document.getElementById('getting-started').scrollIntoView({ behavior: 'smooth' });
+                }}
+            >
+                <ListItemText primary="Getting Started" />
+            </ListItem>
+            <ListItem
+                id="projects-link"
+                button
+                onClick={() => {
+                    closeMobileDrawer();
+                    props.push('/projects');
+                }}
+            >
+                <ListItemText primary="Projects" />
+            </ListItem>
+            <ListItem
+                id="projects-link"
+                button
+                onClick={() => {
+                    closeMobileDrawer();
+                    document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+                }}
+            >
+                <ListItemText primary="Projects" />
+            </ListItem>
+            <ListItem
+                id="geofences-link"
+                button
+                onClick={() => {
+                    closeMobileDrawer();
+                    document.getElementById('geofences').scrollIntoView({ behavior: 'smooth' });
+                }}
+            >
+                <ListItemText primary="Geofences" />
+            </ListItem>
+            <ListItem
+                id="integrations-link"
+                button
+                onClick={() => {
+                    closeMobileDrawer();
+                    document.getElementById('integrations').scrollIntoView({ behavior: 'smooth' });
+                }}
+            >
+                <ListItemText primary="Integrations" />
+            </ListItem>
+            <ListItem
+                id="api-link"
+                button
+                onClick={() => {
+                    closeMobileDrawer();
+                    document.getElementById('api').scrollIntoView({ behavior: 'smooth' });
+                }}
+            >
+                <ListItemText primary="API" />
+            </ListItem>
+            <ListItem
+                id="sdk-link"
+                button
+                // onClick={() => {
+                //     this.closeMobileDrawer();
+                //     this.parallax.scrollTo(6);
+                // }}
+            >
+                <Badge
+                    classes={{ badge: classes.badge }}
+                    badgeContent={
+                        <Typography className={classes.badgeTypography} variant="caption" align="center">
+                            Coming soon
+                        </Typography>
+                    }
+                    color="primary"
+                >
+                    <ListItemText primary="SDK" />
+                </Badge>
+            </ListItem>
+        </List>
+    );
 
-        const drawerContent = (
-            <List>
-                <ListItem
-                    id="getting-started-link"
-                    button
-                    onClick={() => {
-                        this.closeMobileDrawer();
-                        document.getElementById('getting-started').scrollIntoView({ behavior: 'smooth' });
-                    }}
-                >
-                    <ListItemText primary="Getting Started" />
-                </ListItem>
-                <ListItem
-                    id="projects-link"
-                    button
-                    onClick={() => {
-                        this.closeMobileDrawer();
-                        this.props.push('/projects');
-                    }}
-                >
-                    <ListItemText primary="Projects" />
-                </ListItem>
-                <ListItem
-                    id="projects-link"
-                    button
-                    onClick={() => {
-                        this.closeMobileDrawer();
-                        document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
-                    }}
-                >
-                    <ListItemText primary="Projects" />
-                </ListItem>
-                <ListItem
-                    id="geofences-link"
-                    button
-                    onClick={() => {
-                        this.closeMobileDrawer();
-                        document.getElementById('geofences').scrollIntoView({ behavior: 'smooth' });
-                    }}
-                >
-                    <ListItemText primary="Geofences" />
-                </ListItem>
-                <ListItem
-                    id="integrations-link"
-                    button
-                    onClick={() => {
-                        this.closeMobileDrawer();
-                        document.getElementById('integrations').scrollIntoView({ behavior: 'smooth' });
-                    }}
-                >
-                    <ListItemText primary="Integrations" />
-                </ListItem>
-                <ListItem
-                    id="api-link"
-                    button
-                    onClick={() => {
-                        this.closeMobileDrawer();
-                        document.getElementById('api').scrollIntoView({ behavior: 'smooth' });
-                    }}
-                >
-                    <ListItemText primary="API" />
-                </ListItem>
-                <ListItem
-                    id="sdk-link"
-                    button
-                    // onClick={() => {
-                    //     this.closeMobileDrawer();
-                    //     this.parallax.scrollTo(6);
-                    // }}
-                >
-                    <Badge
-                        classes={{ badge: classes.badge }}
-                        badgeContent={
-                            <Typography className={classes.badgeTypography} variant="caption" align="center">
-                                Coming soon
-                            </Typography>
-                        }
-                        color="primary"
-                    >
-                        <ListItemText primary="SDK" />
-                    </Badge>
-                </ListItem>
-            </List>
-        );
-        return (
-            <React.Fragment>
-                <nav>
-                    <Hidden mdUp implementation="css">
-                        <Drawer
-                            variant="temporary"
-                            anchor={'top'}
-                            open={this.state.mobileOpen}
-                            onClose={this.closeMobileDrawer}
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            SlideProps={{
-                                timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
-                            }}
-                        >
-                            {drawerContent}
-                        </Drawer>
-                    </Hidden>
-                    <Hidden smDown implementation="css">
-                        <Drawer
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            anchor={'left'}
-                            variant="permanent"
-                            open
-                        >
-                            <div>
-                                <div className={classes.toolbar} />
-                                {drawerContent}
-                            </div>
-                        </Drawer>
-                    </Hidden>
-                </nav>
-
-                <div className={classes.content}>
-                    <Hidden mdUp implementation="css">
-                        <div className={classes.mobileSectionMenu} onClick={this.openMobileDrawer}>
-                            <Typography align="center" variant="subtitle1">
-                                {this.state.mobileSectionName}
-                                <ExpandMore className={classes.iconAlign} />
-                            </Typography>
-                        </div>
-                    </Hidden>
-
-                    <Observer
-                        onChange={() => {
-                            this.setState({ mobileSectionName: 'Getting Started' });
+    return (
+        <React.Fragment>
+            <nav>
+                <Hidden mdUp implementation="css">
+                    <Drawer
+                        variant="temporary"
+                        anchor={'top'}
+                        open={mobileOpen}
+                        onClose={closeMobileDrawer}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        SlideProps={{
+                            timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
                         }}
                     >
-                        <section id="getting-started">
-                            <Paper elevation={3} className={classes.paper}>
-                                <Observer onChange={this.handleScrollTop}>
-                                    <div />
-                                </Observer>
-                                <Switch>
-                                    {docComponents.map((props, index) => {
-                                        const { component: Component, ...rest } = props;
-                                        return <Route {...rest} render={(props) => <Component key={index} {...props} />} />;
-                                    })}
-                                    <Route component={NotFound} />
-                                </Switch>
-                                <GettingStarted />
-                            </Paper>
-                        </section>
-                    </Observer>
-                </div>
-            </React.Fragment>
-        );
-    }
+                        {drawerContent}
+                    </Drawer>
+                </Hidden>
+                <Hidden smDown implementation="css">
+                    <Drawer
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        anchor={'left'}
+                        variant="permanent"
+                        open
+                    >
+                        <div>
+                            <div className={classes.toolbar} />
+                            {drawerContent}
+                        </div>
+                    </Drawer>
+                </Hidden>
+            </nav>
+
+            <div className={classes.content}>
+                <Hidden mdUp implementation="css">
+                    <div className={classes.mobileSectionMenu} onClick={openMobileDrawer}>
+                        <Typography align="center" variant="subtitle1">
+                            {mobileSectionName}
+                            <ExpandMore className={classes.iconAlign} />
+                        </Typography>
+                    </div>
+                </Hidden>
+
+                <Observer
+                    onChange={() => {
+                        setMobileSectionName('Getting Started');
+                    }}
+                >
+                    <section id="getting-started">
+                        <Paper elevation={3} className={classes.paper}>
+                            <Observer onChange={handleScrollTop}>
+                                <div />
+                            </Observer>
+                            <Doc />
+                        </Paper>
+                    </section>
+                </Observer>
+            </div>
+        </React.Fragment>
+    );
 }
 
 export default connect(null, { push })(withStyles(styles, { withTheme: true })(Docs));
