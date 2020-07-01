@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Typography, Badge, Paper } from '@material-ui/core';
-import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
-import Observer, { InView } from 'react-intersection-observer';
+import { Parallax } from 'react-spring/renderprops-addons';
+import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import GettingStarted from './GettingStarted';
-import Constants from '../../../theme/Constants';
 import { DocComponents } from './DocumentationComponents';
-import { Switch, RouteComponentProps, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import NotFound from '../../error/NotFound';
+import { push } from 'connected-react-router';
+import { connect } from 'react-redux';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -71,6 +72,7 @@ const styles = (theme: Theme) =>
 
 interface DocumentationProps extends WithStyles<typeof styles> {
     theme: Theme;
+    push: typeof push;
 }
 
 interface DocumentationState {
@@ -79,8 +81,6 @@ interface DocumentationState {
     mobileOpen: boolean;
     atPageTop: boolean;
 }
-
-const timeout = { enter: 0, exit: 500 };
 
 class Docs extends React.Component<DocumentationProps, DocumentationState> {
     parallax: Parallax;
@@ -128,14 +128,14 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                     <ListItemText primary="Getting Started" />
                 </ListItem>
                 <ListItem
-                    id="permissions-link"
+                    id="projects-link"
                     button
                     onClick={() => {
                         this.closeMobileDrawer();
-                        document.getElementById('permissions').scrollIntoView({ behavior: 'smooth' });
+                        this.props.push('/projects');
                     }}
                 >
-                    <ListItemText primary="Permissions" />
+                    <ListItemText primary="Projects" />
                 </ListItem>
                 <ListItem
                     id="projects-link"
@@ -272,4 +272,4 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
     }
 }
 
-export default withStyles(styles, { withTheme: true })(Docs);
+export default connect(null, { push })(withStyles(styles, { withTheme: true })(Docs));
