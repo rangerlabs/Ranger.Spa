@@ -17,6 +17,7 @@ const styles = (theme: Theme) =>
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 display: 'flex',
             },
+            background: 'white',
         },
         drawer: {
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
@@ -60,6 +61,7 @@ const styles = (theme: Theme) =>
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             marginTop: theme.spacing(3),
+            marginBottom: theme.spacing(3),
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 width: 800,
                 marginLeft: 'auto',
