@@ -9,27 +9,28 @@ import { useRouteMatch } from 'react-router';
 import { useState } from 'react';
 import RoutePaths from '../../RoutePaths';
 import classNames from 'classnames';
+import Constants from '../../../theme/Constants';
 
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 display: 'flex',
             },
         },
         drawer: {
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 width: theme.drawer.width,
                 flexShrink: 0,
             },
         },
         smHide: {
-            [theme.breakpoints.down(800 + theme.spacing(2 * 2))]: {
+            [theme.breakpoints.down(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 display: 'none',
             },
         },
         mdHide: {
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 display: 'none',
             },
         },
@@ -59,7 +60,7 @@ const styles = (theme: Theme) =>
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             marginTop: theme.spacing(3),
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 width: 800,
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -200,7 +201,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                         <ExpandMore className={classes.iconAlign} />
                     </Typography>
                 </div>
-                <Paper className={classes.content}>
+                <Paper elevation={3} className={classes.content}>
                     <Observer onChange={handleScrollTop}>
                         <div />
                     </Observer>
