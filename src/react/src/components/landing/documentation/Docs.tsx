@@ -110,7 +110,7 @@ function Docs(props: DocumentationProps): JSX.Element {
     const { component: Doc } = docComponents.find((d) => d.name === (match.params as any).name) ?? docComponents.find((d) => d.name === 'getting-started');
 
     const drawerContent = (
-        <List className={classes.drawerList}>
+        <List>
             <ListItem
                 id="getting-started-link"
                 button
@@ -179,7 +179,7 @@ function Docs(props: DocumentationProps): JSX.Element {
             <div className={classes.layout}>
                 <nav className={classes.drawer}>
                     <Drawer
-                        className={classes.mdHide}
+                        className={classNames(classes.mdHide, classes.drawerList)}
                         variant="temporary"
                         anchor={'top'}
                         open={mobileOpen}
@@ -190,7 +190,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                     >
                         {drawerContent}
                     </Drawer>
-                    <Drawer className={classes.smHide} anchor={'left'} elevation={3} variant="permanent" open>
+                    <Drawer className={classNames(classes.smHide, classes.drawerList)} anchor={'left'} elevation={3} variant="permanent" open>
                         <div className={classes.toolbar} />
                         {drawerContent}
                     </Drawer>
