@@ -8,11 +8,14 @@ import { connect } from 'react-redux';
 import { useRouteMatch } from 'react-router';
 import { useState } from 'react';
 import RoutePaths from '../../RoutePaths';
+import classNames from 'classnames';
 
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            display: 'flex',
+            [theme.breakpoints.up(800)]: {
+                display: 'flex',
+            },
         },
         drawer: {
             [theme.breakpoints.up(800)]: {
@@ -60,6 +63,10 @@ const styles = (theme: Theme) =>
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
+        },
+        sticky: {
+            position: 'sticky',
+            top: theme.mixins.toolbar.height,
         },
     });
 
@@ -181,25 +188,25 @@ function Docs(props: DocumentationProps): JSX.Element {
                     >
                         {drawerContent}
                     </Drawer>
-                    <Drawer className={classes.smHide} anchor={'left'} elevation={0} variant="permanent" open>
+                    <Drawer className={classes.smHide} anchor={'left'} elevation={3} variant="permanent" open>
                         <div className={classes.toolbar} />
                         {drawerContent}
                     </Drawer>
                 </nav>
-                <div className={classes.mdHide} onClick={openMobileDrawer}>
+                <div className={classNames(classes.mdHide, classes.sticky)} onClick={openMobileDrawer}>
                     <Typography align="center" variant="subtitle1">
                         {mobileSectionName}
                         <ExpandMore className={classes.iconAlign} />
                     </Typography>
                 </div>
-                <div className={classes.content}>
+                <Paper className={classes.content}>
                     <Observer onChange={handleScrollTop}>
                         <div />
                     </Observer>
                     <Fade in timeout={550}>
                         <Doc />
                     </Fade>
-                </div>
+                </Paper>
             </div>
         </React.Fragment>
     );
