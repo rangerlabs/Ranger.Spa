@@ -17,6 +17,9 @@ const styles = (theme: Theme) =>
                 flexShrink: 0,
             },
         },
+        content: {
+            flexGrow: 1,
+        },
         nested: {
             paddingLeft: theme.spacing(4),
         },
@@ -152,7 +155,7 @@ function Docs(props: DocumentationProps): JSX.Element {
 
     return (
         <React.Fragment>
-            <nav>
+            <nav className={classes.drawer}>
                 <Hidden mdUp implementation="css">
                     <Drawer
                         variant="temporary"
@@ -183,12 +186,14 @@ function Docs(props: DocumentationProps): JSX.Element {
                     </Typography>
                 </div>
             </Hidden>
-            <Paper elevation={3} className={classes.paper}>
-                <Observer onChange={handleScrollTop}>
-                    <div />
-                </Observer>
-                <Doc />
-            </Paper>
+            <div className={classes.content}>
+                <Paper elevation={3} className={classes.paper}>
+                    <Observer onChange={handleScrollTop}>
+                        <div />
+                    </Observer>
+                    <Doc />
+                </Paper>
+            </div>
         </React.Fragment>
     );
 }
