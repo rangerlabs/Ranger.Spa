@@ -11,16 +11,6 @@ import RoutePaths from '../../RoutePaths';
 
 const styles = (theme: Theme) =>
     createStyles({
-        parallaxContainer: {
-            position: 'absolute',
-            top: theme.spacing(8),
-            height: `calc(100% - ${theme.spacing(8)}px)`,
-            width: '100%',
-            [theme.breakpoints.up('md')]: {
-                width: `calc(100% - ${theme.drawer.width}px)`,
-                marginLeft: theme.drawer.width,
-            },
-        },
         drawer: {
             [theme.breakpoints.up('md')]: {
                 width: theme.drawer.width,
@@ -34,17 +24,6 @@ const styles = (theme: Theme) =>
             background: 'white',
         },
         toolbar: theme.mixins.toolbar,
-        drawerPaper: {
-            border: 'none',
-            [theme.breakpoints.up('md')]: {
-                zIndex: theme.zIndex.appBar - 1,
-                width: theme.drawer.width,
-            },
-        },
-        content: {
-            flexGrow: 1,
-            paddingTop: theme.spacing(3),
-        },
         iconAlign: {
             verticalAlign: 'middle',
         },
@@ -60,6 +39,7 @@ const styles = (theme: Theme) =>
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
+            marginTop: theme.spacing(3),
             [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
                 width: 800,
                 marginLeft: 'auto',
@@ -179,9 +159,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                         anchor={'top'}
                         open={mobileOpen}
                         onClose={closeMobileDrawer}
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
+                        
                         SlideProps={{
                             timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
                         }}
@@ -191,10 +169,9 @@ function Docs(props: DocumentationProps): JSX.Element {
                 </Hidden>
                 <Hidden smDown implementation="css">
                     <Drawer
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
+                       }
                         anchor={'left'}
+                        elevation={3}
                         variant="permanent"
                         open
                     >
@@ -205,23 +182,20 @@ function Docs(props: DocumentationProps): JSX.Element {
                     </Drawer>
                 </Hidden>
             </nav>
-
-            <div className={classes.content}>
-                <Hidden mdUp implementation="css">
-                    <div onClick={openMobileDrawer}>
-                        <Typography align="center" variant="subtitle1">
-                            {mobileSectionName}
-                            <ExpandMore className={classes.iconAlign} />
-                        </Typography>
-                    </div>
-                </Hidden>
-                <Paper elevation={3} className={classes.paper}>
-                    <Observer onChange={handleScrollTop}>
-                        <div />
-                    </Observer>
-                    <Doc />
-                </Paper>
-            </div>
+            <Hidden mdUp implementation="css">
+                <div onClick={openMobileDrawer}>
+                    <Typography align="center" variant="subtitle1">
+                        {mobileSectionName}
+                        <ExpandMore className={classes.iconAlign} />
+                    </Typography>
+                </div>
+            </Hidden>
+            <Paper elevation={3} className={classes.paper}>
+                <Observer onChange={handleScrollTop}>
+                    <div />
+                </Observer>
+                <Doc />
+            </Paper>
         </React.Fragment>
     );
 }
