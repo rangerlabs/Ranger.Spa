@@ -13,6 +13,8 @@ import {
     IconButton,
     GridList,
     GridListTile,
+    useMediaQuery,
+    useTheme,
 } from '@material-ui/core';
 import HexagonMultiple from 'mdi-material-ui/HexagonMultiple';
 import ArrowDecision from 'mdi-material-ui/ArrowDecision';
@@ -103,80 +105,83 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-class DashboardProjectSelect extends React.Component<ProjectsSelectProps> {
-    handleProjectGeofencesClick(project: IProject) {
-        if (this.props.selectedProject?.projectId !== project.projectId) {
-            this.props.selectProject(project);
-            this.props.resetGeofences();
-            this.props.resetIntegrations();
-        }
-        this.props.push(RoutePaths.GeofenceMap.replace(':appName', this.props.selectedProject.name));
-    }
-    handleProjectIntegrationsClick(project: IProject) {
-        if (this.props.selectedProject?.projectId !== project.projectId) {
-            this.props.selectProject(project);
-            this.props.resetGeofences();
-            this.props.resetIntegrations();
-        }
-        this.props.push(RoutePaths.Integrations.replace(':appName', this.props.selectedProject.name));
-    }
-    handleProjectClick(project: IProject) {
-        if (this.props.selectedProject?.projectId !== project.projectId) {
-            this.props.selectProject(project);
-            this.props.resetGeofences();
-            this.props.resetIntegrations();
-        }
-        this.props.push(`${RoutePaths.ProjectsEdit}?name=${project.name}`);
-    }
-    render() {
-        const { classes, projectsState } = this.props;
-        return (
-            <React.Fragment>
-                <div className={classes.root}>
-                    <GridList className={classes.gridList} cols={2.75}>
-                        {projectsState.projects &&
-                            projectsState.projects.map(project => (
-                                <GridListTile className={classes.gridListTile} key={project.name}>
-                                    <Card elevation={3} className={classes.card}>
-                                        <CardHeader title={project.name} />
-                                        <CardContent classes={{ root: classes.cardContent }}>
-                                            <Typography component="p">{project.description}</Typography>
-                                        </CardContent>
-                                        <CardActions className={classes.buttons}>
-                                            <IconButton
-                                                onClick={() => {
-                                                    this.handleProjectGeofencesClick(project);
-                                                }}
-                                                aria-label="Project Geofences"
-                                            >
-                                                <MapMarker color="primary" />
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={() => {
-                                                    this.handleProjectIntegrationsClick(project);
-                                                }}
-                                                aria-label="Project integrations"
-                                            >
-                                                <ArrowDecision color="primary" />
-                                            </IconButton>
+const DashboardProjectSelect = function (props: ProjectsSelectProps) {
+    const theme = useTheme();
+    const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
 
-                                            <IconButton
-                                                onClick={() => {
-                                                    this.handleProjectClick(project);
-                                                }}
-                                                aria-label="Project"
-                                            >
-                                                <HexagonMultiple color="primary" />
-                                            </IconButton>
-                                        </CardActions>
-                                    </Card>
-                                </GridListTile>
-                            ))}
-                    </GridList>
-                </div>
-            </React.Fragment>
-        );
-    }
-}
+    const handleProjectGeofencesClick = function (project: IProject) {
+        if (props.selectedProject?.projectId !== project.projectId) {
+            props.selectProject(project);
+            props.resetGeofences();
+            props.resetIntegrations();
+        }
+        props.push(RoutePaths.GeofenceMap.replace(':appName', props.selectedProject.name));
+    };
+    const handleProjectIntegrationsClick = function (project: IProject) {
+        if (props.selectedProject?.projectId !== project.projectId) {
+            props.selectProject(project);
+            props.resetGeofences();
+            props.resetIntegrations();
+        }
+        props.push(RoutePaths.Integrations.replace(':appName', props.selectedProject.name));
+    };
+    const handleProjectClick = function (project: IProject) {
+        if (props.selectedProject?.projectId !== project.projectId) {
+            props.selectProject(project);
+            props.resetGeofences();
+            props.resetIntegrations();
+        }
+        props.push(`${RoutePaths.ProjectsEdit}?name=${project.name}`);
+    };
+
+    const { classes, projectsState } = props;
+    return (
+        <React.Fragment>
+            <div className={classes.root}>
+                <GridList className={classes.gridList} cols={isMdDown ? (isSmDown ? 1.25 : 1.75) : 2.75}>
+                    {projectsState.projects &&
+                        projectsState.projects.map((project) => (
+                            <GridListTile className={classes.gridListTile} key={project.name}>
+                                <Card elevation={3} className={classes.card}>
+                                    <CardHeader title={project.name} />
+                                    <CardContent classes={{ root: classes.cardContent }}>
+                                        <Typography component="p">{project.description}</Typography>
+                                    </CardContent>
+                                    <CardActions className={classes.buttons}>
+                                        <IconButton
+                                            onClick={() => {
+                                                handleProjectGeofencesClick(project);
+                                            }}
+                                            aria-label="Project Geofences"
+                                        >
+                                            <MapMarker color="primary" />
+                                        </IconButton>
+                                        <IconButton
+                                            onClick={() => {
+                                                handleProjectIntegrationsClick(project);
+                                            }}
+                                            aria-label="Project integrations"
+                                        >
+                                            <ArrowDecision color="primary" />
+                                        </IconButton>
+
+                                        <IconButton
+                                            onClick={() => {
+                                                handleProjectClick(project);
+                                            }}
+                                            aria-label="Project"
+                                        >
+                                            <HexagonMultiple color="primary" />
+                                        </IconButton>
+                                    </CardActions>
+                                </Card>
+                            </GridListTile>
+                        ))}
+                </GridList>
+            </div>
+        </React.Fragment>
+    );
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateProjectsHOC(DashboardProjectSelect)));

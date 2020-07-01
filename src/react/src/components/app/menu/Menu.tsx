@@ -53,8 +53,12 @@ const styles = (theme: Theme) =>
                 flexShrink: 0,
             },
         },
-        drawerList: {
-            width: theme.drawer.width,
+        drawerPaper: {
+            border: 'none',
+            [theme.breakpoints.up('md')]: {
+                zIndex: theme.zIndex.appBar - 1,
+                width: theme.drawer.width,
+            },
         },
         headerPush: {
             height: Constants.HEIGHT.TOOLBAR,
@@ -146,7 +150,7 @@ class Menu extends React.Component<MenuProps> {
 
         const drawerContent = (
             <React.Fragment>
-                <List className={classes.drawerList}>
+                <List>
                     <ListItem
                         className={this.props.currentSelection === 'dashboard' ? classes.selected : ''}
                         id="dashboard"
@@ -377,6 +381,9 @@ class Menu extends React.Component<MenuProps> {
                 <Hidden mdUp implementation="css">
                     <Drawer
                         variant="temporary"
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
                         anchor={'top'}
                         open={this.props.mobileOpen}
                         onClose={this.props.handleDrawerToggle}
@@ -391,7 +398,15 @@ class Menu extends React.Component<MenuProps> {
                     </Drawer>
                 </Hidden>
                 <Hidden smDown implementation="css">
-                    <Drawer elevation={3} anchor={'left'} variant="permanent" open>
+                    <Drawer
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        elevation={3}
+                        anchor={'left'}
+                        variant="permanent"
+                        open
+                    >
                         <div className={classes.headerPush} />
                         {drawerContent}
                     </Drawer>
