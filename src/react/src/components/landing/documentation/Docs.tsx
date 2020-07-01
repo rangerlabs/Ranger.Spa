@@ -54,19 +54,20 @@ const styles = (theme: Theme) =>
             lineHeight: 'inherit',
         },
         content: {
+            padding: theme.spacing(4),
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             marginTop: theme.spacing(3),
             [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
-                width: 800,
+                width: `calc(800px - ${theme.drawer.width})`,
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
         },
         sticky: {
             position: 'sticky',
-            top: theme.mixins.toolbar.height,
+            top: '64px',
         },
     });
 
