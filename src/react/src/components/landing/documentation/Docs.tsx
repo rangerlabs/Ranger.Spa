@@ -13,23 +13,23 @@ import classNames from 'classnames';
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            [theme.breakpoints.up(800)]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
                 display: 'flex',
             },
         },
         drawer: {
-            [theme.breakpoints.up(800)]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
                 width: theme.drawer.width,
                 flexShrink: 0,
             },
         },
         smHide: {
-            [theme.breakpoints.down(800)]: {
+            [theme.breakpoints.down(800 + theme.spacing(2 * 2))]: {
                 display: 'none',
             },
         },
         mdHide: {
-            [theme.breakpoints.up(800)]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
                 display: 'none',
             },
         },
@@ -60,7 +60,7 @@ const styles = (theme: Theme) =>
             marginRight: theme.spacing(2),
             marginTop: theme.spacing(3),
             [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
-                width: `calc(800px - ${theme.drawer.width})`,
+                width: 800,
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
