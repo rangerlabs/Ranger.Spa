@@ -30,6 +30,9 @@ const styles = (theme: Theme) =>
         nested: {
             paddingLeft: theme.spacing(4),
         },
+        mobileSectionMenu: {
+            background: 'white',
+        },
         toolbar: theme.mixins.toolbar,
         drawerPaper: {
             border: 'none',
@@ -40,7 +43,6 @@ const styles = (theme: Theme) =>
         },
         content: {
             flexGrow: 1,
-            background: '#fafafa',
             paddingTop: theme.spacing(3),
         },
         iconAlign: {
