@@ -194,7 +194,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                     </Hidden>
                                     <Grid md={8} xs={12} item>
                                         <Typography align="center" variant="h6">
-                                            Your subscription
+                                            Your Subscription
                                         </Typography>
                                         <Typography align="center" color="primary" variant="h6">
                                             {capitalCase(this.props.subscriptionLimitDetails.planId)}

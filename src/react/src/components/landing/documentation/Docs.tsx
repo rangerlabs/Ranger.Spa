@@ -11,6 +11,9 @@ import RoutePaths from '../../RoutePaths';
 
 const styles = (theme: Theme) =>
     createStyles({
+        layout: {
+            display: 'flex',
+        },
         drawer: {
             [theme.breakpoints.up(800)]: {
                 width: theme.drawer.width,
@@ -48,7 +51,6 @@ const styles = (theme: Theme) =>
             lineHeight: 'inherit',
         },
         content: {
-            flexGrow: 1,
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
@@ -165,37 +167,39 @@ function Docs(props: DocumentationProps): JSX.Element {
 
     return (
         <React.Fragment>
-            <nav className={classes.drawer}>
-                <Drawer
-                    className={classes.mdHide}
-                    variant="temporary"
-                    anchor={'top'}
-                    open={mobileOpen}
-                    onClose={closeMobileDrawer}
-                    SlideProps={{
-                        timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
-                    }}
-                >
-                    {drawerContent}
-                </Drawer>
-                <Drawer className={classes.smHide} anchor={'left'} elevation={3} variant="permanent" open>
-                    <div className={classes.toolbar} />
-                    {drawerContent}
-                </Drawer>
-            </nav>
-            <div className={classes.mdHide} onClick={openMobileDrawer}>
-                <Typography align="center" variant="subtitle1">
-                    {mobileSectionName}
-                    <ExpandMore className={classes.iconAlign} />
-                </Typography>
-            </div>
-            <div className={classes.content}>
-                <Observer onChange={handleScrollTop}>
-                    <div />
-                </Observer>
-                <Fade in timeout={550}>
-                    <Doc />
-                </Fade>
+            <div className={classes.layout}>
+                <nav className={classes.drawer}>
+                    <Drawer
+                        className={classes.mdHide}
+                        variant="temporary"
+                        anchor={'top'}
+                        open={mobileOpen}
+                        onClose={closeMobileDrawer}
+                        SlideProps={{
+                            timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
+                        }}
+                    >
+                        {drawerContent}
+                    </Drawer>
+                    <Drawer className={classes.smHide} anchor={'left'} elevation={0} variant="permanent" open>
+                        <div className={classes.toolbar} />
+                        {drawerContent}
+                    </Drawer>
+                </nav>
+                <div className={classes.mdHide} onClick={openMobileDrawer}>
+                    <Typography align="center" variant="subtitle1">
+                        {mobileSectionName}
+                        <ExpandMore className={classes.iconAlign} />
+                    </Typography>
+                </div>
+                <div className={classes.content}>
+                    <Observer onChange={handleScrollTop}>
+                        <div />
+                    </Observer>
+                    <Fade in timeout={550}>
+                        <Doc />
+                    </Fade>
+                </div>
             </div>
         </React.Fragment>
     );
