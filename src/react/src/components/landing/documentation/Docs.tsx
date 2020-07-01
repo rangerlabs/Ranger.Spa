@@ -1,15 +1,11 @@
 import * as React from 'react';
 import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Typography, Badge, Paper } from '@material-ui/core';
-import { Parallax } from 'react-spring/renderprops-addons';
 import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import GettingStarted from './GettingStarted';
 import { DocComponents } from './DocComponents';
-import { Switch, Route, withRouter } from 'react-router-dom';
-import NotFound from '../../error/NotFound';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
-import { WithRouterProps, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
 import { useState } from 'react';
 import RoutePaths from '../../RoutePaths';
 
@@ -127,7 +123,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 button
                 onClick={() => {
                     closeMobileDrawer();
-                    props.push(`${match.url}/projects`);
+                    props.push(RoutePaths.Docs.replace(':name', 'projects'));
                 }}
             >
                 <ListItemText primary="Projects" />
