@@ -12,13 +12,20 @@ import RoutePaths from '../../RoutePaths';
 const styles = (theme: Theme) =>
     createStyles({
         drawer: {
-            [theme.breakpoints.up('md')]: {
+            [theme.breakpoints.up(800)]: {
                 width: theme.drawer.width,
                 flexShrink: 0,
             },
         },
-        content: {
-            flexGrow: 1,
+        smHide: {
+            [theme.breakpoints.down(800)]: {
+                display: 'none',
+            },
+        },
+        mdHide: {
+            [theme.breakpoints.up(800)]: {
+                display: 'none',
+            },
         },
         drawerList: {
             width: theme.drawer.width,
@@ -40,8 +47,8 @@ const styles = (theme: Theme) =>
         badgeTypography: {
             lineHeight: 'inherit',
         },
-        paper: {
-            padding: theme.spacing(4),
+        content: {
+            flexGrow: 1,
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
@@ -159,43 +166,36 @@ function Docs(props: DocumentationProps): JSX.Element {
     return (
         <React.Fragment>
             <nav className={classes.drawer}>
-                <Hidden mdUp implementation="css">
-                    <Drawer
-                        variant="temporary"
-                        anchor={'top'}
-                        open={mobileOpen}
-                        onClose={closeMobileDrawer}
-                        SlideProps={{
-                            timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
-                        }}
-                    >
-                        {drawerContent}
-                    </Drawer>
-                </Hidden>
-                <Hidden smDown implementation="css">
-                    <Drawer anchor={'left'} elevation={3} variant="permanent" open>
-                        <div className={classes.toolbar} />
-                        {drawerContent}
-                    </Drawer>
-                </Hidden>
+                <Drawer
+                    className={classes.mdHide}
+                    variant="temporary"
+                    anchor={'top'}
+                    open={mobileOpen}
+                    onClose={closeMobileDrawer}
+                    SlideProps={{
+                        timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
+                    }}
+                >
+                    {drawerContent}
+                </Drawer>
+                <Drawer className={classes.smHide} anchor={'left'} elevation={3} variant="permanent" open>
+                    <div className={classes.toolbar} />
+                    {drawerContent}
+                </Drawer>
             </nav>
-            <Hidden mdUp implementation="css">
-                <div onClick={openMobileDrawer}>
-                    <Typography align="center" variant="subtitle1">
-                        {mobileSectionName}
-                        <ExpandMore className={classes.iconAlign} />
-                    </Typography>
-                </div>
-            </Hidden>
+            <div className={classes.mdHide} onClick={openMobileDrawer}>
+                <Typography align="center" variant="subtitle1">
+                    {mobileSectionName}
+                    <ExpandMore className={classes.iconAlign} />
+                </Typography>
+            </div>
             <div className={classes.content}>
-                <Paper elevation={3} className={classes.paper}>
-                    <Observer onChange={handleScrollTop}>
-                        <div />
-                    </Observer>
-                    <Fade in timeout={550}>
-                        <Doc />
-                    </Fade>
-                </Paper>
+                <Observer onChange={handleScrollTop}>
+                    <div />
+                </Observer>
+                <Fade in timeout={550}>
+                    <Doc />
+                </Fade>
             </div>
         </React.Fragment>
     );
