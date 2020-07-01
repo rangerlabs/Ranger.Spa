@@ -49,7 +49,6 @@ export default class RoutePaths {
             path === RoutePaths.Callback ||
             path === RoutePaths.Register ||
             path === RoutePaths.EnterDomain ||
-            path === RoutePaths.Docs ||
             path === RoutePaths.Pricing ||
             path === RoutePaths.Company ||
             path === RoutePaths.Login ||
@@ -59,7 +58,8 @@ export default class RoutePaths {
             path === RoutePaths.PasswordReset ||
             path === RoutePaths.EmailChange ||
             path === RoutePaths.TransferPrimaryOwnership ||
-            path === RoutePaths.CancelTransferPrimaryOwnership
+            path === RoutePaths.CancelTransferPrimaryOwnership ||
+            path.startsWith(RoutePaths.Docs.replace('/:name?', ''))
         ) {
             result = true;
         }
