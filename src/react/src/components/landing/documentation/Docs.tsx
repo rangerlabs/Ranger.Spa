@@ -45,9 +45,6 @@ const styles = (theme: Theme) =>
         nested: {
             paddingLeft: theme.spacing(4),
         },
-        mobileSectionMenu: {
-            background: 'white',
-        },
         toolbar: theme.mixins.toolbar,
         iconAlign: {
             verticalAlign: 'middle',
@@ -73,6 +70,7 @@ const styles = (theme: Theme) =>
             },
         },
         sticky: {
+            background: 'white',
             position: 'sticky',
             top: '64px',
         },
