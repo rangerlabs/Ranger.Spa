@@ -4,7 +4,7 @@ import { Parallax } from 'react-spring/renderprops-addons';
 import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import GettingStarted from './GettingStarted';
-import { DocComponents } from './DocumentationComponents';
+import { DocComponents } from './DocComponents';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import NotFound from '../../error/NotFound';
 import { push } from 'connected-react-router';
@@ -108,8 +108,7 @@ function Docs(props: DocumentationProps): JSX.Element {
 
     const { classes, theme } = props;
     const docComponents = DocComponents;
-    const { component: Doc } =
-        docComponents.find(({ name }) => name === (match.params as any).name) ?? docComponents.find(({ name }) => name === 'getting-started');
+    const { component: Doc } = docComponents.find((d) => d.name === (match.params as any).name) ?? docComponents.find((d) => d.name === 'getting-started');
 
     const drawerContent = (
         <List>
@@ -118,7 +117,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 button
                 onClick={() => {
                     closeMobileDrawer();
-                    props.push(`${match.url}`);
+                    props.push(RoutePaths.Docs.replace(':name', ''));
                 }}
             >
                 <ListItemText primary="Getting Started" />
