@@ -11,6 +11,7 @@ import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { WithRouterProps, useRouteMatch } from 'react-router';
 import { useState } from 'react';
+import RoutePaths from '../../RoutePaths';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -116,7 +117,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 button
                 onClick={() => {
                     closeMobileDrawer();
-                    document.getElementById('getting-started').scrollIntoView({ behavior: 'smooth' });
+                    props.push(`${RoutePaths.Docs}/getting-started`);
                 }}
             >
                 <ListItemText primary="Getting Started" />
@@ -126,7 +127,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 button
                 onClick={() => {
                     closeMobileDrawer();
-                    props.push('/projects');
+                    props.push(`${RoutePaths.Docs}/projects`);
                 }}
             >
                 <ListItemText primary="Projects" />
@@ -137,16 +138,6 @@ function Docs(props: DocumentationProps): JSX.Element {
                 onClick={() => {
                     closeMobileDrawer();
                     document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
-                }}
-            >
-                <ListItemText primary="Projects" />
-            </ListItem>
-            <ListItem
-                id="geofences-link"
-                button
-                onClick={() => {
-                    closeMobileDrawer();
-                    document.getElementById('geofences').scrollIntoView({ behavior: 'smooth' });
                 }}
             >
                 <ListItemText primary="Geofences" />
