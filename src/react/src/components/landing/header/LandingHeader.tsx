@@ -12,15 +12,15 @@ import { connect } from 'react-redux';
 import RoutePaths from '../../RoutePaths';
 import { Parallax } from 'react-spring/renderprops-addons';
 import NameLogo from '../../../theme/NameLogo';
-const classNames = require('classnames').default;
 
 const styles = (theme: Theme) =>
     createStyles({
         toolbarLeft: {
             flexGrow: 1,
         },
-        appBarOpaque: {
+        appBar: {
             background: 'white',
+            zIndex: theme.zIndex.drawer + 1,
         },
         landingLink: {
             marginLeft: '17px',
@@ -81,7 +81,7 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
     render() {
         const { classes } = this.props;
         return (
-            <AppBar elevation={2} position="fixed" className={classes.appBarOpaque}>
+            <AppBar elevation={2} position="fixed" className={classes.appBar}>
                 <Toolbar id="back-to-top-anchor">
                     <div className={classes.toolbarLeft}>
                         <Button classes={{ root: classes.logoButtonRoot }} disableRipple={true} onClick={this.handleLogoClick}>

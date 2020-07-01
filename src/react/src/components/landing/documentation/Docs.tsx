@@ -20,6 +20,9 @@ const styles = (theme: Theme) =>
         content: {
             flexGrow: 1,
         },
+        drawerList: {
+            width: theme.drawer.width,
+        },
         nested: {
             paddingLeft: theme.spacing(4),
         },
@@ -89,7 +92,7 @@ function Docs(props: DocumentationProps): JSX.Element {
     const { component: Doc } = docComponents.find((d) => d.name === (match.params as any).name) ?? docComponents.find((d) => d.name === 'getting-started');
 
     const drawerContent = (
-        <List>
+        <List className={classes.drawerList}>
             <ListItem
                 id="getting-started-link"
                 button
