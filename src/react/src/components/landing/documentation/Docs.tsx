@@ -159,7 +159,6 @@ function Docs(props: DocumentationProps): JSX.Element {
                         anchor={'top'}
                         open={mobileOpen}
                         onClose={closeMobileDrawer}
-                        
                         SlideProps={{
                             timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
                         }}
@@ -168,13 +167,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                     </Drawer>
                 </Hidden>
                 <Hidden smDown implementation="css">
-                    <Drawer
-                       }
-                        anchor={'left'}
-                        elevation={3}
-                        variant="permanent"
-                        open
-                    >
+                    <Drawer anchor={'left'} elevation={3} variant="permanent" open>
                         <div>
                             <div className={classes.toolbar} />
                             {drawerContent}

@@ -17,11 +17,9 @@ import { setDomain, OrganizationState } from '../../redux/actions/OrganizationAc
 import { getSubDomain } from '../../helpers/Helpers';
 import Constants from '../../theme/Constants';
 import { SubscriptionLimitDetailsState } from '../../redux/actions/SubscriptionLimitDetailsActions';
-import { SnackbarNotification } from '../../redux/actions/SnackbarActions';
 import { WithSnackbarProps, withSnackbar } from 'notistack';
 import SubscriptionInactiveFooter from './subscription/SubscriptionInactiveFooter';
 import populateSubscriptionLimitDataHOC from './hocs/PopulateSubscriptionLimitDataHOC';
-const hash = require('object-hash');
 
 const styles = (theme: Theme) =>
     createStyles({
