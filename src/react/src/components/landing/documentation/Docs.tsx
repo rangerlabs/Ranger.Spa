@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Typography, Badge, Paper } from '@material-ui/core';
+import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Typography, Badge, Paper, Fade } from '@material-ui/core';
 import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { DocComponents } from './DocComponents';
@@ -171,10 +171,8 @@ function Docs(props: DocumentationProps): JSX.Element {
                 </Hidden>
                 <Hidden smDown implementation="css">
                     <Drawer anchor={'left'} elevation={3} variant="permanent" open>
-                        <div>
-                            <div className={classes.toolbar} />
-                            {drawerContent}
-                        </div>
+                        <div className={classes.toolbar} />
+                        {drawerContent}
                     </Drawer>
                 </Hidden>
             </nav>
@@ -191,7 +189,9 @@ function Docs(props: DocumentationProps): JSX.Element {
                     <Observer onChange={handleScrollTop}>
                         <div />
                     </Observer>
-                    <Doc />
+                    <Fade in timeout={550}>
+                        <Doc />
+                    </Fade>
                 </Paper>
             </div>
         </React.Fragment>
