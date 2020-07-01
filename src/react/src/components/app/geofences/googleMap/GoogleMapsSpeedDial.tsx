@@ -225,7 +225,6 @@ class GoogleMapsSpeedDial extends React.Component<GoogleMapsSpeedDialProps, Goog
                     onOpen={this.handleOpen}
                     onClose={this.handleClose}
                     open={this.state.open}
-                    onClick={this.handleClose}
                     FabProps={{ disabled: this.props.isInfoWindowVisible }}
                     TransitionProps={{
                         addEndListener: () => {},
