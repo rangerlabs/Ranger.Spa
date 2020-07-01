@@ -108,7 +108,8 @@ function Docs(props: DocumentationProps): JSX.Element {
 
     const { classes, theme } = props;
     const docComponents = DocComponents;
-    const { component: Doc } = docComponents.find(({ name }) => name === (match.params as any).name);
+    const { component: Doc } =
+        docComponents.find(({ name }) => name === (match.params as any).name) ?? docComponents.find(({ name }) => name === 'getting-started');
 
     const drawerContent = (
         <List>
