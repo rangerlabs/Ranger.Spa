@@ -117,7 +117,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 button
                 onClick={() => {
                     closeMobileDrawer();
-                    props.push(`${RoutePaths.Docs}/getting-started`);
+                    props.push(`getting-started`);
                 }}
             >
                 <ListItemText primary="Getting Started" />
@@ -127,7 +127,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 button
                 onClick={() => {
                     closeMobileDrawer();
-                    props.push(`${RoutePaths.Docs}/projects`);
+                    props.push(`projects`);
                 }}
             >
                 <ListItemText primary="Projects" />
