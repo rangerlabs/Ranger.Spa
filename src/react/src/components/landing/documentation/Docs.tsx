@@ -117,7 +117,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 button
                 onClick={() => {
                     closeMobileDrawer();
-                    props.push(RoutePaths.Docs.replace(':name', ''));
+                    props.push(RoutePaths.Docs.replace('/:name', ''));
                 }}
             >
                 <ListItemText primary="Getting Started" />
