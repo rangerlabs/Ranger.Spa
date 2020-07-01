@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Typography, Badge, Paper } from '@material-ui/core';
-import { Parallax } from 'react-spring/renderprops-addons';
-import Observer from 'react-intersection-observer';
+import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
+import Observer, { InView } from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import GettingStarted from './GettingStarted';
+import Constants from '../../../theme/Constants';
 import { DocComponents } from './DocumentationComponents';
-import { Route } from 'react-router-dom';
+import { Switch, RouteComponentProps, Route } from 'react-router-dom';
 import NotFound from '../../error/NotFound';
-import Routes from '../../Routes';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -254,11 +255,14 @@ class Docs extends React.Component<DocumentationProps, DocumentationState> {
                                 <Observer onChange={this.handleScrollTop}>
                                     <div />
                                 </Observer>
-                                {docComponents.map((props, index) => {
-                                    const { component: Component, ...rest } = props;
-                                    return <Route {...rest} render={(props) => <Component key={index} {...props} />} />;
-                                })}
-                                <Route component={NotFound} />
+                                <Switch>
+                                    {docComponents.map((props, index) => {
+                                        const { component: Component, ...rest } = props;
+                                        return <Route {...rest} render={(props) => <Component key={index} {...props} />} />;
+                                    })}
+                                    <Route component={NotFound} />
+                                </Switch>
+                                <GettingStarted />
                             </Paper>
                         </section>
                     </Observer>
