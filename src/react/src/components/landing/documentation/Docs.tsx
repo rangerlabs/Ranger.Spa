@@ -35,8 +35,12 @@ const styles = (theme: Theme) =>
                 display: 'none',
             },
         },
-        drawerList: {
-            width: theme.drawer.width,
+        drawerPaper: {
+            border: 'none',
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
+                zIndex: theme.zIndex.appBar - 1,
+                width: theme.drawer.width,
+            },
         },
         nested: {
             paddingLeft: theme.spacing(4),
@@ -181,7 +185,10 @@ function Docs(props: DocumentationProps): JSX.Element {
             <div className={classes.layout}>
                 <nav className={classes.drawer}>
                     <Drawer
-                        className={classNames(classes.mdHide, classes.drawerList)}
+                        className={classes.mdHide}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
                         variant="temporary"
                         anchor={'top'}
                         open={mobileOpen}
@@ -192,7 +199,16 @@ function Docs(props: DocumentationProps): JSX.Element {
                     >
                         {drawerContent}
                     </Drawer>
-                    <Drawer className={classNames(classes.smHide, classes.drawerList)} anchor={'left'} elevation={3} variant="permanent" open>
+                    <Drawer
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        className={classes.smHide}
+                        anchor={'left'}
+                        elevation={3}
+                        variant="permanent"
+                        open
+                    >
                         <div className={classes.toolbar} />
                         {drawerContent}
                     </Drawer>
