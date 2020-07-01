@@ -41,6 +41,7 @@ const styles = (theme: Theme) =>
         content: {
             flexGrow: 1,
             background: '#fafafa',
+            paddingTop: theme.spacing(3),
         },
         iconAlign: {
             verticalAlign: 'middle',
@@ -57,7 +58,6 @@ const styles = (theme: Theme) =>
             width: 'auto',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            marginTop: theme.spacing(3),
             [theme.breakpoints.up(800 + theme.spacing(2 * 2))]: {
                 width: 800,
                 marginLeft: 'auto',
