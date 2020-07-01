@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Typography, Badge, Paper } from '@material-ui/core';
-import ScrollTop from '../ScrollTop';
-import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
-import Observer, { InView } from 'react-intersection-observer';
+import { Parallax } from 'react-spring/renderprops-addons';
+import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import GettingStarted from './GettingStarted';
-import Constants from '../../../theme/Constants';
 import { DocComponents } from './DocumentationComponents';
-import { Switch, RouteComponentProps, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import NotFound from '../../error/NotFound';
+import Routes from '../../Routes';
 
 const styles = (theme: Theme) =>
     createStyles({

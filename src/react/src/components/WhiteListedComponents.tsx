@@ -21,7 +21,7 @@ export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: RoutePaths.Landing, component: Landing },
     { exact: true, path: RoutePaths.SignUp, component: SignUp },
     { exact: true, path: RoutePaths.EnterDomain, component: EnterDomain },
-    { exact: true, path: RoutePaths.Docs, component: Docs },
+    { exact: false, path: RoutePaths.Docs, component: Docs },
     { exact: true, path: RoutePaths.Company, component: Company },
     { exact: true, path: RoutePaths.Pricing, component: Pricing },
     { exact: true, path: RoutePaths.Login, component: LoginRedirect },
