@@ -239,7 +239,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 <ScrollTop
                     visible={!atPageTop}
                     onClick={() => {
-                        document.getElementById('content-top').scrollIntoView({ behavior: 'smooth' });
+                        document.getElementById('toolbar-push').scrollIntoView({ behavior: 'smooth' });
                     }}
                 />
             </div>
