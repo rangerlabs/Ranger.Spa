@@ -139,7 +139,7 @@ const DashboardProjectSelect = function (props: ProjectsSelectProps) {
     return (
         <React.Fragment>
             <div className={classes.root}>
-                <GridList className={classes.gridList} cols={isMdDown ? (isSmDown ? 1.25 : 1.75) : 2.75}>
+                <GridList className={classes.gridList} cols={isMdDown ? (isSmDown ? 1.25 : 2.25) : 2.75}>
                     {projectsState.projects &&
                         projectsState.projects.map((project) => (
                             <GridListTile className={classes.gridListTile} key={project.name}>

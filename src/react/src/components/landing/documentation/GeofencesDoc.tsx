@@ -12,14 +12,14 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface ProjectsDocProps extends WithStyles<typeof styles> {}
+interface GeofencesDocProps extends WithStyles<typeof styles> {}
 
-const ProjectsDoc = function (props: ProjectsDocProps) {
+const ProjectsDoc = function (props: GeofencesDocProps) {
     const { classes } = props;
     return (
         <React.Fragment>
             <Typography className={classes.blockText} variant="h4">
-                Projects
+                Geofences
             </Typography>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1"></Typography>

@@ -70,6 +70,7 @@ const styles = (theme: Theme) =>
             },
         },
         sticky: {
+            cursor: 'pointer',
             background: 'white',
             position: 'sticky',
             top: '64px',

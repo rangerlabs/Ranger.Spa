@@ -12,14 +12,14 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface ProjectsDocProps extends WithStyles<typeof styles> {}
+interface IntegrationsDocProps extends WithStyles<typeof styles> {}
 
-const ProjectsDoc = function (props: ProjectsDocProps) {
+const ProjectsDoc = function (props: IntegrationsDocProps) {
     const { classes } = props;
     return (
         <React.Fragment>
             <Typography className={classes.blockText} variant="h4">
-                Projects
+                Integrations
             </Typography>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1"></Typography>
