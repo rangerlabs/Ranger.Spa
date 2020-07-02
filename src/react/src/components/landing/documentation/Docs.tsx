@@ -10,6 +10,7 @@ import { useState } from 'react';
 import RoutePaths from '../../RoutePaths';
 import classNames from 'classnames';
 import Constants from '../../../theme/Constants';
+import ScrollTop from '../ScrollTop';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -218,14 +219,18 @@ function Docs(props: DocumentationProps): JSX.Element {
                         <ExpandMore className={classes.iconAlign} />
                     </Typography>
                 </div>
-                <Paper elevation={3} className={classes.content}>
+                <Paper id="content-top" elevation={3} className={classes.content}>
                     <Observer onChange={handleScrollTop}>
                         <div />
                     </Observer>
-                    <Fade in timeout={550}>
-                        <Doc />
-                    </Fade>
+                    <Doc />
                 </Paper>
+                <ScrollTop
+                    visible={!atPageTop}
+                    onClick={() => {
+                        document.getElementById('content-top').scrollIntoView({ behavior: 'smooth' });
+                    }}
+                />
             </div>
         </React.Fragment>
     );
