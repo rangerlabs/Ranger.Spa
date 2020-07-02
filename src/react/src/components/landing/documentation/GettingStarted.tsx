@@ -22,7 +22,7 @@ const GettingStarted = function (props: GettingStartedProps) {
     return (
         <React.Fragment>
             <Typography className={classes.blockText} variant="h4">
-                Getting Started with Ranger
+                Getting Started
             </Typography>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
@@ -83,8 +83,8 @@ const GettingStarted = function (props: GettingStartedProps) {
             </Typography>
             <div className={classes.blockText}>
                 <Typography variant="body1">
-                    Projects are how Ranger groups Geofences and the Integrations they can execute. Additionally, each Project has its own unique API keys.
-                    Depending on your use case, Projects could be scoped to a mobile app, customer, or organizational unit.
+                    Projects are how Ranger groups Geofences and the Integrations they can execute. Depending on your use case, Projects could be scoped to a
+                    mobile app, customer, or organizational unit.
                 </Typography>
                 <Typography variant="body1">
                     Within your organization, User Accounts can be created and scoped to specific projects to manage the Geofences within that Project.

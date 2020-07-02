@@ -9,7 +9,6 @@ import { useRouteMatch } from 'react-router';
 import { useState } from 'react';
 import RoutePaths from '../../RoutePaths';
 import classNames from 'classnames';
-import Constants from '../../../theme/Constants';
 import ScrollTop from '../ScrollTop';
 
 const styles = (theme: Theme) =>
@@ -77,7 +76,10 @@ const styles = (theme: Theme) =>
             top: '64px',
         },
         li: {
-            paddingLeft: '48px',
+            paddingLeft: '72px',
+        },
+        borderRadius: {
+            borderRadius: 0,
         },
     });
 
@@ -213,9 +215,8 @@ function Docs(props: DocumentationProps): JSX.Element {
                         classes={{
                             paper: classes.drawerPaper,
                         }}
-                        className={classes.smHide}
+                        className={classNames(classes.smHide, classes.borderRadius)}
                         anchor={'left'}
-                        elevation={0}
                         variant="permanent"
                         open
                     >
