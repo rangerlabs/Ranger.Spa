@@ -21,7 +21,7 @@ const GettingStarted = function (props: GettingStartedProps) {
     const { classes } = props;
     return (
         <React.Fragment>
-            <Typography className={classes.blockText} variant="h4">
+            <Typography className={classes.blockText} variant="h3">
                 Getting Started
             </Typography>
             <div className={classes.blockText}>
@@ -29,9 +29,7 @@ const GettingStarted = function (props: GettingStartedProps) {
                     At Ranger we provide hosted APIs for boundless geofencing services. Our growing list of location-centric APIs and Integrations will enable
                     you to easily implement cloud-native location services into your mobile apps.
                 </Typography>
-                <Typography variant="body1">
-                    This section provides a brief overview of the Ranger platform. Navigate to a specific top to learn more.
-                </Typography>
+                <Typography variant="body1">This section provides a brief overview of the Ranger platform.</Typography>
             </div>
             <Typography className={classes.blockText} variant="h5">
                 Unrivaled Geofencing
