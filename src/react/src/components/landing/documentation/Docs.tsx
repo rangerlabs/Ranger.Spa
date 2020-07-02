@@ -78,8 +78,8 @@ const styles = (theme: Theme) =>
         li: {
             paddingLeft: '32px',
         },
-        borderRadius: {
-            borderRadius: 0,
+        boxShadow: {
+            boxShadow: 'none',
         },
     });
 
