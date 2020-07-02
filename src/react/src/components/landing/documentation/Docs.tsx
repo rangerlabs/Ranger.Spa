@@ -213,9 +213,9 @@ function Docs(props: DocumentationProps): JSX.Element {
                     </Drawer>
                     <Drawer
                         classes={{
-                            paper: classes.drawerPaper,
+                            paper: classNames(classes.drawerPaper, classes.boxShadow),
                         }}
-                        className={classNames(classes.smHide, classes.boxShadow)}
+                        className={classes.smHide}
                         anchor={'left'}
                         variant="permanent"
                         open
