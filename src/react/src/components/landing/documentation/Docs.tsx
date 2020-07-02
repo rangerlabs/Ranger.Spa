@@ -76,7 +76,7 @@ const styles = (theme: Theme) =>
             top: '64px',
         },
         li: {
-            paddingLeft: '72px',
+            paddingLeft: '32px',
         },
         borderRadius: {
             borderRadius: 0,
