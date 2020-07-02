@@ -1,8 +1,6 @@
 import React from 'react';
 import { Typography, createStyles, Theme, WithStyles, withStyles } from '@material-ui/core';
 import CentralPark from '../../../../assets/central-park.png';
-import Breadcrumbs from '../../../../assets/breadcrumbs.png';
-import HttpMethod from './TextEnhancers/HttpMethod';
 import { Link } from 'react-router-dom';
 import RoutePaths from '../../RoutePaths';
 
@@ -43,8 +41,7 @@ const GettingStarted = function (props: GettingStartedProps) {
                     Geofences are virtual boundaries around physical locations - and Ranger's geofencing solution provides unrivaled functionality.
                 </Typography>
                 <Typography variant="body1">
-                    Ranger's easy-to-use interface for creating geofences allows you to quickly visualize where geofences are in relation to one another and
-                    whether they overlap with existing geofences.
+                    Ranger's easy-to-use interface allows you to easily vizualize, creating, and edit geofences all from the same page.
                 </Typography>
             </div>
             <div className={classes.imgContainer}>
@@ -62,7 +59,7 @@ const GettingStarted = function (props: GettingStartedProps) {
             </div>
 
             <Typography className={classes.blockText} variant="h5">
-                Integrations
+                Flexible Integrations
             </Typography>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
@@ -82,7 +79,7 @@ const GettingStarted = function (props: GettingStartedProps) {
             </div>
 
             <Typography className={classes.blockText} variant="h5">
-                Projects
+                Secure Projects
             </Typography>
             <div className={classes.blockText}>
                 <Typography variant="body1">

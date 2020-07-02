@@ -76,6 +76,9 @@ const styles = (theme: Theme) =>
             position: 'sticky',
             top: '64px',
         },
+        li: {
+            paddingLeft: '48px',
+        },
     });
 
 interface DocumentationProps extends WithStyles<typeof styles> {
@@ -119,6 +122,7 @@ function Docs(props: DocumentationProps): JSX.Element {
         <List>
             <ListItem
                 id="getting-started-link"
+                className={classes.li}
                 button
                 onClick={() => {
                     closeMobileDrawer();
@@ -129,6 +133,7 @@ function Docs(props: DocumentationProps): JSX.Element {
             </ListItem>
             <ListItem
                 id="projects-link"
+                className={classes.li}
                 button
                 onClick={() => {
                     closeMobileDrawer();
@@ -138,25 +143,30 @@ function Docs(props: DocumentationProps): JSX.Element {
                 <ListItemText primary="Projects" />
             </ListItem>
             <ListItem
-                id="projects-link"
+                id="geofences-link"
+                className={classes.li}
                 button
                 onClick={() => {
                     closeMobileDrawer();
+                    props.push(RoutePaths.Docs.replace(':name?', 'geofences'));
                 }}
             >
                 <ListItemText primary="Geofences" />
             </ListItem>
             <ListItem
                 id="integrations-link"
+                className={classes.li}
                 button
                 onClick={() => {
                     closeMobileDrawer();
+                    props.push(RoutePaths.Docs.replace(':name?', 'integrations'));
                 }}
             >
                 <ListItemText primary="Integrations" />
             </ListItem>
             <ListItem
                 id="api-link"
+                className={classes.li}
                 button
                 onClick={() => {
                     closeMobileDrawer();
@@ -164,7 +174,7 @@ function Docs(props: DocumentationProps): JSX.Element {
             >
                 <ListItemText primary="API" />
             </ListItem>
-            <ListItem id="sdk-link" button>
+            <ListItem id="sdk-link" className={classes.li} button>
                 <Badge
                     classes={{ badge: classes.badge }}
                     badgeContent={
@@ -205,7 +215,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                         }}
                         className={classes.smHide}
                         anchor={'left'}
-                        elevation={3}
+                        elevation={0}
                         variant="permanent"
                         open
                     >
@@ -219,7 +229,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                         <ExpandMore className={classes.iconAlign} />
                     </Typography>
                 </div>
-                <Paper id="content-top" elevation={3} className={classes.content}>
+                <Paper id="content-top" elevation={0} className={classes.content}>
                     <Observer onChange={handleScrollTop}>
                         <div />
                     </Observer>
