@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import classNames from 'classnames';
-const IntegrationApi = require('../../../../../assets/integration-api.png');
+const Webhook = require('../../../../../assets/webhook@2x.png');
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -98,7 +98,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                                         <CardMedia
                                             classes={{ root: classes.mediaRoot }}
                                             className={classes.cover}
-                                            image={IntegrationApi}
+                                            image={Webhook}
                                             title="Webhook Integration"
                                         />
                                         <div className={classes.details}>
@@ -117,7 +117,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                             <Grid item xs={12}>
                                 <ButtonBase className={classes.buttonBase} onClick={() => {}}>
                                     <Card elevation={4} className={classes.root}>
-                                        <CardMedia classes={{ root: classes.mediaRoot }} className={classes.cover} image={IntegrationApi} title="Coming soon" />
+                                        <CardMedia classes={{ root: classes.mediaRoot }} className={classes.cover} title="Coming soon" />
                                         <div className={classes.details}>
                                             <CardContent className={classes.content}>
                                                 <Typography variant="h6">Coming Soon!</Typography>
