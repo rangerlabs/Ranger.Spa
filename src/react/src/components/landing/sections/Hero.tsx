@@ -25,6 +25,9 @@ const styles = (theme: Theme) =>
                 marginTop: '25%',
             },
         },
+        heroPush: {
+            paddingTop: '7%',
+        },
     });
 
 interface HeroProps extends WithStyles<typeof styles> {
@@ -39,8 +42,8 @@ class Hero extends React.Component<HeroProps> {
     render() {
         const { classes } = this.props;
         return (
-            <Box height="100%">
-                <Grid container alignContent="center" justify="center">
+            <Box height="80vh">
+                <Grid className={classes.heroPush} container alignContent="center" justify="center">
                     <Grid item md={4} xs={10}>
                         <div className={classes.textPush}>
                             <Typography gutterBottom className={classes.typography} variant="subtitle1">

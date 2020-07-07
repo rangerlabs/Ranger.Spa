@@ -24,6 +24,9 @@ const styles = (theme: Theme) =>
         content: {
             flexGrow: 1,
         },
+        main: {
+            height: '100%',
+        },
         toolbar: {
             height: '64px',
         },
@@ -81,7 +84,7 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                         <Fade in timeout={550}>
                             <React.Fragment>
                                 <div className={classes.content}>
-                                    <main>
+                                    <main className={classes.main}>
                                         <div id="toolbar-push" className={classes.toolbar} />
                                         <Component {...props} />
                                     </main>
