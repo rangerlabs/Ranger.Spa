@@ -48,7 +48,7 @@ class Hero extends React.Component<HeroProps> {
         const { classes } = this.props;
         return (
             <Box height="80vh">
-                <Grid className={classes.heroPush} container alignContent="center" justify="center">
+                <Grid className={classes.heroPush} container alignContent="center" justify="center" spacing={5}>
                     <Grid item md={4} xs={10}>
                         <div className={classes.textPush}>
                             <Typography gutterBottom className={classes.typography} variant="subtitle1">
@@ -72,9 +72,9 @@ class Hero extends React.Component<HeroProps> {
                 </Grid>
                 <Grid container alignContent="center" justify="center">
                     <Grid item>
-                        <IconButton color="primary" className={classes.arrowDown} onClick={() => {}}>
+                        <Box color="primary" className={classes.arrowDown}>
                             <ArrowDown />
-                        </IconButton>
+                        </Box>
                     </Grid>
                 </Grid>
             </Box>
