@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, createStyles, Theme, WithStyles, withStyles, Link } from '@material-ui/core';
+import { Typography, createStyles, Theme, WithStyles, withStyles, Link, Paper } from '@material-ui/core';
 import CentralPark from '../../../../assets/central-park.png';
 import ProjectEdit from '../../../../assets/project-edit.png';
 import WebhookSelect from '../../../../assets/webhook-select.png';
@@ -40,9 +40,11 @@ const GettingStarted = function (props: GettingStartedProps) {
                     Ranger's easy-to-use interface allows you to quickly vizualize, create, edit, and test geofences all from the same UI.
                 </Typography>
             </div>
-            <div className={classes.imgContainer}>
-                <img style={{ maxWidth: '70%' }} src={CentralPark} alt="central-park-geofence" />
-            </div>
+            <Paper elevation={3}>
+                <div className={classes.imgContainer}>
+                    <img style={{ maxWidth: '70%' }} src={CentralPark} alt="central-park-geofence" />
+                </div>
+            </Paper>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
                     Create custom geofence schedules, add unique metadata, configure which events get triggered, and where those events get sent - all on a per
@@ -64,9 +66,11 @@ const GettingStarted = function (props: GettingStartedProps) {
                     Ranger was built to be extended. Ranger currently offers Webhook integrations, but more are in the works and will be coming online shortly.
                 </Typography>
             </div>
-            <div className={classes.imgContainer}>
-                <img style={{ maxWidth: '70%' }} src={WebhookSelect} alt="central-park-geofence" />
-            </div>
+            <Paper elevation={3}>
+                <div className={classes.imgContainer}>
+                    <img style={{ maxWidth: '70%' }} src={WebhookSelect} alt="central-park-geofence" />
+                </div>
+            </Paper>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
                     What's more, all integrations will be available to all subscriptions - which Integrations you choose is up to you.
@@ -88,9 +92,11 @@ const GettingStarted = function (props: GettingStartedProps) {
                     customer, or organizational unit.
                 </Typography>
             </div>
-            <div className={classes.imgContainer}>
-                <img style={{ maxWidth: '70%' }} src={ProjectEdit} alt="central-park-geofence" />
-            </div>
+            <Paper elevation={3}>
+                <div className={classes.imgContainer}>
+                    <img style={{ maxWidth: '70%' }} src={ProjectEdit} alt="central-park-geofence" />
+                </div>
+            </Paper>
             <div className={classes.blockText}>
                 <Typography variant="body1">Within your organization User Accounts can also be scoped to specific projects.</Typography>
             </div>

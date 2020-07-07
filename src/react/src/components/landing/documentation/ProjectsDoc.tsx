@@ -22,7 +22,16 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                 Projects
             </Typography>
             <div className={classes.blockText}>
-                <Typography variant="body1"></Typography>
+                <Typography gutterBottom variant="body1">
+                    Projects enable your organization to effectively organize geofences and integrations.
+                </Typography>
+            </div>
+            <Typography className={classes.blockText} variant="h5">
+                Creating a New Project
+            </Typography>
+            <div className={classes.blockText}>
+                <Typography gutterBottom variant="body1"></Typography>
+                <Typography gutterBottom variant="body1"></Typography>
             </div>
             <div className={classes.imgContainer}>
                 <img style={{ maxWidth: '70%' }} src={''} alt="central-park-geofence" />
