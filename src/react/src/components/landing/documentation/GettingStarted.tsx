@@ -1,6 +1,8 @@
 import React from 'react';
 import { Typography, createStyles, Theme, WithStyles, withStyles, Link } from '@material-ui/core';
 import CentralPark from '../../../../assets/central-park.png';
+import ProjectEdit from '../../../../assets/project-edit.png';
+import WebhookSelect from '../../../../assets/webhook-select.png';
 import RoutePaths from '../../RoutePaths';
 
 const styles = (theme: Theme) =>
@@ -35,7 +37,7 @@ const GettingStarted = function (props: GettingStartedProps) {
             </Typography>
             <div className={classes.blockText}>
                 <Typography variant="body1">
-                    Ranger's easy-to-use interface allows you to easily vizualize, create, edit, and test geofences all from the same UI.
+                    Ranger's easy-to-use interface allows you to quickly vizualize, create, edit, and test geofences all from the same UI.
                 </Typography>
             </div>
             <div className={classes.imgContainer}>
@@ -46,6 +48,8 @@ const GettingStarted = function (props: GettingStartedProps) {
                     Create custom geofence schedules, add unique metadata, configure which events get triggered, and where those events get sent - all on a per
                     geofence basis.
                 </Typography>
+            </div>
+            <div className={classes.blockText}>
                 <Typography variant="body1">
                     To learn more about Ranger's extensively customizable geofences, take a look at our dedicated{' '}
                     <Link href={RoutePaths.Docs.replace(':name', 'geofences')}>Geofencing</Link> documentation.
@@ -57,10 +61,15 @@ const GettingStarted = function (props: GettingStartedProps) {
             </Typography>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
-                    Ranger was built to be extended. Ranger currently offers Webhook integrations, but more our in the works and will be coming online shortly.
+                    Ranger was built to be extended. Ranger currently offers Webhook integrations, but more are in the works and will be coming online shortly.
                 </Typography>
+            </div>
+            <div className={classes.imgContainer}>
+                <img style={{ maxWidth: '70%' }} src={WebhookSelect} alt="central-park-geofence" />
+            </div>
+            <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
-                    What's more, all integrations are available to all subscriptions - which Integrations you choose is up to you.
+                    What's more, all integrations will be available to all subscriptions - which Integrations you choose is up to you.
                 </Typography>
             </div>
             <div className={classes.blockText}>
@@ -78,7 +87,12 @@ const GettingStarted = function (props: GettingStartedProps) {
                     Group Geofences and the Integrations they can execute into Projects. Depending on your use case, Projects could be scoped to a mobile app,
                     customer, or organizational unit.
                 </Typography>
-                <Typography variant="body1">Within your organization User Accounts can be scoped to specific projects.</Typography>
+            </div>
+            <div className={classes.imgContainer}>
+                <img style={{ maxWidth: '70%' }} src={ProjectEdit} alt="central-park-geofence" />
+            </div>
+            <div className={classes.blockText}>
+                <Typography variant="body1">Within your organization User Accounts can also be scoped to specific projects.</Typography>
             </div>
             <div className={classes.blockText}>
                 <Typography variant="body1">
