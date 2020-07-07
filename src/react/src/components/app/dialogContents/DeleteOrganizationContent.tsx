@@ -98,8 +98,8 @@ class DeleteOrganizationContent extends React.Component<DeleteOrganizationConten
                             <form onSubmit={props.handleSubmit}>
                                 <DialogContent>
                                     <DialogContentText>
-                                        We're sorry to see you go. If there is anything we can help with, please contact us at
-                                        <Link href="mailto:support@rangerlabs.io"> support@rangerlabs.io</Link>.
+                                        We're sorry to see you go. If there is anything we can help with, please contact us at{' '}
+                                        <Link href="mailto:support@rangerlabs.io">support@rangerlabs.io</Link>.
                                     </DialogContentText>
                                     <DialogContentText>To delete your organization, please enter your domain name as shown below.</DialogContentText>
                                     <DialogContentText className={this.props.classes.bold} color="error">

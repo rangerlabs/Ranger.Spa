@@ -1,7 +1,6 @@
 import React from 'react';
-import { Typography, createStyles, Theme, WithStyles, withStyles } from '@material-ui/core';
+import { Typography, createStyles, Theme, WithStyles, withStyles, Link } from '@material-ui/core';
 import CentralPark from '../../../../assets/central-park.png';
-import { Link } from 'react-router-dom';
 import RoutePaths from '../../RoutePaths';
 
 const styles = (theme: Theme) =>
@@ -49,10 +48,7 @@ const GettingStarted = function (props: GettingStartedProps) {
                 </Typography>
                 <Typography variant="body1">
                     To learn more about Ranger's extensively customizable geofences, take a look at our dedicated{' '}
-                    <Link color="primary" to={RoutePaths.Docs.replace(':name', 'geofences')}>
-                        Geofencing
-                    </Link>{' '}
-                    documentation.
+                    <Link href={RoutePaths.Docs.replace(':name', 'geofences')}>Geofencing</Link> documentation.
                 </Typography>
             </div>
 
@@ -70,10 +66,7 @@ const GettingStarted = function (props: GettingStartedProps) {
             <div className={classes.blockText}>
                 <Typography variant="body1">
                     To learn more about creating and managing Integrations in Ranger, take a look at our dedicated{' '}
-                    <Link color="primary" to={RoutePaths.Docs.replace(':name', 'integrations')}>
-                        Integration
-                    </Link>{' '}
-                    documentation.
+                    <Link href={RoutePaths.Docs.replace(':name', 'integrations')}>Integration</Link> documentation.
                 </Typography>
             </div>
 
@@ -90,10 +83,7 @@ const GettingStarted = function (props: GettingStartedProps) {
             <div className={classes.blockText}>
                 <Typography variant="body1">
                     To learn more about managing Projects and Project security, take a look at our dedicated{' '}
-                    <Link color="primary" to={RoutePaths.Docs.replace(':name', 'projects')}>
-                        Projects
-                    </Link>{' '}
-                    documentation.
+                    <Link href={RoutePaths.Docs.replace(':name', 'projects')}>Projects</Link> documentation.
                 </Typography>
             </div>
         </React.Fragment>
