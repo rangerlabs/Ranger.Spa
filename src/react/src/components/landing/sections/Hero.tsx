@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide, Paper, Box } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide, Paper, Box, IconButton } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import CreateGeofence from '../../../../assets/create-geofence.gif';
+import ArrowDown from 'mdi-material-ui/ArrowDown';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -27,6 +28,10 @@ const styles = (theme: Theme) =>
         },
         heroPush: {
             paddingTop: '7%',
+        },
+        arrowDown: {
+            position: 'absolute',
+            bottom: theme.spacing(4),
         },
     });
 
@@ -65,6 +70,9 @@ class Hero extends React.Component<HeroProps> {
                         </Paper>
                     </Grid>
                 </Grid>
+                <IconButton color="primary" className={classes.arrowDown} onClick={() => {}}>
+                    <ArrowDown />
+                </IconButton>
             </Box>
         );
     }
