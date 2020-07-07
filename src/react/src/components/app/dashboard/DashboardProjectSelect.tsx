@@ -24,7 +24,6 @@ import IProject from '../../../models/app/IProject';
 import { ApplicationState } from '../../../stores';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
-const IntegrationApi = require('../../../../assets/integration-api.png');
 import { ProjectsState } from '../../../redux/actions/ProjectActions';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import { resetGeofences } from '../../../redux/actions/GeofenceActions';
