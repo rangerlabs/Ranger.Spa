@@ -1,24 +1,15 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { withStyles, Theme, createStyles, WithStyles, Typography, Fade } from '@material-ui/core';
+import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core';
 import InView from 'react-intersection-observer';
 import Observer from 'react-intersection-observer';
 import OverviewParallaxContentLayer from './sections/OverviewParallaxContentLayer';
 import ScrollTop from './ScrollTop';
-import { enqueueSnackbar, SnackbarNotification } from '../../redux/actions/SnackbarActions';
+import { enqueueSnackbar } from '../../redux/actions/SnackbarActions';
 import { connect } from 'react-redux';
 
 const styles = (theme: Theme) =>
     createStyles({
-        parallaxContainer: {
-            position: 'absolute',
-            top: theme.toolbar.height,
-            height: `calc(100% - ${theme.spacing(8)}px)`,
-            width: '100%',
-        },
-        scrollToTopContainer: {
-            height: '100%',
-        },
         features: {
             height: '700px',
             backgroundColor: 'white',
@@ -54,7 +45,7 @@ class Landing extends Component<LandingProps, LandingState> {
     render() {
         const { classes } = this.props;
         return (
-            <div className={classes.parallaxContainer}>
+            <React.Fragment>
                 <Observer onChange={this.handleIntersectionChange}>
                     <div />
                 </Observer>
@@ -78,7 +69,7 @@ class Landing extends Component<LandingProps, LandingState> {
                         document.getElementById('toolbar-push').scrollIntoView({ behavior: 'smooth' });
                     }}
                 />
-            </div>
+            </React.Fragment>
         );
     }
 }
