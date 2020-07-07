@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import classNames from 'classnames';
-const Webhook = require('../../../../../assets/webhook@2x.png');
+import Webhook from '../../../../../assets/webhook@2x.png';
 
 const styles = (theme: Theme) =>
     createStyles({
