@@ -13,9 +13,6 @@ const styles = (theme: Theme) =>
             textAlign: 'center',
             color: theme.palette.common.black,
         },
-        gridHeight: {
-            height: '100%',
-        },
         menuItemTextColor: {
             color: theme.drawer.text.color,
         },
@@ -30,11 +27,11 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface OverviewParallaxContentLayerProps extends WithStyles<typeof styles> {
+interface HeroProps extends WithStyles<typeof styles> {
     push: typeof push;
 }
 
-class OverviewParallaxContentLayer extends React.Component<OverviewParallaxContentLayerProps> {
+class Hero extends React.Component<HeroProps> {
     handleSignUpClick = () => {
         this.props.push('/signup');
     };
@@ -42,7 +39,7 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
     render() {
         const { classes } = this.props;
         return (
-            <Grid className={classes.gridHeight} container alignContent="center" justify="center" spacing={5}>
+            <Grid container alignContent="center" justify="center" spacing={5}>
                 <Grid item md={4} xs={10}>
                     <div className={classes.textPush}>
                         <Typography gutterBottom className={classes.typography} variant="subtitle1">
@@ -68,4 +65,4 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
     }
 }
 
-export default withStyles(styles)(connect(null, { push })(OverviewParallaxContentLayer));
+export default withStyles(styles)(connect(null, { push })(Hero));

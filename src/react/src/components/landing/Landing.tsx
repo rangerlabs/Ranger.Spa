@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core';
 import InView from 'react-intersection-observer';
 import Observer from 'react-intersection-observer';
-import OverviewParallaxContentLayer from './sections/OverviewParallaxContentLayer';
+import Hero from './sections/Hero';
 import ScrollTop from './ScrollTop';
 import { enqueueSnackbar } from '../../redux/actions/SnackbarActions';
 import { connect } from 'react-redux';
@@ -49,7 +49,7 @@ class Landing extends Component<LandingProps, LandingState> {
                 <Observer onChange={this.handleIntersectionChange}>
                     <div />
                 </Observer>
-                <OverviewParallaxContentLayer />
+                <Hero />
                 {/* <div id="#features" className={classes.features}>
                             <InView triggerOnce={true} threshold={0.2}>
                                 {({ inView, ref }: any) => (
