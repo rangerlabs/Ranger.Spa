@@ -4,15 +4,15 @@ import { Container, Grid, Box, Link, Typography, makeStyles, Theme } from '@mate
 const footers = [
     {
         title: 'Company',
-        description: ['Team', 'History', 'Contact us', 'Locations'],
+        description: ['About us', 'Contact us'],
     },
+    // {
+    //     title: 'Features',
+    //     description: ['Cool stuff', 'Random feature', 'Team feature', 'Developer stuff', 'Another one'],
+    // },
     {
-        title: 'Features',
-        description: ['Cool stuff', 'Random feature', 'Team feature', 'Developer stuff', 'Another one'],
-    },
-    {
-        title: 'Resources',
-        description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
+        title: 'Docs',
+        description: ['Getting Started', 'Projects', 'Geofences', 'Integrations', 'API'],
     },
     {
         title: 'Legal',
