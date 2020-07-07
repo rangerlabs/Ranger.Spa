@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { withStyles, Theme, createStyles, WithStyles, Typography, Fade } from '@material-ui/core';
-import { ParallaxLayer, Parallax } from 'react-spring/renderprops-addons';
 import InView from 'react-intersection-observer';
 import Observer from 'react-intersection-observer';
 import OverviewParallaxContentLayer from './sections/OverviewParallaxContentLayer';
@@ -32,7 +31,6 @@ const styles = (theme: Theme) =>
     });
 
 interface LandingProps extends WithStyles<typeof styles> {
-    parallaxRef: (ref: Parallax) => void;
     enqueueSnackbar: typeof enqueueSnackbar;
 }
 
@@ -41,8 +39,6 @@ interface LandingState {
 }
 
 class Landing extends Component<LandingProps, LandingState> {
-    parallax: Parallax;
-
     constructor(props: LandingProps) {
         super(props);
     }
@@ -55,22 +51,15 @@ class Landing extends Component<LandingProps, LandingState> {
         this.setState({ atPageTop: inView });
     };
 
-    setRef = (ref: Parallax) => {
-        this.parallax = ref;
-        this.props.parallaxRef ? this.props.parallaxRef(ref) : undefined;
-    };
-
     render() {
         const { classes } = this.props;
         return (
             <div className={classes.parallaxContainer}>
-                <Parallax pages={1} scrolling={true} ref={this.setRef}>
-                    <ParallaxLayer speed={1}>
-                        <Observer onChange={this.handleIntersectionChange}>
-                            <div />
-                        </Observer>
-                        <OverviewParallaxContentLayer />
-                        {/* <div id="#features" className={classes.features}>
+                <Observer onChange={this.handleIntersectionChange}>
+                    <div />
+                </Observer>
+                <OverviewParallaxContentLayer />
+                {/* <div id="#features" className={classes.features}>
                             <InView triggerOnce={true} threshold={0.2}>
                                 {({ inView, ref }: any) => (
                                     <div ref={ref}>
@@ -83,12 +72,10 @@ class Landing extends Component<LandingProps, LandingState> {
                         </div>
                         <div id="#pricing" className={classes.pricing} />
                         <div id="#contact" className={classes.contact} /> */}
-                    </ParallaxLayer>
-                </Parallax>
                 <ScrollTop
                     visible={!this.state.atPageTop}
                     onClick={() => {
-                        this.parallax.scrollTo(0);
+                        document.getElementById('toolbar-push').scrollIntoView({ behavior: 'smooth' });
                     }}
                 />
             </div>
