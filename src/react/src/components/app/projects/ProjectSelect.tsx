@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { selectProject } from '../../../redux/actions/SelecteProjectActions';
-import { Theme, createStyles, WithStyles, withStyles, Card, CardHeader, CardContent, Typography, Grid, ButtonBase, IconButton } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, withStyles, Card, CardHeader, CardContent, Typography, Grid, ButtonBase, IconButton, Paper } from '@material-ui/core';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import { connect } from 'react-redux';
 import IProject from '../../../models/app/IProject';
@@ -137,28 +137,25 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                         {projectsState.projects.map((project) => (
                             <Grid container item justify="center">
                                 <Grid item xs={12}>
-                                    <ButtonBase
-                                        className={classes.buttonBase}
-                                        onClick={() => {
-                                            this.handleProjectClick(project);
-                                        }}
-                                    >
-                                        <Card elevation={3} className={classes.root}>
-                                        <div className={classes.details}>
-                                            <CardContent className={classes.content}>
-                                                <Typography variant="h6">{project.name}</Typography>
-                                                <Typography variant="subtitle1" color="textSecondary">
-                                                    {project.description}
-                                                </Typography>
-                                            </CardContent>
-                                        </div>
-                                            <CardHeader titleTypographyProps={{ align: 'left' }} classes={{ root: classes.rootPadding }} title= />
-                                            <CardContent classes={{ root: classes.rootPadding }}>
-                                                <Typography align="left" component="p">
-                                                </Typography>
-                                            </CardContent>
-                                        </Card>
-                                    </ButtonBase>
+                                    <Paper elevation={3}>
+                                        <ButtonBase
+                                            className={classes.buttonBase}
+                                            onClick={() => {
+                                                this.handleProjectClick(project);
+                                            }}
+                                        >
+                                            <Card elevation={0} className={classes.root}>
+                                                <div className={classes.details}>
+                                                    <CardContent className={classes.content}>
+                                                        <Typography variant="h6">{project.name}</Typography>
+                                                        <Typography variant="subtitle1" color="textSecondary">
+                                                            {project.description}
+                                                        </Typography>
+                                                    </CardContent>
+                                                </div>
+                                            </Card>
+                                        </ButtonBase>
+                                    </Paper>
                                 </Grid>
                             </Grid>
                         ))}

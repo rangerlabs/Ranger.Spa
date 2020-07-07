@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, WithStyles, withStyles, Card, CardContent, Typography, CardMedia, Grid, ButtonBase, IconButton } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, withStyles, Card, CardContent, Typography, CardMedia, Grid, ButtonBase, IconButton, Paper } from '@material-ui/core';
 import RoutePaths from '../../../RoutePaths';
 import { push } from 'connected-react-router';
 import { IntegrationEnum } from '../../../../models/app/integrations/IntegrationEnum';
@@ -88,29 +88,31 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                     <Grid container spacing={3} direction="column" justify="flex-start" alignItems="center">
                         <Grid container item justify="center">
                             <Grid item xs={12}>
-                                <ButtonBase
-                                    className={classes.buttonBase}
-                                    onClick={() => {
-                                        this.handleIntegrationSelect(IntegrationEnum.WEBHOOK);
-                                    }}
-                                >
-                                    <Card elevation={3} className={classes.root}>
-                                        <CardMedia
-                                            classes={{ root: classes.mediaRoot }}
-                                            className={classes.cover}
-                                            image={Webhook}
-                                            title="Webhook Integration"
-                                        />
-                                        <div className={classes.details}>
-                                            <CardContent className={classes.content}>
-                                                <Typography variant="h6">Webhook</Typography>
-                                                <Typography variant="subtitle1" color="textSecondary">
-                                                    Forward geofence events to a REST API of your choosing.
-                                                </Typography>
-                                            </CardContent>
-                                        </div>
-                                    </Card>
-                                </ButtonBase>
+                                <Paper elevation={3}>
+                                    <ButtonBase
+                                        className={classes.buttonBase}
+                                        onClick={() => {
+                                            this.handleIntegrationSelect(IntegrationEnum.WEBHOOK);
+                                        }}
+                                    >
+                                        <Card elevation={0} className={classes.root}>
+                                            <CardMedia
+                                                classes={{ root: classes.mediaRoot }}
+                                                className={classes.cover}
+                                                image={Webhook}
+                                                title="Webhook Integration"
+                                            />
+                                            <div className={classes.details}>
+                                                <CardContent className={classes.content}>
+                                                    <Typography variant="h6">Webhook</Typography>
+                                                    <Typography variant="subtitle1" color="textSecondary">
+                                                        Forward geofence events to a REST API of your choosing.
+                                                    </Typography>
+                                                </CardContent>
+                                            </div>
+                                        </Card>
+                                    </ButtonBase>
+                                </Paper>
                             </Grid>
                         </Grid>
                         <Grid container item justify="center">
