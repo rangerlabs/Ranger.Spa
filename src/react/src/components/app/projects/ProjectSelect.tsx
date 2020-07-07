@@ -31,6 +31,10 @@ const styles = (theme: Theme) =>
             display: 'flex',
             minWidth: '100%',
         },
+        card: {
+            flexGrow: 1,
+            height: '100%',
+        },
         details: {
             display: 'flex',
             flexDirection: 'column',
@@ -43,10 +47,6 @@ const styles = (theme: Theme) =>
         },
         grid: {
             padding: theme.spacing(2),
-        },
-        card: {
-            flexGrow: 1,
-            height: '100%',
         },
         title: {
             marginTop: '0px',
@@ -134,8 +134,8 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                 </Typography>
                 <div className={classes.layout}>
                     <Grid container spacing={3} direction="column" justify="flex-start" alignItems="center">
-                        <Grid container item justify="center">
-                            {projectsState.projects.map((project) => (
+                        {projectsState.projects.map((project) => (
+                            <Grid container item justify="center">
                                 <Grid item xs={12}>
                                     <ButtonBase
                                         className={classes.buttonBase}
@@ -153,8 +153,8 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                                         </Card>
                                     </ButtonBase>
                                 </Grid>
-                            ))}
-                        </Grid>
+                            </Grid>
+                        ))}
                     </Grid>
                 </div>
             </React.Fragment>

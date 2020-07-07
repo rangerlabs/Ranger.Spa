@@ -54,7 +54,7 @@ const GettingStarted = function (props: GettingStartedProps) {
             <div className={classes.blockText}>
                 <Typography variant="body1">
                     To learn more about Ranger's extensively customizable geofences, take a look at our dedicated{' '}
-                    <Link href={RoutePaths.Docs.replace(':name', 'geofences')}>Geofencing</Link> documentation.
+                    <Link href={RoutePaths.Docs.replace(':name?', 'geofences')}>Geofencing</Link> documentation.
                 </Typography>
             </div>
 
@@ -79,7 +79,7 @@ const GettingStarted = function (props: GettingStartedProps) {
             <div className={classes.blockText}>
                 <Typography variant="body1">
                     To learn more about creating and managing Integrations in Ranger, take a look at our dedicated{' '}
-                    <Link href={RoutePaths.Docs.replace(':name', 'integrations')}>Integration</Link> documentation.
+                    <Link href={RoutePaths.Docs.replace(':name?', 'integrations')}>Integration</Link> documentation.
                 </Typography>
             </div>
 
@@ -103,7 +103,7 @@ const GettingStarted = function (props: GettingStartedProps) {
             <div className={classes.blockText}>
                 <Typography variant="body1">
                     To learn more about managing Projects and Project security, take a look at our dedicated{' '}
-                    <Link href={RoutePaths.Docs.replace(':name', 'projects')}>Projects</Link> documentation.
+                    <Link href={RoutePaths.Docs.replace(':name?', 'projects')}>Projects</Link> documentation.
                 </Typography>
             </div>
         </React.Fragment>
