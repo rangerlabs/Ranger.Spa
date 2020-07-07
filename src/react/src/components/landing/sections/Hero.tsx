@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide, Paper } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide, Paper, Box } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import CreateGeofence from '../../../../assets/create-geofence.gif';
@@ -39,28 +39,30 @@ class Hero extends React.Component<HeroProps> {
     render() {
         const { classes } = this.props;
         return (
-            <Grid container alignContent="center" justify="center">
-                <Grid item md={4} xs={10}>
-                    <div className={classes.textPush}>
-                        <Typography gutterBottom className={classes.typography} variant="subtitle1">
-                            HOSTED APIs FOR
-                        </Typography>
-                        <Typography className={classes.typography} variant="h3">
-                            BOUNDLESS GEOFENCING
-                        </Typography>
-                        <div className={classes.typography}>
-                            <Button color="primary" variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
-                                Sign up for free
-                            </Button>
+            <Box height="100%">
+                <Grid container alignContent="center" justify="center">
+                    <Grid item md={4} xs={10}>
+                        <div className={classes.textPush}>
+                            <Typography gutterBottom className={classes.typography} variant="subtitle1">
+                                HOSTED APIs FOR
+                            </Typography>
+                            <Typography className={classes.typography} variant="h3">
+                                BOUNDLESS GEOFENCING
+                            </Typography>
+                            <div className={classes.typography}>
+                                <Button color="primary" variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
+                                    Sign up for free
+                                </Button>
+                            </div>
                         </div>
-                    </div>
+                    </Grid>
+                    <Grid item md={5} xs={10}>
+                        <Paper elevation={3}>
+                            <img width="100%" src={CreateGeofence} alt="Create Geofence" />
+                        </Paper>
+                    </Grid>
                 </Grid>
-                <Grid item md={5} xs={10}>
-                    <Paper elevation={3}>
-                        <img width="100%" src={CreateGeofence} alt="Create Geofence" />
-                    </Paper>
-                </Grid>
-            </Grid>
+            </Box>
         );
     }
 }
