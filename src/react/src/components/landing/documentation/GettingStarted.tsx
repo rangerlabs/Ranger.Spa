@@ -35,11 +35,8 @@ const GettingStarted = function (props: GettingStartedProps) {
                 Unrivaled Geofencing
             </Typography>
             <div className={classes.blockText}>
-                <Typography gutterBottom variant="body1">
-                    Geofences are virtual boundaries around physical locations - and Ranger's geofencing solution provides unrivaled functionality.
-                </Typography>
                 <Typography variant="body1">
-                    Ranger's easy-to-use interface allows you to easily vizualize, creating, and edit geofences all from the same page.
+                    Ranger's easy-to-use interface allows you to easily vizualize, create, edit, and test geofences all from the same UI.
                 </Typography>
             </div>
             <div className={classes.imgContainer}>
@@ -51,8 +48,11 @@ const GettingStarted = function (props: GettingStartedProps) {
                     geofence basis.
                 </Typography>
                 <Typography variant="body1">
-                    To learn more about Ranger's extensively customizable geofences, take a look at our dedicated
-                    <Link to={RoutePaths.Docs.replace(':name', 'geofences')}> Geofencing</Link> documentation.
+                    To learn more about Ranger's extensively customizable geofences, take a look at our dedicated{' '}
+                    <Link color="primary" to={RoutePaths.Docs.replace(':name', 'geofences')}>
+                        Geofencing
+                    </Link>{' '}
+                    documentation.
                 </Typography>
             </div>
 
@@ -61,18 +61,19 @@ const GettingStarted = function (props: GettingStartedProps) {
             </Typography>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
-                    Ranger was built to be extended. Know when a user or device is interacting with one of your geofences by sending the result of the
-                    interaction to a REST endpoint of your choosing. Ranger currently offers WebHooks as our sole integration, but more our in the works and
-                    will be coming online shortly.
+                    Ranger was built to be extended. Ranger currently offers Webhook integrations, but more our in the works and will be coming online shortly.
                 </Typography>
                 <Typography gutterBottom variant="body1">
-                    And what's more, which Integrations you choose for your subscription is entirely up to you.
+                    What's more, all integrations are available to all subscriptions - which Integrations you choose is up to you.
                 </Typography>
             </div>
             <div className={classes.blockText}>
                 <Typography variant="body1">
-                    To learn more about creating and managing Integrations in Ranger, take a look at our dedicated
-                    <Link to={RoutePaths.Docs.replace(':name', 'integrations')}> Integration</Link> documentation.
+                    To learn more about creating and managing Integrations in Ranger, take a look at our dedicated{' '}
+                    <Link color="primary" to={RoutePaths.Docs.replace(':name', 'integrations')}>
+                        Integration
+                    </Link>{' '}
+                    documentation.
                 </Typography>
             </div>
 
@@ -81,17 +82,18 @@ const GettingStarted = function (props: GettingStartedProps) {
             </Typography>
             <div className={classes.blockText}>
                 <Typography variant="body1">
-                    Projects are how Ranger groups Geofences and the Integrations they can execute. Depending on your use case, Projects could be scoped to a
-                    mobile app, customer, or organizational unit.
+                    Group Geofences and the Integrations they can execute into Projects. Depending on your use case, Projects could be scoped to a mobile app,
+                    customer, or organizational unit.
                 </Typography>
-                <Typography variant="body1">
-                    Within your organization, User Accounts can be created and scoped to specific projects to manage the Geofences within that Project.
-                </Typography>
+                <Typography variant="body1">Within your organization User Accounts can be scoped to specific projects.</Typography>
             </div>
             <div className={classes.blockText}>
                 <Typography variant="body1">
-                    To learn more about managing Projects and Project security, take a look at our dedicated
-                    <Link to={RoutePaths.Docs.replace(':name', 'projects')}> Projects</Link> documentation.
+                    To learn more about managing Projects and Project security, take a look at our dedicated{' '}
+                    <Link color="primary" to={RoutePaths.Docs.replace(':name', 'projects')}>
+                        Projects
+                    </Link>{' '}
+                    documentation.
                 </Typography>
             </div>
         </React.Fragment>

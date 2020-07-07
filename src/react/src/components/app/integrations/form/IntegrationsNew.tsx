@@ -94,7 +94,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                                         this.handleIntegrationSelect(IntegrationEnum.WEBHOOK);
                                     }}
                                 >
-                                    <Card elevation={4} className={classes.root}>
+                                    <Card elevation={3} className={classes.root}>
                                         <CardMedia
                                             classes={{ root: classes.mediaRoot }}
                                             className={classes.cover}
@@ -116,7 +116,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                         <Grid container item justify="center">
                             <Grid item xs={12}>
                                 <ButtonBase className={classes.buttonBase} onClick={() => {}}>
-                                    <Card elevation={4} className={classes.root}>
+                                    <Card elevation={3} className={classes.root}>
                                         <CardMedia classes={{ root: classes.mediaRoot }} className={classes.cover} title="Coming soon" />
                                         <div className={classes.details}>
                                             <CardContent className={classes.content}>

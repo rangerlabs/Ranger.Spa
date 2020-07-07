@@ -69,8 +69,11 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
     handleLogoClick = () => {
         this.props.push(RoutePaths.Landing);
     };
-    handleCompanyClick = () => {
-        this.props.push(RoutePaths.Company);
+    handleContactClick = () => {
+        this.props.push(RoutePaths.Contact);
+    };
+    handleAboutClick = () => {
+        this.props.push(RoutePaths.About);
     };
     handleDocumentationClick = () => {
         this.props.push(RoutePaths.Docs.replace('/:name?', ''));
@@ -100,6 +103,12 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                         </Link>
                         <Link component="button" variant="subtitle1" color="textPrimary" className={classes.landingLink} onClick={this.handlePricingClick}>
                             Pricing
+                        </Link>
+                        <Link component="button" variant="subtitle1" color="textPrimary" className={classes.landingLink} onClick={this.handleContactClick}>
+                            Contact
+                        </Link>
+                        <Link component="button" variant="subtitle1" color="textPrimary" className={classes.landingLink} onClick={this.handleAboutClick}>
+                            About
                         </Link>
                         <div className={classes.actionContainer}>
                             {this.props.user && !this.props.user.expired ? (

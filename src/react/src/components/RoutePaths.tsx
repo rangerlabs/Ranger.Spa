@@ -6,7 +6,8 @@ export default class RoutePaths {
     public static EnterDomain = '/enter-domain';
     public static Docs = '/docs/:name?';
     public static Pricing = '/pricing';
-    public static Company = '/company';
+    public static Contact = '/contact';
+    public static About = '/about';
     public static Login = '/login';
     public static Logout = '/logout';
     public static ConfirmDomain = '/confirm-domain';
@@ -50,7 +51,8 @@ export default class RoutePaths {
             path === RoutePaths.Register ||
             path === RoutePaths.EnterDomain ||
             path === RoutePaths.Pricing ||
-            path === RoutePaths.Company ||
+            path === RoutePaths.Contact ||
+            path === RoutePaths.About ||
             path === RoutePaths.Login ||
             path === RoutePaths.Logout ||
             path === RoutePaths.ConfirmDomain ||

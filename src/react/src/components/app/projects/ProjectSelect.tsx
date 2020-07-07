@@ -143,7 +143,7 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                                             this.handleProjectClick(project);
                                         }}
                                     >
-                                        <Card elevation={4} className={classes.root}>
+                                        <Card elevation={3} className={classes.root}>
                                             <CardHeader titleTypographyProps={{ align: 'left' }} classes={{ root: classes.rootPadding }} title={project.name} />
                                             <CardContent classes={{ root: classes.rootPadding }}>
                                                 <Typography align="left" component="p">

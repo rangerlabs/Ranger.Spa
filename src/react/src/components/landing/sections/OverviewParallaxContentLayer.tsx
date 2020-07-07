@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide, Paper } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import CreateGeofence from '../../../../assets/create-geofence.gif';
@@ -59,7 +59,9 @@ class OverviewParallaxContentLayer extends React.Component<OverviewParallaxConte
                     </div>
                 </Grid>
                 <Grid item md={5} xs={10}>
-                    <img width="100%" src={CreateGeofence} alt="Create Geofence" />
+                    <Paper elevation={3}>
+                        <img width="100%" src={CreateGeofence} alt="Create Geofence" />
+                    </Paper>
                 </Grid>
             </Grid>
         );

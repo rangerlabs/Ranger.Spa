@@ -160,7 +160,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
             >
                 {(props) => (
                     <React.Fragment>
-                        <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.Integrations)}>
+                        <IconButton className={classes.return} disabled={props.isSubmitting} onClick={() => this.props.push(RoutePaths.IntegrationsNew)}>
                             <ArrowLeft />
                         </IconButton>
                         <Typography className={classNames(classes.title, classes.paper)} align="left" variant="h5">

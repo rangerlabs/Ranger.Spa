@@ -18,12 +18,14 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
     const { classes } = props;
     return (
         <React.Fragment>
-            <Typography className={classes.blockText} variant="h4">
+            <Typography className={classes.blockText} variant="h3">
                 Projects
             </Typography>
             <div className={classes.blockText}>
-                <Typography gutterBottom variant="body1"></Typography>
                 <Typography variant="body1"></Typography>
+            </div>
+            <div className={classes.imgContainer}>
+                <img style={{ maxWidth: '70%' }} src={''} alt="central-park-geofence" />
             </div>
         </React.Fragment>
     );

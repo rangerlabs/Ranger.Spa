@@ -132,13 +132,18 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                         </ListItemIcon>
                         <ListItemText primary="Pricing" />
                     </ListItem>
-                    <ListItem button onClick={() => this.props.push(RoutePaths.Company)}>
+                    <ListItem button onClick={() => this.props.push(RoutePaths.Contact)}>
                         <ListItemIcon>
                             <Domain />
                         </ListItemIcon>
-                        <ListItemText primary="Company" />
+                        <ListItemText primary="Contact" />
                     </ListItem>
-
+                    <ListItem button onClick={() => this.props.push(RoutePaths.About)}>
+                        <ListItemIcon>
+                            <Domain />
+                        </ListItemIcon>
+                        <ListItemText primary="About" />
+                    </ListItem>
                     {this.props.user && !this.props.user.expired ? (
                         <ListItem id="account" button onClick={this.toggleExpanded}>
                             <ListItemIcon>

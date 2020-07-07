@@ -8,7 +8,8 @@ import IRoute from './ILandingRoute';
 import LogoutRedirect from './auth/LogoutRedirect';
 import Docs from './landing/documentation/Docs';
 import Pricing from './landing/pricing/Pricing';
-import Company from './landing/company/Company';
+import Contact from './landing/contact/Contact';
+import About from './landing/about/About';
 import ConfirmDomain from './landing/confirmations/ConfirmDomain';
 import ConfirmUser from './landing/confirmations/ConfirmUser';
 import PasswordReset from './landing/confirmations/PasswordReset';
@@ -22,7 +23,8 @@ export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: RoutePaths.SignUp, component: SignUp },
     { exact: true, path: RoutePaths.EnterDomain, component: EnterDomain },
     { exact: false, path: RoutePaths.Docs, component: Docs },
-    { exact: true, path: RoutePaths.Company, component: Company },
+    { exact: true, path: RoutePaths.Contact, component: Contact },
+    { exact: true, path: RoutePaths.About, component: About },
     { exact: true, path: RoutePaths.Pricing, component: Pricing },
     { exact: true, path: RoutePaths.Login, component: LoginRedirect },
     { exact: true, path: RoutePaths.Logout, component: LogoutRedirect },
