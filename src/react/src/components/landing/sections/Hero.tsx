@@ -70,9 +70,13 @@ class Hero extends React.Component<HeroProps> {
                         </Paper>
                     </Grid>
                 </Grid>
-                <IconButton color="primary" className={classes.arrowDown} onClick={() => {}}>
-                    <ArrowDown />
-                </IconButton>
+                <Grid container alignContent="center" justify="center">
+                    <Grid item>
+                        <IconButton color="primary" className={classes.arrowDown} onClick={() => {}}>
+                            <ArrowDown />
+                        </IconButton>
+                    </Grid>
+                </Grid>
             </Box>
         );
     }
