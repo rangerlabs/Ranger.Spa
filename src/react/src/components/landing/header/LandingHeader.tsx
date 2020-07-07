@@ -4,13 +4,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Hidden, Typography, Button, Link, Theme } from '@material-ui/core';
+import { Hidden, Button, Link, Theme } from '@material-ui/core';
 import { User } from 'oidc-client';
 import AccountPopOut from '../../accountPopOut/AccountPopOut';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import RoutePaths from '../../RoutePaths';
-import { Parallax } from 'react-spring/renderprops-addons';
 import NameLogo from '../../../theme/NameLogo';
 
 const styles = (theme: Theme) =>
@@ -42,7 +41,6 @@ const styles = (theme: Theme) =>
     });
 
 interface LandingHeaderProps extends WithStyles<typeof styles> {
-    parallaxRef?: Parallax;
     user: User;
     handleDrawerToggle: () => void;
     push: typeof push;

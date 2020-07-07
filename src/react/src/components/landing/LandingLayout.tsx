@@ -41,8 +41,11 @@ type LandingLayoutState = {
     atPageTop: boolean;
 };
 
+const mapStateToProps = (state: ApplicationState) => {
+    return { user: state.oidc.user };
+};
+
 class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutState> {
-    parallaxRef: Parallax;
     constructor(props: LandingLayoutProps) {
         super(props);
         if (window.location.pathname === RoutePaths.Landing) {
@@ -73,21 +76,14 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                     <div className={classes.root}>
                         <CssBaseline />
                         <Dialog />
-                        {this.state.safeToPassRef && (
-                            <LandingHeader parallaxRef={this.parallaxRef} user={user} handleDrawerToggle={this.handleDrawerToggle} {...props} />
-                        )}
+                        {this.state.safeToPassRef && <LandingHeader user={user} handleDrawerToggle={this.handleDrawerToggle} {...props} />}
                         <LandingMenu user={user} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={550}>
                             <React.Fragment>
                                 <div className={classes.content}>
                                     <main>
                                         <div id="toolbar-push" className={classes.toolbar} />
-                                        <Component
-                                            parallaxRef={(ref: Parallax) => {
-                                                this.parallaxRef = ref;
-                                            }}
-                                            {...props}
-                                        />
+                                        <Component {...props} />
                                     </main>
                                     <Footer />
                                 </div>
@@ -99,8 +95,4 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
         );
     }
 }
-
-const mapStateToProps = (state: ApplicationState) => {
-    return { user: state.oidc.user };
-};
 export default connect(mapStateToProps)(withStyles(styles)(LandingLayout));

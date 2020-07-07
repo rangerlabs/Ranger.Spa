@@ -39,7 +39,7 @@ class Hero extends React.Component<HeroProps> {
     render() {
         const { classes } = this.props;
         return (
-            <Grid container alignContent="center" justify="center" spacing={5}>
+            <Grid container alignContent="center" justify="center">
                 <Grid item md={4} xs={10}>
                     <div className={classes.textPush}>
                         <Typography gutterBottom className={classes.typography} variant="subtitle1">
