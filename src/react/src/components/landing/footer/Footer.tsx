@@ -6,10 +6,10 @@ const footers = [
         title: 'Company',
         description: ['About us', 'Contact us'],
     },
-    // {
-    //     title: 'Features',
-    //     description: ['Cool stuff', 'Random feature', 'Team feature', 'Developer stuff', 'Another one'],
-    // },
+    {
+        title: 'Social',
+        description: ['LinkedIn', 'Twitter', 'StatusPage'],
+    },
     {
         title: 'Docs',
         description: ['Getting Started', 'Projects', 'Geofences', 'Integrations', 'API'],
@@ -44,7 +44,7 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'© '}
-            {new Date().getFullYear()}
+            {new Date().getFullYear()}{' '}
             <Link color="inherit" href="https://rangerlabs.io/">
                 Ranger Labs, LLC.
             </Link>{' '}
