@@ -12,6 +12,7 @@ import RoutePaths from '../RoutePaths';
 import Notifier from '../../components/notifier/Notifier';
 import { Parallax } from 'react-spring/renderprops-addons';
 import Constants from '../../theme/Constants';
+import Footer from './footer/Footer';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -87,6 +88,7 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                                 />
                             </main>
                         </Fade>
+                        <Footer />
                     </div>
                 )}
             />

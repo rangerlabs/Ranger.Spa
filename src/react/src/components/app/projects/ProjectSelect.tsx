@@ -144,10 +144,17 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                                         }}
                                     >
                                         <Card elevation={3} className={classes.root}>
-                                            <CardHeader titleTypographyProps={{ align: 'left' }} classes={{ root: classes.rootPadding }} title={project.name} />
+                                        <div className={classes.details}>
+                                            <CardContent className={classes.content}>
+                                                <Typography variant="h6">{project.name}</Typography>
+                                                <Typography variant="subtitle1" color="textSecondary">
+                                                    {project.description}
+                                                </Typography>
+                                            </CardContent>
+                                        </div>
+                                            <CardHeader titleTypographyProps={{ align: 'left' }} classes={{ root: classes.rootPadding }} title= />
                                             <CardContent classes={{ root: classes.rootPadding }}>
                                                 <Typography align="left" component="p">
-                                                    {project.description}
                                                 </Typography>
                                             </CardContent>
                                         </Card>
