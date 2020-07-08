@@ -7,7 +7,7 @@ import Footer from '../footer/Footer';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         push: {
-            paddingTop: '7%',
+            paddingTop: '6%',
         },
     })
 );
