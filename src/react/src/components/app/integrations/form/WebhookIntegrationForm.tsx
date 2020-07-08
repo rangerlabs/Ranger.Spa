@@ -172,7 +172,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                             </Typography>
                             <form onSubmit={props.handleSubmit}>
                                 {this.props.isPendingCreation && (
-                                    <Grid container item xs={12} spacing={0}>
+                                    <Grid container item xs={12}>
                                         <Grid item xs={12}>
                                             <Typography align="center">
                                                 This integration is pending creation. Updates can be issued after the integration is created.
@@ -180,7 +180,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         </Grid>
                                     </Grid>
                                 )}
-                                <Grid container item xs={12} spacing={0}>
+                                <Grid container item xs={12}>
                                     <Grid item xs={12}>
                                         <FormikCheckbox
                                             infoText="Whether the integration will execute for geofences."
@@ -365,4 +365,4 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withSnackbar(integrationForm(WebhookIntegrationForm))));
+export default connect(mapStateToProps, mapDispatchToProps)(integrationForm(withStyles(styles)(withSnackbar(WebhookIntegrationForm))));

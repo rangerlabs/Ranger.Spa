@@ -30,8 +30,8 @@ const styles = (theme: Theme) =>
         columnRoot: {
             height: '100%',
         },
-        gridRoot: {
-            height: `calc((100% - ${theme.toolbar.height}px))`,
+        height100: {
+            height: '100%',
         },
     });
 
@@ -132,8 +132,8 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
         const { utilized, limit } = this.props.subscriptionLimitDetails;
         return (
             <React.Fragment>
-                <Grid container direction="column" justify="space-evenly">
-                    <Grid container item justify="space-evenly" alignItems="center" spacing={3}>
+                <Grid className={classes.height100} container direction="column" justify="space-evenly">
+                    <Grid container item justify="space-evenly" alignItems="center">
                         <Grid item xs={11} sm={8} md={5} lg={2}>
                             <PlanCard
                                 isCurrentPlan={this.isCurrentPlan('sandbox')}
