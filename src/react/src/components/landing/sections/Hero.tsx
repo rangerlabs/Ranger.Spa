@@ -75,7 +75,7 @@ class Hero extends React.Component<HeroProps> {
                             </Paper>
                         </Grid>
                     </Grid>
-                    <Grid className={classes.arrowDown} container alignContent="center" justify="center">
+                    <Grid className={classes.arrowDown} container alignContent="center" justify="center" spacing={5}>
                         <Grid item>
                             <ArrowDown color="primary" />
                         </Grid>
