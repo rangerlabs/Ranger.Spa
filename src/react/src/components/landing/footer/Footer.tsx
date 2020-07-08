@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme: Theme) => ({
             paddingBottom: theme.spacing(6),
         },
     },
+    alignCenter: {
+        textAlign: 'center',
+    },
 }));
 
 function Copyright() {
@@ -67,7 +70,7 @@ export default function Footer() {
             <Container maxWidth="md" component="footer" className={classes.footer}>
                 <Grid container spacing={4} justify="space-evenly">
                     {footers.map((footer) => (
-                        <Grid item xs={6} sm={3} key={footer.title}>
+                        <Grid className={classes.alignCenter} item xs={6} sm={3} key={footer.title}>
                             <Typography variant="h6" color="textPrimary" gutterBottom>
                                 {footer.title}
                             </Typography>

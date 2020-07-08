@@ -365,4 +365,4 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(integrationForm(withStyles(styles)(withSnackbar(WebhookIntegrationForm))));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withSnackbar(integrationForm(WebhookIntegrationForm))));
