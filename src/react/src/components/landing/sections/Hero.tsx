@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide, Paper, Box, IconButton } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide, Paper, Box, IconButton, Container } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import CreateGeofence from '../../../../assets/create-geofence.gif';
@@ -51,33 +51,36 @@ class Hero extends React.Component<HeroProps> {
         const { classes } = this.props;
         return (
             <div className={classes.layout}>
-                <Grid className={classes.heroPush} container alignContent="center" justify="center" spacing={5}>
-                    <Grid item md={4} xs={10}>
-                        <div className={classes.textPush}>
-                            <Typography gutterBottom className={classes.typography} variant="subtitle1">
-                                HOSTED APIs FOR
-                            </Typography>
-                            <Typography className={classes.typography} variant="h3">
-                                BOUNDLESS GEOFENCING
-                            </Typography>
-                            <div className={classes.typography}>
-                                <Button color="primary" variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
-                                    Sign up for free
-                                </Button>
+                {/* https://github.com/mui-org/material-ui/issues/7466 */}
+                <Container maxWidth={false}>
+                    <Grid className={classes.heroPush} container alignContent="center" justify="center" spacing={5}>
+                        <Grid item md={4} xs={10}>
+                            <div className={classes.textPush}>
+                                <Typography gutterBottom className={classes.typography} variant="subtitle1">
+                                    HOSTED APIs FOR
+                                </Typography>
+                                <Typography className={classes.typography} variant="h3">
+                                    BOUNDLESS GEOFENCING
+                                </Typography>
+                                <div className={classes.typography}>
+                                    <Button color="primary" variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
+                                        Sign up for free
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
+                        </Grid>
+                        <Grid item md={5} xs={10}>
+                            <Paper elevation={3}>
+                                <img width="100%" src={CreateGeofence} alt="Create Geofence" />
+                            </Paper>
+                        </Grid>
                     </Grid>
-                    <Grid item md={5} xs={10}>
-                        <Paper elevation={3}>
-                            <img width="100%" src={CreateGeofence} alt="Create Geofence" />
-                        </Paper>
+                    <Grid className={classes.arrowDown} container alignContent="center" justify="center">
+                        <Grid item>
+                            <ArrowDown color="primary" />
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Grid className={classes.arrowDown} container alignContent="center" justify="center">
-                    <Grid item>
-                        <ArrowDown color="primary" />
-                    </Grid>
-                </Grid>
+                </Container>
             </div>
         );
     }
