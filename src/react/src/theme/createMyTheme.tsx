@@ -54,6 +54,12 @@ export default function createRangerTheme(theme: ThemeOptions) {
             width: '100%',
         },
         overrides: {
+            MuiGrid: {
+                container: {
+                    width: '100% !important',
+                    margin: '0 !important',
+                },
+            },
             MuiDialog: {
                 paper: {
                     minWidth: '30%',

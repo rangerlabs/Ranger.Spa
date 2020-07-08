@@ -9,8 +9,6 @@ const styles = (theme: Theme) =>
     createStyles({
         layout: {
             height: `calc(100vh - 64px)`,
-            overflowX: 'hidden',
-            // https://github.com/mui-org/material-ui/issues/7466
         },
         typography: {
             [theme.breakpoints.up('md')]: {

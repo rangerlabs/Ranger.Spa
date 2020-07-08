@@ -6,10 +6,6 @@ import Footer from '../footer/Footer';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        layout: {
-            overflowX: 'hidden',
-            // https://github.com/mui-org/material-ui/issues/7466
-        },
         push: {
             paddingTop: '6%',
         },
