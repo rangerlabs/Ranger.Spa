@@ -7,6 +7,7 @@ import Hero from './sections/Hero';
 import ScrollTop from './ScrollTop';
 import { enqueueSnackbar } from '../../redux/actions/SnackbarActions';
 import { connect } from 'react-redux';
+import Footer from './footer/Footer';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -63,6 +64,7 @@ class Landing extends Component<LandingProps, LandingState> {
                         </div>
                         <div id="#pricing" className={classes.pricing} />
                         <div id="#contact" className={classes.contact} /> */}
+                <Footer />
                 <ScrollTop
                     visible={!this.state.atPageTop}
                     onClick={() => {

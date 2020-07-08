@@ -10,6 +10,7 @@ import { useState } from 'react';
 import RoutePaths from '../../RoutePaths';
 import classNames from 'classnames';
 import ScrollTop from '../ScrollTop';
+import Footer from '../footer/Footer';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -230,12 +231,13 @@ function Docs(props: DocumentationProps): JSX.Element {
                         <ExpandMore className={classes.iconAlign} />
                     </Typography>
                 </div>
-                <Paper id="content-top" elevation={0} className={classes.content}>
+                <div id="content-top" className={classes.content}>
                     <Observer onChange={handleScrollTop}>
                         <div />
                     </Observer>
                     <Doc />
-                </Paper>
+                    <Footer />
+                </div>
                 <ScrollTop
                     visible={!atPageTop}
                     onClick={() => {

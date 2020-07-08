@@ -83,13 +83,10 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                         <LandingMenu user={user} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={550}>
                             <React.Fragment>
-                                <div className={classes.content}>
-                                    <main className={classes.main}>
-                                        <div id="toolbar-push" className={classes.toolbar} />
-                                        <Component {...props} />
-                                    </main>
-                                    <Footer />
-                                </div>
+                                <main className={classes.content}>
+                                    <div id="toolbar-push" className={classes.toolbar} />
+                                    <Component {...props} />
+                                </main>
                             </React.Fragment>
                         </Fade>
                     </div>
