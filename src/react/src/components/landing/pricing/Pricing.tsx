@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface PricingProps {}
 
-const Pricing = function (props: PricingProps) {
+export default function Pricing(props: PricingProps) {
     const classes = useStyles(props);
 
     return (
@@ -58,4 +58,4 @@ const Pricing = function (props: PricingProps) {
             <Footer />
         </React.Fragment>
     );
-};
+}
