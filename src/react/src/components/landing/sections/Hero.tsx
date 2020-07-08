@@ -7,6 +7,9 @@ import ArrowDown from 'mdi-material-ui/ArrowDown';
 
 const styles = (theme: Theme) =>
     createStyles({
+        layout: {
+            height: `calc(100vh - 64px)`,
+        },
         typography: {
             [theme.breakpoints.up('md')]: {
                 textAlign: 'left',
@@ -47,7 +50,7 @@ class Hero extends React.Component<HeroProps> {
     render() {
         const { classes } = this.props;
         return (
-            <Box height="80vh">
+            <div className={classes.layout}>
                 <Grid className={classes.heroPush} container alignContent="center" justify="center" spacing={5}>
                     <Grid item md={4} xs={10}>
                         <div className={classes.textPush}>
@@ -75,7 +78,7 @@ class Hero extends React.Component<HeroProps> {
                         <ArrowDown color="primary" />
                     </Grid>
                 </Grid>
-            </Box>
+            </div>
         );
     }
 }
