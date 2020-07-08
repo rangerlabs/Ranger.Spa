@@ -18,7 +18,7 @@ export default function Pricing(props: PricingProps) {
     const classes = useStyles(props);
 
     return (
-        <div className={classes.layout}>
+        <React.Fragment>
             <Grid className={classes.push} container direction="column" spacing={5}>
                 <Grid container item justify="center" spacing={5}>
                     <Grid item xs={12}>
@@ -63,6 +63,6 @@ export default function Pricing(props: PricingProps) {
                 </Grid>
             </Grid>
             <Footer />
-        </div>
+        </React.Fragment>
     );
 }
