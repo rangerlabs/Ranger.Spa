@@ -9,6 +9,8 @@ const styles = (theme: Theme) =>
     createStyles({
         layout: {
             height: `calc(100vh - 64px)`,
+            overflowX: 'hidden',
+            // https://github.com/mui-org/material-ui/issues/7466
         },
         typography: {
             [theme.breakpoints.up('md')]: {
@@ -51,36 +53,33 @@ class Hero extends React.Component<HeroProps> {
         const { classes } = this.props;
         return (
             <div className={classes.layout}>
-                {/* https://github.com/mui-org/material-ui/issues/7466 */}
-                <Container maxWidth={false}>
-                    <Grid className={classes.heroPush} container alignContent="center" justify="center" spacing={5}>
-                        <Grid item md={4} xs={10}>
-                            <div className={classes.textPush}>
-                                <Typography gutterBottom className={classes.typography} variant="subtitle1">
-                                    HOSTED APIs FOR
-                                </Typography>
-                                <Typography className={classes.typography} variant="h3">
-                                    BOUNDLESS GEOFENCING
-                                </Typography>
-                                <div className={classes.typography}>
-                                    <Button color="primary" variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
-                                        Sign up for free
-                                    </Button>
-                                </div>
+                <Grid className={classes.heroPush} container alignContent="center" justify="center" spacing={5}>
+                    <Grid item md={4} xs={10}>
+                        <div className={classes.textPush}>
+                            <Typography gutterBottom className={classes.typography} variant="subtitle1">
+                                HOSTED APIs FOR
+                            </Typography>
+                            <Typography className={classes.typography} variant="h3">
+                                BOUNDLESS GEOFENCING
+                            </Typography>
+                            <div className={classes.typography}>
+                                <Button color="primary" variant="contained" className={classes.signupButton} onClick={this.handleSignUpClick}>
+                                    Sign up for free
+                                </Button>
                             </div>
-                        </Grid>
-                        <Grid item md={5} xs={10}>
-                            <Paper elevation={3}>
-                                <img width="100%" src={CreateGeofence} alt="Create Geofence" />
-                            </Paper>
-                        </Grid>
+                        </div>
                     </Grid>
-                    <Grid className={classes.arrowDown} container alignContent="center" justify="center" spacing={5}>
-                        <Grid item>
-                            <ArrowDown color="primary" />
-                        </Grid>
+                    <Grid item md={5} xs={10}>
+                        <Paper elevation={3}>
+                            <img width="100%" src={CreateGeofence} alt="Create Geofence" />
+                        </Paper>
                     </Grid>
-                </Container>
+                </Grid>
+                <Grid className={classes.arrowDown} container alignContent="center" justify="center" spacing={5}>
+                    <Grid item>
+                        <ArrowDown color="primary" />
+                    </Grid>
+                </Grid>
             </div>
         );
     }

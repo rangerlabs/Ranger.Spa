@@ -6,6 +6,10 @@ import Footer from '../footer/Footer';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        layout: {
+            overflowX: 'hidden',
+            // https://github.com/mui-org/material-ui/issues/7466
+        },
         push: {
             paddingTop: '6%',
         },
@@ -18,7 +22,7 @@ export default function Pricing(props: PricingProps) {
     const classes = useStyles(props);
 
     return (
-        <React.Fragment>
+        <div className={classes.layout}>
             <Grid className={classes.push} container direction="column" spacing={5}>
                 <Grid container item justify="center" spacing={5}>
                     <Grid item xs={12}>
@@ -63,6 +67,6 @@ export default function Pricing(props: PricingProps) {
                 </Grid>
             </Grid>
             <Footer />
-        </React.Fragment>
+        </div>
     );
 }
