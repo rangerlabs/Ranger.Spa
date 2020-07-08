@@ -27,7 +27,7 @@ export default function Pricing(props: PricingProps) {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container item justify="space-evenly" alignItems="center" spacing={5}>
+                <Grid container item justify="space-evenly" alignItems="center">
                     <Grid item xs={11} sm={8} md={5} lg={2}>
                         <PlanCard
                             planName="Sandbox"
