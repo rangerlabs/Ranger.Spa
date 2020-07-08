@@ -236,8 +236,8 @@ function Docs(props: DocumentationProps): JSX.Element {
                         <div />
                     </Observer>
                     <Doc />
-                    <Footer />
                 </div>
+                <Footer />
                 <ScrollTop
                     visible={!atPageTop}
                     onClick={() => {

@@ -131,9 +131,9 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
         const { classes } = this.props;
         const { utilized, limit } = this.props.subscriptionLimitDetails;
         return (
-            <Box className={classes.gridRoot}>
-                <Grid className={classes.columnRoot} direction="column" container justify="space-evenly" alignItems="center">
-                    <Grid container item justify="space-evenly" alignItems="center">
+            <React.Fragment>
+                <Grid container direction="column" justify="space-evenly" spacing={5}>
+                    <Grid container item justify="space-evenly" alignItems="center" spacing={5}>
                         <Grid item xs={11} sm={8} md={5} lg={2}>
                             <PlanCard
                                 isCurrentPlan={this.isCurrentPlan('sandbox')}
@@ -170,18 +170,6 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 forceDisable={!this.props.subscriptionLimitDetails.active}
                             />
                         </Grid>
-                        {/* <Grid item xs={11} sm={8} md={5} lg={2}>
-                            <PlanCard
-                                isCurrentPlan={this.isCurrentPlan('pro')}
-                                planId=""
-                                planName="Coming Soon"
-                                message="More plans are coming soon"
-                                limitDetails={{ geofences: 0, accounts: 0, integrations: 0, projects: 0 } as ILimitDetails}
-                                cost=" "
-                                onUpgrade={() => {}}
-                                forceDisable={true}
-                            />
-                        </Grid> */}
                     </Grid>
                     <Grid container item justify="center">
                         <Grid item xs={10}>
@@ -269,7 +257,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                         </Grid>
                     </Grid>
                 </Grid>
-            </Box>
+            </React.Fragment>
         );
     }
 }
