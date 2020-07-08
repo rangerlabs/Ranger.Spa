@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { Container, Grid, Box, Link, Typography, makeStyles, Theme, CssBaseline } from '@material-ui/core';
 
+interface FooterLink {
+    name: string;
+    url: string;
+}
+
 const footers = [
     {
         title: 'Company',
@@ -20,6 +25,7 @@ const footers = [
     },
 ];
 
+// description: [{name: 'LinkedIn', url: 'https://www.linkedin.com/company/ranger-labs/'}, {name:'Twitter', url: 'https://twitter.com/RangerLabs'}, {name:'StatusPage', url: 'https://rangerlabs.statuspage.io/'}] as FooterLink[],
 const useStyles = makeStyles((theme: Theme) => ({
     '@global': {
         ul: {
