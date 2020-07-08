@@ -3,11 +3,15 @@ import { Grid, createStyles, Theme, makeStyles, Typography, Container } from '@m
 import PlanCard from './PlanCard';
 import { ILimitDetails } from '../../../models/app/ILimitDetails';
 import Footer from '../footer/Footer';
+import classNames from 'classnames';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         push: {
-            paddingTop: '6%',
+            paddingTop: '3%',
+        },
+        maxWidth: {
+            maxWidth: '800px',
         },
     })
 );
@@ -19,15 +23,15 @@ export default function Pricing(props: PricingProps) {
 
     return (
         <React.Fragment>
-            <Grid className={classes.push} container direction="column" spacing={5}>
-                <Grid container item justify="center" spacing={5}>
+            <Grid className={classNames(classes.push, classes.maxWidth)} container direction="column" spacing={5}>
+                <Grid container item justify="center">
                     <Grid item xs={12}>
                         <Typography align="center" variant="h4">
                             Pricing
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container item justify="space-evenly" alignItems="center" spacing={5}>
+                <Grid container item justify="space-evenly" alignItems="center" spacing={3}>
                     <Grid item xs={11} sm={8} md={5} lg={2}>
                         <PlanCard
                             planName="Sandbox"
@@ -54,10 +58,10 @@ export default function Pricing(props: PricingProps) {
                     </Grid>
                     <Grid item xs={11} sm={8} md={5} lg={2}>
                         <PlanCard
-                            planName="Coming Soon"
-                            message="More plans are coming soon"
+                            planName="Enterprise"
+                            message="Enterprise plans are coming soon"
                             limitDetails={{ geofences: 0, accounts: 0, integrations: 0, projects: 0 } as ILimitDetails}
-                            cost=" "
+                            cost="/ Month"
                         />
                     </Grid>
                 </Grid>
