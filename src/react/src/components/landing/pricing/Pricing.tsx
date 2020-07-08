@@ -19,12 +19,12 @@ export default function Pricing(props: PricingProps) {
 
     return (
         <React.Fragment>
-            <Grid className={classes.height100} container direction="column">
+            <Grid container direction="column" spacing={5}>
                 <Grid container item justify="center">
-                    <Grid item>
+                    <Grid item xs={12}>
                         <Typography variant="h3">Flexible Plans To Meet Your Needs</Typography>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={12}>
                         <Typography variant="h5">Enterprise plans coming soon</Typography>
                     </Grid>
                 </Grid>
