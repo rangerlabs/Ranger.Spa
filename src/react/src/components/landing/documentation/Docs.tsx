@@ -38,6 +38,7 @@ const styles = (theme: Theme) =>
         },
         drawerPaper: {
             border: 'none',
+            height: 'auto',
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 zIndex: theme.zIndex.appBar - 1,
                 width: theme.drawer.width,
