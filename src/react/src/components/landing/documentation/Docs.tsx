@@ -237,7 +237,6 @@ function Docs(props: DocumentationProps): JSX.Element {
                     </Observer>
                     <Doc />
                 </div>
-                <Footer />
                 <ScrollTop
                     visible={!atPageTop}
                     onClick={() => {
@@ -245,6 +244,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                     }}
                 />
             </div>
+            <Footer />
         </React.Fragment>
     );
 }
