@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         },
     },
     footer: {
+        backgroundColor: theme.palette.common.white,
+    },
+    content: {
         borderTop: `1px solid ${theme.palette.divider}`,
         marginTop: theme.spacing(8),
         paddingTop: theme.spacing(3),
@@ -66,28 +69,30 @@ export default function Footer() {
 
     return (
         <React.Fragment>
-            <Container maxWidth="md" component="footer" className={classes.footer}>
-                <Grid container spacing={4} justify="space-evenly">
-                    {footers.map((footer) => (
-                        <Grid className={classes.alignCenter} item xs={6} sm={3} key={footer.title}>
-                            <Typography variant="h6" color="textPrimary" gutterBottom>
-                                {footer.title}
-                            </Typography>
-                            <ul>
-                                {footer.description.map((item) => (
-                                    <li key={item}>
-                                        <Link href="#" variant="subtitle1" color="textSecondary">
-                                            {item}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </Grid>
-                    ))}
-                </Grid>
-                <Box mt={5}>
-                    <Copyright />
-                </Box>
+            <Container className={classes.footer} component="footer">
+                <Container maxWidth="md" className={classes.content}>
+                    <Grid container spacing={4} justify="space-evenly">
+                        {footers.map((footer) => (
+                            <Grid className={classes.alignCenter} item xs={6} sm={3} key={footer.title}>
+                                <Typography variant="h6" color="textPrimary" gutterBottom>
+                                    {footer.title}
+                                </Typography>
+                                <ul>
+                                    {footer.description.map((item) => (
+                                        <li key={item}>
+                                            <Link href="#" variant="subtitle1" color="textSecondary">
+                                                {item}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </Grid>
+                        ))}
+                    </Grid>
+                    <Box mt={5}>
+                        <Copyright />
+                    </Box>
+                </Container>
             </Container>
         </React.Fragment>
     );
