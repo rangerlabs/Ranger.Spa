@@ -145,7 +145,7 @@ const DashboardProjectSelect = function (props: ProjectsSelectProps) {
                                 <Card elevation={3} className={classes.card}>
                                     <CardHeader title={project.name} />
                                     <CardContent classes={{ root: classes.cardContent }}>
-                                        <Typography component="p">{project.description ? project.description : {' '}}</Typography>
+                                        <Typography component="p">{project.description ? project.description : ' '}</Typography>
                                     </CardContent>
                                     <CardActions className={classes.buttons}>
                                         <IconButton
