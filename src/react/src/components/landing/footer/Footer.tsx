@@ -35,11 +35,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         },
     },
     footer: {
-        backgroundColor: theme.palette.common.white,
+        backgroundColor: '#fafafa',
+        paddingTop: theme.spacing(8),
+        maxWidth: '100%',
     },
     content: {
         borderTop: `1px solid ${theme.palette.divider}`,
-        marginTop: theme.spacing(8),
         paddingTop: theme.spacing(3),
         paddingBottom: theme.spacing(3),
         [theme.breakpoints.up('sm')]: {

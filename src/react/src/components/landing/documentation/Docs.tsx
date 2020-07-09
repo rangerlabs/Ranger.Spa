@@ -36,6 +36,7 @@ const styles = (theme: Theme) =>
         drawerPaper: {
             border: 'none',
             height: 'auto',
+            backgroundColor: '#fafafa',
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 zIndex: theme.zIndex.appBar - 1,
                 width: theme.drawer.width,
@@ -56,6 +57,7 @@ const styles = (theme: Theme) =>
             lineHeight: 'inherit',
         },
         content: {
+            backgroundColor: '#fafafa',
             padding: theme.spacing(4),
             width: 'auto',
             marginLeft: theme.spacing(2),
