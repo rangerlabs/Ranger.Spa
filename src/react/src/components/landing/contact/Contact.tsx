@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import { useState } from 'react';
 import ContactService from '../../../services/ContactService';
+import FormikTextArea from '../../form/FormikTextArea';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -74,7 +75,7 @@ export default function Contact(props: ContactProps) {
                                 {(props) => (
                                     <form onSubmit={props.handleSubmit}>
                                         <Grid container spacing={3}>
-                                            <Grid item xs={12}>
+                                            <Grid item xs={6}>
                                                 <FormikTextField
                                                     name="organization"
                                                     label="Organization"
@@ -86,7 +87,7 @@ export default function Contact(props: ContactProps) {
                                                     autoComplete="off"
                                                 />
                                             </Grid>
-                                            <Grid item xs={12}>
+                                            <Grid item xs={6}>
                                                 <FormikTextField
                                                     name="email"
                                                     label="Email"
@@ -94,6 +95,18 @@ export default function Contact(props: ContactProps) {
                                                     value={props.values.email}
                                                     errorText={props.errors.email}
                                                     touched={props.touched.email}
+                                                    onChange={props.handleChange}
+                                                    onBlur={props.handleBlur}
+                                                    autoComplete="off"
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <FormikTextArea
+                                                    name="message"
+                                                    label="Message"
+                                                    value={props.values.message}
+                                                    errorText={props.errors.message}
+                                                    touched={props.touched.message}
                                                     onChange={props.handleChange}
                                                     onBlur={props.handleBlur}
                                                     autoComplete="off"
@@ -108,7 +121,9 @@ export default function Contact(props: ContactProps) {
                                             )}
                                         </Grid>
                                         <div className={classes.buttons}>
-                                            <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={isSuccess} />
+                                            <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={isSuccess}>
+                                                Send
+                                            </FormikSynchronousButton>
                                         </div>
                                     </form>
                                 )}

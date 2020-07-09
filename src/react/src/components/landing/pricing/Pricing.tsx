@@ -1,24 +1,31 @@
 import * as React from 'react';
-import { Grid, createStyles, Theme, makeStyles, Typography, Container } from '@material-ui/core';
+import { Grid, createStyles, Theme, makeStyles, Typography, Container, Button } from '@material-ui/core';
 import PlanCard from './PlanCard';
 import { ILimitDetails } from '../../../models/app/ILimitDetails';
 import Footer from '../footer/Footer';
-import classNames from 'classnames';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import RoutePaths from '../../RoutePaths';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         push: {
             paddingTop: '3%',
         },
-        maxWidth: {
-            maxWidth: '800px',
+        primaryColor: {
+            background: theme.palette.primary.main,
+        },
+        trialButton: {
+            margin: theme.spacing(4),
         },
     })
 );
 
-interface PricingProps {}
+interface PricingProps {
+    push: typeof push;
+}
 
-export default function Pricing(props: PricingProps) {
+const Pricing = function (props: PricingProps) {
     const classes = useStyles(props);
 
     return (
@@ -66,7 +73,17 @@ export default function Pricing(props: PricingProps) {
                     </Grid>
                 </Grid>
             </Grid>
+            <Grid className={classes.primaryColor} container item justify="center">
+                <Grid item xs={12}>
+                    <Button className={classes.trialButton} color="primary" variant="outlined" onClick={() => props.push(RoutePaths.SignUp)}>
+                        START YOUR FREE TRIAL
+                    </Button>
+                </Grid>
+            </Grid>
+
             <Footer />
         </React.Fragment>
     );
-}
+};
+
+export default connect(null, { push })(Pricing);
