@@ -42,7 +42,7 @@ const Pricing = function (props: PricingProps) {
     const classes = useStyles(props);
 
     return (
-        <React.Fragment>
+        <div>
             <Grid className={classes.push} container direction="column" alignItems="center" spacing={5}>
                 <Grid container item justify="center">
                     <Grid item xs={12}>
@@ -97,7 +97,7 @@ const Pricing = function (props: PricingProps) {
                 </Grid>
             </Grid>
             <Footer />
-        </React.Fragment>
+        </div>
     );
 };
 
