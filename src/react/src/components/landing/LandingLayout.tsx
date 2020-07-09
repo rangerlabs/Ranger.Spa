@@ -16,9 +16,8 @@ const styles = (theme: Theme) =>
             display: 'flex',
             height: '100%',
         },
-        content: {
-            flexGrow: 1,
-            height: '100%',
+        main: {
+            position: 'absolute',
         },
         toolbar: {
             height: '64px',
@@ -75,7 +74,7 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                         {this.state.safeToPassRef && <LandingHeader user={user} handleDrawerToggle={this.handleDrawerToggle} {...props} />}
                         <LandingMenu user={user} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={550}>
-                            <main className={classes.content}>
+                            <main className={classes.main}>
                                 <div>
                                     <div id="toolbar-push" className={classes.toolbar} />
                                     <Component {...props} />
