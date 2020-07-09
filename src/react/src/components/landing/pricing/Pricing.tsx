@@ -92,7 +92,7 @@ const Pricing = function (props: PricingProps) {
                     onClick={() => props.push(RoutePaths.SignUp)}
                     variant="outlined"
                 >
-                    START YOUR FREE TRIAL
+                    START FOR FREE TODAY
                 </Button>
             </Grid>
 

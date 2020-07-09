@@ -147,8 +147,10 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                                             <Card elevation={0} className={classes.root}>
                                                 <div className={classes.details}>
                                                     <CardContent className={classes.content}>
-                                                        <Typography variant="h6">{project.name}</Typography>
-                                                        <Typography variant="subtitle1" color="textSecondary">
+                                                        <Typography align="center" variant="h6">
+                                                            {project.name}
+                                                        </Typography>
+                                                        <Typography align="center" variant="subtitle1" color="textSecondary">
                                                             {project.description}
                                                         </Typography>
                                                     </CardContent>
