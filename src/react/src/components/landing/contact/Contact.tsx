@@ -46,90 +46,88 @@ export default function Contact(props: ContactProps) {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
-                    <Grid item xs={11} sm={8} md={5} lg={3}>
-                        <React.Fragment>
-                            <Formik
-                                initialValues={{
-                                    email: '',
-                                    organization: '',
-                                    message: '',
-                                }}
-                                onSubmit={(values: IContactForm, formikBag: FormikBag<FormikProps<IContactForm>, IContactForm>) => {
-                                    setServerError(undefined);
-                                    const contactForm = {
-                                        email: values.email,
-                                        organization: values.organization,
-                                        message: values.message,
-                                    } as IContactForm;
-                                    contactService.postContactForm(contactForm).then((response) => {
-                                        if (response.isError) {
-                                            setServerError(response.error.message);
-                                        } else {
-                                            setIsSuccess(true);
-                                        }
-                                    });
-                                }}
-                                validationSchema={validationSchema}
-                            >
-                                {(props) => (
-                                    <form onSubmit={props.handleSubmit}>
-                                        <Grid container spacing={3}>
-                                            <Grid item xs={6}>
-                                                <FormikTextField
-                                                    name="organization"
-                                                    label="Organization"
-                                                    value={props.values.organization}
-                                                    errorText={props.errors.organization}
-                                                    touched={props.touched.organization}
-                                                    onChange={props.handleChange}
-                                                    onBlur={props.handleBlur}
-                                                    autoComplete="off"
-                                                />
-                                            </Grid>
-                                            <Grid item xs={6}>
-                                                <FormikTextField
-                                                    name="email"
-                                                    label="Email"
-                                                    type="email"
-                                                    value={props.values.email}
-                                                    errorText={props.errors.email}
-                                                    touched={props.touched.email}
-                                                    onChange={props.handleChange}
-                                                    onBlur={props.handleBlur}
-                                                    autoComplete="off"
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <FormikTextArea
-                                                    name="message"
-                                                    label="Message"
-                                                    value={props.values.message}
-                                                    errorText={props.errors.message}
-                                                    touched={props.touched.message}
-                                                    onChange={props.handleChange}
-                                                    onBlur={props.handleBlur}
-                                                    autoComplete="off"
-                                                />
-                                            </Grid>
-                                            {serverError && (
-                                                <Grid item xs={12}>
-                                                    <Typography color="error" variant="subtitle1">
-                                                        {serverError}
-                                                    </Typography>
-                                                </Grid>
-                                            )}
+                <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={11} md={6}>
+                    <React.Fragment>
+                        <Formik
+                            initialValues={{
+                                email: '',
+                                organization: '',
+                                message: '',
+                            }}
+                            onSubmit={(values: IContactForm, formikBag: FormikBag<FormikProps<IContactForm>, IContactForm>) => {
+                                setServerError(undefined);
+                                const contactForm = {
+                                    email: values.email,
+                                    organization: values.organization,
+                                    message: values.message,
+                                } as IContactForm;
+                                contactService.postContactForm(contactForm).then((response) => {
+                                    if (response.isError) {
+                                        setServerError(response.error.message);
+                                    } else {
+                                        setIsSuccess(true);
+                                    }
+                                });
+                            }}
+                            validationSchema={validationSchema}
+                        >
+                            {(props) => (
+                                <form onSubmit={props.handleSubmit}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={6}>
+                                            <FormikTextField
+                                                name="organization"
+                                                label="Organization"
+                                                value={props.values.organization}
+                                                errorText={props.errors.organization}
+                                                touched={props.touched.organization}
+                                                onChange={props.handleChange}
+                                                onBlur={props.handleBlur}
+                                                autoComplete="off"
+                                            />
                                         </Grid>
-                                        <div className={classes.buttons}>
-                                            <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={isSuccess}>
-                                                Send
-                                            </FormikSynchronousButton>
-                                        </div>
-                                    </form>
-                                )}
-                            </Formik>
-                        </React.Fragment>
-                    </Grid>
+                                        <Grid item xs={6}>
+                                            <FormikTextField
+                                                name="email"
+                                                label="Email"
+                                                type="email"
+                                                value={props.values.email}
+                                                errorText={props.errors.email}
+                                                touched={props.touched.email}
+                                                onChange={props.handleChange}
+                                                onBlur={props.handleBlur}
+                                                autoComplete="off"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormikTextArea
+                                                name="message"
+                                                label="Message"
+                                                value={props.values.message}
+                                                errorText={props.errors.message}
+                                                touched={props.touched.message}
+                                                onChange={props.handleChange}
+                                                onBlur={props.handleBlur}
+                                                autoComplete="off"
+                                            />
+                                        </Grid>
+                                        {serverError && (
+                                            <Grid item xs={12}>
+                                                <Typography color="error" variant="subtitle1">
+                                                    {serverError}
+                                                </Typography>
+                                            </Grid>
+                                        )}
+                                    </Grid>
+                                    <div className={classes.buttons}>
+                                        <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={isSuccess}>
+                                            Send
+                                        </FormikSynchronousButton>
+                                    </div>
+                                </form>
+                            )}
+                        </Formik>
+                    </React.Fragment>
                 </Grid>
             </Grid>
             <Footer />

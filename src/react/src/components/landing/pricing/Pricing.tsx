@@ -17,6 +17,17 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         trialButton: {
             margin: theme.spacing(4),
+            color: theme.palette.primary.main,
+            '&:hover': {
+                backgroundColor: theme.palette.common.white,
+                color: theme.palette.primary.main,
+            },
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: theme.palette.common.white,
+        },
+        child: {
+            backgroundColor: theme.palette.primary.main,
         },
     })
 );
@@ -30,7 +41,7 @@ const Pricing = function (props: PricingProps) {
 
     return (
         <React.Fragment>
-            <Grid className={classes.push} container direction="column" spacing={5}>
+            <Grid className={classes.push} container direction="column" alignItems="center" spacing={5}>
                 <Grid container item justify="center">
                     <Grid item xs={12}>
                         <Typography align="center" variant="h4">
@@ -38,8 +49,8 @@ const Pricing = function (props: PricingProps) {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
-                    <Grid item xs={11} sm={8} md={5} lg={2}>
+                <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={7}>
+                    <Grid item xs={11} sm={8} md={5} lg={3}>
                         <PlanCard
                             planName="Sandbox"
                             message="Perfect for getting a feel and testing your integrations"
@@ -47,7 +58,7 @@ const Pricing = function (props: PricingProps) {
                             cost="FREE"
                         />
                     </Grid>
-                    <Grid item xs={11} sm={8} md={5} lg={2}>
+                    <Grid item xs={11} sm={8} md={5} lg={3}>
                         <PlanCard
                             planName="Startup"
                             message="When you're ready to start scaling and adding integrations"
@@ -55,7 +66,7 @@ const Pricing = function (props: PricingProps) {
                             cost="$49 / Month"
                         />
                     </Grid>
-                    <Grid item xs={11} sm={8} md={5} lg={2}>
+                    <Grid item xs={11} sm={8} md={5} lg={3}>
                         <PlanCard
                             planName="Pro"
                             message="Extend your reach with 5,000 geofences and 5 integrations"
@@ -63,7 +74,7 @@ const Pricing = function (props: PricingProps) {
                             cost="$99 / Month"
                         />
                     </Grid>
-                    <Grid item xs={11} sm={8} md={5} lg={2}>
+                    <Grid item xs={11} sm={8} md={5} lg={3}>
                         <PlanCard
                             planName="Enterprise"
                             message="Enterprise plans coming soon"
@@ -73,12 +84,15 @@ const Pricing = function (props: PricingProps) {
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid className={classes.primaryColor} container item justify="center">
-                <Grid item xs={12}>
-                    <Button className={classes.trialButton} color="primary" variant="outlined" onClick={() => props.push(RoutePaths.SignUp)}>
-                        START YOUR FREE TRIAL
-                    </Button>
-                </Grid>
+            <Grid className={classes.primaryColor} container item justify="center" xs={12}>
+                <Button
+                    TouchRippleProps={{ classes: { child: classes.child } }}
+                    className={classes.trialButton}
+                    onClick={() => props.push(RoutePaths.SignUp)}
+                    variant="outlined"
+                >
+                    START YOUR FREE TRIAL
+                </Button>
             </Grid>
 
             <Footer />
