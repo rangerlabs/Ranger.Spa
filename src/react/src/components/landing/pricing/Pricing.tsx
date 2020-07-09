@@ -16,8 +16,9 @@ const useStyles = makeStyles((theme: Theme) =>
             background: theme.palette.primary.main,
         },
         trialButton: {
+            width: '25%',
             margin: theme.spacing(4),
-            color: theme.palette.primary.main,
+            color: theme.palette.common.white,
             '&:hover': {
                 backgroundColor: theme.palette.common.white,
                 color: theme.palette.primary.main,
@@ -49,7 +50,7 @@ const Pricing = function (props: PricingProps) {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={7}>
+                <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
                     <Grid item xs={11} sm={8} md={5} lg={3}>
                         <PlanCard
                             planName="Sandbox"
