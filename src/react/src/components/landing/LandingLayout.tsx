@@ -82,12 +82,10 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                         {this.state.safeToPassRef && <LandingHeader user={user} handleDrawerToggle={this.handleDrawerToggle} {...props} />}
                         <LandingMenu user={user} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={550}>
-                            <React.Fragment>
-                                <main className={classes.content}>
-                                    <div id="toolbar-push" className={classes.toolbar} />
-                                    <Component {...props} />
-                                </main>
-                            </React.Fragment>
+                            <main className={classes.content}>
+                                <div id="toolbar-push" className={classes.toolbar} />
+                                <Component {...props} />
+                            </main>
                         </Fade>
                     </div>
                 )}
