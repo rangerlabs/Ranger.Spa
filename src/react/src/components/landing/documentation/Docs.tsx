@@ -191,7 +191,7 @@ function Docs(props: DocumentationProps): JSX.Element {
     );
 
     return (
-        <div>
+        <React.Fragment>
             <nav className={classes.drawer}>
                 <Drawer
                     className={classes.mdHide}
@@ -240,7 +240,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 }}
             />
             <Footer />
-        </div>
+        </React.Fragment>
     );
 }
 
