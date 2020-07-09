@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         signUp: {
             background: theme.palette.primary.main,
-            paddingTop: theme.spacing(5),
+            marginTop: `${theme.spacing(5)}px !important`,
         },
         trialButton: {
             minWidth: '25%',
