@@ -22,7 +22,7 @@ const GettingStarted = function (props: GettingStartedProps) {
     const { classes } = props;
     return (
         <React.Fragment>
-            <Typography className={classes.blockText} variant="h3">
+            <Typography className={classes.blockText} variant="h4">
                 Getting Started
             </Typography>
             <div className={classes.blockText}>

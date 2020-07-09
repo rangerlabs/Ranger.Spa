@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Typography, Badge, Paper, Fade } from '@material-ui/core';
+import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Typography, Badge } from '@material-ui/core';
 import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { DocComponents } from './DocComponents';
@@ -15,9 +15,6 @@ import Footer from '../footer/Footer';
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
-                display: 'flex',
-            },
             background: 'white',
         },
         drawer: {
