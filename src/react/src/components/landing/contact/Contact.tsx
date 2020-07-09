@@ -78,7 +78,7 @@ export default function Contact(props: ContactProps) {
                                 <form onSubmit={props.handleSubmit}>
                                     <Paper className={classes.paper} elevation={3}>
                                         <Grid container spacing={2}>
-                                            <Grid item xs={7}>
+                                            <Grid item xs={6}>
                                                 <FormikTextField
                                                     name="organization"
                                                     label="Organization"
