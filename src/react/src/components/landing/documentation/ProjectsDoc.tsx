@@ -33,9 +33,9 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                 <Typography gutterBottom variant="body1"></Typography>
                 <Typography gutterBottom variant="body1"></Typography>
             </div>
-            <div className={classes.imgContainer}>
+            {/* <div className={classes.imgContainer}>
                 <img style={{ maxWidth: '70%' }} src={''} alt="central-park-geofence" />
-            </div>
+            </div> */}
         </React.Fragment>
     );
 };
