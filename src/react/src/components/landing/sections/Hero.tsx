@@ -9,6 +9,7 @@ const styles = (theme: Theme) =>
     createStyles({
         layout: {
             height: `calc(100vh - 64px)`,
+            position: 'relative',
         },
         typography: {
             [theme.breakpoints.up('md')]: {

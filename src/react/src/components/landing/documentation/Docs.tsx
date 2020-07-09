@@ -228,10 +228,12 @@ function Docs(props: DocumentationProps): JSX.Element {
                 </Typography>
             </div>
             <div id="content-top" className={classes.content}>
-                <Observer onChange={handleScrollTop}>
-                    <div />
-                </Observer>
-                <Doc />
+                <div>
+                    <Observer onChange={handleScrollTop}>
+                        <div />
+                    </Observer>
+                    <Doc />
+                </div>
             </div>
             <ScrollTop
                 visible={!atPageTop}
