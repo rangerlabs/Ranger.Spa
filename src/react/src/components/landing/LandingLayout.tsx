@@ -4,7 +4,7 @@ import { withStyles, createStyles, WithStyles } from '@material-ui/styles';
 import LandingHeader from './header/LandingHeader';
 import LandingMenu from './menu/LandingMenu';
 import { connect } from 'react-redux';
-import { Fade, Theme } from '@material-ui/core';
+import { Fade, Theme, CssBaseline } from '@material-ui/core';
 import Dialog from '../dialog/Dialog';
 import { ApplicationState } from '../../stores';
 import { User } from 'oidc-client';
@@ -67,6 +67,7 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                 {...rest}
                 render={(props) => (
                     <main className={classes.root}>
+                        <CssBaseline />
                         <Dialog />
                         {this.state.safeToPassRef && <LandingHeader user={user} handleDrawerToggle={this.handleDrawerToggle} {...props} />}
                         <LandingMenu user={user} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
