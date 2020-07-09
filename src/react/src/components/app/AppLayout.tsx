@@ -103,7 +103,6 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                 {...rest}
                 render={(props) => (
                     <div className={classes.root}>
-                        <CssBaseline />
                         <Dialog />
                         <Header breadcrumbs={this.completeBreadcrumbsWithProjectName()} handleDrawerToggle={this.handleDrawerToggle} {...props} />
                         <Menu handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />

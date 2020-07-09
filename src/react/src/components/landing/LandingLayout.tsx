@@ -4,27 +4,18 @@ import { withStyles, createStyles, WithStyles } from '@material-ui/styles';
 import LandingHeader from './header/LandingHeader';
 import LandingMenu from './menu/LandingMenu';
 import { connect } from 'react-redux';
-import { CssBaseline, Fade, Theme } from '@material-ui/core';
+import { Fade, Theme } from '@material-ui/core';
 import Dialog from '../dialog/Dialog';
 import { ApplicationState } from '../../stores';
 import { User } from 'oidc-client';
 import RoutePaths from '../RoutePaths';
-import Notifier from '../../components/notifier/Notifier';
-import { Parallax } from 'react-spring/renderprops-addons';
-import Constants from '../../theme/Constants';
-import Footer from './footer/Footer';
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
             display: 'flex',
             height: '100%',
-        },
-        content: {
             flexGrow: 1,
-        },
-        main: {
-            height: '100%',
         },
         toolbar: {
             height: '64px',
@@ -75,20 +66,17 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
             <Route
                 {...rest}
                 render={(props) => (
-                    <div className={classes.root}>
-                        <CssBaseline />
+                    <main className={classes.root}>
                         <Dialog />
                         {this.state.safeToPassRef && <LandingHeader user={user} handleDrawerToggle={this.handleDrawerToggle} {...props} />}
                         <LandingMenu user={user} handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={550}>
-                            <main className={classes.content}>
-                                <div>
-                                    <div id="toolbar-push" className={classes.toolbar} />
-                                    <Component {...props} />
-                                </div>
-                            </main>
+                            <div>
+                                <div id="toolbar-push" className={classes.toolbar} />
+                                <Component {...props} />
+                            </div>
                         </Fade>
-                    </div>
+                    </main>
                 )}
             />
         );
