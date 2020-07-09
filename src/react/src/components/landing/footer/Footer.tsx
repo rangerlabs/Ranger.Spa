@@ -9,7 +9,7 @@ interface FooterLink {
 const footers = [
     {
         title: 'Company',
-        description: ['About us', 'Contact us'],
+        description: ['About', 'Contact us'],
     },
     {
         title: 'Social',

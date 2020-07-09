@@ -23,7 +23,7 @@ export default function Pricing(props: PricingProps) {
 
     return (
         <React.Fragment>
-            <Grid className={classNames(classes.push, classes.maxWidth)} container direction="column" spacing={5}>
+            <Grid className={classes.push} container direction="column" spacing={5}>
                 <Grid container item justify="center">
                     <Grid item xs={12}>
                         <Typography align="center" variant="h4">
@@ -31,7 +31,7 @@ export default function Pricing(props: PricingProps) {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container item justify="space-evenly" alignItems="center" spacing={3}>
+                <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
                     <Grid item xs={11} sm={8} md={5} lg={2}>
                         <PlanCard
                             planName="Sandbox"
@@ -59,9 +59,9 @@ export default function Pricing(props: PricingProps) {
                     <Grid item xs={11} sm={8} md={5} lg={2}>
                         <PlanCard
                             planName="Enterprise"
-                            message="Enterprise plans are coming soon"
+                            message="Enterprise plans coming soon"
                             limitDetails={{ geofences: 0, accounts: 0, integrations: 0, projects: 0 } as ILimitDetails}
-                            cost="/ Month"
+                            cost="$--- / Month"
                         />
                     </Grid>
                 </Grid>
