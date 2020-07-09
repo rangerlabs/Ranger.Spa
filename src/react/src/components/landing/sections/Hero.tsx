@@ -55,6 +55,7 @@ class Hero extends React.Component<HeroProps> {
                     <Grid item md={4} xs={10}>
                         <div className={classes.textPush}>
                             <Typography gutterBottom className={classes.typography} variant="subtitle1">
+                                {' '}
                                 HOSTED APIs FOR
                             </Typography>
                             <Typography className={classes.typography} variant="h3">

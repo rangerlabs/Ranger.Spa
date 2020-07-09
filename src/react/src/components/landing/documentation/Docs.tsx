@@ -14,9 +14,6 @@ import Footer from '../footer/Footer';
 
 const styles = (theme: Theme) =>
     createStyles({
-        layout: {
-            background: 'white',
-        },
         drawer: {
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 width: theme.drawer.width,
@@ -195,55 +192,53 @@ function Docs(props: DocumentationProps): JSX.Element {
 
     return (
         <React.Fragment>
-            <div className={classes.layout}>
-                <nav className={classes.drawer}>
-                    <Drawer
-                        className={classes.mdHide}
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        variant="temporary"
-                        anchor={'top'}
-                        open={mobileOpen}
-                        onClose={closeMobileDrawer}
-                        SlideProps={{
-                            timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
-                        }}
-                    >
-                        {drawerContent}
-                    </Drawer>
-                    <Drawer
-                        classes={{
-                            paper: classNames(classes.drawerPaper, classes.boxShadow),
-                        }}
-                        className={classes.smHide}
-                        anchor={'left'}
-                        variant="permanent"
-                        open
-                    >
-                        <div className={classes.toolbar} />
-                        {drawerContent}
-                    </Drawer>
-                </nav>
-                <div className={classNames(classes.mdHide, classes.sticky)} onClick={openMobileDrawer}>
-                    <Typography align="center" variant="subtitle1">
-                        {mobileSectionName}
-                        <ExpandMore className={classes.iconAlign} />
-                    </Typography>
-                </div>
-                <div id="content-top" className={classes.content}>
-                    <Observer onChange={handleScrollTop}>
-                        <div />
-                    </Observer>
-                    <Doc />
-                </div>
-                <ScrollTop
-                    visible={!atPageTop}
-                    onClick={() => {
-                        document.getElementById('toolbar-push').scrollIntoView({ behavior: 'smooth' });
+            <nav className={classes.drawer}>
+                <Drawer
+                    className={classes.mdHide}
+                    classes={{
+                        paper: classes.drawerPaper,
                     }}
-                />
+                    variant="temporary"
+                    anchor={'top'}
+                    open={mobileOpen}
+                    onClose={closeMobileDrawer}
+                    SlideProps={{
+                        timeout: { enter: theme.drawer.enterDuration, exit: theme.drawer.leavingDuration },
+                    }}
+                >
+                    {drawerContent}
+                </Drawer>
+                <Drawer
+                    classes={{
+                        paper: classNames(classes.drawerPaper, classes.boxShadow),
+                    }}
+                    className={classes.smHide}
+                    anchor={'left'}
+                    variant="permanent"
+                    open
+                >
+                    <div className={classes.toolbar} />
+                    {drawerContent}
+                </Drawer>
+            </nav>
+            <div className={classNames(classes.mdHide, classes.sticky)} onClick={openMobileDrawer}>
+                <Typography align="center" variant="subtitle1">
+                    {mobileSectionName}
+                    <ExpandMore className={classes.iconAlign} />
+                </Typography>
             </div>
+            <div id="content-top" className={classes.content}>
+                <Observer onChange={handleScrollTop}>
+                    <div />
+                </Observer>
+                <Doc />
+            </div>
+            <ScrollTop
+                visible={!atPageTop}
+                onClick={() => {
+                    document.getElementById('toolbar-push').scrollIntoView({ behavior: 'smooth' });
+                }}
+            />
             <Footer />
         </React.Fragment>
     );
