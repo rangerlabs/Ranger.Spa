@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             justifyContent: 'flex-end',
         },
+        paper: {
+            padding: theme.spacing(4),
+        },
     })
 );
 
@@ -73,9 +76,9 @@ export default function Contact(props: ContactProps) {
                         >
                             {(props) => (
                                 <form onSubmit={props.handleSubmit}>
-                                    <Paper elevation={3}>
+                                    <Paper className={classes.paper} elevation={3}>
                                         <Grid container spacing={2}>
-                                            <Grid item xs={6}>
+                                            <Grid item xs={7}>
                                                 <FormikTextField
                                                     name="organization"
                                                     label="Organization"
