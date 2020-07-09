@@ -18,6 +18,7 @@ const styles = (theme: Theme) =>
         },
         main: {
             position: 'absolute',
+            width: '100%',
         },
         toolbar: {
             height: '64px',
