@@ -109,10 +109,8 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                         <Menu handleDrawerToggle={this.handleDrawerToggle} mobileOpen={this.state.mobileOpen} {...props} />
                         <Fade in timeout={550}>
                             <main className={classes.content}>
-                                <div>
-                                    <div className={classes.toolbar} />
-                                    <Component {...props} />
-                                </div>
+                                <div className={classes.toolbar} />
+                                <Component {...props} />
                             </main>
                         </Fade>
                         <SubscriptionInactiveFooter />
