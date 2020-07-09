@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
             background: theme.palette.primary.main,
         },
         trialButton: {
-            width: '25%',
+            minWidth: '25%',
             margin: theme.spacing(4),
             color: theme.palette.common.white,
             '&:hover': {
@@ -84,18 +84,17 @@ const Pricing = function (props: PricingProps) {
                         />
                     </Grid>
                 </Grid>
+                <Grid className={classes.primaryColor} container item justify="center" xs={12}>
+                    <Button
+                        TouchRippleProps={{ classes: { child: classes.child } }}
+                        className={classes.trialButton}
+                        onClick={() => props.push(RoutePaths.SignUp)}
+                        variant="outlined"
+                    >
+                        START FOR FREE TODAY
+                    </Button>
+                </Grid>
             </Grid>
-            <Grid className={classes.primaryColor} container item justify="center" xs={12}>
-                <Button
-                    TouchRippleProps={{ classes: { child: classes.child } }}
-                    className={classes.trialButton}
-                    onClick={() => props.push(RoutePaths.SignUp)}
-                    variant="outlined"
-                >
-                    START FOR FREE TODAY
-                </Button>
-            </Grid>
-
             <Footer />
         </React.Fragment>
     );

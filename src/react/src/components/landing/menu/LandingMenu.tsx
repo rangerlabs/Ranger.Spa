@@ -24,6 +24,7 @@ import Lock from '@material-ui/icons/Lock';
 import FileDocumentOutline from 'mdi-material-ui/FileDocumentOutline';
 import CurrencyUsd from 'mdi-material-ui/CurrencyUsd';
 import Domain from 'mdi-material-ui/Domain';
+import Email from 'mdi-material-ui/Email';
 import { User } from 'oidc-client';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
@@ -124,7 +125,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                         <ListItemIcon>
                             <FileDocumentOutline />
                         </ListItemIcon>
-                        <ListItemText primary="Documentation" />
+                        <ListItemText primary="Docs" />
                     </ListItem>
                     <ListItem button onClick={() => this.props.push(RoutePaths.Pricing)}>
                         <ListItemIcon>
@@ -134,7 +135,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                     </ListItem>
                     <ListItem button onClick={() => this.props.push(RoutePaths.Contact)}>
                         <ListItemIcon>
-                            <Domain />
+                            <Email />
                         </ListItemIcon>
                         <ListItemText primary="Contact" />
                     </ListItem>
