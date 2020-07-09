@@ -12,8 +12,9 @@ const useStyles = makeStyles((theme: Theme) =>
         push: {
             paddingTop: '3%',
         },
-        primaryColor: {
+        signUp: {
             background: theme.palette.primary.main,
+            paddingTop: theme.spacing(5),
         },
         trialButton: {
             minWidth: '25%',
@@ -84,7 +85,7 @@ const Pricing = function (props: PricingProps) {
                         />
                     </Grid>
                 </Grid>
-                <Grid className={classes.primaryColor} container item justify="center" xs={12}>
+                <Grid className={classes.signUp} container item justify="center" xs={12}>
                     <Button
                         TouchRippleProps={{ classes: { child: classes.child } }}
                         className={classes.trialButton}
