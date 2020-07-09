@@ -11,7 +11,7 @@ const styles = () =>
 
 interface FormikTextAreaProps extends WithStyles<typeof styles> {
     name: string;
-    label: string;
+    placeholder: string;
     errorText: string | FormikErrors<any>;
     touched: boolean | FormikTouched<any>;
     onBlur(e: React.FocusEvent<any>): void;
@@ -23,7 +23,7 @@ interface FormikTextAreaProps extends WithStyles<typeof styles> {
 
 class FormikTextField extends React.Component<FormikTextAreaProps & TextareaAutosizeProps> {
     render() {
-        const { name, label: placeholder, errorText, touched, onBlur, onChange, classes, value, ...rest } = this.props;
+        const { name, placeholder: placeholder, errorText, touched, onBlur, onChange, classes, value, ...rest } = this.props;
         return (
             <Grid container alignContent="center" justify="center" spacing={0}>
                 <Grid item xs={12}>

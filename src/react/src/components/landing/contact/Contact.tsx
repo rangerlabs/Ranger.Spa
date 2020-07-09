@@ -34,9 +34,9 @@ export default function Contact(props: ContactProps) {
     const [serverError, setServerError] = useState(undefined);
 
     const validationSchema = Yup.object().shape({
-        message: Yup.string().required('Required'),
         organization: Yup.string().required('Required'),
         email: Yup.string().email('Invalid email').required('Required'),
+        message: Yup.string().required('Required').max(1000, 'Max 1000 characters'),
     });
 
     return (
@@ -78,7 +78,7 @@ export default function Contact(props: ContactProps) {
                                 <form onSubmit={props.handleSubmit}>
                                     <Paper className={classes.paper} elevation={3}>
                                         <Grid container spacing={2}>
-                                            <Grid item xs={6}>
+                                            <Grid item xs={12}>
                                                 <FormikTextField
                                                     name="organization"
                                                     label="Organization"
@@ -90,7 +90,7 @@ export default function Contact(props: ContactProps) {
                                                     autoComplete="off"
                                                 />
                                             </Grid>
-                                            <Grid item xs={6}>
+                                            <Grid item xs={12}>
                                                 <FormikTextField
                                                     name="email"
                                                     label="Email"
@@ -106,7 +106,7 @@ export default function Contact(props: ContactProps) {
                                             <Grid item xs={12}>
                                                 <FormikTextArea
                                                     name="message"
-                                                    label="Tell us what's on your mind..."
+                                                    placeholder="Tell us what's on your mind..."
                                                     value={props.values.message}
                                                     errorText={props.errors.message}
                                                     touched={props.touched.message}
