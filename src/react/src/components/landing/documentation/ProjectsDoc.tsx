@@ -48,9 +48,11 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                     API keys can only be re-generated.
                 </Typography>
             </div>
-            <div className={classes.imgContainer}>
-                <img style={{ maxWidth: '70%' }} src={NewApiKeys} alt="New API Keys" />
-            </div>
+            <Paper elevation={3}>
+                <div className={classes.imgContainer}>
+                    <img style={{ maxWidth: '70%' }} src={NewApiKeys} alt="New API Keys" />
+                </div>
+            </Paper>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
                     These API Keys represent distinct purposes within Ranger as described below:
@@ -58,21 +60,18 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                 <List>
                     <ListItem>
                         <ListItemText
-                            inset
                             primary="Live API Key"
                             secondary="The Live API Key is intended to be deployed into a production environment and will execute all Integrations whose environent is set to LIVE."
                         />
                     </ListItem>
                     <ListItem>
                         <ListItemText
-                            inset
                             primary="Test API Key"
                             secondary="The Test API Key is intended to be deployed to any non-production environment and will execute all Integrations whose environent is set to TEST."
                         />
                     </ListItem>
                     <ListItem>
                         <ListItemText
-                            inset
                             primary="Project API Key"
                             secondary="The Project API Key provides the ability to programatically manage a subset of resources within a Project. For example, this key can be used for CRUD operations on Geofence resources."
                         />
@@ -91,56 +90,53 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                     updated or their role in your organization.
                 </Typography>
                 <Typography gutterBottom variant="body1">
-                    Below lists the four roles and their access to resources:
+                    Below lists the four roles and their access to Ranger's APIs, not all information is displayed in the UI:
                 </Typography>
                 <List>
                     <ListItem>
-                        <ListItemText inset primary="User" />
+                        <ListItemText primary="User" />
                         <List>
-                            <ListItemText inset primary="Geofences" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Integrations" secondary="Read" />
-                            <ListItemText inset primary="Projects" secondary="Read" />
-                            <ListItemText inset primary="Subscription" secondary="Read" />
-                            <ListItemText inset primary="Organization" secondary="Read" />
+                            <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Integrations" secondary="Read" />
+                            <ListItemText primary="Projects" secondary="Read" />
+                            <ListItemText primary="Subscription" secondary="Read" />
+                            <ListItemText primary="Organization" secondary="Read" />
                         </List>
                     </ListItem>
                     <ListItem>
-                        <ListItemText inset primary="Admin" />
+                        <ListItemText primary="Admin" />
                         <List>
-                            <ListItemText inset primary="Geofences" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Integrations" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Projects" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Users" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Subscription" secondary="Read" />
-                            <ListItemText inset primary="Organization" secondary="Read" />
+                            <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Integrations" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Projects" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Users" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Subscription" secondary="Read" />
+                            <ListItemText primary="Organization" secondary="Read" />
                         </List>
                     </ListItem>
                     <ListItem>
-                        <ListItemText inset primary="Owner" />
+                        <ListItemText primary="Owner" />
                         <List>
-                            <ListItemText inset primary="Geofences" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Integrations" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Projects" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Users" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Admins" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Subscription" secondary="Edit" />
-                            <ListItemText inset primary="Organization" secondary="Edit" />
+                            <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Integrations" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Projects" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Users" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Admins" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Subscription" secondary="Edit" />
+                            <ListItemText primary="Organization" secondary="Edit" />
                         </List>
                     </ListItem>
                     <ListItem>
-                        <ListItemText
-                            inset
-                            primary="Primary Owner"
-                        />
+                        <ListItemText primary="Primary Owner" />
                         <List>
-                            <ListItemText inset primary="Geofences" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Integrations" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Projects" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Users" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Admins" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Owners" secondary="Create, Edit, Delete" />
-                            <ListItemText inset primary="Subscription" secondary="Edit" />
-                            <ListItemText inset primary="Organization" secondary="Edit, Delete" />
+                            <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Integrations" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Projects" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Users" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Admins" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Owners" secondary="Create, Edit, Delete" />
+                            <ListItemText primary="Subscription" secondary="Edit" />
+                            <ListItemText primary="Organization" secondary="Edit, Delete" />
                         </List>
                     </ListItem>
                 </List>
