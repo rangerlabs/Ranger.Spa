@@ -11,6 +11,10 @@ const styles = (theme: Theme) =>
             textAlign: 'center',
             marginBottom: theme.spacing(3),
         },
+        list: {
+            padding: theme.spacing(4),
+            background: 'white',
+        },
     });
 
 interface ProjectsDocProps extends WithStyles<typeof styles> {}
@@ -57,7 +61,8 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                 <Typography gutterBottom variant="body1">
                     These API Keys represent distinct purposes within Ranger as described below:
                 </Typography>
-                <List>
+
+                <List className={classes.list}>
                     <ListItem>
                         <ListItemText
                             primary="Live API Key"
