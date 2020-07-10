@@ -20,7 +20,7 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
     return (
         <React.Fragment>
             <Typography className={classes.blockText} variant="h4">
-                Projects
+                Projects and Roles
             </Typography>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
@@ -28,12 +28,12 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                 </Typography>
             </div>
             <Typography className={classes.blockText} variant="h5">
-                Creating a New Project
+                Projects
             </Typography>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
-                    Creating a project will be the first suggested action in Ranger. Doing so allows access to the Integrations and Geofences sections of the
-                    platform. Select a unique name an optional description for the project.
+                    Creating a Project will be the first suggested action in Ranger. Doing so allows access to the Integrations and Geofences sections of the
+                    platform. Select a unique name and an optional description for the Project.
                 </Typography>
             </div>
             {/* <div className={classes.imgContainer}>
@@ -41,12 +41,10 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
             </div> */}
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
-                    Once the project is created you will be presented with three API keys.{' '}
+                    Once the Project is created you will be presented with three API keys.{' '}
                     <Box display="inline" fontWeight="fontWeightBold">
-                        <Typography display="inline" variant="body1">
-                            Store these API keys securely. They cannot be recovered.
-                        </Typography>
-                    </Box>
+                        Store these API keys securely. They cannot be recovered.
+                    </Box>{' '}
                     API keys can only be re-generated.
                 </Typography>
             </div>
@@ -59,25 +57,91 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                 </Typography>
                 <List>
                     <ListItem>
-                        <ListItemText primary="Live API Key" />
                         <ListItemText
                             inset
-                            primary="The Live API Key is intended to be deployed into a production environment and will execute all Integrations whose environent is set to LIVE."
+                            primary="Live API Key"
+                            secondary="The Live API Key is intended to be deployed into a production environment and will execute all Integrations whose environent is set to LIVE."
                         />
                     </ListItem>
                     <ListItem>
-                        <ListItemText primary="Test API Key" />
                         <ListItemText
                             inset
-                            primary="The Test API Key is intended to be deployed to any non-production environment and will execute all Integrations whose environent is set to TEST."
+                            primary="Test API Key"
+                            secondary="The Test API Key is intended to be deployed to any non-production environment and will execute all Integrations whose environent is set to TEST."
                         />
                     </ListItem>
                     <ListItem>
-                        <ListItemText primary="Project API Key" />
                         <ListItemText
                             inset
-                            primary="The Project API Key provides the ability to programatically manage a subset of resources within a project. For Example, this key can be used CRUD operations on Geofence resources."
+                            primary="Project API Key"
+                            secondary="The Project API Key provides the ability to programatically manage a subset of resources within a Project. For example, this key can be used for CRUD operations on Geofence resources."
                         />
+                    </ListItem>
+                </List>
+                <Typography gutterBottom variant="body1">
+                    Resetting an API Key immediately revokes the previous key - do so with caution.
+                </Typography>
+            </div>
+            <Typography className={classes.blockText} variant="h5">
+                Roles
+            </Typography>
+            <div className={classes.blockText}>
+                <Typography gutterBottom variant="body1">
+                    There are 4 distinct user Roles within Ranger. What Role a user is given may depend on how frequently your organization's resources need
+                    updated or their role in your organization.
+                </Typography>
+                <Typography gutterBottom variant="body1">
+                    Below lists the four roles and their access to resources:
+                </Typography>
+                <List>
+                    <ListItem>
+                        <ListItemText inset primary="User" />
+                        <List>
+                            <ListItemText inset primary="Geofences" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Integrations" secondary="Read" />
+                            <ListItemText inset primary="Projects" secondary="Read" />
+                            <ListItemText inset primary="Subscription" secondary="Read" />
+                            <ListItemText inset primary="Organization" secondary="Read" />
+                        </List>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText inset primary="Admin" />
+                        <List>
+                            <ListItemText inset primary="Geofences" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Integrations" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Projects" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Users" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Subscription" secondary="Read" />
+                            <ListItemText inset primary="Organization" secondary="Read" />
+                        </List>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText inset primary="Owner" />
+                        <List>
+                            <ListItemText inset primary="Geofences" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Integrations" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Projects" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Users" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Admins" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Subscription" secondary="Edit" />
+                            <ListItemText inset primary="Organization" secondary="Edit" />
+                        </List>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText
+                            inset
+                            primary="Primary Owner"
+                        />
+                        <List>
+                            <ListItemText inset primary="Geofences" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Integrations" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Projects" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Users" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Admins" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Owners" secondary="Create, Edit, Delete" />
+                            <ListItemText inset primary="Subscription" secondary="Edit" />
+                            <ListItemText inset primary="Organization" secondary="Edit, Delete" />
+                        </List>
                     </ListItem>
                 </List>
             </div>
