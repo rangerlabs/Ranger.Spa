@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, createStyles, Theme, WithStyles, withStyles, Paper, Box, List, ListItem, ListItemText } from '@material-ui/core';
+import { Typography, createStyles, Theme, WithStyles, withStyles, Paper, Box, List, ListItem, ListItemText, Grid } from '@material-ui/core';
 import NewApiKeys from '../../../../assets/new-api-keys.png';
 
 const styles = (theme: Theme) =>
@@ -95,56 +95,63 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                     updated or their role in your organization.
                 </Typography>
                 <Typography gutterBottom variant="body1">
-                    Below lists the four roles and their access to Ranger's APIs, not all information is displayed in the UI:
+                    Below lists the four roles and their access to Ranger's APIs:
                 </Typography>
-                <List>
-                    <ListItem>
-                        <ListItemText primary="User" />
-                        <List>
-                            <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Integrations" secondary="Read" />
-                            <ListItemText primary="Projects" secondary="Read" />
-                            <ListItemText primary="Subscription" secondary="Read" />
-                            <ListItemText primary="Organization" secondary="Read" />
-                        </List>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary="Admin" />
-                        <List>
-                            <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Integrations" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Projects" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Users" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Subscription" secondary="Read" />
-                            <ListItemText primary="Organization" secondary="Read" />
-                        </List>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary="Owner" />
-                        <List>
-                            <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Integrations" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Projects" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Users" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Admins" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Subscription" secondary="Edit" />
-                            <ListItemText primary="Organization" secondary="Edit" />
-                        </List>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary="Primary Owner" />
-                        <List>
-                            <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Integrations" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Projects" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Users" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Admins" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Owners" secondary="Create, Edit, Delete" />
-                            <ListItemText primary="Subscription" secondary="Edit" />
-                            <ListItemText primary="Organization" secondary="Edit, Delete" />
-                        </List>
-                    </ListItem>
-                </List>
+                <Grid container xs={12} justify="space-evenly" spacing={1} />
+                <Grid item xs={2}>
+                    <Typography color="primary" variant="h6">
+                        Users
+                    </Typography>
+                    <List>
+                        <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Integrations" secondary="Read" />
+                        <ListItemText primary="Projects" secondary="Read" />
+                        <ListItemText primary="Subscription" secondary="Read" />
+                        <ListItemText primary="Organization" secondary="Read" />
+                    </List>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography color="primary" variant="h6">
+                        Admins
+                    </Typography>
+                    <List>
+                        <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Integrations" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Projects" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Users" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Subscription" secondary="Read" />
+                        <ListItemText primary="Organization" secondary="Read" />
+                    </List>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography color="primary" variant="h6">
+                        Owners
+                    </Typography>
+                    <List>
+                        <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Integrations" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Projects" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Users" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Admins" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Subscription" secondary="Edit" />
+                        <ListItemText primary="Organization" secondary="Edit" />
+                    </List>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography color="primary" variant="h6">
+                        Primary Owner
+                    </Typography>
+                    <List>
+                        <ListItemText primary="Geofences" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Integrations" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Projects" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Users" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Admins" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Owners" secondary="Create, Edit, Delete" />
+                        <ListItemText primary="Subscription" secondary="Edit" />
+                        <ListItemText primary="Organization" secondary="Edit, Delete" />
+                    </List>
+                </Grid>
             </div>
         </React.Fragment>
     );
