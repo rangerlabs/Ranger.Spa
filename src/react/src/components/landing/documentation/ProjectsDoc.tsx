@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, createStyles, Theme, WithStyles, withStyles, Paper, Box, List, ListItem, ListItemText, Grid } from '@material-ui/core';
 import NewApiKeys from '../../../../assets/new-api-keys.png';
+import NewUser from '../../../../assets/new-user.png';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -13,7 +14,6 @@ const styles = (theme: Theme) =>
         },
         list: {
             padding: theme.spacing(4),
-            background: 'white',
         },
     });
 
@@ -28,7 +28,8 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
             </Typography>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
-                    Projects enable your organization to effectively organize geofences and integrations.
+                    Projects enable your organization to effectively organize geofences and integrations. Depending on your use case, Projects may be scoped to
+                    a mobile app, customer, or organizational unit.
                 </Typography>
             </div>
             <Typography className={classes.blockText} variant="h5">
@@ -40,9 +41,6 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                     platform. Select a unique name and an optional description for the Project.
                 </Typography>
             </div>
-            {/* <div className={classes.imgContainer}>
-                <img style={{ maxWidth: '70%' }} src={ProjectNew} alt="New Project" />
-            </div> */}
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
                     Once the Project is created you will be presented with three API keys.{' '}
@@ -82,6 +80,8 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                         />
                     </ListItem>
                 </List>
+            </div>
+            <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
                     Resetting an API Key immediately revokes the previous key - do so with caution.
                 </Typography>
@@ -97,6 +97,8 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                 <Typography gutterBottom variant="body1">
                     Below lists the four roles and their access to Ranger's APIs:
                 </Typography>
+            </div>
+            <div className={classes.blockText}>
                 <Grid container xs={12} justify="space-evenly" spacing={1}>
                     <Grid item xs={2}>
                         <Typography color="primary" variant="h6">
@@ -153,6 +155,21 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
                         </List>
                     </Grid>
                 </Grid>
+            </div>
+            <div className={classes.blockText}>
+                <Typography gutterBottom variant="body1">
+                    The User Role is only able to perform operations on resources that are contained within the Projects they have been assigned to.
+                </Typography>
+                <Typography gutterBottom variant="body1">
+                    Projects can be assigned using the 'Authorized Projects' multiselect dropdown when creating or editing users.
+                </Typography>
+            </div>
+            <div className={classes.blockText}>
+                <Paper elevation={3}>
+                    <div className={classes.imgContainer}>
+                        <img style={{ maxWidth: '70%' }} src={NewUser} alt="New User" />
+                    </div>
+                </Paper>
             </div>
         </React.Fragment>
     );

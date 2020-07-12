@@ -2,7 +2,7 @@ import GettingStarted from './GettingStarted';
 import ProjectsDoc from './ProjectsDoc';
 import IDocComponent from './IDocComponent';
 import GeofencesDoc from './GeofencesDoc';
-import IntegrationsDoc from './IntegrationsDoc';
+import IntegrationsDoc from './IntegrationsDocs/IntegrationsDoc';
 
 export const DocComponents: IDocComponent[] = [
     { name: 'getting-started', component: GettingStarted },
