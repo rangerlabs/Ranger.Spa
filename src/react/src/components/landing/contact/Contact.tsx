@@ -106,7 +106,7 @@ export default function Contact(props: ContactProps) {
                                             <Grid item xs={12}>
                                                 <FormikTextArea
                                                     name="message"
-                                                    placeholder="Tell us what's on your mind..."
+                                                    placeholder="How can we help?"
                                                     value={props.values.message}
                                                     errorText={props.errors.message}
                                                     touched={props.touched.message}

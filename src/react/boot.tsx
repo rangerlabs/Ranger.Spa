@@ -13,7 +13,7 @@ import 'whatwg-fetch';
 import './polyfills/object-assign';
 import './polyfills/array-find';
 import './src/index.css';
-import SnackbarProviderWrapper from './src/components/SnackbarProviderWrapper/SnackbarProviderWrapper';
+import SnackbarProviderWrapper from './src/components/notifier/SnackbarProviderWrapper';
 import { responsiveFontSizes } from '@material-ui/core';
 import { ThemeProvider, StylesProvider } from '@material-ui/styles';
 import { jss, generateClassName } from './src/theme/StylesProviderPropsConfig';
@@ -23,6 +23,7 @@ import { datadogLogs } from '@datadog/browser-logs';
 import { getSpaVersion } from './src/helpers/Helpers';
 import GlobalConfig from './src/helpers/GlobalConfig';
 import ReactGA from 'react-ga';
+import ScrollToTop from './src/components/scrollToTop/ScrollToTop';
 
 InitializeDatadogLogging();
 InitializeGoogleAnalyticsInProduction();
@@ -70,7 +71,9 @@ ReactDOM.render(
                 <StylesProvider jss={jss} generateClassName={generateClassName}>
                     <SnackbarProviderWrapper>
                         <ConnectedRouter history={history}>
-                            <App />
+                            <ScrollToTop>
+                                <App />
+                            </ScrollToTop>
                             <Notifier />
                         </ConnectedRouter>
                     </SnackbarProviderWrapper>
