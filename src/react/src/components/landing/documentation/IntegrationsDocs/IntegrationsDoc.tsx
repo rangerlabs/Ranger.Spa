@@ -15,6 +15,9 @@ const styles = (theme: Theme) =>
         list: {
             padding: theme.spacing(4),
         },
+        listItem: {
+            minWidth: theme.spacing(2),
+        },
     });
 
 interface IntegrationsDocProps extends WithStyles<typeof styles> {}
@@ -39,17 +42,24 @@ const IntegrationsDoc = function (props: IntegrationsDocProps) {
             <div className={classes.blockText}>
                 <List>
                     <ListItem
+                        classes={{ container: classes.listItem }}
                         onClick={() => {
-                            document.getElementById('Webhook').scrollIntoView({ behavior: 'smooth' });
+                            document.getElementById('webhook-section').scrollIntoView({ behavior: 'smooth' });
                         }}
                     >
                         <ListItemIcon>
-                            <RadioButtonUncheckedIcon fontSize="small" />
+                            <Box fontSize=".65rem">
+                                <RadioButtonUncheckedIcon fontSize="inherit" />
+                            </Box>
                         </ListItemIcon>
-                        <ListItemText primary="Webhook" />
+                        <ListItemText primaryTypographyProps={{ component: 'a' }} primary="Webhooks" />
                     </ListItem>
                 </List>
             </div>
+            <Typography id="webhook-section" className={classes.blockText} variant="h5">
+                Webhooks
+            </Typography>
+            <div className={classes.blockText}></div>
         </React.Fragment>
     );
 };
