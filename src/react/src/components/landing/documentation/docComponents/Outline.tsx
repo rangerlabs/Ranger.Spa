@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         inset: {
             paddingLeft: theme.spacing(4),
+            paddingRight: theme.spacing(4),
+            paddingBottom: theme.spacing(4),
         },
     })
 );
