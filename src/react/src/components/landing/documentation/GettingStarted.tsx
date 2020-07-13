@@ -16,8 +16,8 @@ const GettingStarted = function () {
             <Header text="Getting Started" />
             <Block>
                 <Paragraph>
-                    At Ranger we provide hosted APIs for boundless geofencing services. Our growing list of location-centric APIs and Integrations will enable
-                    you to easily implement cloud-native location services into your mobile apps.
+                    Ranger provides hosted APIs for boundless geofencing services. Our growing list of location-centric APIs and Integrations will enable you to
+                    easily implement cloud-native location services into your mobile apps.
                 </Paragraph>
                 <Paragraph>This section provides a brief overview of the Ranger platform.</Paragraph>
             </Block>

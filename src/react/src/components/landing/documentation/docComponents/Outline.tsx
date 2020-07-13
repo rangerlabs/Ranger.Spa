@@ -8,6 +8,7 @@ import SectionHeader from './SectionHeader';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         list: {
+            paddingTop: theme.spacing(0),
             paddingLeft: theme.spacing(4),
             paddingRight: theme.spacing(4),
             paddingBottom: theme.spacing(4),
