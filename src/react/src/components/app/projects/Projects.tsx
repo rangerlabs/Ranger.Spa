@@ -123,19 +123,19 @@ class Projects extends React.Component<ProjectsProps> {
             },
         },
         {
-            name: 'Live API Key Prefix',
+            name: 'Live API key Prefix',
             options: {
                 filter: false,
             },
         },
         {
-            name: 'Test API Key Prefix',
+            name: 'Test API key Prefix',
             options: {
                 filter: false,
             },
         },
         {
-            name: 'Project API Key Prefix',
+            name: 'Project API key Prefix',
             options: {
                 filter: false,
             },

@@ -13,20 +13,20 @@ interface NewProjectApiKeysContentProps {
 function NewProjectApiKeysContent(newProjectApiKeysContentProps: NewProjectApiKeysContentProps): JSX.Element {
     return (
         <React.Fragment>
-            <DialogTitle>API Keys</DialogTitle>
+            <DialogTitle>API keys</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    These are the API Keys for your project. Keep these safe. For the security of your application these cannot be recovered once this dialog is
+                    These are the API keys for your project. Keep these safe. For the security of your application these cannot be recovered once this dialog is
                     closed.
                 </DialogContentText>
                 <Grid container>
                     <Grid item xs={11}>
-                        <TextField disabled fullWidth label="Live API Key" value={newProjectApiKeysContentProps.liveApiKey}></TextField>
+                        <TextField disabled fullWidth label="Live API key" value={newProjectApiKeysContentProps.liveApiKey}></TextField>
                     </Grid>
                     <Grid item xs={1}>
                         <CopyToClipboard text={newProjectApiKeysContentProps.liveApiKey}>
-                            <Tooltip title="Copy API Key" placement="bottom">
-                                <IconButton aria-label="Copy API Key">
+                            <Tooltip title="Copy API key" placement="bottom">
+                                <IconButton aria-label="Copy API key">
                                     <ContentCopy />
                                 </IconButton>
                             </Tooltip>
@@ -35,12 +35,12 @@ function NewProjectApiKeysContent(newProjectApiKeysContentProps: NewProjectApiKe
                 </Grid>
                 <Grid container>
                     <Grid item xs={11}>
-                        <TextField disabled fullWidth label="Test API Key" value={newProjectApiKeysContentProps.testApiKey}></TextField>
+                        <TextField disabled fullWidth label="Test API key" value={newProjectApiKeysContentProps.testApiKey}></TextField>
                     </Grid>
                     <Grid item xs={1}>
                         <CopyToClipboard text={newProjectApiKeysContentProps.testApiKey}>
-                            <Tooltip title="Copy API Key" placement="bottom">
-                                <IconButton aria-label="Copy API Key">
+                            <Tooltip title="Copy API key" placement="bottom">
+                                <IconButton aria-label="Copy API key">
                                     <ContentCopy />
                                 </IconButton>
                             </Tooltip>
@@ -49,12 +49,12 @@ function NewProjectApiKeysContent(newProjectApiKeysContentProps: NewProjectApiKe
                 </Grid>
                 <Grid container>
                     <Grid item xs={11}>
-                        <TextField disabled fullWidth label="Project API Key" value={newProjectApiKeysContentProps.projectApiKey}></TextField>
+                        <TextField disabled fullWidth label="Project API key" value={newProjectApiKeysContentProps.projectApiKey}></TextField>
                     </Grid>
                     <Grid item xs={1}>
                         <CopyToClipboard text={newProjectApiKeysContentProps.projectApiKey}>
-                            <Tooltip title="Copy API Key" placement="bottom">
-                                <IconButton aria-label="Copy API Key">
+                            <Tooltip title="Copy API key" placement="bottom">
+                                <IconButton aria-label="Copy API key">
                                     <ContentCopy />
                                 </IconButton>
                             </Tooltip>

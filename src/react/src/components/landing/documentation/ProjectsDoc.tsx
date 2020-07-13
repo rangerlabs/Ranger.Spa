@@ -24,20 +24,20 @@ function ApiKeyDescriptions(props: ProjectsDocProps) {
         <List className={classes.list}>
             <ListItem>
                 <ListItemText
-                    primary="Live API Key"
-                    secondary="The Live API Key is intended to be deployed into a production environment and will execute all Integrations whose environent is set to LIVE."
+                    primary="Live API key"
+                    secondary="The Live API key is intended to be deployed into a production environment and will execute all Integrations whose environent is set to LIVE."
                 />
             </ListItem>
             <ListItem>
                 <ListItemText
-                    primary="Test API Key"
-                    secondary="The Test API Key is intended to be deployed to any non-production environment and will execute all Integrations whose environent is set to TEST."
+                    primary="Test API key"
+                    secondary="The Test API key is intended to be deployed to any non-production environment and will execute all Integrations whose environent is set to TEST."
                 />
             </ListItem>
             <ListItem>
                 <ListItemText
-                    primary="Project API Key"
-                    secondary="The Project API Key provides the ability to programatically manage a subset of resources within a Project. For example, this key can be used for CRUD operations on Geofence resources."
+                    primary="Project API key"
+                    secondary="The Project API key provides the ability to programatically manage a subset of resources within a Project. For example, this key can be used for CRUD operations on Geofence resources."
                 />
             </ListItem>
         </List>
@@ -133,11 +133,11 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
             </Block>
             <Image src={NewApiKeys} alt="New Api Keys" />
             <Block>
-                <Paragraph>These API Keys serve distinct purposes:</Paragraph>
+                <Paragraph>These API keys serve distinct purposes:</Paragraph>
                 <ApiKeyDescriptions />
             </Block>
             <Block>
-                <Paragraph>Resetting an API Key immediately revokes the previous key - do so with caution.</Paragraph>
+                <Paragraph>Resetting an API key immediately revokes the previous key - do so with caution.</Paragraph>
             </Block>
             <SectionHeader text="Roles" />
             <Block>

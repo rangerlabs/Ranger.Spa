@@ -13,10 +13,10 @@ interface NewProjectApiKeysContentProps {
 function NewProjectEnvironmentApiKeyContent(newProjectEnvironmentApiKeyContentProps: NewProjectApiKeysContentProps): JSX.Element {
     return (
         <React.Fragment>
-            <DialogTitle>API Keys</DialogTitle>
+            <DialogTitle>API keys</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    This is the API Key for your project's {newProjectEnvironmentApiKeyContentProps.environmentName} environment. Keep this safe. For the
+                    This is the API key for your project's {newProjectEnvironmentApiKeyContentProps.environmentName} environment. Keep this safe. For the
                     security of your application this cannot be recovered once this dialog is closed.
                 </DialogContentText>
                 <Grid container>
@@ -24,14 +24,14 @@ function NewProjectEnvironmentApiKeyContent(newProjectEnvironmentApiKeyContentPr
                         <TextField
                             disabled
                             fullWidth
-                            label={`${capitalCase(newProjectEnvironmentApiKeyContentProps.environmentName)} API Key`}
+                            label={`${capitalCase(newProjectEnvironmentApiKeyContentProps.environmentName)} API key`}
                             value={newProjectEnvironmentApiKeyContentProps.newApiKey}
                         ></TextField>
                     </Grid>
                     <Grid item xs={1}>
                         <CopyToClipboard text={newProjectEnvironmentApiKeyContentProps.newApiKey}>
-                            <Tooltip title="Copy API Key" placement="bottom">
-                                <IconButton aria-label="Copy API Key">
+                            <Tooltip title="Copy API key" placement="bottom">
+                                <IconButton aria-label="Copy API key">
                                     <ContentCopy />
                                 </IconButton>
                             </Tooltip>

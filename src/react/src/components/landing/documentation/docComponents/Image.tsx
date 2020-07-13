@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: theme.spacing(3),
         },
         paper: {
-            padding: theme.spacing(4),
+            paddingTop: theme.spacing(2),
+            paddingBottom: theme.spacing(2),
         },
     })
 );
@@ -26,7 +27,7 @@ export default function Image(props: PropsWithChildren<ImageProps>) {
         <Block>
             <Paper elevation={3} className={classes.paper}>
                 <div className={classes.img}>
-                    <img style={{ maxWidth: '70%' }} src={props.src} alt={props.alt} />
+                    <img style={{ maxWidth: '80%' }} src={props.src} alt={props.alt} />
                 </div>
             </Paper>
         </Block>

@@ -196,7 +196,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
                                         <FormikSelect
-                                            infoText="The API Key environment for which the integration will be called."
+                                            infoText="The API key environment for which the integration will be called."
                                             name="environment"
                                             label="Environment"
                                             value={props.values.environment}
@@ -271,7 +271,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         name="metadata"
                                         title="Metadata"
                                         addTooltipText="Add a metadata."
-                                        infoText="Metadata are static fields that are sent as a part of the request body. Do not store sensitive data in the metadata."
+                                        infoText="Metadata are static fields that are sent as a part of the request body."
                                         valueArray={props.values.metadata}
                                         errorsArray={props.errors.metadata as any}
                                         touchedArray={props.touched.metadata as any}

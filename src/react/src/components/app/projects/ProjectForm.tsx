@@ -130,9 +130,9 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
             new DialogContent(
                 `Are you sure you want to reset the ${capitalCase(
                     environmentName
-                )} API Key for this project? The current API Key will become ineffective immediately.`,
-                'Reset API Key',
-                `Reset ${capitalCase(environmentName)} API Key`,
+                )} API key for this project? The current API key will become ineffective immediately.`,
+                'Reset API key',
+                `Reset ${capitalCase(environmentName)} API key`,
                 () => {
                     const project = { version: this.state.initialProject.version + 1 } as IProject;
                     projectService.apiKeyReset(project, this.state.initialProject.projectId, environment).then((response: IRestResponse<IProject>) => {
@@ -342,14 +342,14 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         </Paper>
                         {this.state.initialProject && (
                             <Paper className={classes.paper} elevation={3}>
-                                <Typography variant="h6">Reset API Keys</Typography>
+                                <Typography variant="h6">Reset API keys</Typography>
                                 <Typography variant="subtitle1">
                                     Generate new API keys for this project. Use the prefixes below to help identify active keys.
                                 </Typography>
                                 <Grid container>
                                     <Grid item xs={12} className={classes.textFieldBorderRadius}>
                                         <TextField
-                                            label="Live API Key Prefix"
+                                            label="Live API key Prefix"
                                             value={`${this.state.initialProject.liveApiKeyPrefix}...`}
                                             variant="outlined"
                                             fullWidth
@@ -373,7 +373,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     </Grid>
                                     <Grid item xs={12} className={classes.textFieldBorderRadius}>
                                         <TextField
-                                            label="Test API Key Prefix"
+                                            label="Test API key Prefix"
                                             value={`${this.state.initialProject.testApiKeyPrefix}...`}
                                             variant="outlined"
                                             fullWidth
@@ -397,7 +397,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     </Grid>
                                     <Grid item xs={12} className={classes.textFieldBorderRadius}>
                                         <TextField
-                                            label="Project API Key Prefix"
+                                            label="Project API key Prefix"
                                             value={`${this.state.initialProject.projectApiKeyPrefix}...`}
                                             variant="outlined"
                                             fullWidth
