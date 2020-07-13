@@ -8,15 +8,15 @@ import SectionHeader from './SectionHeader';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         list: {
-            padding: theme.spacing(4),
+            paddingLeft: theme.spacing(4),
+            paddingRight: theme.spacing(4),
+            paddingBottom: theme.spacing(4),
         },
         listItem: {
             minWidth: theme.spacing(2),
         },
         inset: {
             paddingLeft: theme.spacing(4),
-            paddingRight: theme.spacing(4),
-            paddingBottom: theme.spacing(4),
         },
     })
 );
