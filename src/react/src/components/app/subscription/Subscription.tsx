@@ -253,7 +253,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                         <Grid container item justify="center" alignContent="center">
                             <Typography align="center" variant="caption">
                                 Please note, when downgrading your subscription resources may need to be removed. To understand how resources are removed when
-                                downgrading, please refer to the documentation <Link href={RoutePaths.Docs.replace(':name?', '')}>here</Link>.
+                                downgrading, please refer to the documentation <Link to={RoutePaths.Docs.replace(':name?', '')}>here</Link>.
                             </Typography>
                         </Grid>
                     </Grid>
