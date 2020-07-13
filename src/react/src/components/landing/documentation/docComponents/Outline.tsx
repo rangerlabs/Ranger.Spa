@@ -48,7 +48,7 @@ function getElement(element: OutlineElement, props: OutlineElementProps, inset?:
                     }
                 />
             </ListItem>
-            {element.subElements.map((subElement) => getElement(subElement, props, true))};
+            {element.subElements && element.subElements.map((subElement) => getElement(subElement, props, true))};
         </React.Fragment>
     );
 }
