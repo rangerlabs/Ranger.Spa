@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import React from 'react';
 import Block from './Block';
 import ReactJson from 'react-json-view';
-import { createStyles, makeStyles, Theme, Paper } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Paper, useMediaQuery, useTheme } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -18,6 +18,10 @@ interface JsonViewerProps {
 
 export default function JsonViewer(props: PropsWithChildren<JsonViewerProps>) {
     const classes = useStyles(props);
+    const theme = useTheme();
+    const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
+
     return (
         <Block>
             <Paper elevation={3} className={classes.paper}>
@@ -28,7 +32,7 @@ export default function JsonViewer(props: PropsWithChildren<JsonViewerProps>) {
                     enableClipboard={false}
                     displayDataTypes={false}
                     displayObjectSize={false}
-                    style={{ fontSize: '1.25rem' }}
+                    style={{ fontSize: isMdDown ? (isSmDown ? '.875rem' : '1rem') : '1.25rem' }}
                 />
             </Paper>
         </Block>
