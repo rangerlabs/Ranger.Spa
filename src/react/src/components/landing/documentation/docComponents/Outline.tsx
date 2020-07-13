@@ -49,7 +49,7 @@ function getElement(element: OutlineElement, props: OutlineElementProps, inset?:
                 <ListItemText
                     disableTypography
                     primary={
-                        <Link component="button" variant="subtitle1" onClick={scrollToId(element.id)}>
+                        <Link component="button" variant="subtitle1" onClick={() => scrollToId(element.id)}>
                             {element.name}
                         </Link>
                     }
