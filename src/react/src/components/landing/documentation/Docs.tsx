@@ -57,8 +57,8 @@ const styles = (theme: Theme) =>
             backgroundColor: '#fafafa',
             padding: theme.spacing(4),
             width: 'auto',
-            marginLeft: theme.spacing(2),
-            marginRight: theme.spacing(2),
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
             marginTop: theme.spacing(3),
             marginBottom: theme.spacing(3),
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
@@ -222,7 +222,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 </Drawer>
             </nav>
             <div className={classNames(classes.mdHide, classes.sticky)} onClick={openMobileDrawer}>
-                <Typography align="center" variant="subtitle1">
+                <Typography style={{ lineHeight: '2.75' }} align="center" variant="subtitle1">
                     {mobileSectionName}
                     <ExpandMore className={classes.iconAlign} />
                 </Typography>
