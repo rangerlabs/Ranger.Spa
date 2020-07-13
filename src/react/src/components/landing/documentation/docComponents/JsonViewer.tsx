@@ -3,6 +3,7 @@ import React from 'react';
 import Block from './Block';
 import ReactJson from 'react-json-view';
 import { createStyles, makeStyles, Theme, Paper, useMediaQuery, useTheme } from '@material-ui/core';
+import jsonViewerTheme from '../../../../theme/base16/ranger';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -27,7 +28,7 @@ export default function JsonViewer(props: PropsWithChildren<JsonViewerProps>) {
             <Paper elevation={3} className={classes.paper}>
                 <ReactJson
                     src={props.json}
-                    theme="grayscale:inverted"
+                    theme={jsonViewerTheme}
                     iconStyle="circle"
                     enableClipboard={false}
                     displayDataTypes={false}
