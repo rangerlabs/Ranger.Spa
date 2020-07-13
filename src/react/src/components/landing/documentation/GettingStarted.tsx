@@ -1,113 +1,80 @@
 import React from 'react';
-import { Typography, createStyles, Theme, WithStyles, withStyles, Link, Paper } from '@material-ui/core';
+import { Link } from '@material-ui/core';
 import CentralPark from '../../../../assets/central-park.png';
 import ProjectEdit from '../../../../assets/project-edit.png';
 import WebhookSelect from '../../../../assets/webhook-select.png';
 import RoutePaths from '../../RoutePaths';
+import Header from './docComponents/Header';
+import Block from './docComponents/Block';
+import Paragraph from './docComponents/Paragraph';
+import SectionHeader from './docComponents/SectionHeader';
+import Image from './docComponents/Image';
 
-const styles = (theme: Theme) =>
-    createStyles({
-        blockText: {
-            marginBottom: theme.spacing(3),
-        },
-        imgContainer: {
-            textAlign: 'center',
-            marginBottom: theme.spacing(3),
-        },
-    });
-
-interface GettingStartedProps extends WithStyles<typeof styles> {}
-
-const GettingStarted = function (props: GettingStartedProps) {
-    const { classes } = props;
+const GettingStarted = function () {
     return (
         <React.Fragment>
-            <Typography className={classes.blockText} variant="h4">
-                Getting Started
-            </Typography>
-            <div className={classes.blockText}>
-                <Typography gutterBottom variant="body1">
+            <Header text="Getting Started" />
+            <Block>
+                <Paragraph>
                     At Ranger we provide hosted APIs for boundless geofencing services. Our growing list of location-centric APIs and Integrations will enable
                     you to easily implement cloud-native location services into your mobile apps.
-                </Typography>
-                <Typography variant="body1">This section provides a brief overview of the Ranger platform.</Typography>
-            </div>
-            <Typography className={classes.blockText} variant="h5">
-                Unrivaled Geofencing
-            </Typography>
-            <div className={classes.blockText}>
-                <Typography variant="body1">
-                    Ranger's easy-to-use interface allows you to quickly vizualize, create, edit, and test geofences all from the same UI.
-                </Typography>
-            </div>
-            <Paper elevation={3}>
-                <div className={classes.imgContainer}>
-                    <img style={{ maxWidth: '70%' }} src={CentralPark} alt="central-park-geofence" />
-                </div>
-            </Paper>
-            <div className={classes.blockText}>
-                <Typography gutterBottom variant="body1">
+                </Paragraph>
+                <Paragraph>This section provides a brief overview of the Ranger platform.</Paragraph>
+            </Block>
+            <SectionHeader text="Unrivaled Geofencing" />
+
+            <Block>
+                <Paragraph>Ranger's easy-to-use interface allows you to quickly vizualize, create, edit, and test geofences all from the same UI.</Paragraph>
+            </Block>
+            <Image src={CentralPark} alt="Central Park Geofence" />
+            <Block>
+                <Paragraph>
                     Create custom geofence schedules, add unique metadata, configure which events get triggered, and where those events get sent - all on a per
                     geofence basis.
-                </Typography>
-            </div>
-            <div className={classes.blockText}>
-                <Typography variant="body1">
+                </Paragraph>
+            </Block>
+            <Block>
+                <Paragraph>
                     To learn more about Ranger's extensively customizable geofences, take a look at our dedicated{' '}
                     <Link href={RoutePaths.Docs.replace(':name?', 'geofences')}>Geofencing</Link> documentation.
-                </Typography>
-            </div>
+                </Paragraph>
+            </Block>
 
-            <Typography className={classes.blockText} variant="h5">
-                Flexible Integrations
-            </Typography>
-            <div className={classes.blockText}>
-                <Typography gutterBottom variant="body1">
+            <SectionHeader text="Flexible Integrations" />
+            <Block>
+                <Paragraph>
                     Ranger was built to be extended. Ranger currently offers Webhook integrations, but more are in the works and will be coming online shortly.
-                </Typography>
-            </div>
-            <Paper elevation={3}>
-                <div className={classes.imgContainer}>
-                    <img style={{ maxWidth: '70%' }} src={WebhookSelect} alt="central-park-geofence" />
-                </div>
-            </Paper>
-            <div className={classes.blockText}>
-                <Typography gutterBottom variant="body1">
-                    What's more, all integrations will be available to all subscriptions - which Integrations you choose is up to you.
-                </Typography>
-            </div>
-            <div className={classes.blockText}>
-                <Typography variant="body1">
+                </Paragraph>
+            </Block>
+            <Image src={WebhookSelect} alt="central-park-geofence" />
+            <Block>
+                <Paragraph>What's more, all integrations will be available to all subscriptions - which Integrations you choose is up to you.</Paragraph>
+            </Block>
+            <Block>
+                <Paragraph>
                     To learn more about creating and managing Integrations in Ranger, take a look at our dedicated{' '}
                     <Link href={RoutePaths.Docs.replace(':name?', 'integrations')}>Integration</Link> documentation.
-                </Typography>
-            </div>
-
-            <Typography className={classes.blockText} variant="h5">
-                Secure Projects
-            </Typography>
-            <div className={classes.blockText}>
-                <Typography variant="body1">
+                </Paragraph>
+            </Block>
+            <SectionHeader text="Secure Projects" />
+            <Block>
+                <Paragraph>
                     Group Geofences and the Integrations they can execute into Projects. Depending on your use case, Projects could be scoped to a mobile app,
                     customer, or organizational unit.
-                </Typography>
-            </div>
-            <Paper elevation={3}>
-                <div className={classes.imgContainer}>
-                    <img style={{ maxWidth: '70%' }} src={ProjectEdit} alt="central-park-geofence" />
-                </div>
-            </Paper>
-            <div className={classes.blockText}>
-                <Typography variant="body1">Within your organization User Accounts can also be scoped to specific projects.</Typography>
-            </div>
-            <div className={classes.blockText}>
-                <Typography variant="body1">
+                </Paragraph>
+            </Block>
+            <Image src={ProjectEdit} alt="central-park-geofence" />
+            <Block>
+                <Paragraph>Within your organization User Accounts can also be scoped to specific projects.</Paragraph>
+            </Block>
+            <Block>
+                <Paragraph>
                     To learn more about managing Projects and Project security, take a look at our dedicated{' '}
                     <Link href={RoutePaths.Docs.replace(':name?', 'projects')}>Projects</Link> documentation.
-                </Typography>
-            </div>
+                </Paragraph>
+            </Block>
         </React.Fragment>
     );
 };
 
-export default withStyles(styles)(GettingStarted);
+export default GettingStarted;
