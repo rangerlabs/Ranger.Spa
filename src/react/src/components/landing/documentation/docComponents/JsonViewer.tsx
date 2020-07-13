@@ -29,6 +29,7 @@ export default function JsonViewer(props: PropsWithChildren<JsonViewerProps>) {
                 <ReactJson
                     src={props.json}
                     theme={jsonViewerTheme}
+                    name={false}
                     iconStyle="circle"
                     enableClipboard={false}
                     displayDataTypes={false}
