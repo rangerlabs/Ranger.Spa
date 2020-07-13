@@ -132,15 +132,15 @@ function Docs(props: DocumentationProps): JSX.Element {
                 <ListItemText primary="Getting Started" />
             </ListItem>
             <ListItem
-                id="projects-link"
+                id="projects-and-roles-link"
                 className={classes.li}
                 button
                 onClick={() => {
                     closeMobileDrawer();
-                    props.push(RoutePaths.Docs.replace(':name?', 'projects'));
+                    props.push(RoutePaths.Docs.replace(':name?', 'projects-and-roles'));
                 }}
             >
-                <ListItemText primary="Projects" />
+                <ListItemText primary="Projects and Roles" />
             </ListItem>
             <ListItem
                 id="geofences-link"

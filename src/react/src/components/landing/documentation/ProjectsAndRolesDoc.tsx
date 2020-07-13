@@ -16,9 +16,9 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-interface ProjectsDocProps {}
+interface ProjectsAndRolesDocProps {}
 
-function ApiKeyDescriptions(props: ProjectsDocProps) {
+function ApiKeyDescriptions(props: ProjectsAndRolesDocProps) {
     const classes = useStyles(props);
     return (
         <List className={classes.list}>
@@ -105,7 +105,7 @@ function Roles() {
     );
 }
 
-const ProjectsDoc = function (props: ProjectsDocProps) {
+const ProjectsDoc = function (props: ProjectsAndRolesDocProps) {
     return (
         <React.Fragment>
             <Header text="Projects and Roles" />

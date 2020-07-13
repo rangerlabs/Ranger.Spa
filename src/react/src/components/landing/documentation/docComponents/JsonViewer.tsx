@@ -7,8 +7,7 @@ import { createStyles, makeStyles, Theme, Paper } from '@material-ui/core';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         paper: {
-            paddingTop: theme.spacing(2),
-            paddingBottom: theme.spacing(2),
+            padding: theme.spacing(4),
         },
     })
 );
@@ -29,6 +28,7 @@ export default function JsonViewer(props: PropsWithChildren<JsonViewerProps>) {
                     enableClipboard={false}
                     displayDataTypes={false}
                     displayObjectSize={false}
+                    style={{ fontSize: '1.25rem' }}
                 />
             </Paper>
         </Block>

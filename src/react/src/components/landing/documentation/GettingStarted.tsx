@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from '@material-ui/core';
 import CentralPark from '../../../../assets/central-park.png';
 import ProjectEdit from '../../../../assets/project-edit.png';
 import WebhookSelect from '../../../../assets/webhook-select.png';
@@ -9,6 +8,7 @@ import Block from './docComponents/Block';
 import Paragraph from './docComponents/Paragraph';
 import SectionHeader from './docComponents/SectionHeader';
 import Image from './docComponents/Image';
+import { Link } from 'react-router-dom';
 
 const GettingStarted = function () {
     return (
@@ -36,7 +36,7 @@ const GettingStarted = function () {
             <Block>
                 <Paragraph>
                     To learn more about Ranger's extensively customizable geofences, take a look at our dedicated{' '}
-                    <Link href={RoutePaths.Docs.replace(':name?', 'geofences')}>Geofencing</Link> documentation.
+                    <Link to={RoutePaths.Docs.replace(':name?', 'geofences')}>Geofencing</Link> documentation.
                 </Paragraph>
             </Block>
 
@@ -53,7 +53,7 @@ const GettingStarted = function () {
             <Block>
                 <Paragraph>
                     To learn more about creating and managing Integrations in Ranger, take a look at our dedicated{' '}
-                    <Link href={RoutePaths.Docs.replace(':name?', 'integrations')}>Integration</Link> documentation.
+                    <Link to={RoutePaths.Docs.replace(':name?', 'integrations')}>Integration</Link> documentation.
                 </Paragraph>
             </Block>
             <SectionHeader text="Secure Projects" />
@@ -70,7 +70,7 @@ const GettingStarted = function () {
             <Block>
                 <Paragraph>
                     To learn more about managing Projects and Project security, take a look at our dedicated{' '}
-                    <Link href={RoutePaths.Docs.replace(':name?', 'projects')}>Projects</Link> documentation.
+                    <Link to={RoutePaths.Docs.replace(':name?', 'projects')}>Projects</Link> documentation.
                 </Paragraph>
             </Block>
         </React.Fragment>
