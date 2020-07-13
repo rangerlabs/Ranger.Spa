@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from '@material-ui/core';
-import NewIntegration from '../../../../assets/new-integration.png';
+import NewIntegration from '../../../../../assets/new-integration.png';
 import Outline from '../docComponents/Outline';
 import SectionHeader from '../docComponents/SectionHeader';
 import Block from '../docComponents/Block';
