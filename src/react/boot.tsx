@@ -71,9 +71,8 @@ ReactDOM.render(
                 <StylesProvider jss={jss} generateClassName={generateClassName}>
                     <SnackbarProviderWrapper>
                         <ConnectedRouter history={history}>
-                            <ScrollToTop>
-                                <App />
-                            </ScrollToTop>
+                            <ScrollToTop />
+                            <App />
                             <Notifier />
                         </ConnectedRouter>
                     </SnackbarProviderWrapper>
