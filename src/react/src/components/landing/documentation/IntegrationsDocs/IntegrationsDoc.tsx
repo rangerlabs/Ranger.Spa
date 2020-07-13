@@ -24,7 +24,7 @@ const IntegrationsDoc = function () {
                 </Paragraph>
             </Block>
             <Outline elements={outline} />
-            <SectionHeader text="Webhooks" />
+            <SectionHeader text="Webhooks" id="webhook-section" />
             <Block>
                 <Paragraph>Ranger's Webhook Integration enables you to forward geofence events to any HTTPS endpoint.</Paragraph>
             </Block>

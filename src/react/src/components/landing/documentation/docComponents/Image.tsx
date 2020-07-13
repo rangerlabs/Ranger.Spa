@@ -24,7 +24,7 @@ export default function Image(props: PropsWithChildren<ImageProps>) {
     const classes = useStyles(props);
     return (
         <Block>
-            <Paper elevation={3}>
+            <Paper elevation={3} className={classes.paper}>
                 <div className={classes.img}>
                     <img style={{ maxWidth: '70%' }} src={props.src} alt={props.alt} />
                 </div>
