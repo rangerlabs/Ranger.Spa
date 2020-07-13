@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, createStyles, Theme, WithStyles, withStyles, Paper, Box, List, ListItem, ListItemText, Grid, Link, ListItemIcon } from '@material-ui/core';
+import { Typography, createStyles, Theme, WithStyles, withStyles, Box, List, ListItem, ListItemText, Link, ListItemIcon, Button } from '@material-ui/core';
 import NewApiKeys from '../../../../assets/new-api-keys.png';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
@@ -40,7 +40,7 @@ const IntegrationsDoc = function (props: IntegrationsDocProps) {
                 Outline
             </Typography>
             <div className={classes.blockText}>
-                <List dense>
+                <List dense className={classes.list}>
                     <ListItem>
                         <ListItemIcon classes={{ root: classes.listItem }}>
                             <Box fontSize=".65rem">
@@ -50,13 +50,14 @@ const IntegrationsDoc = function (props: IntegrationsDocProps) {
                         <ListItemText
                             disableTypography
                             primary={
-                                <Link
+                                <Button
+                                    component="a"
                                     onClick={() => {
                                         document.getElementById('webhook-section').scrollIntoView({ behavior: 'smooth' });
                                     }}
                                 >
                                     Webhooks
-                                </Link>
+                                </Button>
                             }
                         />
                     </ListItem>

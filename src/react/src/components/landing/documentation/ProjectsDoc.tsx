@@ -57,7 +57,7 @@ const ProjectsDoc = function (props: ProjectsDocProps) {
             </Paper>
             <div className={classes.blockText}>
                 <Typography gutterBottom variant="body1">
-                    These API Keys represent distinct purposes within Ranger as described below:
+                    These API Keys serve distinct purposes:
                 </Typography>
 
                 <List className={classes.list}>
