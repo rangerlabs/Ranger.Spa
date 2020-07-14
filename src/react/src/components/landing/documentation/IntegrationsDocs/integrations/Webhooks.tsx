@@ -1,5 +1,5 @@
 import React from 'react';
-import NewIntegration from '../../../../../assets/new-integration.png';
+import NewIntegration from '../../../../../../assets/new-integration.png';
 import SectionHeader from '../../docComponents/SectionHeader';
 import Block from '../../docComponents/Block';
 import Paragraph from '../../docComponents/Paragraph';
@@ -32,8 +32,8 @@ const Webhooks = function () {
                     <Bold>DWELLING</Bold> event before the <Bold>ENTERED</Bold> event. Increasing the time between Breadcrumbs reduces the likelihood of this
                     occurring. To learn more about sending Breadcrumbs, view the documentation <Link to="">Breadcrumbs</Link>.
                 </Paragraph>
-                <Image src={NewIntegration} alt="New Integration" maxWidth={60} />
             </Block>
+            <Image src={NewIntegration} alt="New Integration" maxWidth={60} />
             <Block>
                 <Paragraph>
                     The selected Environment will determine which API key executes the Integration. Use the <Bold>TEST</Bold> environment to validate your
