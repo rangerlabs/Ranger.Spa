@@ -20,9 +20,6 @@ const IntegrationsDoc = function () {
         <React.Fragment>
             <Header text="Integrations" />
             <Block>
-                <Paragraph>Ranger's Webhook Integration enables you to forward geofence events to any HTTPS endpoint.</Paragraph>
-            </Block>
-            <Block>
                 <Paragraph>
                     Integrations enable Ranger to communicate to the systems your organiation and services depend on. Ranger's platform was built to be extended
                     and more integrations will come as our team learns our customer's needs. If you would like to request that Ranger integrate with a
