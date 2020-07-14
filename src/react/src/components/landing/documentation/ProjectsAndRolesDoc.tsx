@@ -7,6 +7,7 @@ import Block from './docComponents/Block';
 import Paragraph from './docComponents/Paragraph';
 import SectionHeader from './docComponents/SectionHeader';
 import Image from './docComponents/Image';
+import Bold from './TextEnhancers/Bold';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -124,10 +125,7 @@ const ProjectsDoc = function (props: ProjectsAndRolesDocProps) {
             </Block>
             <Block>
                 <Paragraph>
-                    Once the Project is created you will be presented with three API keys.{' '}
-                    <Box display="inline" fontWeight="fontWeightBold">
-                        Store these API keys securely. They cannot be recovered.
-                    </Box>{' '}
+                    Once the Project is created you will be presented with three API keys. <Bold>Store these API keys securely. They cannot be recovered.</Bold>
                     API keys can only be re-generated.
                 </Paragraph>
             </Block>

@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import React from 'react';
 import Block from './Block';
 import ReactJson from 'react-json-view';
-import { createStyles, makeStyles, Theme, Paper, useMediaQuery, useTheme } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Paper, useMediaQuery, useTheme, Typography } from '@material-ui/core';
 import jsonViewerTheme from '../../../../theme/base16/ranger';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -10,10 +10,14 @@ const useStyles = makeStyles((theme: Theme) =>
         paper: {
             padding: theme.spacing(4),
         },
+        title: {
+            marginBottom: theme.spacing(2),
+        },
     })
 );
 
 interface JsonViewerProps {
+    title: string;
     json: object;
 }
 
@@ -26,11 +30,15 @@ export default function JsonViewer(props: PropsWithChildren<JsonViewerProps>) {
     return (
         <Block>
             <Paper elevation={3} className={classes.paper}>
+                <Typography align="left" variant="h6">
+                    {props.title}
+                </Typography>
                 <ReactJson
                     src={props.json}
                     theme={jsonViewerTheme}
                     name={false}
                     iconStyle="circle"
+                    collapsed={1}
                     enableClipboard={false}
                     displayDataTypes={false}
                     displayObjectSize={false}

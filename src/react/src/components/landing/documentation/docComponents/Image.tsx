@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface ImageProps {
     src: string;
     alt: string;
+    maxWidth?: number;
 }
 
 export default function Image(props: PropsWithChildren<ImageProps>) {
@@ -27,7 +28,7 @@ export default function Image(props: PropsWithChildren<ImageProps>) {
         <Block>
             <Paper elevation={3} className={classes.paper}>
                 <div className={classes.img}>
-                    <img style={{ maxWidth: '80%' }} src={props.src} alt={props.alt} />
+                    <img style={{ maxWidth: props.maxWidth ? `${props.maxWidth}px` : '80%' }} src={props.src} alt={props.alt} />
                 </div>
             </Paper>
         </Block>
