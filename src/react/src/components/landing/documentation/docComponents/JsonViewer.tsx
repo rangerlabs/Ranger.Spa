@@ -30,7 +30,7 @@ export default function JsonViewer(props: PropsWithChildren<JsonViewerProps>) {
     return (
         <Block>
             <Paper elevation={3} className={classes.paper}>
-                <Typography align="left" variant="h6">
+                <Typography className={classes.title} align="left" variant="h6">
                     {props.title}
                 </Typography>
                 <ReactJson

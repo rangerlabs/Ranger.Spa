@@ -28,7 +28,7 @@ export default function Image(props: PropsWithChildren<ImageProps>) {
         <Block>
             <Paper elevation={3} className={classes.paper}>
                 <div className={classes.img}>
-                    <img style={{ maxWidth: props.maxWidth ? `${props.maxWidth}px` : '80%' }} src={props.src} alt={props.alt} />
+                    <img style={{ maxWidth: props.maxWidth ? `${props.maxWidth}%` : '70%' }} src={props.src} alt={props.alt} />
                 </div>
             </Paper>
         </Block>
