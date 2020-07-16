@@ -154,6 +154,17 @@ function Docs(props: DocumentationProps): JSX.Element {
                 <ListItemText primary="Geofences" />
             </ListItem>
             <ListItem
+                id="breadcrumbs-link"
+                className={classes.li}
+                button
+                onClick={() => {
+                    closeMobileDrawer();
+                    props.push(RoutePaths.Docs.replace(':name?', 'breadcrumbs'));
+                }}
+            >
+                <ListItemText primary="Breadcrumbs" />
+            </ListItem>
+            <ListItem
                 id="integrations-link"
                 className={classes.li}
                 button

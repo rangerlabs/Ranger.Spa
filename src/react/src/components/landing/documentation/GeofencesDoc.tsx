@@ -1,32 +1,21 @@
 import React from 'react';
 import { Typography, createStyles, Theme, WithStyles, withStyles } from '@material-ui/core';
+import Header from './docComponents/Header';
+import Block from './docComponents/Block';
+import Paragraph from './docComponents/Paragraph';
 
-const styles = (theme: Theme) =>
-    createStyles({
-        blockText: {
-            marginBottom: theme.spacing(3),
-        },
-        imgContainer: {
-            textAlign: 'center',
-            marginBottom: theme.spacing(3),
-        },
-    });
-
-interface GeofencesDocProps extends WithStyles<typeof styles> {}
-
-const ProjectsDoc = function (props: GeofencesDocProps) {
-    const { classes } = props;
+const ProjectsDoc = function () {
     return (
         <React.Fragment>
-            <Typography className={classes.blockText} variant="h4">
-                Geofences
-            </Typography>
-            <div className={classes.blockText}>
-                <Typography gutterBottom variant="body1"></Typography>
-                <Typography variant="body1"></Typography>
-            </div>
+            <Header text="Geofences" />
+            <Block>
+                <Paragraph>
+                    Breadcrumbs power your geofences. We will be expanding this section to document how your devices can send Breadcrumbs to Ranger's API to
+                    compute geofence intersections and execute their configured Integrations.
+                </Paragraph>
+            </Block>{' '}
         </React.Fragment>
     );
 };
 
-export default withStyles(styles)(ProjectsDoc);
+export default ProjectsDoc;

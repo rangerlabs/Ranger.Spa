@@ -21,16 +21,15 @@ const Webhooks = function () {
                 <Paragraph>
                     To begin receiving Webhook events, Select 'New' on the integrations page and select the 'Webhook' Integration type. You will be prompted to
                     configure your Webhook. Webhook events are sent via HTTP <HttpMethod method="POST" /> with the event payload contained in the request body.
-                    Any valid HTTPS endpoint can be provided for Webhooks.
                 </Paragraph>
             </Block>
             <Block>
                 <Paragraph>
                     Due to the eventually consistent nature of Ranger, your system may not necessarily receive events in order. Though Ranger strives to be
                     consistent within a matter of seconds, decreasing the frequency of each device's Breadcrumb requests can improve Ranger's classification of
-                    Breadcrumb events. For example, if two Breadcrumbs are sent almost immediately after one another, it is possible your system receives the
+                    Breadcrumb events. For example, if two Breadcrumbs are sent almost immediately after one another, it is possible your system receives the{' '}
                     <Bold>DWELLING</Bold> event before the <Bold>ENTERED</Bold> event. Increasing the time between Breadcrumbs reduces the likelihood of this
-                    occurring. To learn more about sending Breadcrumbs, view the documentation <Link to="">Breadcrumbs</Link>.
+                    occurring. To learn more about sending Breadcrumbs, view the documentation <Link to="">here</Link>.
                 </Paragraph>
             </Block>
             <Image src={NewIntegration} alt="New Integration" maxWidth={60} />
