@@ -45,9 +45,9 @@ class Landing extends Component<LandingProps, LandingState> {
         this.setState({ atPageTop: inView });
     };
 
-    componentDidMount() {
-        ReactDOM.createPortal(<NewsletterSection />, document.getElementById('newsletter-section'));
-    }
+    // componentDidMount() {
+    //     ReactDOM.createPortal(<NewsletterSection />, document.getElementById('newsletter-section'));
+    // }
 
     render() {
         const { classes } = this.props;
@@ -70,7 +70,8 @@ class Landing extends Component<LandingProps, LandingState> {
                         </div>
                         <div id="#pricing" className={classes.pricing} />
                         <div id="#contact" className={classes.contact} /> */}
-                <div id="newsletter-section" />
+                {/* <div id="newsletter-section" /> */}
+                <NewsletterSection />
                 <Footer />
                 <ScrollTop
                     visible={!this.state.atPageTop}
