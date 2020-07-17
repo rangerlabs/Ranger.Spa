@@ -8,9 +8,9 @@ const useStyles = makeStyles((theme: Theme) =>
         background: {
             backgroundColor: theme.palette.primary.main,
         },
-        margin: {
-            marginTop: theme.spacing(8),
-            marginBottom: theme.spacing(8),
+        padding: {
+            paddingTop: theme.spacing(8),
+            paddingBottom: theme.spacing(8),
         },
         typography: {
             color: theme.palette.common.white,
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function NewsletterSection() {
     const classes = useStyles();
     return (
-        <div className={classes.margin}>
+        <div className={classes.padding}>
             <Grid id="newsletter-section" className={classes.background} container alignContent="center" justify="center" spacing={5}>
                 <Grid item xs={12}>
                     <div>
