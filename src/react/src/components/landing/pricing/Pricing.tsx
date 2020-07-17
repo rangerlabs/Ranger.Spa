@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 import { Plans } from '../../../helpers/Helpers';
+import PlanCards from './PlanCards';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -48,53 +49,12 @@ const Pricing = function (props: PricingProps) {
                 <Grid container item justify="center">
                     <Grid item xs={12}>
                         <Typography align="center" variant="h4">
-                            Pricing
+                            {window.location.pathname.startsWith(RoutePaths.Landing) ? 'Easy To Manage Subscription Pricing' : 'Pricing'}
                         </Typography>
                     </Grid>
                 </Grid>
                 <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
-                    <Grid item xs={11} sm={8} md={5} lg={3}>
-                        <PlanCard
-                            planName="Sandbox"
-                            message="Perfect for getting a feel and testing your integrations"
-                            limitDetails={Plans.filter((p) => p.name === 'Sandbox')[0].limitDetails}
-                            cost="FREE"
-                        />
-                    </Grid>
-                    <Grid item xs={11} sm={8} md={5} lg={3}>
-                        <PlanCard
-                            planName="Startup"
-                            message="When you're ready to start scaling and adding integrations"
-                            limitDetails={Plans.filter((p) => p.name === 'Startup')[0].limitDetails}
-                            cost="$49 / Month"
-                        />
-                    </Grid>
-                    <Grid item xs={11} sm={8} md={5} lg={3}>
-                        <PlanCard
-                            planName="Pro"
-                            message="Extend your reach with 5,000 geofences and 5 integrations"
-                            limitDetails={Plans.filter((p) => p.name === 'Pro')[0].limitDetails}
-                            cost="$99 / Month"
-                        />
-                    </Grid>
-                    <Grid item xs={11} sm={8} md={5} lg={3}>
-                        <PlanCard
-                            planName="Enterprise"
-                            message="Enterprise plans coming soon"
-                            limitDetails={Plans.filter((p) => p.name === 'Enterprise')[0].limitDetails}
-                            cost="$--- / Month"
-                        />
-                    </Grid>
-                </Grid>
-                <Grid className={classes.signUp} container item justify="center" xs={12}>
-                    <Button
-                        TouchRippleProps={{ classes: { child: classes.child } }}
-                        className={classes.trialButton}
-                        onClick={() => props.push(RoutePaths.SignUp)}
-                        variant="outlined"
-                    >
-                        START FOR FREE TODAY
-                    </Button>
+                    <PlanCards />
                 </Grid>
             </Grid>
             <Footer />

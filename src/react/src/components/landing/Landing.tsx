@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core';
+import { withStyles, Theme, createStyles, WithStyles, Grid } from '@material-ui/core';
 import InView from 'react-intersection-observer';
 import Observer from 'react-intersection-observer';
 import Hero from './sections/Hero';
@@ -11,6 +11,8 @@ import Footer from './footer/Footer';
 import NewsletterSection from './sections/NewsletterSection';
 import ReactDOM from 'react-dom';
 import { scrollToLandingId } from '../../helpers/Helpers';
+import Pricing from './pricing/Pricing';
+import PlanCards from './pricing/PlanCards';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -72,6 +74,11 @@ class Landing extends Component<LandingProps, LandingState> {
                         <div id="#contact" className={classes.contact} /> */}
                 {/* <div id="newsletter-section" /> */}
                 <NewsletterSection />
+
+                <Grid container direction="column" alignItems="center" spacing={5}>
+                    <PlanCards />
+                </Grid>
+                <Pricing />
                 <Footer />
                 <ScrollTop
                     visible={!this.state.atPageTop}
