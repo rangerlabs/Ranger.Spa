@@ -56,7 +56,7 @@ class Landing extends Component<LandingProps, LandingState> {
                 <Observer onChange={this.handleIntersectionChange}>
                     <div />
                 </Observer>
-                <Hero />
+                <Hero scrollToId="newsletter-section" />
                 {/* <div id="#features" className={classes.features}>
                             <InView triggerOnce={true} threshold={0.2}>
                                 {({ inView, ref }: any) => (

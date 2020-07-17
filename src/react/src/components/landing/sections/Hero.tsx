@@ -41,6 +41,7 @@ const styles = (theme: Theme) =>
 
 interface HeroProps extends WithStyles<typeof styles> {
     push: typeof push;
+    scrollToId: string;
 }
 
 class Hero extends React.Component<HeroProps> {
@@ -77,7 +78,9 @@ class Hero extends React.Component<HeroProps> {
                 </Grid>
                 <Grid className={classes.arrowDown} container alignContent="center" justify="center" spacing={5}>
                     <Grid item>
-                        <ArrowDown color="primary" />
+                        <IconButton color="primary" onClick={() => document.getElementById(this.props.scrollToId).scrollIntoView({ behavior: 'smooth' })}>
+                            <ArrowDown />
+                        </IconButton>
                     </Grid>
                 </Grid>
             </div>
