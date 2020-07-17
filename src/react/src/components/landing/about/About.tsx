@@ -42,12 +42,12 @@ export default function About(props: AboutProps) {
                     </Grid>
                     <Grid item xs={12}>
                         <Box textAlign="center">
-                            <NameLogo width="30%" />
+                            <NameLogo width="15%" />
                         </Box>
                     </Grid>
                 </Grid>
-                <Grid item xs={11} md={5}>
-                    <Typography gutterBottom variant="body1">
+                <Grid item xs={11} md={6}>
+                    <Typography align="center" gutterBottom variant="body1">
                         Ranger was built on three premises: to be the most extendable, scalable, and consumer driven location platform available. To achieve
                         this we've built our platform to take advantage of the most bleeding-edge, cloud-native technologies. From our customers to yours, this
                         ensures reliability and transparency. Reliability that our platform is available to you and your users, and Transparency that what we
