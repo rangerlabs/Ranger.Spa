@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Theme, createStyles, Grid, Paper } from '@material-ui/core';
-import Newsletter from '../newsletter/newsletter';
+import Newsletter from '../newsletter/Newsletter';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
