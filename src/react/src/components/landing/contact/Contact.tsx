@@ -77,9 +77,14 @@ export default function Contact(props: ContactProps) {
                             {(props) => (
                                 <Paper className={classes.paper} elevation={3}>
                                     {isSuccess ? (
-                                        <Typography variant="h5">
-                                            Thank you. We have received your message and will be in contact as soon as possible.
-                                        </Typography>
+                                        <React.Fragment>
+                                            <Typography align="center" variant="h5">
+                                                Thank you.
+                                            </Typography>
+                                            <Typography align="center" variant="subtitle1">
+                                                We have received your message and will be in contact as soon as possible.
+                                            </Typography>
+                                        </React.Fragment>
                                     ) : (
                                         <form onSubmit={props.handleSubmit}>
                                             <Grid container spacing={2}>
