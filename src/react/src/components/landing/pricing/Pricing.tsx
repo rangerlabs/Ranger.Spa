@@ -49,7 +49,7 @@ const Pricing = function (props: PricingProps) {
                 <Grid container item justify="center">
                     <Grid item xs={12}>
                         <Typography align="center" variant="h4">
-                            {window.location.pathname.startsWith(RoutePaths.Landing) ? 'Easy To Manage Subscription Pricing' : 'Pricing'}
+                            {window.location.pathname.startsWith(RoutePaths.Pricing) ? 'Pricing' : 'Easy To Manage Subscription Pricing'}
                         </Typography>
                     </Grid>
                 </Grid>
