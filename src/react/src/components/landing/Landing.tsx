@@ -74,8 +74,8 @@ class Landing extends Component<LandingProps, LandingState> {
                         <div id="#pricing" className={classes.pricing} />
                         <div id="#contact" className={classes.contact} /> */}
                 {/* <div id="newsletter-section" /> */}
-                <NewsletterSection />
                 <PricingSection />
+                <NewsletterSection />
                 <Footer />
                 <ScrollTop
                     visible={!this.state.atPageTop}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, createStyles, Theme, makeStyles, Typography, Paper, Button } from '@material-ui/core';
+import { Grid, createStyles, Theme, makeStyles, Typography, Paper, Button, Box } from '@material-ui/core';
 import Footer from '../footer/Footer';
 import NameLogo from '../../../theme/NameLogo';
 
@@ -11,6 +11,18 @@ const useStyles = makeStyles((theme: Theme) =>
         maxWidth: {
             maxWidth: '800px',
         },
+        layout: {
+            padding: theme.spacing(4),
+            width: 'auto',
+            marginTop: theme.toolbar.height * 2,
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
+            [theme.breakpoints.up(500 + theme.spacing(2 * 2))]: {
+                width: 500,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            },
+        },
     })
 );
 
@@ -21,11 +33,20 @@ export default function About(props: AboutProps) {
 
     return (
         <React.Fragment>
-            <Grid container className={classes.push} justify="center" spacing={5}>
-                <Grid item xs={12}>
-                    <NameLogo width="30%" />
+            <Grid className={classes.push} container direction="column" spacing={5}>
+                <Grid container item justify="center">
+                    <Grid item xs={12}>
+                        <Typography align="center" variant="h4">
+                            About
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box textAlign="center">
+                            <NameLogo width="30%" />
+                        </Box>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={11} md={5}>
                     <Typography gutterBottom variant="body1">
                         Ranger was built on three premises: to be the most extendable, scalable, and consumer driven location platform available. To achieve
                         this we've built our platform to take advantage of the most bleeding-edge, cloud-native technologies. From our customers to yours, this
