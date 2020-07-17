@@ -8,6 +8,7 @@ import ScrollTop from './ScrollTop';
 import { enqueueSnackbar } from '../../redux/actions/SnackbarActions';
 import { connect } from 'react-redux';
 import Footer from './footer/Footer';
+import NewsletterSection from './sections/NewsletterSection';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -64,6 +65,7 @@ class Landing extends Component<LandingProps, LandingState> {
                         </div>
                         <div id="#pricing" className={classes.pricing} />
                         <div id="#contact" className={classes.contact} /> */}
+                <NewsletterSection />
                 <Footer />
                 <ScrollTop
                     visible={!this.state.atPageTop}
