@@ -18,17 +18,15 @@ export default function NewsletterSection() {
     const classes = useStyles();
     return (
         <Grid className={classes.background} container alignContent="center" justify="center" spacing={5}>
-            <Grid item xs={12}>
-                <Typography gutterBottom className={classes.typography} variant="h3">
+            <Grid item md={5} xs={12}>
+                <Typography align="center" gutterBottom className={classes.typography} variant="h3">
                     Ranger Newsletter
                 </Typography>
-            </Grid>
-            <Grid item xs={12}>
-                <Typography gutterBottom className={classes.typography} variant="subtitle1">
+
+                <Typography align="center" gutterBottom className={classes.typography} variant="subtitle1">
                     Be the first to hear all the latest Ranger news and features.
                 </Typography>
-            </Grid>
-            <Grid item md={5} xs={12}>
+
                 <Paper elevation={3}>
                     <Newsletter />
                 </Paper>
