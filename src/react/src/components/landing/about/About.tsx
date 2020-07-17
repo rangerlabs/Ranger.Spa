@@ -46,7 +46,7 @@ export default function About(props: AboutProps) {
                         </Box>
                     </Grid>
                 </Grid>
-                <Grid item xs={11} md={6}>
+                <Grid container item xs={11} md={6} justify="center">
                     <Typography align="center" gutterBottom variant="body1">
                         Ranger was built on three premises: to be the most extendable, scalable, and consumer driven location platform available. To achieve
                         this we've built our platform to take advantage of the most bleeding-edge, cloud-native technologies. From our customers to yours, this
