@@ -9,6 +9,7 @@ import { enqueueSnackbar } from '../../redux/actions/SnackbarActions';
 import { connect } from 'react-redux';
 import Footer from './footer/Footer';
 import NewsletterSection from './sections/NewsletterSection';
+import ReactDOM from 'react-dom';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -44,6 +45,10 @@ class Landing extends Component<LandingProps, LandingState> {
         this.setState({ atPageTop: inView });
     };
 
+    componentDidMount() {
+        ReactDOM.render(<NewsletterSection />, document.getElementById('newsletter-section'));
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -65,7 +70,7 @@ class Landing extends Component<LandingProps, LandingState> {
                         </div>
                         <div id="#pricing" className={classes.pricing} />
                         <div id="#contact" className={classes.contact} /> */}
-                <NewsletterSection />
+                <div id="newsletter-section" />
                 <Footer />
                 <ScrollTop
                     visible={!this.state.atPageTop}
