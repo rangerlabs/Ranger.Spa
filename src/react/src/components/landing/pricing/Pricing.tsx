@@ -6,6 +6,7 @@ import Footer from '../footer/Footer';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
+import { Plans } from '../../../helpers/Helpers';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,7 +57,7 @@ const Pricing = function (props: PricingProps) {
                         <PlanCard
                             planName="Sandbox"
                             message="Perfect for getting a feel and testing your integrations"
-                            limitDetails={{ geofences: 100, accounts: 1, integrations: 2, projects: 1 } as ILimitDetails}
+                            limitDetails={Plans.filter((p) => p.name === 'Sandbox')[0].limitDetails}
                             cost="FREE"
                         />
                     </Grid>
@@ -64,7 +65,7 @@ const Pricing = function (props: PricingProps) {
                         <PlanCard
                             planName="Startup"
                             message="When you're ready to start scaling and adding integrations"
-                            limitDetails={{ geofences: 1000, accounts: 3, integrations: 3, projects: 1 } as ILimitDetails}
+                            limitDetails={Plans.filter((p) => p.name === 'Startup')[0].limitDetails}
                             cost="$49 / Month"
                         />
                     </Grid>
@@ -72,7 +73,7 @@ const Pricing = function (props: PricingProps) {
                         <PlanCard
                             planName="Pro"
                             message="Extend your reach with 5,000 geofences and 5 integrations"
-                            limitDetails={{ geofences: 5000, accounts: 5, integrations: 5, projects: 1 } as ILimitDetails}
+                            limitDetails={Plans.filter((p) => p.name === 'Pro')[0].limitDetails}
                             cost="$99 / Month"
                         />
                     </Grid>
@@ -80,7 +81,7 @@ const Pricing = function (props: PricingProps) {
                         <PlanCard
                             planName="Enterprise"
                             message="Enterprise plans coming soon"
-                            limitDetails={{ geofences: 0, accounts: 0, integrations: 0, projects: 0 } as ILimitDetails}
+                            limitDetails={Plans.filter((p) => p.name === 'Enterprise')[0].limitDetails}
                             cost="$--- / Month"
                         />
                     </Grid>

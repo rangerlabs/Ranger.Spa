@@ -2,6 +2,7 @@ import { MergedIntegrationType } from '../models/app/integrations/MergedIntegrat
 import { RoleEnum } from '../models/RoleEnum';
 import { UserProfile } from '../models/UserProfile';
 import { User } from 'oidc-client';
+import { ILimitDetails } from '../models/app/ILimitDetails';
 
 export function getSpaVersion(): string {
     const value = `; ${document.cookie}`;
@@ -95,4 +96,15 @@ export function scrollToLandingId(id: string) {
     var element = document.getElementById(id);
     const y = element.getBoundingClientRect().top + window.pageYOffset + headerOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });
+}
+
+export const Plans = [
+    { name: 'Sandbox', limitDetails: { geofences: 100, accounts: 1, integrations: 2, projects: 1 } },
+    { name: 'Startup', limitDetails: { geofences: 1000, accounts: 2, integrations: 2, projects: 1 } },
+    { name: 'Pro', limitDetails: { geofences: 5000, accounts: 5, integrations: 3, projects: 1 } },
+    { name: 'Enterprise', limitDetails: { geofences: 0, accounts: 0, integrations: 0, projects: 0 } },
+] as IPlan[];
+interface IPlan {
+    name: string;
+    limitDetails: ILimitDetails;
 }

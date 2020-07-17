@@ -162,7 +162,6 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
                         )}
                     </React.Fragment>
                 </Paper>
-                <Footer />
             </React.Fragment>
         );
     }
