@@ -21,7 +21,7 @@ export default function NewsletterSection() {
     const classes = useStyles();
     return (
         <Grid id="newsletter-section" className={classes.background} container alignContent="center" justify="center" spacing={5}>
-            <Grid item>
+            <Grid item xs={12}>
                 <div>
                     <Typography align="center" gutterBottom className={classes.typography} variant="h3">
                         Ranger Newsletter
