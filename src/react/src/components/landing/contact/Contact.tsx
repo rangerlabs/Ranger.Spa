@@ -34,8 +34,8 @@ export default function Contact(props: ContactProps) {
     const [serverError, setServerError] = useState(undefined);
 
     const validationSchema = Yup.object().shape({
-        organization: Yup.string().required('Required'),
-        email: Yup.string().email('Invalid email').required('Required'),
+        organization: Yup.string().required('Required').max(512, 'Max 512 characters'),
+        email: Yup.string().email('Invalid email').required('Required').max(512, 'Max 512 characters'),
         message: Yup.string().required('Required').max(1000, 'Max 1000 characters'),
     });
 
@@ -75,8 +75,11 @@ export default function Contact(props: ContactProps) {
                             validationSchema={validationSchema}
                         >
                             {(props) => (
-                                <form onSubmit={props.handleSubmit}>
-                                    <Paper className={classes.paper} elevation={3}>
+                                <Paper className={classes.paper} elevation={3}>
+                                    isSuccess ? (
+                                    <Typography variant="h5">Thank you. We have received your message and will be in contact as soon as possible.</Typography>)
+                                    : (
+                                    <form onSubmit={props.handleSubmit}>
                                         <Grid container spacing={2}>
                                             <Grid item xs={12}>
                                                 <FormikTextField
@@ -128,8 +131,9 @@ export default function Contact(props: ContactProps) {
                                                 Send
                                             </FormikSynchronousButton>
                                         </div>
-                                    </Paper>
-                                </form>
+                                    </form>
+                                    )
+                                </Paper>
                             )}
                         </Formik>
                     </React.Fragment>
