@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme: Theme) =>
         typography: {
             color: theme.palette.common.white,
         },
+        paper: {
+            height: '100%',
+        },
     })
 );
 
@@ -27,7 +30,7 @@ export default function NewsletterSection() {
                     Be the first to hear all the latest Ranger news and features.
                 </Typography>
 
-                <Paper elevation={3}>
+                <Paper className={classes.paper} elevation={3}>
                     <Newsletter />
                 </Paper>
             </Grid>
