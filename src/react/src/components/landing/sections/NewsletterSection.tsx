@@ -5,17 +5,8 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        layout: {
-            padding: theme.spacing(4),
-            width: 'auto',
-            marginTop: theme.toolbar.height,
-            marginLeft: theme.spacing(2),
-            marginRight: theme.spacing(2),
-            [theme.breakpoints.up(600 + theme.spacing(2 * 2))]: {
-                width: 600,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-            },
+        background: {
+            backgroundColor: theme.palette.primary.main,
         },
         typography: {
             color: theme.palette.common.white,
@@ -29,18 +20,18 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function NewsletterSection() {
     const classes = useStyles();
     return (
-        <div id="newsletter-section" className={classes.layout}>
-            <div>
-                <Typography align="center" gutterBottom className={classes.typography} variant="h3">
-                    Ranger Newsletter
-                </Typography>
-                <Typography align="center" gutterBottom className={classes.typography} variant="subtitle1">
-                    Be the first to hear the latest in Ranger news and features.
-                </Typography>
-            </div>
-            <div>
+        <Grid id="newsletter-section" className={classes.background} container alignContent="center" justify="center" spacing={5}>
+            <Grid item md={5} xs={12}>
+                <div>
+                    <Typography align="center" gutterBottom className={classes.typography} variant="h3">
+                        Ranger Newsletter
+                    </Typography>
+                    <Typography align="center" gutterBottom className={classes.typography} variant="subtitle1">
+                        Be the first to hear the latest in Ranger news and features.
+                    </Typography>
+                </div>
                 <Newsletter />
-            </div>
-        </div>
+            </Grid>
+        </Grid>
     );
 }
