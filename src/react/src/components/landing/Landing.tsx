@@ -13,6 +13,7 @@ import ReactDOM from 'react-dom';
 import { scrollToLandingId } from '../../helpers/Helpers';
 import Pricing from './pricing/Pricing';
 import PlanCards from './pricing/PlanCards';
+import PricingSection from './sections/PricingSection';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -74,11 +75,7 @@ class Landing extends Component<LandingProps, LandingState> {
                         <div id="#contact" className={classes.contact} /> */}
                 {/* <div id="newsletter-section" /> */}
                 <NewsletterSection />
-                <Grid container direction="column" alignItems="center" spacing={5}>
-                    <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
-                        <PlanCards />
-                    </Grid>
-                </Grid>
+                <PricingSection />
                 <Footer />
                 <ScrollTop
                     visible={!this.state.atPageTop}

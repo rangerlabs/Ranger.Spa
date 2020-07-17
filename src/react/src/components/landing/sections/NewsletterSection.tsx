@@ -7,6 +7,8 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         background: {
             backgroundColor: theme.palette.primary.main,
+            marginTop: theme.spacing(8),
+            marginBottom: theme.spacing(8),
         },
         typography: {
             color: theme.palette.common.white,

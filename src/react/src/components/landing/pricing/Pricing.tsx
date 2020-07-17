@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { Grid, createStyles, Theme, makeStyles, Typography, Container, Button } from '@material-ui/core';
-import PlanCard from './PlanCard';
-import { ILimitDetails } from '../../../models/app/ILimitDetails';
+import { Grid, createStyles, Theme, makeStyles, Typography } from '@material-ui/core';
 import Footer from '../footer/Footer';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
-import { Plans } from '../../../helpers/Helpers';
 import PlanCards from './PlanCards';
 
 const useStyles = makeStyles((theme: Theme) =>
