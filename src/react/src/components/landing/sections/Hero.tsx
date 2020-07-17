@@ -19,6 +19,7 @@ import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import CreateGeofence from '../../../../assets/create-geofence.gif';
 import ArrowDown from 'mdi-material-ui/ArrowDown';
+import { scrollToLandingId } from '../../../helpers/Helpers';
 
 const styles = (theme: Theme) =>
     createStyles({
