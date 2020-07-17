@@ -46,7 +46,7 @@ class Landing extends Component<LandingProps, LandingState> {
     };
 
     componentDidMount() {
-        ReactDOM.render(<NewsletterSection />, document.getElementById('newsletter-section'));
+        ReactDOM.createPortal(<NewsletterSection />, document.getElementById('newsletter-section'));
     }
 
     render() {
