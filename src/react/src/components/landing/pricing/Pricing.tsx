@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, createStyles, Theme, makeStyles, Typography } from '@material-ui/core';
+import { Grid, createStyles, Theme, makeStyles, Typography, Button } from '@material-ui/core';
 import Footer from '../footer/Footer';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
@@ -53,6 +53,16 @@ const Pricing = function (props: PricingProps) {
                 <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
                     <PlanCards />
                 </Grid>
+            </Grid>
+            <Grid className={classes.signUp} container item justify="center" xs={12}>
+                <Button
+                    TouchRippleProps={{ classes: { child: classes.child } }}
+                    className={classes.trialButton}
+                    onClick={() => props.push(RoutePaths.SignUp)}
+                    variant="outlined"
+                >
+                    START FOR FREE TODAY
+                </Button>
             </Grid>
             <Footer />
         </React.Fragment>
