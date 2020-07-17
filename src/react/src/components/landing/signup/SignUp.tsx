@@ -12,6 +12,7 @@ import { createStyles, Fade, Theme } from '@material-ui/core';
 import IOrganizationForm from '../../../models/IOrganizationForm';
 import IUserForm from '../../../models/landing/IUserForm';
 import IReviewForm from '../../../models/landing/IReviewForm';
+import Footer from '../footer/Footer';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -159,6 +160,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
                         <React.Fragment>{this.getStepContent(activeStep)}</React.Fragment>
                     )}
                 </React.Fragment>
+                <Footer />
             </Paper>
         );
     }

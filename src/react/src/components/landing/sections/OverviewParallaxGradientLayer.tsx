@@ -19,9 +19,9 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface OverviewProps extends WithStyles<typeof styles> {}
+interface GradientProps extends WithStyles<typeof styles> {}
 
-class OverviewParallaxGradientLayer extends React.Component<OverviewProps> {
+class GradientLayer extends React.Component<GradientProps> {
     render() {
         const { classes } = this.props;
         return (
@@ -32,4 +32,4 @@ class OverviewParallaxGradientLayer extends React.Component<OverviewProps> {
     }
 }
 
-export default withStyles(styles)(OverviewParallaxGradientLayer);
+export default withStyles(styles)(GradientLayer);
