@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Grid, createStyles, Theme, makeStyles, Typography } from '@material-ui/core';
+import { Grid, createStyles, Theme, makeStyles, Typography, Paper, Button } from '@material-ui/core';
 import Footer from '../footer/Footer';
+import NameLogo from '../../../theme/NameLogo';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -20,16 +21,18 @@ export default function About(props: AboutProps) {
 
     return (
         <React.Fragment>
-            <Grid className={classes.push} container direction="column" spacing={5}>
-                <Grid container item justify="center">
-                    <Grid item xs={12}>
-                        <Typography align="center" variant="h4">
-                            About
-                        </Typography>
-                    </Grid>
+            <Grid container className={classes.push} justify="center" spacing={5}>
+                <Grid item xs={12}>
+                    <NameLogo width="30%" />
                 </Grid>
-                <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
-                    <Grid item xs={11} sm={8} md={5} lg={2}></Grid>
+                <Grid item xs={12}>
+                    <Typography gutterBottom variant="body1">
+                        Ranger was built on three premises: to be the most extendable, scalable, and consumer driven location platform available. To achieve
+                        this we've built our platform to take advantage of the most bleeding-edge, cloud-native technologies. From our customers to yours, this
+                        ensures reliability and transparency. Reliability that our platform is available to you and your users, and Transparency that what we
+                        say is secure will remain secure. Our committment to the privacy of your end-users is unwaivering.
+                    </Typography>
+                    <Typography gutterBottom variant="body1"></Typography>
                 </Grid>
             </Grid>
             <Footer />

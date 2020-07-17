@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingBottom: theme.spacing(8),
         },
         typography: {
-            color: theme.palette.common.white,
+            color: theme.palette.primary.main,
         },
     })
 );

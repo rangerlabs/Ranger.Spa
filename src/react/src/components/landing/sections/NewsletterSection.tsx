@@ -5,10 +5,8 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        background: {
+        layout: {
             backgroundColor: theme.palette.primary.main,
-        },
-        padding: {
             paddingTop: theme.spacing(8),
             paddingBottom: theme.spacing(8),
         },
@@ -24,8 +22,8 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function NewsletterSection() {
     const classes = useStyles();
     return (
-        <div className={classes.padding}>
-            <Grid id="newsletter-section" className={classes.background} container alignContent="center" justify="center" spacing={5}>
+        <div className={classes.layout}>
+            <Grid id="newsletter-section" container alignContent="center" justify="center" spacing={5}>
                 <Grid item xs={12}>
                     <div>
                         <Typography align="center" gutterBottom className={classes.typography} variant="h3">

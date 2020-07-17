@@ -2,7 +2,7 @@ import * as React from 'react';
 import RangerImg from '../../assets/Ranger-Pin-Green-wName@3x.png';
 
 interface NameLogoProps {
-    width: number;
+    width: string;
 }
 
 const NameLogo = (props: NameLogoProps) => <img src={RangerImg} width={props.width} />;
