@@ -74,7 +74,7 @@ class Landing extends Component<LandingProps, LandingState> {
                         <div id="#contact" className={classes.contact} /> */}
                 {/* <div id="newsletter-section" /> */}
                 <NewsletterSection />
-                <Grid className={classes.push} container direction="column" alignItems="center" spacing={5}>
+                <Grid container direction="column" alignItems="center" spacing={5}>
                     <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
                         <PlanCards />
                     </Grid>
