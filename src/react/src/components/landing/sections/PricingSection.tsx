@@ -16,11 +16,13 @@ interface PricingSectionProps {}
 const PricingSection = function (props: PricingSectionProps) {
     const classes = useStyles(props);
     return (
-        <Grid className={classes.margin} container direction="column" alignItems="center" spacing={5}>
-            <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
-                <PlanCards />
+        <div className={classes.margin}>
+            <Grid container direction="column" alignItems="center" spacing={5}>
+                <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
+                    <PlanCards />
+                </Grid>
             </Grid>
-        </Grid>
+        </div>
     );
 };
 export default PricingSection;

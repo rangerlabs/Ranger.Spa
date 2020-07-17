@@ -7,6 +7,8 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         background: {
             backgroundColor: theme.palette.primary.main,
+        },
+        margin: {
             marginTop: theme.spacing(8),
             marginBottom: theme.spacing(8),
         },
@@ -22,18 +24,20 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function NewsletterSection() {
     const classes = useStyles();
     return (
-        <Grid id="newsletter-section" className={classes.background} container alignContent="center" justify="center" spacing={5}>
-            <Grid item xs={12}>
-                <div>
-                    <Typography align="center" gutterBottom className={classes.typography} variant="h3">
-                        Ranger Newsletter
-                    </Typography>
-                    <Typography align="center" gutterBottom className={classes.typography} variant="subtitle1">
-                        Be the first to hear the latest in Ranger news and features.
-                    </Typography>
-                </div>
-                <Newsletter />
+        <div className={classes.margin}>
+            <Grid id="newsletter-section" className={classes.background} container alignContent="center" justify="center" spacing={5}>
+                <Grid item xs={12}>
+                    <div>
+                        <Typography align="center" gutterBottom className={classes.typography} variant="h3">
+                            Ranger Newsletter
+                        </Typography>
+                        <Typography align="center" gutterBottom className={classes.typography} variant="subtitle1">
+                            Be the first to hear the latest in Ranger news and features.
+                        </Typography>
+                    </div>
+                    <Newsletter />
+                </Grid>
             </Grid>
-        </Grid>
+        </div>
     );
 }
