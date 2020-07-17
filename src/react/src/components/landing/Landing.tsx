@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import Footer from './footer/Footer';
 import NewsletterSection from './sections/NewsletterSection';
 import ReactDOM from 'react-dom';
+import { scrollToLandingId } from '../../helpers/Helpers';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -48,7 +49,6 @@ class Landing extends Component<LandingProps, LandingState> {
     // componentDidMount() {
     //     ReactDOM.createPortal(<NewsletterSection />, document.getElementById('newsletter-section'));
     // }
-
     render() {
         const { classes } = this.props;
         return (
@@ -76,7 +76,7 @@ class Landing extends Component<LandingProps, LandingState> {
                 <ScrollTop
                     visible={!this.state.atPageTop}
                     onClick={() => {
-                        document.getElementById('toolbar-push').scrollIntoView({ behavior: 'smooth' });
+                        scrollToLandingId('toolbar-push');
                     }}
                 />
             </React.Fragment>

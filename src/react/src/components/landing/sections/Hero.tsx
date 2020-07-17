@@ -1,5 +1,20 @@
 import * as React from 'react';
-import { Theme, createStyles, WithStyles, withStyles, Grid, Typography, Button, Slide, Paper, Box, IconButton, Container } from '@material-ui/core';
+import {
+    Theme,
+    createStyles,
+    WithStyles,
+    withStyles,
+    Grid,
+    Typography,
+    Button,
+    Slide,
+    Paper,
+    Box,
+    IconButton,
+    Container,
+    useMediaQuery,
+    useTheme,
+} from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import CreateGeofence from '../../../../assets/create-geofence.gif';
@@ -33,10 +48,6 @@ const styles = (theme: Theme) =>
         heroPush: {
             paddingTop: '7%',
         },
-        arrowDown: {
-            position: 'absolute',
-            bottom: theme.spacing(4),
-        },
     });
 
 interface HeroProps extends WithStyles<typeof styles> {
@@ -51,6 +62,9 @@ class Hero extends React.Component<HeroProps> {
 
     render() {
         const { classes } = this.props;
+        const theme = useTheme();
+        const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
+
         return (
             <div className={classes.layout}>
                 <Grid className={classes.heroPush} container alignContent="center" justify="center" spacing={5}>
@@ -76,9 +90,15 @@ class Hero extends React.Component<HeroProps> {
                         </Paper>
                     </Grid>
                 </Grid>
-                <Grid className={classes.arrowDown} container alignContent="center" justify="center" spacing={5}>
+                <Grid
+                    style={{ position: 'absolute', bottom: isSmDown ? theme.spacing(6) : theme.spacing(4) }} //push above iOS nav
+                    container
+                    alignContent="center"
+                    justify="center"
+                    spacing={5}
+                >
                     <Grid item>
-                        <IconButton color="primary" onClick={() => document.getElementById(this.props.scrollToId).scrollIntoView({ behavior: 'smooth' })}>
+                        <IconButton color="primary" onClick={() => scrollToLandingId(this.props.scrollToId)}>
                             <ArrowDown />
                         </IconButton>
                     </Grid>

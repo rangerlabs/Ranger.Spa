@@ -89,3 +89,10 @@ export function getRole(roles: string | string[]) {
         return roles;
     }
 }
+
+export function scrollToLandingId(id: string) {
+    const headerOffset = -64 * 2;
+    var element = document.getElementById(id);
+    const y = element.getBoundingClientRect().top + window.pageYOffset + headerOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+}

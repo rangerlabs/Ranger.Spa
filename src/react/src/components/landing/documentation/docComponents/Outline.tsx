@@ -4,6 +4,7 @@ import React from 'react';
 import Block from './Block';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import SectionHeader from './SectionHeader';
+import { scrollToLandingId } from '../../../../helpers/Helpers';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,13 +33,6 @@ interface OutlineElement {
     subElements?: OutlineElement[];
 }
 
-function scrollToId(id: string) {
-    const headerOffset = -64 * 2;
-    var element = document.getElementById(id);
-    const y = element.getBoundingClientRect().top + window.pageYOffset + headerOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
-}
-
 function getElement(element: OutlineElement, props: OutlineElementProps, inset?: boolean) {
     const classes = useStyles(props);
     return (
@@ -52,7 +46,7 @@ function getElement(element: OutlineElement, props: OutlineElementProps, inset?:
                 <ListItemText
                     disableTypography
                     primary={
-                        <Link component="button" variant="subtitle1" onClick={() => scrollToId(element.id)}>
+                        <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
                             {element.name}
                         </Link>
                     }

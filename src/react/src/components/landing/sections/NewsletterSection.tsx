@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function NewsletterSection() {
     const classes = useStyles();
     return (
-        <Grid id="newsletter-section" className={classes.background} container alignContent="center" justify="center" spacing={5}>
-            <Grid item md={5} xs={12}>
+        <Grid id="newsletter-section" className={classes.background} container alignContent="center" justify="center">
+            <Grid item>
                 <div>
                     <Typography align="center" gutterBottom className={classes.typography} variant="h3">
                         Ranger Newsletter
