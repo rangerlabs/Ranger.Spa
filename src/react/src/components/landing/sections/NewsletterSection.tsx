@@ -6,12 +6,11 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         layout: {
-            backgroundColor: theme.palette.primary.main,
             paddingTop: theme.spacing(8),
             paddingBottom: theme.spacing(8),
         },
         typography: {
-            color: theme.palette.common.white,
+            color: theme.palette.primary.main,
         },
         paper: {
             height: '100%',
