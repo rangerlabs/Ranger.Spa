@@ -4,10 +4,11 @@ import { string } from 'yup';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 import DocRoutePaths from '../documentation/DocRoutePaths';
+import { connect } from 'react-redux';
 
 interface FooterLink {
     name: string;
-    onClick: () => void;
+    url: string;
 }
 interface FooterSection {
     title: string;
@@ -18,38 +19,37 @@ const footers = [
     {
         title: 'Company',
         description: [
-            { name: 'About', onClick: () => push(RoutePaths.About) },
-            { name: 'Contact us', onClick: () => push(RoutePaths.Contact) },
+            { name: 'About', url: RoutePaths.About },
+            { name: 'Contact us', url: RoutePaths.Contact },
         ],
     },
     {
         title: 'Social',
         description: [
-            { name: 'LinkedIn', onClick: () => (window.location.href = 'https://www.linkedin.com/company/ranger-labs/') },
+            { name: 'LinkedIn', url: 'https://www.linkedin.com/company/ranger-labs/' },
             // { name: 'Twitter', onClick: () => (window.location.href = 'https://twitter.com/RangerLabs') },
-            { name: 'StatusPage', onClick: () => (window.location.href = 'https://rangerlabs.statuspage.io/') },
+            { name: 'StatusPage', url: 'https://rangerlabs.statuspage.io/' },
         ],
     },
     {
         title: 'Docs',
         description: [
-            { name: 'Getting Started', onClick: () => push(RoutePaths.Docs.replace(':name?', DocRoutePaths.GettingStarted)) },
-            { name: 'Projects', onClick: () => push(RoutePaths.Docs.replace(':name?', DocRoutePaths.ProjectsAndRoles)) },
-            { name: 'Geofences', onClick: () => push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Geofences)) },
-            { name: 'Integraions', onClick: () => push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Integrations)) },
-            { name: 'Breadcrumbs', onClick: () => push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs)) },
+            { name: 'Getting Started', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.GettingStarted) },
+            { name: 'Projects', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.ProjectsAndRoles) },
+            { name: 'Geofences', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.Geofences) },
+            { name: 'Integraions', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.Integrations) },
+            { name: 'Breadcrumbs', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs) },
         ],
     },
     {
         title: 'Legal',
         description: [
-            { name: 'Privacy policy', onClick: () => {} },
-            { name: 'Terms of use', onClick: () => {} },
+            { name: 'Privacy policy', url: '' },
+            { name: 'Terms of use', url: '' },
         ],
     },
 ] as FooterSection[];
 
-// description: [{name: 'LinkedIn', url: 'https://www.linkedin.com/company/ranger-labs/'}, {name:'Twitter', url: 'https://twitter.com/RangerLabs'}, {name:'StatusPage', url: 'https://rangerlabs.statuspage.io/'}] as FooterLink[],
 const useStyles = makeStyles((theme: Theme) => ({
     '@global': {
         ul: {
@@ -89,7 +89,11 @@ function Copyright() {
     );
 }
 
-export default function Footer() {
+interface FooterProps {
+    push: typeof push;
+}
+
+const Footer = function (props: FooterProps) {
     const classes = useStyles();
 
     return (
@@ -105,7 +109,7 @@ export default function Footer() {
                                 <ul>
                                     {footer.description.map((item) => (
                                         <li key={item.name}>
-                                            <Link onClick={item.onClick} variant="subtitle1" color="textSecondary">
+                                            <Link onClick={() => push(item.url)} variant="subtitle1" color="textSecondary">
                                                 {item.name}
                                             </Link>
                                         </li>
@@ -121,4 +125,6 @@ export default function Footer() {
             </Container>
         </React.Fragment>
     );
-}
+};
+
+export default connect(null, { push })(Footer);

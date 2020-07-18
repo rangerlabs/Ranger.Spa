@@ -25,7 +25,7 @@ export default function NewsletterSection() {
             <Grid id="newsletter-section" container alignContent="center" justify="center" spacing={5}>
                 <Grid item xs={12}>
                     <div>
-                        <Typography align="center" gutterBottom className={classes.typography} variant="h3">
+                        <Typography align="center" gutterBottom className={classes.typography} variant="h4">
                             Ranger Newsletter
                         </Typography>
                         <Typography align="center" gutterBottom className={classes.typography} variant="subtitle1">
