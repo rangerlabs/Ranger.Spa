@@ -96,6 +96,14 @@ interface FooterProps {
 const Footer = function (props: FooterProps) {
     const classes = useStyles();
 
+    const navigate = function (url: string) {
+        if (url.startsWith('/')) {
+            props.push(url);
+        } else {
+            window.location.href = url;
+        }
+    };
+
     return (
         <React.Fragment>
             <Container className={classes.footer} component="footer">
@@ -109,7 +117,7 @@ const Footer = function (props: FooterProps) {
                                 <ul>
                                     {footer.description.map((item) => (
                                         <li key={item.name}>
-                                            <Link component="button" onClick={() => props.push(item.url)} variant="subtitle1" color="textSecondary">
+                                            <Link component="button" onClick={() => navigate(item.url)} variant="subtitle1" color="textSecondary">
                                                 {item.name}
                                             </Link>
                                         </li>
