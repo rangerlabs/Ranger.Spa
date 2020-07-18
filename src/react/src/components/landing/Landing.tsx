@@ -14,6 +14,7 @@ import { scrollToLandingId } from '../../helpers/Helpers';
 import Pricing from './pricing/Pricing';
 import PlanCards from './pricing/PlanCards';
 import PricingSection from './sections/PricingSection';
+import GetStartedForFree from './getStartedForFree/GetStartedForFree';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -77,6 +78,7 @@ class Landing extends Component<LandingProps, LandingState> {
                 <div id="next" />
                 <PricingSection />
                 <NewsletterSection />
+                <GetStartedForFree />
                 <Footer />
                 <ScrollTop
                     visible={!this.state.atPageTop}

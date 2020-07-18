@@ -4,14 +4,9 @@ import Footer from '../footer/Footer';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
-import PlanCards from './PlanCards';
-import GetStartedForFree from '../getStartedForFree/GetStartedForFree';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        push: {
-            paddingTop: '3%',
-        },
         signUp: {
             background: theme.palette.primary.main,
             marginTop: `${theme.spacing(5)}px !important`,
@@ -38,27 +33,24 @@ interface PricingProps {
     push: typeof push;
 }
 
-const Pricing = function (props: PricingProps) {
+const GetStartedForFree = function (props: PricingProps) {
     const classes = useStyles(props);
 
     return (
         <React.Fragment>
-            <Grid className={classes.push} container direction="column" alignItems="center" spacing={5}>
-                <Grid container item justify="center">
-                    <Grid item xs={12}>
-                        <Typography align="center" variant="h4">
-                            Pricing
-                        </Typography>
-                    </Grid>
-                </Grid>
-                <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>
-                    <PlanCards />
-                </Grid>
+            <Grid className={classes.signUp} container item justify="center" xs={12}>
+                <Button
+                    TouchRippleProps={{ classes: { child: classes.child } }}
+                    className={classes.trialButton}
+                    onClick={() => props.push(RoutePaths.SignUp)}
+                    variant="outlined"
+                >
+                    START FOR FREE TODAY
+                </Button>
             </Grid>
-            <GetStartedForFree />
             <Footer />
         </React.Fragment>
     );
 };
 
-export default connect(null, { push })(Pricing);
+export default connect(null, { push })(GetStartedForFree);

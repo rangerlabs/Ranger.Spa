@@ -1,4 +1,4 @@
 export default interface IDocComponent {
-    name: string;
+    path: string;
     component: any;
 }

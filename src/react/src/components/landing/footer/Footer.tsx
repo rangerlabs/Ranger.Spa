@@ -1,29 +1,53 @@
 import * as React from 'react';
 import { Container, Grid, Box, Link, Typography, makeStyles, Theme, CssBaseline } from '@material-ui/core';
+import { string } from 'yup';
+import { push } from 'connected-react-router';
+import RoutePaths from '../../RoutePaths';
+import DocRoutePaths from '../documentation/DocRoutePaths';
 
 interface FooterLink {
     name: string;
-    url: string;
+    onClick: () => void;
+}
+interface FooterSection {
+    title: string;
+    description: FooterLink[];
 }
 
 const footers = [
     {
         title: 'Company',
-        description: ['About', 'Contact us'],
+        description: [
+            { name: 'About', onClick: () => push(RoutePaths.About) },
+            { name: 'Contact us', onClick: () => push(RoutePaths.Contact) },
+        ],
     },
     {
         title: 'Social',
-        description: ['LinkedIn', 'Twitter', 'StatusPage'],
+        description: [
+            { name: 'LinkedIn', onClick: () => (window.location.href = 'https://www.linkedin.com/company/ranger-labs/') },
+            // { name: 'Twitter', onClick: () => (window.location.href = 'https://twitter.com/RangerLabs') },
+            { name: 'StatusPage', onClick: () => (window.location.href = 'https://rangerlabs.statuspage.io/') },
+        ],
     },
     {
         title: 'Docs',
-        description: ['Getting Started', 'Projects', 'Geofences', 'Integrations', 'API'],
+        description: [
+            { name: 'Getting Started', onClick: () => push(RoutePaths.Docs.replace(':name?', DocRoutePaths.GettingStarted)) },
+            { name: 'Projects', onClick: () => push(RoutePaths.Docs.replace(':name?', DocRoutePaths.ProjectsAndRoles)) },
+            { name: 'Geofences', onClick: () => push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Geofences)) },
+            { name: 'Integraions', onClick: () => push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Integrations)) },
+            { name: 'Breadcrumbs', onClick: () => push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs)) },
+        ],
     },
     {
         title: 'Legal',
-        description: ['Privacy policy', 'Terms of use'],
+        description: [
+            { name: 'Privacy policy', onClick: () => {} },
+            { name: 'Terms of use', onClick: () => {} },
+        ],
     },
-];
+] as FooterSection[];
 
 // description: [{name: 'LinkedIn', url: 'https://www.linkedin.com/company/ranger-labs/'}, {name:'Twitter', url: 'https://twitter.com/RangerLabs'}, {name:'StatusPage', url: 'https://rangerlabs.statuspage.io/'}] as FooterLink[],
 const useStyles = makeStyles((theme: Theme) => ({
@@ -80,8 +104,8 @@ export default function Footer() {
                                 </Typography>
                                 <ul>
                                     {footer.description.map((item) => (
-                                        <li key={item}>
-                                            <Link href="#" variant="subtitle1" color="textSecondary">
+                                        <li key={item.name}>
+                                            <Link onClick={item.onClick} variant="subtitle1" color="textSecondary">
                                                 {item}
                                             </Link>
                                         </li>

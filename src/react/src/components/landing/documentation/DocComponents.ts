@@ -4,11 +4,12 @@ import IDocComponent from './IDocComponent';
 import GeofencesDoc from './GeofencesDoc';
 import IntegrationsDoc from './IntegrationsDocs/IntegrationsDoc';
 import BreadcrumbsDoc from './BreadcrumbsDoc';
+import DocRoutePaths from './DocRoutePaths';
 
 export const DocComponents: IDocComponent[] = [
-    { name: 'getting-started', component: GettingStarted },
-    { name: 'projects-and-roles', component: ProjectsAndRolesDoc },
-    { name: 'geofences', component: GeofencesDoc },
-    { name: 'integrations', component: IntegrationsDoc },
-    { name: 'breadcrumbs', component: BreadcrumbsDoc },
+    { path: DocRoutePaths.GettingStarted, component: GettingStarted },
+    { path: DocRoutePaths.ProjectsAndRoles, component: ProjectsAndRolesDoc },
+    { path: DocRoutePaths.Geofences, component: GeofencesDoc },
+    { path: DocRoutePaths.Integrations, component: IntegrationsDoc },
+    { path: DocRoutePaths.Breadcrumbs, component: BreadcrumbsDoc },
 ];
