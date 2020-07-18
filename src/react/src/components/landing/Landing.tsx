@@ -74,7 +74,7 @@ class Landing extends Component<LandingProps, LandingState> {
                         <div id="#pricing" className={classes.pricing} />
                         <div id="#contact" className={classes.contact} /> */}
                 {/* <div id="newsletter-section" /> */}
-                <div id="next"
+                <div id="next" />
                 <PricingSection />
                 <NewsletterSection />
                 <Footer />
