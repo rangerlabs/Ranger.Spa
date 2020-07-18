@@ -48,7 +48,6 @@ const GetStartedForFree = function (props: PricingProps) {
                     START FOR FREE TODAY
                 </Button>
             </Grid>
-            <Footer />
         </React.Fragment>
     );
 };
