@@ -106,7 +106,7 @@ export default function Footer() {
                                     {footer.description.map((item) => (
                                         <li key={item.name}>
                                             <Link onClick={item.onClick} variant="subtitle1" color="textSecondary">
-                                                {item}
+                                                {item.name}
                                             </Link>
                                         </li>
                                     ))}
