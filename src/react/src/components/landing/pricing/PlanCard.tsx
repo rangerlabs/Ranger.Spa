@@ -104,7 +104,7 @@ export default function PlanCard(props: PlanCardProps) {
                 </Grid>
                 <Grid container justify="space-between">
                     <Grid>
-                        <Typography variant="body2">User Accounts</Typography>
+                        <Typography variant="body2">Accounts</Typography>
                     </Grid>
                     <Grid>
                         <Typography variant="body2">{props.limitDetails.accounts ? numberWithCommas(props.limitDetails.accounts) : '∞'}</Typography>

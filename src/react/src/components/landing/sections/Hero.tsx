@@ -1,21 +1,5 @@
 import * as React from 'react';
-import {
-    Theme,
-    createStyles,
-    WithStyles,
-    withStyles,
-    Grid,
-    Typography,
-    Button,
-    Slide,
-    Paper,
-    Box,
-    IconButton,
-    Container,
-    useMediaQuery,
-    useTheme,
-    makeStyles,
-} from '@material-ui/core';
+import { Theme, createStyles, Grid, Typography, Button, Paper, IconButton, useMediaQuery, useTheme, makeStyles } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import CreateGeofence from '../../../../assets/create-geofence.gif';

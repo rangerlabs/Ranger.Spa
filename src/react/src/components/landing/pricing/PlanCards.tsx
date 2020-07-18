@@ -9,7 +9,7 @@ export default function PlanCards() {
             <Grid item xs={11} sm={8} md={5} lg={3}>
                 <PlanCard
                     planName="Sandbox"
-                    message="Perfect for getting a feel and testing your integrations"
+                    message="Perfect for getting a feel and testing integrations"
                     limitDetails={Plans.filter((p) => p.name === 'Sandbox')[0].limitDetails}
                     cost="FREE"
                 />
@@ -17,7 +17,7 @@ export default function PlanCards() {
             <Grid item xs={11} sm={8} md={5} lg={3}>
                 <PlanCard
                     planName="Startup"
-                    message="When you're ready to start scaling and adding integrations"
+                    message="When you're ready to grow and adding integrations"
                     limitDetails={Plans.filter((p) => p.name === 'Startup')[0].limitDetails}
                     cost="$49 / Month"
                 />
@@ -25,7 +25,7 @@ export default function PlanCards() {
             <Grid item xs={11} sm={8} md={5} lg={3}>
                 <PlanCard
                     planName="Pro"
-                    message="Extend your reach with 5,000 geofences and 5 integrations"
+                    message="Extend your reach with 5,000 geofences"
                     limitDetails={Plans.filter((p) => p.name === 'Pro')[0].limitDetails}
                     cost="$99 / Month"
                 />

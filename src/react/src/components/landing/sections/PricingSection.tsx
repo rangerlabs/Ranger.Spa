@@ -4,12 +4,13 @@ import PlanCards from '../pricing/PlanCards';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        padding: {
+        layout: {
+            backgroundColor: theme.palette.primary.main,
             paddingTop: theme.spacing(8),
             paddingBottom: theme.spacing(8),
         },
         typography: {
-            color: theme.palette.primary.main,
+            color: theme.palette.common.white,
         },
     })
 );
@@ -19,7 +20,7 @@ interface PricingSectionProps {}
 const PricingSection = function (props: PricingSectionProps) {
     const classes = useStyles(props);
     return (
-        <div className={classes.padding}>
+        <div className={classes.layout}>
             <Grid container direction="column" alignItems="center" spacing={5}>
                 <Grid container item justify="center">
                     <Grid item xs={12}>

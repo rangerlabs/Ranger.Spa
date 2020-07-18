@@ -7,7 +7,6 @@ import { ApplicationState } from '../../../stores';
 import ISubscriptionLimitDetails from '../../../models/app/ISubscriptionLimitDetails';
 import RoutePaths from '../../RoutePaths';
 import { getUnixTime } from 'date-fns';
-import { ILimitDetails } from '../../../models/app/ILimitDetails';
 import { capitalCase } from 'change-case';
 import GlobalConfig from '../../../helpers/GlobalConfig';
 import { Link } from 'react-router-dom';
@@ -83,16 +82,11 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                     resolve(hostedPage);
                 });
             },
-            success(hostedPageId: string) {
-                console.log(hostedPageId);
-            },
+            success(hostedPageId: string) {},
             close: () => {
                 this.setState({ loading: false });
-                console.log('checkout new closed');
             },
-            step(step: string) {
-                console.log('checkout', step);
-            },
+            step(step: string) {},
         });
         event.preventDefault();
     }
@@ -118,9 +112,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
         );
         let cbPortal = this.state.cbInstance.createChargebeePortal();
         cbPortal.open({
-            close() {
-                //close callbacks
-            },
+            close() {},
         });
     }
 
@@ -141,7 +133,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 isCurrentPlan={this.isCurrentPlan('sandbox')}
                                 planId="sandbox"
                                 planName="Sandbox"
-                                message="Perfect for getting a feel and testing your integrations"
+                                message="Perfect for getting a feel and testing integrations"
                                 limitDetails={Plans.filter((p) => p.name === 'Sandbox')[0].limitDetails}
                                 cost="FREE"
                                 onUpgrade={this.upgrade.bind(this)}
@@ -153,7 +145,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 isCurrentPlan={this.isCurrentPlan('startup')}
                                 planId="startup"
                                 planName="Startup"
-                                message="When you're ready to start growing your geofence collection"
+                                message="When you're ready to grow and adding integrations"
                                 limitDetails={Plans.filter((p) => p.name === 'Startup')[0].limitDetails}
                                 cost="$49 / Month"
                                 onUpgrade={this.upgrade.bind(this)}
@@ -165,7 +157,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 isCurrentPlan={this.isCurrentPlan('pro')}
                                 planId="pro"
                                 planName="Pro"
-                                message="Extend your reach with 5,000 geofences and 3 integrations"
+                                message="Extend your reach with 5,000 geofences"
                                 limitDetails={Plans.filter((p) => p.name === 'Pro')[0].limitDetails}
                                 cost="$99 / Month"
                                 onUpgrade={this.upgrade.bind(this)}
