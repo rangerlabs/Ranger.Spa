@@ -109,7 +109,7 @@ const Footer = function (props: FooterProps) {
                                 <ul>
                                     {footer.description.map((item) => (
                                         <li key={item.name}>
-                                            <Link onClick={() => push(item.url)} variant="subtitle1" color="textSecondary">
+                                            <Link component="button" onClick={() => props.push(item.url)} variant="subtitle1" color="textSecondary">
                                                 {item.name}
                                             </Link>
                                         </li>
