@@ -2,14 +2,14 @@ import GettingStarted from './GettingStarted';
 import ProjectsAndRolesDoc from './ProjectsAndRolesDoc';
 import IDocComponent from './IDocComponent';
 import GeofencesDoc from './GeofencesDoc';
-import IntegrationsDoc from './IntegrationsDocs/IntegrationsDoc';
+import IntegrationsDoc, { IntegrationsDocOutline } from './IntegrationsDocs/IntegrationsDoc';
 import BreadcrumbsDoc from './BreadcrumbsDoc';
 import DocRoutePaths from './DocRoutePaths';
 
 export const DocComponents: IDocComponent[] = [
-    { path: DocRoutePaths.GettingStarted, component: GettingStarted },
-    { path: DocRoutePaths.ProjectsAndRoles, component: ProjectsAndRolesDoc },
-    { path: DocRoutePaths.Geofences, component: GeofencesDoc },
-    { path: DocRoutePaths.Integrations, component: IntegrationsDoc },
-    { path: DocRoutePaths.Breadcrumbs, component: BreadcrumbsDoc },
+    { name: 'Getting Started', path: DocRoutePaths.GettingStarted, component: GettingStarted, outline: IntegrationsDocOutline },
+    { name: 'Projects and Roles', path: DocRoutePaths.ProjectsAndRoles, component: ProjectsAndRolesDoc, outline: IntegrationsDocOutline },
+    { name: 'Geofences', path: DocRoutePaths.Geofences, component: GeofencesDoc, outline: IntegrationsDocOutline },
+    { name: 'Integrations', path: DocRoutePaths.Integrations, component: IntegrationsDoc, outline: IntegrationsDocOutline },
+    { name: 'Breadcrumbs', path: DocRoutePaths.Breadcrumbs, component: BreadcrumbsDoc, outline: IntegrationsDocOutline },
 ];

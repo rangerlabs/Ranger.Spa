@@ -5,6 +5,7 @@ import Block from './Block';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import SectionHeader from './SectionHeader';
 import { scrollToLandingId } from '../../../../helpers/Helpers';
+import { OutlineElement } from './OutlineElement';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -27,26 +28,15 @@ interface OutlineElementProps {
     elements: OutlineElement[];
 }
 
-interface OutlineElement {
-    name: string;
-    id: string;
-    subElements?: OutlineElement[];
-}
-
 function getElement(element: OutlineElement, props: OutlineElementProps, inset?: boolean) {
     const classes = useStyles(props);
     return (
         <React.Fragment>
             <ListItem className={inset ? classes.inset : ''}>
-                <ListItemIcon classes={{ root: classes.listItem }}>
-                    <Box fontSize=".65rem">
-                        <RadioButtonUncheckedIcon fontSize="inherit" />
-                    </Box>
-                </ListItemIcon>
                 <ListItemText
                     disableTypography
                     primary={
-                        <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
+                        <Link component="button" variant={inset ? 'body1' : 'subtitle1'} onClick={() => scrollToLandingId(element.id)}>
                             {element.name}
                         </Link>
                     }

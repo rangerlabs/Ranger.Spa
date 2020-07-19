@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Typography, Badge } from '@material-ui/core';
+import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Typography, Badge, Box } from '@material-ui/core';
 import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { DocComponents } from './DocComponents';
@@ -11,6 +11,7 @@ import RoutePaths from '../../RoutePaths';
 import classNames from 'classnames';
 import ScrollTop from '../ScrollTop';
 import Footer from '../footer/Footer';
+import Outline from './docComponents/Outline';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -20,12 +21,12 @@ const styles = (theme: Theme) =>
                 flexShrink: 0,
             },
         },
-        smHide: {
+        mdDownHide: {
             [theme.breakpoints.down(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 display: 'none',
             },
         },
-        mdHide: {
+        mdUpHide: {
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 display: 'none',
             },
@@ -86,23 +87,10 @@ interface DocumentationProps extends WithStyles<typeof styles> {
     push: typeof push;
 }
 
-interface DocumentationState {
-    currentSelection: string;
-    mobileSectionName: string;
-    mobileOpen: boolean;
-    atPageTop: boolean;
-}
-
 function Docs(props: DocumentationProps): JSX.Element {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [atPageTop, setAtPageTop] = useState(true);
-    const [currentSelection, setCurrentSelection] = useState('');
-    const [mobileSectionName, setMobileSectionName] = useState('Getting Started');
     let match = useRouteMatch();
-
-    const handleMenuToggle = function (name: string) {
-        setCurrentSelection(currentSelection === name ? '' : name);
-    };
 
     const openMobileDrawer = function () {
         setMobileOpen(true);
@@ -116,7 +104,8 @@ function Docs(props: DocumentationProps): JSX.Element {
 
     const { classes, theme } = props;
     const docComponents = DocComponents;
-    const { component: Doc } = docComponents.find((d) => d.path === (match.params as any).name) ?? docComponents.find((d) => d.path === 'getting-started');
+    const { component: Doc, name: Name, outline: DocOutline } =
+        docComponents.find((d) => d.path === (match.params as any).name) ?? docComponents.find((d) => d.path === 'getting-started');
 
     const drawerContent = (
         <List>
@@ -205,7 +194,7 @@ function Docs(props: DocumentationProps): JSX.Element {
         <React.Fragment>
             <nav className={classes.drawer}>
                 <Drawer
-                    className={classes.mdHide}
+                    className={classes.mdUpHide}
                     classes={{
                         paper: classes.drawerPaper,
                     }}
@@ -223,7 +212,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                     classes={{
                         paper: classNames(classes.drawerPaper, classes.boxShadow),
                     }}
-                    className={classes.smHide}
+                    className={classes.mdDownHide}
                     anchor={'left'}
                     variant="permanent"
                     open
@@ -232,9 +221,9 @@ function Docs(props: DocumentationProps): JSX.Element {
                     {drawerContent}
                 </Drawer>
             </nav>
-            <div className={classNames(classes.mdHide, classes.sticky)} onClick={openMobileDrawer}>
+            <div className={classNames(classes.mdUpHide, classes.sticky)} onClick={openMobileDrawer}>
                 <Typography style={{ lineHeight: '2.75' }} align="center" variant="subtitle1">
-                    {mobileSectionName}
+                    {Name}
                     <ExpandMore className={classes.iconAlign} />
                 </Typography>
             </div>
@@ -243,9 +232,26 @@ function Docs(props: DocumentationProps): JSX.Element {
                     <Observer onChange={handleScrollTop}>
                         <div />
                     </Observer>
+                    <Box className={classes.mdUpHide}>
+                        <Outline elements={DocOutline} />
+                    </Box>
                     <Doc />
                 </div>
             </div>
+            <nav className={classes.drawer}>
+                <Drawer
+                    classes={{
+                        paper: classNames(classes.drawerPaper, classes.boxShadow),
+                    }}
+                    className={classes.mdDownHide}
+                    anchor={'right'}
+                    variant="permanent"
+                    open
+                >
+                    <div className={classes.toolbar} />
+                    <Outline elements={DocOutline} />
+                </Drawer>
+            </nav>
             <ScrollTop
                 visible={!atPageTop}
                 onClick={() => {

@@ -7,7 +7,7 @@ import Header from '../docComponents/Header';
 import Webhooks from './integrations/Webhooks';
 import ComingSoon from './integrations/ComingSoon';
 
-const outline = [
+export const IntegrationsDocOutline = [
     { name: 'Webhooks', id: 'webhook-section' },
     { name: 'Coming Soon', id: 'coming-soon' },
 ];
@@ -23,7 +23,6 @@ const IntegrationsDoc = function () {
                     particular service, send a recommendation to <MailLink href="mailto:info@rangerlabs.io">info@rangerlabs.io</MailLink>.
                 </Paragraph>
             </Block>
-            <Outline elements={outline} />
             <Webhooks />
             <ComingSoon />
         </React.Fragment>
