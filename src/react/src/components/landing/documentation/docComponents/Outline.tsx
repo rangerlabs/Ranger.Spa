@@ -15,8 +15,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 paddingTop: theme.spacing(0),
                 paddingLeft: theme.spacing(0),
                 paddingRight: theme.spacing(4),
-                minWidth: '200px',
-                maxWidth: '200px',
             },
             paddingTop: theme.spacing(0),
             paddingLeft: theme.spacing(4),
@@ -71,7 +69,7 @@ function getElement(classes: ReturnType<typeof useStyles>, element: OutlineEleme
 export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
     const classes = useStyles(props);
     const theme = useTheme();
-    const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)));
+    const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2));
     return (
         <React.Fragment>
             {isMdUp ? (

@@ -35,9 +35,10 @@ const styles = (theme: Theme) =>
         drawerPaper: {
             border: 'none',
             height: 'auto',
-            backgroundColor: 'transparent',
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
                 zIndex: theme.zIndex.appBar - 1,
+                width: Constants.DRAWER.LANDING.WIDTH,
+                Maxwidth: Constants.DRAWER.LANDING.WIDTH,
             },
             zIndex: 'inherit',
         },
