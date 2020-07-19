@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingLeft: theme.spacing(4),
             paddingRight: theme.spacing(4),
             paddingBottom: theme.spacing(4),
-            textOverflow: 'wrap',
         },
         listItem: {
             root: {
@@ -75,11 +74,9 @@ export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
             {isMdUp ? (
                 <React.Fragment>
                     <div className={classes.toolbar} />
-                    <Bold>
-                        <Typography className={classes.mdUpOutline} gutterBottom variant="subtitle1">
-                            Outline
-                        </Typography>
-                    </Bold>
+                    <Typography style={{ fontWeight: 700 }} className={classes.mdUpOutline} gutterBottom variant="subtitle1">
+                        Outline
+                    </Typography>
                 </React.Fragment>
             ) : (
                 <SectionHeader id="outline-section" text="Outline" />
