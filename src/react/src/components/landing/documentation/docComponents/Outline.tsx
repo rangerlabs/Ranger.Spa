@@ -1,11 +1,9 @@
 import { PropsWithChildren } from 'react';
 import { Theme, createStyles, makeStyles, List, ListItem, ListItemText, Link, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import React from 'react';
-import Block from './Block';
 import SectionHeader from './SectionHeader';
 import { scrollToLandingId } from '../../../../helpers/Helpers';
 import { OutlineElement } from './OutlineElement';
-import Bold from '../TextEnhancers/Bold';
 import Constants from '../../../../theme/Constants';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -68,19 +66,10 @@ function getElement(classes: ReturnType<typeof useStyles>, element: OutlineEleme
 export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
     const classes = useStyles(props);
     const theme = useTheme();
-    const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2));
+    const isMdDown = useMediaQuery(theme.breakpoints.down(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2));
     return (
         <React.Fragment>
-            {isMdUp ? (
-                <React.Fragment>
-                    <div className={classes.toolbar} />
-                    <Typography className={classes.mdUpOutline} gutterBottom variant="subtitle1">
-                        Outline
-                    </Typography>
-                </React.Fragment>
-            ) : (
-                <SectionHeader id="outline-section" text="Outline" />
-            )}
+            {isMdDown && <SectionHeader id="outline-section" text="Outline" />}
             <List dense className={classes.list}>
                 {props.elements.map((e) => getElement(classes, e, props))}
             </List>
