@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { Theme, createStyles, makeStyles, Paper, List, ListItem, ListItemText, Link, Typography, useMediaQuery, useTheme } from '@material-ui/core';
+import { Theme, createStyles, makeStyles, List, ListItem, ListItemText, Link, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import React from 'react';
 import Block from './Block';
 import SectionHeader from './SectionHeader';

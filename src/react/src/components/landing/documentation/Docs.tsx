@@ -57,7 +57,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 width: Constants.DRAWER.LANDING.WIDTH,
                 Maxwidth: Constants.DRAWER.LANDING.WIDTH,
             },
-            zIndex: 'inherit',
         },
         nested: {
             paddingLeft: theme.spacing(4),
@@ -92,6 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
             background: 'white',
             position: 'sticky',
             top: '64px',
+            zIndex: theme.zIndex.appBar - 1,
         },
         li: {
             paddingLeft: '32px',
