@@ -12,22 +12,23 @@ import classNames from 'classnames';
 import ScrollTop from '../ScrollTop';
 import Footer from '../footer/Footer';
 import Outline from './docComponents/Outline';
+import Constants from '../../../theme/Constants';
 
 const styles = (theme: Theme) =>
     createStyles({
         drawer: {
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
                 width: theme.drawer.width,
                 flexShrink: 0,
             },
         },
         mdDownHide: {
-            [theme.breakpoints.down(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
+            [theme.breakpoints.down(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
                 display: 'none',
             },
         },
         mdUpHide: {
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
                 display: 'none',
             },
         },
@@ -35,7 +36,7 @@ const styles = (theme: Theme) =>
             border: 'none',
             height: 'auto',
             backgroundColor: 'transparent',
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
                 zIndex: theme.zIndex.appBar - 1,
             },
             zIndex: 'inherit',
@@ -62,7 +63,7 @@ const styles = (theme: Theme) =>
             marginRight: theme.spacing(1),
             marginTop: theme.spacing(3),
             marginBottom: theme.spacing(3),
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
                 width: 800,
                 marginLeft: 'auto',
                 marginRight: 'auto',

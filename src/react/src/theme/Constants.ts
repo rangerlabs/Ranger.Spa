@@ -12,6 +12,11 @@ const Constants = {
     HEIGHT: {
         TOOLBAR: 48,
     },
+    DRAWER: {
+        LANDING: {
+            WIDTH: 200,
+        },
+    },
     MAP_MAIN_STYLE: [
         {
             featureType: 'administrative',

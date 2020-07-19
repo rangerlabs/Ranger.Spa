@@ -6,11 +6,12 @@ import SectionHeader from './SectionHeader';
 import { scrollToLandingId } from '../../../../helpers/Helpers';
 import { OutlineElement } from './OutlineElement';
 import Bold from '../TextEnhancers/Bold';
+import Constants from '../../../../theme/Constants';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         list: {
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
                 paddingTop: theme.spacing(0),
                 paddingLeft: theme.spacing(0),
                 paddingRight: theme.spacing(4),
@@ -70,7 +71,7 @@ function getElement(classes: ReturnType<typeof useStyles>, element: OutlineEleme
 export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
     const classes = useStyles(props);
     const theme = useTheme();
-    const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number)));
+    const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)));
     return (
         <React.Fragment>
             {isMdUp ? (
