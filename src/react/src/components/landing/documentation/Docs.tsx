@@ -34,10 +34,11 @@ const styles = (theme: Theme) =>
         drawerPaper: {
             border: 'none',
             height: 'auto',
-            backgroundColor: '#fafafa',
+            backgroundColor: 'transparent',
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 zIndex: theme.zIndex.appBar - 1,
             },
+            zIndex: 'inherit',
         },
         nested: {
             paddingLeft: theme.spacing(4),
@@ -231,10 +232,8 @@ function Docs(props: DocumentationProps): JSX.Element {
                     <Observer onChange={handleScrollTop}>
                         <div />
                     </Observer>
-                    <Box className={classes.mdUpHide}>
-                        <Outline elements={DocOutline} />
-                    </Box>
-                    <Doc />
+                    <Box className={classes.mdUpHide}></Box>
+                    <Doc outline={<Outline elements={DocOutline} />} />
                 </div>
             </div>
             <nav className={classes.drawer}>

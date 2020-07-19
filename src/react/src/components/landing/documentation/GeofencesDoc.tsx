@@ -11,7 +11,8 @@ export const GeofencesDocOutline = [
     },
 ] as OutlineElement[];
 
-const ProjectsDoc = function () {
+const ProjectsDoc = function (props: IDocProps) {
+    const { outline: OutlineElement } = props;
     return (
         <React.Fragment>
             <Header id="geofences-section" text="Geofences" />
@@ -20,7 +21,8 @@ const ProjectsDoc = function () {
                     Breadcrumbs power your geofences. We will be expanding this section to document how your devices can send Breadcrumbs to Ranger's API to
                     compute geofence intersections and execute their configured Integrations.
                 </Paragraph>
-            </Block>{' '}
+            </Block>
+            <OutlineElement />
         </React.Fragment>
     );
 };

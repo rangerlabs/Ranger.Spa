@@ -11,7 +11,8 @@ export const BreadcrumbsDocOutline = [
     },
 ] as OutlineElement[];
 
-const BreadcrumbsDoc = function () {
+const BreadcrumbsDoc = function (props: IDocProps) {
+    const { outline: OutlineElement } = props;
     return (
         <React.Fragment>
             <Header id="breadcrumbs-section" text="Breadcrumbs" />
@@ -21,6 +22,7 @@ const BreadcrumbsDoc = function () {
                     compute Geofence intersections and execute their configured Integrations.
                 </Paragraph>
             </Block>
+            <OutlineElement />
         </React.Fragment>
     );
 };

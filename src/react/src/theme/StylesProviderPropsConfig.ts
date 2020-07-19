@@ -5,6 +5,6 @@ export const jss = create({
     plugins: [...jssPreset().plugins],
 });
 export const generateClassName = createGenerateClassName({
-    productionPrefix: 'ranger',
+    productionPrefix: 'rngr',
     disableGlobal: true,
 });

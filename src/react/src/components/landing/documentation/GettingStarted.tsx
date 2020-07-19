@@ -30,7 +30,8 @@ export const GettingStartedDocOutline = [
     },
 ] as OutlineElement[];
 
-const GettingStarted = function () {
+const GettingStarted = function (props: IDocProps) {
+    const { outline: OutlineElement } = props;
     return (
         <React.Fragment>
             <Header id="getting-started-section" text="Getting Started" />
@@ -41,8 +42,8 @@ const GettingStarted = function () {
                 </Paragraph>
                 <Paragraph>This section provides a brief overview of the Ranger platform.</Paragraph>
             </Block>
+            <OutlineElement />
             <SectionHeader id="unrivaled-geofencing-section" text="Unrivaled Geofencing" />
-
             <Block>
                 <Paragraph>Ranger's easy-to-use interface allows you to quickly vizualize, create, edit, and test geofences all from the same UI.</Paragraph>
             </Block>

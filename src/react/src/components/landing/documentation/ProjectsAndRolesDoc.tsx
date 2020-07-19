@@ -34,7 +34,6 @@ export const ProjectsAndRolesDocOutline = [
 ] as OutlineElement[];
 
 interface ProjectsAndRolesDocProps {}
-
 function ApiKeyDescriptions(props: ProjectsAndRolesDocProps) {
     const classes = useStyles(props);
     return (
@@ -122,7 +121,8 @@ function Roles() {
     );
 }
 
-const ProjectsDoc = function (props: ProjectsAndRolesDocProps) {
+const ProjectsDoc = function (props: IDocProps) {
+    const { outline: OutlineElement } = props;
     return (
         <React.Fragment>
             <Header id="projects-and-roles-section" text="Projects and Roles" />
@@ -132,6 +132,7 @@ const ProjectsDoc = function (props: ProjectsAndRolesDocProps) {
                     a mobile app, customer, or organizational unit.
                 </Paragraph>
             </Block>
+            <OutlineElement />
             <SectionHeader id="projects-section" text="Projects" />
             <Block>
                 <Paragraph>

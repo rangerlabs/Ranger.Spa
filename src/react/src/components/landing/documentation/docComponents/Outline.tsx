@@ -12,13 +12,16 @@ const useStyles = makeStyles((theme: Theme) =>
         list: {
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 paddingTop: theme.spacing(0),
-                paddingLeft: theme.spacing(2),
-                paddingRight: theme.spacing(2),
+                paddingLeft: theme.spacing(0),
+                paddingRight: theme.spacing(4),
+                minWidth: '200px',
+                maxWidth: '200px',
             },
             paddingTop: theme.spacing(0),
             paddingLeft: theme.spacing(4),
             paddingRight: theme.spacing(4),
             paddingBottom: theme.spacing(4),
+            textOverflow: 'wrap',
         },
         listItem: {
             root: {
@@ -28,6 +31,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         inset: {
             paddingLeft: theme.spacing(4),
+        },
+        mdUpOutline: {
+            paddingLeft: theme.spacing(2),
         },
         toolbar: theme.mixins.toolbar,
     })
@@ -66,24 +72,22 @@ export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
     const theme = useTheme();
     const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number)));
     return (
-        <Block>
-            <Block>
-                {isMdUp ? (
-                    <React.Fragment>
-                        <div className={classes.toolbar} />
-                        <Bold>
-                            <Typography gutterBottom variant="subtitle1">
-                                Outline
-                            </Typography>
-                        </Bold>
-                    </React.Fragment>
-                ) : (
-                    <SectionHeader id="outline-section" text="Outline" />
-                )}
-            </Block>
+        <React.Fragment>
+            {isMdUp ? (
+                <React.Fragment>
+                    <div className={classes.toolbar} />
+                    <Bold>
+                        <Typography className={classes.mdUpOutline} gutterBottom variant="subtitle1">
+                            Outline
+                        </Typography>
+                    </Bold>
+                </React.Fragment>
+            ) : (
+                <SectionHeader id="outline-section" text="Outline" />
+            )}
             <List dense className={classes.list}>
                 {props.elements.map((e) => getElement(classes, e, props))}
             </List>
-        </Block>
+        </React.Fragment>
     );
 }

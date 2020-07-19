@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link as MailLink } from '@material-ui/core';
-import Outline from '../docComponents/Outline';
 import Block from '../docComponents/Block';
 import Paragraph from '../docComponents/Paragraph';
 import Header from '../docComponents/Header';
@@ -19,7 +18,8 @@ export const IntegrationsDocOutline = [
     },
 ] as OutlineElement[];
 
-const IntegrationsDoc = function () {
+const IntegrationsDoc = function (props: IDocProps) {
+    const { outline: OutlineElement } = props;
     return (
         <React.Fragment>
             <Header id="integrations-section" text="Integrations" />
@@ -30,6 +30,7 @@ const IntegrationsDoc = function () {
                     particular service, send a recommendation to <MailLink href="mailto:info@rangerlabs.io">info@rangerlabs.io</MailLink>.
                 </Paragraph>
             </Block>
+            <OutlineElement />
             <Webhooks />
             <ComingSoon />
         </React.Fragment>
