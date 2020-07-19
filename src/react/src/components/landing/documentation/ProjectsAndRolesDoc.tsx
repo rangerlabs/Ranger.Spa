@@ -142,7 +142,7 @@ const ProjectsDoc = function (props: IDocProps) {
             </Block>
             <Block>
                 <Paragraph>
-                    Once the Project is created you will be presented with three API keys. <Bold>Store these API keys securely. They cannot be recovered.</Bold>
+                    Once the Project is created you will be presented with three API keys. <Bold>Store these API keys securely. They cannot be recovered.</Bold>{' '}
                     API keys can only be re-generated.
                 </Paragraph>
             </Block>

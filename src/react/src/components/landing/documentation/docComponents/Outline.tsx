@@ -54,7 +54,7 @@ function getElement(classes: ReturnType<typeof useStyles>, element: OutlineEleme
                             </Link>
                         ) : (
                             <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
-                                <Bold>{element.name}</Bold>
+                                {element.name}
                             </Link>
                         )
                     }
@@ -74,7 +74,7 @@ export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
             {isMdUp ? (
                 <React.Fragment>
                     <div className={classes.toolbar} />
-                    <Typography style={{ fontWeight: 700 }} className={classes.mdUpOutline} gutterBottom variant="subtitle1">
+                    <Typography className={classes.mdUpOutline} gutterBottom variant="subtitle1">
                         Outline
                     </Typography>
                 </React.Fragment>
