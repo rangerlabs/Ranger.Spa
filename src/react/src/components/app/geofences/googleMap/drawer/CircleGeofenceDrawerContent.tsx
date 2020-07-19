@@ -288,7 +288,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                               '',
                               [],
                               true,
-                              true,
+                              false,
                               true,
                               true,
                               '',

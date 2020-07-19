@@ -6,16 +6,23 @@ import Paragraph from '../docComponents/Paragraph';
 import Header from '../docComponents/Header';
 import Webhooks from './integrations/Webhooks';
 import ComingSoon from './integrations/ComingSoon';
+import { OutlineElement } from '../docComponents/OutlineElement';
 
 export const IntegrationsDocOutline = [
-    { name: 'Webhooks', id: 'webhook-section' },
-    { name: 'Coming Soon', id: 'coming-soon' },
-];
+    {
+        name: 'Integrations',
+        id: 'integrations-section',
+        subElements: [
+            { name: 'Webhooks', id: 'webhook-section' },
+            { name: 'Coming Soon', id: 'coming-soon' },
+        ],
+    },
+] as OutlineElement[];
 
 const IntegrationsDoc = function () {
     return (
         <React.Fragment>
-            <Header text="Integrations" />
+            <Header id="integrations-section" text="Integrations" />
             <Block>
                 <Paragraph>
                     Integrations enable Ranger to communicate to the systems your organiation and services depend on. Ranger's platform was built to be extended

@@ -9,11 +9,31 @@ import Paragraph from './docComponents/Paragraph';
 import SectionHeader from './docComponents/SectionHeader';
 import Image from './docComponents/Image';
 import { Link } from 'react-router-dom';
+import { OutlineElement } from './docComponents/OutlineElement';
+
+export const GettingStartedDocOutline = [
+    {
+        name: 'Getting Started',
+        id: 'getting-started-section',
+    },
+    {
+        name: 'Unrivaled Geofencing',
+        id: 'unrivaled-geofencing-section',
+    },
+    {
+        name: 'Flexible Integrations',
+        id: 'flexible-integrations-section',
+    },
+    {
+        name: 'Secure Projects',
+        id: 'secure-projects-section',
+    },
+] as OutlineElement[];
 
 const GettingStarted = function () {
     return (
         <React.Fragment>
-            <Header text="Getting Started" />
+            <Header id="getting-started-section" text="Getting Started" />
             <Block>
                 <Paragraph>
                     Ranger provides hosted APIs for boundless geofencing services. Our growing list of location-centric APIs and Integrations will enable you to
@@ -21,7 +41,7 @@ const GettingStarted = function () {
                 </Paragraph>
                 <Paragraph>This section provides a brief overview of the Ranger platform.</Paragraph>
             </Block>
-            <SectionHeader text="Unrivaled Geofencing" />
+            <SectionHeader id="unrivaled-geofencing-section" text="Unrivaled Geofencing" />
 
             <Block>
                 <Paragraph>Ranger's easy-to-use interface allows you to quickly vizualize, create, edit, and test geofences all from the same UI.</Paragraph>
@@ -40,7 +60,7 @@ const GettingStarted = function () {
                 </Paragraph>
             </Block>
 
-            <SectionHeader text="Flexible Integrations" />
+            <SectionHeader id="flexible-integrations-section" text="Flexible Integrations" />
             <Block>
                 <Paragraph>
                     Ranger was built to be extended. Ranger currently offers Webhook integrations, but more are in the works and will be coming online shortly.
@@ -56,7 +76,7 @@ const GettingStarted = function () {
                     <Link to={RoutePaths.Docs.replace(':name?', 'integrations')}>Integration</Link> documentation.
                 </Paragraph>
             </Block>
-            <SectionHeader text="Secure Projects" />
+            <SectionHeader id="secure-projects-section" text="Secure Projects" />
             <Block>
                 <Paragraph>
                     Group Geofences and the Integrations they can execute into Projects. Depending on your use case, Projects could be scoped to a mobile app,

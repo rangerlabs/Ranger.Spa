@@ -288,7 +288,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                               '',
                               [],
                               true,
-                              true,
+                              false,
                               true,
                               true,
                               '',

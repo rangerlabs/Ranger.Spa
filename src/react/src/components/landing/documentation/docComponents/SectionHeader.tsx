@@ -4,7 +4,7 @@ import React from 'react';
 import Block from './Block';
 
 interface SectionHeaderProps {
-    id?: string;
+    id: string;
     text: string;
 }
 

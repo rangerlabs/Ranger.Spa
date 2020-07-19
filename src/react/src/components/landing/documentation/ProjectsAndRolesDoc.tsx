@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, createStyles, Theme, Box, List, ListItem, ListItemText, Grid, makeStyles } from '@material-ui/core';
+import { Typography, createStyles, Theme, List, ListItem, ListItemText, Grid, makeStyles } from '@material-ui/core';
 import NewApiKeys from '../../../../assets/new-api-keys.png';
 import NewUser from '../../../../assets/new-user.png';
 import Header from './docComponents/Header';
@@ -8,6 +8,7 @@ import Paragraph from './docComponents/Paragraph';
 import SectionHeader from './docComponents/SectionHeader';
 import Image from './docComponents/Image';
 import Bold from './TextEnhancers/Bold';
+import { OutlineElement } from './docComponents/OutlineElement';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -16,6 +17,21 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     })
 );
+
+export const ProjectsAndRolesDocOutline = [
+    {
+        name: 'Projects And Roles',
+        id: 'projects-and-roles-section',
+    },
+    {
+        name: 'Projects',
+        id: 'projects-section',
+    },
+    {
+        name: 'Roles',
+        id: 'roles-section',
+    },
+] as OutlineElement[];
 
 interface ProjectsAndRolesDocProps {}
 
@@ -109,14 +125,14 @@ function Roles() {
 const ProjectsDoc = function (props: ProjectsAndRolesDocProps) {
     return (
         <React.Fragment>
-            <Header text="Projects and Roles" />
+            <Header id="projects-and-roles-section" text="Projects and Roles" />
             <Block>
                 <Paragraph>
                     Projects enable your organization to effectively organize geofences and integrations. Depending on your use case, Projects may be scoped to
                     a mobile app, customer, or organizational unit.
                 </Paragraph>
             </Block>
-            <SectionHeader text="Projects" />
+            <SectionHeader id="projects-section" text="Projects" />
             <Block>
                 <Paragraph>
                     Creating a Project will be the first suggested action in Ranger. Doing so allows access to the Integrations and Geofences sections of the
@@ -137,7 +153,7 @@ const ProjectsDoc = function (props: ProjectsAndRolesDocProps) {
             <Block>
                 <Paragraph>Resetting an API key immediately revokes the previous key - do so with caution.</Paragraph>
             </Block>
-            <SectionHeader text="Roles" />
+            <SectionHeader id="roles-section" text="Roles" />
             <Block>
                 <Paragraph>
                     There are 4 distinct user Roles within Ranger. What Role a user is given may depend on how frequently your organization's resources need

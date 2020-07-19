@@ -1,26 +1,35 @@
 import { PropsWithChildren } from 'react';
-import { Theme, createStyles, makeStyles, Paper, List, ListItem, ListItemIcon, Box, ListItemText, Link } from '@material-ui/core';
+import { Theme, createStyles, makeStyles, Paper, List, ListItem, ListItemText, Link, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import React from 'react';
 import Block from './Block';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import SectionHeader from './SectionHeader';
 import { scrollToLandingId } from '../../../../helpers/Helpers';
 import { OutlineElement } from './OutlineElement';
+import Bold from '../TextEnhancers/Bold';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         list: {
+            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
+                paddingTop: theme.spacing(0),
+                paddingLeft: theme.spacing(4),
+                paddingRight: theme.spacing(4),
+                paddingBottom: theme.spacing(4),
+            },
             paddingTop: theme.spacing(0),
-            paddingLeft: theme.spacing(4),
-            paddingRight: theme.spacing(4),
-            paddingBottom: theme.spacing(4),
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2),
         },
         listItem: {
+            root: {
+                margin: 0,
+            },
             minWidth: theme.spacing(2),
         },
         inset: {
             paddingLeft: theme.spacing(4),
         },
+        toolbar: {},
     })
 );
 
@@ -36,9 +45,17 @@ function getElement(element: OutlineElement, props: OutlineElementProps, inset?:
                 <ListItemText
                     disableTypography
                     primary={
-                        <Link component="button" variant={inset ? 'body1' : 'subtitle1'} onClick={() => scrollToLandingId(element.id)}>
-                            {element.name}
-                        </Link>
+                        inset ? (
+                            <Bold>
+                                <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
+                                    {element.name}
+                                </Link>
+                            </Bold>
+                        ) : (
+                            <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
+                                {element.name}
+                            </Link>
+                        )
                     }
                 />
             </ListItem>
@@ -49,10 +66,18 @@ function getElement(element: OutlineElement, props: OutlineElementProps, inset?:
 
 export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
     const classes = useStyles(props);
+    const theme = useTheme();
+    const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number)));
     return (
         <Block>
             <Block>
-                <SectionHeader text="Outline" />
+                {isMdUp ? (
+                    <SectionHeader id="outline-section" text="Outline" />
+                ) : (
+                    <Bold>
+                        <Typography gutterBottom variant="subtitle1"></Typography>Outline
+                    </Bold>
+                )}
             </Block>
             <List dense className={classes.list}>
                 {props.elements.map((e) => getElement(e, props))}

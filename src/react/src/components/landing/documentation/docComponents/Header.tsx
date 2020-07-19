@@ -5,12 +5,13 @@ import Block from './Block';
 
 interface HeaderProps {
     text: string;
+    id: string;
 }
 
 export default function Header(props: PropsWithChildren<HeaderProps>) {
     return (
         <Block>
-            <Typography gutterBottom variant="h4">
+            <Typography id={props.id} gutterBottom variant="h4">
                 {props.text}
             </Typography>
         </Block>
