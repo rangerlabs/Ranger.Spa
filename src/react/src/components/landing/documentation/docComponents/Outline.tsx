@@ -66,10 +66,10 @@ function getElement(classes: ReturnType<typeof useStyles>, element: OutlineEleme
 export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
     const classes = useStyles(props);
     const theme = useTheme();
-    const isMdDown = useMediaQuery(theme.breakpoints.down(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2));
+    const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2));
     return (
         <React.Fragment>
-            {isMdDown && <SectionHeader id="outline-section" text="Outline" />}
+            {isMdUp ? <div className={classes.toolbar} /> : <SectionHeader id="outline-section" text="Outline" />}
             <List dense className={classes.list}>
                 {props.elements.map((e) => getElement(classes, e, props))}
             </List>
