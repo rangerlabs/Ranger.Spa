@@ -12,13 +12,13 @@ const useStyles = makeStyles((theme: Theme) =>
         list: {
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + (theme.drawer.width as number))]: {
                 paddingTop: theme.spacing(0),
-                paddingLeft: theme.spacing(4),
-                paddingRight: theme.spacing(4),
-                paddingBottom: theme.spacing(4),
+                paddingLeft: theme.spacing(2),
+                paddingRight: theme.spacing(2),
             },
             paddingTop: theme.spacing(0),
-            paddingLeft: theme.spacing(2),
-            paddingRight: theme.spacing(2),
+            paddingLeft: theme.spacing(4),
+            paddingRight: theme.spacing(4),
+            paddingBottom: theme.spacing(4),
         },
         listItem: {
             root: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
         inset: {
             paddingLeft: theme.spacing(4),
         },
-        toolbar: {},
+        toolbar: theme.mixins.toolbar,
     })
 );
 
@@ -37,8 +37,7 @@ interface OutlineElementProps {
     elements: OutlineElement[];
 }
 
-function getElement(element: OutlineElement, props: OutlineElementProps, inset?: boolean) {
-    const classes = useStyles(props);
+function getElement(classes: ReturnType<typeof useStyles>, element: OutlineElement, props: OutlineElementProps, inset?: boolean) {
     return (
         <React.Fragment>
             <ListItem className={inset ? classes.inset : ''}>
@@ -46,11 +45,9 @@ function getElement(element: OutlineElement, props: OutlineElementProps, inset?:
                     disableTypography
                     primary={
                         inset ? (
-                            <Bold>
-                                <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
-                                    {element.name}
-                                </Link>
-                            </Bold>
+                            <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
+                                <Bold>{element.name}</Bold>
+                            </Link>
                         ) : (
                             <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
                                 {element.name}
@@ -59,7 +56,7 @@ function getElement(element: OutlineElement, props: OutlineElementProps, inset?:
                     }
                 />
             </ListItem>
-            {element.subElements && element.subElements.map((subElement) => getElement(subElement, props, true))}
+            {element.subElements && element.subElements.map((subElement) => getElement(classes, subElement, props, true))}
         </React.Fragment>
     );
 }
@@ -72,15 +69,20 @@ export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
         <Block>
             <Block>
                 {isMdUp ? (
-                    <SectionHeader id="outline-section" text="Outline" />
+                    <React.Fragment>
+                        <div className={classes.toolbar} />
+                        <Bold>
+                            <Typography gutterBottom variant="subtitle1">
+                                Outline
+                            </Typography>
+                        </Bold>
+                    </React.Fragment>
                 ) : (
-                    <Bold>
-                        <Typography gutterBottom variant="subtitle1"></Typography>Outline
-                    </Bold>
+                    <SectionHeader id="outline-section" text="Outline" />
                 )}
             </Block>
             <List dense className={classes.list}>
-                {props.elements.map((e) => getElement(e, props))}
+                {props.elements.map((e) => getElement(classes, e, props))}
             </List>
         </Block>
     );
