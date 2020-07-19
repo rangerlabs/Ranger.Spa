@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
         drawerPaper: {
             border: 'none',
             height: 'auto',
+            backgroundColor: '#fafafa',
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
                 zIndex: theme.zIndex.appBar - 1,
                 width: Constants.DRAWER.LANDING.WIDTH,
@@ -253,7 +254,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                         <div />
                     </Observer>
                     <Box className={classes.mdUpHide}></Box>
-                    <Doc showOutline={isMdUp} />
+                    <Doc showOutline={!isMdUp} />
                 </div>
             </div>
             <nav className={classes.drawer}>
@@ -267,7 +268,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                     open
                 >
                     <div className={classes.toolbar} />
-                    {!isMdUp && <Outline elements={DocOutline} />}
+                    <Outline elements={DocOutline} />
                 </Drawer>
             </nav>
             <ScrollTop
