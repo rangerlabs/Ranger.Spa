@@ -10,6 +10,7 @@ import SectionHeader from './docComponents/SectionHeader';
 import Image from './docComponents/Image';
 import { Link } from 'react-router-dom';
 import { OutlineElement } from './docComponents/OutlineElement';
+import Outline from './docComponents/Outline';
 
 export const GettingStartedDocOutline = [
     {
@@ -31,7 +32,6 @@ export const GettingStartedDocOutline = [
 ] as OutlineElement[];
 
 const GettingStarted = function (props: IDocProps) {
-    const { outline: OutlineElement } = props;
     return (
         <React.Fragment>
             <Header id="getting-started-section" text="Getting Started" />
@@ -42,7 +42,7 @@ const GettingStarted = function (props: IDocProps) {
                 </Paragraph>
                 <Paragraph>This section provides a brief overview of the Ranger platform.</Paragraph>
             </Block>
-            <OutlineElement />
+            {props.showOutline && <Outline elements={GettingStartedDocOutline} />}
             <SectionHeader id="unrivaled-geofencing-section" text="Unrivaled Geofencing" />
             <Block>
                 <Paragraph>Ranger's easy-to-use interface allows you to quickly vizualize, create, edit, and test geofences all from the same UI.</Paragraph>

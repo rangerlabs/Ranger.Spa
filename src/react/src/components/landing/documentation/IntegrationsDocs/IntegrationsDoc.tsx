@@ -6,6 +6,7 @@ import Header from '../docComponents/Header';
 import Webhooks from './integrations/Webhooks';
 import ComingSoon from './integrations/ComingSoon';
 import { OutlineElement } from '../docComponents/OutlineElement';
+import Outline from '../docComponents/Outline';
 
 export const IntegrationsDocOutline = [
     {
@@ -19,7 +20,6 @@ export const IntegrationsDocOutline = [
 ] as OutlineElement[];
 
 const IntegrationsDoc = function (props: IDocProps) {
-    const { outline: OutlineElement } = props;
     return (
         <React.Fragment>
             <Header id="integrations-section" text="Integrations" />
@@ -30,7 +30,7 @@ const IntegrationsDoc = function (props: IDocProps) {
                     particular service, send a recommendation to <MailLink href="mailto:info@rangerlabs.io">info@rangerlabs.io</MailLink>.
                 </Paragraph>
             </Block>
-            <OutlineElement />
+            {props.showOutline && <Outline elements={IntegrationsDocOutline} />}
             <Webhooks />
             <ComingSoon />
         </React.Fragment>

@@ -51,11 +51,11 @@ function getElement(classes: ReturnType<typeof useStyles>, element: OutlineEleme
                     primary={
                         inset ? (
                             <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
-                                <Bold>{element.name}</Bold>
+                                {element.name}
                             </Link>
                         ) : (
                             <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
-                                {element.name}
+                                <Bold>{element.name}</Bold>
                             </Link>
                         )
                     }

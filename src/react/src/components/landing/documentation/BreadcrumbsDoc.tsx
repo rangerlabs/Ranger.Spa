@@ -3,6 +3,7 @@ import Header from './docComponents/Header';
 import Block from './docComponents/Block';
 import Paragraph from './docComponents/Paragraph';
 import { OutlineElement } from './docComponents/OutlineElement';
+import Outline from './docComponents/Outline';
 
 export const BreadcrumbsDocOutline = [
     {
@@ -12,7 +13,6 @@ export const BreadcrumbsDocOutline = [
 ] as OutlineElement[];
 
 const BreadcrumbsDoc = function (props: IDocProps) {
-    const { outline: OutlineElement } = props;
     return (
         <React.Fragment>
             <Header id="breadcrumbs-section" text="Breadcrumbs" />
@@ -22,7 +22,7 @@ const BreadcrumbsDoc = function (props: IDocProps) {
                     compute Geofence intersections and execute their configured Integrations.
                 </Paragraph>
             </Block>
-            <OutlineElement />
+            {props.showOutline && <Outline elements={BreadcrumbsDocOutline} />}
         </React.Fragment>
     );
 };

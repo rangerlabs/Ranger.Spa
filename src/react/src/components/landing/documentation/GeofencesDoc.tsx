@@ -3,6 +3,7 @@ import Header from './docComponents/Header';
 import Block from './docComponents/Block';
 import Paragraph from './docComponents/Paragraph';
 import { OutlineElement } from './docComponents/OutlineElement';
+import Outline from './docComponents/Outline';
 
 export const GeofencesDocOutline = [
     {
@@ -12,7 +13,6 @@ export const GeofencesDocOutline = [
 ] as OutlineElement[];
 
 const ProjectsDoc = function (props: IDocProps) {
-    const { outline: OutlineElement } = props;
     return (
         <React.Fragment>
             <Header id="geofences-section" text="Geofences" />
@@ -22,7 +22,7 @@ const ProjectsDoc = function (props: IDocProps) {
                     compute geofence intersections and execute their configured Integrations.
                 </Paragraph>
             </Block>
-            <OutlineElement />
+            {props.showOutline && <Outline elements={GeofencesDocOutline} />}
         </React.Fragment>
     );
 };

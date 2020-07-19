@@ -1,3 +1,3 @@
 interface IDocProps {
-    outline: any;
+    showOutline: boolean;
 }

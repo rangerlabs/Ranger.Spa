@@ -1,5 +1,21 @@
 import * as React from 'react';
-import { Theme, WithStyles, Hidden, Drawer, createStyles, withStyles, List, ListItem, ListItemText, Typography, Badge, Box } from '@material-ui/core';
+import {
+    Theme,
+    WithStyles,
+    Hidden,
+    Drawer,
+    createStyles,
+    withStyles,
+    List,
+    ListItem,
+    ListItemText,
+    Typography,
+    Badge,
+    Box,
+    makeStyles,
+    useTheme,
+    useMediaQuery,
+} from '@material-ui/core';
 import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { DocComponents } from './DocComponents';
@@ -14,7 +30,7 @@ import Footer from '../footer/Footer';
 import Outline from './docComponents/Outline';
 import Constants from '../../../theme/Constants';
 
-const styles = (theme: Theme) =>
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         drawer: {
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
@@ -82,16 +98,19 @@ const styles = (theme: Theme) =>
         boxShadow: {
             boxShadow: 'none',
         },
-    });
+    })
+);
 
-interface DocumentationProps extends WithStyles<typeof styles> {
-    theme: Theme;
+interface DocumentationProps {
     push: typeof push;
 }
 
 function Docs(props: DocumentationProps): JSX.Element {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [atPageTop, setAtPageTop] = useState(true);
+    const classes = useStyles();
+    const theme = useTheme();
+    const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2));
     let match = useRouteMatch();
 
     const openMobileDrawer = function () {
@@ -104,7 +123,6 @@ function Docs(props: DocumentationProps): JSX.Element {
         setAtPageTop(inView);
     };
 
-    const { classes, theme } = props;
     const docComponents = DocComponents;
     const { component: Doc, name: Name, outline: DocOutline } =
         docComponents.find((d) => d.path === (match.params as any).name) ?? docComponents.find((d) => d.path === 'getting-started');
@@ -235,7 +253,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                         <div />
                     </Observer>
                     <Box className={classes.mdUpHide}></Box>
-                    <Doc outline={<Outline elements={DocOutline} />} />
+                    <Doc showOutline={isMdUp} />
                 </div>
             </div>
             <nav className={classes.drawer}>
@@ -249,7 +267,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                     open
                 >
                     <div className={classes.toolbar} />
-                    <Outline elements={DocOutline} />
+                    {!isMdUp && <Outline elements={DocOutline} />}
                 </Drawer>
             </nav>
             <ScrollTop
@@ -263,4 +281,4 @@ function Docs(props: DocumentationProps): JSX.Element {
     );
 }
 
-export default connect(null, { push })(withStyles(styles, { withTheme: true })(Docs));
+export default connect(null, { push })(Docs);

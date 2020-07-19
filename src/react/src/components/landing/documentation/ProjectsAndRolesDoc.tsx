@@ -9,6 +9,7 @@ import SectionHeader from './docComponents/SectionHeader';
 import Image from './docComponents/Image';
 import Bold from './TextEnhancers/Bold';
 import { OutlineElement } from './docComponents/OutlineElement';
+import Outline from './docComponents/Outline';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -122,7 +123,6 @@ function Roles() {
 }
 
 const ProjectsDoc = function (props: IDocProps) {
-    const { outline: OutlineElement } = props;
     return (
         <React.Fragment>
             <Header id="projects-and-roles-section" text="Projects and Roles" />
@@ -132,7 +132,7 @@ const ProjectsDoc = function (props: IDocProps) {
                     a mobile app, customer, or organizational unit.
                 </Paragraph>
             </Block>
-            <OutlineElement />
+            {props.showOutline && <Outline elements={ProjectsAndRolesDocOutline} />}
             <SectionHeader id="projects-section" text="Projects" />
             <Block>
                 <Paragraph>
