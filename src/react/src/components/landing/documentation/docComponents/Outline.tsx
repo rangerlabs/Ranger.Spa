@@ -72,11 +72,12 @@ export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
     return (
         <React.Fragment>
             {isMdUp ? (
-                <div className={classes.toolbar}>
+                <React.Fragment>
+                    <div className={classes.toolbar} />
                     <List dense className={classes.list}>
                         {props.elements.map((e) => getElement(classes, e, props))}
                     </List>
-                </div>
+                </React.Fragment>
             ) : (
                 <Section id="outline-section" text="Outline">
                     <List dense className={classes.list}>
