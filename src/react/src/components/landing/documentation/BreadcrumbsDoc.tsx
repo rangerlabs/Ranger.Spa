@@ -1,9 +1,8 @@
 import React from 'react';
-import Header from './docComponents/Header';
-import Block from './docComponents/Block';
 import Paragraph from './docComponents/Paragraph';
 import { OutlineElement } from './docComponents/OutlineElement';
 import Outline from './docComponents/Outline';
+import Introduction from './docComponents/Introduction';
 
 export const BreadcrumbsDocOutline = [
     {
@@ -15,13 +14,12 @@ export const BreadcrumbsDocOutline = [
 const BreadcrumbsDoc = function (props: IDocProps) {
     return (
         <React.Fragment>
-            <Header id="breadcrumbs-section" text="Breadcrumbs" />
-            <Block>
+            <Introduction id="breadcrumbs-section" text="Breadcrumbs">
                 <Paragraph>
                     Breadcrumbs power your Geofences. We will be expanding this section to document how your devices can send Breadcrumbs to Ranger's API to
                     compute Geofence intersections and execute their configured Integrations.
                 </Paragraph>
-            </Block>
+            </Introduction>
             {props.showOutline && <Outline elements={BreadcrumbsDocOutline} />}
         </React.Fragment>
     );

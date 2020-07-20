@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link as MailLink } from '@material-ui/core';
-import Block from '../docComponents/Block';
 import Paragraph from '../docComponents/Paragraph';
-import Header from '../docComponents/Header';
 import Webhooks from './integrations/Webhooks';
 import ComingSoon from './integrations/ComingSoon';
 import { OutlineElement } from '../docComponents/OutlineElement';
 import Outline from '../docComponents/Outline';
+import Introduction from '../docComponents/Introduction';
 
 export const IntegrationsDocOutline = [
     {
@@ -22,14 +21,13 @@ export const IntegrationsDocOutline = [
 const IntegrationsDoc = function (props: IDocProps) {
     return (
         <React.Fragment>
-            <Header id="integrations-section" text="Integrations" />
-            <Block>
+            <Introduction id="integrations-section" text="Integrations">
                 <Paragraph>
                     Integrations enable Ranger to communicate to the systems your organiation and services depend on. Ranger's platform was built to be extended
                     and more integrations will come as our team learns our customer's needs. If you would like to request that Ranger integrate with a
                     particular service, send a recommendation to <MailLink href="mailto:info@rangerlabs.io">info@rangerlabs.io</MailLink>.
                 </Paragraph>
-            </Block>
+            </Introduction>
             {props.showOutline && <Outline elements={IntegrationsDocOutline} />}
             <Webhooks />
             <ComingSoon />

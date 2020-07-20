@@ -1,10 +1,9 @@
 import React from 'react';
-import Header from './docComponents/Header';
-import Block from './docComponents/Block';
 import Paragraph from './docComponents/Paragraph';
 import { OutlineElement } from './docComponents/OutlineElement';
 import Outline from './docComponents/Outline';
-import SectionHeader from './docComponents/SectionHeader';
+import Section from './docComponents/Section';
+import Introduction from './docComponents/Introduction';
 
 export const GeofencesDocOutline = [
     {
@@ -42,25 +41,19 @@ export const GeofencesDocOutline = [
 const ProjectsDoc = function (props: IDocProps) {
     return (
         <React.Fragment>
-            <Header id="geofences-section" text="Geofences" />
-            <Block>
+            <Introduction id="geofences-section" text="Geofences">
                 <Paragraph>
                     Geofences make location data actionable. Using Geofences you can sift through the noise of in-actionable location data and reach your
                     customers when the moment counts. Using Ranger's Integrations you can seemlessly integrate Geofence events into your existing platforms.
                 </Paragraph>
-            </Block>
-            <Block>
                 <Paragraph>
                     Ranger supports Geofences of any size and in nearly any configuration including Circular Geofences, Polygon Geofences, and Geofences which
                     overlap with one another. The easy to use Geofencing UI allows you to vizualize, create, and edit all of your Geofences in a single view.
                 </Paragraph>
-            </Block>
-            <Block>
                 <Paragraph>Customers will soon be able to perform CRUD operations on Geofences using their Project API key.</Paragraph>
-            </Block>
+            </Introduction>
             {props.showOutline && <Outline elements={GeofencesDocOutline} />}
-            <SectionHeader text="Interface" id="interface-section" />
-            <Block>
+            <Section text="Interface" id="interface-section">
                 <Paragraph>
                     To get started creating Geofences, select the Map option from the main navigation. You can quickly navigate to the location of where the
                     Geofence must be placed by using the search bar. Once you have arrived at the location of the geofence, hover over the Speed Dial icon to
@@ -81,19 +74,16 @@ const ProjectsDoc = function (props: IDocProps) {
                     Once the Geofence covers the intended area, click Save to open the Geofence Configuration drawer. Note that while configuring the Geofence,
                     it may still be modified or dragged to its desired location.
                 </Paragraph>
-            </Block>
-            <SectionHeader text="Events" id="events-section" />
-            <Block>
+            </Section>
+            <Section text="Events" id="events-section">
                 <Paragraph></Paragraph>
-            </Block>
-            <SectionHeader text="Integrations" id="events-section" />
-            <Block>
+            </Section>
+            <Section text="Integrations" id="events-section">
                 <Paragraph></Paragraph>
-            </Block>
-            <SectionHeader text="Schedules" id="schedules-section" />
-            <Block>
+            </Section>
+            <Section text="Schedules" id="schedules-section">
                 <Paragraph></Paragraph>
-            </Block>
+            </Section>
         </React.Fragment>
     );
 };

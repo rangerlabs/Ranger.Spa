@@ -2,14 +2,13 @@ import React from 'react';
 import { Typography, createStyles, Theme, List, ListItem, ListItemText, Grid, makeStyles } from '@material-ui/core';
 import NewApiKeys from '../../../../assets/new-api-keys.png';
 import NewUser from '../../../../assets/new-user.png';
-import Header from './docComponents/Header';
-import Block from './docComponents/Block';
 import Paragraph from './docComponents/Paragraph';
-import SectionHeader from './docComponents/SectionHeader';
+import Section from './docComponents/Section';
 import Image from './docComponents/Image';
 import Bold from './TextEnhancers/Bold';
 import { OutlineElement } from './docComponents/OutlineElement';
 import Outline from './docComponents/Outline';
+import Introduction from './docComponents/Introduction';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -127,53 +126,40 @@ function Roles() {
 const ProjectsDoc = function (props: IDocProps) {
     return (
         <React.Fragment>
-            <Header id="projects-and-roles-section" text="Projects and Roles" />
-            <Block>
+            <Introduction id="projects-and-roles-section" text="Projects and Roles">
                 <Paragraph>
                     Projects enable your organization to effectively organize geofences and integrations. Depending on your use case, Projects may be scoped to
                     a mobile app, customer, or organizational unit.
                 </Paragraph>
-            </Block>
+            </Introduction>
             {props.showOutline && <Outline elements={ProjectsAndRolesDocOutline} />}
-            <SectionHeader id="projects-section" text="Projects" />
-            <Block>
+            <Section id="projects-section" text="Projects">
                 <Paragraph>
                     Creating a Project will be the first suggested action in Ranger. Doing so allows access to the Integrations and Geofences sections of the
                     platform. Select a unique name and an optional description for the Project.
                 </Paragraph>
-            </Block>
-            <Block>
                 <Paragraph>
                     Once the Project is created you will be presented with three API keys. <Bold>Store these API keys securely. They cannot be recovered.</Bold>{' '}
                     API keys can only be re-generated.
                 </Paragraph>
-            </Block>
-            <Image src={NewApiKeys} alt="New Api Keys" />
-            <Block>
+                <Image src={NewApiKeys} alt="New Api Keys" />
                 <Paragraph>These API keys serve distinct purposes:</Paragraph>
                 <ApiKeyDescriptions />
-            </Block>
-            <Block>
                 <Paragraph>Resetting an API key immediately revokes the previous key - do so with caution.</Paragraph>
-            </Block>
-            <SectionHeader id="roles-section" text="Roles" />
-            <Block>
+            </Section>
+            <Section id="roles-section" text="Roles">
                 <Paragraph>
                     There are 4 distinct user Roles within Ranger. What Role a user is given may depend on how frequently your organization's resources need
                     updated or their role in your organization.
                 </Paragraph>
                 <Paragraph>Below lists the four roles and their access to Ranger's APIs:</Paragraph>
-            </Block>
-            <Block>
                 <Roles />
-            </Block>
-            <Block>
                 <Paragraph>
                     The User Role is only able to perform operations on resources that are contained within the Projects they have been assigned to.
                 </Paragraph>
                 <Paragraph>Projects can be assigned using the 'Authorized Projects' multiselect dropdown when creating or editing users.</Paragraph>
-            </Block>
-            <Image src={NewUser} alt="New User" />
+                <Image src={NewUser} alt="New User" />
+            </Section>
         </React.Fragment>
     );
 };

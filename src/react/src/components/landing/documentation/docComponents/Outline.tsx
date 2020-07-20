@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { Theme, createStyles, makeStyles, List, ListItem, ListItemText, Link, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import React from 'react';
-import SectionHeader from './SectionHeader';
+import Section from './Section';
 import { scrollToLandingId } from '../../../../helpers/Helpers';
 import { OutlineElement } from './OutlineElement';
 import Constants from '../../../../theme/Constants';
@@ -69,10 +69,19 @@ export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
     const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2));
     return (
         <React.Fragment>
-            {isMdUp ? <div className={classes.toolbar} /> : <SectionHeader id="outline-section" text="Outline" />}
-            <List dense className={classes.list}>
-                {props.elements.map((e) => getElement(classes, e, props))}
-            </List>
+            {isMdUp ? (
+                <div className={classes.toolbar}>
+                    <List dense className={classes.list}>
+                        {props.elements.map((e) => getElement(classes, e, props))}
+                    </List>
+                </div>
+            ) : (
+                <Section id="outline-section" text="Outline">
+                    <List dense className={classes.list}>
+                        {props.elements.map((e) => getElement(classes, e, props))}
+                    </List>
+                </Section>
+            )}
         </React.Fragment>
     );
 }
