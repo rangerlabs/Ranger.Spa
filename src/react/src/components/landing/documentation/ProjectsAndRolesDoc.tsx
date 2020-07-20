@@ -9,6 +9,7 @@ import Bold from './TextEnhancers/Bold';
 import { OutlineElement } from './docComponents/OutlineElement';
 import Outline from './docComponents/Outline';
 import Introduction from './docComponents/Introduction';
+import DescriptiveList, { Description } from './docComponents/DescriptiveList';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -35,32 +36,23 @@ export const ProjectsAndRolesDocOutline = [
     },
 ] as OutlineElement[];
 
-interface ProjectsAndRolesDocProps {}
-function ApiKeyDescriptions(props: ProjectsAndRolesDocProps) {
-    const classes = useStyles(props);
-    return (
-        <List className={classes.list}>
-            <ListItem>
-                <ListItemText
-                    primary="Live API key"
-                    secondary="The Live API key is intended to be deployed into a production environment and will execute all Integrations whose environent is set to LIVE."
-                />
-            </ListItem>
-            <ListItem>
-                <ListItemText
-                    primary="Test API key"
-                    secondary="The Test API key is intended to be deployed to any non-production environment and will execute all Integrations whose environent is set to TEST."
-                />
-            </ListItem>
-            <ListItem>
-                <ListItemText
-                    primary="Project API key"
-                    secondary="The Project API key provides the ability to programatically manage a subset of resources within a Project. For example, this key can be used for CRUD operations on Geofence resources."
-                />
-            </ListItem>
-        </List>
-    );
-}
+const apiKeyDescriptions = [
+    {
+        title: 'Live API key',
+        description:
+            'The Live API key is intended to be deployed into a production environment and will execute all Integrations whose environent is set to LIVE.',
+    },
+    {
+        title: 'Test API key',
+        description:
+            'The Test API key is intended to be deployed to any non-production environment and will execute all Integrations whose environent is set to TEST.',
+    },
+    {
+        title: 'Project API key',
+        description:
+            'The Project API key provides the ability to programatically manage a subset of resources within a Project. For example, this key can be used for CRUD operations on Geofence resources.',
+    },
+] as Description[];
 
 function Roles() {
     return (
@@ -144,7 +136,7 @@ const ProjectsDoc = function (props: IDocProps) {
                 </Paragraph>
                 <Image src={NewApiKeys} alt="New Api Keys" />
                 <Paragraph>These API keys serve distinct purposes:</Paragraph>
-                <ApiKeyDescriptions />
+                <DescriptiveList descriptions={apiKeyDescriptions} />
                 <Paragraph>Resetting an API key immediately revokes the previous key - do so with caution.</Paragraph>
             </Section>
             <Section id="roles-section" text="Roles">

@@ -126,6 +126,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
         }
 
         saveIntegration = (formikBag: FormikBag<FormikProps<MergedIntegrationType>, MergedIntegrationType>, integration: MergedIntegrationType) => {
+            integration.version = 0;
             integrationService.postIntegration(this.props.selectedProject.name, integration).then((v) => {
                 if (!v.isError) {
                     this.setState({ isSuccess: true });
@@ -169,8 +170,6 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                 }
             });
         };
-
-        // isPendingCreation = this.state.editIntegration?.correlationModel?.status === StatusEnum.PENDING && !this.state.editIntegration?.id;
 
         render() {
             return (

@@ -7,6 +7,8 @@ import Image from './docComponents/Image';
 import Introduction from './docComponents/Introduction';
 import SpeedDial from '../../../../assets/speed-dial.png';
 import NewGeofence from '../../../../assets/new-geofence.png';
+import Bold from './TextEnhancers/Bold';
+import DescriptiveList, { Description } from './docComponents/DescriptiveList';
 
 export const GeofencesDocOutline = [
     {
@@ -40,6 +42,21 @@ export const GeofencesDocOutline = [
         ],
     },
 ] as OutlineElement[];
+
+const EventDescriptions = [
+    {
+        title: 'Entered',
+        description: 'Send events when a user enters this geofence',
+    },
+    {
+        title: 'Dwelling',
+        description: 'Send events when a user has entered and is continuing to dwell within this geofence.',
+    },
+    {
+        title: 'Exited',
+        description: 'Send events when a user has entered and then exits this geofence.',
+    },
+] as Description[];
 
 const ProjectsDoc = function (props: IDocProps) {
     return (
@@ -80,13 +97,21 @@ const ProjectsDoc = function (props: IDocProps) {
                 </Paragraph>
                 <Image src={NewGeofence} alt="Geofence Configuration Drawer" />
                 <Paragraph>
-                    Once in the Geofence Configuration Drawer the Geofence can be given a unique ExternalID that can be used to identify the Geofence by your
-                    system. An optional Description may also be provided. Geofences can temporarily be disabled by toggling the Enabled/Disabled checkbox. The
-                    following sections describe Geofence Configuration in greater detail.
+                    Once in the Geofence Configuration Drawer the Geofence can be given a unique <Bold>ExternalId</Bold> that can be used to identify the
+                    Geofence by your system. An optional <Bold>Description</Bold> may also be provided. Geofences can temporarily be disabled by toggling the
+                    Enabled/Disabled checkbox. The following sections describe Geofence Configuration in greater detail.
                 </Paragraph>
             </Section>
             <Section text="Events" id="events-section">
-                <Paragraph></Paragraph>
+                <Paragraph>
+                    You can toggle which events you want to trigger your configured Integrations. By default, Ranger recommends triggering your configured
+                    Integrations when your users <Bold>Enter</Bold> and <Bold>Exit</Bold> the Geofence being configured. You may also choose to receive events
+                    when users <Bold>Dwell</Bold> within a Geofence. Be aware, depending on the size of your geofences and your user's behavior, choosing to be
+                    alerted while users <Bold>Dwell</Bold> may dramatically increase the amount of events that trigger your Integrations. Be especially cautious
+                    when automating based on <Bold>Dwell</Bold> events.
+                </Paragraph>
+                <Paragraph>The following describes the events:</Paragraph>
+                <DescriptiveList descriptions={EventDescriptions} />
             </Section>
             <Section text="Integrations" id="events-section">
                 <Paragraph></Paragraph>

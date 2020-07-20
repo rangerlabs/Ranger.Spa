@@ -40,7 +40,7 @@ export function addIntegration(integration: MergedIntegrationType): IntegrationA
     };
 }
 
-export function updateIntegrationStatusByCorrelationId(correlationModel: CorrelationModel) {
+export function updateIntegrationByCorrelationId(correlationModel: CorrelationModel) {
     return {
         type: UPDATE_INTEGRATION_BY_CORRELATION_ID,
         integration: { correlationModel: correlationModel } as MergedIntegrationType,

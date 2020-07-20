@@ -5,7 +5,7 @@ import { StatusEnum } from '../../../models/StatusEnum';
 import {
     undoPendingUpdateIntegrationByCorrelationId,
     removePendingUpdateIntegrationById,
-    updateIntegrationStatusByCorrelationId,
+    updateIntegrationByCorrelationId,
 } from '../../../redux/actions/IntegrationActions';
 
 export default function IntegrationUpdateHandler(data: PusherNotificationModel): void {
@@ -30,7 +30,7 @@ export default function IntegrationUpdateHandler(data: PusherNotificationModel):
                     variant: 'success',
                 },
             } as SnackbarNotification;
-            const updateIntegrationByCorrelationIdAction = updateIntegrationStatusByCorrelationId({
+            const updateIntegrationByCorrelationIdAction = updateIntegrationByCorrelationId({
                 correlationId: data.correlationId,
                 status: data.status,
                 resourceId: data.resourceId,

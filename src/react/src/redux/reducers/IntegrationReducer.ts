@@ -27,7 +27,7 @@ export function integrationReducer(
             return Object.assign({}, state, { integrations: state.integrations.concat(action.integration) });
         }
         case UPDATE_INTEGRATION_BY_CORRELATION_ID: {
-            var integrationIndex = state.integrations.findIndex(g => g.correlationModel?.correlationId === action.integration.correlationModel.correlationId);
+            var integrationIndex = state.integrations.findIndex((g) => g.correlationModel?.correlationId === action.integration.correlationModel.correlationId);
             var updatedIntegration = state.integrations[integrationIndex];
             updatedIntegration.correlationModel.status = action.integration.correlationModel.status;
             updatedIntegration.integrationId = action.integration.correlationModel.resourceId;
@@ -37,7 +37,7 @@ export function integrationReducer(
         }
         case UPDATE_INTEGRATION_BY_ID: {
             {
-                const integrationIndex = state.integrations.findIndex(g => g.integrationId == action.integration.integrationId);
+                const integrationIndex = state.integrations.findIndex((g) => g.integrationId == action.integration.integrationId);
                 let newArray = state.integrations.slice();
                 newArray.splice(integrationIndex, 1, action.integration);
                 return Object.assign({}, state, { integrations: newArray });

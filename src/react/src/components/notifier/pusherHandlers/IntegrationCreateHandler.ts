@@ -2,7 +2,7 @@ import PusherNotificationModel from '../../../models/PusherNotificationModel';
 import ReduxStore from '../../../ReduxStore';
 import { SnackbarNotification, enqueueSnackbar } from '../../../redux/actions/SnackbarActions';
 import { StatusEnum } from '../../../models/StatusEnum';
-import { updateIntegrationStatusByCorrelationId, removeIntegrationByCorrelationId } from '../../../redux/actions/IntegrationActions';
+import { updateIntegrationByCorrelationId, removeIntegrationByCorrelationId } from '../../../redux/actions/IntegrationActions';
 
 export default function IntegrationCreateHandler(data: PusherNotificationModel): void {
     const oidcState = ReduxStore.getState().oidc;
@@ -26,7 +26,7 @@ export default function IntegrationCreateHandler(data: PusherNotificationModel):
                     variant: 'success',
                 },
             } as SnackbarNotification;
-            const updateIntegrationByCorrelationIdAction = updateIntegrationStatusByCorrelationId({
+            const updateIntegrationByCorrelationIdAction = updateIntegrationByCorrelationId({
                 correlationId: data.correlationId,
                 status: data.status,
                 resourceId: data.resourceId,
