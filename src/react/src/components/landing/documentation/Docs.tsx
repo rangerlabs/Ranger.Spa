@@ -1,21 +1,5 @@
 import * as React from 'react';
-import {
-    Theme,
-    WithStyles,
-    Hidden,
-    Drawer,
-    createStyles,
-    withStyles,
-    List,
-    ListItem,
-    ListItemText,
-    Typography,
-    Badge,
-    Box,
-    makeStyles,
-    useTheme,
-    useMediaQuery,
-} from '@material-ui/core';
+import { Theme, Drawer, createStyles, List, ListItem, ListItemText, Typography, Badge, Box, makeStyles, useTheme, useMediaQuery } from '@material-ui/core';
 import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { DocComponents } from './DocComponents';
@@ -55,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
                 zIndex: theme.zIndex.appBar - 1,
                 width: Constants.DRAWER.LANDING.WIDTH,
-                Maxwidth: Constants.DRAWER.LANDING.WIDTH,
+                maxWidth: Constants.DRAWER.LANDING.WIDTH,
             },
         },
         nested: {

@@ -3,7 +3,10 @@ import Paragraph from './docComponents/Paragraph';
 import { OutlineElement } from './docComponents/OutlineElement';
 import Outline from './docComponents/Outline';
 import Section from './docComponents/Section';
+import Image from './docComponents/Image';
 import Introduction from './docComponents/Introduction';
+import SpeedDial from '../../../../assets/speed-dial.png';
+import NewGeofence from '../../../../assets/new-geofence.png';
 
 export const GeofencesDocOutline = [
     {
@@ -60,6 +63,7 @@ const ProjectsDoc = function (props: IDocProps) {
                     select the shape of the Geofence. Once a shape has been selected, you will see Cancel and Save options become present. You can cancel the
                     creation of a Geofence at anytime.
                 </Paragraph>
+                <Image src={SpeedDial} alt="Map Speed Dial" />
                 <Paragraph>
                     If you chose to create a Circular Geofence, clicking the map will initialize a new Geofence centered where you clicked. By default, Circular
                     geofences have a radius of 100 meters, but users are encouraged to make Geofences as large as reasonable to account for variations in mobile
@@ -71,8 +75,14 @@ const ProjectsDoc = function (props: IDocProps) {
                     created by dragging the hallow circles along the polygon's edges. Ranger does not support self-intersecting polygons.
                 </Paragraph>
                 <Paragraph>
-                    Once the Geofence covers the intended area, click Save to open the Geofence Configuration drawer. Note that while configuring the Geofence,
+                    Once the Geofence covers the intended area, click Save to open the Geofence Configuration Drawer. Note that while configuring the Geofence,
                     it may still be modified or dragged to its desired location.
+                </Paragraph>
+                <Image src={NewGeofence} alt="Geofence Configuration Drawer" />
+                <Paragraph>
+                    Once in the Geofence Configuration Drawer the Geofence can be given a unique ExternalID that can be used to identify the Geofence by your
+                    system. An optional Description may also be provided. Geofences can temporarily be disabled by toggling the Enabled/Disabled checkbox. The
+                    following sections describe Geofence Configuration in greater detail.
                 </Paragraph>
             </Section>
             <Section text="Events" id="events-section">

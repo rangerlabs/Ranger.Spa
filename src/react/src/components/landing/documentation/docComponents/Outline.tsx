@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
         mdUpOutline: {
             paddingLeft: theme.spacing(2),
         },
-        toolbar: theme.mixins.toolbar,
+        toolbar: theme.mixins.toolbar * 2,
     })
 );
 
