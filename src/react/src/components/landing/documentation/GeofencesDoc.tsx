@@ -113,7 +113,7 @@ const ProjectsDoc = function (props: IDocProps) {
                 <Paragraph>The following describes the events:</Paragraph>
                 <DescriptiveList descriptions={EventDescriptions} />
             </Section>
-            <Section text="Integrations" id="events-section">
+            <Section text="Integrations" id="integrations-section">
                 <Paragraph></Paragraph>
             </Section>
             <Section text="Schedules" id="schedules-section">

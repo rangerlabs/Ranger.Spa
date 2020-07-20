@@ -205,8 +205,9 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         externalId: Yup.string()
             .required('Required')
             .lowercase('Geofence External Ids must be lowercase')
-            .max(140, 'Geofence External Ids must be less than 140 characters'),
-        description: Yup.string().notRequired(),
+            .max(140, 'Geofence External Ids must be less than 140 characters')
+            .strict(true),
+        description: Yup.string().notRequired().max(512, 'Descriptions must be less than 512 characters'),
         metadata: Yup.array().of(
             Yup.object().shape({
                 key: Yup.string().required('Required'),
