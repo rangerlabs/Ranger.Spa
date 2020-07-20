@@ -109,6 +109,7 @@
         "react-inputs-validation": "^4.4.5",
         "react-intersection-observer": "^8.26.2",
         "react-json-view": "^1.19.1",
+        "react-modal-image": "^2.5.0",
         "react-redux": "^7.2.0",
         "react-router": "^5.2.0",
         "react-router-dom": "^5.2.0",

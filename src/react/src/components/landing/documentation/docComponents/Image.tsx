@@ -1,7 +1,7 @@
-import { PropsWithChildren } from 'react';
 import { Theme, createStyles, makeStyles, Paper } from '@material-ui/core';
 import React from 'react';
 import Block from './Block';
+const ModalImage = require('react-modal-image');
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,13 +22,13 @@ interface ImageProps {
     maxWidth?: number;
 }
 
-export default function Image(props: PropsWithChildren<ImageProps>) {
+export default function Image(props: ImageProps) {
     const classes = useStyles(props);
     return (
         <Block>
             <Paper elevation={3} className={classes.paper}>
-                <div className={classes.img}>
-                    <img style={{ maxWidth: props.maxWidth ? `${props.maxWidth}%` : '70%' }} src={props.src} alt={props.alt} />
+                <div className={classes.img} style={{ maxWidth: props.maxWidth ? `${props.maxWidth}%` : '70%' }}>
+                    <ModalImage small={props.src} large={props.src} alt={props.alt} hideDownload hideZoom />;
                 </div>
             </Paper>
         </Block>

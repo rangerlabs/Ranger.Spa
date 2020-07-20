@@ -110,11 +110,11 @@ const ProjectsDoc = function (props: IDocProps) {
                     alerted while users <Bold>Dwell</Bold> may dramatically increase the amount of events that trigger your Integrations. Be especially cautious
                     when automating based on <Bold>Dwell</Bold> events.
                 </Paragraph>
-                <Paragraph>The following describes the events:</Paragraph>
+                <Paragraph>The following describes the events in more detail:</Paragraph>
                 <DescriptiveList descriptions={EventDescriptions} />
             </Section>
             <Section text="Integrations" id="integrations-section">
-                <Paragraph></Paragraph>
+                <Paragraph>Geofences</Paragraph>
             </Section>
             <Section text="Schedules" id="schedules-section">
                 <Paragraph></Paragraph>
