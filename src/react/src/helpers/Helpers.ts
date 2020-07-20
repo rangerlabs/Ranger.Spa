@@ -92,7 +92,7 @@ export function getRole(roles: string | string[]) {
 }
 
 export function scrollToLandingId(id: string) {
-    const headerOffset = -64 * 2;
+    const headerOffset = -64 * 1.5;
     var element = document.getElementById(id);
     const y = element.getBoundingClientRect().top + window.pageYOffset + headerOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });

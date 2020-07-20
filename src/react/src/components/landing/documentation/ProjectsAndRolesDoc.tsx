@@ -23,14 +23,16 @@ export const ProjectsAndRolesDocOutline = [
     {
         name: 'Projects And Roles',
         id: 'projects-and-roles-section',
-    },
-    {
-        name: 'Projects',
-        id: 'projects-section',
-    },
-    {
-        name: 'Roles',
-        id: 'roles-section',
+        subElements: [
+            {
+                name: 'Projects',
+                id: 'projects-section',
+            },
+            {
+                name: 'Roles',
+                id: 'roles-section',
+            },
+        ],
     },
 ] as OutlineElement[];
 
