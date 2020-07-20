@@ -202,8 +202,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={handleBlur}
                                                             fullWidth
-                                                            format="hh:mm:ss"
-                                                            mask="__:__:__ _M"
+                                                            ampm={false}
+                                                            format="HH:mm:ss"
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
@@ -226,8 +226,8 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             keyboardIcon={<ClockOutline />}
                                                             onBlur={handleBlur}
                                                             fullWidth
-                                                            format="hh:mm:ss"
-                                                            mask="__:__:__ _M"
+                                                            ampm={false}
+                                                            format="HH:mm:ss"
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
