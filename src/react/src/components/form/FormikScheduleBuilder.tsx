@@ -203,6 +203,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             onBlur={handleBlur}
                                                             fullWidth
                                                             format="hh:mm:ss"
+                                                            mask="__:__:__ _M"
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
@@ -226,6 +227,7 @@ export default function FormikScheduleBuilder(props: FormikScheduleBuilderProps)
                                                             onBlur={handleBlur}
                                                             fullWidth
                                                             format="hh:mm:ss"
+                                                            mask="__:__:__ _M"
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
