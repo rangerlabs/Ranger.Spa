@@ -104,20 +104,34 @@ const ProjectsDoc = function (props: IDocProps) {
             </Section>
             <Section text="Events" id="events-section">
                 <Paragraph>
-                    You can toggle which events you want to trigger your configured Integrations. By default, Ranger recommends triggering your configured
+                    You can toggle which events you want to execute your configured Integrations. By default, Ranger recommends triggering your configured
                     Integrations when your users <Bold>Enter</Bold> and <Bold>Exit</Bold> the Geofence being configured. You may also choose to receive events
                     when users <Bold>Dwell</Bold> within a Geofence. Be aware, depending on the size of your geofences and your user's behavior, choosing to be
-                    alerted while users <Bold>Dwell</Bold> may dramatically increase the amount of events that trigger your Integrations. Be especially cautious
+                    alerted while users <Bold>Dwell</Bold> may dramatically increase the amount of events that execute your Integrations. Be especially cautious
                     when automating based on <Bold>Dwell</Bold> events.
                 </Paragraph>
                 <Paragraph>The following describes the events in more detail:</Paragraph>
                 <DescriptiveList descriptions={EventDescriptions} />
             </Section>
             <Section text="Integrations" id="integrations-section">
-                <Paragraph>Geofences</Paragraph>
+                <Paragraph>
+                    The ability to configure which Integrations a Geofence's events execute makes Ranger extremely configurable. It enables your organization to
+                    gather metrics or run promotions on only a subset of your Geofences without having to create complex segments. When a user's behavior raises
+                    a Geofence event, only those Integrations selected for that Geofence will be executed. Create Integrations for Analytics, Email or Push
+                    Notifications, Rewards Programs, etc. and mix-and-match as needed.
+                </Paragraph>
             </Section>
             <Section text="Schedules" id="schedules-section">
-                <Paragraph></Paragraph>
+                <Paragraph>
+                    In addition to mix-and-match Integrations, Ranger's unique Geofence scheduling functionality allows unprecedented control over when
+                    Integrations get triggered. By default, Integrations can be executed at all times of the day, but scheduling allows you to only execute
+                    Integrations when you choose. After all, there may not be a need to send that Push Notification if it's after retail hours.
+                </Paragraph>
+                <Paragraph>
+                    Geofences may cross timezone boundaries and as a result it's important to remember to specify a timezone for the Geofence schedule. This
+                    will ensure when Breadcrumbs are received by Ranger, the time that the Breadcrumb was recorded at will be converted to the correct timezone
+                    to determine if it is within the configured schedule.
+                </Paragraph>
             </Section>
         </React.Fragment>
     );
