@@ -30,15 +30,11 @@ export const GeofencesDocOutline = [
             },
             {
                 name: 'Schedules',
-                id: 'schedule-section',
+                id: 'schedules-section',
             },
             {
                 name: 'Metadata',
                 id: 'metadata-section',
-            },
-            {
-                name: 'Test Runs',
-                id: 'test-run-section',
             },
         ],
     },
@@ -135,8 +131,20 @@ const ProjectsDoc = function (props: IDocProps) {
                 </Paragraph>
                 <Image src={GeofenceSchedule} alt="Example Geofence Schedule" />
                 <Paragraph>
-                    The above schedule indicates that Ranger should execute Integrations when events occur between the times of 9:00 AM - 5:00 PM Monday -
-                    Friday and not execute any integrations on Saturday or Sunday.
+                    The above schedule indicates that Ranger should execute Integrations when events occur between the times of 9:00 AM - 5:00 PM, Monday -
+                    Friday, and not execute any Integrations on Saturday or Sunday.
+                </Paragraph>
+            </Section>
+            <Section text="Metadata" id="metadata-section">
+                <Paragraph>
+                    With Geofence metadata you have the ability to provide additional context when a Geofence event gets raised. Using metadata you can create a
+                    common set of key-value pairs across your system to easily understand properties of a Geofence without the need to look them up after the
+                    fact. One example may be that each Geofence across your Project has a <Bold>Venue</Bold> key and appropriate values such as{' '}
+                    <Bold>Restaurant</Bold>, <Bold>Retail</Bold>, or <Bold>Entertainment</Bold>.
+                </Paragraph>
+                <Paragraph>
+                    It is important to stress that, unlike Integration Headers and Metadata, Geofence Metadata should <Bold>NEVER</Bold> be used to store any
+                    identifying information about your users.
                 </Paragraph>
             </Section>
         </React.Fragment>
