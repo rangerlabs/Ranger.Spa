@@ -61,7 +61,7 @@ const ProjectsDoc = function (props: IDocProps) {
             <Introduction id="geofences-section" text="Geofences">
                 <Paragraph>
                     Geofences make location data actionable. Using Geofences you can sift through the noise of in-actionable location data and reach your
-                    customers when the moment counts. Using Ranger's Integrations you can seemlessly integrate Geofence events into your existing platforms.
+                    customers when the moment counts. Ranger's Integrations allow you to seamlessly integrate Geofence events into your existing platforms.
                 </Paragraph>
                 <Paragraph>
                     Ranger supports Geofences of any size and in nearly any configuration including Circular Geofences, Polygon Geofences, and Geofences which

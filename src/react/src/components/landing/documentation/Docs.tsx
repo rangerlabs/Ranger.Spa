@@ -137,17 +137,6 @@ function Docs(props: DocumentationProps): JSX.Element {
                 <ListItemText primary="Projects and Roles" />
             </ListItem>
             <ListItem
-                id="geofences-link"
-                className={classes.li}
-                button
-                onClick={() => {
-                    closeMobileDrawer();
-                    props.push(RoutePaths.Docs.replace(':name?', 'geofences'));
-                }}
-            >
-                <ListItemText primary="Geofences" />
-            </ListItem>
-            <ListItem
                 id="breadcrumbs-link"
                 className={classes.li}
                 button
@@ -157,6 +146,17 @@ function Docs(props: DocumentationProps): JSX.Element {
                 }}
             >
                 <ListItemText primary="Breadcrumbs" />
+            </ListItem>
+            <ListItem
+                id="geofences-link"
+                className={classes.li}
+                button
+                onClick={() => {
+                    closeMobileDrawer();
+                    props.push(RoutePaths.Docs.replace(':name?', 'geofences'));
+                }}
+            >
+                <ListItemText primary="Geofences" />
             </ListItem>
             <ListItem
                 id="integrations-link"
@@ -179,7 +179,7 @@ function Docs(props: DocumentationProps): JSX.Element {
             >
                 <ListItemText primary="API" />
             </ListItem>
-            <ListItem id="sdk-link" className={classes.li} button>
+            {/* <ListItem id="sdk-link" className={classes.li} button>
                 <Badge
                     classes={{ badge: classes.badge }}
                     badgeContent={
@@ -191,7 +191,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 >
                     <ListItemText primary="SDK" />
                 </Badge>
-            </ListItem>
+            </ListItem> */}
         </List>
     );
 
