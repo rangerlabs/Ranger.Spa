@@ -7,6 +7,7 @@ import Image from './docComponents/Image';
 import Introduction from './docComponents/Introduction';
 import SpeedDial from '../../../../assets/speed-dial.png';
 import NewGeofence from '../../../../assets/new-geofence.png';
+import GeofenceSchedule from '../../../../assets/example-schedule.png';
 import Bold from './TextEnhancers/Bold';
 import DescriptiveList, { Description } from './docComponents/DescriptiveList';
 
@@ -131,6 +132,11 @@ const ProjectsDoc = function (props: IDocProps) {
                     Geofences may cross timezone boundaries and as a result it's important to remember to specify a timezone for the Geofence schedule. This
                     will ensure when Breadcrumbs are received by Ranger, the time that the Breadcrumb was recorded at will be converted to the correct timezone
                     to determine if it is within the configured schedule.
+                </Paragraph>
+                <Image src={GeofenceSchedule} alt="Example Geofence Schedule" />
+                <Paragraph>
+                    The above schedule indicates that Ranger should execute Integrations when events occur between the times of 9:00 AM - 5:00 PM Monday -
+                    Friday and not execute any integrations on Saturday or Sunday.
                 </Paragraph>
             </Section>
         </React.Fragment>
