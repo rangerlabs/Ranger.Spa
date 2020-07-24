@@ -9,6 +9,9 @@ import JsonViewer from '../../docComponents/JsonViewer';
 import HttpMethod from '../../TextEnhancers/HttpMethod';
 import Bold from '../../TextEnhancers/Bold';
 import { Link } from 'react-router-dom';
+import RoutePaths from '../../../../RoutePaths';
+import { DocComponents } from '../../DocComponents';
+import DocRoutePaths from '../../DocRoutePaths';
 
 const Webhooks = function () {
     return (
@@ -23,7 +26,8 @@ const Webhooks = function () {
                 consistent within a matter of seconds, decreasing the frequency of each device's Breadcrumb requests can improve Ranger's classification of
                 Breadcrumb events. For example, if two Breadcrumbs are sent almost immediately after one another, it is possible your system receives the{' '}
                 <Bold>DWELLING</Bold> event before the <Bold>ENTERED</Bold> event. Increasing the time between Breadcrumbs reduces the likelihood of this
-                occurring. To learn more about sending Breadcrumbs, view the documentation <Link to="">here</Link>.
+                occurring. To learn more about sending Breadcrumbs, view the documentation{' '}
+                <Link to={RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs}>here</Link>.
             </Paragraph>
             <Image src={NewIntegration} alt="New Integration" maxWidth={60} />
             <Paragraph>

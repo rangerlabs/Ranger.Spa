@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Grid, createStyles, Theme, makeStyles, Typography, Paper, Button, Box } from '@material-ui/core';
 import Footer from '../footer/Footer';
 import NameLogo from '../../../theme/NameLogo';
+import Paragraph from '../documentation/docComponents/Paragraph';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -46,14 +47,15 @@ export default function About(props: AboutProps) {
                         </Box>
                     </Grid>
                 </Grid>
-                <Grid container item xs={11} md={6} justify="center">
-                    <Typography align="center" gutterBottom variant="body1">
-                        Ranger was built on three premises: to be the most extendable, scalable, and consumer driven location platform available. To achieve
-                        this we've built our platform to take advantage of the most bleeding-edge, cloud-native technologies. From our customers to yours, this
-                        ensures reliability and transparency. Reliability that our platform is available to you and your users, and Transparency that what we
-                        say is secure will remain secure. Our committment to the privacy of your end-users is unwaivering.
-                    </Typography>
-                    <Typography gutterBottom variant="body1"></Typography>
+                <Grid container item xs={11} md={6} alignContent="center" justify="center">
+                    <Paragraph>
+                        Ranger was designed to be the most Extendable, Scalable, and Consumer Driven location platform available. To achieve this we've built
+                        our platform to take advantage of the most bleeding-edge, cloud-native technologies.
+                    </Paragraph>
+                    <Paragraph>
+                        Our committment to the privacy of your end-users is unwaivering. Ranger differentiates itself from those who gather location data only
+                        to sell and monetize it. Ranger is committed to the privacy of its users.
+                    </Paragraph>
                 </Grid>
             </Grid>
             <Footer />
