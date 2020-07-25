@@ -204,16 +204,19 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     validationSchema = Yup.object().shape({
         externalId: Yup.string()
             .required('Required')
-            .lowercase('Geofence External Ids must be lowercase')
-            .max(140, 'Geofence External Ids must be less than 140 characters')
-            .strict(true),
-        description: Yup.string().notRequired().max(512, 'Descriptions must be less than 512 characters'),
-        metadata: Yup.array().of(
-            Yup.object().shape({
-                key: Yup.string().required('Required'),
-                value: Yup.string().required('Required'),
+            .matches(new RegExp('^[a-z0-9]+[a-z0-9-]*[a-z0-9]+$'), {
+                message: "Must be lowercase alphanumeric characters and dashes (' - '). Must begin and end with alphanumeric characters.",
             })
-        ),
+            .max(128, 'Geofence External Ids must be less than 128 characters'),
+        description: Yup.string().notRequired().max(512, 'Descriptions must be less than 512 characters'),
+        metadata: Yup.array()
+            .of(
+                Yup.object().shape({
+                    key: Yup.string().required('Required'),
+                    value: Yup.string().required('Required'),
+                })
+            )
+            .max(10, 'Up to 10 metadata allowed'),
         schedule: Yup.object().shape({
             timeZoneId: Yup.string().required('Required.'),
             sunday: Yup.object().shape({
