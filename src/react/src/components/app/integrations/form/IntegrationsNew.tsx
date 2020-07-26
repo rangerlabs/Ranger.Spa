@@ -119,7 +119,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                             <Grid item xs={12}>
                                 <ButtonBase className={classes.buttonBase} onClick={() => {}}>
                                     <Card elevation={3} className={classes.root}>
-                                        <CardMedia classes={{ root: classes.mediaRoot }} className={classes.cover} title="Coming soon" />
+                                        <CardMedia component="div" classes={{ root: classes.mediaRoot }} className={classes.cover} title="Coming soon" />
                                         <div className={classes.details}>
                                             <CardContent className={classes.content}>
                                                 <Typography variant="h6">Coming Soon!</Typography>
