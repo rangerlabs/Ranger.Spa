@@ -37,7 +37,7 @@ const footers = [
             { name: 'Getting Started', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.GettingStarted) },
             { name: 'Projects', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.ProjectsAndRoles) },
             { name: 'Geofences', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.Geofences) },
-            { name: 'Integraions', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.Integrations) },
+            { name: 'Integrations', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.Integrations) },
             { name: 'Breadcrumbs', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs) },
         ],
     },

@@ -27,7 +27,7 @@ const Webhooks = function () {
                 Breadcrumb events. For example, if two Breadcrumbs are sent almost immediately after one another, it is possible your system receives the{' '}
                 <Bold>DWELLING</Bold> event before the <Bold>ENTERED</Bold> event. Increasing the time between Breadcrumbs reduces the likelihood of this
                 occurring. To learn more about sending Breadcrumbs, view the documentation{' '}
-                <Link to={RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs}>here</Link>.
+                <Link to={RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs)}>here</Link>.
             </Paragraph>
             <Image src={NewIntegration} alt="New Integration" maxWidth={60} />
             <Paragraph>
