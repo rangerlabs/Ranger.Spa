@@ -9,7 +9,7 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikUpdateButton from '../../form/FormikUpdateButton';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
-import { IRestResponse, IError } from '../../../services/RestUtilities';
+import { IRestResponse, IError, IFormikErrors } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import { User } from 'oidc-client';
@@ -93,7 +93,7 @@ interface AccountProps extends WithStyles<typeof styles>, WithSnackbarProps {
 }
 
 interface AccountState {
-    serverErrors: Map<string, string | string[]>;
+    serverErrors: IFormikErrors;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -116,7 +116,7 @@ const mapDispatchToProps = (dispatch: any) => {
 
 class Account extends React.Component<AccountProps, AccountState> {
     state = {
-        serverErrors: undefined as Map<string, string | string[]>,
+        serverErrors: undefined as IFormikErrors,
     };
 
     validationSchema = Yup.object().shape({

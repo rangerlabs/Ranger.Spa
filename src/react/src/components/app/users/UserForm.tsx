@@ -9,7 +9,7 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikSelect from '../../form/FormikSelect';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
-import { IRestResponse, IError } from '../../../services/RestUtilities';
+import { IRestResponse, IError, IFormikErrors } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import { User } from 'oidc-client';
@@ -73,7 +73,7 @@ interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
 
 type UserFormState = {
     assignableRoles: FormikSelectValues;
-    serverErrors: Map<string, string | string[]>;
+    serverErrors: IFormikErrors;
     selectedProjects: string[];
     success: boolean;
 };
@@ -103,7 +103,7 @@ const mapDispatchToProps = (dispatch: any) => {
 class UserForm extends React.Component<IUserFormProps, UserFormState> {
     state = {
         assignableRoles: [] as FormikSelectValues,
-        serverErrors: undefined as Map<string, string | string[]>,
+        serverErrors: undefined as IFormikErrors,
         selectedProjects: [] as string[],
         success: false,
     };

@@ -4,7 +4,11 @@ import GlobalConfig from '../helpers/GlobalConfig';
 
 export interface IError {
     message: string;
-    formikErrors: Map<string, string>;
+    formikErrors: IFormikErrors;
+}
+
+export interface IFormikErrors {
+    [key: string]: string | string[];
 }
 
 interface IValidationError {
@@ -39,12 +43,12 @@ export default class RestUtilities {
     private static baseAddress = 'https://' + GlobalConfig.API_HOST + GlobalConfig.BASE_PATH;
 
     private static toFormikErrors(error: IApiError) {
-        const errors = new Map<string, string | string[]>();
+        const errors: IFormikErrors = {};
         error.validationErrors.forEach((v) => {
-            if (errors.has(v.name)) {
-                errors.set(v.name, [...errors.get(v.name), v.reason]);
+            if (errors[v.name]) {
+                errors[v.name] = [...errors[v.name], v.reason];
             } else {
-                errors.set(v.name, v.reason);
+                errors[v.name] = v.reason;
             }
         });
         const formikErrors = {

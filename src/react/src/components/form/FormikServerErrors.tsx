@@ -10,12 +10,13 @@ export default function FormikValidationErrors(props: FormikValidationErrorsProp
     return (
         <List disablePadding>
             <ListItem disableGutters>
-                {Object.keys(props.error.formikErrors).map((key) => (
+                {/* {props.error.formikErrors.map((e) => (
                     <React.Fragment>
-                        <ListItemText primaryTypographyProps={{ color: 'error' }} primary={key} />
+                        <ListItemText primaryTypographyProps={{ color: 'error' }} primary={e.n} />
                         <ListItemText primaryTypographyProps={{ color: 'error' }} primary={props.error.formikErrors.get(key)} />
                     </React.Fragment>
-                ))}
+                ))} */}
+                <div></div>
             </ListItem>
         </List>
     );

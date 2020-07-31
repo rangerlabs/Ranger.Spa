@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { withStyles, createStyles, Theme, Button, WithStyles, Paper, Grid, Typography, TextField, IconButton } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
-import { IRestResponse, IError } from '../../../services/RestUtilities';
+import { IRestResponse, IError, IFormikErrors } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
@@ -113,14 +113,14 @@ const mapStateToProps = (state: ApplicationState) => {
 };
 
 type ProjectFormState = {
-    serverErrors: Map<string, string | string[]>;
+    serverErrors: IFormikErrors;
     initialProject: IProject;
     isSuccess: boolean;
 };
 
 class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
     state: ProjectFormState = {
-        serverErrors: undefined as Map<string, string | string[]>,
+        serverErrors: undefined as IFormikErrors,
         initialProject: undefined,
         isSuccess: false,
     };
