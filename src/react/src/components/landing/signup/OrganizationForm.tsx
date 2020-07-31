@@ -111,6 +111,7 @@ class OrganizationForm extends React.Component<IOrganizationFormProps, Organizat
                         domain: organizationForm.domain ? organizationForm.domain : '',
                         organizationName: organizationForm.organizationName ? organizationForm.organizationName : '',
                     }}
+                    validateOnMount={false}
                     isInitialValid={this.props.isReturn}
                     onSubmit={(values: IOrganizationForm) => {
                         this.setState({ hasUnavailableDomain: false });

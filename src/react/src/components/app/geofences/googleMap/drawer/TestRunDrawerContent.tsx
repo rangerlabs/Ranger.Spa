@@ -136,6 +136,7 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
                 enableReinitialize={false}
                 initialValues={{ positions: this.props.testRun.coordinatePairArray } as TestRun}
                 validateOnMount={false}
+                isInitialValid={false}
                 onSubmit={(values: TestRun, formikBag: FormikBag<FormikProps<TestRun>, TestRun>) => {
                     this.postTestRun(values, formikBag);
                 }}

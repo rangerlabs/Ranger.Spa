@@ -115,6 +115,8 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
                                 }
                             });
                         }}
+                        validateOnMount={false}
+                        isInitialValid={false}
                         validationSchema={this.validationSchema}
                     >
                         {(props) => (

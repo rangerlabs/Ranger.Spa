@@ -89,7 +89,8 @@ class DeleteOrganizationContent extends React.Component<DeleteOrganizationConten
                             formikBag.setSubmitting(false);
                         });
                     }}
-                    is
+                    validateOnMount={false}
+                    isInitialValid={false}
                     validationSchema={this.validationSchema}
                 >
                     {(props) => (

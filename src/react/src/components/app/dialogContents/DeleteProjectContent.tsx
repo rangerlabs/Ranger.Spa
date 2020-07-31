@@ -65,6 +65,8 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                         }
                     });
                 }}
+                validateOnMount={false}
+                isInitialValid={false}
                 validationSchema={validationSchema}
             >
                 {(props) => (

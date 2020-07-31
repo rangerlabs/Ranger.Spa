@@ -94,6 +94,8 @@ class EmailChange extends React.Component<EmailChangeProps, EmailChangeState> {
                                 }
                             });
                         }}
+                        validateOnMount={false}
+                        isInitialValid={false}
                         validationSchema={this.validationSchema}
                     >
                         {(props) => (

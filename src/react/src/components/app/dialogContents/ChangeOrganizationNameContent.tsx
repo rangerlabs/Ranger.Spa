@@ -67,6 +67,8 @@ function ChangeOrganizationNameContent(changeOrganizationNameProps: ChangeOrgani
                         }
                     });
                 }}
+                validateOnMount={false}
+                isInitialValid={false}
                 validationSchema={validationSchema}
             >
                 {(props) => (

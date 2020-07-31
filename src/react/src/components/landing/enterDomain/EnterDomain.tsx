@@ -88,6 +88,8 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                                     }
                                 });
                             }}
+                            validateOnMount={false}
+                            isInitialValid={false}
                             validationSchema={this.validationSchema}
                         >
                             {(props) => (

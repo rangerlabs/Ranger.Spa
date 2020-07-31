@@ -227,6 +227,8 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                         });
                     }
                 }}
+                validateOnMount={false}
+                isInitialValid={false}
                 validationSchema={this.validationSchema}
             >
                 {(props) => (

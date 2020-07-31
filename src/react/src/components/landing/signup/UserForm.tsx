@@ -54,6 +54,8 @@ export default class UserForm extends React.Component<UserFormProps> {
                         password: '',
                         confirmPassword: '',
                     }}
+                    validateOnMount={false}
+                    isInitialValid={false}
                     onSubmit={(values: IUserForm, formikBag: FormikBag<FormikProps<IUserForm>, IUserForm>) => {
                         const newUserForm = {
                             email: values.email,

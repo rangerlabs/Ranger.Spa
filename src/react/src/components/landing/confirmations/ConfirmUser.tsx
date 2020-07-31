@@ -118,6 +118,7 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
                             });
                         }}
                         validateOnMount={false}
+                        isInitialValid={false}
                         validationSchema={this.validationSchema}
                     >
                         {(props) => (

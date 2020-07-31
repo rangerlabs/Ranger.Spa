@@ -61,6 +61,8 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
                         transferOwnershipContentProps.closeDialog();
                     });
                 }}
+                validateOnMount={false}
+                isInitialValid={false}
                 validationSchema={validationSchema}
             >
                 {(props) => (

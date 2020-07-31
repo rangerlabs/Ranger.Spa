@@ -47,6 +47,8 @@ function ChangeEmailContent(changeEmailContentProps: ChangeEmailContentProps): J
         <React.Fragment>
             <Formik
                 initialValues={{ email: '' }}
+                validateOnMount={false}
+                isInitialValid={false}
                 onSubmit={(values: IRequestEmailChangeModel, formikBag: FormikBag<FormikProps<IRequestEmailChangeModel>, IRequestEmailChangeModel>) => {
                     setServerError(undefined);
                     userService.requestEmailChanage(values).then((response: IRestResponse<boolean>) => {

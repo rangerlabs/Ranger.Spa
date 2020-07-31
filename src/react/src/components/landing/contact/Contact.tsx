@@ -75,6 +75,8 @@ export default function Contact(props: ContactProps) {
                                     }
                                 });
                             }}
+                            validateOnMount={false}
+                            isInitialValid={false}
                             validationSchema={validationSchema}
                         >
                             {(props) => (

@@ -112,6 +112,8 @@ class ChangeOrganizationDomainContent extends React.Component<ChangeOrganization
                             domain: this.props.organization.domain,
                         } as IOrganizationForm
                     }
+                    validateOnMount={false}
+                    isInitialValid={false}
                     onSubmit={(values: IOrganizationForm, formikBag: FormikBag<FormikProps<IOrganizationForm>, IOrganizationForm>) => {
                         values.version = this.props.organization.version + 1;
                         this.setState({ serverError: undefined });

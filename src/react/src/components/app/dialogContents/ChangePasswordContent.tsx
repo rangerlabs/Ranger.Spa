@@ -63,6 +63,8 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
                         }
                     });
                 }}
+                validateOnMount={false}
+                isInitialValid={false}
                 validationSchema={validationSchema}
             >
                 {(props) => (

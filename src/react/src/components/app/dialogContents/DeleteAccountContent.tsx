@@ -87,6 +87,8 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                         formikBag.setSubmitting(false);
                     });
                 }}
+                validateOnMount={false}
+                isInitialValid={false}
                 validationSchema={validationSchema}
             >
                 {(props) => (

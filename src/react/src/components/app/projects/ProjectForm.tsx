@@ -262,6 +262,8 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         });
                     }
                 }}
+                validateOnMount={false}
+                isInitialValid={false}
                 validationSchema={this.validationSchema}
             >
                 {(props) => (
