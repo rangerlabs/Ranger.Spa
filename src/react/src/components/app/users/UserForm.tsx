@@ -27,6 +27,7 @@ import { getRole, getCascadedRoles } from '../../../helpers/Helpers';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import Constants from '../../../theme/Constants';
 import classNames from 'classnames';
+import RegularExpressions from '../../../helpers/RegularExpressions';
 
 const userService = new UserService();
 
@@ -158,14 +159,12 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
 
     validationSchema = Yup.object().shape({
         firstName: Yup.string()
-            .min(1, 'Must be at least 1 character long')
             .max(48, 'Max 48 characters')
-            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .matches(new RegExp(RegularExpressions.NAME), "Must begin with and contain alphabetic character. May contain one of the following (-) (,) (') (.).")
             .required('Required'),
         lastName: Yup.string()
-            .min(1, 'Must be at least 1 character long')
             .max(48, 'Max 48 characters')
-            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .matches(new RegExp(RegularExpressions.NAME), "Must begin with and contain alphabetic character. May contain one of the following (-) (,) (') (.).")
             .required('Required'),
         email: Yup.string().email('Invalid email').required('Required'),
         role: Yup.mixed().required('Role is required'),

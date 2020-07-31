@@ -40,6 +40,7 @@ import Constants from '../../../../theme/Constants';
 import classNames from 'classnames';
 import ContentCopy from 'mdi-material-ui/ContentCopy';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import RegularExpressions from '../../../../helpers/RegularExpressions';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -105,20 +106,30 @@ const mapStateToProps = (state: ApplicationState) => {
 
 class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProps> {
     validationSchema = Yup.object().shape({
-        name: Yup.string().required('Required'),
+        name: Yup.string()
+            .required('Required')
+            .min(3, 'Min 3 characters')
+            .max(128, 'Max 128 characters')
+            .matches(new RegExp(RegularExpressions.GEOFENCE_INTEGRATION_NAME), {
+                message: 'Must begin, end, and contain alphanumeric characters. May contain hyphens (-).',
+            }),
         url: Yup.string().matches(new RegExp('^https', 'i'), 'Must be HTTPS').url('Must be a valid URL').required('Required'),
-        headers: Yup.array().of(
-            Yup.object().shape({
-                key: Yup.string().required('Required'),
-                value: Yup.string().required('Required'),
-            })
-        ),
-        metadata: Yup.array().of(
-            Yup.object().shape({
-                key: Yup.string().required('Required'),
-                value: Yup.string().required('Required'),
-            })
-        ),
+        headers: Yup.array()
+            .of(
+                Yup.object().shape({
+                    key: Yup.string().required('Required'),
+                    value: Yup.string().required('Required'),
+                })
+            )
+            .max(10, 'Up to 10 headers allowed'),
+        metadata: Yup.array()
+            .of(
+                Yup.object().shape({
+                    key: Yup.string().required('Required'),
+                    value: Yup.string().required('Required'),
+                })
+            )
+            .max(10, 'Up to 10 metadata allowed'),
         environment: Yup.mixed().required('Environment is required'),
     });
 

@@ -10,6 +10,7 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import RoutePaths from '../../RoutePaths';
 import { IRestResponse } from '../../../services/RestUtilities';
 import GlobalConfig from '../../../helpers/GlobalConfig';
+import RegularExpressions from '../../../helpers/RegularExpressions';
 
 const tenantService = new TenantService();
 
@@ -52,12 +53,9 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
 
     validationSchema = Yup.object().shape({
         domain: Yup.string()
-            .min(3, 'Must be at least 3 characters long')
-            .max(28, 'Must be less than 28 characters long')
-            .matches(
-                new RegExp('^[a-zA-Z0-9]{1}[a-zA-Z0-9-]{1,26}[a-zA-Z0-9]{1}$'),
-                'Must begin, end, and only contain alphanumeric characters, hyphens (-) are permitted '
-            )
+            .min(3, 'Min 3 characters')
+            .max(28, 'Max 28 characters')
+            .matches(new RegExp(RegularExpressions.ORGANIZATION_DOMAIN), 'Must begin, end, and contain alphanumeric characters. May contain hyphens (-).')
             .required('Required'),
     });
 

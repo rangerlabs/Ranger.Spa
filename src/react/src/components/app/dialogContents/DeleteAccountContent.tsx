@@ -28,6 +28,7 @@ import { ApplicationState } from '../../../stores';
 import { UserProfile } from '../../../models/UserProfile';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import GlobalConfig from '../../../helpers/GlobalConfig';
+import RegularExpressions from '../../../helpers/RegularExpressions';
 
 const userService = new UserService();
 
@@ -57,14 +58,12 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
 
     const validationSchema = Yup.object().shape({
         password: Yup.string()
-            .min(8, 'Must be at least 8 characters long')
-            .matches(
-                new RegExp('[\\-\\`\\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\=\\{\\}\\[\\]\\\\|\\;\\:\\\'\\"\\,\\<\\.\\>\\/\\?]'),
-                'Must contain at least 1 special character'
-            )
-            .matches(new RegExp('[0-9]'), 'Must contain at least 1 number')
-            .matches(new RegExp('[a-z]'), 'Must contain at least 1 lowercase letter')
-            .matches(new RegExp('[A-Z]'), 'Must contain at least 1 uppercase letter')
+            .min(8, 'Min 8 characters')
+            .max(64, 'Max 64 characters')
+            .matches(new RegExp(RegularExpressions.PASSWORD_SPECIAL_CHARACTER), 'Must contain at least 1 special character')
+            .matches(new RegExp(RegularExpressions.PASSWORD_NUMBER), 'Must contain at least 1 number')
+            .matches(new RegExp(RegularExpressions.PASSWORD_LOWERCASE_LETTER), 'Must contain at least 1 lowercase letter')
+            .matches(new RegExp(RegularExpressions.PASSWORD_UPPERCASE_LETTER), 'Must contain at least 1 uppercase letter')
             .required('Required'),
     });
 

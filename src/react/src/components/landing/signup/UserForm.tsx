@@ -6,6 +6,7 @@ import FormikTextField from '../../form/FormikTextField';
 import * as Yup from 'yup';
 import FormikNextButton from '../../form/FormikNextButton';
 import FormikBackButton from '../../form/FormikBackButton';
+import RegularExpressions from '../../../helpers/RegularExpressions';
 
 interface UserFormProps {
     handleNext: () => void;
@@ -18,27 +19,23 @@ interface UserFormProps {
 export default class UserForm extends React.Component<UserFormProps> {
     validationSchema = Yup.object().shape({
         firstName: Yup.string()
-            .min(1, 'Must be at least 1 character long')
+            .min(1, 'Min 1 character')
             .max(48, 'Max 48 characters')
-            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .matches(new RegExp(RegularExpressions.NAME), "Must contain alphabetic character. May contain one of the following (_) (-) (,) (') (.).")
             .required('Required'),
         lastName: Yup.string()
-            .min(1, 'Must be at least 1 character long')
+            .min(1, 'Min 1 character')
             .max(48, 'Max 48 characters')
-            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .matches(new RegExp(RegularExpressions.NAME), "Must contain alphabetic character. May contain one of the following (_) (-) (,) (') (.).")
             .required('Required'),
-        email: Yup.string()
-            .email('Invalid email')
-            .required('Required'),
+        email: Yup.string().email('Invalid email').required('Required'),
         password: Yup.string()
-            .min(8, 'Must be at least 8 characters long')
-            .matches(
-                new RegExp('[\\-\\`\\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\=\\{\\}\\[\\]\\\\|\\;\\:\\\'\\"\\,\\<\\.\\>\\/\\?]'),
-                'Must contain at least 1 special character'
-            )
-            .matches(new RegExp('[0-9]'), 'Must contain at least 1 number')
-            .matches(new RegExp('[a-z]'), 'Must contain at least 1 lowercase letter')
-            .matches(new RegExp('[A-Z]'), 'Must contain at least 1 uppercase letter')
+            .min(8, 'Min 8 characters')
+            .max(64, 'Max 64 characters')
+            .matches(new RegExp(RegularExpressions.PASSWORD_SPECIAL_CHARACTER), 'Must contain at least 1 special character')
+            .matches(new RegExp(RegularExpressions.PASSWORD_NUMBER), 'Must contain at least 1 number')
+            .matches(new RegExp(RegularExpressions.PASSWORD_LOWERCASE_LETTER), 'Must contain at least 1 lowercase letter')
+            .matches(new RegExp(RegularExpressions.PASSWORD_UPPERCASE_LETTER), 'Must contain at least 1 uppercase letter')
             .required('Required'),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -70,7 +67,7 @@ export default class UserForm extends React.Component<UserFormProps> {
                     }}
                     validationSchema={this.validationSchema}
                 >
-                    {props => (
+                    {(props) => (
                         <form onSubmit={props.handleSubmit}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>

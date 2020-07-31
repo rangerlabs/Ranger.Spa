@@ -32,6 +32,7 @@ import RoutePaths from '../../RoutePaths';
 import { red } from '@material-ui/core/colors';
 import classNames from 'classnames';
 import populateUsersHOC from '../hocs/PopulateUsersHOC';
+import RegularExpressions from '../../../helpers/RegularExpressions';
 
 const userService = new UserService();
 const styles = (theme: Theme) =>
@@ -120,14 +121,12 @@ class Account extends React.Component<AccountProps, AccountState> {
 
     validationSchema = Yup.object().shape({
         firstName: Yup.string()
-            .min(1, 'Must be at least 1 character long')
             .max(48, 'Max 48 characters')
-            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .matches(new RegExp(RegularExpressions.NAME), "Must begin with and contain alphabetic character. May contain one of the following (-) (,) (') (.).")
             .required('Required'),
         lastName: Yup.string()
-            .min(1, 'Must be at least 1 character long')
             .max(48, 'Max 48 characters')
-            .matches(new RegExp("^([\\-\\s,.'a-zA-Z]){1,}$"), "Valid characters are A-Z, spaces ( ) commas (,), periods (.), apostraphes ('), and hyphens (-)")
+            .matches(new RegExp(RegularExpressions.NAME), "Must begin with and contain alphabetic character. May contain one of the following (-) (,) (') (.).")
             .required('Required'),
     });
 

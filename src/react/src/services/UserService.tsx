@@ -1,6 +1,5 @@
 import RestUtilities, { IRestResponse } from './RestUtilities';
 import IUser from '../models/app/IUser';
-import IConfirmModel from '../models/landing/IConfirmModel';
 import IResetPasswordModel from '../models/landing/IPasswordResetModel';
 import IChangeEmailModel from '../models/landing/IChangeEmailModel';
 import IAccountUpdateModel from '../models/app/IAccountUpdateModel';

@@ -44,7 +44,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
-            .matches(new RegExp(`^${deleteProjectContentProps.name}$`), `The name entered is not the project's name.`)
+            .matches(new RegExp(`^${deleteProjectContentProps.name}$`), `The name entered is incorrect.`)
             .required('Required'),
     });
 

@@ -13,6 +13,7 @@ import { IRestResponse } from '../../../services/RestUtilities';
 import IOrganizationForm from '../../../models/IOrganizationForm';
 import TenantService from '../../../services/TenantService';
 import { OrganizationState } from '../../../redux/actions/OrganizationActions';
+import RegularExpressions from '../../../helpers/RegularExpressions';
 
 const tenantService = new TenantService();
 
@@ -40,11 +41,11 @@ function ChangeOrganizationNameContent(changeOrganizationNameProps: ChangeOrgani
 
     const validationSchema = Yup.object().shape({
         organizationName: Yup.string()
-            .min(3, 'Must be at least 3 characters long')
-            .max(28, 'Must be less than 28 characters long')
+            .min(3, 'Min 3 characters')
+            .max(28, 'Max 28 characters')
             .matches(
-                new RegExp('^[a-zA-Z0-9]{1}[a-zA-Z0-9- ]{1,26}[a-zA-Z0-9]{1}$'),
-                'Must begin, end, and contain alphanumeric characters. Spaces ( ), and hyphens (-) permitted.'
+                new RegExp(RegularExpressions.ORGANIZATION_NAME),
+                "Must begin, end, and contain alphanumeric characters. May contain the following ( ) (_) (-) (')."
             )
             .required('Required'),
     });

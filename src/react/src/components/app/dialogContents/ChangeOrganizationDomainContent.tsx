@@ -15,6 +15,7 @@ import TenantService from '../../../services/TenantService';
 import { OrganizationState } from '../../../redux/actions/OrganizationActions';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import RegularExpressions from '../../../helpers/RegularExpressions';
 
 const domainUnavailableErrorText = 'Sorry, this domain is unavailable.';
 const tenantService = new TenantService();
@@ -96,12 +97,9 @@ class ChangeOrganizationDomainContent extends React.Component<ChangeOrganization
 
     validationSchema = Yup.object().shape({
         domain: Yup.string()
-            .min(3, 'Must be at least 3 characters long')
-            .max(28, 'Must be less than 28 characters long')
-            .matches(
-                new RegExp('^[a-zA-Z0-9]{1}[a-zA-Z0-9-]{1,26}[a-zA-Z0-9]{1}$'),
-                'Must begin, end, and contain alphanumeric characters. Hyphens (-) permitted.'
-            )
+            .min(3, 'Min 3 characters')
+            .max(28, 'Max 28 characters')
+            .matches(new RegExp(RegularExpressions.ORGANIZATION_DOMAIN), 'Must begin, end, and contain alphanumeric characters. May contain hyphens (-).')
             .required('Required'),
     });
 

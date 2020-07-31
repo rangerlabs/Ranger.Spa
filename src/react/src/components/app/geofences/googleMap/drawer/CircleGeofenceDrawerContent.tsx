@@ -25,6 +25,7 @@ import FormikScheduleBuilder from '../../../../form/FormikScheduleBuilder';
 import Schedule from '../../../../../models/Schedule';
 import { EnvironmentEnum } from '../../../../../models/EnvironmentEnum';
 import FormikCancelButton from '../../../../form/FormikCancelButton';
+import RegularExpressions from '../../../../../helpers/RegularExpressions';
 
 const geofenceService = new GeofenceService();
 
@@ -204,11 +205,12 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     validationSchema = Yup.object().shape({
         externalId: Yup.string()
             .required('Required')
-            .matches(new RegExp('^[a-z0-9]+[a-z0-9-]*[a-z0-9]+$'), {
-                message: "Must be lowercase alphanumeric characters and dashes (' - '). Must begin and end with alphanumeric characters.",
-            })
-            .max(128, 'Geofence External Ids must be less than 128 characters'),
-        description: Yup.string().notRequired().max(512, 'Descriptions must be less than 512 characters'),
+            .min(3, 'Min 3 characters')
+            .max(128, 'Max 128 characters')
+            .matches(new RegExp(RegularExpressions.GEOFENCE_INTEGRATION_NAME), {
+                message: 'Must begin, end, and contain alphanumeric characters. May contain hyphens (-).',
+            }),
+        description: Yup.string().notRequired().max(512, 'Max 512 characters'),
         metadata: Yup.array()
             .of(
                 Yup.object().shape({

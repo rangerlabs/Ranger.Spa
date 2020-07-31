@@ -68,7 +68,7 @@ class DeleteOrganizationContent extends React.Component<DeleteOrganizationConten
     };
     validationSchema = Yup.object().shape({
         name: Yup.string()
-            .matches(new RegExp(`^${this.props.name}$`), `The name entered is not the domain name.`)
+            .matches(new RegExp(`^${this.props.name}$`), `The name entered is incorrect.`)
             .required('Required'),
     });
 
