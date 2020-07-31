@@ -1,24 +1,18 @@
+import UserManager from '../services/UserManager';
 import ReduxStore from '../ReduxStore';
+import { openDialog, DialogContent } from '../redux/actions/DialogActions';
+import { STATUS_CODES } from 'http';
 import { AssertionError } from 'assert';
 import GlobalConfig from '../helpers/GlobalConfig';
 
 export interface IError {
     message: string;
-    validationErrors: IUiErrors;
+    validationErrors: IValidationError[];
 }
 
 export interface IValidationError {
     name: string;
     reason: string;
-}
-
-export interface IRawRestResponse<T> {
-    statusCode: number;
-    message: string;
-    isError: boolean;
-    error?: ApiError;
-    result?: T;
-    correlationId?: string;
 }
 
 export interface IRestResponse<T> {
@@ -30,32 +24,7 @@ export interface IRestResponse<T> {
     correlationId?: string;
 }
 
-interface ApiError {
-    message: string;
-    validationErrors: IValidationError[];
-}
-
-interface IUiErrors {
-    [key: string]: string | string[];
-}
-
 export default class RestUtilities {
-    private static toFormikErrors(error: ApiError) {
-        const errors: IUiErrors = {};
-        error.validationErrors.forEach((v) => {
-            if (!errors[v.name]) {
-                errors[v.name] = v.reason;
-            } else {
-                errors[v.name] = [...errors[v.name], v.reason];
-            }
-        });
-        const formikErrors = {
-            message: error.message,
-            validationErrors: errors,
-        } as IError;
-        return formikErrors;
-    }
-
     private static baseAddress = 'https://' + GlobalConfig.API_HOST + GlobalConfig.BASE_PATH;
 
     static get<T>(url: string): Promise<IRestResponse<T>> {
@@ -125,7 +94,7 @@ export default class RestUtilities {
                     statusCode: statusCode,
                     message: responseContentJson.message,
                     isError: isError,
-                    error: isError ? this.toFormikErrors(responseContentJson.error as ApiError) : undefined,
+                    error: isError ? (responseContentJson.error as IError) : undefined,
                     result: isError ? undefined : responseContentJson.result,
                     correlationId: correlationId,
                 };
@@ -133,12 +102,12 @@ export default class RestUtilities {
             });
     }
 
-    private static assertIsRestResponse(object: any): asserts object is IRawRestResponse<any> {
+    private static assertIsRestResponse(object: any): asserts object is IRestResponse<any> {
         if (
-            !(object as IRawRestResponse<any>).statusCode &&
-            !(object as IRawRestResponse<any>).message &&
-            !(object as IRawRestResponse<any>).isError &&
-            (!(object as IRawRestResponse<any>).error || !(object as IRawRestResponse<any>).result)
+            !(object as IRestResponse<any>).statusCode &&
+            !(object as IRestResponse<any>).message &&
+            !(object as IRestResponse<any>).isError &&
+            (!(object as IRestResponse<any>).error || !(object as IRestResponse<any>).result)
         ) {
             throw new AssertionError({ message: 'Value not a valid Rest Response!' });
         }
