@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { withStyles, createStyles, Theme, Button, WithStyles, Paper, Grid, Typography, TextField, IconButton } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
-import { IRestResponse, IValidationError } from '../../../services/RestUtilities';
+import { IRestResponse, IError } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
@@ -113,14 +113,14 @@ const mapStateToProps = (state: ApplicationState) => {
 };
 
 type ProjectFormState = {
-    serverErrors: IValidationError[];
+    serverErrors: Map<string, string | string[]>;
     initialProject: IProject;
     isSuccess: boolean;
 };
 
 class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
     state: ProjectFormState = {
-        serverErrors: undefined as IValidationError[],
+        serverErrors: undefined as Map<string, string | string[]>,
         initialProject: undefined,
         isSuccess: false,
     };
@@ -137,7 +137,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                     const project = { version: this.state.initialProject.version + 1 } as IProject;
                     projectService.apiKeyReset(project, this.state.initialProject.projectId, environment).then((response: IRestResponse<IProject>) => {
                         if (response.isError) {
-                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                            const { formikErrors: serverErrors, ...formikErrors } = response.error;
                             this.props.enqueueSnackbar(response.error.message, { variant: 'error' });
                             formikProps.setStatus(formikErrors as FormikErrors<IProject>);
                             this.setState({ serverErrors: serverErrors });
@@ -223,7 +223,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         const editedProject = Object.assign({}, inputProject, { version: this.state.initialProject.version + 1 }) as IProject;
                         projectService.putProject(editedProject, this.state.initialProject.projectId).then((response: IRestResponse<IProject>) => {
                             if (response.isError) {
-                                const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                                const { formikErrors: serverErrors, ...formikErrors } = response.error;
                                 enqueueSnackbar(response.error.message, { variant: 'error' });
                                 formikBag.setStatus(formikErrors as FormikErrors<IProject>);
                                 this.setState({ serverErrors: serverErrors });
@@ -238,8 +238,8 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                     } else {
                         projectService.postProject(inputProject).then((response: IRestResponse<IProject>) => {
                             if (response.isError) {
-                                if (response.error.validationErrors) {
-                                    formikBag.setStatus(response.error.validationErrors as FormikErrors<IProject>);
+                                if (response.error.formikErrors) {
+                                    formikBag.setStatus(response.error.formikErrors as FormikErrors<IProject>);
                                 }
                                 enqueueSnackbar(response.error.message, { variant: 'error' });
                                 // this.setState({ serverErrors: serverErrors });
@@ -321,11 +321,11 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                             disabled={Boolean(!userIsInRole(this.props.user, RoleEnum.ADMIN))}
                                         />
                                     </Grid>
-                                    {this.state.serverErrors && (
+                                    {/* {this.state.serverErrors && (
                                         <Grid item xs={12}>
                                             <FormikValidationErrors errors={this.state.serverErrors} />
                                         </Grid>
-                                    )}
+                                    )} */}
                                 </Grid>
                                 {userIsInRole(this.props.user, RoleEnum.ADMIN) && (
                                     <Grid container justify="flex-end">

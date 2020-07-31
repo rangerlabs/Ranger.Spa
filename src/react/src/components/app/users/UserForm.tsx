@@ -9,7 +9,7 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikSelect from '../../form/FormikSelect';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
-import { IRestResponse, IValidationError } from '../../../services/RestUtilities';
+import { IRestResponse, IError } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import { User } from 'oidc-client';
@@ -73,7 +73,7 @@ interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
 
 type UserFormState = {
     assignableRoles: FormikSelectValues;
-    serverErrors: IValidationError[];
+    serverErrors: Map<string, string | string[]>;
     selectedProjects: string[];
     success: boolean;
 };
@@ -103,7 +103,7 @@ const mapDispatchToProps = (dispatch: any) => {
 class UserForm extends React.Component<IUserFormProps, UserFormState> {
     state = {
         assignableRoles: [] as FormikSelectValues,
-        serverErrors: undefined as IValidationError[],
+        serverErrors: undefined as Map<string, string | string[]>,
         selectedProjects: [] as string[],
         success: false,
     };
@@ -194,7 +194,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                     if (this.props.initialUser) {
                         userService.putUser(newUser.email, newUser).then((response: IRestResponse<IUser>) => {
                             if (response.isError) {
-                                const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                                const { formikErrors: serverErrors, ...formikErrors } = response.error;
                                 enqueueSnackbar(response.error.message, { variant: 'error' });
                                 formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                 this.setState({ serverErrors: serverErrors });
@@ -211,7 +211,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                     } else {
                         userService.postUser(newUser).then((response: IRestResponse<IUser>) => {
                             if (response.isError) {
-                                const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                                const { formikErrors: serverErrors, ...formikErrors } = response.error;
                                 enqueueSnackbar(response.error.message, { variant: 'error' });
                                 formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                                 this.setState({ serverErrors: serverErrors });
@@ -318,7 +318,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                             <Typography variant="subtitle1">Admins and Owners have access to all projects.</Typography>
                                         )}
                                     </Grid>
-                                    {this.state.serverErrors && (
+                                    {/* {this.state.serverErrors && (
                                         <Grid item xs={12}>
                                             <List>
                                                 <ListItem>
@@ -328,7 +328,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                                 </ListItem>
                                             </List>
                                         </Grid>
-                                    )}
+                                    )} */}
                                 </Grid>
 
                                 <Grid container justify="flex-end">

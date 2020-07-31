@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { List, ListItem, ListItemText } from '@material-ui/core';
-import { IValidationError } from '../../services/RestUtilities';
+import { IError } from '../../services/RestUtilities';
 
 interface FormikValidationErrorsProps {
-    errors: IValidationError[];
+    error: IError;
 }
 
 export default function FormikValidationErrors(props: FormikValidationErrorsProps) {
     return (
         <List disablePadding>
             <ListItem disableGutters>
-                {props.errors.map((error) => (
+                {Object.keys(props.error.formikErrors).map((key) => (
                     <React.Fragment>
-                        <ListItemText primaryTypographyProps={{ color: 'error' }} primary={error.name} />
-                        <ListItemText primaryTypographyProps={{ color: 'error' }} primary={error.reason} />
+                        <ListItemText primaryTypographyProps={{ color: 'error' }} primary={key} />
+                        <ListItemText primaryTypographyProps={{ color: 'error' }} primary={props.error.formikErrors.get(key)} />
                     </React.Fragment>
                 ))}
             </ListItem>

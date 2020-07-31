@@ -9,7 +9,7 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikUpdateButton from '../../form/FormikUpdateButton';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
-import { IRestResponse, IValidationError } from '../../../services/RestUtilities';
+import { IRestResponse, IError } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
 import { User } from 'oidc-client';
@@ -93,7 +93,7 @@ interface AccountProps extends WithStyles<typeof styles>, WithSnackbarProps {
 }
 
 interface AccountState {
-    serverErrors: IValidationError[];
+    serverErrors: Map<string, string | string[]>;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -116,7 +116,7 @@ const mapDispatchToProps = (dispatch: any) => {
 
 class Account extends React.Component<AccountProps, AccountState> {
     state = {
-        serverErrors: undefined as IValidationError[],
+        serverErrors: undefined as Map<string, string | string[]>,
     };
 
     validationSchema = Yup.object().shape({
@@ -154,7 +154,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                     } as IAccountUpdateModel;
                     userService.updateAccount(accountUpdate).then((response: IRestResponse<void>) => {
                         if (response.isError) {
-                            const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                            const { formikErrors: serverErrors, ...formikErrors } = response.error;
                             enqueueSnackbar(response.error.message, { variant: 'error' });
                             formikBag.setStatus(formikErrors as FormikErrors<IUser>);
                             this.setState({ serverErrors: serverErrors });
@@ -237,7 +237,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                             disabled
                                         />
                                     </Grid>
-                                    {this.state.serverErrors && (
+                                    {/* {this.state.serverErrors && (
                                         <Grid item xs={12}>
                                             <List>
                                                 <ListItem>
@@ -247,7 +247,7 @@ class Account extends React.Component<AccountProps, AccountState> {
                                                 </ListItem>
                                             </List>
                                         </Grid>
-                                    )}
+                                    )} */}
                                 </Grid>
                                 <Grid container justify="flex-end">
                                     <Grid item>
