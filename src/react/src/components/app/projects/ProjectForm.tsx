@@ -238,10 +238,11 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                     } else {
                         projectService.postProject(inputProject).then((response: IRestResponse<IProject>) => {
                             if (response.isError) {
-                                const { validationErrors: serverErrors, ...formikErrors } = response.error;
+                                if (response.error.validationErrors) {
+                                    formikBag.setStatus(response.error.validationErrors as FormikErrors<IProject>);
+                                }
                                 enqueueSnackbar(response.error.message, { variant: 'error' });
-                                formikBag.setStatus(formikErrors as FormikErrors<IProject>);
-                                this.setState({ serverErrors: serverErrors });
+                                // this.setState({ serverErrors: serverErrors });
                                 formikBag.setSubmitting(false);
                             } else {
                                 this.setState({ isSuccess: true });
