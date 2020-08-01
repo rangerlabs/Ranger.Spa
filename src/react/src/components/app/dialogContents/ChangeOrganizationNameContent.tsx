@@ -45,7 +45,7 @@ function ChangeOrganizationNameContent(changeOrganizationNameProps: ChangeOrgani
             .max(28, 'Max 28 characters')
             .matches(
                 new RegExp(RegularExpressions.ORGANIZATION_NAME),
-                "Must begin, end, and contain alphanumeric characters. May contain the following ( ) (_) (-) (')."
+                "Must begin, end, and contain alphanumeric characters. May contain ( _ ) ( - ) ( ' ) and whitespace."
             )
             .required('Required'),
     });

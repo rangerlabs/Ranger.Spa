@@ -90,14 +90,14 @@ class OrganizationForm extends React.Component<IOrganizationFormProps, Organizat
         domain: Yup.string()
             .min(3, 'Min 3 characters')
             .max(28, 'Max 28 characters')
-            .matches(new RegExp(RegularExpressions.ORGANIZATION_DOMAIN), 'Must begin, end, and contain alphanumeric characters. May contain hyphens (-).')
+            .matches(new RegExp(RegularExpressions.ORGANIZATION_DOMAIN), 'Must begin, end, and contain alphanumeric characters. May contain ( - ).')
             .required('Required'),
         organizationName: Yup.string()
             .min(3, 'Min 3 characters')
             .max(28, 'Max 28 characters')
             .matches(
                 new RegExp(RegularExpressions.ORGANIZATION_NAME),
-                "Must begin, end, and contain alphanumeric characters. May contain the following ( ) (_) (-) (')."
+                "Must begin, end, and contain alphanumeric characters. May contain ( _ ) ( - ) ( ' ) and whitespace."
             )
             .required('Required'),
     });

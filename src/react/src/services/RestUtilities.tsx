@@ -1,6 +1,7 @@
 import ReduxStore from '../ReduxStore';
 import { AssertionError } from 'assert';
 import GlobalConfig from '../helpers/GlobalConfig';
+import { camelCase } from 'change-case';
 
 export interface IError {
     message: string;
@@ -45,10 +46,11 @@ export default class RestUtilities {
     private static toFormikErrors(error: IApiError) {
         const errors: IFormikErrors = {};
         error.validationErrors.forEach((v) => {
-            if (errors[v.name]) {
-                errors[v.name] = [...errors[v.name], v.reason];
+            const name = camelCase(v.name);
+            if (errors[name]) {
+                errors[name] = errors[name] + ' ' + v.reason;
             } else {
-                errors[v.name] = v.reason;
+                errors[name] = v.reason;
             }
         });
         const formikErrors = {

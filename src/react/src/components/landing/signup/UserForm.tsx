@@ -21,12 +21,12 @@ export default class UserForm extends React.Component<UserFormProps> {
         firstName: Yup.string()
             .min(1, 'Min 1 character')
             .max(48, 'Max 48 characters')
-            .matches(new RegExp(RegularExpressions.NAME), "Must contain alphabetic character. May contain one of the following (_) (-) (,) (') (.).")
+            .matches(new RegExp(RegularExpressions.NAME), "Must contain alphabetic character. May contain one of ( _ ) ( - ) ( , ) ( ' ) ( . ).")
             .required('Required'),
         lastName: Yup.string()
             .min(1, 'Min 1 character')
             .max(48, 'Max 48 characters')
-            .matches(new RegExp(RegularExpressions.NAME), "Must contain alphabetic character. May contain one of the following (_) (-) (,) (') (.).")
+            .matches(new RegExp(RegularExpressions.NAME), "Must contain alphabetic character. May contain one of ( _ ) ( - ) ( , ) ( ' ) ( . ).")
             .required('Required'),
         email: Yup.string().email('Invalid email').required('Required'),
         password: Yup.string()

@@ -208,7 +208,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             .min(3, 'Min 3 characters')
             .max(128, 'Max 128 characters')
             .matches(new RegExp(RegularExpressions.GEOFENCE_INTEGRATION_NAME), {
-                message: 'Must begin, end, and contain alphanumeric characters. May contain hyphens (-).',
+                message: 'Must begin, end, and contain alphanumeric characters. May contain ( - ).',
             }),
         description: Yup.string().notRequired().max(512, 'Max 512 characters'),
         metadata: Yup.array()

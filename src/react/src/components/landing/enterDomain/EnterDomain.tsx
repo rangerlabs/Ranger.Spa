@@ -55,7 +55,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
         domain: Yup.string()
             .min(3, 'Min 3 characters')
             .max(28, 'Max 28 characters')
-            .matches(new RegExp(RegularExpressions.ORGANIZATION_DOMAIN), 'Must begin, end, and contain alphanumeric characters. May contain hyphens (-).')
+            .matches(new RegExp(RegularExpressions.ORGANIZATION_DOMAIN), 'Must begin, end, and contain alphanumeric characters. May contain ( - ).')
             .required('Required'),
     });
 

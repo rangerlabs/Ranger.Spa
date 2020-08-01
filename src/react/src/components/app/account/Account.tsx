@@ -122,11 +122,11 @@ class Account extends React.Component<AccountProps, AccountState> {
     validationSchema = Yup.object().shape({
         firstName: Yup.string()
             .max(48, 'Max 48 characters')
-            .matches(new RegExp(RegularExpressions.NAME), "Must begin with and contain alphabetic character. May contain one of the following (-) (,) (') (.).")
+            .matches(new RegExp(RegularExpressions.NAME), "Must begin with and contain alphabetic character. May contain one of ( - ) ( , ) ( ' ) ( . ).")
             .required('Required'),
         lastName: Yup.string()
             .max(48, 'Max 48 characters')
-            .matches(new RegExp(RegularExpressions.NAME), "Must begin with and contain alphabetic character. May contain one of the following (-) (,) (') (.).")
+            .matches(new RegExp(RegularExpressions.NAME), "Must begin with and contain alphabetic character. May contain one of ( - ) ( , ) ( ' ) ( . ).")
             .required('Required'),
     });
 

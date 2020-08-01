@@ -223,10 +223,9 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         const editedProject = Object.assign({}, inputProject, { version: this.state.initialProject.version + 1 }) as IProject;
                         projectService.putProject(editedProject, this.state.initialProject.projectId).then((response: IRestResponse<IProject>) => {
                             if (response.isError) {
-                                const { formikErrors: serverErrors, ...formikErrors } = response.error;
                                 enqueueSnackbar(response.error.message, { variant: 'error' });
-                                formikBag.setStatus(formikErrors as FormikErrors<IProject>);
-                                this.setState({ serverErrors: serverErrors });
+                                formikBag.setErrors(response.error.formikErrors as FormikErrors<IProject>);
+                                // this.setState({ serverErrors: serverErrors });
                                 formikBag.setSubmitting(false);
                             } else {
                                 this.setState({ isSuccess: true });
@@ -239,7 +238,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         projectService.postProject(inputProject).then((response: IRestResponse<IProject>) => {
                             if (response.isError) {
                                 if (response.error.formikErrors) {
-                                    formikBag.setStatus(response.error.formikErrors as FormikErrors<IProject>);
+                                    formikBag.setErrors(response.error.formikErrors as FormikErrors<IProject>);
                                 }
                                 enqueueSnackbar(response.error.message, { variant: 'error' });
                                 // this.setState({ serverErrors: serverErrors });
