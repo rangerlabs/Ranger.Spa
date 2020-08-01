@@ -139,7 +139,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         if (response.isError) {
                             const { formikErrors: serverErrors, ...formikErrors } = response.error;
                             this.props.enqueueSnackbar(response.error.message, { variant: 'error' });
-                            formikProps.setStatus(formikErrors as FormikErrors<IProject>);
+                            formikProps.setErrors(formikErrors as FormikErrors<IProject>);
                             this.setState({ serverErrors: serverErrors });
                         } else {
                             this.props.enqueueSnackbar(response.message, { variant: 'success' });
