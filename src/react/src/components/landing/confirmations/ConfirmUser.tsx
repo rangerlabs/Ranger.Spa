@@ -56,7 +56,7 @@ class ConfirmUser extends React.Component<ConfirmUserProps, ConfirmUserState> {
             .matches(new RegExp(RegularExpressions.PASSWORD_UPPERCASE_LETTER), 'Must contain at least 1 uppercase letter')
             .required('Required'),
         confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'Passwords must match')
+            .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
             .required('Required'),
     });
 

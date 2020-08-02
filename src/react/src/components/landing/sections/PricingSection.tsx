@@ -27,6 +27,9 @@ const PricingSection = function (props: PricingSectionProps) {
                         <Typography className={classes.typography} align="center" variant="h4">
                             Easy To Manage Subscription Pricing
                         </Typography>
+                        <Typography className={classes.typography} align="center" variant="h5">
+                            Manage your subscription in app with no need to contact sales.
+                        </Typography>
                     </Grid>
                 </Grid>
                 <Grid container item justify="space-evenly" alignItems="center" spacing={3} xs={12} md={8}>

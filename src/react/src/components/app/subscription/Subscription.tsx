@@ -159,7 +159,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                                 planName="Pro"
                                 message="Extend your reach with 5,000 geofences"
                                 limitDetails={Plans.filter((p) => p.name === 'Pro')[0].limitDetails}
-                                cost="$99 / Month"
+                                cost="$149 / Month"
                                 onUpgrade={this.upgrade.bind(this)}
                                 forceDisable={!this.props.subscriptionLimitDetails.active}
                             />

@@ -48,7 +48,11 @@ export default class RestUtilities {
         error.validationErrors.forEach((v) => {
             const name = camelCase(v.name);
             if (errors[name]) {
-                errors[name] = errors[name] + ' ' + v.reason;
+                if (Array.isArray(errors[name])) {
+                    errors[name] = [...errors[name], v.reason];
+                } else {
+                    errors[name] = [errors[name] as string, v.reason];
+                }
             } else {
                 errors[name] = v.reason;
             }

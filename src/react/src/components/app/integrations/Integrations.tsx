@@ -14,6 +14,9 @@ import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { capitalCase } from 'change-case';
+import { userIsInRole } from '../../../helpers/Helpers';
+import { User } from 'oidc-client';
+import { RoleEnum } from '../../../models/RoleEnum';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -32,6 +35,7 @@ const styles = (theme: Theme) =>
     });
 
 interface IntegrationsProps extends WithStyles<typeof styles> {
+    user: User;
     integrationsState: IntegrationsState;
     addIntegration: (integration: MergedIntegrationType) => void;
     push: typeof push;
@@ -42,6 +46,7 @@ const mapStateToProps = (state: ApplicationState) => {
     return {
         integrationsState: state.integrationsState,
         selectedProject: state.selectedProject,
+        user: state.oidc.user,
     };
 };
 
@@ -148,7 +153,7 @@ class Integrations extends React.Component<IntegrationsProps> {
         print: false,
         download: false,
         customToolbar: () => {
-            return <CustomAddToolbar toggleFormFlag={this.redirectToNewIntegrationForm} />;
+            return Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN)) ? <CustomAddToolbar toggleFormFlag={this.redirectToNewIntegrationForm} /> : null;
         },
         customFooter: this.props.integrationsState.integrations?.length > 10 ? null : () => <TableFooter className={this.props.classes.footer} />,
         elevation: 3,

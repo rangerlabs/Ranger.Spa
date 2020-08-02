@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormikTouched, FormikErrors } from 'formik';
-import { TextField, Theme, createStyles, withStyles, WithStyles, InputAdornment, Tooltip, Grid } from '@material-ui/core';
+import { TextField, Theme, createStyles, withStyles, WithStyles, Tooltip, Grid, Typography } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField';
 import InformationOutline from 'mdi-material-ui/InformationOutline';
 
@@ -17,7 +17,7 @@ const styles = (theme: Theme) =>
 interface FormikTextFieldProps extends WithStyles<typeof styles> {
     name: string;
     label: string;
-    errorText: string | FormikErrors<any>;
+    errorText: string | string[] | FormikErrors<any>;
     touched: boolean | FormikTouched<any>;
     onBlur(e: React.FocusEvent<any>): void;
     onBlur<T = string | any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;
@@ -30,6 +30,23 @@ interface FormikTextFieldProps extends WithStyles<typeof styles> {
 class FormikTextField extends React.Component<FormikTextFieldProps & TextFieldProps> {
     render() {
         const { name, label, errorText, touched, onBlur, onChange, classes, value, infoText, ...rest } = this.props;
+
+        function renderErrorsArray(errors: string | string[] | FormikErrors<any>) {
+            if (touched && Boolean(errorText)) {
+                if (Array.isArray(errors)) {
+                    return errors.map((e) => (
+                        <Typography className={classes.root} color="error">
+                            {e}
+                        </Typography>
+                    ));
+                } else {
+                    return errors;
+                }
+            } else {
+                return '';
+            }
+        }
+
         return (
             <Grid container alignContent="center" justify="center">
                 <Grid item xs={this.props.infoText ? 11 : 12}>
@@ -39,7 +56,7 @@ class FormikTextField extends React.Component<FormikTextFieldProps & TextFieldPr
                         name={name}
                         label={label}
                         value={value || ''}
-                        helperText={touched && Boolean(errorText) ? errorText : ''}
+                        helperText={renderErrorsArray(errorText)}
                         error={touched && Boolean(errorText)}
                         onChange={onChange}
                         onBlur={onBlur}

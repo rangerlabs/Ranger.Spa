@@ -4,8 +4,7 @@ import * as Yup from 'yup';
 import { Formik, FormikBag, FormikProps } from 'formik';
 import FormikTextField from '../../form/FormikTextField';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
-import TenantService, { DomainEnabledResults } from '../../../services/TenantService';
-import UserManager from '../../../services/UserManager';
+import TenantService from '../../../services/TenantService';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import RoutePaths from '../../RoutePaths';
 import { IRestResponse } from '../../../services/RestUtilities';
@@ -18,11 +17,11 @@ const styles = (theme: Theme) =>
     createStyles({
         layout: {
             width: 'auto',
-            marginTop: theme.toolbar.height * 2.5,
+            paddingTop: '3%',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            [theme.breakpoints.up(350 + theme.spacing(2 * 2))]: {
-                width: 350,
+            [theme.breakpoints.up(450 + theme.spacing(2 * 2))]: {
+                width: 450,
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
@@ -32,8 +31,10 @@ const styles = (theme: Theme) =>
             justifyContent: 'flex-end',
         },
         paper: {
-            backgroundColor: theme.palette.common.white,
             padding: theme.spacing(4),
+        },
+        title: {
+            margin: theme.spacing(5),
         },
     });
 
@@ -62,73 +63,63 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
     render() {
         const { classes, enqueueSnackbar } = this.props;
         return (
-            <React.Fragment>
-                <div className={classes.layout}>
-                    <Paper className={classes.paper} elevation={3}>
-                        <Formik
-                            initialValues={{ domain: '' } as Domain}
-                            onSubmit={(values: Domain, formikBag: FormikBag<FormikProps<Domain>, Domain>) => {
-                                const domain = values.domain;
-                                tenantService.confirmed(domain).then((v: IRestResponse<boolean>) => {
-                                    if (v.isError) {
-                                        enqueueSnackbar('Could not find the requested domain', { variant: 'error' });
-                                        formikBag.setSubmitting(false);
-                                    } else {
-                                        if (v.result) {
-                                            this.setState({ isSuccess: true });
-                                            enqueueSnackbar('The domain was successfully found', { variant: 'success' });
-                                            setTimeout(() => {
-                                                const loginPath = 'https://' + domain + '.' + GlobalConfig.SPA_HOST + RoutePaths.Login;
-                                                window.location.href = loginPath;
-                                            }, 350);
-                                        } else {
-                                            enqueueSnackbar('Could not find the requested domain', { variant: 'error' });
-                                            formikBag.setSubmitting(false);
-                                        }
-                                    }
-                                });
-                            }}
-                            validateOnMount={false}
-                            isInitialValid={false}
-                            validationSchema={this.validationSchema}
-                        >
-                            {(props) => (
-                                <form onSubmit={props.handleSubmit}>
-                                    <Grid container spacing={3}>
-                                        <Grid item xs={12}>
-                                            <Typography align="center" variant="h5">
-                                                Domain lookup
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <FormikTextField
-                                                name="domain"
-                                                label="Domain"
-                                                value={props.values.domain}
-                                                errorText={props.errors.domain}
-                                                touched={props.touched.domain}
-                                                onChange={props.handleChange}
-                                                onBlur={props.handleBlur}
-                                                InputProps={{ endAdornment: <InputAdornment position="end">.rangerlabs.io</InputAdornment> }}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                    <div className={classes.buttons}>
-                                        <FormikSynchronousButton
-                                            isValid={props.isValid}
-                                            isSubmitting={props.isSubmitting}
-                                            isSuccess={this.state.isSuccess}
-                                            type="submit"
-                                        >
-                                            Lookup Domain
-                                        </FormikSynchronousButton>
-                                    </div>
-                                </form>
-                            )}
-                        </Formik>
-                    </Paper>
-                </div>
-            </React.Fragment>
+            <Formik
+                initialValues={{ domain: '' } as Domain}
+                onSubmit={(values: Domain, formikBag: FormikBag<FormikProps<Domain>, Domain>) => {
+                    const domain = values.domain;
+                    tenantService.confirmed(domain).then((v: IRestResponse<boolean>) => {
+                        if (v.isError) {
+                            enqueueSnackbar('Could not find the requested domain', { variant: 'error' });
+                            formikBag.setSubmitting(false);
+                        } else {
+                            if (v.result) {
+                                this.setState({ isSuccess: true });
+                                enqueueSnackbar('The domain was successfully found', { variant: 'success' });
+                                const loginPath = 'https://' + domain + '.' + GlobalConfig.SPA_HOST + RoutePaths.Login;
+                                window.location.href = loginPath;
+                            } else {
+                                enqueueSnackbar('Could not find the requested domain', { variant: 'error' });
+                                formikBag.setSubmitting(false);
+                            }
+                        }
+                    });
+                }}
+                validateOnMount={false}
+                isInitialValid={false}
+                validationSchema={this.validationSchema}
+            >
+                {(props) => (
+                    <div className={classes.layout}>
+                        <Typography className={classes.title} align="center" variant="h5">
+                            Domain lookup
+                        </Typography>
+                        <Paper className={classes.paper} elevation={3}>
+                            <form onSubmit={props.handleSubmit}>
+                                <FormikTextField
+                                    name="domain"
+                                    label="Domain"
+                                    value={props.values.domain}
+                                    errorText={props.errors.domain}
+                                    touched={props.touched.domain}
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    InputProps={{ endAdornment: <InputAdornment position="end">.rangerlabs.io</InputAdornment> }}
+                                />
+                                <div className={classes.buttons}>
+                                    <FormikSynchronousButton
+                                        isValid={props.isValid}
+                                        isSubmitting={props.isSubmitting}
+                                        isSuccess={this.state.isSuccess}
+                                        type="submit"
+                                    >
+                                        Lookup Domain
+                                    </FormikSynchronousButton>
+                                </div>
+                            </form>
+                        </Paper>
+                    </div>
+                )}
+            </Formik>
         );
     }
 }

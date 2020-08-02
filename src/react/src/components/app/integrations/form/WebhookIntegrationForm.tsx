@@ -111,7 +111,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
             .min(3, 'Min 3 characters')
             .max(128, 'Max 128 characters')
             .matches(new RegExp(RegularExpressions.GEOFENCE_INTEGRATION_NAME), {
-                message: 'Must begin, end, and contain alphanumeric characters. May contain ( - ).',
+                message: 'Must begin, end, and contain lowercase alphanumeric characters. May contain ( - ).',
             }),
         url: Yup.string().matches(new RegExp('^https', 'i'), 'Must be HTTPS').url('Must be a valid URL').required('Required'),
         headers: Yup.array()
@@ -330,7 +330,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                     <Grid container>
                                         <Grid item xs={11}>
                                             <Box marginTop={3}>
-                                                <Typography className={classes.signingKey} variant="body1">
+                                                <Typography className={classes.signingKey} variant="caption">
                                                     {props.values.signingKey}
                                                 </Typography>
                                             </Box>

@@ -30,6 +30,7 @@ import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import Constants from '../../../theme/Constants';
 import classNames from 'classnames';
 import { capitalCase } from 'change-case';
+import RegularExpressions from '../../../helpers/RegularExpressions';
 
 const projectService = new ProjectService();
 
@@ -203,7 +204,14 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
     };
 
     validationSchema = Yup.object().shape({
-        name: Yup.string().required('Required').max(140, 'Must be 140 characters or less.'),
+        name: Yup.string()
+            .min(3, 'Min 3 characters')
+            .max(128, 'Max 128 characters')
+            .matches(
+                new RegExp(RegularExpressions.PROJECT_NAME),
+                "Must begin, end, and contain alphanumeric characters. May contain ( _ ) ( - ) ( , ) ( ' ) ( . ) and whitespace."
+            ),
+        description: Yup.string().max(512, 'Max 512 characters'),
     });
 
     render() {

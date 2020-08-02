@@ -8,11 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import OrganizationForm from './OrganizationForm';
 import UserForm from './UserForm';
 import Review from './Review';
-import { createStyles, Fade, Theme } from '@material-ui/core';
+import { createStyles, Theme } from '@material-ui/core';
 import IOrganizationForm from '../../../models/IOrganizationForm';
 import IUserForm from '../../../models/landing/IUserForm';
 import IReviewForm from '../../../models/landing/IReviewForm';
-import Footer from '../footer/Footer';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -26,8 +25,10 @@ const styles = (theme: Theme) =>
         },
         paper: {
             padding: theme.spacing(4),
+        },
+        layout: {
+            paddingTop: '3%',
             width: 'auto',
-            marginTop: theme.toolbar.height * 2,
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             [theme.breakpoints.up(500 + theme.spacing(2 * 2))]: {
@@ -35,6 +36,9 @@ const styles = (theme: Theme) =>
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
+        },
+        title: {
+            margin: theme.spacing(5),
         },
     });
 
@@ -129,14 +133,14 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
 
     render() {
         const { classes } = this.props;
-        const { prevStep, activeStep } = this.state;
+        const { activeStep } = this.state;
 
         return (
-            <React.Fragment>
-                <Paper className={classes.paper} elevation={3}>
-                    <Typography component="h1" variant="h4" align="center">
-                        Welcome to Ranger
-                    </Typography>
+            <div className={classes.layout}>
+                <Typography className={classes.title} component="h1" variant="h4" align="center">
+                    Welcome to Ranger
+                </Typography>
+                <Paper elevation={3} className={classes.paper}>
                     <Stepper activeStep={activeStep} className={classes.stepper} alternativeLabel>
                         {steps.map((label) => (
                             <Step key={label}>
@@ -144,25 +148,23 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
                             </Step>
                         ))}
                     </Stepper>
-                    <React.Fragment>
-                        {activeStep === steps.length ? (
-                            <React.Fragment>
-                                <Typography variant="h5" gutterBottom align="center">
-                                    Thank you for registering.
-                                </Typography>
-                                <Typography variant="subtitle1" align="center">
-                                    We're creating your domain and account.
-                                </Typography>
-                                <Typography variant="subtitle1" align="center">
-                                    You will receive an email shortly to confirm your domain.
-                                </Typography>
-                            </React.Fragment>
-                        ) : (
-                            <React.Fragment>{this.getStepContent(activeStep)}</React.Fragment>
-                        )}
-                    </React.Fragment>
+                    {activeStep === steps.length ? (
+                        <React.Fragment>
+                            <Typography variant="h5" gutterBottom align="center">
+                                Thank you for registering.
+                            </Typography>
+                            <Typography variant="subtitle1" align="center">
+                                We're creating your domain and account.
+                            </Typography>
+                            <Typography variant="subtitle1" align="center">
+                                You will receive an email shortly to confirm your domain.
+                            </Typography>
+                        </React.Fragment>
+                    ) : (
+                        <React.Fragment>{this.getStepContent(activeStep)}</React.Fragment>
+                    )}
                 </Paper>
-            </React.Fragment>
+            </div>
         );
     }
 }

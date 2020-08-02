@@ -47,15 +47,16 @@ export default function About(props: AboutProps) {
                         </Box>
                     </Grid>
                 </Grid>
-                <Grid container item xs={11} md={6} alignContent="center" justify="center">
-                    <Paragraph>
-                        Ranger was designed to be the most Extendable, Scalable, and Consumer Driven location platform available. To achieve this we've built
-                        our platform to take advantage of the most bleeding-edge, cloud-native technologies.
-                    </Paragraph>
-                    <Paragraph>
-                        Our committment to the privacy of your end-users is unwaivering. Ranger differentiates itself from those who gather location data only
-                        to sell and monetize it. Ranger is committed to the privacy of its users.
-                    </Paragraph>
+                <Grid container item justify="center">
+                    <Grid item xs={12}>
+                        <Paragraph>
+                            Ranger was designed to be the most extensible, scalable, user and developer driven location platform available. To achieve this
+                            we've built our platform to take advantage of the most bleeding-edge, cloud-native technologies.
+                        </Paragraph>
+                        <Paragraph>
+                            Our committment to the privacy of you and your end-users is unwaivering. Ranger is committed to the privacy of its users.
+                        </Paragraph>
+                    </Grid>
                 </Grid>
             </Grid>
             <Footer />

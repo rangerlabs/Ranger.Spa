@@ -35,12 +35,8 @@ const styles = (theme: Theme) =>
             flexGrow: 1,
             height: '100%',
         },
-        details: {
-            display: 'flex',
-            flexDirection: 'column',
-        },
         content: {
-            flex: '1 0 auto',
+            width: '100%',
         },
         cover: {
             width: 151,
@@ -130,7 +126,7 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                     <ArrowLeft />
                 </IconButton>
                 <Typography className={classNames(classes.title, classes.layout)} variant="h5" align="left">
-                    Select A Project
+                    Select a Project
                 </Typography>
                 <div className={classes.layout}>
                     <Grid container spacing={3} direction="column" justify="flex-start" alignItems="center">
@@ -145,16 +141,14 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                                             }}
                                         >
                                             <Card elevation={0} className={classes.root}>
-                                                <div className={classes.details}>
-                                                    <CardContent className={classes.content}>
-                                                        <Typography align="center" variant="h6">
-                                                            {project.name}
-                                                        </Typography>
-                                                        <Typography align="center" variant="subtitle1" color="textSecondary">
-                                                            {project.description}
-                                                        </Typography>
-                                                    </CardContent>
-                                                </div>
+                                                <CardContent className={classes.content}>
+                                                    <Typography align="center" variant="h6">
+                                                        {project.name}
+                                                    </Typography>
+                                                    <Typography align="center" variant="subtitle1" color="textSecondary">
+                                                        {project.description}
+                                                    </Typography>
+                                                </CardContent>
                                             </Card>
                                         </ButtonBase>
                                     </Paper>

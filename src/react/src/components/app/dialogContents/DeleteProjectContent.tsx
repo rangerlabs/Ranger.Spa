@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { DialogActions, Button, DialogContentText, List, ListItem, ListItemText, DialogTitle, DialogContent, Typography } from '@material-ui/core';
+import { DialogActions, Button, DialogContentText, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps } from 'formik';
 import * as Yup from 'yup';
-import FormikPrimaryButton from '../../form/FormikPrimaryButton';
 import IProject from '../../../models/app/IProject';
 import ProjectService from '../../../services/ProjectService';
 import { IRestResponse } from '../../../services/RestUtilities';
@@ -14,6 +13,7 @@ import { connect } from 'react-redux';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import { removeProject } from '../../../redux/actions/ProjectActions';
 import { closeDialog } from '../../../redux/actions/DialogActions';
+import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 
 const projectService = new ProjectService();
 
@@ -40,6 +40,7 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentProps): JSX.Element {
+    const [isSuccess, setIsSuccess] = useState(false);
     const [serverError, setServerError] = useState(undefined as string);
 
     const validationSchema = Yup.object().shape({
@@ -52,12 +53,13 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
         <React.Fragment>
             <Formik
                 initialValues={{ name: '' }}
-                onSubmit={(values: Partial<IProject>, formikBag: FormikBag<FormikProps<Partial<IProject>>, Partial<IProject>>) => {
+                onSubmit={() => {
                     setServerError(undefined);
                     projectService.deleteProject(deleteProjectContentProps.id).then((response: IRestResponse<void>) => {
                         if (response.isError) {
                             deleteProjectContentProps.enqueueSnackbar(response.error.message, { variant: 'error' });
                         } else {
+                            setIsSuccess(true);
                             deleteProjectContentProps.closeDialog();
                             deleteProjectContentProps.dispatchRemoveProject(deleteProjectContentProps.id);
                             deleteProjectContentProps.enqueueSnackbar(response.message, { variant: 'success' });
@@ -93,9 +95,9 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                                 <Button onClick={deleteProjectContentProps.closeDialog} color="primary" variant="text">
                                     Cancel
                                 </Button>
-                                <FormikPrimaryButton denseMargin isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
+                                <FormikSynchronousButton isSuccess={isSuccess} isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
                                     Delete project
-                                </FormikPrimaryButton>
+                                </FormikSynchronousButton>
                             </DialogActions>
                         </form>
                     </React.Fragment>

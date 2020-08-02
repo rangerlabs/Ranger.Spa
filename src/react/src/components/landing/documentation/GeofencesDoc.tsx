@@ -43,15 +43,15 @@ export const GeofencesDocOutline = [
 const EventDescriptions = [
     {
         title: 'Entered',
-        description: 'Send events when a user enters this geofence',
+        description: 'Send events when a user enters the Geofence',
     },
     {
         title: 'Dwelling',
-        description: 'Send events when a user has entered and is continuing to dwell within this geofence.',
+        description: 'Send events when a user has entered and is continuing to dwell within the Geofence.',
     },
     {
         title: 'Exited',
-        description: 'Send events when a user has entered and then exits this geofence.',
+        description: 'Send events when a user has entered and then exits the Geofence.',
     },
 ] as Description[];
 
@@ -65,7 +65,7 @@ const ProjectsDoc = function (props: IDocProps) {
                 </Paragraph>
                 <Paragraph>
                     Ranger supports Geofences of any size and in nearly any configuration including Circular Geofences, Polygon Geofences, and Geofences which
-                    overlap with one another. The easy to use Geofencing UI allows you to vizualize, create, and edit all of your Geofences in a single view.
+                    overlap with one another. The easy-to-use Geofencing UI allows you to vizualize, create, and edit all of your Geofences in a single view.
                 </Paragraph>
                 <Paragraph>Customers will soon be able to perform CRUD operations on Geofences using their Project API key.</Paragraph>
             </Introduction>
@@ -73,7 +73,7 @@ const ProjectsDoc = function (props: IDocProps) {
             <Section text="Interface" id="interface-section">
                 <Paragraph>
                     To get started creating Geofences, select the Map option from the main navigation. You can quickly navigate to the location of where the
-                    Geofence must be placed by using the search bar. Once you have arrived at the location of the geofence, hover over the Speed Dial icon to
+                    Geofence must be placed by using the search bar. Once you have arrived at the location of the Geofence, hover over the Speed Dial icon to
                     select the shape of the Geofence. Once a shape has been selected, you will see Cancel and Save options become present. You can cancel the
                     creation of a Geofence at anytime.
                 </Paragraph>
@@ -101,9 +101,9 @@ const ProjectsDoc = function (props: IDocProps) {
             </Section>
             <Section text="Events" id="events-section">
                 <Paragraph>
-                    You can toggle which events you want to execute your configured Integrations. By default, Ranger recommends triggering your configured
+                    You can toggle which events you want to execute your configured Integrations. By default, Ranger recommends executing your configured
                     Integrations when your users <Bold>Enter</Bold> and <Bold>Exit</Bold> the Geofence being configured. You may also choose to receive events
-                    when users <Bold>Dwell</Bold> within a Geofence. Be aware, depending on the size of your geofences and your user's behavior, choosing to be
+                    when users <Bold>Dwell</Bold> within a Geofence. Be aware, depending on the size of your Geofences and your user's behavior, choosing to be
                     alerted while users <Bold>Dwell</Bold> may dramatically increase the amount of events that execute your Integrations. Be especially cautious
                     when automating based on <Bold>Dwell</Bold> events.
                 </Paragraph>
@@ -143,8 +143,7 @@ const ProjectsDoc = function (props: IDocProps) {
                     <Bold>Restaurant</Bold>, <Bold>Retail</Bold>, or <Bold>Entertainment</Bold>.
                 </Paragraph>
                 <Paragraph>
-                    It is important to stress that, unlike Integration Headers and Metadata, Geofence Metadata should <Bold>NEVER</Bold> be used to store any
-                    identifying information about your users.
+                    Geofence Metadata should <Bold>NEVER</Bold> be used to store any personally identifying information about your users.
                 </Paragraph>
             </Section>
         </React.Fragment>

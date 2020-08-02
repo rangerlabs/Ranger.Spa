@@ -1,12 +1,6 @@
-import React, { ChangeEvent, useState } from 'react';
-import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Popper from '@material-ui/core/Popper';
+import React, { ChangeEvent } from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import InputBase from '@material-ui/core/InputBase';
-import { Button, Checkbox, Typography, ListItem, ListItemText, List, Grid, Tooltip } from '@material-ui/core';
-import CheckboxMarked from 'mdi-material-ui/CheckboxMarked';
-import CheckboxBlankOutline from 'mdi-material-ui/CheckboxBlankOutline';
-import InformationOutline from 'mdi-material-ui/InformationOutline';
 import { FormikErrors, FormikTouched } from 'formik';
 import FormikTextField from './FormikTextField';
 
