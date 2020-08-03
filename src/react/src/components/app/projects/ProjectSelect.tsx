@@ -130,8 +130,8 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
                 </Typography>
                 <div className={classes.layout}>
                     <Grid container spacing={3} direction="column" justify="flex-start" alignItems="center">
-                        {projectsState.projects.map((project) => (
-                            <Grid container item justify="center">
+                        {projectsState.projects.map((project, index) => (
+                            <Grid key={index} container item justify="center">
                                 <Grid item xs={12}>
                                     <Paper elevation={3}>
                                         <ButtonBase
