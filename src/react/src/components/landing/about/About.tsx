@@ -47,7 +47,7 @@ export default function About(props: AboutProps) {
                 <Grid container item justify="center" spacing={5}>
                     <Grid item xs={12}>
                         <Box textAlign="center">
-                            <NameLogo width={isMdDown ? '25%' : isSmDown ? '50%' : '15%'} />
+                            <NameLogo width={isSmDown ? '50%' : isMdDown ? '25%' : '15%'} />
                         </Box>
                     </Grid>
                 </Grid>
