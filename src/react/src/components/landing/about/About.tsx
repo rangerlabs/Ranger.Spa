@@ -31,8 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
             textAlign: 'center',
         },
         linkedInPhoto: {
-            width: '25px',
-            marginLeft: theme.spacing(2),
+            marginLeft: theme.spacing(1),
         },
     })
 );
@@ -94,7 +93,7 @@ export default function About(props: AboutProps) {
                         <Typography variant="h6">
                             Nick Cromwell{' '}
                             <Link className={classes.linkedInPhoto} href="https://www.linkedin.com/in/cromwellnick/" target="_blank">
-                                <img src={LinkedInBug} alt="Nick Cromwell Linked In Link" width="25px" />
+                                <img src={LinkedInBug} alt="Nick Cromwell Linked In Link" width="20px" />
                             </Link>
                         </Typography>
                         <Typography variant="h6">Founder, Chief Architect</Typography>
@@ -105,8 +104,8 @@ export default function About(props: AboutProps) {
                                 Ohio.
                             </Typography>
                             <Typography gutterBottom>
-                                Nick's passion for a modern, scalable geofencing solution was founded out of necessity when he set out to build a mobile app in
-                                2018. He strives to design, architect, and deliver products that exceed their user's expectations.
+                                Nick's passion for building a modern, scalable geofencing solution was founded out of necessity when he set out to build a
+                                mobile app in 2018. He strives to design, architect, and deliver products that exceed their user's expectations.
                             </Typography>
                         </Block>
                     </Grid>
