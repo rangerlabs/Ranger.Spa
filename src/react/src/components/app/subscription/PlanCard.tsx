@@ -42,8 +42,8 @@ const useStyles = makeStyles((theme: Theme) =>
             minHeight: '66px',
         },
         divider: {
-            marginTop: theme.spacing(2),
-            marginBottom: theme.spacing(2),
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1),
         },
     })
 );
@@ -69,7 +69,7 @@ export default function PlanCard(props: PlanCardProps) {
     return (
         <Card className={classes.root} elevation={3}>
             <Box className={props.isCurrentPlan || props.forceDisable ? classes.headerFaded : classes.header}>
-                <Typography color="primary" align="center" variant="h6">
+                <Typography color="primary" align="center" variant="h5">
                     {props.planName}
                 </Typography>
                 <Divider className={classes.divider} />
