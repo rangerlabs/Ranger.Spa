@@ -44,7 +44,7 @@ interface OutlineElementProps {
 function getElement(classes: ReturnType<typeof useStyles>, element: OutlineElement, props: OutlineElementProps, inset?: boolean) {
     return (
         <React.Fragment>
-            <ListItem className={inset ? classes.inset : ''}>
+            <ListItem key={element.id} className={inset ? classes.inset : ''}>
                 <ListItemText
                     disableTypography
                     primary={

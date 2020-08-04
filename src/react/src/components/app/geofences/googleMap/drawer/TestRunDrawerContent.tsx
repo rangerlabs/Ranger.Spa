@@ -105,7 +105,7 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
     };
 
     postTestRun = (testRun: TestRun, formikBag: FormikBag<FormikProps<TestRun>, TestRun>) => {
-        this.testRunService.postTestRun(this.props.selectedProject.name, testRun).then((v) => {
+        this.testRunService.postTestRun(this.props.selectedProject.projectId, testRun).then((v) => {
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 this.props.enqueueSnackbar('Executing test run...', { variant: 'success' });

@@ -144,7 +144,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     };
 
     saveGeofence = (geofence: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
-        geofenceService.postGeofence(this.props.selectedProject.name, geofence).then((v) => {
+        geofenceService.postGeofence(this.props.selectedProject.projectId, geofence).then((v) => {
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
@@ -161,7 +161,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     };
 
     updateGeofence = (geofence: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
-        geofenceService.putGeofence(this.props.selectedProject.name, geofence.id, geofence).then((v) => {
+        geofenceService.putGeofence(this.props.selectedProject.projectId, geofence.id, geofence).then((v) => {
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
@@ -179,7 +179,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     };
 
     deleteGeofence = () => {
-        geofenceService.deleteGeofence(this.props.selectedProject.name, this.props.editGeofence.externalId).then((v) => {
+        geofenceService.deleteGeofence(this.props.selectedProject.projectId, this.props.editGeofence.externalId).then((v) => {
             if (!v.isError) {
                 this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingDeletion(this.props.editGeofence);

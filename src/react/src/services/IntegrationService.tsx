@@ -5,8 +5,8 @@ import WebhookIntegration from '../models/app/integrations/implementations/Webho
 import Integration from '../models/app/integrations/Integration';
 
 export default class IntegrationService {
-    async getIntegrations(projectName: string): Promise<IRestResponse<Array<MergedIntegrationType>>> {
-        return RestUtilities.get<MergedIntegrationType[]>(`${projectName}/integrations`).then((integrationResponse) => {
+    async getIntegrations(projectId: string): Promise<IRestResponse<Array<MergedIntegrationType>>> {
+        return RestUtilities.get<MergedIntegrationType[]>(`${projectId}/integrations`).then((integrationResponse) => {
             const result = new Array<MergedIntegrationType>();
             integrationResponse.result?.forEach((i) => {
                 switch (i.type) {
@@ -35,10 +35,10 @@ export default class IntegrationService {
         });
     }
 
-    async postIntegration(projectName: string, integration: Integration): Promise<IRestResponse<void>> {
+    async postIntegration(projectId: string, integration: Integration): Promise<IRestResponse<void>> {
         switch (integration.type) {
             case IntegrationEnum.WEBHOOK: {
-                return RestUtilities.post(`${projectName}/integrations/webhook`, integration);
+                return RestUtilities.post(`${projectId}/integrations/webhook`, integration);
             }
             default: {
                 throw 'Invalid integration type';
@@ -46,10 +46,10 @@ export default class IntegrationService {
         }
     }
 
-    async putIntegration(projectName: string, id: string, integration: Integration): Promise<IRestResponse<void>> {
+    async putIntegration(projectId: string, id: string, integration: Integration): Promise<IRestResponse<void>> {
         switch (integration.type) {
             case IntegrationEnum.WEBHOOK: {
-                return RestUtilities.put(`${projectName}/integrations/webhook/${id}`, integration);
+                return RestUtilities.put(`${projectId}/integrations/webhook/${id}`, integration);
             }
             default: {
                 throw 'Invalid integration type';
@@ -57,7 +57,7 @@ export default class IntegrationService {
         }
     }
 
-    async deleteIntegration(projectName: string, name: string): Promise<IRestResponse<void>> {
-        return RestUtilities.delete(`${projectName}/integrations/${name}`);
+    async deleteIntegration(projectId: string, name: string): Promise<IRestResponse<void>> {
+        return RestUtilities.delete(`${projectId}/integrations/${name}`);
     }
 }

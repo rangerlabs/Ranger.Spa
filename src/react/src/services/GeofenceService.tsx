@@ -7,8 +7,8 @@ import CoordinatePair from '../models/app/geofences/CoordinatePair';
 import Schedule from '../models/Schedule';
 
 export default class GeofenceService {
-    async getGeofences(projectName: string): Promise<IRestResponse<Array<CircleGeofence | PolygonGeofence>>> {
-        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectName}/geofences`).then((geofenceResponse) => {
+    async getGeofences(projectId: string): Promise<IRestResponse<Array<CircleGeofence | PolygonGeofence>>> {
+        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectId}/geofences`).then((geofenceResponse) => {
             const result = new Array<CircleGeofence | PolygonGeofence>();
             if (geofenceResponse.result) {
                 geofenceResponse.result.forEach((v) => {
@@ -65,19 +65,19 @@ export default class GeofenceService {
         });
     }
 
-    async postGeofence(projectName: string, geofence: Geofence): Promise<IRestResponse<void>> {
-        return RestUtilities.post(`${projectName}/geofences`, {
+    async postGeofence(projectId: string, geofence: Geofence): Promise<IRestResponse<void>> {
+        return RestUtilities.post(`${projectId}/geofences`, {
             ...geofence,
             schedule: Schedule.IsFullUtcSchedule(geofence.schedule) ? null : geofence.schedule.ToLocalTimeSchedule(),
         });
     }
-    async putGeofence(projectName: string, id: string, geofence: Geofence): Promise<IRestResponse<void>> {
-        return RestUtilities.put(`${projectName}/geofences/${id}`, {
+    async putGeofence(projectId: string, id: string, geofence: Geofence): Promise<IRestResponse<void>> {
+        return RestUtilities.put(`${projectId}/geofences/${id}`, {
             ...geofence,
             schedule: Schedule.IsFullUtcSchedule(geofence.schedule) ? null : geofence.schedule.ToLocalTimeSchedule(),
         });
     }
-    async deleteGeofence(projectName: string, externalId: string): Promise<IRestResponse<void>> {
-        return RestUtilities.delete(`${projectName}/geofences/${externalId}`);
+    async deleteGeofence(projectId: string, externalId: string): Promise<IRestResponse<void>> {
+        return RestUtilities.delete(`${projectId}/geofences/${externalId}`);
     }
 }

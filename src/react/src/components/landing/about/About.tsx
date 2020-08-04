@@ -37,11 +37,6 @@ export default function About(props: AboutProps) {
             <Grid className={classes.push} container direction="column" spacing={5}>
                 <Grid container item justify="center" spacing={5}>
                     <Grid item xs={12}>
-                        <Typography align="center" variant="h4">
-                            About
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
                         <Box textAlign="center">
                             <NameLogo width="15%" />
                         </Box>

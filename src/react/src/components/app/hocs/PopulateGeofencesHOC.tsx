@@ -42,7 +42,7 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
         };
         componentDidUpdate(prevProps: PopulateGeofencesComponentProps) {
             if (!this.props.geofencesState.isLoaded && this.props.selectedProject.name && this.props.selectedProject.name !== prevProps.selectedProject.name) {
-                geofenceService.getGeofences(this.props.selectedProject.name).then((geofenceResponse) => {
+                geofenceService.getGeofences(this.props.selectedProject.projectId).then((geofenceResponse) => {
                     if (geofenceResponse.isError) {
                         this.setState({ wasError: true });
                     } else {
@@ -54,7 +54,7 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
 
         componentDidMount() {
             if (!this.props.geofencesState.isLoaded && this.props.selectedProject.name) {
-                geofenceService.getGeofences(this.props.selectedProject.name).then((geofenceResponse) => {
+                geofenceService.getGeofences(this.props.selectedProject.projectId).then((geofenceResponse) => {
                     if (geofenceResponse.isError) {
                         this.setState({ wasError: true });
                     } else {

@@ -23,8 +23,8 @@ export default function DescriptiveList(props: PropsWithChildren<DescriptiveList
     const classes = useStyles(props);
     return (
         <List className={classes.list}>
-            {props.descriptions.map((d) => (
-                <ListItem>
+            {props.descriptions.map((d, i) => (
+                <ListItem key={i}>
                     <ListItemText primary={d.title} secondary={d.description} />
                 </ListItem>
             ))}

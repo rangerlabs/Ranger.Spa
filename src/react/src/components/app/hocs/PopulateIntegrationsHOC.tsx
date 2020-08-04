@@ -45,7 +45,7 @@ const populateIntegrationsHOC = <P extends object>(Component: React.ComponentTyp
                 this.props.selectedProject.name &&
                 this.props.selectedProject.name !== prevProps.selectedProject.name
             ) {
-                integrationService.getIntegrations(this.props.selectedProject.name).then((integrationResponse) => {
+                integrationService.getIntegrations(this.props.selectedProject.projectId).then((integrationResponse) => {
                     if (integrationResponse.isError) {
                         this.setState({ wasError: true });
                     } else {
@@ -56,7 +56,7 @@ const populateIntegrationsHOC = <P extends object>(Component: React.ComponentTyp
         }
 
         componentDidMount() {
-            if (!this.props.integrationsState.isLoaded && this.props.selectedProject.name) {
+            if (!this.props.integrationsState.isLoaded && this.props.selectedProject.projectId) {
                 integrationService.getIntegrations(this.props.selectedProject.name).then((integrationResponse) => {
                     if (integrationResponse.isError) {
                         this.setState({ wasError: true });
