@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose, combineReducers, ReducersMapObject } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers, ReducersMapObject, Store } from 'redux';
 import { routerMiddleware, push } from 'connected-react-router';
 import { loadUser } from 'redux-oidc';
 import { ApplicationState } from './stores/index';
@@ -26,10 +26,12 @@ export default function ConfigureStore(history: History, initialState?: Applicat
 
     const rootReducer = buildRootReducer(history, reducers);
 
+    let store: Store;
     if (window.location.host.includes('rangerlabs.io')) {
+        store = createStore(rootReducer, initialState, compose(applyMiddleware(routerMiddleware(history))));
     } else {
+        store = createStore(rootReducer, initialState, compose(applyMiddleware(logger, routerMiddleware(history))));
     }
-    const store = createStore(rootReducer, initialState, compose(applyMiddleware(logger, routerMiddleware(history))));
 
     loadUser(store, UserManager);
 
