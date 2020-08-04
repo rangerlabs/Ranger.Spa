@@ -30,6 +30,10 @@ const useStyles = makeStyles((theme: Theme) =>
         profilePhoto: {
             textAlign: 'center',
         },
+        linkedInPhoto: {
+            width: '25px',
+            marginLeft: theme.spacing(2),
+        },
     })
 );
 
@@ -89,8 +93,8 @@ export default function About(props: AboutProps) {
                     <Grid item md={4} xs={8}>
                         <Typography variant="h6">
                             Nick Cromwell{' '}
-                            <Link component="button" href="https://www.linkedin.com/in/cromwellnick/">
-                                <img src={LinkedInBug} alt="Nick Cromwell Linked In Link" width="100%" />
+                            <Link className={classes.linkedInPhoto} href="https://www.linkedin.com/in/cromwellnick/" target="_blank">
+                                <img src={LinkedInBug} alt="Nick Cromwell Linked In Link" width="25px" />
                             </Link>
                         </Typography>
                         <Typography variant="h6">Founder, Chief Architect</Typography>
