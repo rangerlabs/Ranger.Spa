@@ -45,11 +45,31 @@ export default function About(props: AboutProps) {
                 <Grid container item justify="center">
                     <Grid item xs={6}>
                         <Paragraph>
-                            Ranger was designed to be the most extensible, scalable, user and developer driven location platform available. To achieve this
-                            we've built our platform to take advantage of the most bleeding-edge, cloud-native technologies.
+                            Ranger was built to be the most extendable, configurable, and easy-to-use location platform available. With Ranger, mobile apps
+                            become actionable when it matters most to you and your users.
                         </Paragraph>
                         <Paragraph>
-                            Our committment to the privacy of you and your end-users is unwaivering. Ranger is committed to the privacy of its users.
+                            The advent of smart devices has led to an overwhelming volume of location data. Ranger’s SaaS infrastructure enables our customers
+                            to cut through the noise and take action when and where they need. We provide a modern solution to a modern problem - and to do
+                            this, we’ve built Ranger on today’s most bleeding-edge, cloud-native technologies. For our customers, this means reliability and
+                            scalability for their business critical apps.
+                        </Paragraph>
+                        <Paragraph>
+                            What’s more, our commitment to the privacy of you and your end-users is unwavering. We do not sell or otherwise share location data
+                            and our strict architectural standards ensures your user’s location data is only ever visible to within your organization.
+                        </Paragraph>
+                    </Grid>
+                </Grid>
+                <Grid container item justify="center">
+                    <Grid item xs={2}>
+                        <Paragraph></Paragraph>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Paragraph>
+                            The advent of smart devices has led to an overwhelming volume of location data. Ranger’s SaaS infrastructure enables our customers
+                            to cut through the noise and take action when and where they need. We provide a modern solution to a modern problem - and to do
+                            this, we’ve built Ranger on today’s most bleeding-edge, cloud-native technologies. For our customers, this means reliability and
+                            scalability for their business critical apps.
                         </Paragraph>
                     </Grid>
                 </Grid>
