@@ -101,8 +101,8 @@ export default function About(props: AboutProps) {
                                 Ohio.
                             </Typography>
                             <Typography gutterBottom>
-                                Nick's passion for architecting Ranger was founded out of necessity when he set out to build a mobile app in 2018. He strives to
-                                design, architect, and deliver products that exceed their user's expectations.
+                                Nick's passion for a modern, scalable geofencing solution was founded out of necessity when he set out to build a mobile app in
+                                2018. He strives to design, architect, and deliver products that exceed their user's expectations.
                             </Typography>
                         </Block>
                     </Grid>
