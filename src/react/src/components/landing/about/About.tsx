@@ -35,7 +35,7 @@ export default function About(props: AboutProps) {
     return (
         <React.Fragment>
             <Grid className={classes.push} container direction="column" spacing={5}>
-                <Grid container item justify="center">
+                <Grid container item justify="center" spacing={5}>
                     <Grid item xs={12}>
                         <Typography align="center" variant="h4">
                             About
@@ -48,7 +48,7 @@ export default function About(props: AboutProps) {
                     </Grid>
                 </Grid>
                 <Grid container item justify="center">
-                    <Grid item xs={12}>
+                    <Grid item xs={6}>
                         <Paragraph>
                             Ranger was designed to be the most extensible, scalable, user and developer driven location platform available. To achieve this
                             we've built our platform to take advantage of the most bleeding-edge, cloud-native technologies.
