@@ -17,7 +17,7 @@ export default function PlanCards() {
             <Grid item xs={11} sm={8} md={5} lg={3}>
                 <PlanCard
                     planName="Startup"
-                    message="When you're ready to grow and adding integrations"
+                    message="When you're ready to grow and add integrations"
                     limitDetails={Plans.filter((p) => p.name === 'Startup')[0].limitDetails}
                     cost="$49 / Month"
                 />
