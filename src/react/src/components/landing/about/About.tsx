@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme: Theme) =>
                 marginRight: 'auto',
             },
         },
+        profilePhoto: {
+            textAlign: 'center',
+        },
     })
 );
 
@@ -72,19 +75,24 @@ export default function About(props: AboutProps) {
                     </Grid>
                 </Grid>
                 <Grid container item justify="center">
-                    <Grid item md={2} xs={4}>
-                        <Block>
-                            <img src={CromwellProfile} alt="Nick Cromwell Image" />
-                        </Block>
+                    <Grid item xs={12}>
+                        <Typography align="center" variant="h4">
+                            The Ranger Team
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid container item justify="center">
+                    <Grid className={classes.profilePhoto} item md={2} xs={4}>
+                        <img width="50%" src={CromwellProfile} alt="Nick Cromwell Image" />
                     </Grid>
                     <Grid item md={4} xs={8}>
+                        <Typography variant="h6">Nick Cromwell</Typography>
                         <Typography variant="h6">Founder, Chief Architect</Typography>
-
                         <Block>
                             <Typography gutterBottom variant="subtitle1">
-                                Nick Cromwell is the Founder and Chief Architect of Ranger. He has a decade of experience delivering scalable, distributed
-                                architectures to market. He holds a BS degree in Applied Math from Kent State University and takes pride in his hometown of
-                                Cleveland, Ohio.
+                                The Founder and Chief Architect of Ranger, Nick has a decade of experience delivering scalable, distributed architectures to
+                                market. He holds a BS degree in Applied Mathematics from Kent State University and takes pride in his hometown of Cleveland,
+                                Ohio.
                             </Typography>
                             <Typography gutterBottom>
                                 Nick's passion for architecting Ranger was founded out of necessity when he set out to design a mobile app.
