@@ -60,7 +60,7 @@ const Hero = function (props: HeroProps) {
                     <div className={classes.textPush}>
                         <Typography gutterBottom className={classes.typography} variant="subtitle1">
                             {' '}
-                            HOSTED APIs FOR
+                            MODERN APIs FOR
                         </Typography>
                         <Typography className={classes.typography} variant="h3">
                             BOUNDLESS GEOFENCING

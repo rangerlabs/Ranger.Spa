@@ -54,6 +54,26 @@ export default function createRangerTheme(theme: ThemeOptions) {
             width: '100%',
         },
         overrides: {
+            MuiTypography: {
+                h1: {
+                    fontWeight: 300,
+                },
+                h2: {
+                    fontWeight: 300,
+                },
+                h3: {
+                    fontWeight: 300,
+                },
+                h4: {
+                    fontWeight: 300,
+                },
+                h5: {
+                    fontWeight: 300,
+                },
+                h6: {
+                    fontWeight: 300,
+                },
+            },
             MuiGrid: {
                 container: {
                     width: '100% !important',
