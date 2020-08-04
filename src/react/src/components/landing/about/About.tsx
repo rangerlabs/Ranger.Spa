@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Grid, createStyles, Theme, makeStyles, Typography, Box, useMediaQuery, useTheme } from '@material-ui/core';
+import { Grid, createStyles, Theme, makeStyles, Typography, Box, useMediaQuery, useTheme, Link } from '@material-ui/core';
 import Footer from '../footer/Footer';
 import NameLogo from '../../../theme/NameLogo';
 import Paragraph from '../documentation/docComponents/Paragraph';
 import Block from '../documentation/docComponents/Block';
 import CromwellProfile from '../../../../assets/cromwell-profile.jpg';
+import LinkedInBug from '../../../../assets/LI-In-Bug.png';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -86,7 +87,12 @@ export default function About(props: AboutProps) {
                         <img width="50%" src={CromwellProfile} alt="Nick Cromwell Image" />
                     </Grid>
                     <Grid item md={4} xs={8}>
-                        <Typography variant="h6">Nick Cromwell</Typography>
+                        <Typography variant="h6">
+                            Nick Cromwell{' '}
+                            <Link component="button" href="https://www.linkedin.com/in/cromwellnick/">
+                                <img src={LinkedInBug} alt="Nick Cromwell Linked In Link" width="100%" />
+                            </Link>
+                        </Typography>
                         <Typography variant="h6">Founder, Chief Architect</Typography>
                         <Block>
                             <Typography gutterBottom variant="subtitle1">
@@ -95,7 +101,8 @@ export default function About(props: AboutProps) {
                                 Ohio.
                             </Typography>
                             <Typography gutterBottom>
-                                Nick's passion for architecting Ranger was founded out of necessity when he set out to design a mobile app.
+                                Nick's passion for architecting Ranger was founded out of necessity when he set out to build a mobile app in 2018. He strives to
+                                design, architect, and deliver products that exceed their user's expectations.
                             </Typography>
                         </Block>
                     </Grid>
