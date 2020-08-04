@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { withStyles, createStyles, WithStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import MapBackground from '../../../../assets/map-background.png';
 import LeaningRangerPin from '../../../../assets/Leaning-Ranger-Pin-Green.svg';
+import MapBackground from '../../../../assets/map-background.png';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -38,9 +38,7 @@ class BackgroundLayer extends React.Component<BackgroundLayerProps> {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <div className={classes.background}>
-                    <MapBackground />
-                </div>
+                <img className={classes.background} src={MapBackground} alt="Map Background" />
                 <div className={classes.pin}>
                     <LeaningRangerPin />
                 </div>
