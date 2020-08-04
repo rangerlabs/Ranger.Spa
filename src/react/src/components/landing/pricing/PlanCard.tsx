@@ -39,8 +39,13 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingTop: 0,
         },
         message: {
+            justifyContent: 'center',
             maxHeight: '66px',
             minHeight: '66px',
+        },
+        divider: {
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(2),
         },
     })
 );
@@ -65,11 +70,11 @@ export default function PlanCard(props: PlanCardProps) {
                 <Typography color="primary" align="center" variant="h6">
                     {props.planName}
                 </Typography>
-                <Divider variant="middle" />
+                <Divider className={classes.divider} />
                 <Typography className={classes.pricing} color="primary" align="center" variant="h5">
                     {props.cost}
                 </Typography>
-                <Divider variant="middle" />
+                <Divider className={classes.divider} />
             </Box>
             <CardContent className={classes.cardContent}>
                 <Grid container justify="space-between" className={classes.message}>
@@ -77,7 +82,7 @@ export default function PlanCard(props: PlanCardProps) {
                         {props.message}
                     </Typography>
                 </Grid>
-                <Divider variant="middle" />
+                <Divider className={classes.divider} />
                 <Grid container justify="space-between">
                     <Grid>
                         <Typography variant="body2">Geofences</Typography>
