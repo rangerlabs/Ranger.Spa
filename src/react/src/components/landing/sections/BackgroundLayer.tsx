@@ -20,7 +20,7 @@ const styles = (theme: Theme) =>
             zIndex: -1,
         },
         pin: {
-            width: '15%',
+            width: '12%',
             position: 'absolute',
             bottom: 0,
             left: '3px',
