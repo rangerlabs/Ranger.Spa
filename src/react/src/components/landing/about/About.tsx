@@ -67,7 +67,7 @@ export default function About(props: AboutProps) {
                                 The advent of smart devices has led to an overwhelming volume of location data. Ranger’s SaaS infrastructure enables our
                                 customers to cut through the noise and take action when and where they need. We provide a modern solution to a modern problem -
                                 and to do this, we’ve built Ranger on today’s most bleeding-edge, cloud-native technologies. For our customers, this means
-                                reliability and scalability for their business critical apps.
+                                reliability, scalability, and security for their business critical apps.
                             </Typography>
                         </Block>
                         <Block>
@@ -81,7 +81,7 @@ export default function About(props: AboutProps) {
                 <Grid container item justify="center">
                     <Grid item xs={12}>
                         <Typography align="center" variant="h4">
-                            The Ranger Team
+                            Our Leadership Team
                         </Typography>
                     </Grid>
                 </Grid>
@@ -105,7 +105,7 @@ export default function About(props: AboutProps) {
                             </Typography>
                             <Typography gutterBottom>
                                 Nick's passion for building a modern, scalable geofencing solution was founded out of necessity when he set out to build a
-                                mobile app in 2018. He strives to design, architect, and deliver products that exceed their user's expectations.
+                                mobile app in 2018. He strives to design, architect, and deliver software solutions that exceed their user's expectations.
                             </Typography>
                         </Block>
                     </Grid>
