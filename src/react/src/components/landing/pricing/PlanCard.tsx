@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Box, Button, Grid } from '@material-ui/core';
+import { Box, Button, Grid, Divider } from '@material-ui/core';
 import Constants from '../../../theme/Constants';
 import { ILimitDetails } from '../../../models/app/ILimitDetails';
 
@@ -65,11 +65,11 @@ export default function PlanCard(props: PlanCardProps) {
                 <Typography color="primary" align="center" variant="h6">
                     {props.planName}
                 </Typography>
-                <Box paddingTop={1} paddingBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
+                <Divider variant="middle" />
                 <Typography className={classes.pricing} color="primary" align="center" variant="h5">
                     {props.cost}
                 </Typography>
-                <Box paddingBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
+                <Divider variant="middle" />
             </Box>
             <CardContent className={classes.cardContent}>
                 <Grid container justify="space-between" className={classes.message}>
@@ -77,7 +77,7 @@ export default function PlanCard(props: PlanCardProps) {
                         {props.message}
                     </Typography>
                 </Grid>
-                <Box paddingTop={1} marginBottom={1} display="inline-block" width="90%" borderBottom="1px solid lightgray"></Box>
+                <Divider variant="middle" />
                 <Grid container justify="space-between">
                     <Grid>
                         <Typography variant="body2">Geofences</Typography>
