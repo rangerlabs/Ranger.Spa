@@ -21,7 +21,6 @@ const styles = (theme: Theme) =>
         },
         pin: {
             width: '15%',
-            opacity: 0.7,
             position: 'absolute',
             bottom: 0,
             left: '3px',
