@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import CreateGeofence from '../../../../assets/create-geofence.gif';
 import ArrowDown from 'mdi-material-ui/ArrowDown';
 import { scrollToLandingId } from '../../../helpers/Helpers';
+import BackgroundLayer from './BackgroundLayer';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -53,6 +54,7 @@ const Hero = function (props: HeroProps) {
 
     return (
         <div className={classes.layout}>
+            <BackgroundLayer />
             <Grid className={classes.heroPush} container alignContent="center" justify="center" spacing={5}>
                 <Grid item md={4} xs={10}>
                     <div className={classes.textPush}>

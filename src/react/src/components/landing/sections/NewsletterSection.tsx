@@ -28,7 +28,7 @@ export default function NewsletterSection() {
                         <Typography align="center" gutterBottom className={classes.typography} variant="h4">
                             Ranger Newsletter
                         </Typography>
-                        <Typography align="center" gutterBottom className={classes.typography} variant="subtitle1">
+                        <Typography align="center" gutterBottom className={classes.typography} variant="h6">
                             Be the first to hear the latest in Ranger news and features.
                         </Typography>
                     </div>
