@@ -44,19 +44,21 @@ export default class RestUtilities {
     private static baseAddress = 'https://' + GlobalConfig.API_HOST + GlobalConfig.BASE_PATH;
 
     private static toFormikErrors(error: IApiError) {
-        const errors: IFormikErrors = {};
-        error.validationErrors.forEach((v) => {
-            const name = camelCase(v.name);
-            if (errors[name]) {
-                if (Array.isArray(errors[name])) {
-                    errors[name] = [...errors[name], v.reason];
+        const errors: IFormikErrors = undefined;
+        if (error.validationErrors) {
+            error.validationErrors.forEach((v) => {
+                const name = camelCase(v.name);
+                if (errors[name]) {
+                    if (Array.isArray(errors[name])) {
+                        errors[name] = [...errors[name], v.reason];
+                    } else {
+                        errors[name] = [errors[name] as string, v.reason];
+                    }
                 } else {
-                    errors[name] = [errors[name] as string, v.reason];
+                    errors[name] = v.reason;
                 }
-            } else {
-                errors[name] = v.reason;
-            }
-        });
+            });
+        }
         const formikErrors = {
             message: error.message,
             formikErrors: errors,
