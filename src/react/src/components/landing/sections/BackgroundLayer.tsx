@@ -13,7 +13,7 @@ const styles = (theme: Theme) =>
         background: {
             height: '100%',
             width: '100%',
-            opacity: 0.07,
+            opacity: 0.1,
             position: 'absolute',
             top: 0,
             left: 0,
