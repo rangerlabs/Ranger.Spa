@@ -72,8 +72,8 @@ export default function About(props: AboutProps) {
                         </Block>
                         <Block>
                             <Typography gutterBottom variant="subtitle1">
-                                What’s more, our commitment to the privacy of you and your end-users is unwavering. We do not sell or otherwise share location
-                                data and our strict architectural standards ensures your user’s location data is only ever visible to within your organization.
+                                What’s more, our commitment to the privacy of you and your end-users is unwavering. We do not sell or share location data and
+                                our strict architectural standards ensure your user’s location data is safely segmented from other organizations.
                             </Typography>
                         </Block>
                     </Grid>
@@ -105,7 +105,7 @@ export default function About(props: AboutProps) {
                             </Typography>
                             <Typography gutterBottom>
                                 Nick's passion for building a modern, scalable geofencing solution was founded out of necessity when he set out to build a
-                                mobile app in 2018. He strives to design, architect, and deliver software solutions that exceed their user's expectations.
+                                mobile app in 2018. He is driven to deliver software solutions that exceed user's expectations in both form and function.
                             </Typography>
                         </Block>
                     </Grid>

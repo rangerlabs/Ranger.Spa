@@ -14,7 +14,7 @@ const Constants = {
     },
     DRAWER: {
         LANDING: {
-            WIDTH: 200,
+            WIDTH: 240,
         },
     },
     MAP_MAIN_STYLE: [
