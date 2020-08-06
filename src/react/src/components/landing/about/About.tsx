@@ -98,7 +98,7 @@ export default function About(props: AboutProps) {
                         </Typography>
                         <Typography variant="h6">Founder, Chief Architect</Typography>
                         <Block>
-                            <Typography gutterBottom variant="subtitle1">
+                            <Typography gutterBottom>
                                 The Founder and Chief Architect of Ranger, Nick has a decade of experience delivering scalable, distributed architectures to
                                 market. He holds a BS degree in Applied Mathematics from Kent State University and takes pride in his hometown of Cleveland,
                                 Ohio.
