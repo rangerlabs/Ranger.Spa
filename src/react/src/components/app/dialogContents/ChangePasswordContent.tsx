@@ -56,11 +56,11 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
                         formikBag.setSubmitting(false);
                         if (response.isError) {
                             setServerError(response.error.message);
-                            changePasswordContentProps.enqueueSnackbar(response.error.message, { variant: 'success' });
+                            changePasswordContentProps.enqueueSnackbar(response.error.message, { variant: 'error' });
                         } else {
                             setSuccess(true);
                             changePasswordContentProps.closeDialog();
-                            changePasswordContentProps.enqueueSnackbar('Password reset email has been sent', { variant: 'success' });
+                            changePasswordContentProps.enqueueSnackbar(response.message, { variant: 'success' });
                         }
                     });
                 }}
@@ -124,4 +124,4 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChangePasswordContent);
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(ChangePasswordContent));
