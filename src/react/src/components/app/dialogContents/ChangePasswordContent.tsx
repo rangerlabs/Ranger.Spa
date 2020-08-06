@@ -17,7 +17,7 @@ import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import { IRestResponse } from '../../../services/RestUtilities';
 var userService = new UserService();
 
-interface ChangePasswordContentProps {
+interface ChangePasswordContentProps extends WithSnackbarProps {
     user: User;
     closeDialog: () => void;
 }
@@ -53,13 +53,14 @@ function ChangePasswordContent(changePasswordContentProps: ChangePasswordContent
                 onSubmit={(values: IRequestPasswordResetModel, formikBag: FormikBag<FormikProps<IRequestPasswordResetModel>, IRequestPasswordResetModel>) => {
                     setServerError(undefined);
                     userService.requestPasswordReset(values).then((response: IRestResponse<boolean>) => {
-                        if (!response.isError) {
-                            formikBag.setSubmitting(false);
+                        formikBag.setSubmitting(false);
+                        if (response.isError) {
+                            setServerError(response.error.message);
+                            changePasswordContentProps.enqueueSnackbar(response.error.message, { variant: 'success' });
+                        } else {
                             setSuccess(true);
                             changePasswordContentProps.closeDialog();
-                        } else {
-                            setServerError(response.error.message);
-                            formikBag.setSubmitting(false);
+                            changePasswordContentProps.enqueueSnackbar('Password reset email has been sent', { variant: 'success' });
                         }
                     });
                 }}

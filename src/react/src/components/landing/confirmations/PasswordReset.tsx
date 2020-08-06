@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, LinearProgress, createStyles, Theme, WithStyles, Button, withStyles, Grid } from '@material-ui/core';
+import { Typography, LinearProgress, createStyles, Theme, WithStyles, Button, withStyles, Grid, Paper } from '@material-ui/core';
 import * as queryString from 'query-string';
 import IPasswordResetModel from '../../../models/landing/IPasswordResetModel';
 import { connect } from 'react-redux';
@@ -18,13 +18,12 @@ const userService = new UserService();
 const styles = (theme: Theme) =>
     createStyles({
         layout: {
-            padding: theme.spacing(4),
             width: 'auto',
-            marginTop: theme.toolbar.height * 2,
+            paddingTop: '3%',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
-            [theme.breakpoints.up(400 + theme.spacing(2 * 2))]: {
-                width: 400,
+            [theme.breakpoints.up(450 + theme.spacing(2 * 2))]: {
+                width: 450,
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
@@ -32,6 +31,12 @@ const styles = (theme: Theme) =>
         flexButtonContainer: {
             display: 'flex',
             justifyContent: 'flex-end',
+        },
+        paper: {
+            padding: theme.spacing(4),
+        },
+        title: {
+            margin: theme.spacing(5),
         },
     });
 
@@ -56,7 +61,7 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
             .matches(new RegExp(RegularExpressions.PASSWORD_UPPERCASE_LETTER), 'Must contain at least 1 uppercase letter')
             .required('Required'),
         confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'Passwords must match')
+            .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
             .required('Required'),
     });
 
@@ -93,114 +98,115 @@ class PasswordReset extends React.Component<PasswordResetProps, PasswordResetSta
         const { classes } = this.props;
         return (
             <div className={classes.layout}>
-                {!this.state.success ? (
-                    <Formik
-                        initialValues={
-                            {
-                                domain: this.getDomainFromParams(),
-                                token: this.getTokenFromParams(),
-                                newPassword: '',
-                                confirmPassword: '',
-                            } as IPasswordResetModel
-                        }
-                        onSubmit={(values: IPasswordResetModel, formikBag: FormikBag<FormikProps<IPasswordResetModel>, IPasswordResetModel>) => {
-                            const userId = this.getUserIdFromParams();
-                            userService.resetPassword(userId, values).then((v) => {
-                                if (v.isError) {
-                                    formikBag.setSubmitting(false);
-                                    this.setState({ serverError: true });
-                                } else {
-                                    formikBag.setSubmitting(false);
-                                    this.setState({ success: true });
-                                }
-                            });
-                        }}
-                        validateOnMount={false}
-                        isInitialValid={false}
-                        validationSchema={this.validationSchema}
-                    >
-                        {(props) => (
-                            <form onSubmit={props.handleSubmit}>
-                                <Grid container spacing={3}>
-                                    <Grid item xs={12}>
-                                        <Typography align="center" variant="h5">
-                                            Password Reset
-                                        </Typography>
+                <Typography className={classes.title} align="center" variant="h5">
+                    Password Reset
+                </Typography>
+                <Paper className={classes.paper} elevation={3}>
+                    {!this.state.success ? (
+                        <Formik
+                            initialValues={
+                                {
+                                    domain: this.getDomainFromParams(),
+                                    token: this.getTokenFromParams(),
+                                    newPassword: '',
+                                    confirmPassword: '',
+                                } as IPasswordResetModel
+                            }
+                            onSubmit={(values: IPasswordResetModel, formikBag: FormikBag<FormikProps<IPasswordResetModel>, IPasswordResetModel>) => {
+                                const userId = this.getUserIdFromParams();
+                                userService.resetPassword(userId, values).then((v) => {
+                                    if (v.isError) {
+                                        formikBag.setSubmitting(false);
+                                        this.setState({ serverError: true });
+                                    } else {
+                                        formikBag.setSubmitting(false);
+                                        this.setState({ success: true });
+                                    }
+                                });
+                            }}
+                            validateOnMount={false}
+                            isInitialValid={false}
+                            validationSchema={this.validationSchema}
+                        >
+                            {(props) => (
+                                <form onSubmit={props.handleSubmit}>
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={12}></Grid>
+                                        <Grid item xs={12}>
+                                            <FormikTextField
+                                                name="newPassword"
+                                                label="New Password"
+                                                value={props.values.newPassword}
+                                                errorText={props.errors.newPassword}
+                                                touched={props.touched.newPassword}
+                                                onChange={props.handleChange}
+                                                onBlur={props.handleBlur}
+                                                autoComplete="off"
+                                                type="password"
+                                                required
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormikTextField
+                                                name="confirmPassword"
+                                                label="Confirm password"
+                                                value={props.values.confirmPassword}
+                                                errorText={props.errors.confirmPassword}
+                                                touched={props.touched.confirmPassword}
+                                                onChange={props.handleChange}
+                                                onBlur={props.handleBlur}
+                                                autoComplete="off"
+                                                type="password"
+                                                required
+                                            />
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <FormikTextField
-                                            name="newPassword"
-                                            label="New Password"
-                                            value={props.values.newPassword}
-                                            errorText={props.errors.newPassword}
-                                            touched={props.touched.newPassword}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            autoComplete="off"
-                                            type="password"
-                                            required
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <FormikTextField
-                                            name="confirmPassword"
-                                            label="Confirm password"
-                                            value={props.values.confirmPassword}
-                                            errorText={props.errors.confirmPassword}
-                                            touched={props.touched.confirmPassword}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            autoComplete="off"
-                                            type="password"
-                                            required
-                                        />
-                                    </Grid>
-                                </Grid>
-                                {this.state.serverError && (
-                                    <React.Fragment>
-                                        <Typography align="center" color="error">
-                                            An error occurred resetting your password.
-                                        </Typography>
-                                        <Typography align="center" color="error">
-                                            The reset link may have expired.
-                                        </Typography>
-                                    </React.Fragment>
-                                )}
+                                    {this.state.serverError && (
+                                        <React.Fragment>
+                                            <Typography align="center" color="error">
+                                                An error occurred resetting your password.
+                                            </Typography>
+                                            <Typography align="center" color="error">
+                                                The reset link may have expired.
+                                            </Typography>
+                                        </React.Fragment>
+                                    )}
+                                    <div className={classes.flexButtonContainer}>
+                                        <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
+                                            Reset Password
+                                        </FormikSynchronousButton>
+                                    </div>
+                                </form>
+                            )}
+                        </Formik>
+                    ) : (
+                        <Grid direction="column" container spacing={3} justify="center" alignItems="center">
+                            <Grid item>
+                                <Typography gutterBottom align="center" variant="h5">
+                                    Your password has been successfully changed.
+                                </Typography>
+                                <Typography gutterBottom align="center" variant="subtitle1">
+                                    Click below to sign in using your new password.
+                                </Typography>
+                            </Grid>
+                            <Grid item>
                                 <div className={classes.flexButtonContainer}>
-                                    <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={this.state.success}>
-                                        Reset Password
-                                    </FormikSynchronousButton>
+                                    <Button
+                                        color="primary"
+                                        variant="contained"
+                                        onClick={() => {
+                                            this.state.domain
+                                                ? window.location.assign(`https://${this.state.domain}.${GlobalConfig.SPA_HOST}${RoutePaths.Login}`)
+                                                : this.props.push(RoutePaths.Landing);
+                                        }}
+                                    >
+                                        Sign in
+                                    </Button>
                                 </div>
-                            </form>
-                        )}
-                    </Formik>
-                ) : (
-                    <Grid direction="column" container spacing={3} justify="center" alignItems="center">
-                        <Grid item>
-                            <Typography gutterBottom align="center" variant="h5">
-                                Your password has been successfully changed.
-                            </Typography>
-                            <Typography gutterBottom align="center" variant="subtitle1">
-                                Click below to sign in using your new password.
-                            </Typography>
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <div className={classes.flexButtonContainer}>
-                                <Button
-                                    color="primary"
-                                    variant="contained"
-                                    onClick={() => {
-                                        this.state.domain
-                                            ? window.location.assign(`https://${this.state.domain}.${GlobalConfig.SPA_HOST}${RoutePaths.Login}`)
-                                            : this.props.push(RoutePaths.Landing);
-                                    }}
-                                >
-                                    Sign in
-                                </Button>
-                            </div>
-                        </Grid>
-                    </Grid>
-                )}
+                    )}
+                </Paper>
             </div>
         );
     }
