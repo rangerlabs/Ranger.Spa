@@ -12,6 +12,7 @@ import { createStyles, Theme } from '@material-ui/core';
 import IOrganizationForm from '../../../models/IOrganizationForm';
 import IUserForm from '../../../models/landing/IUserForm';
 import IReviewForm from '../../../models/landing/IReviewForm';
+import Footer from '../footer/Footer';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -136,35 +137,38 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
         const { activeStep } = this.state;
 
         return (
-            <div className={classes.layout}>
-                <Typography className={classes.title} component="h1" variant="h4" align="center">
-                    Welcome to Ranger
-                </Typography>
-                <Paper elevation={3} className={classes.paper}>
-                    <Stepper activeStep={activeStep} className={classes.stepper} alternativeLabel>
-                        {steps.map((label) => (
-                            <Step key={label}>
-                                <StepLabel>{label}</StepLabel>
-                            </Step>
-                        ))}
-                    </Stepper>
-                    {activeStep === steps.length ? (
-                        <React.Fragment>
-                            <Typography variant="h5" gutterBottom align="center">
-                                Thank you for registering.
-                            </Typography>
-                            <Typography variant="subtitle1" align="center">
-                                We're creating your domain and account.
-                            </Typography>
-                            <Typography variant="subtitle1" align="center">
-                                You will receive an email shortly to confirm your domain.
-                            </Typography>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>{this.getStepContent(activeStep)}</React.Fragment>
-                    )}
-                </Paper>
-            </div>
+            <React.Fragment>
+                <div className={classes.layout}>
+                    <Typography className={classes.title} component="h1" variant="h4" align="center">
+                        Welcome to Ranger
+                    </Typography>
+                    <Paper elevation={3} className={classes.paper}>
+                        <Stepper activeStep={activeStep} className={classes.stepper} alternativeLabel>
+                            {steps.map((label) => (
+                                <Step key={label}>
+                                    <StepLabel>{label}</StepLabel>
+                                </Step>
+                            ))}
+                        </Stepper>
+                        {activeStep === steps.length ? (
+                            <React.Fragment>
+                                <Typography variant="h5" gutterBottom align="center">
+                                    Thank you for registering.
+                                </Typography>
+                                <Typography variant="subtitle1" align="center">
+                                    We're creating your domain and account.
+                                </Typography>
+                                <Typography variant="subtitle1" align="center">
+                                    You will receive an email shortly to confirm your domain.
+                                </Typography>
+                            </React.Fragment>
+                        ) : (
+                            <React.Fragment>{this.getStepContent(activeStep)}</React.Fragment>
+                        )}
+                    </Paper>
+                </div>
+                <Footer />
+            </React.Fragment>
         );
     }
 }

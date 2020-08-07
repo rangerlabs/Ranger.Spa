@@ -9,6 +9,7 @@ import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import { useState } from 'react';
 import ContactService from '../../../services/ContactService';
 import FormikTextArea from '../../form/FormikTextArea';
+import GetStartedForFree from '../getStartedForFree/GetStartedForFree';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -163,6 +164,7 @@ export default function Contact(props: ContactProps) {
                     </React.Fragment>
                 </Grid>
             </Grid>
+            <GetStartedForFree />
             <Footer />
         </React.Fragment>
     );

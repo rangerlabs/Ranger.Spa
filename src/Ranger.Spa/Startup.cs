@@ -49,6 +49,8 @@ namespace Ranger.Spa
             app.UseDefaultFiles();
 
             var mimeTypeProvider = new FileExtensionContentTypeProvider();
+            mimeTypeProvider.Mappings[".webmanifest"] = "application/manifest+json";
+
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = context =>
@@ -71,7 +73,9 @@ namespace Ranger.Spa
                     }
                 }
             });
+
             app.UseRouting();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();

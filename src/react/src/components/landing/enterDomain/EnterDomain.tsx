@@ -10,6 +10,7 @@ import RoutePaths from '../../RoutePaths';
 import { IRestResponse } from '../../../services/RestUtilities';
 import GlobalConfig from '../../../helpers/GlobalConfig';
 import RegularExpressions from '../../../helpers/RegularExpressions';
+import Footer from '../footer/Footer';
 
 const tenantService = new TenantService();
 
@@ -119,6 +120,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                         </Paper>
                     </div>
                 )}
+                <Footer />
             </Formik>
         );
     }

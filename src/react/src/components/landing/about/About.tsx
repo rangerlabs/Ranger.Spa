@@ -6,6 +6,7 @@ import Paragraph from '../documentation/docComponents/Paragraph';
 import Block from '../documentation/docComponents/Block';
 import CromwellProfile from '../../../../assets/cromwell-profile.jpg';
 import LinkedInBug from '../../../../assets/LI-In-Bug.png';
+import GetStartedForFree from '../getStartedForFree/GetStartedForFree';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -111,6 +112,7 @@ export default function About(props: AboutProps) {
                     </Grid>
                 </Grid>
             </Grid>
+            <GetStartedForFree />
             <Footer />
         </React.Fragment>
     );
