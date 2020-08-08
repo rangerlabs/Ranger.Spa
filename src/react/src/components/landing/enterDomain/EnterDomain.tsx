@@ -91,7 +91,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
             >
                 {(props) => (
                     <div className={classes.layout}>
-                        <Typography className={classes.title} align="center" variant="h5">
+                        <Typography className={classes.title} align="center" variant="h4">
                             Domain lookup
                         </Typography>
                         <Paper className={classes.paper} elevation={3}>

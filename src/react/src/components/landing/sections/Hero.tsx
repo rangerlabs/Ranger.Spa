@@ -6,6 +6,8 @@ import CreateGeofence from '../../../../assets/create-geofence.gif';
 import ArrowDown from 'mdi-material-ui/ArrowDown';
 import { scrollToLandingId } from '../../../helpers/Helpers';
 import BackgroundLayer from './BackgroundLayer';
+import classNames from 'classnames';
+import RoutePaths from '../../RoutePaths';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -23,8 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>
         menuItemTextColor: {
             color: theme.drawer.text.color,
         },
-        signupButton: {
+        heroButton: {
             marginTop: theme.spacing(3),
+            marginRight: theme.spacing(3),
             minWidth: '175px',
         },
         textPush: {
@@ -45,7 +48,10 @@ interface HeroProps {
 
 const Hero = function (props: HeroProps) {
     function handleSignUpClick() {
-        props.push('/signup');
+        props.push(RoutePaths.SignUp);
+    }
+    function handleReadTheDocsClick() {
+        props.push(RoutePaths.Docs);
     }
 
     const classes = useStyles();
@@ -59,15 +65,17 @@ const Hero = function (props: HeroProps) {
                 <Grid item md={4} xs={10}>
                     <div className={classes.textPush}>
                         <Typography gutterBottom className={classes.typography} variant="subtitle1">
-                            {' '}
                             MODERN APIs FOR
                         </Typography>
                         <Typography className={classes.typography} variant="h3">
                             BOUNDLESS GEOFENCING
                         </Typography>
                         <div className={classes.typography}>
-                            <Button color="primary" variant="contained" className={classes.signupButton} onClick={handleSignUpClick}>
+                            <Button color="primary" variant="contained" className={classes.heroButton} onClick={handleSignUpClick}>
                                 Sign up for free
+                            </Button>
+                            <Button color="primary" variant="outlined" className={classes.heroButton} onClick={handleReadTheDocsClick}>
+                                Read the docs
                             </Button>
                         </div>
                     </div>
