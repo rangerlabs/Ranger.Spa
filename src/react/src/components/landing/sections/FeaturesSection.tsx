@@ -38,7 +38,7 @@ const FeaturesSection = function (props: FeaturesSectionProps) {
                             Unlimited Users & Devices
                         </Typography>
                         <Typography color="primary" align="center" variant="h6">
-                            Track as many users or devices as solution needs
+                            Track as many users and devices as your product supports
                         </Typography>
                     </Grid>
 
