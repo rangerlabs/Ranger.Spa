@@ -15,6 +15,7 @@ import Pricing from './pricing/Pricing';
 import PlanCards from './pricing/PlanCards';
 import PricingSection from './sections/PricingSection';
 import GetStartedForFree from './getStartedForFree/GetStartedForFree';
+import FeaturesSection from './sections/FeaturesSection';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -76,6 +77,7 @@ class Landing extends Component<LandingProps, LandingState> {
                         <div id="#contact" className={classes.contact} /> */}
                 {/* <div id="newsletter-section" /> */}
                 <div id="next" />
+                <FeaturesSection />
                 <PricingSection />
                 <NewsletterSection />
                 <GetStartedForFree />

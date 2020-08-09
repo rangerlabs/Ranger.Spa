@@ -6,7 +6,6 @@ import CreateGeofence from '../../../../assets/create-geofence.gif';
 import ArrowDown from 'mdi-material-ui/ArrowDown';
 import { scrollToLandingId } from '../../../helpers/Helpers';
 import BackgroundLayer from './BackgroundLayer';
-import classNames from 'classnames';
 import RoutePaths from '../../RoutePaths';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,7 +50,7 @@ const Hero = function (props: HeroProps) {
         props.push(RoutePaths.SignUp);
     }
     function handleReadTheDocsClick() {
-        props.push(RoutePaths.Docs);
+        props.push(RoutePaths.Docs.replace(':name', ''));
     }
 
     const classes = useStyles();

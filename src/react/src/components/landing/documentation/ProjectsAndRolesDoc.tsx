@@ -57,7 +57,7 @@ const apiKeyDescriptions = [
 function Roles() {
     return (
         <Grid container xs={12} justify="space-evenly" spacing={1}>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
                 <Typography color="primary" variant="h6">
                     Users
                 </Typography>
@@ -69,7 +69,7 @@ function Roles() {
                     <ListItemText primary="Organization" secondary="Read" />
                 </List>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
                 <Typography color="primary" variant="h6">
                     Admins
                 </Typography>
@@ -82,7 +82,7 @@ function Roles() {
                     <ListItemText primary="Organization" secondary="Read" />
                 </List>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
                 <Typography color="primary" variant="h6">
                     Owners
                 </Typography>
@@ -96,7 +96,7 @@ function Roles() {
                     <ListItemText primary="Organization" secondary="Edit" />
                 </List>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
                 <Typography color="primary" variant="h6">
                     Primary Owner
                 </Typography>

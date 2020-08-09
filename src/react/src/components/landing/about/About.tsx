@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Grid, createStyles, Theme, makeStyles, Typography, Box, useMediaQuery, useTheme, Link } from '@material-ui/core';
 import Footer from '../footer/Footer';
 import NameLogo from '../../../theme/NameLogo';
-import Paragraph from '../documentation/docComponents/Paragraph';
 import Block from '../documentation/docComponents/Block';
 import CromwellProfile from '../../../../assets/cromwell-profile.jpg';
 import LinkedInBug from '../../../../assets/LI-In-Bug.png';
