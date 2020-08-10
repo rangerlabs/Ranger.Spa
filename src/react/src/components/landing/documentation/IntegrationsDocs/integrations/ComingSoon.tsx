@@ -1,6 +1,5 @@
 import React from 'react';
 import Section from '../../docComponents/Section';
-import Block from '../../docComponents/Block';
 import Paragraph from '../../docComponents/Paragraph';
 
 const ComingSoon = function () {

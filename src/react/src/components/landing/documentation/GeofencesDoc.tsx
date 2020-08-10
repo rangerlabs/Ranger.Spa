@@ -8,7 +8,7 @@ import Introduction from './docComponents/Introduction';
 import SpeedDial from '../../../../assets/speed-dial.png';
 import NewGeofence from '../../../../assets/new-geofence.png';
 import GeofenceSchedule from '../../../../assets/example-schedule.png';
-import Bold from './TextEnhancers/Bold';
+import Bold from './textEnhancers/Bold';
 import DescriptiveList, { Description } from './docComponents/DescriptiveList';
 
 export const GeofencesDocOutline = [

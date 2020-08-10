@@ -120,7 +120,6 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                         </Paper>
                     </div>
                 )}
-                <Footer />
             </Formik>
         );
     }

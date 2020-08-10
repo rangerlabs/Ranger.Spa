@@ -5,7 +5,7 @@ import NewUser from '../../../../assets/new-user.png';
 import Paragraph from './docComponents/Paragraph';
 import Section from './docComponents/Section';
 import Image from './docComponents/Image';
-import Bold from './TextEnhancers/Bold';
+import Bold from './textEnhancers/Bold';
 import { OutlineElement } from './docComponents/OutlineElement';
 import Outline from './docComponents/Outline';
 import Introduction from './docComponents/Introduction';

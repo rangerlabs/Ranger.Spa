@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, Drawer, createStyles, List, ListItem, ListItemText, Typography, Badge, Box, makeStyles, useTheme, useMediaQuery } from '@material-ui/core';
+import { Theme, Drawer, createStyles, List, ListItem, ListItemText, Typography, Box, makeStyles, useTheme, useMediaQuery } from '@material-ui/core';
 import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { DocComponents } from './DocComponents';

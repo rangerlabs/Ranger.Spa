@@ -1,16 +1,14 @@
 import React from 'react';
 import NewIntegration from '../../../../../../assets/new-integration.png';
 import Section from '../../docComponents/Section';
-import Block from '../../docComponents/Block';
 import Paragraph from '../../docComponents/Paragraph';
 import Image from '../../docComponents/Image';
 import WebhookResult from '../../json/WebhookResult';
 import JsonViewer from '../../docComponents/JsonViewer';
-import HttpMethod from '../../TextEnhancers/HttpMethod';
-import Bold from '../../TextEnhancers/Bold';
+import HttpMethod from '../../textEnhancers/HttpMethod';
+import Bold from '../../textEnhancers/Bold';
 import { Link } from 'react-router-dom';
 import RoutePaths from '../../../../RoutePaths';
-import { DocComponents } from '../../DocComponents';
 import DocRoutePaths from '../../DocRoutePaths';
 
 const Webhooks = function () {

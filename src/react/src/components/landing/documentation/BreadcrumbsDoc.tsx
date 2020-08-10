@@ -4,6 +4,7 @@ import { OutlineElement } from './docComponents/OutlineElement';
 import Outline from './docComponents/Outline';
 import Introduction from './docComponents/Introduction';
 import { Link as MailLink } from '@material-ui/core';
+import HttpMethod from './textEnhancers/HttpMethod';
 
 export const BreadcrumbsDocOutline = [
     {
@@ -21,12 +22,8 @@ const BreadcrumbsDoc = function (props: IDocProps) {
                     to perform all the necessary computations to determine who, where, and when an event took place.
                 </Paragraph>
                 <Paragraph>
-                    Ranger will be publishing further documentation on how your applications can transmit location data from any device to determine applicable
-                    Geofences.
-                </Paragraph>
-                <Paragraph>
-                    If you are interested in being a Pilot Customer of Ranger's and to learn how you can make your user's location data actionable, please
-                    contact us at <MailLink href="mailto:info@rangerlabs.io">info@rangerlabs.io</MailLink>.
+                    Breadcrumbs are sent to Ranger's API via <HttpMethod method="POST" /> requests. Once accepted into the system they are then used to
+                    determine whether the user or device has interacted with one of your Geofences.
                 </Paragraph>
             </Introduction>
             {props.showOutline && <Outline elements={BreadcrumbsDocOutline} />}
