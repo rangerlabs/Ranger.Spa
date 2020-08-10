@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.up('md')]: {
                 marginTop: theme.spacing(3),
                 marginRight: theme.spacing(3),
+                marginLeft: 0,
             },
         },
         textPush: {
