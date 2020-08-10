@@ -2,7 +2,7 @@ import GettingStarted, { GettingStartedDocOutline } from './GettingStarted';
 import ProjectsAndRolesDoc, { ProjectsAndRolesDocOutline } from './ProjectsAndRolesDoc';
 import IDocComponent from './IDocComponent';
 import GeofencesDoc, { GeofencesDocOutline } from './GeofencesDoc';
-import IntegrationsDoc, { IntegrationsDocOutline } from './integrationsDocs/IntegrationsDoc';
+import IntegrationsDoc, { IntegrationsDocOutline } from './integrationDocs/IntegrationsDoc';
 import BreadcrumbsDoc, { BreadcrumbsDocOutline } from './BreadcrumbsDoc';
 import DocRoutePaths from './DocRoutePaths';
 
