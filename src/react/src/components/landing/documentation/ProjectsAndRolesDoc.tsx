@@ -56,7 +56,7 @@ const apiKeyDescriptions = [
 
 function Roles() {
     return (
-        <Grid container xs={12} justify="space-evenly" spacing={1}>
+        <Grid container justify="space-evenly" spacing={1}>
             <Grid item xs={3}>
                 <Typography color="primary" variant="h6">
                     Users

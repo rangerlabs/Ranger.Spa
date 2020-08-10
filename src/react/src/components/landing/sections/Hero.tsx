@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, Grid, Typography, Button, Paper, IconButton, useMediaQuery, useTheme, makeStyles } from '@material-ui/core';
+import { Theme, createStyles, Grid, Typography, Button, Paper, IconButton, useMediaQuery, useTheme, makeStyles, Hidden } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import CreateGeofence from '../../../../assets/create-geofence.gif';
@@ -25,9 +25,14 @@ const useStyles = makeStyles((theme: Theme) =>
             color: theme.drawer.text.color,
         },
         heroButton: {
-            marginTop: theme.spacing(3),
-            marginRight: theme.spacing(3),
             minWidth: '175px',
+            marginTop: theme.spacing(1),
+            marginLeft: theme.spacing(1.5),
+            marginRight: theme.spacing(1.5),
+            [theme.breakpoints.up('md')]: {
+                marginTop: theme.spacing(3),
+                marginRight: theme.spacing(3),
+            },
         },
         textPush: {
             [theme.breakpoints.up('md')]: {
@@ -85,19 +90,21 @@ const Hero = function (props: HeroProps) {
                     </Paper>
                 </Grid>
             </Grid>
-            <Grid
-                style={{ position: 'absolute', bottom: isSmDown ? theme.spacing(6) : theme.spacing(4) }} //push above iOS nav
-                container
-                alignContent="center"
-                justify="center"
-                spacing={5}
-            >
-                <Grid item>
-                    <IconButton color="primary" onClick={() => scrollToLandingId(props.scrollToId)}>
-                        <ArrowDown />
-                    </IconButton>
+            <Hidden smDown>
+                <Grid
+                    style={{ position: 'absolute', bottom: isSmDown ? theme.spacing(6) : theme.spacing(4) }} //push above iOS nav
+                    container
+                    alignContent="center"
+                    justify="center"
+                    spacing={5}
+                >
+                    <Grid item>
+                        <IconButton color="primary" onClick={() => scrollToLandingId(props.scrollToId)}>
+                            <ArrowDown />
+                        </IconButton>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Hidden>
         </div>
     );
 };
