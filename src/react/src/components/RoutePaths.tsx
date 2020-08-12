@@ -16,6 +16,9 @@ export default class RoutePaths {
     public static EmailChange = '/email-change';
     public static TransferPrimaryOwnership = '/transfer-ownership';
     public static CancelTransferPrimaryOwnership = '/cancel-ownership-transfer';
+    public static TermsOfUse = '/terms';
+    public static DataProcessingAddendum = '/dpa';
+    public static Privacy = '/privacy';
 
     public static Dashboard = '/dashboard';
     public static Account = '/account';
@@ -42,7 +45,6 @@ export default class RoutePaths {
     public static GeofenceTable = '/:appName/geofences/table';
 
     public static IsCurrentLocationWhiteListed = (): boolean => {
-        let result = false;
         const path = window.location.pathname;
         if (
             path === RoutePaths.Landing ||
@@ -61,10 +63,13 @@ export default class RoutePaths {
             path === RoutePaths.EmailChange ||
             path === RoutePaths.TransferPrimaryOwnership ||
             path === RoutePaths.CancelTransferPrimaryOwnership ||
+            path === RoutePaths.TermsOfUse ||
+            path === RoutePaths.Docs ||
+            path === RoutePaths.Privacy ||
             path.startsWith(RoutePaths.Docs.replace('/:name?', ''))
         ) {
-            result = true;
+            return true;
         }
-        return result;
+        return false;
     };
 }

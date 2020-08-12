@@ -44,8 +44,8 @@ const footers = [
     {
         title: 'Legal',
         description: [
-            { name: 'Privacy policy', url: '' },
-            { name: 'Terms of use', url: '' },
+            { name: 'Privacy policy', url: RoutePaths.Privacy },
+            { name: 'Terms of use', url: RoutePaths.TermsOfUse },
         ],
     },
 ] as FooterSection[];

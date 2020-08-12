@@ -16,6 +16,9 @@ import PasswordReset from './landing/confirmations/PasswordReset';
 import EmailChange from './landing/confirmations/EmailChange';
 import TransferPrimaryOwnership from './landing/confirmations/TransferPrimaryOwnership';
 import CancelTransferPrimaryOwnership from './landing/confirmations/CancelTransferPrimaryOwnership';
+import TermsOfUse from './landing/termsOfUse/TermsOfUse';
+import DataProcessingAddendum from './landing/dataProcessingAddendum/DataProcessingAddendum';
+import PrivacyPolicy from './landing/privacyPolicy/PrivacyPolicy';
 
 export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: '/error/:code?', component: ErrorPage },
@@ -34,4 +37,7 @@ export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: RoutePaths.EmailChange, component: EmailChange },
     { exact: true, path: RoutePaths.TransferPrimaryOwnership, component: TransferPrimaryOwnership },
     { exact: true, path: RoutePaths.CancelTransferPrimaryOwnership, component: CancelTransferPrimaryOwnership },
+    { exact: true, path: RoutePaths.TermsOfUse, component: TermsOfUse },
+    { exact: true, path: RoutePaths.DataProcessingAddendum, component: DataProcessingAddendum },
+    { exact: true, path: RoutePaths.Privacy, component: PrivacyPolicy },
 ];

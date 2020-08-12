@@ -26,7 +26,7 @@ export interface IRestResponse<T> {
     correlationId?: string;
 }
 
-export interface IRawRestResponse<T> {
+interface IRawRestResponse<T> {
     statusCode: number;
     message: string;
     isError: boolean;
@@ -129,7 +129,7 @@ export default class RestUtilities {
             .then((responseContent: string) => {
                 const responseContentJson = responseContent ? JSON.parse(responseContent) : undefined;
                 this.assertIsRestResponse(responseContentJson);
-                let response: IRestResponse<T> = {
+                const response: IRestResponse<T> = {
                     statusCode: statusCode,
                     message: responseContentJson.message,
                     isError: isError,
