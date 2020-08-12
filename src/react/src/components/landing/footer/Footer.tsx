@@ -27,7 +27,7 @@ const footers = [
         title: 'Social',
         description: [
             { name: 'LinkedIn', url: 'https://www.linkedin.com/company/ranger-labs/' },
-            // { name: 'Twitter', onClick: () => (window.location.href = 'https://twitter.com/RangerLabs') },
+            { name: 'Twitter', onClick: () => (window.location.href = 'https://twitter.com/RangerLabs') },
             { name: 'StatusPage', url: 'https://rangerlabs.statuspage.io/' },
         ],
     },
@@ -46,6 +46,7 @@ const footers = [
         description: [
             { name: 'Privacy policy', url: RoutePaths.Privacy },
             { name: 'Terms of use', url: RoutePaths.TermsOfUse },
+            { name: 'DPA', url: RoutePaths.DataProcessingAddendum },
         ],
     },
 ] as FooterSection[];
