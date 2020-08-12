@@ -77,9 +77,11 @@ function TermsOfUse(props: TermsOfUseProps) {
                         </Paragraph>
                         <Paragraph>
                             b. Licensee acknowledges and agrees that the Services enable Licensee to collect SDK Information (as defined in Ranger's{' '}
-                            <Link onClick={() => push(RoutePaths.Privacy)}>privacy policy</Link>) from end users of the Licensee Properties (
-                            <Bold>"End Users"</Bold>). Licensee represents and warrants that it shall use the Services in Licensee Properties only where there
-                            is a clear benefit to End Users;
+                            <Link component="button" onClick={() => push(RoutePaths.Privacy)}>
+                                privacy policy
+                            </Link>
+                            ) from end users of the Licensee Properties (<Bold>"End Users"</Bold>). Licensee represents and warrants that it shall use the
+                            Services in Licensee Properties only where there is a clear benefit to End Users;
                         </Paragraph>
                         <Paragraph>
                             c. Licensee will only use the Services in connection with Licensee Properties that it owns and operates, and shall not sell,
@@ -145,9 +147,12 @@ function TermsOfUse(props: TermsOfUseProps) {
                         <Paragraph>
                             As between the parties, Licensee shall own the SDK Information. Notwithstanding anything to the contrary, Ranger shall have the
                             right to use and store the SDK Information to the maximum extent permitted by law and in accordance with Ranger's{' '}
-                            <Link onClick={() => push(RoutePaths.Privacy)}>privacy policy</Link>. Without limiting the foregoing, Licensee shall not use SDK
-                            Information for any of the following purposes: (a) employment eligibility; (b) credit eligibility; (c) health card eligibility; (d)
-                            insurance eligibility, underwriting, or pricing; or (e) any other use in violation of applicable laws and regulations.
+                            <Link component="button" onClick={() => push(RoutePaths.Privacy)}>
+                                privacy policy
+                            </Link>
+                            . Without limiting the foregoing, Licensee shall not use SDK Information for any of the following purposes: (a) employment
+                            eligibility; (b) credit eligibility; (c) health card eligibility; (d) insurance eligibility, underwriting, or pricing; or (e) any
+                            other use in violation of applicable laws and regulations.
                         </Paragraph>
                     </Section>
                     <Section id="privacy" text="6. Privacy Compliance">
@@ -158,10 +163,16 @@ function TermsOfUse(props: TermsOfUseProps) {
                         <Paragraph>
                             a. Licensee is solely responsible for obtaining all applicable consents, approvals, permissions, and authorization from End Users
                             that are necessary to allow Ranger to collect and use the SDK Information in accordance with these Terms and Ranger's{' '}
-                            <Link onClick={() => push(RoutePaths.Privacy)}>privacy policy</Link>. Without limiting the foregoing, Licensee shall publish and
-                            maintain privacy policies and disclosures for all Licensee Properties that: (i) comply with all applicable laws and these Terms; and
-                            (ii) contain clear disclosures to End Users stating that the SDK Information will be collected and used in accordance with these
-                            Terms and Ranger's <Link onClick={() => push(RoutePaths.Privacy)}>privacy policy</Link>.
+                            <Link component="button" onClick={() => push(RoutePaths.Privacy)}>
+                                privacy policy
+                            </Link>
+                            . Without limiting the foregoing, Licensee shall publish and maintain privacy policies and disclosures for all Licensee Properties
+                            that: (i) comply with all applicable laws and these Terms; and (ii) contain clear disclosures to End Users stating that the SDK
+                            Information will be collected and used in accordance with these Terms and Ranger's{' '}
+                            <Link component="button" onClick={() => push(RoutePaths.Privacy)}>
+                                privacy policy
+                            </Link>
+                            .
                         </Paragraph>
                         <Paragraph>
                             b. Where Licensee provides any data (e.g., Apple IDFAs, Android advertising IDs, or location data) to Ranger in any manner other
@@ -268,8 +279,11 @@ function TermsOfUse(props: TermsOfUseProps) {
                             fullest extent permitted by applicable law.
                         </Paragraph>
                         <Paragraph>
-                            g. <Bold>Entire Agreement.</Bold> These Terms and Ranger's <Link onClick={() => push(RoutePaths.Privacy)}>privacy policy</Link> are
-                            the entire agreement between the parties and supersede any and all prior understandings, agreements, or representations by or
+                            g. <Bold>Entire Agreement.</Bold> These Terms and Ranger's{' '}
+                            <Link component="button" onClick={() => push(RoutePaths.Privacy)}>
+                                privacy policy
+                            </Link>{' '}
+                            are the entire agreement between the parties and supersede any and all prior understandings, agreements, or representations by or
                             between the parties, written or oral, which may have related to the subject matter hereof. There are no third party beneficiaries to
                             these Terms.
                         </Paragraph>
