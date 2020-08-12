@@ -45,7 +45,7 @@ function DataProcessingAddendum(props: DataProcessingAddendumProps) {
                                 (DEFINED BELOW) THAT IS SUBJECT TO CERTAIN DATA PROTECTION LAWS (DEFINED BELOW). YOU OR THE ENTITY YOU REPRESENT ("CUSTOMER" OR
                                 "CONTROLLER") AGREE THAT YOU HAVE READ AND ACCEPT THE TERMS IN THIS ADDENDUM, WHICH SUPPLEMENT RANGER'S TERMS OF USE AVAILABLE
                                 AT{' '}
-                                <Link component="button" onClick={() => push(RoutePaths.TermsOfUse)}>
+                                <Link component="button" onClick={() => push(RoutePaths.TermsOfUse)} variant="body1">
                                     https://rangerlabs.io/terms
                                 </Link>{' '}
                                 ("TERMS OF USE" OR "AGREEMENT"). IF YOU ARE ACCESSING THE SERVICES ON BEHALF OF YOUR EMPLOYER, YOU REPRESENT AND WARRANT THAT
@@ -282,7 +282,7 @@ function DataProcessingAddendum(props: DataProcessingAddendumProps) {
                         <Paragraph>Categories of Data Subjects: Controller's end users</Paragraph>
                         <Paragraph>
                             Type of Personal Data: SDK Information as described in the Processor's published privacy policy at{' '}
-                            <Link component="button" onClick={() => push(RoutePaths.Privacy)}>
+                            <Link component="button" onClick={() => push(RoutePaths.Privacy)} variant="body1">
                                 https://rangerlabs.io/privacy
                             </Link>
                             .

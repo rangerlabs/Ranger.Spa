@@ -83,7 +83,7 @@ function Copyright() {
         <Typography variant="body2" color="textSecondary" align="center">
             {'© '}
             {new Date().getFullYear()}{' '}
-            <Link color="inherit" href="https://rangerlabs.io/">
+            <Link component="button" color="inherit" href="https://rangerlabs.io/">
                 Ranger Labs, LLC.
             </Link>{' '}
         </Typography>

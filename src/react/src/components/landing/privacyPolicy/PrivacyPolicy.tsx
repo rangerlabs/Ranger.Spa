@@ -133,7 +133,7 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                         </Paragraph>
                         <Paragraph>
                             Remember that your use of Ranger's Services is at all times subject to the Ranger Terms of Use (<Bold>"Terms"</Bold>) available at{' '}
-                            <Link component="button" onClick={() => push(RoutePaths.TermsOfUse)}>
+                            <Link variant="body1" component="button" onClick={() => push(RoutePaths.TermsOfUse)}>
                                 https://rangerlabs.io/terms
                             </Link>
                             , which incorporates this Privacy Policy. Any terms we use in this Privacy Policy without defining them have the definitions given
@@ -333,13 +333,15 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             Ranger has certified to the EU-U.S. and Swiss-U.S. Privacy Shield Frameworks set forth by the U.S. Department of Commerce regarding
                             the collection and use of Personal Data transferred from the EU and Switzerland. For more information about the Privacy Shield
                             Program, and to view Ranger's certification, please visit{' '}
-                            <Link href="https://www.privacyshield.gov">https://www.privacyshield.gov</Link>. Ranger is committed to the Privacy Shield
-                            Principles of (1) notice, (2) consent, (3) accountability for onward transfer, (4) security, (5) data integrity and purpose
-                            limitation, (6) access and (7) recourse, enforcement and liability with respect to all Personal Data received from within the EU in
-                            reliance on the Privacy Shield. The Privacy Shield Principles require that we remain potentially liable if any third party
-                            processing Personal Data on our behalf fails to comply with these Privacy Shield Principles (except to the extent we are not
-                            responsible for the event giving rise to any alleged damage). Ranger's compliance with the Privacy Shield is subject to the
-                            investigatory and enforcement powers of the U.S. Federal Trade Commission.
+                            <Link href="https://www.privacyshield.gov" variant="body1">
+                                https://www.privacyshield.gov
+                            </Link>
+                            . Ranger is committed to the Privacy Shield Principles of (1) notice, (2) consent, (3) accountability for onward transfer, (4)
+                            security, (5) data integrity and purpose limitation, (6) access and (7) recourse, enforcement and liability with respect to all
+                            Personal Data received from within the EU in reliance on the Privacy Shield. The Privacy Shield Principles require that we remain
+                            potentially liable if any third party processing Personal Data on our behalf fails to comply with these Privacy Shield Principles
+                            (except to the extent we are not responsible for the event giving rise to any alleged damage). Ranger's compliance with the Privacy
+                            Shield is subject to the investigatory and enforcement powers of the U.S. Federal Trade Commission.
                         </Paragraph>
                         <Paragraph>
                             The Services are hosted and operated in the United States ("U.S.") through Ranger and its service providers, and laws in the U.S.
@@ -356,8 +358,11 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             Policy, and to comply with our legal obligations, resolve disputes, and enforce our Terms and other agreements.
                         </Paragraph>
                         <Paragraph>
-                            You can contact us at <Link href="mailto:legal@rangerlabs.io">legal@rangerlabs.io</Link> if you have any other questions about
-                            access to, or correction or deletion of, your Personal Data or SDK Information.
+                            You can contact us at{' '}
+                            <Link href="mailto:legal@rangerlabs.io" variant="body1">
+                                legal@rangerlabs.io
+                            </Link>{' '}
+                            if you have any other questions about access to, or correction or deletion of, your Personal Data or SDK Information.
                         </Paragraph>
                         <Paragraph>
                             California Privacy Rights: Under California Civil Code sections 1798.83-1798.84, California residents are entitled to ask us for a
@@ -373,7 +378,11 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             As noted in the Terms, we do not knowingly collect or solicit personal information from anyone under the age of 13. Please do not
                             send any personal information about any children under the age of 13 to us. If we learn that we have collected personal information
                             from a child under age 13, we will delete that information as quickly as possible. If you believe that a child under 13 may have
-                            provided us personal information, please contact us at <Link href="mailto:legal@rangerlabs.io">legal@rangerlabs.io</Link>.
+                            provided us personal information, please contact us at{' '}
+                            <Link href="mailto:legal@rangerlabs.io" variant="body1">
+                                legal@rangerlabs.io
+                            </Link>
+                            .
                         </Paragraph>
                     </Section>
                     <Section id="data-security" text="10. Data Security">
@@ -407,8 +416,11 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                         <Paragraph>
                             If there are any conflicts between this section and any other provision of this Privacy Policy, the policy or portion that is more
                             protective of Personal Data shall control to the extent of such conflict. If you have any questions about this section or whether
-                            any of the following applies to you, please contact us at <Link href="mailto:ranger@gdpr-rep.eu">ranger@gdpr-rep.eu</Link>. For
-                            purposes of this section only, Personal Data shall be limited to Client Information.
+                            any of the following applies to you, please contact us at{' '}
+                            <Link href="mailto:ranger@gdpr-rep.eu" variant="body1">
+                                ranger@gdpr-rep.eu
+                            </Link>
+                            . For purposes of this section only, Personal Data shall be limited to Client Information.
                         </Paragraph>
                         <Paragraph>
                             <Bold>What Personal Data Do We Collect From You?</Bold> Please see the Section "Information We Collect From You" above for details
@@ -445,19 +457,27 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                     <Section id="questions-concerns-complaints" text="13. Questions, Concerns, or Complaints">
                         <Paragraph>
                             If you have any questions or concerns regarding privacy using the Services or about our Privacy Shield Certification, please send us
-                            a detailed message to <Link href="mailto:legal@rangerlabs.io">legal@rangerlabs.io</Link>, and we will make every attempt to resolve
-                            your concerns. If you do not receive timely acknowledgment of your Privacy Shield-related complaint from us, or if we have not
-                            resolved your complaint, you may also resolve a Privacy Shield-related complaint through our third-party dispute resolution provider
-                            located in the United States. You can visit{' '}
-                            <Link href="https://feedback-form.truste.com/watchdog/request">https://feedback-form.truste.com/watchdog/request</Link> for more
-                            information or to file a complaint, at no cost to you. Under certain conditions, you may also be entitled to invoke binding
+                            a detailed message to{' '}
+                            <Link href="mailto:legal@rangerlabs.io" variant="body1">
+                                legal@rangerlabs.io
+                            </Link>
+                            , and we will make every attempt to resolve your concerns. If you do not receive timely acknowledgment of your Privacy
+                            Shield-related complaint from us, or if we have not resolved your complaint, you may also resolve a Privacy Shield-related complaint
+                            through our third-party dispute resolution provider located in the United States. You can visit{' '}
+                            <Link variant="body1" href="https://feedback-form.truste.com/watchdog/request">
+                                https://feedback-form.truste.com/watchdog/request
+                            </Link>{' '}
+                            for more information or to file a complaint, at no cost to you. Under certain conditions, you may also be entitled to invoke binding
                             arbitration for complaints not resolved by other means.
                         </Paragraph>
                     </Section>
                     <Section id="contacting-us" text="14. Contacting Us">
                         <Paragraph>
                             If you have any questions regarding this Privacy Policy, or would like to request that we delete any SDK Information about you that
-                            is collected or stored through the Services, please contact us at <Link href="mailto:legal@rangerlabs.io">legal@rangerlabs.io</Link>
+                            is collected or stored through the Services, please contact us at{' '}
+                            <Link href="mailto:legal@rangerlabs.io" variant="body1">
+                                legal@rangerlabs.io
+                            </Link>
                             .
                         </Paragraph>
                         <Paragraph>

@@ -6,10 +6,12 @@ import RoutePaths from '../../RoutePaths';
 import Paragraph from './docComponents/Paragraph';
 import Section from './docComponents/Section';
 import Image from './docComponents/Image';
-import { Link } from 'react-router-dom';
 import { OutlineElement } from './docComponents/OutlineElement';
 import Outline from './docComponents/Outline';
 import Introduction from './docComponents/Introduction';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import { Link } from '@material-ui/core';
 
 export const GettingStartedDocOutline = [
     {
@@ -32,7 +34,11 @@ export const GettingStartedDocOutline = [
     },
 ] as OutlineElement[];
 
-const GettingStarted = function (props: IDocProps) {
+interface GettingStartedProps extends IDocProps {
+    push: typeof push;
+}
+
+const GettingStarted = function (props: GettingStartedProps) {
     return (
         <React.Fragment>
             <Introduction id="getting-started-section" text="Getting Started">
@@ -52,7 +58,10 @@ const GettingStarted = function (props: IDocProps) {
                 </Paragraph>
                 <Paragraph>
                     To learn more about Ranger's extensively customizable geofences, take a look at our dedicated{' '}
-                    <Link to={RoutePaths.Docs.replace(':name?', 'geofences')}>Geofencing</Link> documentation.
+                    <Link component="button" onClick={() => RoutePaths.Docs.replace(':name?', 'geofences')} variant="body1">
+                        Geofencing
+                    </Link>{' '}
+                    documentation.
                 </Paragraph>
             </Section>
             <Section id="flexible-integrations-section" text="Flexible Integrations">
@@ -63,7 +72,10 @@ const GettingStarted = function (props: IDocProps) {
                 <Paragraph>What's more, all integrations will be available to all subscriptions - which Integrations you choose is up to you.</Paragraph>
                 <Paragraph>
                     To learn more about creating and managing Integrations in Ranger, take a look at our dedicated{' '}
-                    <Link to={RoutePaths.Docs.replace(':name?', 'integrations')}>Integration</Link> documentation.
+                    <Link component="button" onClick={() => RoutePaths.Docs.replace(':name?', 'integrations')} variant="body1">
+                        Integration
+                    </Link>{' '}
+                    documentation.
                 </Paragraph>
             </Section>
             <Section id="secure-projects-section" text="Secure Projects">
@@ -75,11 +87,14 @@ const GettingStarted = function (props: IDocProps) {
                 <Paragraph>Within your organization User Accounts can also be scoped to specific projects.</Paragraph>
                 <Paragraph>
                     To learn more about managing Projects and Project security, take a look at our dedicated{' '}
-                    <Link to={RoutePaths.Docs.replace(':name?', 'projects')}>Projects</Link> documentation.
+                    <Link component="button" onClick={() => RoutePaths.Docs.replace(':name?', 'projects')} variant="body1">
+                        Projects
+                    </Link>{' '}
+                    documentation.
                 </Paragraph>
             </Section>
         </React.Fragment>
     );
 };
 
-export default GettingStarted;
+export default connect(null, { push })(GettingStarted);

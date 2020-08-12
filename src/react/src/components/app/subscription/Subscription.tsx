@@ -1,6 +1,6 @@
 import React from 'react';
 import PlanCard from './PlanCard';
-import { Grid, Theme, createStyles, WithStyles, withStyles, Paper, Typography, Button, Hidden } from '@material-ui/core';
+import { Grid, Theme, createStyles, WithStyles, withStyles, Paper, Typography, Button, Hidden, Link } from '@material-ui/core';
 import SubscriptionsService from '../../../services/SubscriptionsService';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores';
@@ -9,8 +9,8 @@ import RoutePaths from '../../RoutePaths';
 import { getUnixTime } from 'date-fns';
 import { capitalCase } from 'change-case';
 import GlobalConfig from '../../../helpers/GlobalConfig';
-import { Link } from 'react-router-dom';
 import { Plans } from '../../../helpers/Helpers';
+import { push } from 'connected-react-router';
 const subscriptionsService = new SubscriptionsService();
 
 const styles = (theme: Theme) =>
@@ -38,6 +38,7 @@ const styles = (theme: Theme) =>
 
 interface SubscriptionProps extends WithStyles<typeof styles> {
     subscriptionLimitDetails: ISubscriptionLimitDetails;
+    push: typeof push;
 }
 
 interface SubscriptionState {
@@ -246,7 +247,11 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                         <Grid container item justify="center" alignContent="center">
                             <Typography align="center" variant="caption">
                                 Please note, when downgrading your subscription resources may need to be removed. To understand how resources are removed when
-                                downgrading, please refer to the documentation <Link to={RoutePaths.Docs.replace(':name?', '')}>here</Link>.
+                                downgrading, please refer to the documentation{' '}
+                                <Link component="button" onClick={() => this.props.push(RoutePaths.Docs.replace(':name?', ''))} variant="caption">
+                                    here
+                                </Link>
+                                .
                             </Typography>
                         </Grid>
                     </Grid>
@@ -256,4 +261,4 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
     }
 }
 
-export default connect(mapStateToProps, null)(withStyles(styles)(Subscription));
+export default connect(mapStateToProps, { push })(withStyles(styles)(Subscription));

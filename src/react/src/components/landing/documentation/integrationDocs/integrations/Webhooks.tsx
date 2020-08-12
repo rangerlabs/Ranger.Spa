@@ -7,11 +7,17 @@ import WebhookResult from '../../json/WebhookResult';
 import JsonViewer from '../../docComponents/JsonViewer';
 import HttpMethod from '../../textEnhancers/HttpMethod';
 import Bold from '../../textEnhancers/Bold';
-import { Link } from 'react-router-dom';
 import RoutePaths from '../../../../RoutePaths';
 import DocRoutePaths from '../../DocRoutePaths';
+import { Link } from '@material-ui/core';
+import { push } from 'connected-react-router';
+import { connect } from 'react-redux';
 
-const Webhooks = function () {
+interface WebhooksProps {
+    push: typeof push;
+}
+
+const Webhooks = function (props: WebhooksProps) {
     return (
         <Section text="Webhooks" id="webhook-section">
             <Paragraph>Ranger's Webhook Integration enables you to forward geofence events to any HTTPS endpoint.</Paragraph>
@@ -25,7 +31,10 @@ const Webhooks = function () {
                 Breadcrumb events. For example, if two Breadcrumbs are sent almost immediately after one another, it is possible your system receives the{' '}
                 <Bold>DWELLING</Bold> event before the <Bold>ENTERED</Bold> event. Increasing the time between Breadcrumbs reduces the likelihood of this
                 occurring. To learn more about sending Breadcrumbs, view the documentation{' '}
-                <Link to={RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs)}>here</Link>.
+                <Link component="button" onClick={() => props.push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs))} variant="body1">
+                    here
+                </Link>
+                .
             </Paragraph>
             <Image src={NewIntegration} alt="New Integration" maxWidth={60} />
             <Paragraph>
@@ -46,4 +55,4 @@ const Webhooks = function () {
     );
 };
 
-export default Webhooks;
+export default connect(null, { push })(Webhooks);

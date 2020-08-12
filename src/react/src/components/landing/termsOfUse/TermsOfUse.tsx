@@ -51,7 +51,7 @@ function TermsOfUse(props: TermsOfUseProps) {
                         <Paragraph>
                             To the extent that we are a Processor of Personal Data that is subject to certain Data Protection Laws (as defined in the DPA), the
                             EU Data Processing Addendum (<Bold>"DPA"</Bold>) located at{' '}
-                            <Link component="button" onClick={() => push(RoutePaths.DataProcessingAddendum)}>
+                            <Link variant="body1" component="button" onClick={() => push(RoutePaths.DataProcessingAddendum)}>
                                 https://rangerlabs.io/dpa
                             </Link>{' '}
                             is hereby incorporated into the Agreement.
@@ -77,7 +77,7 @@ function TermsOfUse(props: TermsOfUseProps) {
                         </Paragraph>
                         <Paragraph>
                             b. Licensee acknowledges and agrees that the Services enable Licensee to collect SDK Information (as defined in Ranger's{' '}
-                            <Link component="button" onClick={() => push(RoutePaths.Privacy)}>
+                            <Link variant="body1" component="button" onClick={() => push(RoutePaths.Privacy)}>
                                 privacy policy
                             </Link>
                             ) from end users of the Licensee Properties (<Bold>"End Users"</Bold>). Licensee represents and warrants that it shall use the
@@ -147,7 +147,7 @@ function TermsOfUse(props: TermsOfUseProps) {
                         <Paragraph>
                             As between the parties, Licensee shall own the SDK Information. Notwithstanding anything to the contrary, Ranger shall have the
                             right to use and store the SDK Information to the maximum extent permitted by law and in accordance with Ranger's{' '}
-                            <Link component="button" onClick={() => push(RoutePaths.Privacy)}>
+                            <Link variant="body1" component="button" onClick={() => push(RoutePaths.Privacy)}>
                                 privacy policy
                             </Link>
                             . Without limiting the foregoing, Licensee shall not use SDK Information for any of the following purposes: (a) employment
@@ -163,13 +163,13 @@ function TermsOfUse(props: TermsOfUseProps) {
                         <Paragraph>
                             a. Licensee is solely responsible for obtaining all applicable consents, approvals, permissions, and authorization from End Users
                             that are necessary to allow Ranger to collect and use the SDK Information in accordance with these Terms and Ranger's{' '}
-                            <Link component="button" onClick={() => push(RoutePaths.Privacy)}>
+                            <Link variant="body1" component="button" onClick={() => push(RoutePaths.Privacy)}>
                                 privacy policy
                             </Link>
                             . Without limiting the foregoing, Licensee shall publish and maintain privacy policies and disclosures for all Licensee Properties
                             that: (i) comply with all applicable laws and these Terms; and (ii) contain clear disclosures to End Users stating that the SDK
                             Information will be collected and used in accordance with these Terms and Ranger's{' '}
-                            <Link component="button" onClick={() => push(RoutePaths.Privacy)}>
+                            <Link variant="body1" component="button" onClick={() => push(RoutePaths.Privacy)}>
                                 privacy policy
                             </Link>
                             .
@@ -280,7 +280,7 @@ function TermsOfUse(props: TermsOfUseProps) {
                         </Paragraph>
                         <Paragraph>
                             g. <Bold>Entire Agreement.</Bold> These Terms and Ranger's{' '}
-                            <Link component="button" onClick={() => push(RoutePaths.Privacy)}>
+                            <Link variant="body1" component="button" onClick={() => push(RoutePaths.Privacy)}>
                                 privacy policy
                             </Link>{' '}
                             are the entire agreement between the parties and supersede any and all prior understandings, agreements, or representations by or
