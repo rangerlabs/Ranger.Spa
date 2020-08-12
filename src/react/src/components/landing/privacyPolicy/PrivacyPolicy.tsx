@@ -168,10 +168,13 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             If you are a resident of the European Union (<Bold>"EU"</Bold>), United Kingdom, Lichtenstein, Norway, or Iceland, you may have
                             additional rights under the EU General Data Protection Regulation (the <Bold>"GDPR"</Bold>) with respect to your Personal Data, as
                             outlined below. Ranger Labs, LLC may be the controller of your Personal Data processed in connection with the Services. If you have
-                            any questions about this section or whether any of the following applies to you, please contact us at legal@rangerlabs.io. Note that
-                            we may also process Personal Data of our customers' end users in connection with our provision of services to customers, in which
-                            case we are the processor of Personal Data. If we are the processor of your Personal Data (i.e., not the controller), please contact
-                            the controller party in the first instance to address your rights with respect to such data.
+                            any questions about this section or whether any of the following applies to you, please contact us at{' '}
+                            <Link href="mailto:legal@rangerlabs.io" variant="body1">
+                                legal@rangerlabs.io
+                            </Link>
+                            . Note that we may also process Personal Data of our customers' end users in connection with our provision of services to customers,
+                            in which case we are the processor of Personal Data. If we are the processor of your Personal Data (i.e., not the controller),
+                            please contact the controller party in the first instance to address your rights with respect to such data.
                         </Paragraph>
                     </Section>
                     <Section id="end-user-information" text="2. End User Information">
