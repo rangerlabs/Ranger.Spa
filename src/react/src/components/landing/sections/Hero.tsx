@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, Grid, Typography, Button, Paper, IconButton, useMediaQuery, useTheme, makeStyles, Hidden } from '@material-ui/core';
+import { Theme, createStyles, Grid, Typography, Button, Paper, IconButton, useMediaQuery, useTheme, makeStyles, Hidden, Fab } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import CreateGeofence from '../../../../assets/create-geofence.gif';
@@ -100,9 +100,9 @@ const Hero = function (props: HeroProps) {
                     spacing={5}
                 >
                     <Grid item>
-                        <IconButton color="primary" onClick={() => scrollToLandingId(props.scrollToId)}>
+                        <Fab color="primary" size="small" aria-label="scroll to next" onClick={() => scrollToLandingId(props.scrollToId)}>
                             <ArrowDown />
-                        </IconButton>
+                        </Fab>
                     </Grid>
                 </Grid>
             </Hidden>
