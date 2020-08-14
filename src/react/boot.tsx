@@ -19,7 +19,7 @@ import { ThemeProvider, StylesProvider } from '@material-ui/styles';
 import { jss, generateClassName } from './src/theme/StylesProviderPropsConfig';
 import Constants from './src/theme/Constants';
 import Notifier from './src/components/notifier/Notifier';
-import { datadogLogs } from '@datadog/browser-logs';
+import { datadogLogs, Datacenter } from '@datadog/browser-logs';
 import { getSpaVersion } from './src/helpers/Helpers';
 import GlobalConfig from './src/helpers/GlobalConfig';
 import ReactGA from 'react-ga';
@@ -85,7 +85,7 @@ ReactDOM.render(
 function InitializeDatadogLogging() {
     datadogLogs.init({
         clientToken: 'pube931a53a3562644ba5faf428d65ed896',
-        datacenter: 'us',
+        datacenter: Datacenter.US,
         service: 'React',
         forwardErrorsToLogs: true,
         sampleRate: 100,

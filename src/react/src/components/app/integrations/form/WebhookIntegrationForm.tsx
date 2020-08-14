@@ -192,7 +192,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         </Grid>
                                     </Grid>
                                 )}
-                                <Grid container item xs={12}>
+                                <Grid container spacing={3}>
                                     <Grid item xs={12}>
                                         <FormikCheckbox
                                             infoText="Whether the integration will execute for geofences."

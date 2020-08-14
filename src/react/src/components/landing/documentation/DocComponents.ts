@@ -5,6 +5,7 @@ import GeofencesDoc, { GeofencesDocOutline } from './GeofencesDoc';
 import IntegrationsDoc, { IntegrationsDocOutline } from './integrationDocs/IntegrationsDoc';
 import BreadcrumbsDoc, { BreadcrumbsDocOutline } from './BreadcrumbsDoc';
 import DocRoutePaths from './DocRoutePaths';
+import ApiDoc, { ApiDocOutline } from './apiDocs/ApiDoc';
 
 export const DocComponents: IDocComponent[] = [
     { name: 'Getting Started', path: DocRoutePaths.GettingStarted, component: GettingStarted, outline: GettingStartedDocOutline },
@@ -12,4 +13,5 @@ export const DocComponents: IDocComponent[] = [
     { name: 'Geofences', path: DocRoutePaths.Geofences, component: GeofencesDoc, outline: GeofencesDocOutline },
     { name: 'Integrations', path: DocRoutePaths.Integrations, component: IntegrationsDoc, outline: IntegrationsDocOutline },
     { name: 'Breadcrumbs', path: DocRoutePaths.Breadcrumbs, component: BreadcrumbsDoc, outline: BreadcrumbsDocOutline },
+    { name: 'API', path: DocRoutePaths.Api, component: ApiDoc, outline: ApiDocOutline },
 ];

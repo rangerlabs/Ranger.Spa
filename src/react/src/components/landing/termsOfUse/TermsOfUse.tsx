@@ -32,7 +32,7 @@ function TermsOfUse(props: TermsOfUseProps) {
                 <Grid container item justify="center">
                     <Grid item xs={12}>
                         <Typography align="center" variant="h4">
-                            Terms Of Use
+                            Terms of Use
                         </Typography>
                     </Grid>
                 </Grid>

@@ -17,20 +17,18 @@ export const GettingStartedDocOutline = [
     {
         name: 'Getting Started',
         id: 'getting-started-section',
-        subElements: [
-            {
-                name: 'Unrivaled Geofencing',
-                id: 'unrivaled-geofencing-section',
-            },
-            {
-                name: 'Flexible Integrations',
-                id: 'flexible-integrations-section',
-            },
-            {
-                name: 'Secure Projects',
-                id: 'secure-projects-section',
-            },
-        ],
+    },
+    {
+        name: 'Unrivaled Geofencing',
+        id: 'unrivaled-geofencing-section',
+    },
+    {
+        name: 'Flexible Integrations',
+        id: 'flexible-integrations-section',
+    },
+    {
+        name: 'Secure Projects',
+        id: 'secure-projects-section',
     },
 ] as OutlineElement[];
 

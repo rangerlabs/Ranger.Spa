@@ -11,28 +11,18 @@ import Outline from './docComponents/Outline';
 import Introduction from './docComponents/Introduction';
 import DescriptiveList, { Description } from './docComponents/DescriptiveList';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        list: {
-            padding: theme.spacing(4),
-        },
-    })
-);
-
 export const ProjectsAndRolesDocOutline = [
     {
         name: 'Projects And Roles',
         id: 'projects-and-roles-section',
-        subElements: [
-            {
-                name: 'Projects',
-                id: 'projects-section',
-            },
-            {
-                name: 'Roles',
-                id: 'roles-section',
-            },
-        ],
+    },
+    {
+        name: 'Projects',
+        id: 'projects-section',
+    },
+    {
+        name: 'Roles',
+        id: 'roles-section',
     },
 ] as OutlineElement[];
 

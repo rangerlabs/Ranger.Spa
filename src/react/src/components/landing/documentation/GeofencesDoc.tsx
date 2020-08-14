@@ -15,28 +15,26 @@ export const GeofencesDocOutline = [
     {
         name: 'Geofences',
         id: 'geofences-section',
-        subElements: [
-            {
-                name: 'Interface',
-                id: 'interface-section',
-            },
-            {
-                name: 'Events',
-                id: 'events-section',
-            },
-            {
-                name: 'Integrations',
-                id: 'integrations-section',
-            },
-            {
-                name: 'Schedules',
-                id: 'schedules-section',
-            },
-            {
-                name: 'Metadata',
-                id: 'metadata-section',
-            },
-        ],
+    },
+    {
+        name: 'Interface',
+        id: 'interface-section',
+    },
+    {
+        name: 'Events',
+        id: 'events-section',
+    },
+    {
+        name: 'Integrations',
+        id: 'integrations-section',
+    },
+    {
+        name: 'Schedules',
+        id: 'schedules-section',
+    },
+    {
+        name: 'Metadata',
+        id: 'metadata-section',
     },
 ] as OutlineElement[];
 
@@ -55,7 +53,7 @@ const EventDescriptions = [
     },
 ] as Description[];
 
-const ProjectsDoc = function (props: IDocProps) {
+const GeofencesDoc = function (props: IDocProps) {
     return (
         <React.Fragment>
             <Introduction id="geofences-section" text="Geofences">
@@ -67,7 +65,6 @@ const ProjectsDoc = function (props: IDocProps) {
                     Ranger supports Geofences of any size and in nearly any configuration including Circular Geofences, Polygon Geofences, and Geofences which
                     overlap with one another. The easy-to-use Geofencing UI allows you to vizualize, create, and edit all of your Geofences in a single view.
                 </Paragraph>
-                <Paragraph>Customers will soon be able to perform CRUD operations on Geofences using their Project API key.</Paragraph>
             </Introduction>
             {props.showOutline && <Outline elements={GeofencesDocOutline} />}
             <Section text="Interface" id="interface-section">
@@ -150,4 +147,4 @@ const ProjectsDoc = function (props: IDocProps) {
     );
 };
 
-export default ProjectsDoc;
+export default GeofencesDoc;

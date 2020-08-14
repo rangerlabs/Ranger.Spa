@@ -11,11 +11,9 @@ export const IntegrationsDocOutline = [
     {
         name: 'Integrations',
         id: 'integrations-section',
-        subElements: [
-            { name: 'Webhooks', id: 'webhook-section' },
-            { name: 'Coming Soon', id: 'coming-soon' },
-        ],
     },
+    { name: 'Webhooks', id: 'webhook-section' },
+    { name: 'Coming Soon', id: 'coming-soon' },
 ] as OutlineElement[];
 
 const IntegrationsDoc = function (props: IDocProps) {
