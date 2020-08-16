@@ -39,7 +39,7 @@ class Loading extends React.Component<LoadingProps, LoadingState> {
         warningTimeoutMessage: '',
     };
     warningTimeout = 7 * 1000;
-    warningTimeoutMessage = "The request is taking longer than expected but we haven't given up yet";
+    warningTimeoutMessage = 'The request is taking longer than expected but is still ongoing';
     errorTimeoutStaticMessage = 'An error occurred retrieving the resource. Please try again later.';
     warningTimer: number = undefined;
 
