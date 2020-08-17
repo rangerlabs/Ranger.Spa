@@ -61,7 +61,7 @@ const ApiDoc = function (props: ApiDocsProps) {
                 <Paragraph>
                     While Ranger strives to be as RESTful as possible, there may be endpoints that deviate from pure REST standards. Additionally, because the
                     majority Ranger's APIs are asynchronous, clients receiving 202 Accepted responses should anticipate the need to query for the result of
-                    their operation. Future API enhancments will provide clients an exact URI to query for the result of their operation.
+                    their operation. Future API enhancments will provide clients a URI to query for the result of their operation.
                 </Paragraph>
             </Introduction>
             {props.showOutline && <Outline elements={ApiDocOutline} />}
@@ -80,9 +80,9 @@ const ApiDoc = function (props: ApiDocsProps) {
             </Section>
             <Section text="Versioning" id="versioning-section">
                 <Paragraph>
-                    To support future enhancements and modifications to public APIs, all of Ranger's APIs are versioned. As such, Ranger expects a version
-                    header in all requests. The currently Ranger API version is <Bold>1.0</Bold> Requests should include the header as follows, requests failing
-                    to provide the header or spcifying an incorrect version will be responded to with a 400 Bad Request response.
+                    To support future enhancements and modifications to Ranger's APIs, all of Ranger's APIs are versioned. As such, Ranger expects a version
+                    header in all requests. The current Ranger API version is <Bold>1.0</Bold>. Requests should include the header as follows, requests failing
+                    to provide the header or specifying an invalid API Version will be responded to with a <Bold>400 Bad Request</Bold> response.
                 </Paragraph>
                 <Paragraph>Api-Version: 1.0</Paragraph>
             </Section>

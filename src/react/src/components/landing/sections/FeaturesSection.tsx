@@ -12,7 +12,11 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingBottom: theme.spacing(8),
         },
         icon: {
-            width: '75%',
+            width: '70%',
+            marginBottom: theme.spacing(4),
+        },
+        iconContainer: {
+            textAlign: 'center',
         },
     })
 );
@@ -23,7 +27,7 @@ const FeaturesSection = function (props: FeaturesSectionProps) {
     const classes = useStyles(props);
     return (
         <div className={classes.layout}>
-            <Grid container direction="column" alignItems="center" spacing={5}>
+            <Grid container direction="column" alignItems="center" spacing={7}>
                 <Grid container item justify="center">
                     <Grid item xs={12}>
                         <Typography gutterBottom color="primary" align="center" variant="h4">
@@ -32,8 +36,8 @@ const FeaturesSection = function (props: FeaturesSectionProps) {
                     </Grid>
                 </Grid>
                 <Grid container item justify="space-evenly" alignItems="flex-start" spacing={3} xs={12} md={8}>
-                    <Grid item xs={7} sm={4} lg={3}>
-                        <UnlimitedUsers />
+                    <Grid className={classes.iconContainer} item xs={7} sm={4} lg={3}>
+                        <UnlimitedUsers className={classes.icon} />
                         <Typography gutterBottom color="primary" align="center" variant="h4">
                             Unlimited Users & Devices
                         </Typography>
@@ -42,8 +46,8 @@ const FeaturesSection = function (props: FeaturesSectionProps) {
                         </Typography>
                     </Grid>
 
-                    <Grid item xs={7} sm={4} lg={3}>
-                        <ConfigurableGeofences />
+                    <Grid className={classes.iconContainer} item xs={7} sm={4} lg={3}>
+                        <ConfigurableGeofences className={classes.icon} />
                         <Typography gutterBottom color="primary" align="center" variant="h4">
                             Configurable Geofences
                         </Typography>
@@ -52,8 +56,8 @@ const FeaturesSection = function (props: FeaturesSectionProps) {
                         </Typography>
                     </Grid>
 
-                    <Grid item xs={7} sm={4} lg={3}>
-                        <MixAndMatchIntegrations />
+                    <Grid className={classes.iconContainer} item xs={7} sm={4} lg={3}>
+                        <MixAndMatchIntegrations className={classes.icon} />
                         <Typography gutterBottom color="primary" align="center" variant="h4">
                             Mix & Match Integrations
                         </Typography>
