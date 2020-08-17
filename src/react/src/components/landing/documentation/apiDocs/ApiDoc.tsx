@@ -4,6 +4,13 @@ import Introduction from '../docComponents/Introduction';
 import Paragraph from '../docComponents/Paragraph';
 import Outline from '../docComponents/Outline';
 import Section from '../docComponents/Section';
+import { Link } from '@material-ui/core';
+import { push } from 'react-router-redux';
+import { connect } from 'react-redux';
+import RoutePaths from '../../../RoutePaths';
+import DescriptiveList, { Description } from '../docComponents/DescriptiveList';
+import Bold from '../textEnhancers/Bold';
+import HttpMethod from '../textEnhancers/HttpMethod';
 
 export const ApiDocOutline = [
     {
@@ -24,41 +31,66 @@ export const ApiDocOutline = [
     },
 ] as OutlineElement[];
 
-export default function ApiDoc(props: IDocProps) {
+interface ApiDocsProps extends IDocProps {
+    push: typeof push;
+}
+
+const apiKeyDescriptions = [
+    {
+        title: 'Live API key',
+        description:
+            'The Live API key is intended to be deployed into a production environment and will execute all Integrations whose environent is set to LIVE.',
+    },
+    {
+        title: 'Test API key',
+        description:
+            'The Test API key is intended to be deployed to any non-production environment and will execute all Integrations whose environent is set to TEST.',
+    },
+    {
+        title: 'Project API key',
+        description:
+            'The Project API key provides the ability to programatically manage a subset of resources within a Project. For example, this key can be used for CRUD operations on Geofence resources.',
+    },
+] as Description[];
+
+const ApiDoc = function (props: ApiDocsProps) {
     return (
         <React.Fragment>
             <Introduction id="api-section" text="Geofences">
-                <Paragraph></Paragraph>
+                <Paragraph>This page documents the available REST endpoints that clients may access via the API Keys provided for each Project. </Paragraph>
                 <Paragraph>
-                    Ranger supports Geofences of any size and in nearly any configuration including Circular Geofences, Polygon Geofences, and Geofences which
-                    overlap with one another. The easy-to-use Geofencing UI allows you to vizualize, create, and edit all of your Geofences in a single view.
+                    While Ranger strives to be as RESTful as possible, there may be endpoints that deviate from pure REST standards. Additionally, because the
+                    majority Ranger's APIs are asynchronous, clients receiving 202 Accepted responses should anticipate the need to query for the result of
+                    their operation. Future API enhancments will provide clients an exact URI to query for the result of their operation.
                 </Paragraph>
             </Introduction>
             {props.showOutline && <Outline elements={ApiDocOutline} />}
             <Section text="Api Keys" id="api-keys-section">
                 <Paragraph>
-                    To get started creating Geofences, select the Map option from the main navigation. You can quickly navigate to the location of where the
-                    Geofence must be placed by using the search bar. Once you have arrived at the location of the Geofence, hover over the Speed Dial icon to
-                    select the shape of the Geofence. Once a shape has been selected, you will see Cancel and Save options become present. You can cancel the
-                    creation of a Geofence at anytime.
+                    As described in <Link onClick={() => props.push(RoutePaths.Projects)}>Projects</Link>, three API Keys are provided per Project which may be
+                    regenerated at any time.
+                </Paragraph>
+                <Paragraph>These API keys serve distinct purposes:</Paragraph>
+                <DescriptiveList descriptions={apiKeyDescriptions} />
+                <Paragraph>
+                    The <Bold>Live</Bold> and <Bold>Test</Bold> API Keys are only accepted when a <HttpMethod method="POST" /> request is made to the{' '}
+                    <Bold>/breadcrumbs</Bold> endpoint. For requests relating to other resources within the Project or Organization, the <Bold>Project</Bold>
+                    API Key should be used.
                 </Paragraph>
             </Section>
             <Section text="Versioning" id="versioning-section">
                 <Paragraph>
-                    To get started creating Geofences, select the Map option from the main navigation. You can quickly navigate to the location of where the
-                    Geofence must be placed by using the search bar. Once you have arrived at the location of the Geofence, hover over the Speed Dial icon to
-                    select the shape of the Geofence. Once a shape has been selected, you will see Cancel and Save options become present. You can cancel the
-                    creation of a Geofence at anytime.
+                    To support future enhancements and modifications to public APIs, all of Ranger's APIs are versioned. As such, Ranger expects a version
+                    header in all requests. The currently Ranger API version is <Bold>1.0</Bold> Requests should include the header as follows, requests failing
+                    to provide the header or spcifying an incorrect version will be responded to with a 400 Bad Request response.
                 </Paragraph>
+                <Paragraph>Api-Version: 1.0</Paragraph>
             </Section>
             <Section text="Responses" id="responses-section">
-                <Paragraph>
-                    To get started creating Geofences, select the Map option from the main navigation. You can quickly navigate to the location of where the
-                    Geofence must be placed by using the search bar. Once you have arrived at the location of the Geofence, hover over the Speed Dial icon to
-                    select the shape of the Geofence. Once a shape has been selected, you will see Cancel and Save options become present. You can cancel the
-                    creation of a Geofence at anytime.
-                </Paragraph>
+                <Paragraph></Paragraph>
             </Section>
         </React.Fragment>
     );
-}
+};
+
+export default connect(null, { push })(ApiDoc);
