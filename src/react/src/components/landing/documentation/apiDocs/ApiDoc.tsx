@@ -11,6 +11,7 @@ import RoutePaths from '../../../RoutePaths';
 import DescriptiveList, { Description } from '../docComponents/DescriptiveList';
 import Bold from '../textEnhancers/Bold';
 import HttpMethod from '../textEnhancers/HttpMethod';
+import Code from '../textEnhancers/Code';
 
 export const ApiDocOutline = [
     {
@@ -60,8 +61,8 @@ const ApiDoc = function (props: ApiDocsProps) {
                 <Paragraph>This page documents the available REST endpoints that clients may access via the API Keys provided for each Project. </Paragraph>
                 <Paragraph>
                     While Ranger strives to be as RESTful as possible, there may be endpoints that deviate from pure REST standards. Additionally, because the
-                    majority Ranger's APIs are asynchronous, clients receiving 202 Accepted responses should anticipate the need to query for the result of
-                    their operation. Future API enhancments will provide clients a URI to query for the result of their operation.
+                    majority of Ranger's APIs are asynchronous, clients receiving <Code>202 Accepted</Code> responses should anticipate the need to query for
+                    the result of their operation. Future API enhancments will provide clients a URI to query for the result of their operation.
                 </Paragraph>
             </Introduction>
             {props.showOutline && <Outline elements={ApiDocOutline} />}
@@ -74,17 +75,19 @@ const ApiDoc = function (props: ApiDocsProps) {
                 <DescriptiveList descriptions={apiKeyDescriptions} />
                 <Paragraph>
                     The <Bold>Live</Bold> and <Bold>Test</Bold> API Keys are only accepted when a <HttpMethod method="POST" /> request is made to the{' '}
-                    <Bold>/breadcrumbs</Bold> endpoint. For requests relating to other resources within the Project or Organization, the <Bold>Project</Bold>
+                    <Code>/breadcrumbs</Code> endpoint. For requests relating to other resources within the Project or Organization, the <Bold>Project</Bold>
                     API Key should be used.
                 </Paragraph>
             </Section>
             <Section text="Versioning" id="versioning-section">
                 <Paragraph>
                     To support future enhancements and modifications to Ranger's APIs, all of Ranger's APIs are versioned. As such, Ranger expects a version
-                    header in all requests. The current Ranger API version is <Bold>1.0</Bold>. Requests should include the header as follows, requests failing
-                    to provide the header or specifying an invalid API Version will be responded to with a <Bold>400 Bad Request</Bold> response.
+                    header in all requests. The current Ranger API version is <Code>1.0</Code>. Requests should include the header as follows, requests failing
+                    to provide the header or specifying an invalid API Version will be responded to with a <Code>400 Bad Request</Code> response.
                 </Paragraph>
-                <Paragraph>Api-Version: 1.0</Paragraph>
+                <Paragraph>
+                    <Code>API-Version: 1.0</Code>
+                </Paragraph>
             </Section>
             <Section text="Responses" id="responses-section">
                 <Paragraph></Paragraph>

@@ -5,7 +5,8 @@ import React from 'react';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         list: {
-            padding: theme.spacing(4),
+            paddingLeft: theme.spacing(4),
+            paddingRight: theme.spacing(4),
         },
     })
 );
