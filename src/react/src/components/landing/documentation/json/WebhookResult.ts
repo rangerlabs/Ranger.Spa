@@ -51,5 +51,5 @@ const WebhookResult = {
             value: 'marketing',
         },
     ],
-};
+} as any;
 export default WebhookResult;

@@ -1,6 +1,6 @@
 import { Theme, createStyles, WithStyles, withStyles, Typography } from '@material-ui/core';
 import Constants from '../../../../theme/Constants';
-import { blue, yellow, red } from '@material-ui/core/colors';
+import { blue, yellow, red, orange } from '@material-ui/core/colors';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -9,9 +9,8 @@ const styles = (theme: Theme) =>
         font: {
             color: theme.palette.common.white,
             padding: '2px 8px',
-            fontSize: '0.85rem',
             fontWeight: 800,
-            borderRadius: '8px',
+            borderRadius: '2px',
         },
         get: {
             background: blue[800],
@@ -22,13 +21,16 @@ const styles = (theme: Theme) =>
         put: {
             background: yellow[800],
         },
+        patch: {
+            background: orange[800],
+        },
         delete: {
             background: red[800],
         },
     });
 
 interface HttpMethodProps extends WithStyles<typeof styles> {
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+    method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 }
 
 const HttpMethod = function (props: HttpMethodProps) {
@@ -52,6 +54,13 @@ const HttpMethod = function (props: HttpMethodProps) {
             return (
                 <Typography className={classNames(classes.font, classes.put)} variant="caption">
                     PUT
+                </Typography>
+            );
+        }
+        case 'PATCH': {
+            return (
+                <Typography className={classNames(classes.font, classes.patch)} variant="caption">
+                    PATCH
                 </Typography>
             );
         }

@@ -5,6 +5,7 @@ import React from 'react';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         block: {
+            marginTop: theme.spacing(3),
             marginBottom: theme.spacing(3),
         },
     })

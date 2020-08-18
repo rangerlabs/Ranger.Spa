@@ -12,6 +12,7 @@ import Introduction from './docComponents/Introduction';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { Link } from '@material-ui/core';
+import DocRoutePaths from './DocRoutePaths';
 
 export const GettingStartedDocOutline = [
     {
@@ -56,7 +57,7 @@ const GettingStarted = function (props: GettingStartedProps) {
                 </Paragraph>
                 <Paragraph>
                     To learn more about Ranger's extensively customizable geofences, take a look at our dedicated{' '}
-                    <Link component="button" onClick={() => RoutePaths.Docs.replace(':name?', 'geofences')} variant="body1">
+                    <Link component="button" onClick={() => props.push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Geofences))} variant="body1">
                         Geofencing
                     </Link>{' '}
                     documentation.
@@ -70,7 +71,7 @@ const GettingStarted = function (props: GettingStartedProps) {
                 <Paragraph>What's more, all integrations will be available to all subscriptions - which Integrations you choose is up to you.</Paragraph>
                 <Paragraph>
                     To learn more about creating and managing Integrations in Ranger, take a look at our dedicated{' '}
-                    <Link component="button" onClick={() => RoutePaths.Docs.replace(':name?', 'integrations')} variant="body1">
+                    <Link component="button" onClick={() => props.push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Integrations))} variant="body1">
                         Integration
                     </Link>{' '}
                     documentation.
@@ -85,7 +86,7 @@ const GettingStarted = function (props: GettingStartedProps) {
                 <Paragraph>Within your organization User Accounts can also be scoped to specific projects.</Paragraph>
                 <Paragraph>
                     To learn more about managing Projects and Project security, take a look at our dedicated{' '}
-                    <Link component="button" onClick={() => RoutePaths.Docs.replace(':name?', 'projects')} variant="body1">
+                    <Link component="button" onClick={() => props.push(RoutePaths.Docs.replace(':name?', DocRoutePaths.ProjectsAndRoles))} variant="body1">
                         Projects
                     </Link>{' '}
                     documentation.

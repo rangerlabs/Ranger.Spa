@@ -13,5 +13,6 @@ const Breadcrumb = {
             value: '1.2.0-beta',
         },
     ],
-};
+} as any;
+
 export default Breadcrumb;

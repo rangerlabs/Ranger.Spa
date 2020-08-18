@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>
             },
             minWidth: theme.spacing(2),
         },
+        listItemTextRoot: {
+            margin: 0,
+        },
         inset: {
             paddingLeft: theme.spacing(4),
         },
@@ -33,6 +36,10 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         toolbar: {
             height: '64px',
+        },
+        densePadding: {
+            paddingTop: '0px',
+            paddingBottom: '0px',
         },
     })
 );
@@ -44,16 +51,17 @@ interface OutlineElementProps {
 function getElement(classes: ReturnType<typeof useStyles>, element: OutlineElement, props: OutlineElementProps, inset?: boolean) {
     return (
         <React.Fragment key={element.id}>
-            <ListItem className={inset ? classes.inset : ''}>
+            <ListItem className={inset ? classes.inset : ''} classes={{ dense: classes.densePadding }}>
                 <ListItemText
+                    classes={{ root: inset ? classes.listItemTextRoot : '' }}
                     disableTypography
                     primary={
                         inset ? (
-                            <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
+                            <Link component="button" variant="caption" onClick={() => scrollToLandingId(element.id)}>
                                 {element.name}
                             </Link>
                         ) : (
-                            <Link component="button" variant="subtitle1" onClick={() => scrollToLandingId(element.id)}>
+                            <Link component="button" variant="body1" onClick={() => scrollToLandingId(element.id)}>
                                 {element.name}
                             </Link>
                         )

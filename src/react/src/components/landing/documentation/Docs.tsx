@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingLeft: theme.spacing(4),
         },
         toolbar: theme.mixins.toolbar,
+        outlinePush: {
+            height: theme.spacing(4),
+        },
         iconAlign: {
             verticalAlign: 'middle',
         },
@@ -178,7 +181,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                     props.push(RoutePaths.Docs.replace(':name?', 'api'));
                 }}
             >
-                <ListItemText primary="API" />
+                <ListItemText primary="API Reference" />
             </ListItem>
             {/* <ListItem id="sdk-link" className={classes.li} button>
                 <Badge
@@ -252,7 +255,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                     variant="permanent"
                     open
                 >
-                    <div className={classes.toolbar} />
+                    <div className={classes.outlinePush} />
                     <Outline elements={DocOutline} />
                 </Drawer>
             </nav>

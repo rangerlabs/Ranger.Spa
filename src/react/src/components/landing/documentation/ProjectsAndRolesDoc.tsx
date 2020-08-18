@@ -30,12 +30,12 @@ const apiKeyDescriptions = [
     {
         title: 'Live API key',
         description:
-            'The Live API key is intended to be deployed into a production environment and will execute all Integrations whose environent is set to LIVE.',
+            'The Live API key is intended to be deployed into a production environment for submitting Breadcrumbs. This key will execute Integrations whose environent is set to LIVE.',
     },
     {
         title: 'Test API key',
         description:
-            'The Test API key is intended to be deployed to any non-production environment and will execute all Integrations whose environent is set to TEST.',
+            'The Test API key is intended to be deployed to any non-production environment for submitting Breadcrumbs. This key will execute Integrations whose environent is set to TEST.',
     },
     {
         title: 'Project API key',
@@ -134,12 +134,14 @@ const ProjectsDoc = function (props: IDocProps) {
                     There are 4 distinct user Roles within Ranger. What Role a user is given may depend on how frequently your organization's resources need
                     updated or their role in your organization.
                 </Paragraph>
-                <Paragraph>Below lists the four roles and their access to Ranger's APIs:</Paragraph>
+                <Paragraph>Below lists the four roles and their access to Ranger's APIs.</Paragraph>
                 <Roles />
                 <Paragraph>
                     The User Role is only able to perform operations on resources that are contained within the Projects they have been assigned to.
                 </Paragraph>
-                <Paragraph>Projects can be assigned using the 'Authorized Projects' multiselect dropdown when creating or editing users.</Paragraph>
+                <Paragraph>
+                    Projects can be assigned using the <Bold>Authorized Projects</Bold> multiselect dropdown when creating or editing users.
+                </Paragraph>
                 <Image src={NewUser} alt="New User" />
             </Section>
         </React.Fragment>

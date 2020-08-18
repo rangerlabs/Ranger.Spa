@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface JsonViewerProps {
     title: string;
     json: object;
+    expandLevel?: number;
 }
 
 export default function JsonViewer(props: PropsWithChildren<JsonViewerProps>) {
@@ -38,7 +39,7 @@ export default function JsonViewer(props: PropsWithChildren<JsonViewerProps>) {
                     theme={jsonViewerTheme}
                     name={false}
                     iconStyle="circle"
-                    collapsed={1}
+                    collapsed={props.expandLevel ? props.expandLevel : 1}
                     enableClipboard={false}
                     displayDataTypes={false}
                     displayObjectSize={false}
