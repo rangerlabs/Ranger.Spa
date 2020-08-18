@@ -1,5 +1,5 @@
 export default class DocRoutePaths {
-    public static GettingStarted = 'getting-started';
+    public static GettingStarted = '';
     public static ProjectsAndRoles = 'projects-and-roles';
     public static Geofences = 'geofences';
     public static Integrations = 'integrations';

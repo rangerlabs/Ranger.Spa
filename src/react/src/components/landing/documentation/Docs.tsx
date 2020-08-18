@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, Drawer, createStyles, List, ListItem, ListItemText, Typography, Box, makeStyles, useTheme, useMediaQuery } from '@material-ui/core';
+import { Theme, Drawer, createStyles, List, ListItem, ListItemText, Typography, Box, makeStyles, useTheme, useMediaQuery, Fade } from '@material-ui/core';
 import Observer from 'react-intersection-observer';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { DocComponents } from './DocComponents';
@@ -13,6 +13,8 @@ import ScrollTop from '../ScrollTop';
 import Footer from '../footer/Footer';
 import Outline from './docComponents/Outline';
 import Constants from '../../../theme/Constants';
+import DocRoutePaths from './DocRoutePaths';
+import NotFound from '../../error/NotFound';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -96,6 +98,7 @@ interface DocumentationProps {
 function Docs(props: DocumentationProps): JSX.Element {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [atPageTop, setAtPageTop] = useState(true);
+    const [isIn, setIsIn] = useState(true);
     const classes = useStyles();
     const theme = useTheme();
     const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2));
@@ -111,9 +114,24 @@ function Docs(props: DocumentationProps): JSX.Element {
         setAtPageTop(inView);
     };
 
-    const docComponents = DocComponents;
-    const { component: Doc, name: Name, outline: DocOutline } =
-        docComponents.find((d) => d.path === (match.params as any).name) ?? docComponents.find((d) => d.path === 'getting-started');
+    const handleMenuClick = function (docRoute: string) {
+        closeMobileDrawer();
+        if (!doc || docRoute !== doc.path) {
+            props.push(RoutePaths.Docs.replace(':name?', docRoute));
+            setIsIn(false);
+        }
+    };
+
+    const getDocComponent = function () {
+        const nameValue = (match.params as any).name;
+        if (nameValue) {
+            return DocComponents.find((d) => d.path === nameValue);
+        } else {
+            return DocComponents.find((d) => d.path === DocRoutePaths.GettingStarted);
+        }
+    };
+
+    const doc = getDocComponent();
 
     const drawerContent = (
         <List>
@@ -122,8 +140,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 className={classes.li}
                 button
                 onClick={() => {
-                    closeMobileDrawer();
-                    props.push(RoutePaths.Docs.replace('/:name?', ''));
+                    handleMenuClick('');
                 }}
             >
                 <ListItemText primary="Getting Started" />
@@ -133,8 +150,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 className={classes.li}
                 button
                 onClick={() => {
-                    closeMobileDrawer();
-                    props.push(RoutePaths.Docs.replace(':name?', 'projects-and-roles'));
+                    handleMenuClick(DocRoutePaths.ProjectsAndRoles);
                 }}
             >
                 <ListItemText primary="Projects and Roles" />
@@ -144,8 +160,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 className={classes.li}
                 button
                 onClick={() => {
-                    closeMobileDrawer();
-                    props.push(RoutePaths.Docs.replace(':name?', 'breadcrumbs'));
+                    handleMenuClick(DocRoutePaths.Breadcrumbs);
                 }}
             >
                 <ListItemText primary="Breadcrumbs" />
@@ -155,8 +170,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 className={classes.li}
                 button
                 onClick={() => {
-                    closeMobileDrawer();
-                    props.push(RoutePaths.Docs.replace(':name?', 'geofences'));
+                    handleMenuClick(DocRoutePaths.Geofences);
                 }}
             >
                 <ListItemText primary="Geofences" />
@@ -166,8 +180,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 className={classes.li}
                 button
                 onClick={() => {
-                    closeMobileDrawer();
-                    props.push(RoutePaths.Docs.replace(':name?', 'integrations'));
+                    handleMenuClick(DocRoutePaths.Integrations);
                 }}
             >
                 <ListItemText primary="Integrations" />
@@ -177,8 +190,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                 className={classes.li}
                 button
                 onClick={() => {
-                    closeMobileDrawer();
-                    props.push(RoutePaths.Docs.replace(':name?', 'api'));
+                    handleMenuClick(DocRoutePaths.Api);
                 }}
             >
                 <ListItemText primary="API Reference" />
@@ -232,7 +244,7 @@ function Docs(props: DocumentationProps): JSX.Element {
             </nav>
             <div className={classNames(classes.mdUpHide, classes.sticky)} onClick={openMobileDrawer}>
                 <Typography style={{ lineHeight: '2.75' }} align="center" variant="subtitle1">
-                    {Name}
+                    {doc ? doc.name : 'Not Found'}
                     <ExpandMore className={classes.iconAlign} />
                 </Typography>
             </div>
@@ -242,23 +254,27 @@ function Docs(props: DocumentationProps): JSX.Element {
                         <div />
                     </Observer>
                     <Box className={classes.mdUpHide}></Box>
-                    <Doc showOutline={!isMdUp} />
+                    <Fade in={isIn} timeout={{ enter: 550, exit: 0 }} addEndListener={() => setIsIn(true)}>
+                        <div>{doc ? <doc.component showOutline={!isMdUp} /> : <NotFound />}</div>
+                    </Fade>
                 </div>
             </div>
-            <nav className={classes.drawer}>
-                <Drawer
-                    classes={{
-                        paper: classNames(classes.drawerPaper, classes.boxShadow),
-                    }}
-                    className={classes.mdDownHide}
-                    anchor={'right'}
-                    variant="permanent"
-                    open
-                >
-                    <div className={classes.outlinePush} />
-                    <Outline elements={DocOutline} />
-                </Drawer>
-            </nav>
+            {doc && (
+                <nav className={classes.drawer}>
+                    <Drawer
+                        classes={{
+                            paper: classNames(classes.drawerPaper, classes.boxShadow),
+                        }}
+                        className={classes.mdDownHide}
+                        anchor={'right'}
+                        variant="permanent"
+                        open
+                    >
+                        <div className={classes.outlinePush} />
+                        <Outline elements={doc.outline} />
+                    </Drawer>
+                </nav>
+            )}
             <ScrollTop
                 visible={!atPageTop}
                 onClick={() => {
