@@ -16,21 +16,23 @@ import Constants from '../../../theme/Constants';
 import DocRoutePaths from './DocRoutePaths';
 import NotFound from '../../error/NotFound';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const docWidth = 750;
+const useStyles = makeStyles((theme: Theme) => {
+    const breakpoint = docWidth + theme.spacing(2) + Constants.DRAWER.LANDING.WIDTH * 2;
+    return createStyles({
         drawer: {
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
+            [theme.breakpoints.up(breakpoint)]: {
                 width: theme.drawer.width,
                 flexShrink: 0,
             },
         },
         mdDownHide: {
-            [theme.breakpoints.down(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
+            [theme.breakpoints.down(breakpoint)]: {
                 display: 'none',
             },
         },
         mdUpHide: {
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
+            [theme.breakpoints.up(breakpoint)]: {
                 display: 'none',
             },
         },
@@ -38,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
             border: 'none',
             height: 'auto',
             backgroundColor: '#fafafa',
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
+            [theme.breakpoints.up(breakpoint)]: {
                 zIndex: theme.zIndex.appBar - 1,
                 width: Constants.DRAWER.LANDING.WIDTH,
                 maxWidth: Constants.DRAWER.LANDING.WIDTH,
@@ -63,14 +65,15 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         content: {
             backgroundColor: '#fafafa',
-            padding: theme.spacing(4),
             width: 'auto',
             marginLeft: theme.spacing(1),
             marginRight: theme.spacing(1),
             marginTop: theme.spacing(3),
             marginBottom: theme.spacing(3),
-            [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
-                width: 800,
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2),
+            [theme.breakpoints.up(breakpoint)]: {
+                width: docWidth,
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
@@ -88,8 +91,8 @@ const useStyles = makeStyles((theme: Theme) =>
         boxShadow: {
             boxShadow: 'none',
         },
-    })
-);
+    });
+});
 
 interface DocumentationProps {
     push: typeof push;
@@ -101,7 +104,7 @@ function Docs(props: DocumentationProps): JSX.Element {
     const [isIn, setIsIn] = useState(true);
     const classes = useStyles();
     const theme = useTheme();
-    const isMdUp = useMediaQuery(theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2));
+    const isMdUp = useMediaQuery(theme.breakpoints.up(docWidth + theme.spacing(2) + Constants.DRAWER.LANDING.WIDTH * 2));
     let match = useRouteMatch();
 
     const openMobileDrawer = function () {
@@ -248,33 +251,35 @@ function Docs(props: DocumentationProps): JSX.Element {
                     <ExpandMore className={classes.iconAlign} />
                 </Typography>
             </div>
-            <div id="content-top" className={classes.content}>
+            <Fade in={isIn} timeout={{ enter: 550, exit: 0 }} addEndListener={() => setIsIn(true)}>
                 <div>
-                    <Observer onChange={handleScrollTop}>
-                        <div />
-                    </Observer>
-                    <Box className={classes.mdUpHide}></Box>
-                    <Fade in={isIn} timeout={{ enter: 550, exit: 0 }} addEndListener={() => setIsIn(true)}>
-                        <div>{doc ? <doc.component showOutline={!isMdUp} /> : <NotFound />}</div>
-                    </Fade>
+                    <div id="content-top" className={classes.content}>
+                        <div>
+                            <Observer onChange={handleScrollTop}>
+                                <div />
+                            </Observer>
+                            <Box className={classes.mdUpHide}></Box>
+                            <div>{doc ? <doc.component showOutline={!isMdUp} /> : <NotFound />}</div>
+                        </div>
+                    </div>
+                    {doc && (
+                        <nav className={classes.drawer}>
+                            <Drawer
+                                classes={{
+                                    paper: classNames(classes.drawerPaper, classes.boxShadow),
+                                }}
+                                className={classes.mdDownHide}
+                                anchor={'right'}
+                                variant="permanent"
+                                open
+                            >
+                                <div className={classes.outlinePush} />
+                                <Outline elements={doc.outline} />
+                            </Drawer>
+                        </nav>
+                    )}
                 </div>
-            </div>
-            {doc && (
-                <nav className={classes.drawer}>
-                    <Drawer
-                        classes={{
-                            paper: classNames(classes.drawerPaper, classes.boxShadow),
-                        }}
-                        className={classes.mdDownHide}
-                        anchor={'right'}
-                        variant="permanent"
-                        open
-                    >
-                        <div className={classes.outlinePush} />
-                        <Outline elements={doc.outline} />
-                    </Drawer>
-                </nav>
-            )}
+            </Fade>
             <ScrollTop
                 visible={!atPageTop}
                 onClick={() => {
