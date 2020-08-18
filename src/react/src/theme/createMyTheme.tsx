@@ -74,6 +74,11 @@ export default function createRangerTheme(theme: ThemeOptions) {
                     fontWeight: 300,
                 },
             },
+            MuiLink: {
+                button: {
+                    verticalAlign: 'baseline',
+                },
+            },
             MuiGrid: {
                 container: {
                     width: '100% !important',

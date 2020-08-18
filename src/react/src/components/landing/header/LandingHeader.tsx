@@ -22,6 +22,7 @@ const styles = (theme: Theme) =>
             zIndex: theme.zIndex.drawer + 1,
         },
         landingLink: {
+            minWidth: '0px',
             marginLeft: '17px',
             marginRight: '17px',
         },
@@ -90,24 +91,18 @@ class LandingHeader extends React.Component<LandingHeaderProps> {
                         </Button>
                     </div>
                     <Hidden smDown implementation="css">
-                        <Link
-                            component="button"
-                            variant="subtitle1"
-                            color="textPrimary"
-                            className={classes.landingLink}
-                            onClick={this.handleDocumentationClick}
-                        >
+                        <Button size="small" variant="text" className={classes.landingLink} onClick={this.handleDocumentationClick}>
                             Docs
-                        </Link>
-                        <Link component="button" variant="subtitle1" color="textPrimary" className={classes.landingLink} onClick={this.handlePricingClick}>
+                        </Button>
+                        <Button size="small" variant="text" className={classes.landingLink} onClick={this.handlePricingClick}>
                             Pricing
-                        </Link>
-                        <Link component="button" variant="subtitle1" color="textPrimary" className={classes.landingLink} onClick={this.handleContactClick}>
+                        </Button>
+                        <Button size="small" variant="text" className={classes.landingLink} onClick={this.handleContactClick}>
                             Contact
-                        </Link>
-                        <Link component="button" variant="subtitle1" color="textPrimary" className={classes.landingLink} onClick={this.handleAboutClick}>
+                        </Button>
+                        <Button size="small" variant="text" className={classes.landingLink} onClick={this.handleAboutClick}>
                             About
-                        </Link>
+                        </Button>
                         <div className={classes.actionContainer}>
                             {this.props.user && !this.props.user.expired ? (
                                 <AccountPopOut />

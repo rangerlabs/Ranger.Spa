@@ -123,7 +123,7 @@ const responseCodes = [
 const ApiDoc = function (props: ApiDocsProps) {
     return (
         <React.Fragment>
-            <Introduction id="api-section" text="Api Reference">
+            <Introduction id="api-section" text="API Reference">
                 <Paragraph>This section documents the available REST endpoints that clients may access via the API Keys provided for each Project.</Paragraph>
                 <Paragraph>
                     Ranger's API is a RESTful JSON API which is backed by an Event Driven Architecture. Consequently, many of Ranger's endpoints return{' '}
