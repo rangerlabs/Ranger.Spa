@@ -14,15 +14,16 @@ const useStyles = makeStyles((theme: Theme) =>
         iconRoot: {
             minWidth: theme.spacing(4),
             color: theme.palette.text.primary,
+            alignSelf: 'baseline',
         },
     })
 );
 
-interface BulletedUnorderedListProps {
-    items: string[];
+interface UnorderedListProps {
+    items: React.ReactNode[];
 }
 
-export function BulletedUnorderedList(props: BulletedUnorderedListProps) {
+export function UnorderedList(props: UnorderedListProps) {
     const classes = useStyles(props);
     return (
         <div className={classes.list}>

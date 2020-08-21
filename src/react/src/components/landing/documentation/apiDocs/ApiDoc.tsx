@@ -12,15 +12,12 @@ import DescriptiveList, { Description } from '../docComponents/DescriptiveList';
 import Bold from '../textEnhancers/Bold';
 import HttpMethod from '../textEnhancers/HttpMethod';
 import Code from '../textEnhancers/Code';
-import { BulletedUnorderedList } from '../docComponents/UnorderedList';
 import JsonViewer from '../docComponents/JsonViewer';
 import SuccessfulResponseBody from '../json/SuccessfulResponseBody';
 import UnsuccessfulResponseBody from '../json/UnsuccessfulResponseBody';
-import Block from '../docComponents/Block';
 import SubSection from '../docComponents/SubSection';
-import SampleRequest from '../docComponents/SampleRequest';
-import PostBreadcrumb from '../json/breadcrumbs/PostBreadcrumb';
 import DocRoutePaths from '../DocRoutePaths';
+import PostBreadcrumbApi from './breadcrumbs/PostBreadcrumbApi';
 
 export const ApiDocOutline = [
     {
@@ -105,21 +102,6 @@ const apiKeyDescriptions = [
     },
 ] as Description[];
 
-const responseCodes = [
-    '200: Success',
-    '202: Accepted',
-    '400: Bad request ',
-    '401: Unauthorized',
-    '402: Payment required',
-    '403: Forbidden',
-    '404: Not found',
-    '409: Conflict',
-    '429: Too many requests',
-    '451: Unavailable for legal reasons',
-    '500: Internal server error',
-    '503: Service temporarily unavailable',
-];
-
 const ApiDoc = function (props: ApiDocsProps) {
     return (
         <React.Fragment>
@@ -172,23 +154,16 @@ const ApiDoc = function (props: ApiDocsProps) {
             <Section text="Responses" id="responses-section">
                 <Paragraph>
                     To enable the development of consistent clients, Ranger's APIs produce consistent responses for all standard HTTP status codes. The
-                    following are status codes which may be expected from Ranger's APIs:
-                </Paragraph>
-                <Block>
-                    <BulletedUnorderedList items={responseCodes} />
-                </Block>
-                <Paragraph>
-                    The following display a standard responses for successful and unsuccessful requests. The <Code>isError</Code> property may be used to
-                    determine whether an error or result should be deserialized.
+                    following display a standard responses for successful and unsuccessful requests. The <Code>isError</Code> property may be used to determine
+                    whether an error or result should be deserialized.
                 </Paragraph>
                 <JsonViewer title="Successful Response" json={SuccessfulResponseBody} expandLevel={2} />
                 <JsonViewer title="Unsuccessful Response" json={UnsuccessfulResponseBody} expandLevel={2} />
             </Section>
             <Section text="Breadcrumbs" id="breadcrumbs-section">
-                <SubSection text="POST" id="post-breadcrumbs-section"></SubSection>
-                <SampleRequest>
-                    <JsonViewer title="POST Breadcrumb" json={PostBreadcrumb} expandLevel={3} />
-                </SampleRequest>
+                <SubSection text="POST" id="post-breadcrumbs-section">
+                    <PostBreadcrumbApi />
+                </SubSection>
             </Section>
             <Section text="Geofences" id="geofences-section">
                 <SubSection text="GET" id="get-geofences-section"></SubSection>

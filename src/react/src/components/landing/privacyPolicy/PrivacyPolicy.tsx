@@ -8,7 +8,7 @@ import Paragraph from '../documentation/docComponents/Paragraph';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
-import { BulletedUnorderedList } from '../documentation/docComponents/UnorderedList';
+import { UnorderedList } from '../documentation/docComponents/UnorderedList';
 import Bold from '../documentation/textEnhancers/Bold';
 import Block from '../documentation/docComponents/Block';
 
@@ -185,11 +185,11 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             without limitation, the following types of data, some of which may be Personal Data:
                         </Paragraph>
                         <Block>
-                            <BulletedUnorderedList items={endUserPersonalData} />
+                            <UnorderedList items={endUserPersonalData} />
                         </Block>
                         <Paragraph>We may additionally share the SDK Information with third parties in the following ways:</Paragraph>
                         <Block>
-                            <BulletedUnorderedList items={sdkInformation} />
+                            <UnorderedList items={sdkInformation} />
                         </Block>
                         <Paragraph>
                             This Privacy Policy does not apply to SDK Information or to the products, services and applications of our Clients (
@@ -206,7 +206,7 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             which may be Personal Data:
                         </Paragraph>
                         <Block>
-                            <BulletedUnorderedList items={collectedInformation} />
+                            <UnorderedList items={collectedInformation} />
                         </Block>
                         <Paragraph>
                             <Bold>Cookies.</Bold> When you visit our sites, we will send you a cookie, which is a small file stored on your computer that allows
@@ -239,7 +239,7 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             to:
                         </Paragraph>
                         <Block>
-                            <BulletedUnorderedList items={informationUse} />
+                            <UnorderedList items={informationUse} />
                         </Block>
                         <Paragraph>
                             We will only process your Client Information if we have a lawful basis for doing so. Lawful bases for processing include consent,
@@ -252,7 +252,7 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             inability to use some or all portions of the Services that require such data.
                         </Paragraph>
                         <Block>
-                            <BulletedUnorderedList items={contractualNecessity} />
+                            <UnorderedList items={contractualNecessity} />
                         </Block>
                         <Paragraph>First and last name Email address Payment information IP addresses</Paragraph>
                         <Paragraph>
@@ -260,11 +260,11 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             of us or third parties.
                         </Paragraph>
                         <Block>
-                            <BulletedUnorderedList items={legitimateInterest} />
+                            <UnorderedList items={legitimateInterest} />
                         </Block>
                         <Paragraph>Examples of these legitimate interests include:</Paragraph>
                         <Block>
-                            <BulletedUnorderedList items={legitimateInterestExamples} />
+                            <UnorderedList items={legitimateInterestExamples} />
                         </Block>
                         <Paragraph>
                             <Bold>Consent:</Bold> In some cases, we process Personal Data based on the consent you expressly grant to us at the time we collect
@@ -291,21 +291,21 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             services related to the purposes described in this Privacy Policy or our Terms. These parties may include:
                         </Paragraph>
                         <Block>
-                            <BulletedUnorderedList items={shareDataWith} />
+                            <UnorderedList items={shareDataWith} />
                         </Block>
                         <Paragraph>
                             We also share Client Information when necessary to complete a transaction initiated or authorized by you or provide you with a
                             product or service you have requested. In addition to those set forth above, these parties also include:
                         </Paragraph>
                         <Block>
-                            <BulletedUnorderedList items={shareDataWithIncludes} />
+                            <UnorderedList items={shareDataWithIncludes} />
                         </Block>
                         <Paragraph>
                             We also share information with third parties when you have given us consent to do so (as indicated at the point such information is
                             collected). We also share Personal Data when we believe it is necessary to:
                         </Paragraph>
                         <Block>
-                            <BulletedUnorderedList items={shareCompliesWIth} />
+                            <UnorderedList items={shareCompliesWIth} />
                         </Block>
                         <Paragraph>
                             Furthermore, if we choose to buy or sell assets, user information is typically one of the transferred business assets. Moreover, if
@@ -454,7 +454,7 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             additional information, which may include Personal Data, if necessary to verify your identity and the nature of your request.
                         </Paragraph>
                         <Block>
-                            <BulletedUnorderedList items={rights} />
+                            <UnorderedList items={rights} />
                         </Block>
                     </Section>
                     <Section id="questions-concerns-complaints" text="13. Questions, Concerns, or Complaints">
