@@ -218,7 +218,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                     value: Yup.string().required('Required'),
                 })
             )
-            .max(10, 'Up to 10 metadata allowed'),
+            .max(16, 'Up to 16 metadata allowed'),
         schedule: Yup.object().shape({
             timeZoneId: Yup.string().required('Required.'),
             sunday: Yup.object().shape({

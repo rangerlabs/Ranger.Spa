@@ -121,7 +121,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                     value: Yup.string().required('Required'),
                 })
             )
-            .max(10, 'Up to 10 headers allowed'),
+            .max(16, 'Up to 16 headers allowed'),
         metadata: Yup.array()
             .of(
                 Yup.object().shape({
@@ -129,7 +129,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                     value: Yup.string().required('Required'),
                 })
             )
-            .max(10, 'Up to 10 metadata allowed'),
+            .max(16, 'Up to 16 metadata allowed'),
         environment: Yup.mixed().required('Environment is required'),
     });
 

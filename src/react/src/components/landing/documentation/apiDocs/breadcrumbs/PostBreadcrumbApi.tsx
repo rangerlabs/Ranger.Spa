@@ -36,7 +36,7 @@ const body = [
     <EndpointBodyListItem
         name="metadata"
         type="array"
-        description="An array of up to 10 metadata, duplicate keys permitted"
+        description="An array of up to 16 metadata, duplicate keys permitted"
         item={<UnorderedList items={metadata} />}
     />,
 ];
