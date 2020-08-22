@@ -105,7 +105,7 @@ class ProjectSelect extends React.Component<ProjectSelectProps> {
 
     handleProjectClick(project: IProject) {
         this.props.projectsState.projects.filter((a) => a.name === project.name);
-        if (this.props.selectedProject?.projectId !== project.projectId) {
+        if (this.props.selectedProject?.id !== project.id) {
             this.props.selectProject(project);
             this.props.resetGeofences();
             this.props.resetIntegrations();

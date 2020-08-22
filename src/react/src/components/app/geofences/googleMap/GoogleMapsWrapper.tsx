@@ -71,7 +71,7 @@ const StyledSearchTextField = withStyles({
 const mapStateToProps = (state: ApplicationState) => {
     return {
         selectedShape: state.googleMaps.selectedShapePicker,
-        existingGeofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.projectId),
+        existingGeofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.id),
         geofenceDrawerOpen: state.geofenceDrawer.isOpen,
         isCreating: state.googleMaps.isCreatingGeofence,
         isPolygonClosed: Boolean(state.googleMaps.polygonGeofence),

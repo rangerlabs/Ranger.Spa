@@ -127,7 +127,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
 
         saveIntegration = (formikBag: FormikBag<FormikProps<MergedIntegrationType>, MergedIntegrationType>, integration: MergedIntegrationType) => {
             integration.version = 0;
-            integrationService.postIntegration(this.props.selectedProject.projectId, integration).then((v) => {
+            integrationService.postIntegration(this.props.selectedProject.id, integration).then((v) => {
                 if (!v.isError) {
                     this.setState({ isSuccess: true });
                     integration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
@@ -142,7 +142,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
 
         updateIntegration = (formikBag: FormikBag<FormikProps<MergedIntegrationType>, MergedIntegrationType>, integration: MergedIntegrationType) => {
             integration.version = this.state.editIntegration.version + 1;
-            integrationService.putIntegration(this.props.selectedProject.projectId, this.state.editIntegration.integrationId, integration).then((v) => {
+            integrationService.putIntegration(this.props.selectedProject.id, this.state.editIntegration.id, integration).then((v) => {
                 if (!v.isError) {
                     this.setState({ isSuccess: true });
                     integration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
@@ -158,7 +158,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
         };
 
         deleteIntegration = (formikProps: FormikProps<MergedIntegrationType>) => {
-            integrationService.deleteIntegration(this.props.selectedProject.projectId, this.state.editIntegration.name).then((v) => {
+            integrationService.deleteIntegration(this.props.selectedProject.id, this.state.editIntegration.name).then((v) => {
                 if (!v.isError) {
                     this.state.editIntegration.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                     this.props.addIntegrationToPendingDeletion(this.state.editIntegration);
@@ -180,9 +180,7 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
                     delete={this.deleteIntegration}
                     isSuccess={this.state.isSuccess}
                     serverErrors={this.state.serverErrors}
-                    isPendingCreation={
-                        this.state.editIntegration?.correlationModel?.status === StatusEnum.PENDING && !this.state.editIntegration?.integrationId
-                    }
+                    isPendingCreation={this.state.editIntegration?.correlationModel?.status === StatusEnum.PENDING && !this.state.editIntegration?.id}
                     environmentSelectValuesArray={environmentSelectValuesArray}
                     canEdit={Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN))}
                     {...(this.props as P)}

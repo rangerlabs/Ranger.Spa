@@ -144,7 +144,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     };
 
     saveGeofence = (geofence: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
-        geofenceService.postGeofence(this.props.selectedProject.projectId, geofence).then((v) => {
+        geofenceService.postGeofence(this.props.selectedProject.id, geofence).then((v) => {
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
@@ -161,7 +161,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     };
 
     updateGeofence = (geofence: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
-        geofenceService.putGeofence(this.props.selectedProject.projectId, geofence.id, geofence).then((v) => {
+        geofenceService.putGeofence(this.props.selectedProject.id, geofence.id, geofence).then((v) => {
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
@@ -179,7 +179,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     };
 
     deleteGeofence = () => {
-        geofenceService.deleteGeofence(this.props.selectedProject.projectId, this.props.editGeofence.externalId).then((v) => {
+        geofenceService.deleteGeofence(this.props.selectedProject.id, this.props.editGeofence.externalId).then((v) => {
             if (!v.isError) {
                 this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
@@ -255,7 +255,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
     getIntegrationNamesByIds(integrationIds: string[]) {
         if (integrationIds) {
             return this.props.integrations
-                .filter((i) => integrationIds.includes(i.integrationId))
+                .filter((i) => integrationIds.includes(i.id))
                 .map((i) => {
                     return i.environment === EnvironmentEnum.TEST ? `[TEST] ${i.name}` : i.name;
                 })
@@ -268,7 +268,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             var unPrefixedNames = integrationNames.map((i) => i.replace('[TEST] ', ''));
             return this.props.integrations
                 .filter((i) => unPrefixedNames.includes(i.name))
-                .map((i) => i.integrationId)
+                .map((i) => i.id)
                 .sort();
         }
         return [];
@@ -290,7 +290,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                               integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
                           } as PolygonGeofence)
                         : new PolygonGeofence(
-                              this.props.selectedProject.projectId,
+                              this.props.selectedProject.id,
                               '',
                               [],
                               true,
@@ -308,7 +308,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 isInitialValid={false}
                 onSubmit={(values: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
                     const newFence = new PolygonGeofence(
-                        this.props.selectedProject.projectId,
+                        this.props.selectedProject.id,
                         values.externalId,
                         values.labels,
                         values.onEnter,

@@ -1,5 +1,5 @@
 export default interface IProject {
-    projectId: string;
+    id: string;
     name: string;
     description: string;
     liveApiKey?: string;

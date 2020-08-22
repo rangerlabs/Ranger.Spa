@@ -130,7 +130,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     getProjectNamesByProjectIds(projectIds: string[]) {
         if (projectIds) {
             return this.props.projects
-                .filter((p) => projectIds.includes(p.projectId))
+                .filter((p) => projectIds.includes(p.id))
                 .map((p) => p.name)
                 .sort();
         }
@@ -141,7 +141,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         if (projectNames) {
             return this.props.projects
                 .filter((p) => projectNames.includes(p.name))
-                .map((p) => p.projectId)
+                .map((p) => p.id)
                 .sort();
         }
         return [];

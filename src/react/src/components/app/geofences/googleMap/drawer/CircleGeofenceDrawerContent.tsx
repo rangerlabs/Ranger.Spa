@@ -143,7 +143,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     saveGeofence = (geofence: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
-        geofenceService.postGeofence(this.props.selectedProject.projectId, geofence).then((v) => {
+        geofenceService.postGeofence(this.props.selectedProject.id, geofence).then((v) => {
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
@@ -160,7 +160,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     updateGeofence = (geofence: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
-        geofenceService.putGeofence(this.props.selectedProject.projectId, geofence.id, geofence).then((v) => {
+        geofenceService.putGeofence(this.props.selectedProject.id, geofence.id, geofence).then((v) => {
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
@@ -178,7 +178,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     };
 
     deleteGeofence = () => {
-        geofenceService.deleteGeofence(this.props.selectedProject.projectId, this.props.editGeofence.externalId).then((v) => {
+        geofenceService.deleteGeofence(this.props.selectedProject.id, this.props.editGeofence.externalId).then((v) => {
             if (!v.isError) {
                 this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
@@ -255,7 +255,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
     getIntegrationNamesByIds(integrationIds: string[]) {
         if (integrationIds) {
             return this.props.integrations
-                .filter((i) => integrationIds.includes(i.integrationId))
+                .filter((i) => integrationIds.includes(i.id))
                 .map((i) => {
                     return i.environment === EnvironmentEnum.TEST ? `[TEST] ${i.name}` : i.name;
                 })
@@ -268,7 +268,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             var unPrefixedNames = integrationNames.map((i) => i.replace('[TEST] ', ''));
             return this.props.integrations
                 .filter((i) => unPrefixedNames.includes(i.name))
-                .map((i) => i.integrationId)
+                .map((i) => i.id)
                 .sort();
         }
         return [];
@@ -290,7 +290,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                               integrationIds: this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds),
                           } as CircleGeofence)
                         : new CircleGeofence(
-                              this.props.selectedProject.projectId,
+                              this.props.selectedProject.id,
                               '',
                               [],
                               true,
@@ -309,7 +309,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 isInitialValid={false}
                 onSubmit={(values: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
                     const newFence = new CircleGeofence(
-                        this.props.selectedProject.projectId,
+                        this.props.selectedProject.id,
                         values.externalId,
                         values.labels,
                         values.onEnter,

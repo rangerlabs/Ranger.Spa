@@ -5,12 +5,12 @@ export function projectReducer(state: ProjectsState = { isLoaded: false, project
     switch (action.type) {
         case UPDATE_PROJECT:
             return Object.assign({}, state, {
-                projects: state.projects.filter((p: IProject) => p.projectId !== action.project.projectId).concat(action.project),
+                projects: state.projects.filter((p: IProject) => p.id !== action.project.id).concat(action.project),
             } as ProjectsState);
         case ADD_PROJECT:
             return Object.assign({}, state, { projects: state.projects.concat(action.project) } as ProjectsState);
         case REMOVE_PROJECT:
-            return Object.assign({}, state, { projects: state.projects.filter((p: IProject) => p.projectId !== action.project.projectId) } as ProjectsState);
+            return Object.assign({}, state, { projects: state.projects.filter((p: IProject) => p.id !== action.project.id) } as ProjectsState);
         case POPULATE_PROJECTS:
             return Object.assign({}, state, action.projectsState);
         default:

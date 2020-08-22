@@ -158,7 +158,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                     this.setState({ serverErrors: undefined });
                     const newIntegration = new WebhookIntegration();
                     newIntegration.enabled = values.enabled;
-                    newIntegration.integrationId = this.props.editIntegration?.integrationId;
+                    newIntegration.id = this.props.editIntegration?.id;
                     newIntegration.environment = values.environment;
                     newIntegration.name = values.name;
                     newIntegration.description = values.description;

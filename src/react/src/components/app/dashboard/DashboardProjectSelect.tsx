@@ -110,7 +110,7 @@ const DashboardProjectSelect = function (props: ProjectsSelectProps) {
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
 
     const handleProjectGeofencesClick = function (project: IProject) {
-        if (props.selectedProject?.projectId !== project.projectId) {
+        if (props.selectedProject?.id !== project.id) {
             props.selectProject(project);
             props.resetGeofences();
             props.resetIntegrations();
@@ -118,7 +118,7 @@ const DashboardProjectSelect = function (props: ProjectsSelectProps) {
         props.push(RoutePaths.GeofenceMap.replace(':appName', props.selectedProject.name));
     };
     const handleProjectIntegrationsClick = function (project: IProject) {
-        if (props.selectedProject?.projectId !== project.projectId) {
+        if (props.selectedProject?.id !== project.id) {
             props.selectProject(project);
             props.resetGeofences();
             props.resetIntegrations();
@@ -126,7 +126,7 @@ const DashboardProjectSelect = function (props: ProjectsSelectProps) {
         props.push(RoutePaths.Integrations.replace(':appName', props.selectedProject.name));
     };
     const handleProjectClick = function (project: IProject) {
-        if (props.selectedProject?.projectId !== project.projectId) {
+        if (props.selectedProject?.id !== project.id) {
             props.selectProject(project);
             props.resetGeofences();
             props.resetIntegrations();

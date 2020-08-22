@@ -36,7 +36,7 @@ export function getHost(): string {
 export function getIntegrationsFromIntegrationIds(integrationIds: string[], integrations: MergedIntegrationType[]) {
     const integrationArray = [] as MergedIntegrationType[];
     integrationIds.map((id) => {
-        const integration = integrations.find((i) => i.integrationId === id);
+        const integration = integrations.find((i) => i.id === id);
         if (integration) {
             integrationArray.push(integration);
         }

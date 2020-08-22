@@ -36,7 +36,7 @@ export function addProject(project: IProject): ProjectAction {
 export function removeProject(projectId: string): ProjectAction {
     return {
         type: REMOVE_PROJECT,
-        project: { projectId: projectId } as IProject,
+        project: { id: projectId } as IProject,
     };
 }
 

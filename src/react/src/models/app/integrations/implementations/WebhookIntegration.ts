@@ -11,7 +11,7 @@ export default class WebhookIntegration implements Integration {
     correlationModel: CorrelationModel;
     type: IntegrationEnum;
     enabled: boolean;
-    integrationId: string;
+    id: string;
     name: string;
     description: string;
     url: string;

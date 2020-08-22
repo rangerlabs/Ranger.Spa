@@ -136,7 +136,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                 `Reset ${capitalCase(environmentName)} API key`,
                 () => {
                     const project = { version: this.state.initialProject.version + 1 } as IProject;
-                    projectService.apiKeyReset(project, this.state.initialProject.projectId, environment).then((response: IRestResponse<IProject>) => {
+                    projectService.apiKeyReset(project, this.state.initialProject.id, environment).then((response: IRestResponse<IProject>) => {
                         if (response.isError) {
                             const { formikErrors: serverErrors, ...formikErrors } = response.error;
                             this.props.enqueueSnackbar(response.error.message, { variant: 'error' });
@@ -229,7 +229,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                     } as IProject;
                     if (this.state.initialProject) {
                         const editedProject = Object.assign({}, inputProject, { version: this.state.initialProject.version + 1 }) as IProject;
-                        projectService.putProject(editedProject, this.state.initialProject.projectId).then((response: IRestResponse<IProject>) => {
+                        projectService.putProject(editedProject, this.state.initialProject.id).then((response: IRestResponse<IProject>) => {
                             if (response.isError) {
                                 enqueueSnackbar(response.error.message, { variant: 'error' });
                                 formikBag.setErrors(response.error.formikErrors as FormikErrors<IProject>);
@@ -441,9 +441,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                         <FormikDeleteButton
                                             isSubmitting={props.isSubmitting}
                                             dialogTitle={`Delete ${this.state.initialProject.name}?`}
-                                            dialogContent={
-                                                <DeleteProjectContent id={this.state.initialProject.projectId} name={this.state.initialProject.name} />
-                                            }
+                                            dialogContent={<DeleteProjectContent id={this.state.initialProject.id} name={this.state.initialProject.name} />}
                                         >
                                             Delete
                                         </FormikDeleteButton>
