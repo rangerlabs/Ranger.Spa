@@ -69,8 +69,8 @@ const PostBreadcrumbApi = function () {
         <React.Fragment>
             <EndpointHeaderBlock>
                 <Typography>
-                    Creates a Breadcrumb which is used to trace a device or user's movement through potential Geofences. The required <Code>deviceId</Code> is
-                    the primary means of determining Geofencing events and is supportive of anonymous users. <Code>externalUserId</Code> can supplement{' '}
+                    Creates a Breadcrumb which is used to track a device or user's movement through potential Geofences. The required <Code>deviceId</Code> is
+                    the means of determining Geofence events and is supportive of anonymous users. The <Code>externalUserId</Code> can supplement{' '}
                     <Code>deviceId</Code> to uniquely identify users.
                 </Typography>
             </EndpointHeaderBlock>

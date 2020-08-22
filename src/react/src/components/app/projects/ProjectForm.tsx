@@ -301,7 +301,7 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormikTextField
-                                            infoText="A unique identifier for the project."
+                                            infoText="A unique name for the project."
                                             name="name"
                                             label="Name"
                                             value={props.values.name}
