@@ -17,6 +17,7 @@ export default class IntegrationService {
                             id: i.id,
                             enabled: i.enabled,
                             name: i.name,
+                            isDefault: i.isDefault,
                             description: i.description,
                             url: i.url,
                             signingKey: i.signingKey,
