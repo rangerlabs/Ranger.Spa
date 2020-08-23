@@ -15,7 +15,7 @@ import { ApplicationState } from '../../../stores';
 import { User } from 'oidc-client';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
-import { addUser, removeUser, updateUser } from '../../../redux/actions/UserActions';
+import { addUser, addUserToPendingUpdate, removeUserByName as removeUserByEmail, addUserToPendingDeletion } from '../../../redux/actions/UserActions';
 import populateUserAuthorizedProjectsHOC from '../hocs/PopulateUserAuthorizedProjectsHOC';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import IProject from '../../../models/app/IProject';
@@ -62,9 +62,10 @@ const styles = (theme: Theme) =>
         },
     });
 interface IUserFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
-    dispatchAddUser: (user: IUser) => void;
-    dispatchUpdateUser: (user: IUser) => void;
-    dispatchRemoveUser: (name: string) => void;
+    addUser: (user: IUser) => void;
+    addUserToPendingDelete: (user: IUser) => void;
+    addUserToPendingUpdate: (user: IUser) => void;
+    removeUserByEmail: (email: string) => void;
     user: User;
     push: typeof push;
     projects: IProject[];
@@ -75,7 +76,7 @@ type UserFormState = {
     assignableRoles: FormikSelectValues;
     serverErrors: IFormikErrors;
     selectedProjects: string[];
-    success: boolean;
+    isSuccess: boolean;
 };
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -85,16 +86,20 @@ const mapStateToProps = (state: ApplicationState) => {
 const mapDispatchToProps = (dispatch: any) => {
     return {
         push: (path: string) => dispatch(push(path)),
-        dispatchAddUser: (user: IUser) => {
+        addUser: (user: IUser) => {
             const action = addUser(user);
             dispatch(action);
         },
-        dispatchUpdateUser: (user: IUser) => {
-            const action = updateUser(user);
+        addUserToPendingDelete: (user: IUser) => {
+            const action = addUserToPendingDeletion(user);
             dispatch(action);
         },
-        dispatchRemoveUser: (email: string) => {
-            const action = removeUser(email);
+        addUserToPendingUpdate: (user: IUser) => {
+            const action = addUserToPendingUpdate(user);
+            dispatch(action);
+        },
+        removeUserByEmail: (email: string) => {
+            const action = removeUserByEmail(email);
             dispatch(action);
         },
     };
@@ -105,7 +110,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
         assignableRoles: [] as FormikSelectValues,
         serverErrors: undefined as IFormikErrors,
         selectedProjects: [] as string[],
-        success: false,
+        isSuccess: false,
     };
 
     deleteUser(props: FormikProps<Partial<IUser>>, enqueueSnackbar: any) {
@@ -115,7 +120,8 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                 props.setStatus(response.error.message);
             } else {
                 enqueueSnackbar(response.message, { variant: 'success' });
-                this.props.dispatchRemoveUser(props.values.email);
+                this.props.addUserToPendingDelete(this.props.initialUser);
+                this.props.removeUserByEmail(props.values.email);
                 this.props.push(RoutePaths.Users);
             }
         });
@@ -171,7 +177,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
     });
 
     render() {
-        const { classes, enqueueSnackbar, dispatchAddUser, dispatchUpdateUser } = this.props;
+        const { classes, enqueueSnackbar } = this.props;
         return (
             <Formik
                 enableReinitialize
@@ -201,11 +207,13 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                 formikBag.setSubmitting(false);
                                 formikBag.resetForm({ values: newUser });
                             } else {
+                                this.setState({ isSuccess: true });
                                 newUser.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING };
-                                dispatchUpdateUser(newUser);
-                                formikBag.setSubmitting(false);
-                                this.setState({ success: true });
+                                this.props.removeUserByEmail(this.props.initialUser.email);
+                                this.props.addUserToPendingUpdate(this.props.initialUser);
+                                this.props.addUser(newUser);
                                 this.props.push(RoutePaths.Users);
+                                formikBag.setSubmitting(false);
                             }
                         });
                     } else {
@@ -218,10 +226,10 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                 formikBag.setSubmitting(false);
                                 formikBag.resetForm({ values: newUser });
                             } else {
+                                this.setState({ isSuccess: true });
                                 newUser.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING };
-                                dispatchAddUser(newUser);
+                                this.props.addUser(newUser);
                                 formikBag.setSubmitting(false);
-                                this.setState({ success: true });
                                 this.props.push(RoutePaths.Users);
                             }
                         });
@@ -336,7 +344,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                                         <FormikSynchronousButton
                                             isValid={props.isValid}
                                             isSubmitting={props.isSubmitting}
-                                            isSuccess={this.state.success}
+                                            isSuccess={this.state.isSuccess}
                                             variant="contained"
                                         >
                                             {props.initialValues.email === '' ? 'Create' : 'Update'}

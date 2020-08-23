@@ -24,6 +24,9 @@ import SubscriptionChangedHandler from './pusherHandlers/SubscriptionChangedHand
 import GlobalConfig from '../../helpers/GlobalConfig';
 import OrganizationUpdateHandler from './pusherHandlers/OrganizationUpdateHandler';
 import OrganizationDomainUpdateHandler from './pusherHandlers/OrganizationDomainUpdateHandler';
+import UserCreateHandler from './pusherHandlers/UserCreateHandler';
+import UserUpdateHandler from './pusherHandlers/UserUpdateHandler';
+import UserDeleteHandler from './pusherHandlers/UserDeleteHandler';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -137,8 +140,10 @@ class Notifier extends React.Component<NotifierProps> {
         const domainChannel = `private-${stateDomain.domain}`;
         this.userChannel = this.pusher.subscribe(userChannel);
         this.domainChannel = this.pusher.subscribe(domainChannel);
-        this.userChannel.bind('user-created', GenericDomainUserHandler);
-        this.userChannel.bind('user-updated', GenericDomainUserHandler);
+        this.userChannel.bind('user-created', UserCreateHandler);
+        this.userChannel.bind('user-updated', UserUpdateHandler);
+        this.userChannel.bind('user-deleted', UserDeleteHandler);
+        this.userChannel.bind('account-deleted', UserDeleteHandler);
         this.userChannel.bind('token-refresh', TokenRefreshHandler);
         this.userChannel.bind('permissions-updated', PermissionsUpdatedHandler);
         this.userChannel.bind('force-signout', ForceSignoutHandler);
