@@ -2,7 +2,7 @@ import * as React from 'react';
 import IUser from '../../../models/app/IUser';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { addUser, removeUser } from '../../../redux/actions/UserActions';
+import { addUser } from '../../../redux/actions/UserActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import { User } from 'oidc-client';
@@ -39,7 +39,6 @@ const styles = (theme: Theme) =>
 interface UsersProps extends WithStyles<typeof styles> {
     users: IUser[];
     addUser: (user: IUser) => void;
-    removeUser: (email: string) => void;
     push: typeof push;
     user: User;
     canAccessUsersPage: boolean;
@@ -57,10 +56,6 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         addUser: (user: IUser) => {
             const action = addUser(user);
-            dispatch(action);
-        },
-        removeUser: (email: string) => {
-            const action = removeUser(email);
             dispatch(action);
         },
         push: (path: string) => dispatch(push(path)),
