@@ -84,6 +84,7 @@ class Integrations extends React.Component<IntegrationsProps> {
             integrations.forEach((value) => {
                 tableIntegrations.push([
                     value.enabled ? 'Enabled' : 'Disabled',
+                    value.isDefault ? 'True' : 'False',
                     value.name,
                     value.description,
                     capitalCase(value.type),
