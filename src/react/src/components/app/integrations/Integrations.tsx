@@ -84,8 +84,8 @@ class Integrations extends React.Component<IntegrationsProps> {
             integrations.forEach((value) => {
                 tableIntegrations.push([
                     value.enabled ? 'Enabled' : 'Disabled',
-                    value.isDefault ? 'True' : 'False',
                     value.name,
+                    value.isDefault ? 'True' : 'False',
                     value.description,
                     capitalCase(value.type),
                     value.environment === EnvironmentEnum.TEST ? 'Test' : 'Live',
@@ -120,18 +120,18 @@ class Integrations extends React.Component<IntegrationsProps> {
             },
         },
         {
+            name: 'Name',
+            options: {
+                filter: true,
+            },
+        },
+        {
             name: 'Is Default',
             options: {
                 filter: true,
                 customBodyRender: (value: string) => {
                     return this.booleanRender(value, 'True');
                 },
-            },
-        },
-        {
-            name: 'Name',
-            options: {
-                filter: true,
             },
         },
         {
