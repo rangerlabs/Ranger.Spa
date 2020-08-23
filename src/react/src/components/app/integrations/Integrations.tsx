@@ -66,7 +66,7 @@ class Integrations extends React.Component<IntegrationsProps> {
     };
 
     editIntegration = (rowData: string[]) => {
-        const integrationType = capitalCase(rowData[3]);
+        const integrationType = capitalCase(rowData[4]);
         switch (integrationType) {
             case IntegrationEnum.WEBHOOK: {
                 this.props.push(`${RoutePaths.IntegrationsEditWebhook.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
