@@ -209,7 +209,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                         <FormikCheckbox
                                             infoText="Select to execute this integration for events on all geofences"
                                             name="isDefault"
-                                            label="Is A Default Integration"
+                                            label="Default Integration"
                                             value={props.values.isDefault}
                                             onChange={props.handleChange}
                                             onBlur={props.handleBlur}
