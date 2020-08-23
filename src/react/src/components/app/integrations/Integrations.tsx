@@ -119,6 +119,15 @@ class Integrations extends React.Component<IntegrationsProps> {
             },
         },
         {
+            name: 'Is Default',
+            options: {
+                filter: true,
+                customBodyRender: (value: string) => {
+                    return this.booleanRender(value, 'True');
+                },
+            },
+        },
+        {
             name: 'Name',
             options: {
                 filter: true,

@@ -6,6 +6,7 @@ export default interface Integration {
     readonly type: IntegrationEnum;
     correlationModel: CorrelationModel;
     enabled: boolean;
+    isDefault: boolean;
     id: string;
     name: string;
     description: string;

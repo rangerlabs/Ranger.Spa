@@ -446,14 +446,16 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     </Grid>
                                     <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                         <FormikAutocompleteLabelMultiselect
-                                            infoText="The integrations to execute for the geofence."
+                                            infoText="The non-default integrations to execute for the geofence."
                                             name="integrations"
                                             label="Integrations"
                                             placeholder=""
                                             enabled={!this.isPendingCreation()}
-                                            options={this.props.integrations.map((v) => {
-                                                return v.environment === EnvironmentEnum.TEST ? `[TEST] ${v.name}` : v.name;
-                                            })}
+                                            options={this.props.integrations
+                                                .filter((v) => v.isDefault === false)
+                                                .map((v) => {
+                                                    return v.environment === EnvironmentEnum.TEST ? `[TEST] ${v.name}` : v.name;
+                                                })}
                                             defaultValue={this.props.editGeofence ? this.getIntegrationNamesByIds(this.props.editGeofence.integrationIds) : []}
                                             onChange={(event: React.ChangeEvent<{}>, values: string[]) => {
                                                 props.setFieldValue('integrationIds', values, true);

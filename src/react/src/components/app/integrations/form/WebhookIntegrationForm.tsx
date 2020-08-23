@@ -158,6 +158,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                     this.setState({ serverErrors: undefined });
                     const newIntegration = new WebhookIntegration();
                     newIntegration.enabled = values.enabled;
+                    newIntegration.isDefault = values.isDefault;
                     newIntegration.id = this.props.editIntegration?.id;
                     newIntegration.environment = values.environment;
                     newIntegration.name = values.name;
@@ -199,6 +200,17 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                             name="enabled"
                                             label="Enabled"
                                             value={props.values.enabled}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            disabled={this.props.isPendingCreation || !this.props.canEdit}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormikCheckbox
+                                            infoText="Select to execute this integration for events on all geofences"
+                                            name="isDefault"
+                                            label="Is A Default Integration"
+                                            value={props.values.isDefault}
                                             onChange={props.handleChange}
                                             onBlur={props.handleBlur}
                                             disabled={this.props.isPendingCreation || !this.props.canEdit}
