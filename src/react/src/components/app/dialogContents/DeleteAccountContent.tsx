@@ -16,6 +16,7 @@ import GlobalConfig from '../../../helpers/GlobalConfig';
 import RegularExpressions from '../../../helpers/RegularExpressions';
 import { setAccountDeleting } from '../../../redux/actions/AccountActions';
 import { ApplicationState } from '../../../stores';
+import Loading from '../../loading/Loading';
 
 const userService = new UserService();
 
@@ -95,7 +96,10 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                         <form onSubmit={props.handleSubmit}>
                             <DialogContent>
                                 {deleteAccountContentProps.isDeleting ? (
-                                    <DialogContentText>Your request has been submitted. Please wait while the operation to complete.</DialogContentText>
+                                    <React.Fragment>
+                                        <DialogContentText>Your request has been submitted. Please wait while the operation completes.</DialogContentText>
+                                        <Loading />
+                                    </React.Fragment>
                                 ) : (
                                     <React.Fragment>
                                         <DialogContentText color="error">To delete your account please confirm your password.</DialogContentText>
