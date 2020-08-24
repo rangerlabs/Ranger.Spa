@@ -14,6 +14,8 @@ import { push } from 'connected-react-router';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import GlobalConfig from '../../../helpers/GlobalConfig';
 import RegularExpressions from '../../../helpers/RegularExpressions';
+import { setAccountDeleting } from '../../../redux/actions/AccountActions';
+import { ApplicationState } from '../../../stores';
 
 const userService = new UserService();
 
@@ -23,7 +25,9 @@ interface Password {
 
 interface DeleteAccountContentProps extends WithSnackbarProps {
     closeDialog: () => void;
+    setIsDeleting: (value: boolean) => void;
     push: typeof push;
+    isDeleting: boolean;
 }
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -32,7 +36,17 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = closeDialog();
             dispatch(action);
         },
+        setIsDeleting: (value: boolean) => {
+            const action = setAccountDeleting(value);
+            dispatch(action);
+        },
         push: (path: string) => dispatch(push(path)),
+    };
+};
+
+const mapStateToProps = (state: ApplicationState) => {
+    return {
+        isDeleting: state.accountState.isDeleting,
     };
 };
 
@@ -65,6 +79,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                             });
                         } else {
                             push(GlobalConfig.SPA_HOST);
+                            deleteAccountContentProps.setIsDeleting(true);
                             setSuccess(true);
                         }
                         formikBag.setSubmitting(false);
@@ -76,46 +91,57 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
             >
                 {(props) => (
                     <React.Fragment>
-                        <DialogTitle>Delete account?</DialogTitle>
+                        <DialogTitle>Delete your account?</DialogTitle>
                         <form onSubmit={props.handleSubmit}>
                             <DialogContent>
-                                <DialogContentText color="error">To delete your account please confirm your password.</DialogContentText>
-                                <FormikTextField
-                                    name="password"
-                                    label="Password"
-                                    type={passwordVisible ? 'text' : 'password'}
-                                    value={props.values.password}
-                                    errorText={props.errors.password}
-                                    touched={props.touched.password}
-                                    onChange={props.handleChange}
-                                    onBlur={props.handleBlur}
-                                    autoComplete="off"
-                                    required
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="Toggle password visibility"
-                                                    onClick={() => {
-                                                        setPasswordVisible(!passwordVisible);
-                                                    }}
-                                                >
-                                                    {passwordVisible ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
+                                {deleteAccountContentProps.isDeleting ? (
+                                    <DialogContentText>Your request has been submitted. Please wait while the operation to complete.</DialogContentText>
+                                ) : (
+                                    <React.Fragment>
+                                        <DialogContentText color="error">To delete your account please confirm your password.</DialogContentText>
+                                        <FormikTextField
+                                            name="password"
+                                            label="Password"
+                                            type={passwordVisible ? 'text' : 'password'}
+                                            value={props.values.password}
+                                            errorText={props.errors.password}
+                                            touched={props.touched.password}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            autoComplete="off"
+                                            required
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="Toggle password visibility"
+                                                            onClick={() => {
+                                                                setPasswordVisible(!passwordVisible);
+                                                            }}
+                                                        >
+                                                            {passwordVisible ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
+                                    </React.Fragment>
+                                )}
                                 {serverError && <Typography color="error">{serverError}</Typography>}
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={deleteAccountContentProps.closeDialog} color="primary" variant="text">
+                                <Button
+                                    disabled={deleteAccountContentProps.isDeleting}
+                                    onClick={deleteAccountContentProps.closeDialog}
+                                    color="primary"
+                                    variant="text"
+                                >
                                     Cancel
                                 </Button>
                                 <FormikSynchronousButton
                                     denseMargin
                                     isValid={props.isValid}
-                                    isSubmitting={props.isSubmitting}
+                                    isSubmitting={props.isSubmitting || deleteAccountContentProps.isDeleting}
                                     isSuccess={success}
                                     variant="text"
                                 >
@@ -130,4 +156,4 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
     );
 }
 
-export default connect(null, mapDispatchToProps)(withSnackbar(DeleteAccountContent));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(DeleteAccountContent));

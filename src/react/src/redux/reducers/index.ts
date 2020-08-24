@@ -11,6 +11,7 @@ import { organizationReducer } from './OrganizationReducer';
 import { snackbarReducer } from './SnackbarReducer';
 import { reducer as oidcReducer } from 'redux-oidc';
 import { subscriptionLimitDetailsReducer } from './SubscriptionLimitDetailsReducer';
+import { accountReducer } from './AccountReducer';
 
 const reducers = {
     oidc: oidcReducer,
@@ -26,6 +27,7 @@ const reducers = {
     organizationState: organizationReducer,
     notifications: snackbarReducer,
     subscriptionLimitDetailsState: subscriptionLimitDetailsReducer,
+    accountState: accountReducer,
 };
 
 export default reducers;

@@ -3,6 +3,7 @@ import ReduxStore from '../../../ReduxStore';
 import { SnackbarNotification, enqueueSnackbar } from '../../../redux/actions/SnackbarActions';
 import { StatusEnum } from '../../../models/StatusEnum';
 import UserManager from '../../../services/UserManager';
+import { setAccountDeleting } from '../../../redux/actions/AccountActions';
 
 export default function AccountDeleteHandler(data: PusherNotificationModel): void {
     const oidcState = ReduxStore.getState().oidc;
@@ -16,7 +17,9 @@ export default function AccountDeleteHandler(data: PusherNotificationModel): voi
                 },
             } as SnackbarNotification;
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
+            const setIsDeleting = setAccountDeleting(false);
             ReduxStore.getStore().dispatch(enqueueSnackbarAction);
+            ReduxStore.getStore().dispatch(setIsDeleting);
         } else if (data.status === StatusEnum.COMPLETED) {
             const snackbarNotification = {
                 message: data.message,

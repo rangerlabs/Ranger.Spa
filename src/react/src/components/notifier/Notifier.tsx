@@ -27,7 +27,7 @@ import OrganizationDomainUpdateHandler from './pusherHandlers/OrganizationDomain
 import UserCreateHandler from './pusherHandlers/UserCreateHandler';
 import UserUpdateHandler from './pusherHandlers/UserUpdateHandler';
 import UserDeleteHandler from './pusherHandlers/UserDeleteHandler';
-import AccountDeleteHandler from './pusherHandlers/AccountDeletedHandler';
+import AccountDeleteHandler from './pusherHandlers/AccountDeleteHandler';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
