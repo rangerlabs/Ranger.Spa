@@ -207,7 +207,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormikCheckbox
-                                            infoText="Execute this integration for events on all geofences within this project"
+                                            infoText="Execute this integration for all geofence events within this project"
                                             name="isDefault"
                                             label="Default Integration"
                                             value={props.values.isDefault}

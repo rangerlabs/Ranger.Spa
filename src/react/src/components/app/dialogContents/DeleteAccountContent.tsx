@@ -16,7 +16,7 @@ import GlobalConfig from '../../../helpers/GlobalConfig';
 import RegularExpressions from '../../../helpers/RegularExpressions';
 import { setAccountDeleting } from '../../../redux/actions/AccountActions';
 import { ApplicationState } from '../../../stores';
-import Loading from '../../loading/Loading';
+import Progress from '../../loading/Progress';
 
 const userService = new UserService();
 
@@ -81,7 +81,6 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                         } else {
                             push(GlobalConfig.SPA_HOST);
                             deleteAccountContentProps.setIsDeleting(true);
-                            setSuccess(true);
                         }
                         formikBag.setSubmitting(false);
                     });
@@ -98,7 +97,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                                 {deleteAccountContentProps.isDeleting ? (
                                     <React.Fragment>
                                         <DialogContentText>Your request has been submitted. Please wait while the operation completes.</DialogContentText>
-                                        <Loading />
+                                        <Progress />
                                     </React.Fragment>
                                 ) : (
                                     <React.Fragment>
@@ -147,7 +146,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                                         denseMargin
                                         isValid={props.isValid}
                                         isSubmitting={props.isSubmitting || deleteAccountContentProps.isDeleting}
-                                        isSuccess={success}
+                                        isSuccess={false}
                                         variant="text"
                                     >
                                         Delete account

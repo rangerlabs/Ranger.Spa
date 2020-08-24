@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Button, withStyles, createStyles, Theme, WithStyles, CircularProgress } from '@material-ui/core';
-import CheckIcon from '@material-ui/icons/Check';
+import { Button, withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
 import { ButtonProps } from '@material-ui/core/Button';
 import { green } from '@material-ui/core/colors';
+import Progress from '../loading/Progress';
 const classNames = require('classnames').default;
 
 const styles = (theme: Theme) =>
@@ -18,14 +18,6 @@ const styles = (theme: Theme) =>
                 backgroundColor: green[700],
             },
         },
-        buttonProgress: {
-            color: green[600],
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            marginTop: -12,
-            marginLeft: -12,
-        },
         denseMargin: { marginLeft: theme.spacing(1), position: 'relative' },
     });
 
@@ -40,13 +32,10 @@ interface FormikSynchronousButtonProps extends WithStyles<typeof styles> {
 class FormikSynchronousButton extends React.Component<FormikSynchronousButtonProps & ButtonProps> {
     render() {
         const { denseMargin, isValid, isSubmitting, isSuccess, classes, disabled, ...rest } = this.props;
-        const buttonClassname = classNames({
-            [classes.buttonSuccess]: isSuccess,
-        });
         return (
             <div className={denseMargin ? classes.denseMargin : classes.root}>
                 <Button
-                    className={buttonClassname}
+                    className={isSuccess ? classes.buttonSuccess : ''}
                     disabled={disabled ? disabled : false || !isValid || isSubmitting}
                     type="submit"
                     color="primary"
@@ -55,7 +44,7 @@ class FormikSynchronousButton extends React.Component<FormikSynchronousButtonPro
                 >
                     {this.props.children}
                 </Button>
-                {isSubmitting && !isSuccess && <CircularProgress size={24} className={classes.buttonProgress} />}
+                {isSubmitting && !isSuccess && <Progress />}
             </div>
         );
     }
