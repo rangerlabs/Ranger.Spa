@@ -125,29 +125,31 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                                                 ),
                                             }}
                                         />
+                                        {serverError && <Typography color="error">{serverError}</Typography>}
                                     </React.Fragment>
                                 )}
-                                {serverError && <Typography color="error">{serverError}</Typography>}
                             </DialogContent>
-                            <DialogActions>
-                                <Button
-                                    disabled={deleteAccountContentProps.isDeleting}
-                                    onClick={deleteAccountContentProps.closeDialog}
-                                    color="primary"
-                                    variant="text"
-                                >
-                                    Cancel
-                                </Button>
-                                <FormikSynchronousButton
-                                    denseMargin
-                                    isValid={props.isValid}
-                                    isSubmitting={props.isSubmitting || deleteAccountContentProps.isDeleting}
-                                    isSuccess={success}
-                                    variant="text"
-                                >
-                                    Delete account
-                                </FormikSynchronousButton>
-                            </DialogActions>
+                            {!deleteAccountContentProps.isDeleting && (
+                                <DialogActions>
+                                    <Button
+                                        disabled={deleteAccountContentProps.isDeleting}
+                                        onClick={deleteAccountContentProps.closeDialog}
+                                        color="primary"
+                                        variant="text"
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <FormikSynchronousButton
+                                        denseMargin
+                                        isValid={props.isValid}
+                                        isSubmitting={props.isSubmitting || deleteAccountContentProps.isDeleting}
+                                        isSuccess={success}
+                                        variant="text"
+                                    >
+                                        Delete account
+                                    </FormikSynchronousButton>
+                                </DialogActions>
+                            )}
                         </form>
                     </React.Fragment>
                 )}
