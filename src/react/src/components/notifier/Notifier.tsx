@@ -27,6 +27,7 @@ import OrganizationDomainUpdateHandler from './pusherHandlers/OrganizationDomain
 import UserCreateHandler from './pusherHandlers/UserCreateHandler';
 import UserUpdateHandler from './pusherHandlers/UserUpdateHandler';
 import UserDeleteHandler from './pusherHandlers/UserDeleteHandler';
+import AccountDeleteHandler from './pusherHandlers/AccountDeletedHandler';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -143,7 +144,7 @@ class Notifier extends React.Component<NotifierProps> {
         this.userChannel.bind('user-created', UserCreateHandler);
         this.userChannel.bind('user-updated', UserUpdateHandler);
         this.userChannel.bind('user-deleted', UserDeleteHandler);
-        this.userChannel.bind('account-deleted', UserDeleteHandler);
+        this.userChannel.bind('account-deleted', AccountDeleteHandler);
         this.userChannel.bind('token-refresh', TokenRefreshHandler);
         this.userChannel.bind('permissions-updated', PermissionsUpdatedHandler);
         this.userChannel.bind('force-signout', ForceSignoutHandler);

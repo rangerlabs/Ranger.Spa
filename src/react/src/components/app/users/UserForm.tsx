@@ -119,6 +119,7 @@ class UserForm extends React.Component<IUserFormProps, UserFormState> {
                 enqueueSnackbar(response.error.message, { variant: 'error' });
                 props.setStatus(response.error.message);
             } else {
+                props.values.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING };
                 this.props.addUserToPendingDelete(this.props.initialUser);
                 this.props.removeUserByEmail(props.values.email);
                 this.props.push(RoutePaths.Users);
