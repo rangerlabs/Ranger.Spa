@@ -1,17 +1,5 @@
 import * as React from 'react';
-import {
-    DialogActions,
-    Button,
-    InputAdornment,
-    IconButton,
-    DialogContentText,
-    List,
-    ListItem,
-    ListItemText,
-    DialogTitle,
-    DialogContent,
-    Typography,
-} from '@material-ui/core';
+import { DialogActions, Button, InputAdornment, IconButton, DialogContentText, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import FormikTextField from '../../form/FormikTextField';
 import { Formik, FormikBag, FormikProps } from 'formik';
@@ -23,9 +11,6 @@ import { connect } from 'react-redux';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import UserService from '../../../services/UserService';
 import { push } from 'connected-react-router';
-import UserManager from '../../../services/UserManager';
-import { ApplicationState } from '../../../stores';
-import { UserProfile } from '../../../models/UserProfile';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import GlobalConfig from '../../../helpers/GlobalConfig';
 import RegularExpressions from '../../../helpers/RegularExpressions';
@@ -79,8 +64,6 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                                 variant: 'error',
                             });
                         } else {
-                            UserManager.removeUser();
-                            deleteAccountContentProps.enqueueSnackbar(response.message, { variant: 'success' });
                             push(GlobalConfig.SPA_HOST);
                             setSuccess(true);
                         }
