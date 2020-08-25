@@ -8,7 +8,7 @@ import { useState } from 'react';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         inactive: {
-            position: 'absolute',
+            position: 'fixed',
             bottom: 0,
             left: 0,
             width: '100%',
