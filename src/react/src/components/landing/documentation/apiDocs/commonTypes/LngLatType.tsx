@@ -42,7 +42,7 @@ export const LngLatEndpointBodyListItem = function (props: LngLatEndpointBodyLis
     );
 };
 
-const PostGeofencesApi = function () {
+const LngLatType = function () {
     return (
         <React.Fragment>
             <EndpointHeaderBlock>
@@ -53,4 +53,4 @@ const PostGeofencesApi = function () {
     );
 };
 
-export default PostGeofencesApi;
+export default LngLatType;

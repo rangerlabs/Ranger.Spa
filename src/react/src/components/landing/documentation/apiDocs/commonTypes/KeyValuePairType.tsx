@@ -24,7 +24,7 @@ const properties = [
     },
 ] as EndpointProperty[];
 
-const PostGeofencesApi = function () {
+const KeyValuePairType = function () {
     return (
         <React.Fragment>
             <EndpointHeaderBlock>
@@ -54,4 +54,4 @@ export const KeyValuePairEndpointBodyListItem = function (props: KeyValuePairEnd
     );
 };
 
-export default PostGeofencesApi;
+export default KeyValuePairType;

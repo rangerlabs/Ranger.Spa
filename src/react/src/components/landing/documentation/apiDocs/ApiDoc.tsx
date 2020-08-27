@@ -20,6 +20,10 @@ import DocRoutePaths from '../DocRoutePaths';
 import PostBreadcrumbApi from './breadcrumbs/PostBreadcrumbApi';
 import GetGeofencesApi from './geofences/GetGeofencesApi';
 import PostGeofencesApi from './geofences/PostGeofencesApi';
+import LngLatType from './commonTypes/LngLatType';
+import ScheduleType from './commonTypes/ScheduleType';
+import KeyValuePair from '../../../../models/KeyValuePair';
+import KeyValuePairType from './commonTypes/KeyValuePairType';
 
 export const ApiDocOutline = [
     {
@@ -172,9 +176,15 @@ const ApiDoc = function (props: ApiDocsProps) {
                 <JsonViewer title="Unsuccessful Response" json={UnsuccessfulResponseBody} expandLevel={2} />
             </Section>
             <Section text="Common Types" id="common-types-section">
-                <SubSection text="LngLat" id="lnglat-section"></SubSection>
-                <SubSection text="Schedule" id="schedule-section"></SubSection>
-                <SubSection text="Key-Value Pair" id="key-value-pair-section"></SubSection>
+                <SubSection text="LngLat" id="lnglat-section">
+                    <LngLatType />
+                </SubSection>
+                <SubSection text="Schedule" id="schedule-section">
+                    <ScheduleType />
+                </SubSection>
+                <SubSection text="Key-Value Pair" id="key-value-pair-section">
+                    <KeyValuePairType />
+                </SubSection>
             </Section>
             <Section text="Breadcrumbs" id="breadcrumbs-section">
                 <SubSection text="POST" id="post-breadcrumbs-section">
