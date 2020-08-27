@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 import HttpMethod from '../../textEnhancers/HttpMethod';
 import EndpointHeaderBlock from '../../docComponents/EndpointHeaderBlock';
 import EndpointPropertiesList, { EndpointProperty } from '../../docComponents/EndpointPropertyList';
@@ -8,37 +8,7 @@ import { UnorderedList } from '../../docComponents/UnorderedList';
 import SampleRequest from '../../docComponents/SampleRequest';
 import JsonViewer from '../../docComponents/JsonViewer';
 import PostGeofence from '../../json/geofences/PostGeofence';
-
-const lngLat = [
-    <EndpointBodyListItem name="lng" type="number" required description="Coordinate longitude, [-180, 180]" />,
-    <EndpointBodyListItem name="lat" type="number" required description="Coordinate latitude, [-90, 90]" />,
-];
-
-const metadata = [
-    <EndpointBodyListItem name="key" type="string" required description="Metadata key" />,
-    <EndpointBodyListItem name="value" type="string" required description="Metadata value" />,
-];
-
-const dailySchedule = [
-    <EndpointBodyListItem name="startTime" type="string" required description="The time when this geofence may begin executing integrations - HH:mm:ss" />,
-    <EndpointBodyListItem name="endTime" type="string" required description="The time when this geofence must stop executing integrations - HH:mm:ss" />,
-];
-
-const schedule = [
-    <EndpointBodyListItem
-        name="timeZoneId"
-        type="string"
-        required
-        description="IANA Time Zone Name that the Breadcrumb.RecordedAt property should be converted to and evaluated against"
-    />,
-    <EndpointBodyListItem name="sunday" type="object" required description="The Sunday daily schedule" item={<UnorderedList items={dailySchedule} />} />,
-    <EndpointBodyListItem name="monday" type="object" required description="The Monday daily schedule" item={<UnorderedList items={dailySchedule} />} />,
-    <EndpointBodyListItem name="tuesday" type="object" required description="The Tuesday daily schedule" item={<UnorderedList items={dailySchedule} />} />,
-    <EndpointBodyListItem name="wednesday" type="object" required description="The Wednesday daily schedule" item={<UnorderedList items={dailySchedule} />} />,
-    <EndpointBodyListItem name="thursday" type="object" required description="The Thursday daily schedule" item={<UnorderedList items={dailySchedule} />} />,
-    <EndpointBodyListItem name="friday" type="object" required description="The Friday daily schedule" item={<UnorderedList items={dailySchedule} />} />,
-    <EndpointBodyListItem name="saturday" type="object" required description="The Saturday daily schedule" item={<UnorderedList items={dailySchedule} />} />,
-];
+import { scrollToLandingId } from '../../../../../helpers/Helpers';
 
 const body = [
     <EndpointBodyListItem name="shape" type="string" required description="The shape of the geofence - 'Circle' or 'Polygon'" />,
@@ -51,23 +21,32 @@ const body = [
     <EndpointBodyListItem name="integrationIds" type="string[]" description="An array of the non-default integrations this geofence should execute" />,
     <EndpointBodyListItem
         name="coordinates"
-        type="object[]"
+        type={
+            <Link variant="caption" component="button" onClick={() => scrollToLandingId('lnglat-section')}>
+                LngLat
+            </Link>
+        }
         required
         description="The coordinates for a geofence - 1 center coordinate for shape: 'Circle',  [3, 512] for shape: 'Polygon' with implicit closure"
-        item={<UnorderedList items={lngLat} />}
     />,
     <EndpointBodyListItem name="radius" type="number" description="The radius of a circular geofence - required when shape: 'Circle', ≥ 50" />,
     <EndpointBodyListItem
         name="schedule"
-        type="object"
+        type={
+            <Link variant="caption" component="button" onClick={() => scrollToLandingId('schedule-section')}>
+                Schedule
+            </Link>
+        }
         description="The weekly schedule for when this geofence may execute integrations, exclude the execute integrations at all times"
-        item={<UnorderedList items={schedule} />}
     />,
     <EndpointBodyListItem
         name="metadata"
-        type="object[]"
+        type={
+            <Link variant="caption" component="button" onClick={() => scrollToLandingId('key-value-pair-section')}>
+                Key-Value Pair
+            </Link>
+        }
         description="An array of up to 16 metadata, duplicate keys permitted"
-        item={<UnorderedList items={metadata} />}
     />,
 ];
 

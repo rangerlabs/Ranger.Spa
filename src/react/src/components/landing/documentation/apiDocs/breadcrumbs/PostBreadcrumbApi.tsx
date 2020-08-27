@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 import HttpMethod from '../../textEnhancers/HttpMethod';
 import Code from '../../textEnhancers/Code';
 import JsonViewer from '../../docComponents/JsonViewer';
@@ -10,34 +10,31 @@ import PostBreadcrumb from '../../json/breadcrumbs/PostBreadcrumb';
 import { UnorderedList } from '../../docComponents/UnorderedList';
 import { EndpointBodyListItem } from '../../docComponents/EndpointBodyList';
 import Bold from '../../textEnhancers/Bold';
-
-const lngLat = [
-    <EndpointBodyListItem name="lng" type="number" required description="Coordinate longitude, [-180, 180]" />,
-    <EndpointBodyListItem name="lat" type="number" required description="Coordinate latitude, [-90, 90]" />,
-];
-
-const metadata = [
-    <EndpointBodyListItem name="key" type="string" required description="Metadata key" />,
-    <EndpointBodyListItem name="value" type="string" required description="Metadata value" />,
-];
+import { scrollToLandingId } from '../../../../../helpers/Helpers';
 
 const body = [
     <EndpointBodyListItem name="deviceId" type="string" required description="The unique device identifier" />,
     <EndpointBodyListItem name="externalUserId" type="string" description="The unique identifier for a logged in user" />,
     <EndpointBodyListItem
-        name="position"
-        type="object"
+        name="coordinates"
+        type={
+            <Link variant="caption" component="button" onClick={() => scrollToLandingId('lnglat-section')}>
+                LngLat
+            </Link>
+        }
         required
-        description="The coordinates recorded for the breadcrumb"
-        item={<UnorderedList items={lngLat} />}
+        description="The coordinates for a geofence - 1 center coordinate for shape: 'Circle',  [3, 512] for shape: 'Polygon' with implicit closure"
     />,
     <EndpointBodyListItem name="recordedAt" required type="datetime" description="The time the breadcrumb location was recorded at" />,
     <EndpointBodyListItem name="accuracy" type="number" description="The device's accuracy, ≥ 0" />,
     <EndpointBodyListItem
         name="metadata"
-        type="object[]"
+        type={
+            <Link variant="caption" component="button" onClick={() => scrollToLandingId('key-value-pair-section')}>
+                Key-Value Pair
+            </Link>
+        }
         description="An array of up to 16 metadata, duplicate keys permitted"
-        item={<UnorderedList items={metadata} />}
     />,
 ];
 

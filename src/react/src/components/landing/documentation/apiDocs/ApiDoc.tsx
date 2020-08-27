@@ -39,6 +39,15 @@ export const ApiDocOutline = [
         id: 'responses-section',
     },
     {
+        name: 'Common Types',
+        id: 'common-types-section',
+        subElements: [
+            { name: 'LngLat', id: 'lnglat-section' },
+            { name: 'Schedule', id: 'schedule-section' },
+            { name: 'Key-Value Pairs', id: 'key-value-pair-section' },
+        ],
+    },
+    {
         name: 'Breadcrumbs',
         id: 'breadcrumbs-section',
         subElements: [
@@ -161,6 +170,11 @@ const ApiDoc = function (props: ApiDocsProps) {
                 </Paragraph>
                 <JsonViewer title="Successful Response" json={SuccessfulResponseBody} expandLevel={2} />
                 <JsonViewer title="Unsuccessful Response" json={UnsuccessfulResponseBody} expandLevel={2} />
+            </Section>
+            <Section text="Common Types" id="common-types-section">
+                <SubSection text="LngLat" id="lnglat-section"></SubSection>
+                <SubSection text="Schedule" id="schedule-section"></SubSection>
+                <SubSection text="Key-Value Pair" id="key-value-pair-section"></SubSection>
             </Section>
             <Section text="Breadcrumbs" id="breadcrumbs-section">
                 <SubSection text="POST" id="post-breadcrumbs-section">

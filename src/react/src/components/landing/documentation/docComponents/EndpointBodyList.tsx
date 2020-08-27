@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface EndpointBodyListItemProps {
     name: string;
-    type: string;
+    type: React.ReactNode;
     required?: boolean;
     description: string;
     item?: React.ReactNode;
