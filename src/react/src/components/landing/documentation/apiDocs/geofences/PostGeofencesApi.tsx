@@ -29,7 +29,7 @@ const schedule = [
         name="timeZoneId"
         type="string"
         required
-        description="The IANA Time Zone Name that the Breadcrumb.RecordedAt property should be converted to and evaluated against"
+        description="IANA Time Zone Name that the Breadcrumb.RecordedAt property should be converted to and evaluated against"
     />,
     <EndpointBodyListItem name="sunday" type="object" required description="The Sunday daily schedule" item={<UnorderedList items={dailySchedule} />} />,
     <EndpointBodyListItem name="monday" type="object" required description="The Monday daily schedule" item={<UnorderedList items={dailySchedule} />} />,
@@ -44,15 +44,11 @@ const body = [
     <EndpointBodyListItem name="shape" type="string" required description="The shape of the geofence - 'Circle' or 'Polygon'" />,
     <EndpointBodyListItem name="externalId" type="string" required description="The unique identifier for the geofence - lowercase alphanumeric and dashes" />,
     <EndpointBodyListItem name="description" type="string" description="An optional description for the geofence" />,
-    <EndpointBodyListItem name="onEnter" type="boolean" description="Whether integrations should execute when devices enter" />,
-    <EndpointBodyListItem name="onDwell" type="boolean" description="Whether integrations should execute when devices are dwelling" />,
-    <EndpointBodyListItem name="onExit" type="boolean" description="Whether integrations should execute when devices exit" />,
-    <EndpointBodyListItem name="enabled" type="boolean" description="Whether any integrations should execute for selected events" />,
-    <EndpointBodyListItem
-        name="integrationIds"
-        type="string[]"
-        description="An array of the specific - non-default integrations this geofence should execute"
-    />,
+    <EndpointBodyListItem name="onEnter" type="boolean" description="Whether integrations should execute when devices enter - defaults to 'true'" />,
+    <EndpointBodyListItem name="onDwell" type="boolean" description="Whether integrations should execute when devices are dwelling - defaults to 'false'" />,
+    <EndpointBodyListItem name="onExit" type="boolean" description="Whether integrations should execute when devices exit - defaults to 'true'" />,
+    <EndpointBodyListItem name="enabled" type="boolean" description="Whether any integrations should execute for selected events - defaults to 'true'" />,
+    <EndpointBodyListItem name="integrationIds" type="string[]" description="An array of the non-default integrations this geofence should execute" />,
     <EndpointBodyListItem
         name="coordinates"
         type="object[]"
@@ -60,11 +56,12 @@ const body = [
         description="The coordinates for a geofence - 1 center coordinate for shape: 'Circle',  [3, 512] for shape: 'Polygon' with implicit closure"
         item={<UnorderedList items={lngLat} />}
     />,
-    <EndpointBodyListItem name="radius" type="number" description="The radius of a circular geofence, ≥ 50" />,
+    <EndpointBodyListItem name="radius" type="number" description="The radius of a circular geofence - required when shape: 'Circle', ≥ 50" />,
     <EndpointBodyListItem
         name="schedule"
         type="object"
         description="The weekly schedule for when this geofence may execute integrations, exclude the execute integrations at all times"
+        item={<UnorderedList items={schedule} />}
     />,
     <EndpointBodyListItem
         name="metadata"
