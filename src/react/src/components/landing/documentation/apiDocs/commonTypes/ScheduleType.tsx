@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 import HttpMethod from '../../textEnhancers/HttpMethod';
 import EndpointHeaderBlock from '../../docComponents/EndpointHeaderBlock';
 import EndpointPropertiesList, { EndpointProperty } from '../../docComponents/EndpointPropertyList';
@@ -8,6 +8,7 @@ import { UnorderedList } from '../../docComponents/UnorderedList';
 import SampleRequest from '../../docComponents/SampleRequest';
 import JsonViewer from '../../docComponents/JsonViewer';
 import PostGeofence from '../../json/geofences/PostGeofence';
+import { scrollToLandingId } from '../../../../../helpers/Helpers';
 
 const dailySchedule = [
     <EndpointBodyListItem name="startTime" type="string" required description="The time when this geofence may begin executing integrations - HH:mm:ss" />,
@@ -45,6 +46,20 @@ const ScheduleType = function () {
             </EndpointHeaderBlock>
             <EndpointPropertiesList properties={properties} />
         </React.Fragment>
+    );
+};
+
+export const ScheduleEndpointBodyListItem = function () {
+    return (
+        <EndpointBodyListItem
+            name="schedule"
+            type={
+                <Link variant="caption" component="button" onClick={() => scrollToLandingId('schedule-section')}>
+                    Schedule
+                </Link>
+            }
+            description="The weekly schedule for when this geofence may execute integrations, exclude the execute integrations at all times"
+        />
     );
 };
 

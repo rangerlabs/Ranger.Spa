@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Link } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import HttpMethod from '../../textEnhancers/HttpMethod';
 import EndpointHeaderBlock from '../../docComponents/EndpointHeaderBlock';
 import EndpointPropertiesList, { EndpointProperty } from '../../docComponents/EndpointPropertyList';
@@ -8,7 +8,9 @@ import { UnorderedList } from '../../docComponents/UnorderedList';
 import SampleRequest from '../../docComponents/SampleRequest';
 import JsonViewer from '../../docComponents/JsonViewer';
 import PostGeofence from '../../json/geofences/PostGeofence';
-import { scrollToLandingId } from '../../../../../helpers/Helpers';
+import { ScheduleEndpointBodyListItem } from '../commonTypes/ScheduleType';
+import { KeyValuePairEndpointBodyListItem } from '../commonTypes/KeyValuePairType';
+import { LngLatEndpointBodyListItem } from '../commonTypes/LngLatType';
 
 const body = [
     <EndpointBodyListItem name="shape" type="string" required description="The shape of the geofence - 'Circle' or 'Polygon'" />,
@@ -19,35 +21,13 @@ const body = [
     <EndpointBodyListItem name="onExit" type="boolean" description="Whether integrations should execute when devices exit - defaults to 'true'" />,
     <EndpointBodyListItem name="enabled" type="boolean" description="Whether any integrations should execute for selected events - defaults to 'true'" />,
     <EndpointBodyListItem name="integrationIds" type="string[]" description="An array of the non-default integrations this geofence should execute" />,
-    <EndpointBodyListItem
+    <LngLatEndpointBodyListItem
         name="coordinates"
-        type={
-            <Link variant="caption" component="button" onClick={() => scrollToLandingId('lnglat-section')}>
-                LngLat
-            </Link>
-        }
-        required
         description="The coordinates for a geofence - 1 center coordinate for shape: 'Circle',  [3, 512] for shape: 'Polygon' with implicit closure"
     />,
     <EndpointBodyListItem name="radius" type="number" description="The radius of a circular geofence - required when shape: 'Circle', ≥ 50" />,
-    <EndpointBodyListItem
-        name="schedule"
-        type={
-            <Link variant="caption" component="button" onClick={() => scrollToLandingId('schedule-section')}>
-                Schedule
-            </Link>
-        }
-        description="The weekly schedule for when this geofence may execute integrations, exclude the execute integrations at all times"
-    />,
-    <EndpointBodyListItem
-        name="metadata"
-        type={
-            <Link variant="caption" component="button" onClick={() => scrollToLandingId('key-value-pair-section')}>
-                Key-Value Pair
-            </Link>
-        }
-        description="An array of up to 16 metadata, duplicate keys permitted"
-    />,
+    <ScheduleEndpointBodyListItem />,
+    <KeyValuePairEndpointBodyListItem name="metadata" description="An array of up to 16 metadata, duplicate keys permitted" />,
 ];
 
 const endpointProperties = [

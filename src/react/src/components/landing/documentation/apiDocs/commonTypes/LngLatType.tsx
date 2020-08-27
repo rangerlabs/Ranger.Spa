@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 import HttpMethod from '../../textEnhancers/HttpMethod';
 import EndpointHeaderBlock from '../../docComponents/EndpointHeaderBlock';
 import EndpointPropertiesList, { EndpointProperty } from '../../docComponents/EndpointPropertyList';
@@ -8,6 +8,7 @@ import { UnorderedList } from '../../docComponents/UnorderedList';
 import SampleRequest from '../../docComponents/SampleRequest';
 import JsonViewer from '../../docComponents/JsonViewer';
 import PostGeofence from '../../json/geofences/PostGeofence';
+import { scrollToLandingId } from '../../../../../helpers/Helpers';
 
 const lngLat = [
     <EndpointBodyListItem name="lng" type="number" required description="Coordinate longitude, [-180, 180]" />,
@@ -20,6 +21,26 @@ const properties = [
         description: <UnorderedList items={lngLat} />,
     },
 ] as EndpointProperty[];
+
+interface LngLatEndpointBodyListItemProps {
+    name: string;
+    description: string;
+}
+
+export const LngLatEndpointBodyListItem = function (props: LngLatEndpointBodyListItemProps) {
+    return (
+        <EndpointBodyListItem
+            name="coordinates"
+            type={
+                <Link variant="caption" component="button" onClick={() => scrollToLandingId('lnglat-section')}>
+                    LngLat
+                </Link>
+            }
+            required
+            description={props.description}
+        />
+    );
+};
 
 const PostGeofencesApi = function () {
     return (

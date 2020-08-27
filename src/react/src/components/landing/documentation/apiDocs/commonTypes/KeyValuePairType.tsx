@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 import HttpMethod from '../../textEnhancers/HttpMethod';
 import EndpointHeaderBlock from '../../docComponents/EndpointHeaderBlock';
 import EndpointPropertiesList, { EndpointProperty } from '../../docComponents/EndpointPropertyList';
@@ -8,6 +8,9 @@ import { UnorderedList } from '../../docComponents/UnorderedList';
 import SampleRequest from '../../docComponents/SampleRequest';
 import JsonViewer from '../../docComponents/JsonViewer';
 import PostGeofence from '../../json/geofences/PostGeofence';
+import KeyValuePair from '../../../../../models/KeyValuePair';
+import { func } from 'prop-types';
+import { scrollToLandingId } from '../../../../../helpers/Helpers';
 
 const keyValuePair = [
     <EndpointBodyListItem name="key" type="string" required description="Metadata key" />,
@@ -29,6 +32,25 @@ const PostGeofencesApi = function () {
             </EndpointHeaderBlock>
             <EndpointPropertiesList properties={properties} />
         </React.Fragment>
+    );
+};
+
+interface KeyValuePairEndpointBodyListItemProps {
+    name: string;
+    description: string;
+}
+
+export const KeyValuePairEndpointBodyListItem = function (props: KeyValuePairEndpointBodyListItemProps) {
+    return (
+        <EndpointBodyListItem
+            name={props.name}
+            type={
+                <Link variant="caption" component="button" onClick={() => scrollToLandingId('key-value-pair-section')}>
+                    Key-Value Pair
+                </Link>
+            }
+            description={props.description}
+        />
     );
 };
 
