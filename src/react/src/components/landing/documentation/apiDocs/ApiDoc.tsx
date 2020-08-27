@@ -19,6 +19,7 @@ import SubSection from '../docComponents/SubSection';
 import DocRoutePaths from '../DocRoutePaths';
 import PostBreadcrumbApi from './breadcrumbs/PostBreadcrumbApi';
 import GetGeofencesApi from './geofences/GetGeofencesApi';
+import PostGeofencesApi from './geofences/PostGeofencesApi';
 
 export const ApiDocOutline = [
     {
@@ -170,7 +171,9 @@ const ApiDoc = function (props: ApiDocsProps) {
                 <SubSection text="GET" id="get-geofences-section">
                     <GetGeofencesApi />
                 </SubSection>
-                <SubSection text="POST" id="post-geofences-section"></SubSection>
+                <SubSection text="POST" id="post-geofences-section">
+                    <PostGeofencesApi />
+                </SubSection>
                 <SubSection text="PUT" id="put-geofences-section"></SubSection>
                 <SubSection text="DELETE" id="delete-geofences-section"></SubSection>
             </Section>
