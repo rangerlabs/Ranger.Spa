@@ -35,7 +35,7 @@ const body = [
     <EndpointBodyListItem name="accuracy" type="number" description="The device's accuracy, ≥ 0" />,
     <EndpointBodyListItem
         name="metadata"
-        type="array"
+        type="object[]"
         description="An array of up to 16 metadata, duplicate keys permitted"
         item={<UnorderedList items={metadata} />}
     />,

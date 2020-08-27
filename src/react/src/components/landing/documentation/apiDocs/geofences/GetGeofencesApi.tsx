@@ -27,7 +27,7 @@ const GetGeofencesApi = function () {
     return (
         <React.Fragment>
             <EndpointHeaderBlock>
-                <Typography>Retrieves all the geofences within the provided project.</Typography>
+                <Typography>Retrieves geofences for the project.</Typography>
             </EndpointHeaderBlock>
             <EndpointPropertiesList properties={endpointProperties} />
         </React.Fragment>

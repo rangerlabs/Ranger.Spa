@@ -13,10 +13,10 @@ const styles = (theme: Theme) =>
             borderRadius: '2px',
         },
         get: {
-            background: blue[800],
+            background: Constants.COLORS.PRIMARY_COLOR,
         },
         post: {
-            background: Constants.COLORS.PRIMARY_COLOR,
+            background: blue[800],
         },
         put: {
             background: yellow[800],
