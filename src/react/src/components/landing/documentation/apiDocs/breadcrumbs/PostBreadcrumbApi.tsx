@@ -23,7 +23,7 @@ const body = [
             </Link>
         }
         required
-        description="The coordinates for a geofence - 1 center coordinate for shape: 'Circle',  [3, 512] for shape: 'Polygon' with implicit closure"
+        description="The coordinates for a geofence - 1 center coordinate for shape: 'Circle',  [3, 512] coordinates for shape: 'Polygon' with implicit closure"
     />,
     <EndpointBodyListItem name="recordedAt" required type="datetime" description="The time the breadcrumb location was recorded at" />,
     <EndpointBodyListItem name="accuracy" type="number" description="The device's accuracy, ≥ 0" />,
