@@ -22,12 +22,13 @@ const body = [
     <EndpointBodyListItem name="enabled" type="boolean" description="Whether any integrations should execute for selected events - defaults to 'true'" />,
     <EndpointBodyListItem name="integrationIds" type="string[]" description="An array of the non-default integrations this geofence should execute" />,
     <LngLatEndpointBodyListItem
+        isArray
         name="coordinates"
         description="The coordinates for a geofence - 1 center coordinate for shape: 'Circle',  [3, 512] for shape: 'Polygon' with implicit closure"
     />,
     <EndpointBodyListItem name="radius" type="number" description="The radius of a circular geofence - required when shape: 'Circle', ≥ 50" />,
     <ScheduleEndpointBodyListItem />,
-    <KeyValuePairEndpointBodyListItem name="metadata" description="An array of up to 16 metadata, duplicate keys permitted" />,
+    <KeyValuePairEndpointBodyListItem isArray name="metadata" description="An array of up to 16 metadata, duplicate keys permitted" />,
 ];
 
 const endpointProperties = [

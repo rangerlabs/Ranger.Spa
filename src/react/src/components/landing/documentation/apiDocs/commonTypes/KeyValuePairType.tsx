@@ -19,7 +19,6 @@ const keyValuePair = [
 
 const properties = [
     {
-        title: 'Key-Value Pair',
         description: <UnorderedList items={keyValuePair} />,
     },
 ] as EndpointProperty[];
@@ -36,6 +35,7 @@ const KeyValuePairType = function () {
 };
 
 interface KeyValuePairEndpointBodyListItemProps {
+    isArray?: boolean;
     name: string;
     description: string;
 }
@@ -46,7 +46,7 @@ export const KeyValuePairEndpointBodyListItem = function (props: KeyValuePairEnd
             name={props.name}
             type={
                 <Link variant="caption" component="button" onClick={() => scrollToLandingId('key-value-pair-section')}>
-                    Key-Value Pair
+                    Key-Value Pair{props.isArray ? '[]' : ''}
                 </Link>
             }
             description={props.description}

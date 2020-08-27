@@ -19,7 +19,7 @@ const body = [
     <LngLatEndpointBodyListItem name="coordinates" description="The coordinates recorded for the breadcrumb" />,
     <EndpointBodyListItem name="recordedAt" required type="datetime" description="The time the breadcrumb location was recorded at" />,
     <EndpointBodyListItem name="accuracy" type="number" description="The device's accuracy, ≥ 0" />,
-    <KeyValuePairEndpointBodyListItem name="metadata" description="An array of up to 16 metadata, duplicate keys permitted" />,
+    <KeyValuePairEndpointBodyListItem isArray name="metadata" description="An array of up to 16 metadata, duplicate keys permitted" />,
 ];
 
 const endpointProperties = [

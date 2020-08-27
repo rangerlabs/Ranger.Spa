@@ -33,7 +33,6 @@ const schedule = [
 
 const properties = [
     {
-        title: 'Schedule',
         description: <UnorderedList items={schedule} />,
     },
 ] as EndpointProperty[];

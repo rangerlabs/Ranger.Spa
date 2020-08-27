@@ -17,12 +17,12 @@ const lngLat = [
 
 const properties = [
     {
-        title: 'LngLat',
         description: <UnorderedList items={lngLat} />,
     },
 ] as EndpointProperty[];
 
 interface LngLatEndpointBodyListItemProps {
+    isArray?: boolean;
     name: string;
     description: string;
 }
@@ -33,7 +33,7 @@ export const LngLatEndpointBodyListItem = function (props: LngLatEndpointBodyLis
             name="coordinates"
             type={
                 <Link variant="caption" component="button" onClick={() => scrollToLandingId('lnglat-section')}>
-                    LngLat
+                    LngLat{props.isArray ? '[]' : ''}
                 </Link>
             }
             required

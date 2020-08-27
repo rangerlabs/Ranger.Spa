@@ -18,7 +18,7 @@ interface EndpointPropertyListProps {
 }
 
 export interface EndpointProperty {
-    title: string;
+    title?: string;
     description: React.ReactNode;
 }
 
