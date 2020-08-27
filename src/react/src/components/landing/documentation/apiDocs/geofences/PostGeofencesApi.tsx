@@ -76,6 +76,10 @@ const body = [
 
 const endpointProperties = [
     {
+        title: 'URI',
+        description: 'https://rangerlabs.io/api/geofences',
+    },
+    {
         title: 'Method',
         description: <HttpMethod method="POST" />,
     },
@@ -84,12 +88,12 @@ const endpointProperties = [
         description: 'Project API key',
     },
     {
-        title: 'URI',
-        description: 'https://rangerlabs.io/api/geofences',
-    },
-    {
         title: 'API Version',
         description: '1.0',
+    },
+    {
+        title: 'Body',
+        description: <UnorderedList items={body} />,
     },
 ] as EndpointProperty[];
 

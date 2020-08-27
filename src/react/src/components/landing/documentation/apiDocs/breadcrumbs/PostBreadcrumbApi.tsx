@@ -43,16 +43,16 @@ const body = [
 
 const endpointProperties = [
     {
+        title: 'URI',
+        description: 'https://rangerlabs.io/api/breadcrumbs',
+    },
+    {
         title: 'Method',
         description: <HttpMethod method="POST" />,
     },
     {
         title: 'Authoriztion',
         description: 'Test or Live API keys',
-    },
-    {
-        title: 'URI',
-        description: 'https://rangerlabs.io/api/breadcrumbs',
     },
     {
         title: 'API Version',
