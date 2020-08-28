@@ -41,7 +41,7 @@ const ScheduleType = function () {
     return (
         <React.Fragment>
             <EndpointHeaderBlock>
-                <Typography>Used to define weekly geofence schedule.</Typography>
+                <Typography>Used to define a weekly geofence schedule.</Typography>
             </EndpointHeaderBlock>
             <EndpointPropertiesList properties={properties} />
         </React.Fragment>

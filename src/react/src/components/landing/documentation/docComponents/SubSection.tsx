@@ -1,8 +1,15 @@
 import { PropsWithChildren } from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, makeStyles, Theme, createStyles } from '@material-ui/core';
 import React from 'react';
 import Block from './Block';
-import Bold from '../textEnhancers/Bold';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        subsection: {
+            paddingLeft: theme.spacing(4),
+        },
+    })
+);
 
 interface SubSectionProps {
     id: string;
@@ -10,14 +17,15 @@ interface SubSectionProps {
 }
 
 export default function SubSection(props: PropsWithChildren<SubSectionProps>) {
+    const classes = useStyles(props);
     return (
-        <React.Fragment>
+        <div className={classes.subsection}>
             <Block>
                 <Typography id={props.id} gutterBottom variant="h6">
                     {props.text}
                 </Typography>
             </Block>
             {props.children}
-        </React.Fragment>
+        </div>
     );
 }
