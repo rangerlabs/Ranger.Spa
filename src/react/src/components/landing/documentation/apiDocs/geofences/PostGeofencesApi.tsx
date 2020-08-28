@@ -11,6 +11,7 @@ import PostGeofence from '../../json/geofences/PostGeofence';
 import { ScheduleEndpointBodyListItem } from '../commonTypes/ScheduleType';
 import { KeyValuePairEndpointBodyListItem } from '../commonTypes/KeyValuePairType';
 import { LngLatEndpointBodyListItem } from '../commonTypes/LngLatType';
+import EndpointBody from '../../docComponents/EndpointBody';
 
 const body = [
     <EndpointBodyListItem name="shape" type="string" required description="The shape of the geofence - 'Circle' or 'Polygon'" />,
@@ -60,10 +61,12 @@ const PostGeofencesApi = function () {
             <EndpointHeaderBlock>
                 <Typography>Creates a geofences within the project.</Typography>
             </EndpointHeaderBlock>
-            <EndpointPropertiesList properties={endpointProperties} />
-            <SampleRequest>
-                <JsonViewer title="POST Breadcrumb" json={PostGeofence} expandLevel={3} />
-            </SampleRequest>
+            <EndpointBody>
+                <EndpointPropertiesList properties={endpointProperties} />
+                <SampleRequest>
+                    <JsonViewer title="POST Breadcrumb" json={PostGeofence} expandLevel={3} />
+                </SampleRequest>
+            </EndpointBody>
         </React.Fragment>
     );
 };

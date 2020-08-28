@@ -3,6 +3,7 @@ import { Typography } from '@material-ui/core';
 import HttpMethod from '../../textEnhancers/HttpMethod';
 import EndpointHeaderBlock from '../../docComponents/EndpointHeaderBlock';
 import EndpointPropertiesList, { EndpointProperty } from '../../docComponents/EndpointPropertyList';
+import EndpointBody from '../../docComponents/EndpointBody';
 
 const endpointProperties = [
     {
@@ -29,7 +30,9 @@ const GetGeofencesApi = function () {
             <EndpointHeaderBlock>
                 <Typography>Retrieves geofences for the project.</Typography>
             </EndpointHeaderBlock>
-            <EndpointPropertiesList properties={endpointProperties} />
+            <EndpointBody>
+                <EndpointPropertiesList properties={endpointProperties} />
+            </EndpointBody>
         </React.Fragment>
     );
 };

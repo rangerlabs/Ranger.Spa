@@ -4,18 +4,7 @@ import React from 'react';
 import Block from './Block';
 import { getDocsBreakpoint } from '../../../../helpers/Helpers';
 import Constants from '../../../../theme/Constants';
-
-const useStyles = makeStyles((theme: Theme) => {
-    const breakpoint = getDocsBreakpoint(theme, Constants.DOCS.WIDTH);
-    return createStyles({
-        subsection: {
-            [theme.breakpoints.up(breakpoint)]: {
-                paddingLeft: theme.spacing(4),
-                paddingRight: theme.spacing(4),
-            },
-        },
-    });
-});
+import { EndpointBodyListItem } from './EndpointBodyList';
 
 interface SubSectionProps {
     id: string;
@@ -23,7 +12,6 @@ interface SubSectionProps {
 }
 
 export default function SubSection(props: PropsWithChildren<SubSectionProps>) {
-    const classes = useStyles(props);
     return (
         <React.Fragment>
             <Block>
@@ -31,7 +19,7 @@ export default function SubSection(props: PropsWithChildren<SubSectionProps>) {
                     {props.text}
                 </Typography>
             </Block>
-            <div className={classes.subsection}>{props.children}</div>
+            {props.children}
         </React.Fragment>
     );
 }

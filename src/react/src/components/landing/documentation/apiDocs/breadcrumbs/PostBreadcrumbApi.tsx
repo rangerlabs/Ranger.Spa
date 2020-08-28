@@ -12,6 +12,7 @@ import { EndpointBodyListItem } from '../../docComponents/EndpointBodyList';
 import { scrollToLandingId } from '../../../../../helpers/Helpers';
 import { LngLatEndpointBodyListItem } from '../commonTypes/LngLatType';
 import { KeyValuePairEndpointBodyListItem } from '../commonTypes/KeyValuePairType';
+import EndpointBody from '../../docComponents/EndpointBody';
 
 const body = [
     <EndpointBodyListItem name="deviceId" type="string" required description="The unique device identifier" />,
@@ -55,10 +56,12 @@ const PostBreadcrumbApi = function () {
                     <Code>deviceId</Code> to uniquely identify users.
                 </Typography>
             </EndpointHeaderBlock>
-            <EndpointPropertiesList properties={endpointProperties} />
-            <SampleRequest>
-                <JsonViewer title="POST Breadcrumb" json={PostBreadcrumb} expandLevel={3} />
-            </SampleRequest>
+            <EndpointBody>
+                <EndpointPropertiesList properties={endpointProperties} />
+                <SampleRequest>
+                    <JsonViewer title="POST Breadcrumb" json={PostBreadcrumb} expandLevel={3} />
+                </SampleRequest>
+            </EndpointBody>
         </React.Fragment>
     );
 };
