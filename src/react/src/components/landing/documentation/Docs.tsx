@@ -15,10 +15,10 @@ import Outline from './docComponents/Outline';
 import Constants from '../../../theme/Constants';
 import DocRoutePaths from './DocRoutePaths';
 import NotFound from '../../error/NotFound';
+import { getDocsBreakpoint } from '../../../helpers/Helpers';
 
-const docWidth = 750;
 const useStyles = makeStyles((theme: Theme) => {
-    const breakpoint = docWidth + theme.spacing(2) + Constants.DRAWER.LANDING.WIDTH * 2;
+    const breakpoint = getDocsBreakpoint(theme, Constants.DOCS.WIDTH);
     return createStyles({
         drawer: {
             [theme.breakpoints.up(breakpoint)]: {
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) => {
             paddingLeft: theme.spacing(2),
             paddingRight: theme.spacing(2),
             [theme.breakpoints.up(breakpoint)]: {
-                width: docWidth,
+                width: Constants.DOCS.WIDTH,
                 marginLeft: 'auto',
                 marginRight: 'auto',
             },
@@ -104,7 +104,7 @@ function Docs(props: DocumentationProps): JSX.Element {
     const [isIn, setIsIn] = useState(true);
     const classes = useStyles();
     const theme = useTheme();
-    const isMdUp = useMediaQuery(theme.breakpoints.up(docWidth + theme.spacing(2) + Constants.DRAWER.LANDING.WIDTH * 2));
+    const isMdUp = useMediaQuery(theme.breakpoints.up(Constants.DOCS.WIDTH + theme.spacing(2) + Constants.DRAWER.LANDING.WIDTH * 2));
     let match = useRouteMatch();
 
     const openMobileDrawer = function () {

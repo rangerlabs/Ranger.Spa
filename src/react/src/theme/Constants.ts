@@ -9,6 +9,9 @@ const Constants = {
         HEADER_COLOR: '#1b4d10',
         FONT_COLOR: '#2d2d2d',
     },
+    DOCS: {
+        WIDTH: 750,
+    },
     HEIGHT: {
         TOOLBAR: 48,
     },

@@ -3,6 +3,8 @@ import { RoleEnum } from '../models/RoleEnum';
 import { UserProfile } from '../models/UserProfile';
 import { User } from 'oidc-client';
 import { ILimitDetails } from '../models/app/ILimitDetails';
+import Constants from '../theme/Constants';
+import { Theme } from '@material-ui/core';
 
 export function getSpaVersion(): string {
     const value = `; ${document.cookie}`;
@@ -31,6 +33,10 @@ export function getHost(): string {
             return window.location.host;
         }
     }
+}
+
+export function getDocsBreakpoint(theme: Theme, docWidth: number): number {
+    return docWidth + theme.spacing(2) + Constants.DRAWER.LANDING.WIDTH * 2;
 }
 
 export function getIntegrationsFromIntegrationIds(integrationIds: string[], integrations: MergedIntegrationType[]) {
