@@ -20,7 +20,7 @@ const schedule = [
         name="timeZoneId"
         type="string"
         required
-        description="IANA Time Zone Name that the Breadcrumb.RecordedAt property should be converted to and evaluated against"
+        description="The IANA Time Zone Name as defined in the tz database that the Breadcrumb.RecordedAt property should be converted to and evaluated against, for example 'America/New York'"
     />,
     <EndpointBodyListItem name="sunday" type="object" required description="The Sunday daily schedule" item={<UnorderedList items={dailySchedule} />} />,
     <EndpointBodyListItem name="monday" type="object" required description="The Monday daily schedule" item={<UnorderedList items={dailySchedule} />} />,

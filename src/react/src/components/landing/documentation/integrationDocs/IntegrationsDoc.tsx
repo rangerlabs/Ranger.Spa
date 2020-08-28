@@ -6,6 +6,7 @@ import ComingSoon from './integrations/ComingSoon';
 import { OutlineElement } from '../docComponents/OutlineElement';
 import Outline from '../docComponents/Outline';
 import Introduction from '../docComponents/Introduction';
+import Section from '../docComponents/Section';
 
 export const IntegrationsDocOutline = [
     {
@@ -27,6 +28,22 @@ const IntegrationsDoc = function (props: IDocProps) {
                 </Paragraph>
             </Introduction>
             {props.showOutline && <Outline elements={IntegrationsDocOutline} />}
+            <Section id="default-integrations-section" text="Default Integrations">
+                <Paragraph>
+                    To enable the advanced customization of Geofences, Ranger has the notion of 'Default' and 'Non-Default' Integrations. At any time, an
+                    Integration may be promoted or demoted from one state to the other. Default Integrations are unique in that they execute for all events
+                    triggered by all geofences. Non-Default Integrations, however, are only executed when they are explicitely added to a Geofence. Only
+                    Non-Default Integrations can be added on a per-Geofence basis.
+                </Paragraph>
+                <Paragraph>
+                    This unique functionality enables you to perform A/B Testing, Canary Releases, or run different promotions for different geographical
+                    regions. The combinations are endless.
+                </Paragraph>
+                <Paragraph>
+                    Once you find that an Integration is performing the way you expect, it can be promoted to a Default Integration and all events from all
+                    Geofences will execute it.
+                </Paragraph>
+            </Section>
             <Webhooks />
             <ComingSoon />
         </React.Fragment>

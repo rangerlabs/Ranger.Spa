@@ -26,6 +26,7 @@ import KeyValuePair from '../../../../models/KeyValuePair';
 import KeyValuePairType from './commonTypes/KeyValuePairType';
 import PutGeofencesApi from './geofences/PutGeofencesApi';
 import DeleteGeofencesApi from './geofences/DeleteGeofencesApi';
+import GetIntegrationsApi from './integrations/GetIntegrationsApi';
 
 export const ApiDocOutline = [
     {
@@ -208,7 +209,9 @@ const ApiDoc = function (props: ApiDocsProps) {
                 </SubSection>
             </Section>
             <Section text="Integrations" id="integrations-section">
-                <SubSection text="GET" id="get-integrations-section"></SubSection>
+                <SubSection text="GET" id="get-integrations-section">
+                    <GetIntegrationsApi />
+                </SubSection>
             </Section>
         </React.Fragment>
     );
