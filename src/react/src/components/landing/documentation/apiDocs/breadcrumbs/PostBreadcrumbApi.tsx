@@ -33,7 +33,7 @@ const endpointProperties = [
         description: <HttpMethod method="POST" />,
     },
     {
-        title: 'Authoriztion',
+        title: 'Authorization',
         description: 'Test or Live API keys',
     },
     {

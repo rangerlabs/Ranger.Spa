@@ -24,6 +24,8 @@ import LngLatType from './commonTypes/LngLatType';
 import ScheduleType from './commonTypes/ScheduleType';
 import KeyValuePair from '../../../../models/KeyValuePair';
 import KeyValuePairType from './commonTypes/KeyValuePairType';
+import PutGeofencesApi from './geofences/PutGeofencesApi';
+import DeleteGeofencesApi from './geofences/DeleteGeofencesApi';
 
 export const ApiDocOutline = [
     {
@@ -125,7 +127,7 @@ const ApiDoc = function (props: ApiDocsProps) {
                 <Paragraph>
                     Ranger's API is a RESTful JSON API which is backed by an Event Driven Architecture. Consequently, many of Ranger's endpoints return{' '}
                     <Code>202 Accepted</Code> status codes. Clients which receive <Code>202 Accepted</Code> responses should anticipate the need to query for
-                    the result of their operation. Future API enhancments will provide clients a unique URI to query for the status and result of their
+                    the result of their operation. Future API enhancements will provide clients a unique URI to query for the status and result of their
                     operation.
                 </Paragraph>
                 <Paragraph>
@@ -198,8 +200,12 @@ const ApiDoc = function (props: ApiDocsProps) {
                 <SubSection text="POST" id="post-geofences-section">
                     <PostGeofencesApi />
                 </SubSection>
-                <SubSection text="PUT" id="put-geofences-section"></SubSection>
-                <SubSection text="DELETE" id="delete-geofences-section"></SubSection>
+                <SubSection text="PUT" id="put-geofences-section">
+                    <PutGeofencesApi />
+                </SubSection>
+                <SubSection text="DELETE" id="delete-geofences-section">
+                    <DeleteGeofencesApi />
+                </SubSection>
             </Section>
             <Section text="Integrations" id="integrations-section">
                 <SubSection text="GET" id="get-integrations-section"></SubSection>

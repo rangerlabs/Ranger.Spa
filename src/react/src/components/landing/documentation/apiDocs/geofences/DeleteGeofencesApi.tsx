@@ -1,14 +1,18 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 import HttpMethod from '../../textEnhancers/HttpMethod';
 import EndpointHeaderBlock from '../../docComponents/EndpointHeaderBlock';
 import EndpointPropertiesList, { EndpointProperty } from '../../docComponents/EndpointPropertyList';
 import EndpointBody from '../../docComponents/EndpointBody';
+import { EndpointBodyListItem } from '../../docComponents/EndpointBodyList';
+import { UnorderedList } from '../../docComponents/UnorderedList';
+
+const parameters = [<EndpointBodyListItem name="id" type="string" required description="The external Id of the geofence" />];
 
 const endpointProperties = [
     {
         title: 'Method',
-        description: <HttpMethod method="GET" />,
+        description: <HttpMethod method="DELETE" />,
     },
     {
         title: 'Authorization',
@@ -16,19 +20,23 @@ const endpointProperties = [
     },
     {
         title: 'URI',
-        description: 'https://rangerlabs.io/api/geofences',
+        description: 'https://rangerlabs.io/api/geofences/{externalId}',
     },
     {
         title: 'API Version',
         description: '1.0',
     },
+    {
+        title: 'Parameters',
+        description: <UnorderedList items={parameters} />,
+    },
 ] as EndpointProperty[];
 
-const GetGeofencesApi = function () {
+const DeleteGeofencesApi = function () {
     return (
         <React.Fragment>
             <EndpointHeaderBlock>
-                <Typography>Retrieves geofences within the project.</Typography>
+                <Typography>Deletes a geofence within the project.</Typography>
             </EndpointHeaderBlock>
             <EndpointBody>
                 <EndpointPropertiesList properties={endpointProperties} />
@@ -37,4 +45,4 @@ const GetGeofencesApi = function () {
     );
 };
 
-export default GetGeofencesApi;
+export default DeleteGeofencesApi;

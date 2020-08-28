@@ -16,7 +16,7 @@ interface EndpointBodyListItemProps {
     name: string;
     type: React.ReactNode;
     required?: boolean;
-    description: string;
+    description: React.ReactNode;
     item?: React.ReactNode;
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 import HttpMethod from '../../textEnhancers/HttpMethod';
 import EndpointHeaderBlock from '../../docComponents/EndpointHeaderBlock';
 import EndpointPropertiesList, { EndpointProperty } from '../../docComponents/EndpointPropertyList';
@@ -12,6 +12,7 @@ import { ScheduleEndpointBodyListItem } from '../commonTypes/ScheduleType';
 import { KeyValuePairEndpointBodyListItem } from '../commonTypes/KeyValuePairType';
 import { LngLatEndpointBodyListItem } from '../commonTypes/LngLatType';
 import EndpointBody from '../../docComponents/EndpointBody';
+import { scrollToLandingId } from '../../../../../helpers/Helpers';
 
 const body = [
     <EndpointBodyListItem name="shape" type="string" required description="The shape of the geofence - 'Circle' or 'Polygon'" />,
@@ -32,14 +33,27 @@ const body = [
     <KeyValuePairEndpointBodyListItem isArray name="metadata" description="An array of up to 16 metadata, duplicate keys permitted" />,
 ];
 
+const parameters = [
+    <EndpointBodyListItem
+        name="id"
+        type="string"
+        required
+        description={`The stable Ranger Id of the geofence as returned by ${(
+            <Link variant="caption" component="button" onClick={() => scrollToLandingId('get-geofences-section')}>
+                GET
+            </Link>
+        )}`}
+    />,
+];
+
 const endpointProperties = [
     {
         title: 'URI',
-        description: 'https://rangerlabs.io/api/geofences',
+        description: 'https://rangerlabs.io/api/geofences/{id}',
     },
     {
         title: 'Method',
-        description: <HttpMethod method="POST" />,
+        description: <HttpMethod method="PUT" />,
     },
     {
         title: 'Authorization',
@@ -50,25 +64,29 @@ const endpointProperties = [
         description: '1.0',
     },
     {
+        title: 'Parameters',
+        description: <UnorderedList items={parameters} />,
+    },
+    {
         title: 'Body',
         description: <UnorderedList items={body} />,
     },
 ] as EndpointProperty[];
 
-const PostGeofencesApi = function () {
+const PutGeofencesApi = function () {
     return (
         <React.Fragment>
             <EndpointHeaderBlock>
-                <Typography>Creates a geofence within the project.</Typography>
+                <Typography>Updates a geofence within the project.</Typography>
             </EndpointHeaderBlock>
             <EndpointBody>
                 <EndpointPropertiesList properties={endpointProperties} />
                 <SampleRequest>
-                    <JsonViewer title="POST Geofence" json={PostGeofence} expandLevel={3} />
+                    <JsonViewer title="PUT Geofence" json={PostGeofence} expandLevel={3} />
                 </SampleRequest>
             </EndpointBody>
         </React.Fragment>
     );
 };
 
-export default PostGeofencesApi;
+export default PutGeofencesApi;
