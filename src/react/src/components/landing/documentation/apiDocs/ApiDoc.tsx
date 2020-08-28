@@ -133,7 +133,7 @@ const ApiDoc = function (props: ApiDocsProps) {
                 </Paragraph>
             </Introduction>
             {props.showOutline && <Outline elements={ApiDocOutline} />}
-            <Section text="Api Keys" id="api-keys-section">
+            <Section text="API Keys" id="api-keys-section">
                 <Paragraph>
                     As described in{' '}
                     <Link component="button" onClick={() => props.push(RoutePaths.Docs.replace(':name?', DocRoutePaths.ProjectsAndRoles))} variant="body1">

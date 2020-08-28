@@ -36,6 +36,7 @@ const formatTitle = function (props: EndpointBodyListItemProps) {
 };
 
 export function EndpointBodyListItem(props: EndpointBodyListItemProps) {
+    const classes = useStyles(props);
     return (
         <React.Fragment>
             {formatTitle(props)}
