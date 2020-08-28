@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
             color: theme.palette.error.main,
         },
         fontSize: {
-            fontSize: theme.typography.pxToRem(11),
+            fontSize: theme.typography.pxToRem(14),
         },
     })
 );
