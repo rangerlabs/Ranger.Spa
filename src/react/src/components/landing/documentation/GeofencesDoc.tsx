@@ -109,10 +109,10 @@ const GeofencesDoc = function (props: IDocProps) {
             </Section>
             <Section text="Integrations" id="integrations-section">
                 <Paragraph>
-                    The ability to configure which Integrations a Geofence's events execute makes Ranger extremely configurable. It enables your organization to
-                    gather metrics or run promotions on only a subset of your Geofences without having to create complex segments. When a user's behavior raises
-                    a Geofence event, only those Integrations selected for that Geofence will be executed. Create Integrations for Analytics, Email or Push
-                    Notifications, Rewards Programs, etc. and mix-and-match as needed.
+                    The ability to configure which Non-Default Integrations a Geofence can execute makes Ranger extremely flexible. It enables your organization
+                    to gather metrics, run promotions, or perform A/B Testing on only a subset of your Geofences. When a user's behavior raises a Geofence
+                    event, the Non-Default Integrations selected for that Geofence will be executed in addition to all Default Integrations. Create Integrations
+                    for Analytics, Email or Push Notifications, Rewards Programs, etc. and mix-and-match as needed.
                 </Paragraph>
             </Section>
             <Section text="Schedules" id="schedules-section">
