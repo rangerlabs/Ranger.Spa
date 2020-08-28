@@ -6,6 +6,9 @@ const useStyles = makeStyles((theme: Theme) =>
         required: {
             color: theme.palette.error.main,
         },
+        fontSize: {
+            fontSize: theme.typography.pxToRem(11),
+        },
     })
 );
 
@@ -21,12 +24,12 @@ const formatTitle = function (props: EndpointBodyListItemProps) {
     const classes = useStyles(props);
     return props.required ? (
         <React.Fragment>
-            <Typography display="block" variant="caption" color="textPrimary">
+            <Typography className={classes.fontSize} display="block" color="textPrimary">
                 <span className={classes.required}>{props.name}</span>: {props.type}
             </Typography>
         </React.Fragment>
     ) : (
-        <Typography display="block" variant="caption" color="textPrimary">
+        <Typography className={classes.fontSize} display="block" color="textPrimary">
             {props.name}: {props.type}
         </Typography>
     );
@@ -36,7 +39,7 @@ export function EndpointBodyListItem(props: EndpointBodyListItemProps) {
     return (
         <React.Fragment>
             {formatTitle(props)}
-            <Typography display="block" variant="caption">
+            <Typography className={classes.fontSize} display="block">
                 {props.description}
             </Typography>
             {props.item}
