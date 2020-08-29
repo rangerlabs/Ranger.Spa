@@ -189,6 +189,16 @@ function Docs(props: DocumentationProps): JSX.Element {
                 <ListItemText primary="Integrations" />
             </ListItem>
             <ListItem
+                id="subscription-link"
+                className={classes.li}
+                button
+                onClick={() => {
+                    handleMenuClick(DocRoutePaths.Subscription);
+                }}
+            >
+                <ListItemText primary="Subscription" />
+            </ListItem>
+            <ListItem
                 id="api-link"
                 className={classes.li}
                 button

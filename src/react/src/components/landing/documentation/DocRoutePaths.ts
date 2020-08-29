@@ -4,5 +4,6 @@ export default class DocRoutePaths {
     public static Geofences = 'geofences';
     public static Integrations = 'integrations';
     public static Breadcrumbs = 'breadcrumbs';
+    public static Subscription = 'subscription';
     public static Api = 'api';
 }

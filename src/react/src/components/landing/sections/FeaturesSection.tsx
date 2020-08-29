@@ -62,7 +62,7 @@ const FeaturesSection = function (props: FeaturesSectionProps) {
                             Mix & Match Integrations
                         </Typography>
                         <Typography color="primary" align="center" variant="h6">
-                            All Integrations are created equal - choose any combination and watch the events fire away
+                            All Integrations available for all subscriptions, mix and match as you need
                         </Typography>
                     </Grid>
                 </Grid>
