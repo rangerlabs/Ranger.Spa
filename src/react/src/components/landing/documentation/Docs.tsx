@@ -159,6 +159,16 @@ function Docs(props: DocumentationProps): JSX.Element {
                 <ListItemText primary="Projects and Roles" />
             </ListItem>
             <ListItem
+                id="api-link"
+                className={classes.li}
+                button
+                onClick={() => {
+                    handleMenuClick(DocRoutePaths.Api);
+                }}
+            >
+                <ListItemText primary="API Reference" />
+            </ListItem>
+            <ListItem
                 id="breadcrumbs-link"
                 className={classes.li}
                 button
@@ -197,16 +207,6 @@ function Docs(props: DocumentationProps): JSX.Element {
                 }}
             >
                 <ListItemText primary="Subscription" />
-            </ListItem>
-            <ListItem
-                id="api-link"
-                className={classes.li}
-                button
-                onClick={() => {
-                    handleMenuClick(DocRoutePaths.Api);
-                }}
-            >
-                <ListItemText primary="API Reference" />
             </ListItem>
             {/* <ListItem id="sdk-link" className={classes.li} button>
                 <Badge

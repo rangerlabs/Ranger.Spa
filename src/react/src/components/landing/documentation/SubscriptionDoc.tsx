@@ -42,7 +42,7 @@ const downgradeProcess = [
     {
         title: 'Integration and Geofence Removal',
         description:
-            'If the number of Integrations and Geofences still exceeds the subscription limit after Project removal, they will now be removed in the opposite order they were created until they meet the subscription limits.',
+            'Next, if the number of Integrations and Geofences still exceeds the subscription limit after Project removal, they will now be removed in the opposite order they were created until they meet the subscription limits.',
     },
 ] as Description[];
 
@@ -55,8 +55,8 @@ const SubscriptionDoc = function (props: SubscriptionDocProps) {
         <React.Fragment>
             <Introduction id="subscription-section" text="Subscription">
                 <Paragraph>
-                    Ranger allows your or your organization to easily manage your subscription all from within the application. At any time you may upgrade,
-                    downgrade, pause, or cancel your subscription. Only Owners and the Primary Owner can modify an organization's subscription.
+                    Ranger allows you to easily manage your subscription all from within the application. At any time you may upgrade, downgrade, pause, or
+                    cancel your subscription. Only Owners and the Primary Owner can modify an organization's subscription.
                 </Paragraph>
                 <Image src={SubscriptionManagement} alt="Subscription Management" />
             </Introduction>
@@ -75,7 +75,7 @@ const SubscriptionDoc = function (props: SubscriptionDocProps) {
                 <Paragraph>
                     <Bold>
                         These events can be avoided if precautions are taken. To avoid the events described below from occuring, remove resources to be within
-                        the subcription limits of the plan you or your organization intend to downgrade to BEFORE downgrading your subscription.
+                        the subcription limits of the plan you intend to downgrade to BEFORE downgrading your subscription.
                     </Bold>
                 </Paragraph>
                 <Paragraph>
@@ -85,10 +85,11 @@ const SubscriptionDoc = function (props: SubscriptionDocProps) {
             </Section>
             <Section id="pause-cancel-section" text="Pause or Cancel">
                 <Paragraph>
-                    To pause or cancel your subscription and still retain the state of your organization, select the <Bold>MANAGE</Bold> button in the section
-                    detailing your utilization. Pausing or cancelling your subscription will have the same effect as non-payment for a subscription and will
-                    result in the rejection of Breadcrumbs with a <Code>402 Payment Required</Code> status code.
+                    To pause or cancel your subscription and still retain the current state of your organization, select the <Bold>MANAGE</Bold> button in the
+                    section detailing your utilization. Pausing or cancelling your subscription will have the same effect as non-payment for a subscription and
+                    will result in the rejection of Breadcrumbs with a <Code>402 Payment Required</Code> status code.
                 </Paragraph>
+                <Paragraph>Subscriptions will automatically be cancelled when an organization is deleted.</Paragraph>
             </Section>
         </React.Fragment>
     );
