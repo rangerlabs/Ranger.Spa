@@ -11,6 +11,7 @@ import { capitalCase } from 'change-case';
 import GlobalConfig from '../../../helpers/GlobalConfig';
 import { Plans } from '../../../helpers/Helpers';
 import { push } from 'connected-react-router';
+import DocRoutePaths from '../../landing/documentation/DocRoutePaths';
 const subscriptionsService = new SubscriptionsService();
 
 const styles = (theme: Theme) =>
@@ -248,7 +249,11 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionState>
                             <Typography align="center" variant="caption">
                                 Please note, when downgrading your subscription resources may need to be removed. To understand how resources are removed when
                                 downgrading, please refer to the documentation{' '}
-                                <Link component="button" onClick={() => this.props.push(RoutePaths.Docs.replace(':name?', ''))} variant="caption">
+                                <Link
+                                    component="button"
+                                    onClick={() => this.props.push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Subscription))}
+                                    variant="caption"
+                                >
                                     here
                                 </Link>
                                 .
