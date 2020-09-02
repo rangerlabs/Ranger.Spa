@@ -74,7 +74,7 @@ const SubscriptionDoc = function (props: SubscriptionDocProps) {
                 </Paragraph>
                 <Paragraph>
                     <Bold>
-                        These events can be avoided if precautions are taken. To avoid the events described below from occuring, remove resources to be within
+                        These events can be avoided if precautions are taken. To avoid the events described below from occurring, remove resources to be within
                         the subcription limits of the plan you intend to downgrade to BEFORE downgrading your subscription.
                     </Bold>
                 </Paragraph>
