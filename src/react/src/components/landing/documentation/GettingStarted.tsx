@@ -49,14 +49,14 @@ const GettingStarted = function (props: GettingStartedProps) {
             </Introduction>
             {props.showOutline && <Outline elements={GettingStartedDocOutline} />}
             <Section id="unrivaled-geofencing-section" text="Unrivaled Geofencing">
-                <Paragraph>Ranger's easy-to-use interface allows you to quickly vizualize, create, edit, and test geofences all from the same UI.</Paragraph>
+                <Paragraph>Ranger's easy-to-use interface allows you to quickly vizualize, create, edit, and test Geofences all from the same UI.</Paragraph>
                 <Image src={CentralPark} alt="Central Park Geofence" />
                 <Paragraph>
-                    Create custom geofence schedules, add unique metadata, configure which events get triggered, and where those events get sent - all on a per
+                    Create custom Geofence schedules, add unique metadata, configure which events get triggered, and where those events get sent - all on a per
                     geofence basis.
                 </Paragraph>
                 <Paragraph>
-                    To learn more about Ranger's extensively customizable geofences, take a look at our dedicated{' '}
+                    To learn more about Ranger's extensively customizable Geofences, take a look at our dedicated{' '}
                     <Link component="button" onClick={() => props.push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Geofences))} variant="body1">
                         Geofencing
                     </Link>{' '}
@@ -65,10 +65,10 @@ const GettingStarted = function (props: GettingStartedProps) {
             </Section>
             <Section id="flexible-integrations-section" text="Flexible Integrations">
                 <Paragraph>
-                    Ranger was built to be extended. Ranger currently offers Webhook integrations, but more are in the works and will be coming online shortly.
+                    Ranger was built to be extended. Ranger currently offers Webhook Integrations, but more are in the works and will be coming online shortly.
                 </Paragraph>
                 <Image src={WebhookSelect} alt="central-park-geofence" />
-                <Paragraph>What's more, all integrations will be available to all subscriptions - which Integrations you choose is up to you.</Paragraph>
+                <Paragraph>What's more, all Integrations will be available to all subscriptions - which Integrations you choose is up to you.</Paragraph>
                 <Paragraph>
                     To learn more about creating and managing Integrations in Ranger, take a look at our dedicated{' '}
                     <Link component="button" onClick={() => props.push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Integrations))} variant="body1">
@@ -83,7 +83,7 @@ const GettingStarted = function (props: GettingStartedProps) {
                     customer, or organizational unit.
                 </Paragraph>
                 <Image src={ProjectEdit} alt="central-park-geofence" />
-                <Paragraph>Within your organization User Accounts can also be scoped to specific projects.</Paragraph>
+                <Paragraph>Within your organization User Accounts can also be scoped to specific Projects.</Paragraph>
                 <Paragraph>
                     To learn more about managing Projects and Project security, take a look at our dedicated{' '}
                     <Link component="button" onClick={() => props.push(RoutePaths.Docs.replace(':name?', DocRoutePaths.ProjectsAndRoles))} variant="body1">

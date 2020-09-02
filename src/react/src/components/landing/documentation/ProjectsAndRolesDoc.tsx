@@ -110,8 +110,8 @@ const ProjectsDoc = function (props: IDocProps) {
         <React.Fragment>
             <Introduction id="projects-and-roles-section" text="Projects and Roles">
                 <Paragraph>
-                    Projects enable your organization to effectively organize geofences and integrations. Depending on your use case, Projects may be scoped to
-                    a mobile app, customer, or organizational unit.
+                    Projects enable the effective organization of geofences and integrations. Depending on your use case, Projects may be scoped to a mobile
+                    app, customer, or organizational unit.
                 </Paragraph>
             </Introduction>
             {props.showOutline && <Outline elements={ProjectsAndRolesDocOutline} />}

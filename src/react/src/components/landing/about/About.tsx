@@ -73,7 +73,7 @@ export default function About(props: AboutProps) {
                         <Block>
                             <Typography gutterBottom variant="subtitle1">
                                 What’s more, our commitment to the privacy of you and your end-users is unwavering. We do not sell or share location data and
-                                our strict architectural standards ensure your user’s location data is safely segmented from other organizations.
+                                our strict architectural standards ensure your user’s location data is securely segmented.
                             </Typography>
                         </Block>
                     </Grid>
