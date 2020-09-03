@@ -121,7 +121,7 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                         </ListItem>
                     )}
 
-                    <ListItem button onClick={() => this.props.push(RoutePaths.Docs)}>
+                    <ListItem button onClick={() => this.props.push(RoutePaths.Docs.replace('/:name?', ''))}>
                         <ListItemIcon>
                             <FileDocumentOutline />
                         </ListItemIcon>
