@@ -118,8 +118,7 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                 <Grid item xs={11} md={6}>
                     <Introduction id="Introduction" text="">
                         <Paragraph>
-                            Ranger Labs, a Limited Liability Company located at 3423 Fairmount Blvd, Cleveland Heights, OH 44118 (<Bold>"Ranger,"</Bold>{' '}
-                            <Bold>"we,"</Bold> <Bold>"us,"</Bold> and
+                            Ranger Labs, a Limited Liability Company (<Bold>"Ranger,"</Bold> <Bold>"we,"</Bold> <Bold>"us,"</Bold> and
                             <Bold>"our"</Bold>), provides this privacy policy (<Bold>"Privacy Policy"</Bold>) because we believe that consumers should clearly
                             understand how their information and data is collected and used. This Privacy Policy covers our treatment of information that can be
                             used to individually identify a person (<Bold>"Personal Data"</Bold>), which includes data and information that we gather through
