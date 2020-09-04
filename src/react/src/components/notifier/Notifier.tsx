@@ -147,6 +147,8 @@ class Notifier extends React.Component<NotifierProps> {
         this.userChannel.bind('account-deleted', AccountDeleteHandler);
         this.userChannel.bind('token-refresh', TokenRefreshHandler);
         this.userChannel.bind('permissions-updated', PermissionsUpdatedHandler);
+        this.userChannel.bind('transfer-ownership-former-primary-owner', PermissionsUpdatedHandler);
+        this.userChannel.bind('transfer-ownership-new-primary-owner', PermissionsUpdatedHandler);
         this.userChannel.bind('force-signout', ForceSignoutHandler);
         this.userChannel.bind('geofence-created', GeofenceCreateHandler);
         this.userChannel.bind('geofence-updated', GeofenceUpdateHandler);
