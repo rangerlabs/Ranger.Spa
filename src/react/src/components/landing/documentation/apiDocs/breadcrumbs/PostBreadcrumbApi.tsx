@@ -55,6 +55,9 @@ const PostBreadcrumbApi = function () {
                     the means of determining Geofence events and is supportive of anonymous users. The <Code>externalUserId</Code> can supplement{' '}
                     <Code>deviceId</Code> to uniquely identify users.
                 </Typography>
+                <Typography>
+                    Breadcrumbs are processed in the order in which they are received, not by their <Code>recordedAt</Code> property.
+                </Typography>
             </EndpointHeaderBlock>
             <EndpointBody>
                 <EndpointPropertiesList properties={endpointProperties} />

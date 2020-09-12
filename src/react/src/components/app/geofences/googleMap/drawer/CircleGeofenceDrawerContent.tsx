@@ -327,22 +327,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
 
                     const saveOrUpdate = this.props.editGeofence ? this.updateGeofence : this.saveGeofence;
 
-                    if (this.showNoIntegrationsWithTriggersDialog(newFence)) {
-                        const content = new DialogContent(
-                            'Are you sure you want to save this geofence without any integrations? Triggers will have no effect.',
-                            'Save geofence with no integrations?',
-                            'Save geofence',
-                            () => {
-                                saveOrUpdate(newFence, formikBag);
-                            },
-                            () => {
-                                this.cancelSaveGeofence(formikBag);
-                            }
-                        );
-                        this.props.openDialog(content);
-                    } else {
-                        saveOrUpdate(newFence, formikBag);
-                    }
+                    saveOrUpdate(newFence, formikBag);
                 }}
                 validationSchema={this.validationSchema}
             >
@@ -448,7 +433,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                         <FormikAutocompleteLabelMultiselect
                                             infoText="The non-default integrations to execute for the geofence."
                                             name="integrations"
-                                            label="Integrations"
+                                            label="Non-Default Integrations"
                                             placeholder=""
                                             enabled={!this.isPendingCreation()}
                                             options={this.props.integrations
@@ -525,9 +510,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 )}
             </Formik>
         );
-    }
-    private showNoIntegrationsWithTriggersDialog(newFence: CircleGeofence) {
-        return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onDwell || newFence.onExit);
     }
 }
 

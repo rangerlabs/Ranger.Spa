@@ -325,22 +325,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
 
                     const saveOrUpdate = this.props.editGeofence ? this.updateGeofence : this.saveGeofence;
 
-                    if (this.showNoIntegrationsWithTriggersDialog(newFence)) {
-                        const content = new DialogContent(
-                            'Are you sure you want to save this geofence without any integrations? Triggers will have no effect.',
-                            'Save geofence with no integrations?',
-                            'Save geofence',
-                            () => {
-                                saveOrUpdate(newFence, formikBag);
-                            },
-                            () => {
-                                this.cancelSaveGeofence(formikBag);
-                            }
-                        );
-                        this.props.openDialog(content);
-                    } else {
-                        saveOrUpdate(newFence, formikBag);
-                    }
+                    saveOrUpdate(newFence, formikBag);
                 }}
                 validationSchema={this.validationSchema}
             >
@@ -446,7 +431,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                         <FormikAutocompleteLabelMultiselect
                                             infoText="The non-default integrations to execute for the geofence."
                                             name="integrations"
-                                            label="Integrations"
+                                            label="Non-Default Integrations"
                                             placeholder=""
                                             enabled={!this.isPendingCreation()}
                                             options={this.props.integrations
@@ -523,9 +508,6 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 )}
             </Formik>
         );
-    }
-    private showNoIntegrationsWithTriggersDialog(newFence: PolygonGeofence) {
-        return newFence.integrationIds.length === 0 && (newFence.onEnter || newFence.onDwell || newFence.onExit);
     }
 }
 
