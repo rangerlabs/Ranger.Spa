@@ -57,7 +57,7 @@ export const ScheduleEndpointBodyListItem = function () {
                     Schedule
                 </Link>
             }
-            description="The weekly schedule for when this geofence may execute integrations, exclude the execute integrations at all times"
+            description="The weekly schedule for when this geofence may execute integrations, exclude to execute integrations at all times"
         />
     );
 };

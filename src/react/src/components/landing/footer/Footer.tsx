@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Container, Grid, Box, Link, Typography, makeStyles, Theme, CssBaseline } from '@material-ui/core';
-import { string } from 'yup';
+import { Container, Grid, Box, Link, Typography, makeStyles, Theme } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 import DocRoutePaths from '../documentation/DocRoutePaths';
@@ -39,6 +38,7 @@ const footers = [
             { name: 'Geofences', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.Geofences) },
             { name: 'Integrations', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.Integrations) },
             { name: 'Breadcrumbs', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs) },
+            { name: 'API Reference', url: RoutePaths.Docs.replace(':name?', DocRoutePaths.Api) },
         ],
     },
     {

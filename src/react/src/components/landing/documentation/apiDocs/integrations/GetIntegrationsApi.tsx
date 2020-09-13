@@ -28,7 +28,7 @@ const GetIntegrationsApi = function () {
     return (
         <React.Fragment>
             <EndpointHeaderBlock>
-                <Typography>Retrieves integrations within the project.</Typography>
+                <Typography>Retrieves Integrations within the project.</Typography>
             </EndpointHeaderBlock>
             <EndpointBody>
                 <EndpointPropertiesList properties={endpointProperties} />
