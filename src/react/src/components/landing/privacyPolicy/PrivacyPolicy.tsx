@@ -495,7 +495,7 @@ function PrivacyPolicy(props: PrivacyPolicyProps) {
                             after such changes have been published to will constitute your acceptance of the revised Privacy Policy.
                         </Paragraph>
                     </Section>
-                    <Paragraph>Last updated: August 10, 2020</Paragraph>
+                    <Paragraph>Last updated: September 12, 2020</Paragraph>
                 </Grid>
             </Grid>
             <GetStartedForFree />

@@ -302,7 +302,7 @@ function TermsOfUse(props: TermsOfUseProps) {
                             have been published to will constitute your acceptance of the revised Terms.
                         </Paragraph>
                     </Section>
-                    <Paragraph>Last updated: August 10, 2020</Paragraph>
+                    <Paragraph>Last updated: September 12, 2020</Paragraph>
                 </Grid>
             </Grid>
             <GetStartedForFree />
