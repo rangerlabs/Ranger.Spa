@@ -105,6 +105,7 @@ function InitializeGoogleAnalyticsInProduction() {
 function InitializeFullStoryInProduction() {
     if (window.location.host.includes('rangerlabs-staging.io')) {
         const fullStoryScript = document.createElement('script');
+        fullStoryScript.async = true;
         fullStoryScript.append(`
             window['_fs_debug'] = false;
             window['_fs_host'] = 'fullstory.com';
