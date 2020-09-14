@@ -75,13 +75,6 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
         mobileOpen: false,
     };
 
-    identifyForFullStory() {
-        FS.identify(`${this.props.domain}_${this.props.user.profile.email}`, {
-            role: (this.props.user.profile as UserProfile).role,
-            authorizedProjects: (this.props.user.profile as UserProfile).authorizedProjects,
-        });
-    }
-
     constructor(props: AppLayoutProps) {
         super(props);
     }
@@ -91,7 +84,6 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
         if (this.props.domain !== domain) {
             this.props.setDomain(domain);
         }
-        this.identifyForFullStory();
     }
 
     handleDrawerToggle = () => {
