@@ -20,6 +20,7 @@ import { SubscriptionLimitDetailsState } from '../../redux/actions/SubscriptionL
 import { WithSnackbarProps, withSnackbar } from 'notistack';
 import SubscriptionInactiveFooter from './subscription/SubscriptionInactiveFooter';
 import populateSubscriptionLimitDataHOC from './hocs/PopulateSubscriptionLimitDataHOC';
+import { UserProfile } from '../../models/UserProfile';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -73,6 +74,13 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
     state: AppLayoutState = {
         mobileOpen: false,
     };
+
+    identifyForFullStory() {
+        FS.identify(`${this.props.domain}_${this.props.user.profile.email}`, {
+            role: (this.props.user.profile as UserProfile).role,
+            authorizedProjects: (this.props.user.profile as UserProfile).authorizedProjects,
+        });
+    }
 
     constructor(props: AppLayoutProps) {
         super(props);

@@ -4,7 +4,7 @@ import UserService from '../../../services/UserService';
 import { Formik, FormikProps, FormikBag, FormikErrors } from 'formik';
 import { UserProfile } from '../../../models/UserProfile';
 import * as Yup from 'yup';
-import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, List, ListItemText, ListItem, Button, Typography, IconButton } from '@material-ui/core';
+import { withStyles, createStyles, Theme, WithStyles, Paper, Grid, Button, Typography, IconButton } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
 import FormikUpdateButton from '../../form/FormikUpdateButton';
