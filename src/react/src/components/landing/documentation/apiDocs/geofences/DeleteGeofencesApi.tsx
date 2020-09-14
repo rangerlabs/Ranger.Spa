@@ -7,7 +7,7 @@ import EndpointBody from '../../docComponents/EndpointBody';
 import { EndpointBodyListItem } from '../../docComponents/EndpointBodyList';
 import { UnorderedList } from '../../docComponents/UnorderedList';
 
-const parameters = [<EndpointBodyListItem name="id" type="string" required description="The external Id of the geofence" />];
+const parameters = [<EndpointBodyListItem name="externalId" type="string" required description="The External Id of the geofence" />];
 
 const endpointProperties = [
     {
