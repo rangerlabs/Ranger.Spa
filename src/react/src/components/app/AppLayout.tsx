@@ -91,6 +91,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
         if (this.props.domain !== domain) {
             this.props.setDomain(domain);
         }
+        this.identifyForFullStory();
     }
 
     handleDrawerToggle = () => {
