@@ -103,7 +103,7 @@ function InitializeGoogleAnalyticsInProduction() {
 }
 
 function InitializeFullStoryInProduction() {
-    if (window.location.host.includes('rangerlabs.io')) {
+    if (window.location.host.includes('rangerlabs-staging.io')) {
         const fullStoryScript = document.createElement('script');
         fullStoryScript.append(`
             window['_fs_debug'] = false;
