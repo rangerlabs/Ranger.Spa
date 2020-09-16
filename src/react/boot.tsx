@@ -24,9 +24,11 @@ import { getSpaVersion } from './src/helpers/Helpers';
 import GlobalConfig from './src/helpers/GlobalConfig';
 import ReactGA from 'react-ga';
 import ScrollToTop from './src/components/scrollToTop/ScrollToTop';
+import * as FullStory from '@fullstory/browser';
 
 InitializeDatadogLogging();
 InitializeGoogleAnalyticsInProduction();
+FullStory.init({ orgId: 'V5CAF' });
 
 const initialState = {} as ApplicationState;
 ReduxStore.Configure(history, initialState);
