@@ -17,7 +17,7 @@ import EndpointBody from '../../docComponents/EndpointBody';
 const body = [
     <EndpointBodyListItem name="deviceId" type="string" required description="The unique device identifier" />,
     <EndpointBodyListItem name="externalUserId" type="string" description="The unique identifier for a logged in user" />,
-    <LngLatEndpointBodyListItem name="coordinates" description="The coordinates recorded for the breadcrumb" />,
+    <LngLatEndpointBodyListItem name="position" description="The coordinates recorded for the breadcrumb" />,
     <EndpointBodyListItem name="recordedAt" required type="datetime" description="The time the breadcrumb location was recorded at" />,
     <EndpointBodyListItem name="accuracy" type="number" description="The device's accuracy, ≥ 0" />,
     <KeyValuePairEndpointBodyListItem isArray name="metadata" description="An array of up to 16 metadata, duplicate keys permitted" />,
