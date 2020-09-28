@@ -30,7 +30,7 @@ interface LngLatEndpointBodyListItemProps {
 export const LngLatEndpointBodyListItem = function (props: LngLatEndpointBodyListItemProps) {
     return (
         <EndpointBodyListItem
-            name="coordinates"
+            name={props.name}
             type={
                 <Link variant="caption" component="button" onClick={() => scrollToLandingId('lnglat-section')}>
                     LngLat{props.isArray ? '[]' : ''}
