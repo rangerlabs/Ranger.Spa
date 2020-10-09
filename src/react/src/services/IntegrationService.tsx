@@ -75,7 +75,7 @@ export default class IntegrationService {
             case IntegrationEnum.WEBHOOK: {
                 return RestUtilities.put(`${projectId}/integrations/webhook/${id}`, integration);
             }
-            case IntegrationEnum.WEBHOOK: {
+            case IntegrationEnum.PUSHER: {
                 return RestUtilities.put(`${projectId}/integrations/pusher/${id}`, integration);
             }
             default: {
