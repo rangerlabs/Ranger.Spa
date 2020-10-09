@@ -113,15 +113,11 @@ class PusherIntegrationForm extends React.Component<IPusherIntegrationFormProps>
             .matches(new RegExp(RegularExpressions.GEOFENCE_INTEGRATION_NAME), {
                 message: 'Must begin, end, and contain lowercase alphanumeric characters. May contain ( - ).',
             }),
-        url: Yup.string().matches(new RegExp('^https', 'i'), 'Must be HTTPS').url('Must be a valid URL').required('Required'),
-        headers: Yup.array()
-            .of(
-                Yup.object().shape({
-                    key: Yup.string().required('Required'),
-                    value: Yup.string().required('Required'),
-                })
-            )
-            .max(16, 'Up to 16 headers allowed'),
+        description: Yup.string().max(512, 'Max 512 characters'),
+        appId: Yup.string().required('Required').max(32, 'Max 32 characters'),
+        key: Yup.string().required('Required').max(64, 'Max 64 characters'),
+        secret: Yup.string().required('Required').max(64, 'Max 64 characters'),
+        cluster: Yup.string().required('Required').max(8, 'Max 8 characters'),
         metadata: Yup.array()
             .of(
                 Yup.object().shape({

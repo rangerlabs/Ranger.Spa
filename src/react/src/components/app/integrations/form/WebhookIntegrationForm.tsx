@@ -113,6 +113,7 @@ class WebhookIntegrationForm extends React.Component<IWebhookIntegrationFormProp
             .matches(new RegExp(RegularExpressions.GEOFENCE_INTEGRATION_NAME), {
                 message: 'Must begin, end, and contain lowercase alphanumeric characters. May contain ( - ).',
             }),
+        description: Yup.string().max(512, 'Max 512 characters'),
         url: Yup.string().matches(new RegExp('^https', 'i'), 'Must be HTTPS').url('Must be a valid URL').required('Required'),
         headers: Yup.array()
             .of(
