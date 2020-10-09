@@ -8,6 +8,7 @@ import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 import ArrowLeft from 'mdi-material-ui/ArrowLeft';
 import classNames from 'classnames';
 import Webhook from '../../../../../assets/webhook@2x.png';
+import Pusher from '../../../../../assets/pusher@2x.png';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -132,7 +133,7 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                                             <CardMedia
                                                 classes={{ root: classes.mediaRoot }}
                                                 className={classes.cover}
-                                                image={Webhook}
+                                                image={Pusher}
                                                 title="Pusher Channels Integration"
                                             />
                                             <div className={classes.details}>
