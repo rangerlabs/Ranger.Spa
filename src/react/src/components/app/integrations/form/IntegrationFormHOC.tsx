@@ -99,6 +99,8 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
             if (this.props.selectedProject.name) {
                 if (window.location.pathname.includes(RoutePaths.IntegrationsEditWebhook.replace('/:appName', ''))) {
                     this.checkIntegrationIsCorrectTypeForRoute(IntegrationEnum.WEBHOOK);
+                } else if (window.location.pathname.includes(RoutePaths.IntegrationsEditPusher.replace('/:appName', ''))) {
+                    this.checkIntegrationIsCorrectTypeForRoute(IntegrationEnum.PUSHER);
                 }
             }
         }
@@ -107,20 +109,25 @@ const integrationForm = <P extends object>(Component: React.ComponentType<P>) =>
             let result = undefined as MergedIntegrationType;
             switch (integrationType) {
                 case IntegrationEnum.WEBHOOK: {
-                    const params = queryString.parse(window.location.search);
-                    const name = params['name'] as string;
-                    if (name) {
-                        result = this.props.integrationsState.integrations.find((i) => i.name === name);
-                        if (!result) {
-                            this.props.push(RoutePaths.Dashboard);
-                        }
-                        if (result.type === IntegrationEnum.WEBHOOK) {
-                            this.setState({ editIntegration: result });
-                        } else {
-                            this.props.push(RoutePaths.Dashboard);
-                        }
-                    }
+                    this.setEditIntegrationOrPushToDashbaord(IntegrationEnum.WEBHOOK);
                     break;
+                }
+                case IntegrationEnum.PUSHER: {
+                    this.setEditIntegrationOrPushToDashbaord(IntegrationEnum.PUSHER);
+                    break;
+                }
+            }
+        }
+
+        private setEditIntegrationOrPushToDashbaord(integrationEnum: IntegrationEnum) {
+            const params = queryString.parse(window.location.search);
+            const name = params['name'] as string;
+            if (name) {
+                var result = this.props.integrationsState.integrations.find((i) => i.name === name);
+                if (result && result.type === integrationEnum) {
+                    this.setState({ editIntegration: result });
+                } else {
+                    this.props.push(RoutePaths.Dashboard);
                 }
             }
         }

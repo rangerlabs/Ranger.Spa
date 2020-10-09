@@ -63,6 +63,10 @@ export default class BreadcrumbPaths {
                     integrationBreadcrumb = new Breadcrumb(capitalCase(IntegrationEnum.WEBHOOK), RoutePaths.IntegrationsEditWebhook);
                     break;
                 }
+                case IntegrationEnum.PUSHER: {
+                    integrationBreadcrumb = new Breadcrumb(capitalCase(IntegrationEnum.PUSHER), RoutePaths.IntegrationsEditPusher);
+                    break;
+                }
             }
             result.breadcrumbs.push(integrationBreadcrumb);
         }
@@ -76,6 +80,10 @@ export default class BreadcrumbPaths {
             switch (integration) {
                 case IntegrationEnum.WEBHOOK: {
                     integrationBreadcrumb = new Breadcrumb(capitalCase(IntegrationEnum.WEBHOOK), RoutePaths.IntegrationsNewWebhook);
+                    break;
+                }
+                case IntegrationEnum.PUSHER: {
+                    integrationBreadcrumb = new Breadcrumb(capitalCase(IntegrationEnum.PUSHER), RoutePaths.IntegrationsNewPusher);
                     break;
                 }
             }
