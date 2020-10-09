@@ -9,6 +9,7 @@ import GeofenceForm from './app/geofences/googleMap/GeofenceForm';
 import Integrations from './app/integrations/Integrations';
 import IntegrationsNew from './app/integrations/form/IntegrationsNew';
 import IntegrationsNewWebhook from './app/integrations/form/WebhookIntegrationForm';
+import IntegrationsNewPusher from './app/integrations/form/PusherIntegrationForm';
 import ProjectsSelect from './app/projects/ProjectSelect';
 import Dashboard from './app/dashboard/Dashboard';
 import BreadcrumbPaths from './BreadcrumbPaths';
@@ -50,5 +51,17 @@ export const AuthorizedComponents: IAppRoute[] = [
         path: RoutePaths.IntegrationsNewWebhook,
         component: IntegrationsNewWebhook,
         breadcrumbPath: BreadcrumbPaths.IntegrationsNew(IntegrationEnum.WEBHOOK),
+    },
+    {
+        exact: true,
+        path: RoutePaths.IntegrationsEditPusher,
+        component: IntegrationsNewPusher,
+        breadcrumbPath: BreadcrumbPaths.IntegrationsEdit(IntegrationEnum.PUSHER),
+    },
+    {
+        exact: true,
+        path: RoutePaths.IntegrationsNewPusher,
+        component: IntegrationsNewPusher,
+        breadcrumbPath: BreadcrumbPaths.IntegrationsEdit(IntegrationEnum.PUSHER),
     },
 ];

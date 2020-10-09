@@ -117,6 +117,35 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                         </Grid>
                         <Grid container item justify="center">
                             <Grid item xs={12}>
+                                <Paper elevation={3}>
+                                    <ButtonBase
+                                        className={classes.buttonBase}
+                                        onClick={() => {
+                                            this.handleIntegrationSelect(IntegrationEnum.PUSHER);
+                                        }}
+                                    >
+                                        <Card elevation={0} className={classes.root}>
+                                            <CardMedia
+                                                classes={{ root: classes.mediaRoot }}
+                                                className={classes.cover}
+                                                image={Webhook}
+                                                title="Pusher Channels Integration"
+                                            />
+                                            <div className={classes.details}>
+                                                <CardContent className={classes.content}>
+                                                    <Typography variant="h6">Pusher Channels</Typography>
+                                                    <Typography variant="subtitle1" color="textSecondary">
+                                                        Forward geofence events to Pusher Channels per device.
+                                                    </Typography>
+                                                </CardContent>
+                                            </div>
+                                        </Card>
+                                    </ButtonBase>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                        <Grid container item justify="center">
+                            <Grid item xs={12}>
                                 <ButtonBase className={classes.buttonBase} onClick={() => {}}>
                                     <Card elevation={3} className={classes.root}>
                                         <CardMedia component="div" classes={{ root: classes.mediaRoot }} className={classes.cover} title="Coming soon" />

@@ -39,6 +39,8 @@ export default class RoutePaths {
     public static IntegrationsNew = '/:appName/integrations/new';
     public static IntegrationsNewWebhook = '/:appName/integrations/new/webhook';
     public static IntegrationsEditWebhook = '/:appName/integrations/edit/webhook';
+    public static IntegrationsNewPusher = '/:appName/integrations/new/pusher';
+    public static IntegrationsEditPusher = '/:appName/integrations/edit/pusher';
 
     public static GeofenceMap = '/:appName/geofences/map';
     public static GeofencesEdit = '/:appName/geofences/map/edit';
