@@ -71,6 +71,10 @@ class IntegrationsNew extends React.Component<IntegrationsSelectProps> {
                 this.props.push(RoutePaths.IntegrationsNewWebhook);
                 break;
             }
+            case IntegrationEnum.PUSHER: {
+                this.props.push(RoutePaths.IntegrationsNewPusher);
+                break;
+            }
         }
     };
 
