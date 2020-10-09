@@ -3,6 +3,7 @@ import { MergedIntegrationType } from '../models/app/integrations/MergedIntegrat
 import { IntegrationEnum } from '../models/app/integrations/IntegrationEnum';
 import WebhookIntegration from '../models/app/integrations/implementations/WebhookIntegration';
 import Integration from '../models/app/integrations/Integration';
+import PusherIntegration from '../models/app/integrations/implementations/PusherIntegration';
 
 export default class IntegrationService {
     async getIntegrations(projectId: string): Promise<IRestResponse<Array<MergedIntegrationType>>> {
@@ -28,6 +29,25 @@ export default class IntegrationService {
                         } as WebhookIntegration);
                         break;
                     }
+                    case IntegrationEnum.PUSHER: {
+                        i = i as PusherIntegration;
+                        result.push({
+                            type: IntegrationEnum.PUSHER,
+                            id: i.id,
+                            enabled: i.enabled,
+                            name: i.name,
+                            isDefault: i.isDefault,
+                            description: i.description,
+                            appId: i.appId,
+                            key: i.key,
+                            secret: i.secret,
+                            cluster: i.cluster,
+                            metadata: i.metadata,
+                            environment: i.environment,
+                            version: i.version,
+                        } as PusherIntegration);
+                        break;
+                    }
                 }
             });
             return Object.assign({}, integrationResponse, { result: result } as IRestResponse<Array<MergedIntegrationType>>) as IRestResponse<
@@ -41,6 +61,9 @@ export default class IntegrationService {
             case IntegrationEnum.WEBHOOK: {
                 return RestUtilities.post(`${projectId}/integrations/webhook`, integration);
             }
+            case IntegrationEnum.PUSHER: {
+                return RestUtilities.post(`${projectId}/integrations/pusher`, integration);
+            }
             default: {
                 throw 'Invalid integration type';
             }
@@ -51,6 +74,9 @@ export default class IntegrationService {
         switch (integration.type) {
             case IntegrationEnum.WEBHOOK: {
                 return RestUtilities.put(`${projectId}/integrations/webhook/${id}`, integration);
+            }
+            case IntegrationEnum.WEBHOOK: {
+                return RestUtilities.put(`${projectId}/integrations/pusher/${id}`, integration);
             }
             default: {
                 throw 'Invalid integration type';
