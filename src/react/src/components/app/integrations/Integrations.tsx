@@ -70,9 +70,11 @@ class Integrations extends React.Component<IntegrationsProps> {
         switch (integrationType) {
             case IntegrationEnum.WEBHOOK: {
                 this.props.push(`${RoutePaths.IntegrationsEditWebhook.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
+                break;
             }
             case IntegrationEnum.PUSHER: {
                 this.props.push(`${RoutePaths.IntegrationsEditPusher.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
+                break;
             }
         }
     };
