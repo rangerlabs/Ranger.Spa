@@ -10,8 +10,8 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
-import { addGeofence, addGeofenceToPendingUpdate } from '../../../../../redux/actions/GeofenceActions';
-import { addGeofenceToPendingDeletion } from '../../../../../redux/actions/GeofenceActions';
+import { addMapGeofence, addMapGeofenceToPendingUpdate } from '../../../../../redux/actions/GeofenceActions';
+import { addMapGeofenceToPendingDeletion } from '../../../../../redux/actions/GeofenceActions';
 import FormikDeleteButton from '../../../../form/FormikDeleteButton';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
@@ -102,15 +102,15 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(action);
         },
         saveGeofenceToState: (geofence: PolygonGeofence) => {
-            const action = addGeofence(geofence);
+            const action = addMapGeofence(geofence);
             dispatch(action);
         },
         addGeofenceToPendingDeletion: (geofence: PolygonGeofence) => {
-            const action = addGeofenceToPendingDeletion(geofence);
+            const action = addMapGeofenceToPendingDeletion(geofence);
             dispatch(action);
         },
         addGeofenceToPendingUpdate: (geofence: PolygonGeofence) => {
-            const action = addGeofenceToPendingUpdate(geofence);
+            const action = addMapGeofenceToPendingUpdate(geofence);
             dispatch(action);
         },
         push: (path: string) => {

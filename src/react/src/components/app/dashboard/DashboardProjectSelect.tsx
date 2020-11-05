@@ -26,7 +26,7 @@ import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
 import { ProjectsState } from '../../../redux/actions/ProjectActions';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
-import { resetGeofences } from '../../../redux/actions/GeofenceActions';
+import { resetMapGeofences, resetTableGeofences } from '../../../redux/actions/GeofenceActions';
 import { resetIntegrations } from '../../../redux/actions/IntegrationActions';
 
 const styles = (theme: Theme) =>
@@ -96,7 +96,8 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         push: (path: string) => dispatch(push(path)),
         resetGeofences: () => {
-            dispatch(resetGeofences());
+            dispatch(resetMapGeofences());
+            dispatch(resetTableGeofences());
         },
         resetIntegrations: () => {
             dispatch(resetIntegrations());

@@ -8,7 +8,7 @@ import RoutePaths from '../../RoutePaths';
 import populateProjectsHOC from './PopulateProjectsHOC';
 import { ProjectsState } from '../../../redux/actions/ProjectActions';
 import FirstProjectRequired from '../projects/FirstProjectRequired';
-import { resetGeofences } from '../../../redux/actions/GeofenceActions';
+import { resetMapGeofences } from '../../../redux/actions/GeofenceActions';
 import { resetIntegrations } from '../../../redux/actions/IntegrationActions';
 
 type RequireProjectSelectionProps = StateProps & DispatchProps;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
-import { populateGeofences, GeofencesState } from '../../../redux/actions/GeofenceActions';
+import { GeofencesState, populateTableGeofences } from '../../../redux/actions/GeofenceActions';
 import CircleGeofence from '../../../models/app/geofences/CircleGeofence';
 import { ApplicationState } from '../../../stores';
 import GeofenceService from '../../../services/GeofenceService';
@@ -29,7 +29,7 @@ const mapStateToProps = (state: ApplicationState) => {
 const mapDispatchToProps = (dispatch: any) => {
     return {
         setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>) => {
-            const action = populateGeofences(geofences);
+            const action = populateTableGeofences(geofences);
             dispatch(action);
         },
     };
@@ -41,8 +41,8 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
             wasError: false,
         };
         componentDidUpdate(prevProps: PopulateGeofencesComponentProps) {
-            if (!this.props.geofencesState.isLoaded && this.props.selectedProject.name && this.props.selectedProject.name !== prevProps.selectedProject.name) {
-                geofenceService.getGeofences(this.props.selectedProject.id).then((geofenceResponse) => {
+            if (this.props.selectedProject.name && this.props.selectedProject.name !== prevProps.selectedProject.name) {
+                geofenceService.getPaginatedGeofences(this.props.selectedProject.id).then((geofenceResponse) => {
                     if (geofenceResponse.isError) {
                         this.setState({ wasError: true });
                     } else {
@@ -53,8 +53,8 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
         }
 
         componentDidMount() {
-            if (!this.props.geofencesState.isLoaded && this.props.selectedProject.name) {
-                geofenceService.getGeofences(this.props.selectedProject.id).then((geofenceResponse) => {
+            if (this.props.selectedProject.name) {
+                geofenceService.getPaginatedGeofences(this.props.selectedProject.id).then((geofenceResponse) => {
                     if (geofenceResponse.isError) {
                         this.setState({ wasError: true });
                     } else {
@@ -65,11 +65,7 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
         }
 
         render() {
-            return this.props.geofencesState.isLoaded && !this.state.wasError ? (
-                <Component {...(this.props as P)} />
-            ) : (
-                <Loading wasError={this.state.wasError} />
-            );
+            return !this.state.wasError ? <Component {...(this.props as P)} /> : <Loading wasError={this.state.wasError} />;
         }
     }
 

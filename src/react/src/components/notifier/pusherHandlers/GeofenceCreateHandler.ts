@@ -2,7 +2,7 @@ import PusherNotificationModel from '../../../models/PusherNotificationModel';
 import ReduxStore from '../../../ReduxStore';
 import { SnackbarNotification, enqueueSnackbar } from '../../../redux/actions/SnackbarActions';
 import { StatusEnum } from '../../../models/StatusEnum';
-import { updateGeofenceStatusByCorrelationId, removeGeofenceByCorrelationId } from '../../../redux/actions/GeofenceActions';
+import { updateMapGeofenceStatusByCorrelationId, removeMapGeofenceByCorrelationId } from '../../../redux/actions/GeofenceActions';
 
 export default function GeofenceCreateHandler(data: PusherNotificationModel): void {
     const oidcState = ReduxStore.getState().oidc;
@@ -15,7 +15,7 @@ export default function GeofenceCreateHandler(data: PusherNotificationModel): vo
                     variant: 'error',
                 },
             } as SnackbarNotification;
-            const removeGeofenceByCorrelationIdAction = removeGeofenceByCorrelationId(data.correlationId);
+            const removeGeofenceByCorrelationIdAction = removeMapGeofenceByCorrelationId(data.correlationId);
             ReduxStore.getStore().dispatch(removeGeofenceByCorrelationIdAction);
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
             ReduxStore.getStore().dispatch(enqueueSnackbarAction);
@@ -26,7 +26,7 @@ export default function GeofenceCreateHandler(data: PusherNotificationModel): vo
                     variant: 'success',
                 },
             } as SnackbarNotification;
-            const updateGeofenceByCorrelationIdAction = updateGeofenceStatusByCorrelationId({
+            const updateGeofenceByCorrelationIdAction = updateMapGeofenceStatusByCorrelationId({
                 correlationId: data.correlationId,
                 status: data.status,
                 resourceId: data.resourceId,

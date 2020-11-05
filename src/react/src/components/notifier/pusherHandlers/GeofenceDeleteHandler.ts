@@ -2,7 +2,7 @@ import PusherNotificationModel from '../../../models/PusherNotificationModel';
 import ReduxStore from '../../../ReduxStore';
 import { SnackbarNotification, enqueueSnackbar } from '../../../redux/actions/SnackbarActions';
 import { StatusEnum } from '../../../models/StatusEnum';
-import { removePendingDeleteGeofenceByCorrelationId, undoPendingDeleteGeofenceByCorrelationId } from '../../../redux/actions/GeofenceActions';
+import { removePendingDeleteMapGeofenceByCorrelationId, undoPendingDeleteMapGeofenceByCorrelationId } from '../../../redux/actions/GeofenceActions';
 
 export default function GeofenceDeleteHandler(data: PusherNotificationModel): void {
     const oidcState = ReduxStore.getState().oidc;
@@ -15,7 +15,7 @@ export default function GeofenceDeleteHandler(data: PusherNotificationModel): vo
                     variant: 'error',
                 },
             } as SnackbarNotification;
-            const removeGeofenceByCorrelationIdAction = undoPendingDeleteGeofenceByCorrelationId(data.correlationId);
+            const removeGeofenceByCorrelationIdAction = undoPendingDeleteMapGeofenceByCorrelationId(data.correlationId);
             ReduxStore.getStore().dispatch(removeGeofenceByCorrelationIdAction);
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
             ReduxStore.getStore().dispatch(enqueueSnackbarAction);
@@ -26,7 +26,7 @@ export default function GeofenceDeleteHandler(data: PusherNotificationModel): vo
                     variant: 'success',
                 },
             } as SnackbarNotification;
-            const removePendingDeleteGeofenceByCorrelationIdAction = removePendingDeleteGeofenceByCorrelationId(data.correlationId);
+            const removePendingDeleteGeofenceByCorrelationIdAction = removePendingDeleteMapGeofenceByCorrelationId(data.correlationId);
             ReduxStore.getStore().dispatch(removePendingDeleteGeofenceByCorrelationIdAction);
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
             ReduxStore.getStore().dispatch(enqueueSnackbarAction);

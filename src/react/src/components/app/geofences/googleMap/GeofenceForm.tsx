@@ -7,7 +7,7 @@ import PolygonGeofence from '../../../../models/app/geofences/PolygonGeofence';
 import classNames = require('classnames');
 import GeofenceDrawer from './drawer/GeofenceDrawer';
 import GoogleMapsWrapper from './GoogleMapsWrapper';
-import populateGeofencesHOC from '../../hocs/PopulateGeofencesHOC';
+import populateMapGeofencesHOC from '../../hocs/PopulateMapGeofencesHOC';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 
 const styles = (theme: Theme) =>
@@ -50,7 +50,7 @@ interface IFenceFormProps extends WithStyles<typeof styles> {
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { geofenceDrawerOpen: state.geofenceDrawer.isOpen, geofences: state.geofencesState.geofences };
+    return { geofenceDrawerOpen: state.geofenceDrawer.isOpen, geofences: state.geofencesState.mapGeofences };
 };
 
 type FenceFormState = {
@@ -108,4 +108,4 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
     }
 }
 
-export default connect(mapStateToProps, null)(withStyles(styles)(populateIntegrationsHOC(populateGeofencesHOC(GeofenceForm))));
+export default connect(mapStateToProps, null)(withStyles(styles)(populateIntegrationsHOC(populateMapGeofencesHOC(GeofenceForm))));

@@ -10,7 +10,7 @@ import RoutePaths from '../../RoutePaths';
 import * as queryString from 'query-string';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import { ProjectsState } from '../../../redux/actions/ProjectActions';
-import { resetGeofences } from '../../../redux/actions/GeofenceActions';
+import { resetMapGeofences, resetTableGeofences } from '../../../redux/actions/GeofenceActions';
 import { resetIntegrations } from '../../../redux/actions/IntegrationActions';
 import classNames from 'classnames';
 
@@ -88,7 +88,8 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         push: (path: string) => dispatch(push(path)),
         resetGeofences: () => {
-            dispatch(resetGeofences());
+            dispatch(resetMapGeofences());
+            dispatch(resetTableGeofences());
         },
         resetIntegrations: () => {
             dispatch(resetIntegrations());

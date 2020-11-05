@@ -24,7 +24,7 @@ import NewPolygonGeofenceMapMarker from './markers/NewPolygonGeofenceMapMarker';
 import { push } from 'connected-react-router';
 import { openGeofenceDrawer } from '../../../../redux/actions/GeofenceDrawerActions';
 import { closeGeofenceDrawer } from '../../../../redux/actions/GeofenceDrawerActions';
-import { removeGeofenceByExternalId } from '../../../../redux/actions/GeofenceActions';
+import { removeMapGeofenceByExternalId } from '../../../../redux/actions/GeofenceActions';
 const hash = require('object-hash');
 import * as queryString from 'query-string';
 import Constants from '../../../../theme/Constants';
@@ -71,7 +71,7 @@ const StyledSearchTextField = withStyles({
 const mapStateToProps = (state: ApplicationState) => {
     return {
         selectedShape: state.googleMaps.selectedShapePicker,
-        existingGeofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.id),
+        existingGeofences: selectedProjectGeofences(state.geofencesState.mapGeofences, state.selectedProject.id),
         geofenceDrawerOpen: state.geofenceDrawer.isOpen,
         isCreating: state.googleMaps.isCreatingGeofence,
         isPolygonClosed: Boolean(state.googleMaps.polygonGeofence),
@@ -114,7 +114,7 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(action);
         },
         removeGeofenceByExternalId: (externalId: string) => {
-            const action = removeGeofenceByExternalId(externalId);
+            const action = removeMapGeofenceByExternalId(externalId);
             dispatch(action);
         },
         setInfoWindowVisible: (isVisible: boolean) => {

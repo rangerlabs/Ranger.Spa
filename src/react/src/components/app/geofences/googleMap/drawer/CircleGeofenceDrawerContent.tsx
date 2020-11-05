@@ -10,7 +10,7 @@ import { CircleGeofenceState } from '../../../../../redux/actions/GoogleMapsActi
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { addGeofence, addGeofenceToPendingDeletion, addGeofenceToPendingUpdate } from '../../../../../redux/actions/GeofenceActions';
+import { addMapGeofence, addMapGeofenceToPendingDeletion, addMapGeofenceToPendingUpdate } from '../../../../../redux/actions/GeofenceActions';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
@@ -101,15 +101,15 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(action);
         },
         saveGeofenceToState: (geofence: CircleGeofence) => {
-            const action = addGeofence(geofence);
+            const action = addMapGeofence(geofence);
             dispatch(action);
         },
         addGeofenceToPendingDeletion: (geofence: CircleGeofence) => {
-            const action = addGeofenceToPendingDeletion(geofence);
+            const action = addMapGeofenceToPendingDeletion(geofence);
             dispatch(action);
         },
         addGeofenceToPendingUpdate: (geofence: CircleGeofence) => {
-            const action = addGeofenceToPendingUpdate(geofence);
+            const action = addMapGeofenceToPendingUpdate(geofence);
             dispatch(action);
         },
         push: (path: string) => {

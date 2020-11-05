@@ -1,12 +1,12 @@
 import * as React from 'react';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { addGeofence, GeofencesState } from '../../../redux/actions/GeofenceActions';
+import { addMapGeofence, GeofencesState, resetTableGeofences, populateTableGeofences } from '../../../redux/actions/GeofenceActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
 import CircleGeofence from '../../../models/app/geofences/CircleGeofence';
-import populateGeofencesHOC from '../hocs/PopulateGeofencesHOC';
+import populateMapGeofencesHOC from '../hocs/PopulateMapGeofencesHOC';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
@@ -14,6 +14,7 @@ import RoutePaths from '../../RoutePaths';
 import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -31,15 +32,33 @@ const styles = (theme: Theme) =>
         },
     });
 
+const geofencesService = new GeofenceService();
+
+type MuiDatatablesSortType = {
+    name: OrderByOptions;
+    direction: SortOrder;
+};
+
 interface GeofencesProps extends WithStyles<typeof styles> {
     geofencesState: GeofencesState;
-    addGeofence: (geofence: CircleGeofence | PolygonGeofence) => void;
     push: typeof push;
     selectedProject: IProject;
+    sortOrder: SortOrder;
+    orderBy: OrderByOptions;
+    page: number;
+    pageCount: number;
+    setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>) => void;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { geofences: selectedProjectGeofences(state.geofencesState.geofences, state.selectedProject.name), selectedProject: state.selectedProject };
+    return {
+        geofences: selectedProjectGeofences(state.geofencesState.tableGeofences, state.selectedProject.name),
+        selectedProject: state.selectedProject,
+        sortOrder: state.geofencesState.sortOrder,
+        orderBy: state.geofencesState.orderBy,
+        page: state.geofencesState.page,
+        pageCount: state.geofencesState.pageCount,
+    };
 };
 
 const selectedProjectGeofences = (geofences: Array<CircleGeofence | PolygonGeofence>, name: string) => {
@@ -48,11 +67,11 @@ const selectedProjectGeofences = (geofences: Array<CircleGeofence | PolygonGeofe
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        addGeofence: (geofence: CircleGeofence | PolygonGeofence) => {
-            const action = addGeofence(geofence);
+        push: (path: string) => dispatch(push(path)),
+        setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>) => {
+            const action = populateTableGeofences(geofences);
             dispatch(action);
         },
-        push: (path: string) => dispatch(push(path)),
     };
 };
 
@@ -100,18 +119,28 @@ class Geofences extends React.Component<GeofencesProps> {
         );
     };
 
+    requestTableGeofences = (page: number, sortOrder: MuiDatatablesSortType) => {
+        geofencesService.getPaginatedGeofences(this.props.selectedProject.id, sortOrder.name, sortOrder.direction, page, this.props.pageCount).then((res) => {
+            if (res.isError) {
+                //show error
+            } else {
+                this.props.setGeofences(res.result);
+            }
+        });
+    };
+
     columns = [
         {
             name: 'Enabled',
             options: {
-                filter: true,
+                filter: false,
                 customBodyRender: (value: string) => {
                     return this.booleanRender(value, 'Enabled');
                 },
             },
         },
         {
-            name: 'Name',
+            name: 'ExternalId',
             options: {
                 filter: false,
             },
@@ -125,13 +154,13 @@ class Geofences extends React.Component<GeofencesProps> {
         {
             name: 'Shape',
             options: {
-                filter: true,
+                filter: false,
             },
         },
         {
             name: 'On Enter',
             options: {
-                filter: true,
+                filter: false,
                 customBodyRender: (value: string) => {
                     return this.booleanRender(value, 'True');
                 },
@@ -140,7 +169,7 @@ class Geofences extends React.Component<GeofencesProps> {
         {
             name: 'On Exit',
             options: {
-                filter: true,
+                filter: false,
                 customBodyRender: (value: string) => {
                     return this.booleanRender(value, 'True');
                 },
@@ -158,12 +187,28 @@ class Geofences extends React.Component<GeofencesProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
         },
-        customFooter: this.props.geofencesState.geofences?.length > 10 ? null : () => <TableFooter className={this.props.classes.footer} />,
+        // customFooter: <TableFooter className={this.props.classes.footer} />,
+        serverSide: true,
+        rowsPerPage: this.props.pageCount,
+        filter: false,
         elevation: 3,
         selectableRows: 'none',
         responsive: 'vertical',
         viewColumns: false,
         onRowClick: this.editGeofence,
+        onTableChange: (action: string, tableState: any) => {
+            console.log(action, tableState);
+            switch (action) {
+                case 'changePage':
+                    this.requestTableGeofences(tableState.page, tableState.sortOrder);
+                    break;
+                case 'sort':
+                    this.requestTableGeofences(tableState.page, tableState.sortOrder);
+                    break;
+                default:
+                    console.log('Table action not handled.');
+            }
+        },
     };
 
     render() {
@@ -173,7 +218,7 @@ class Geofences extends React.Component<GeofencesProps> {
                 <Grid item xs={12}>
                     <MUIDataTable
                         title={'Geofences'}
-                        data={this.mapGeofencesToTableGeofences(geofencesState.geofences)}
+                        data={this.mapGeofencesToTableGeofences(geofencesState.tableGeofences)}
                         columns={this.columns}
                         options={this.options}
                     />
@@ -183,4 +228,4 @@ class Geofences extends React.Component<GeofencesProps> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateIntegrationsHOC(populateGeofencesHOC(Geofences))));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateIntegrationsHOC(populateMapGeofencesHOC(Geofences))));

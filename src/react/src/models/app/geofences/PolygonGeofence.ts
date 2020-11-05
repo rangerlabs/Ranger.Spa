@@ -2,7 +2,6 @@ import Geofence from './Geofence';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import CoordinatePair from './CoordinatePair';
 import CorrelationModel from '../../CorrelationModel';
-import IsoDailySchedule from '../../IsoDailySchedule';
 import Schedule from '../../Schedule';
 
 export default class PolygonGeofence implements Geofence {
