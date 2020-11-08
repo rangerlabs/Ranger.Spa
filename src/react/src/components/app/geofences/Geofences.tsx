@@ -1,7 +1,7 @@
 import * as React from 'react';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { GeofencesState, populateTableGeofences } from '../../../redux/actions/GeofenceActions';
+import { GeofencesState, populateTableGeofences, setPage, setPageCount, setOrderBy, setSortOrder } from '../../../redux/actions/GeofenceActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
@@ -48,11 +48,15 @@ interface GeofencesProps extends WithStyles<typeof styles> {
     page: number;
     pageCount: number;
     setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>) => void;
+    setPage: (page: number) => void;
+    setPageCount: (pageCount: number) => void;
+    setOrderBy: (orderBy: OrderByOptions) => void;
+    setSortOrder: (sortOrder: SortOrder) => void;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        geofences: selectedProjectGeofences(state.geofencesState.tableGeofences, state.selectedProject.name),
+        geofences: state.geofencesState.tableGeofences,
         selectedProject: state.selectedProject,
         sortOrder: state.geofencesState.sortOrder,
         orderBy: state.geofencesState.orderBy,
@@ -61,15 +65,27 @@ const mapStateToProps = (state: ApplicationState) => {
     };
 };
 
-const selectedProjectGeofences = (geofences: Array<CircleGeofence | PolygonGeofence>, name: string) => {
-    return geofences.filter((f) => f.projectId === name);
-};
-
 const mapDispatchToProps = (dispatch: any) => {
     return {
         push: (path: string) => dispatch(push(path)),
         setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>) => {
             const action = populateTableGeofences(geofences);
+            dispatch(action);
+        },
+        setPage: (page: number) => {
+            const action = setPage(page);
+            dispatch(action);
+        },
+        setPageCount: (pageCount: number) => {
+            const action = setPageCount(pageCount);
+            dispatch(action);
+        },
+        setOrderBy: (orderBy: OrderByOptions) => {
+            const action = setOrderBy(orderBy);
+            dispatch(action);
+        },
+        setSortOrder: (sortOrder: SortOrder) => {
+            const action = setSortOrder(sortOrder);
             dispatch(action);
         },
     };
@@ -119,8 +135,8 @@ class Geofences extends React.Component<GeofencesProps> {
         );
     };
 
-    requestTableGeofences = (page: number, sortOrder: MuiDatatablesSortType) => {
-        geofencesService.getPaginatedGeofences(this.props.selectedProject.id, sortOrder.name, sortOrder.direction, page, this.props.pageCount).then((res) => {
+    requestTableGeofences = (page: number, sortOrder: MuiDatatablesSortType, pageCount: number) => {
+        geofencesService.getPaginatedGeofences(this.props.selectedProject.id, sortOrder.name, sortOrder.direction, page, pageCount).then((res) => {
             if (res.isError) {
                 //show error
             } else {
@@ -149,6 +165,7 @@ class Geofences extends React.Component<GeofencesProps> {
             name: 'Description',
             options: {
                 filter: false,
+                sort: false,
             },
         },
         {
@@ -190,6 +207,7 @@ class Geofences extends React.Component<GeofencesProps> {
         // customFooter: <TableFooter className={this.props.classes.footer} />,
         serverSide: true,
         rowsPerPage: this.props.pageCount,
+        rowsPerPageOptions: [25, 50, 75, 100, 500],
         filter: false,
         elevation: 3,
         selectableRows: 'none',
@@ -200,13 +218,24 @@ class Geofences extends React.Component<GeofencesProps> {
             console.log(action, tableState);
             switch (action) {
                 case 'changePage':
-                    this.requestTableGeofences(tableState.page, tableState.sortOrder);
+                    this.props.setPage(tableState.page);
+                    this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;
                 case 'sort':
-                    this.requestTableGeofences(tableState.page, tableState.sortOrder);
+                    if (this.props.orderBy.toLowerCase() != (tableState.sortOrder.name as MuiDatatablesSortType).name.toLowerCase()) {
+                        this.props.setOrderBy(tableState.sortOrder.name);
+                    }
+                    if (this.props.setSortOrder != tableState.sortOrder.direction) {
+                        this.props.setSortOrder(tableState.sortOrder);
+                    }
+                    this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                    break;
+                case 'changeRowsPerPage':
+                    this.props.setPageCount(tableState.rowsPerPage);
+                    this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;
                 default:
-                    console.log('Table action not handled.');
+                    break;
             }
         },
     };
