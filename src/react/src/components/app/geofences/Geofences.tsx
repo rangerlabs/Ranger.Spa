@@ -224,11 +224,11 @@ class Geofences extends React.Component<GeofencesProps> {
                     this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;
                 case 'sort':
-                    if (this.props.orderBy.toLowerCase() != (tableState.sortOrder.name as MuiDatatablesSortType).name.toLowerCase()) {
+                    if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
                         this.props.setOrderBy(tableState.sortOrder.name);
                     }
-                    if (this.props.setSortOrder != tableState.sortOrder.direction) {
-                        this.props.setSortOrder(tableState.sortOrder);
+                    if (this.props.setSortOrder !== tableState.sortOrder.direction) {
+                        this.props.setSortOrder(tableState.sortOrder.direction);
                     }
                     this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;
