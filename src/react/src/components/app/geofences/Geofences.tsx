@@ -279,7 +279,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                         title={
                             <Typography variant="h6">
                                 Geofences
-                                {geofencesState.isTableLoaded && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
+                                {!geofencesState.isTableLoaded && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
                             </Typography>
                         }
                         data={this.mapGeofencesToTableGeofences(geofencesState.tableGeofences)}
