@@ -56,7 +56,7 @@ interface GeofencesProps extends WithStyles<typeof styles> {
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        geofences: state.geofencesState.tableGeofences,
+        geofencesState: state.geofencesState,
         selectedProject: state.selectedProject,
         sortOrder: state.geofencesState.sortOrder,
         orderBy: state.geofencesState.orderBy,
@@ -178,6 +178,7 @@ class Geofences extends React.Component<GeofencesProps> {
             name: 'On Enter',
             options: {
                 filter: false,
+                sort: false,
                 customBodyRender: (value: string) => {
                     return this.booleanRender(value, 'True');
                 },
@@ -187,6 +188,7 @@ class Geofences extends React.Component<GeofencesProps> {
             name: 'On Exit',
             options: {
                 filter: false,
+                sort: false,
                 customBodyRender: (value: string) => {
                     return this.booleanRender(value, 'True');
                 },
