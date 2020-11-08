@@ -20,7 +20,7 @@ import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
 import RoutePaths from '../../RoutePaths';
-import { Grid, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, CircularProgress, Typography } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
@@ -229,7 +229,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
         },
-        customFooter: this.props.geofencesState.isTableLoaded ? undefined : () => <Loading wasError={this.state.wasError} />,
         serverSide: true,
         rowsPerPage: this.props.pageCount,
         rowsPerPageOptions: [25, 50, 75, 100, 500],
@@ -277,7 +276,12 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             <Grid className={classes.grid} container justify="center" alignItems="center">
                 <Grid item xs={12}>
                     <MUIDataTable
-                        title={'Geofences'}
+                        title={
+                            <Typography variant="h6">
+                                Geofences
+                                {geofencesState.isTableLoaded && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
+                            </Typography>
+                        }
                         data={this.mapGeofencesToTableGeofences(geofencesState.tableGeofences)}
                         columns={this.columns}
                         options={this.options}
