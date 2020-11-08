@@ -9,6 +9,7 @@ import {
     setOrderBy,
     setSortOrder,
     setIsTableLoaded,
+    resetTableGeofences,
 } from '../../../redux/actions/GeofenceActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
@@ -61,7 +62,7 @@ interface GeofencesProps extends WithStyles<typeof styles> {
     setPageCount: (pageCount: number) => void;
     setOrderBy: (orderBy: OrderByOptions) => void;
     setSortOrder: (sortOrder: SortOrder) => void;
-    setTableLoadedFalse: () => void;
+    resetTableGeofences: () => void;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -98,8 +99,8 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = setSortOrder(sortOrder);
             dispatch(action);
         },
-        setTableLoadedFalse: () => {
-            const action = setIsTableLoaded(false);
+        resetTableGeofences: () => {
+            const action = resetTableGeofences();
             dispatch(action);
         },
     };
@@ -212,7 +213,7 @@ class Geofences extends React.Component<GeofencesProps> {
     options = {
         textLabels: {
             body: {
-                noMatch: 'Your organization has not created any geofences yet.',
+                noMatch: this.props.geofencesState.isTableLoaded ? 'Your organization has not created any geofences yet.' : '',
             },
         },
         print: false,
@@ -220,8 +221,7 @@ class Geofences extends React.Component<GeofencesProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
         },
-        customTableBody: this.props.geofencesState.isTableLoaded ? null : <Loading />,
-        // customFooter: <TableFooter className={this.props.classes.footer} />,
+        customFooter: this.props.geofencesState.isTableLoaded ? null : <Loading />,
         serverSide: true,
         rowsPerPage: this.props.pageCount,
         rowsPerPageOptions: [25, 50, 75, 100, 500],
@@ -235,12 +235,12 @@ class Geofences extends React.Component<GeofencesProps> {
             console.log(action, tableState);
             switch (action) {
                 case 'changePage':
-                    this.props.setTableLoadedFalse();
+                    this.props.resetTableGeofences();
                     this.props.setPage(tableState.page);
                     this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;
                 case 'sort':
-                    this.props.setTableLoadedFalse();
+                    this.props.resetTableGeofences();
                     if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
                         this.props.setOrderBy(tableState.sortOrder.name);
                     }
@@ -250,7 +250,7 @@ class Geofences extends React.Component<GeofencesProps> {
                     this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;
                 case 'changeRowsPerPage':
-                    this.props.setTableLoadedFalse();
+                    this.props.resetTableGeofences();
                     this.props.setPageCount(tableState.rowsPerPage);
                     this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;
