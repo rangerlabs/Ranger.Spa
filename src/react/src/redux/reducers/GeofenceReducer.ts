@@ -20,6 +20,7 @@ import {
     SET_ORDER_BY,
     SET_PAGE,
     SET_PAGE_COUNT,
+    POPULATE_TABLE_GEOFENCES,
 } from '../actions/GeofenceActions';
 import Geofence from '../../models/app/geofences/Geofence';
 
@@ -122,6 +123,9 @@ export function geofenceReducer(
             });
         }
         case POPULATE_MAP_GEOFENCES: {
+            return Object.assign({}, state, action.geofencesState);
+        }
+        case POPULATE_TABLE_GEOFENCES: {
             return Object.assign({}, state, action.geofencesState);
         }
         case RESET_MAP_GEOFENCES: {
