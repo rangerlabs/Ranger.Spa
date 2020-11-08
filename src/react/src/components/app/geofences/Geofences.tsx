@@ -221,7 +221,9 @@ class Geofences extends React.Component<GeofencesProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
         },
-        customFooter: this.props.geofencesState.isTableLoaded ? null : <Loading />,
+        customFooter: () => {
+            this.props.geofencesState.isTableLoaded ? undefined : <Loading />;
+        },
         serverSide: true,
         rowsPerPage: this.props.pageCount,
         rowsPerPageOptions: [25, 50, 75, 100, 500],
