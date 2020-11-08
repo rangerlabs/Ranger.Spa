@@ -1,7 +1,15 @@
 import * as React from 'react';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { GeofencesState, populateTableGeofences, setPage, setPageCount, setOrderBy, setSortOrder } from '../../../redux/actions/GeofenceActions';
+import {
+    GeofencesState,
+    populateTableGeofences,
+    setPage,
+    setPageCount,
+    setOrderBy,
+    setSortOrder,
+    setIsTableLoaded,
+} from '../../../redux/actions/GeofenceActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
@@ -15,6 +23,7 @@ import { Grid, Theme, createStyles, withStyles, WithStyles } from '@material-ui/
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
+import Loading from '../../loading/Loading';
 const MUIDataTable = require('mui-datatables').default;
 
 const styles = (theme: Theme) =>
@@ -52,6 +61,7 @@ interface GeofencesProps extends WithStyles<typeof styles> {
     setPageCount: (pageCount: number) => void;
     setOrderBy: (orderBy: OrderByOptions) => void;
     setSortOrder: (sortOrder: SortOrder) => void;
+    setTableLoadedFalse: () => void;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -86,6 +96,10 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         setSortOrder: (sortOrder: SortOrder) => {
             const action = setSortOrder(sortOrder);
+            dispatch(action);
+        },
+        setTableLoadedFalse: () => {
+            const action = setIsTableLoaded(false);
             dispatch(action);
         },
     };
@@ -206,6 +220,7 @@ class Geofences extends React.Component<GeofencesProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
         },
+        customTableBody: this.props.geofencesState.isTableLoaded ? null : <Loading />,
         // customFooter: <TableFooter className={this.props.classes.footer} />,
         serverSide: true,
         rowsPerPage: this.props.pageCount,
@@ -220,10 +235,12 @@ class Geofences extends React.Component<GeofencesProps> {
             console.log(action, tableState);
             switch (action) {
                 case 'changePage':
+                    this.props.setTableLoadedFalse();
                     this.props.setPage(tableState.page);
                     this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;
                 case 'sort':
+                    this.props.setTableLoadedFalse();
                     if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
                         this.props.setOrderBy(tableState.sortOrder.name);
                     }
@@ -233,6 +250,7 @@ class Geofences extends React.Component<GeofencesProps> {
                     this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;
                 case 'changeRowsPerPage':
+                    this.props.setTableLoadedFalse();
                     this.props.setPageCount(tableState.rowsPerPage);
                     this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;

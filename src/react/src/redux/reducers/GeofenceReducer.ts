@@ -21,6 +21,8 @@ import {
     SET_PAGE,
     SET_PAGE_COUNT,
     POPULATE_TABLE_GEOFENCES,
+    SET_TABLE_IS_LOADED,
+    SET_MAP_IS_LOADED,
 } from '../actions/GeofenceActions';
 import Geofence from '../../models/app/geofences/Geofence';
 
@@ -132,6 +134,12 @@ export function geofenceReducer(
             return Object.assign({}, state, action.geofencesState);
         }
         case RESET_TABLE_GEOFENCES: {
+            return Object.assign({}, state, action.geofencesState);
+        }
+        case SET_TABLE_IS_LOADED: {
+            return Object.assign({}, state, action.geofencesState);
+        }
+        case SET_MAP_IS_LOADED: {
             return Object.assign({}, state, action.geofencesState);
         }
         default:

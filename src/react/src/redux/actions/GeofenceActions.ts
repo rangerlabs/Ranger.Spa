@@ -6,6 +6,8 @@ import CoordinatePair from '../../models/app/geofences/CoordinatePair';
 
 export const SET_SORT_ORDER = 'SET_SORT_ORDER';
 export const SET_ORDER_BY = 'SET_ORDER_BY';
+export const SET_TABLE_IS_LOADED = 'SET_TABLE_IS_LOADED';
+export const SET_MAP_IS_LOADED = 'SET_MAP_IS_LOADED';
 export const SET_PAGE = 'SET_PAGE';
 export const SET_PAGE_COUNT = 'SET_PAGE_COUNT';
 export const ADD_MAP_GEOFENCE = 'ADD_MAP_GEOFENCE';
@@ -58,6 +60,24 @@ export function setSortOrder(sortOrder: SortOrder): GeofenceArrayAction {
         type: SET_SORT_ORDER,
         geofencesState: {
             sortOrder: sortOrder,
+        } as GeofencesState,
+    };
+}
+
+export function setIsTableLoaded(isLoaded: boolean) {
+    return {
+        type: SET_TABLE_IS_LOADED,
+        geofencesState: {
+            isTableLoaded: isLoaded,
+        } as GeofencesState,
+    };
+}
+
+export function setIsMapLoaded(isLoaded: boolean) {
+    return {
+        type: SET_TABLE_IS_LOADED,
+        geofencesState: {
+            isMapLoaded: isLoaded,
         } as GeofencesState,
     };
 }
