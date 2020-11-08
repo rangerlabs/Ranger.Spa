@@ -65,6 +65,10 @@ interface GeofencesProps extends WithStyles<typeof styles> {
     resetTableGeofences: () => void;
 }
 
+interface LocalGeofencesState {
+    wasError: boolean;
+}
+
 const mapStateToProps = (state: ApplicationState) => {
     return {
         geofencesState: state.geofencesState,
@@ -106,7 +110,11 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-class Geofences extends React.Component<GeofencesProps> {
+class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
+    state: LocalGeofencesState = {
+        wasError: false,
+    };
+
     refs: {
         query: HTMLInputElement;
     };
@@ -153,7 +161,7 @@ class Geofences extends React.Component<GeofencesProps> {
     requestTableGeofences = (page: number, sortOrder: MuiDatatablesSortType, pageCount: number) => {
         geofencesService.getPaginatedGeofences(this.props.selectedProject.id, sortOrder.name, sortOrder.direction, page, pageCount).then((res) => {
             if (res.isError) {
-                //show error
+                this.setState({ wasError: true });
             } else {
                 this.props.setGeofences(res.result);
             }
@@ -221,9 +229,7 @@ class Geofences extends React.Component<GeofencesProps> {
         customToolbar: () => {
             return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
         },
-        customFooter: () => {
-            this.props.geofencesState.isTableLoaded ? undefined : <Loading />;
-        },
+        customFooter: this.props.geofencesState.isTableLoaded ? undefined : () => <Loading wasError={this.state.wasError} />,
         serverSide: true,
         rowsPerPage: this.props.pageCount,
         rowsPerPageOptions: [25, 50, 75, 100, 500],
@@ -237,11 +243,13 @@ class Geofences extends React.Component<GeofencesProps> {
             console.log(action, tableState);
             switch (action) {
                 case 'changePage':
+                    this.setState({ wasError: false });
                     this.props.resetTableGeofences();
                     this.props.setPage(tableState.page);
                     this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;
                 case 'sort':
+                    this.setState({ wasError: false });
                     this.props.resetTableGeofences();
                     if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
                         this.props.setOrderBy(tableState.sortOrder.name);
@@ -252,6 +260,7 @@ class Geofences extends React.Component<GeofencesProps> {
                     this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                     break;
                 case 'changeRowsPerPage':
+                    this.setState({ wasError: false });
                     this.props.resetTableGeofences();
                     this.props.setPageCount(tableState.rowsPerPage);
                     this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);

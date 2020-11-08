@@ -20,19 +20,12 @@ const styles = (theme: Theme) =>
 
 interface LoadingProps extends WithStyles<typeof styles> {
     message?: string;
-    push: typeof push;
     wasError?: boolean;
 }
 
 interface LoadingState {
     warningTimeoutMessage: string;
 }
-
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        push: (path: string) => dispatch(push(path)),
-    };
-};
 
 class Loading extends React.Component<LoadingProps, LoadingState> {
     state: LoadingState = {
@@ -77,4 +70,4 @@ class Loading extends React.Component<LoadingProps, LoadingState> {
     }
 }
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Loading));
+export default withStyles(styles)(Loading);
