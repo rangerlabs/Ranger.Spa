@@ -1,17 +1,17 @@
 import * as React from 'react';
 import CustomAddToolbar from '../muiDataTable/CustomAddToolbar';
 import { connect } from 'react-redux';
-import { addMapGeofence, GeofencesState, resetTableGeofences, populateTableGeofences } from '../../../redux/actions/GeofenceActions';
+import { GeofencesState, populateTableGeofences } from '../../../redux/actions/GeofenceActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
 import CircleGeofence from '../../../models/app/geofences/CircleGeofence';
-import populateMapGeofencesHOC from '../hocs/PopulateMapGeofencesHOC';
+import populateTableGeofencesHOC from '../hocs/PopulateTableGeofencesHOC';
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
 import RoutePaths from '../../RoutePaths';
-import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
@@ -228,4 +228,4 @@ class Geofences extends React.Component<GeofencesProps> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateIntegrationsHOC(populateMapGeofencesHOC(Geofences))));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateIntegrationsHOC(populateTableGeofencesHOC(Geofences))));

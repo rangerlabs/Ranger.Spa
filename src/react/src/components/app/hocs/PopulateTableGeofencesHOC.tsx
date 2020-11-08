@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P>) => {
+const populateTableGeofencesHOC = <P extends object>(Component: React.ComponentType<P>) => {
     class PopulateGeofencesComponent extends React.Component<PopulateGeofencesComponentProps, PopulateGeofencesState> {
         state: PopulateGeofencesState = {
             wasError: false,
@@ -72,4 +72,4 @@ const populateGeofencesHOC = <P extends object>(Component: React.ComponentType<P
     return connect(mapStateToProps, mapDispatchToProps)(requireProjectSelection(populateProjectsHOC(PopulateGeofencesComponent)));
 };
 
-export default populateGeofencesHOC;
+export default populateTableGeofencesHOC;
