@@ -43,7 +43,7 @@ export function geofenceReducer(
 ) {
     switch (action.type) {
         case ADD_MAP_GEOFENCE: {
-            return Object.assign({}, state, { geofences: state.mapGeofences.concat(action.geofence) });
+            return Object.assign({}, state, { mapGeofences: state.mapGeofences.concat(action.geofence) });
         }
         case SET_SORT_ORDER: {
             return Object.assign({}, state, { sortOrder: action.geofencesState.sortOrder });
