@@ -29,13 +29,12 @@ export default function GeofenceCreateHandler(data: PusherNotificationModel): vo
                     variant: 'success',
                 },
             } as SnackbarNotification;
-
-            const removePendingGeofence = removePendingCreateMapGeofenceByCorrelationId(data.correlationId);
-            store.dispatch(removePendingGeofence);
-
             const pendingGeofence = ReduxStore.getState().geofencesState.pendingCreation.find((g) => g.correlationModel.correlationId === data.correlationId);
             const addGeofence = addMapGeofence(pendingGeofence);
             store.dispatch(addGeofence);
+
+            const removePendingGeofence = removePendingCreateMapGeofenceByCorrelationId(data.correlationId);
+            store.dispatch(removePendingGeofence);
 
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
             store.dispatch(enqueueSnackbarAction);

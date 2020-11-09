@@ -35,15 +35,14 @@ export default function GeofenceUpdateHandler(data: PusherNotificationModel): vo
                     variant: 'success',
                 },
             } as SnackbarNotification;
-
-            const removePendingUpdateGeofenceByCorrelationIdAction = removePendingUpdateMapGeofenceByResourceId(data.resourceId);
-            store.dispatch(removePendingUpdateGeofenceByCorrelationIdAction);
-
             const pendingGeofence = ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.old.correlationModel.correlationId === data.correlationId)
                 .updated;
             pendingGeofence.correlationModel = { correlationId: data.correlationId, status: data.status, resourceId: data.resourceId };
             const addGeofence = addMapGeofence(pendingGeofence);
             store.dispatch(addGeofence);
+
+            const removePendingUpdateGeofenceByCorrelationIdAction = removePendingUpdateMapGeofenceByResourceId(data.resourceId);
+            store.dispatch(removePendingUpdateGeofenceByCorrelationIdAction);
 
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
             store.dispatch(enqueueSnackbarAction);
