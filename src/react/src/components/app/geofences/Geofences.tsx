@@ -218,60 +218,64 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             },
         },
     ];
-    options = {
-        textLabels: {
-            body: {
-                noMatch: this.props.geofencesState.isTableLoaded ? 'Your organization has not created any geofences yet.' : '',
-            },
-        },
-        print: false,
-        download: false,
-        customToolbar: () => {
-            return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
-        },
-        serverSide: true,
-        rowsPerPage: this.props.pageCount,
-        rowsPerPageOptions: [25, 50, 75, 100, 500],
-        filter: false,
-        elevation: 3,
-        selectableRows: 'none',
-        responsive: 'vertical',
-        viewColumns: false,
-        onRowClick: this.editGeofence,
-        onTableChange: (action: string, tableState: any) => {
-            console.log(action, tableState);
-            switch (action) {
-                case 'changePage':
-                    this.setState({ wasError: false });
-                    this.props.resetTableGeofences();
-                    this.props.setPage(tableState.page);
-                    this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                    break;
-                case 'sort':
-                    this.setState({ wasError: false });
-                    this.props.resetTableGeofences();
-                    if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
-                        this.props.setOrderBy(tableState.sortOrder.name);
-                    }
-                    if (this.props.setSortOrder !== tableState.sortOrder.direction) {
-                        this.props.setSortOrder(tableState.sortOrder.direction);
-                    }
-                    this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                    break;
-                case 'changeRowsPerPage':
-                    this.setState({ wasError: false });
-                    this.props.resetTableGeofences();
-                    this.props.setPageCount(tableState.rowsPerPage);
-                    this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                    break;
-                default:
-                    break;
-            }
-        },
+
+    onTableChange = (action: string, tableState: any) => {
+        console.log(action, tableState);
+        switch (action) {
+            case 'changePage':
+                this.setState({ wasError: false });
+                this.props.resetTableGeofences();
+                this.props.setPage(tableState.page);
+                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                break;
+            case 'sort':
+                this.setState({ wasError: false });
+                this.props.resetTableGeofences();
+                if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
+                    this.props.setOrderBy(tableState.sortOrder.name);
+                }
+                if (this.props.setSortOrder !== tableState.sortOrder.direction) {
+                    this.props.setSortOrder(tableState.sortOrder.direction);
+                }
+                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                break;
+            case 'changeRowsPerPage':
+                this.setState({ wasError: false });
+                this.props.resetTableGeofences();
+                this.props.setPageCount(tableState.rowsPerPage);
+                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                break;
+            default:
+                break;
+        }
     };
 
     render() {
         const { classes, geofencesState } = this.props;
+        const options = {
+            textLabels: {
+                body: {
+                    noMatch: this.props.geofencesState.isTableLoaded ? 'Your organization has not created any geofences yet.' : '',
+                },
+            },
+            print: false,
+            download: false,
+            customToolbar: () => {
+                return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
+            },
+            serverSide: true,
+            rowsPerPage: this.props.pageCount,
+            rowsPerPageOptions: [25, 50, 75, 100, 500],
+            filter: false,
+            elevation: 3,
+            selectableRows: 'none',
+            responsive: 'vertical',
+            viewColumns: false,
+            onRowClick: this.editGeofence,
+            onTableChange: (action: string, tableState: any) => {
+                this.onTableChange(action, tableState);
+            },
+        };
         return (
             <Grid className={classes.grid} container justify="center" alignItems="center">
                 <Grid item xs={12}>
@@ -284,7 +288,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                         }
                         data={this.mapGeofencesToTableGeofences(geofencesState.tableGeofences)}
                         columns={this.columns}
-                        options={this.options}
+                        options={options}
                     />
                 </Grid>
             </Grid>
