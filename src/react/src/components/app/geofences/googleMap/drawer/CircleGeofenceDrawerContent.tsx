@@ -10,7 +10,12 @@ import { CircleGeofenceState } from '../../../../../redux/actions/GoogleMapsActi
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { addMapGeofence, addMapGeofenceToPendingDeletion, addMapGeofenceToPendingUpdate } from '../../../../../redux/actions/GeofenceActions';
+import {
+    addMapGeofence,
+    addMapGeofenceToPendingDeletion,
+    addMapGeofenceToPendingUpdate,
+    addMapGeofenceToPendingCreation,
+} from '../../../../../redux/actions/GeofenceActions';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
@@ -73,8 +78,9 @@ interface CircleGeofenceFormProps extends WithStyles<typeof styles>, WithSnackba
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
     saveGeofenceToState: (geofence: CircleGeofence) => void;
+    addGeofenceToPendingCreation: (geofence: CircleGeofence) => void;
     addGeofenceToPendingDeletion: (geofence: CircleGeofence) => void;
-    addGeofenceToPendingUpdate: (geofence: CircleGeofence) => void;
+    addGeofenceToPendingUpdate: (old: CircleGeofence, geofence: CircleGeofence) => void;
     clearNewCircleGeofence: () => void;
     push: (path: string) => void;
 }
@@ -100,6 +106,10 @@ const mapDispatchToProps = (dispatch: any) => {
             );
             dispatch(action);
         },
+        addGeofenceToPendingCreation: (geofence: CircleGeofence) => {
+            const action = addMapGeofenceToPendingCreation(geofence);
+            dispatch(action);
+        },
         saveGeofenceToState: (geofence: CircleGeofence) => {
             const action = addMapGeofence(geofence);
             dispatch(action);
@@ -108,8 +118,8 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = addMapGeofenceToPendingDeletion(geofence);
             dispatch(action);
         },
-        addGeofenceToPendingUpdate: (geofence: CircleGeofence) => {
-            const action = addMapGeofenceToPendingUpdate(geofence);
+        addGeofenceToPendingUpdate: (old: CircleGeofence, updated: CircleGeofence) => {
+            const action = addMapGeofenceToPendingUpdate(old, updated);
             dispatch(action);
         },
         push: (path: string) => {
@@ -147,7 +157,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
-                this.props.saveGeofenceToState(geofence);
+                this.props.addGeofenceToPendingCreation(geofence);
                 this.props.clearNewCircleGeofence();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
@@ -164,8 +174,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
-                this.props.addGeofenceToPendingUpdate(this.props.editGeofence);
-                this.props.saveGeofenceToState(geofence);
+                this.props.addGeofenceToPendingUpdate(geofence, this.props.editGeofence);
                 this.props.clearNewCircleGeofence();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
@@ -197,7 +206,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         }
         this.props.clearNewCircleGeofence();
         this.setState({ serverErrors: undefined });
-        // this.props.enableMapClick();
         this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
     };

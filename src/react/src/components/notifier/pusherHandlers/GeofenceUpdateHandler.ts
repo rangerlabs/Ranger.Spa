@@ -2,16 +2,13 @@ import PusherNotificationModel from '../../../models/PusherNotificationModel';
 import ReduxStore from '../../../ReduxStore';
 import { SnackbarNotification, enqueueSnackbar } from '../../../redux/actions/SnackbarActions';
 import { StatusEnum } from '../../../models/StatusEnum';
-import {
-    undoPendingUpdateMapGeofenceByCorrelationId,
-    removePendingUpdateMapGeofenceById,
-    updateMapGeofenceStatusByCorrelationId,
-} from '../../../redux/actions/GeofenceActions';
+import { removePendingUpdateMapGeofenceByResourceId, addMapGeofence } from '../../../redux/actions/GeofenceActions';
 
 export default function GeofenceUpdateHandler(data: PusherNotificationModel): void {
     const oidcState = ReduxStore.getState().oidc;
 
     if (!oidcState.isLoadingUser && oidcState.user && !oidcState.user.expired) {
+        const store = ReduxStore.getStore();
         if (data.status === StatusEnum.REJECTED) {
             const snackbarNotification = {
                 message: data.message,
@@ -19,10 +16,18 @@ export default function GeofenceUpdateHandler(data: PusherNotificationModel): vo
                     variant: 'error',
                 },
             } as SnackbarNotification;
-            const undoPendingUpdateGeofenceByCorrelationIdAction = undoPendingUpdateMapGeofenceByCorrelationId(data.correlationId);
-            ReduxStore.getStore().dispatch(undoPendingUpdateGeofenceByCorrelationIdAction);
+
+            const pendingGeofence = ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.old.correlationModel.correlationId === data.correlationId)
+                .old;
+            pendingGeofence.correlationModel = { correlationId: data.correlationId, status: data.status, resourceId: data.resourceId };
+            const addGeofenceAction = addMapGeofence(pendingGeofence);
+            store.dispatch(addGeofenceAction);
+
+            const removePendingUpdateGeofenceByCorrelationIdAction = removePendingUpdateMapGeofenceByResourceId(data.resourceId);
+            store.dispatch(removePendingUpdateGeofenceByCorrelationIdAction);
+
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
-            ReduxStore.getStore().dispatch(enqueueSnackbarAction);
+            store.dispatch(enqueueSnackbarAction);
         } else if (data.status === StatusEnum.COMPLETED) {
             const snackbarNotification = {
                 message: data.message,
@@ -30,16 +35,18 @@ export default function GeofenceUpdateHandler(data: PusherNotificationModel): vo
                     variant: 'success',
                 },
             } as SnackbarNotification;
-            const updateGeofenceByCorrelationIdAction = updateMapGeofenceStatusByCorrelationId({
-                correlationId: data.correlationId,
-                status: data.status,
-                resourceId: data.resourceId,
-            });
-            const removePendingUpdateGeofenceByCorrelationIdAction = removePendingUpdateMapGeofenceById(data.resourceId);
-            ReduxStore.getStore().dispatch(removePendingUpdateGeofenceByCorrelationIdAction);
-            ReduxStore.getStore().dispatch(updateGeofenceByCorrelationIdAction);
+
+            const removePendingUpdateGeofenceByCorrelationIdAction = removePendingUpdateMapGeofenceByResourceId(data.resourceId);
+            store.dispatch(removePendingUpdateGeofenceByCorrelationIdAction);
+
+            const pendingGeofence = ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.old.correlationModel.correlationId === data.correlationId)
+                .updated;
+            pendingGeofence.correlationModel = { correlationId: data.correlationId, status: data.status, resourceId: data.resourceId };
+            const addGeofence = addMapGeofence(pendingGeofence);
+            store.dispatch(addGeofence);
+
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
-            ReduxStore.getStore().dispatch(enqueueSnackbarAction);
+            store.dispatch(enqueueSnackbarAction);
         }
     }
 }

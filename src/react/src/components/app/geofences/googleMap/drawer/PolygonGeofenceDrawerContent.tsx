@@ -10,7 +10,7 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
-import { addMapGeofence, addMapGeofenceToPendingUpdate } from '../../../../../redux/actions/GeofenceActions';
+import { addMapGeofence, addMapGeofenceToPendingUpdate, addMapGeofenceToPendingCreation } from '../../../../../redux/actions/GeofenceActions';
 import { addMapGeofenceToPendingDeletion } from '../../../../../redux/actions/GeofenceActions';
 import FormikDeleteButton from '../../../../form/FormikDeleteButton';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
@@ -74,8 +74,9 @@ interface PolygonGeofenceFormProps extends WithStyles<typeof styles>, WithSnackb
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
     saveGeofenceToState: (geofence: PolygonGeofence) => void;
+    addGeofenceToPendingCreation: (geofence: PolygonGeofence) => void;
     addGeofenceToPendingDeletion: (geofence: PolygonGeofence) => void;
-    addGeofenceToPendingUpdate: (geofence: PolygonGeofence) => void;
+    addGeofenceToPendingUpdate: (old: PolygonGeofence, geofence: PolygonGeofence) => void;
     clearNewPolygonGeofence: () => void;
     push: (path: string) => void;
 }
@@ -101,6 +102,10 @@ const mapDispatchToProps = (dispatch: any) => {
             );
             dispatch(action);
         },
+        addGeofenceToPendingCreation: (geofence: PolygonGeofence) => {
+            const action = addMapGeofenceToPendingCreation(geofence);
+            dispatch(action);
+        },
         saveGeofenceToState: (geofence: PolygonGeofence) => {
             const action = addMapGeofence(geofence);
             dispatch(action);
@@ -109,8 +114,8 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = addMapGeofenceToPendingDeletion(geofence);
             dispatch(action);
         },
-        addGeofenceToPendingUpdate: (geofence: PolygonGeofence) => {
-            const action = addMapGeofenceToPendingUpdate(geofence);
+        addGeofenceToPendingUpdate: (old: PolygonGeofence, updated: PolygonGeofence) => {
+            const action = addMapGeofenceToPendingUpdate(old, updated);
             dispatch(action);
         },
         push: (path: string) => {
@@ -148,7 +153,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
-                this.props.saveGeofenceToState(geofence);
+                this.props.addGeofenceToPendingCreation(geofence);
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
                 this.props.clearNewPolygonGeofence();
@@ -165,8 +170,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
-                this.props.addGeofenceToPendingUpdate(this.props.editGeofence);
-                this.props.saveGeofenceToState(geofence);
+                this.props.addGeofenceToPendingUpdate(geofence, this.props.editGeofence);
                 this.props.clearNewPolygonGeofence();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();

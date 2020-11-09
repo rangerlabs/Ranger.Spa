@@ -36,7 +36,9 @@ const styles = (theme: Theme) =>
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        geofences: state.geofencesState.mapGeofences,
+        geofences: state.geofencesState.mapGeofences
+            .concat(state.geofencesState.pendingCreation)
+            .concat(state.geofencesState.pendingUpdate.map((g) => g.updated)),
         geofenceDrawerOpen: state.geofenceDrawer.isOpen,
         mapObject: getMapObject(state),
         editGeofence: state.geofenceDrawer.editGeofence,
