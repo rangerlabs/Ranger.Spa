@@ -174,7 +174,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
-                this.props.addGeofenceToPendingUpdate(geofence, this.props.editGeofence);
+                this.props.addGeofenceToPendingUpdate(this.props.editGeofence, geofence);
                 this.props.clearNewCircleGeofence();
                 this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();

@@ -21,7 +21,7 @@ export default function GeofenceUpdateHandler(data: PusherNotificationModel): vo
 
             const pendingGeofence = Object.assign(
                 {},
-                ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.old.correlationModel.correlationId === data.correlationId).old
+                ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.updated.correlationModel.correlationId === data.correlationId).old
             ) as CircleGeofence | PolygonGeofence;
             pendingGeofence.correlationModel = { correlationId: data.correlationId, status: data.status, resourceId: data.resourceId };
             const addGeofenceAction = addMapGeofence(pendingGeofence);
@@ -41,7 +41,7 @@ export default function GeofenceUpdateHandler(data: PusherNotificationModel): vo
             } as SnackbarNotification;
             const pendingGeofence = Object.assign(
                 {},
-                ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.old.correlationModel.correlationId === data.correlationId).updated
+                ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.updated.correlationModel.correlationId === data.correlationId).updated
             ) as CircleGeofence | PolygonGeofence;
             pendingGeofence.correlationModel = { correlationId: data.correlationId, status: data.status, resourceId: data.resourceId };
             const addGeofence = addMapGeofence(pendingGeofence);

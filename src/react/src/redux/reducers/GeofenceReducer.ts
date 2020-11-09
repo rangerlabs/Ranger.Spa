@@ -73,7 +73,7 @@ export function geofenceReducer(
         }
         case REMOVE_PENDING_UPDATE_MAP_GEOFENCE_BY_RESOURCE_ID: {
             return Object.assign({}, state, {
-                pendingUpdate: state.pendingUpdate.filter((v) => v.old.id !== action.geofence.id),
+                pendingUpdate: state.pendingUpdate.filter((v) => v.updated.id !== action.geofence.id),
             });
         }
         case ADD_MAP_GEOFENCE_TO_PENDING_CREATION: {
