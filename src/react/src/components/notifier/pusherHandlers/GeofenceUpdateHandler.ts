@@ -3,6 +3,8 @@ import ReduxStore from '../../../ReduxStore';
 import { SnackbarNotification, enqueueSnackbar } from '../../../redux/actions/SnackbarActions';
 import { StatusEnum } from '../../../models/StatusEnum';
 import { removePendingUpdateMapGeofenceByResourceId, addMapGeofence } from '../../../redux/actions/GeofenceActions';
+import CircleGeofence from '../../../models/app/geofences/CircleGeofence';
+import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
 
 export default function GeofenceUpdateHandler(data: PusherNotificationModel): void {
     const oidcState = ReduxStore.getState().oidc;
@@ -17,8 +19,10 @@ export default function GeofenceUpdateHandler(data: PusherNotificationModel): vo
                 },
             } as SnackbarNotification;
 
-            const pendingGeofence = ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.old.correlationModel.correlationId === data.correlationId)
-                .old;
+            const pendingGeofence = Object.assign(
+                {},
+                ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.old.correlationModel.correlationId === data.correlationId).old
+            ) as CircleGeofence | PolygonGeofence;
             pendingGeofence.correlationModel = { correlationId: data.correlationId, status: data.status, resourceId: data.resourceId };
             const addGeofenceAction = addMapGeofence(pendingGeofence);
             store.dispatch(addGeofenceAction);
@@ -35,8 +39,10 @@ export default function GeofenceUpdateHandler(data: PusherNotificationModel): vo
                     variant: 'success',
                 },
             } as SnackbarNotification;
-            const pendingGeofence = ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.old.correlationModel.correlationId === data.correlationId)
-                .updated;
+            const pendingGeofence = Object.assign(
+                {},
+                ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.old.correlationModel.correlationId === data.correlationId).updated
+            ) as CircleGeofence | PolygonGeofence;
             pendingGeofence.correlationModel = { correlationId: data.correlationId, status: data.status, resourceId: data.resourceId };
             const addGeofence = addMapGeofence(pendingGeofence);
             store.dispatch(addGeofence);

@@ -71,15 +71,13 @@ const StyledSearchTextField = withStyles({
 const mapStateToProps = (state: ApplicationState) => {
     return {
         selectedShape: state.googleMaps.selectedShapePicker,
-        existingGeofences: selectedProjectGeofences(state.geofencesState.mapGeofences, state.selectedProject.id),
+        existingGeofences: state.geofencesState.mapGeofences
+            .concat(state.geofencesState.pendingCreation)
+            .concat(state.geofencesState.pendingUpdate.map((u) => u.updated)),
         geofenceDrawerOpen: state.geofenceDrawer.isOpen,
         isCreating: state.googleMaps.isCreatingGeofence,
         isPolygonClosed: Boolean(state.googleMaps.polygonGeofence),
     };
-};
-
-const selectedProjectGeofences = (geofences: (CircleGeofence | PolygonGeofence)[], id: string) => {
-    return geofences.filter((f) => f.projectId === id);
 };
 
 const mapDispatchToProps = (dispatch: any) => {

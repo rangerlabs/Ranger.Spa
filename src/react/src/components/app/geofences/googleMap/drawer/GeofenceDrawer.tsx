@@ -36,9 +36,6 @@ const styles = (theme: Theme) =>
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        geofences: state.geofencesState.mapGeofences
-            .concat(state.geofencesState.pendingCreation)
-            .concat(state.geofencesState.pendingUpdate.map((g) => g.updated)),
         geofenceDrawerOpen: state.geofenceDrawer.isOpen,
         mapObject: getMapObject(state),
         editGeofence: state.geofenceDrawer.editGeofence,
@@ -92,7 +89,6 @@ const mapDispatchToProps = (dispatch: any) => {
 
 interface GeofenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarProps {
     theme: Theme;
-    geofences?: Array<CircleGeofence | PolygonGeofence>;
     mapObject: CircleGeofenceState | PolygonGeofenceState | TestRun;
     editGeofence: CircleGeofence | PolygonGeofence;
     geofenceDrawerOpen: boolean;

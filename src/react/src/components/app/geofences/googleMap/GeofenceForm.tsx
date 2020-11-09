@@ -2,8 +2,6 @@ import * as React from 'react';
 import { withStyles, createStyles, Theme, WithStyles, CssBaseline, Paper, Slide } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../stores/index';
-import CircleGeofence from '../../../../models/app/geofences/CircleGeofence';
-import PolygonGeofence from '../../../../models/app/geofences/PolygonGeofence';
 import classNames = require('classnames');
 import GeofenceDrawer from './drawer/GeofenceDrawer';
 import GoogleMapsWrapper from './GoogleMapsWrapper';
@@ -46,11 +44,10 @@ const styles = (theme: Theme) =>
 
 interface IFenceFormProps extends WithStyles<typeof styles> {
     geofenceDrawerOpen: boolean;
-    geofences: Array<CircleGeofence | PolygonGeofence>;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
-    return { geofenceDrawerOpen: state.geofenceDrawer.isOpen, geofences: state.geofencesState.mapGeofences };
+    return { geofenceDrawerOpen: state.geofenceDrawer.isOpen };
 };
 
 type FenceFormState = {
