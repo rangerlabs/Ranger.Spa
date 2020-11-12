@@ -35,6 +35,7 @@ import IProject from '../../../../models/app/IProject';
 import Loading from '../../../loading/Loading';
 import GoogleMapsSpeedDial from './GoogleMapsSpeedDial';
 import { Subject, Subscription } from 'rxjs';
+import { debounceTime, throttleTime } from 'rxjs/operators';
 const DraggableCursor = require('../../../../../assets/plus-primary.png');
 
 const geofencesService = new GeofenceService();
@@ -343,7 +344,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     };
 
     private setBoundedGeofences() {
-        this.subscription = this.bounds$.debounceNonDistinct(750).subscribe((boundsArray) => {
+        this.subscription = this.bounds$.pipe(throttleTime(500)).subscribe((boundsArray) => {
             console.log('bounds_changed triggerd');
             geofencesService.getBoundedGeofences(this.props.selectedProject.id, boundsArray).then((response) => {
                 if (response.isError) {
