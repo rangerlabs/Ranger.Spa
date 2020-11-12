@@ -34,6 +34,7 @@ import GeofenceService from '../../../../services/GeofenceService';
 import IProject from '../../../../models/app/IProject';
 import Loading from '../../../loading/Loading';
 import GoogleMapsSpeedDial from './GoogleMapsSpeedDial';
+import { Subject, Subscription } from 'rxjs';
 const DraggableCursor = require('../../../../../assets/plus-primary.png');
 
 const geofencesService = new GeofenceService();
@@ -176,6 +177,8 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     autoComplete: google.maps.places.Autocomplete = undefined;
     infoWindow: google.maps.InfoWindow = undefined;
     markers: Array<CircleGeofenceMapMarker | PolygonGeofenceMapMarker> = [];
+    bounds$: Subject<CoordinatePair[]>;
+    subscription: Subscription;
 
     mapClickListener: google.maps.MapsEventListener = undefined;
     autoCompletePlaceChangedListener: google.maps.MapsEventListener = undefined;
@@ -187,6 +190,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     state = {
         isMapFullyLoaded: false,
     };
+
+    constructor(props: WrapperProps) {
+        super(props);
+        this.bounds$ = new Subject<CoordinatePair[]>();
+    }
 
     //This side effect is necessary because the user could nagivate away from the map with the drawer open and/or a geofence defined
     componentWillUnmount() {
@@ -207,6 +215,9 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     this.clearTestRun();
                 }
             }
+        }
+        if (this.subscription) {
+            this.subscription.unsubscribe();
         }
     }
 
@@ -253,23 +264,23 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 }
             }
 
-            const params = queryString.parse(window.location.search);
-            const name = params['name'] as string;
-            if (name) {
-                var geofence = this.props.existingGeofences.find((g) => g.externalId === name);
-                if (geofence) {
-                    switch (geofence.shape) {
-                        case ShapePicker.CIRCLE: {
-                            this.editCircleGeofenceMarker(geofence as CircleGeofence);
-                            break;
-                        }
-                        case ShapePicker.POLYGON: {
-                            this.editPolygonGeofenceMarker(geofence as PolygonGeofence);
-                            break;
-                        }
-                    }
-                }
-            }
+            // const params = queryString.parse(window.location.search);
+            // const name = params['name'] as string;
+            // if (name) {
+            //     var geofence = this.props.existingGeofences.find((g) => g.externalId === name);
+            //     if (geofence) {
+            //         switch (geofence.shape) {
+            //             case ShapePicker.CIRCLE: {
+            //                 this.editCircleGeofenceMarker(geofence as CircleGeofence);
+            //                 break;
+            //             }
+            //             case ShapePicker.POLYGON: {
+            //                 this.editPolygonGeofenceMarker(geofence as PolygonGeofence);
+            //                 break;
+            //             }
+            //         }
+            //     }
+            // }
         }
     };
 
@@ -296,11 +307,8 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
         google.maps.event.addListenerOnce(this.map, 'idle', () => {
             this.setState({ isMapFullyLoaded: true });
-
             this.registerBoundsChangeCallback();
-
             this.props.mapFullyLoadedCallback();
-
             const params = queryString.parse(window.location.search);
             const name = params['name'] as string;
             if (name) {
@@ -320,27 +328,30 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
     private registerBoundsChangeCallback = () => {
         google.maps.event.addListener(this.map, 'bounds_changed', () => {
+            var bounds = this.map.getBounds();
+            var northEast = bounds.getNorthEast();
+            var southWest = bounds.getSouthWest();
+            var boundsArray = new Array<CoordinatePair>(
+                new CoordinatePair(northEast.lng(), northEast.lat()),
+                new CoordinatePair(southWest.lng(), northEast.lat()),
+                new CoordinatePair(southWest.lng(), southWest.lat()),
+                new CoordinatePair(northEast.lng(), southWest.lat())
+            );
+            this.bounds$.next(boundsArray);
             this.setBoundedGeofences();
         });
     };
 
     private setBoundedGeofences() {
-        console.log('bounds_changed triggerd');
-        var bounds = this.map.getBounds();
-        var northEast = bounds.getNorthEast();
-        var southWest = bounds.getSouthWest();
-        var boundsArray = new Array<CoordinatePair>(
-            new CoordinatePair(northEast.lng(), northEast.lat()),
-            new CoordinatePair(southWest.lng(), northEast.lat()),
-            new CoordinatePair(southWest.lng(), southWest.lat()),
-            new CoordinatePair(northEast.lng(), southWest.lat())
-        );
-        geofencesService.getBoundedGeofences(this.props.selectedProject.id, boundsArray).then((response) => {
-            if (response.isError) {
-                // if status code is 400 show too many geofences warning
-            } else {
-                this.props.setMapGeofences(response.result);
-            }
+        this.subscription = this.bounds$.debounceNonDistinct(750).subscribe((boundsArray) => {
+            console.log('bounds_changed triggerd');
+            geofencesService.getBoundedGeofences(this.props.selectedProject.id, boundsArray).then((response) => {
+                if (response.isError) {
+                    // if status code is 400 show too many geofences warning
+                } else {
+                    this.props.setMapGeofences(response.result);
+                }
+            });
         });
     }
 
