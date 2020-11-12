@@ -10,6 +10,17 @@ export type OrderByOptions = 'ExternalId' | 'Shape' | 'Enabled' | 'CreatedDate' 
 export type SortOrder = 'asc' | 'desc';
 
 export default class GeofenceService {
+    async getGeofence(projectId: string, externalId: string): Promise<IRestResponse<CircleGeofence | PolygonGeofence>> {
+        return RestUtilities.get<CircleGeofence | PolygonGeofence>(`${projectId}/geofences?externalId=${externalId}`).then((geofenceResponse) => {
+            if (geofenceResponse.result) {
+                var geofence = this.MapGeofence(geofenceResponse.result);
+                return Object.assign({}, geofenceResponse, { result: geofence } as IRestResponse<CircleGeofence | PolygonGeofence>) as IRestResponse<
+                    CircleGeofence | PolygonGeofence
+                >;
+            }
+        });
+    }
+
     async getPaginatedGeofences(
         projectId: string,
         orderBy: OrderByOptions = 'CreatedDate',
@@ -23,8 +34,7 @@ export default class GeofenceService {
             const geofences = new Array<CircleGeofence | PolygonGeofence>();
             if (geofenceResponse.result) {
                 geofenceResponse.result.forEach((v) => {
-                    let result = undefined;
-                    result = this.MapGeofence(v, result);
+                    let result = this.MapGeofence(v);
                     geofences.push(result);
                 });
             }
@@ -46,8 +56,7 @@ export default class GeofenceService {
             const geofences = new Array<CircleGeofence | PolygonGeofence>();
             if (geofenceResponse.result) {
                 geofenceResponse.result.forEach((v) => {
-                    let result = undefined;
-                    result = this.MapGeofence(v, result);
+                    let result = this.MapGeofence(v);
                     geofences.push(result);
                 });
             }
@@ -73,11 +82,11 @@ export default class GeofenceService {
         return RestUtilities.delete(`${projectId}/geofences/${externalId}`);
     }
 
-    private MapGeofence(v: CircleGeofence | PolygonGeofence, result: any) {
+    private MapGeofence(v: CircleGeofence | PolygonGeofence) {
         switch (v.shape) {
             case ShapePicker.CIRCLE: {
                 const castedShape = v as CircleGeofence;
-                result = new CircleGeofence(
+                const result = new CircleGeofence(
                     castedShape.projectId,
                     castedShape.externalId,
                     castedShape.labels,
@@ -93,11 +102,11 @@ export default class GeofenceService {
                     castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule()
                 );
                 result.id = castedShape.id;
-                break;
+                return result;
             }
             case ShapePicker.POLYGON: {
                 const castedShape = v as PolygonGeofence;
-                result = new PolygonGeofence(
+                const result = new PolygonGeofence(
                     castedShape.projectId,
                     castedShape.externalId,
                     castedShape.labels,
@@ -112,11 +121,10 @@ export default class GeofenceService {
                     castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule()
                 );
                 result.id = castedShape.id;
-                break;
+                return result;
             }
             default:
                 break;
         }
-        return result;
     }
 }

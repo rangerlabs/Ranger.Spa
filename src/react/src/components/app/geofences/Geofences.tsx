@@ -255,7 +255,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         const options = {
             textLabels: {
                 body: {
-                    noMatch: this.props.geofencesState.isTableLoaded ? 'Your organization has not created any geofences yet.' : '',
+                    noMatch: this.props.geofencesState.isTableLoaded ? 'Your organization has not created any geofences yet.' : 'Loading...',
                 },
             },
             print: false,

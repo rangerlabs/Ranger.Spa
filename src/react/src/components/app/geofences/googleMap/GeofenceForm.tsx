@@ -5,7 +5,6 @@ import { ApplicationState } from '../../../../stores/index';
 import classNames = require('classnames');
 import GeofenceDrawer from './drawer/GeofenceDrawer';
 import GoogleMapsWrapper from './GoogleMapsWrapper';
-import populateMapGeofencesHOC from '../../hocs/PopulateMapGeofencesHOC';
 import populateIntegrationsHOC from '../../hocs/PopulateIntegrationsHOC';
 
 const styles = (theme: Theme) =>
@@ -105,4 +104,4 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
     }
 }
 
-export default connect(mapStateToProps, null)(withStyles(styles)(populateIntegrationsHOC(populateMapGeofencesHOC(GeofenceForm))));
+export default connect(mapStateToProps, null)(withStyles(styles)(populateIntegrationsHOC(GeofenceForm)));

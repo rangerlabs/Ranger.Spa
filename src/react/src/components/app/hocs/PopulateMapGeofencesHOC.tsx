@@ -80,4 +80,4 @@ const populateMapGeofencesHOC = <P extends object>(Component: React.ComponentTyp
     return connect(mapStateToProps, mapDispatchToProps)(requireProjectSelection(populateProjectsHOC(PopulateGeofencesComponent)));
 };
 
-export default populateMapGeofencesHOC;
+// export default populateMapGeofencesHOC;
