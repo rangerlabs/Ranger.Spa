@@ -329,6 +329,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     };
 
     private registerBoundsChangeCallback = () => {
+        this.setBoundedGeofences();
         google.maps.event.addListener(this.map, 'bounds_changed', () => {
             var bounds = this.map.getBounds();
             var northEast = bounds.getNorthEast();
@@ -340,12 +341,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 new CoordinatePair(northEast.lng(), southWest.lat())
             );
             this.bounds$.next(boundsArray);
-            this.setBoundedGeofences();
         });
     };
 
     private setBoundedGeofences() {
-        this.subscription = this.bounds$.pipe(throttleTime(2000, asapScheduler, { trailing: true }), take(1)).subscribe((boundsArray) => {
+        this.subscription = this.bounds$.pipe(throttleTime(2000, asapScheduler, { trailing: true })).subscribe((boundsArray) => {
             console.log('bounds_changed triggerd');
             geofencesService.getBoundedGeofences(this.props.selectedProject.id, boundsArray).then((response) => {
                 if (response.isError) {
