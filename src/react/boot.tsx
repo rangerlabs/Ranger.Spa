@@ -25,7 +25,9 @@ import GlobalConfig from './src/helpers/GlobalConfig';
 import ReactGA from 'react-ga';
 import ScrollToTop from './src/components/scrollToTop/ScrollToTop';
 import * as FullStory from '@fullstory/browser';
+import ExtendPrototypes from './src/rxjs/debounceNonDistinct';
 
+ExtendPrototypes();
 InitializeDatadogLogging();
 InitializeGoogleAnalyticsInProduction();
 FullStory.init({ orgId: 'V5CAF' });

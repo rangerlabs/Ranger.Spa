@@ -524,6 +524,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         }
         this.props.removeMapGeofenceFromState();
     };
+
     clearTestRun = () => {
         this.removeMapClickHandler();
         if (this.newTestRunMapMarker) {
@@ -532,6 +533,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         }
         this.props.removeMapGeofenceFromState();
     };
+
     private registerAutoCompleteEventHandler() {
         this.autoCompletePlaceChangedListener = this.autoComplete.addListener('place_changed', (e: google.maps.MouseEvent) => {
             switch (this.props.selectedShape) {
