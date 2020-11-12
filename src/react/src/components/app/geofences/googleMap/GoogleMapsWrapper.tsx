@@ -298,7 +298,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             this.setState({ isMapFullyLoaded: true });
 
             this.registerBoundsChangeCallback();
-            this.setBoundedGeofences();
 
             this.props.mapFullyLoadedCallback();
 
