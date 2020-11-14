@@ -105,7 +105,6 @@ interface GeofenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarPro
     clearNewCircleGeofence: () => void;
     clearNewPolygonGeofence: () => void;
     clearNewTestRun: () => void;
-    registerBoundsChangeCallback: () => void;
     push: (path: string) => void;
 }
 
@@ -119,7 +118,6 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
         this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
         this.props.cancelCreatingGeofence();
-        this.props.registerBoundsChangeCallback();
     };
 
     getContent = () => {

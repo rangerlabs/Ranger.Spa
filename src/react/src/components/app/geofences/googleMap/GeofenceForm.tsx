@@ -87,9 +87,6 @@ class GeofenceForm extends React.Component<IFenceFormProps, FenceFormState> {
                     </div>
                     {this.state.isMapFullyLoaded && (
                         <GeofenceDrawer
-                            registerBoundsChangeCallback={() => {
-                                this.mapWrappedRef.current.registerBoundsChangedCallback();
-                            }}
                             clearNewCircleGeofence={() => {
                                 this.mapWrappedRef.current.clearCircle();
                             }}
