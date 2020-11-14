@@ -267,28 +267,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     this.removeGeofenceMarkers(deletedGeofences);
                 }
             }
-
-            if (prevProps.geofenceDrawerOpen === true && this.props.geofenceDrawerOpen === false) {
-                this.registerBoundsChangeCallback();
-            }
-
-            // const params = queryString.parse(window.location.search);
-            // const name = params['name'] as string;
-            // if (name) {
-            //     var geofence = this.props.existingGeofences.find((g) => g.externalId === name);
-            //     if (geofence) {
-            //         switch (geofence.shape) {
-            //             case ShapePicker.CIRCLE: {
-            //                 this.editCircleGeofenceMarker(geofence as CircleGeofence);
-            //                 break;
-            //             }
-            //             case ShapePicker.POLYGON: {
-            //                 this.editPolygonGeofenceMarker(geofence as PolygonGeofence);
-            //                 break;
-            //             }
-            //         }
-            //     }
-            // }
         }
     };
 
@@ -316,6 +294,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         google.maps.event.addListenerOnce(this.map, 'idle', () => {
             this.setState({ isMapFullyLoaded: true });
             this.registerBoundsChangeCallback();
+            google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
             this.props.mapFullyLoadedCallback();
             const params = queryString.parse(window.location.search);
             const name = params['name'] as string;
@@ -334,7 +313,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         }
     };
 
-    private registerBoundsChangeCallback = () => {
+    registerBoundsChangeCallback = () => {
         this.setBoundedGeofences();
         this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', () => {
             var bounds = this.map.getBounds();

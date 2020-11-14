@@ -15,6 +15,7 @@ import { MergedIntegrationType } from '../../../../../models/app/integrations/Me
 import AddTimeFormatValidatorToYup from '../../../../../yup/AddTimeGreaterThanValidatorToYup';
 import TestRun from '../../../../../models/app/geofences/TestRun';
 import TestRunDrawerContent from './TestRunDrawerContent';
+import { push } from 'connected-react-router';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -84,6 +85,9 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = setCreatingGeofence(false);
             dispatch(action);
         },
+        push: (path: string) => {
+            dispatch(push(path));
+        },
     };
 };
 
@@ -101,6 +105,8 @@ interface GeofenceDrawerProps extends WithStyles<typeof styles>, WithSnackbarPro
     clearNewCircleGeofence: () => void;
     clearNewPolygonGeofence: () => void;
     clearNewTestRun: () => void;
+    registerBoundsChangeCallback: () => void;
+    push: (path: string) => void;
 }
 
 class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
@@ -110,8 +116,10 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
     }
 
     closeDrawer = () => {
+        this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
         this.props.closeDrawer();
         this.props.cancelCreatingGeofence();
+        this.props.registerBoundsChangeCallback();
     };
 
     getContent = () => {
@@ -124,7 +132,7 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                         editGeofence={this.props.editGeofence as CircleGeofence}
                         integrations={this.props.integrations}
                         closeDrawer={this.closeDrawer}
-                        clearNewCircleGeofence={this.props.clearNewCircleGeofence}
+                        onDrawerClose={this.props.clearNewCircleGeofence}
                     />
                 );
             }
@@ -136,7 +144,7 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                         editGeofence={this.props.editGeofence as PolygonGeofence}
                         integrations={this.props.integrations}
                         closeDrawer={this.closeDrawer}
-                        clearNewPolygonGeofence={this.props.clearNewPolygonGeofence}
+                        onDrawerClose={this.props.clearNewPolygonGeofence}
                     />
                 );
             }
@@ -146,7 +154,7 @@ class GeofenceDrawer extends React.Component<GeofenceDrawerProps> {
                         selectedProject={this.props.selectedProject}
                         testRun={this.props.mapObject as TestRunState}
                         closeDrawer={this.closeDrawer}
-                        clearNewTestRun={this.props.clearNewTestRun}
+                        onDrawerClose={this.props.clearNewTestRun}
                     />
                 );
             }

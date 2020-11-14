@@ -77,7 +77,7 @@ interface PolygonGeofenceFormProps extends WithStyles<typeof styles>, WithSnackb
     addGeofenceToPendingCreation: (geofence: PolygonGeofence) => void;
     addGeofenceToPendingDeletion: (geofence: PolygonGeofence) => void;
     addGeofenceToPendingUpdate: (old: PolygonGeofence, geofence: PolygonGeofence) => void;
-    clearNewPolygonGeofence: () => void;
+    onDrawerClose: () => void;
     push: (path: string) => void;
 }
 
@@ -154,9 +154,8 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingCreation(geofence);
-                this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+                this.props.onDrawerClose();
                 this.props.closeDrawer();
-                this.props.clearNewPolygonGeofence();
             } else {
                 this.setState({ serverErrors: [v.error.message] });
             }
@@ -171,8 +170,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingUpdate(this.props.editGeofence, geofence);
-                this.props.clearNewPolygonGeofence();
-                this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+                this.props.onDrawerClose();
                 this.props.closeDrawer();
             } else {
                 this.setState({ serverErrors: [v.error.message] });
@@ -187,8 +185,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             if (!v.isError) {
                 this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
-                this.props.clearNewPolygonGeofence();
-                this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+                this.props.onDrawerClose();
                 this.props.closeDrawer();
             }
             this.setState({ isSuccess: false });
@@ -200,9 +197,8 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         if (this.props.editGeofence) {
             this.props.saveGeofenceToState(this.props.editGeofence);
         }
-        this.props.clearNewPolygonGeofence();
         this.setState({ serverErrors: undefined });
-        this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+        this.props.onDrawerClose();
         this.props.closeDrawer();
     };
 

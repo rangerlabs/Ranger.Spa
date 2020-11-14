@@ -81,7 +81,7 @@ interface CircleGeofenceFormProps extends WithStyles<typeof styles>, WithSnackba
     addGeofenceToPendingCreation: (geofence: CircleGeofence) => void;
     addGeofenceToPendingDeletion: (geofence: CircleGeofence) => void;
     addGeofenceToPendingUpdate: (old: CircleGeofence, geofence: CircleGeofence) => void;
-    clearNewCircleGeofence: () => void;
+    onDrawerClose: () => void;
     push: (path: string) => void;
 }
 
@@ -158,8 +158,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingCreation(geofence);
-                this.props.clearNewCircleGeofence();
-                this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+                this.props.onDrawerClose();
                 this.props.closeDrawer();
             } else {
                 this.setState({ serverErrors: [v.error.message] });
@@ -175,8 +174,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingUpdate(this.props.editGeofence, geofence);
-                this.props.clearNewCircleGeofence();
-                this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+                this.props.onDrawerClose();
                 this.props.closeDrawer();
             } else {
                 this.setState({ serverErrors: [v.error.message] });
@@ -191,8 +189,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             if (!v.isError) {
                 this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
-                this.props.clearNewCircleGeofence();
-                this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+                this.props.onDrawerClose();
                 this.props.closeDrawer();
             }
             this.setState({ isSuccess: false });
@@ -204,9 +201,8 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
         if (this.props.editGeofence) {
             this.props.saveGeofenceToState(this.props.editGeofence);
         }
-        this.props.clearNewCircleGeofence();
         this.setState({ serverErrors: undefined });
-        this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+        this.props.onDrawerClose();
         this.props.closeDrawer();
     };
 

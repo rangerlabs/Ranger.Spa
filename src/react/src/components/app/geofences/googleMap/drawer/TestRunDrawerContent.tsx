@@ -57,7 +57,7 @@ interface TesRunFormProps extends WithStyles<typeof styles>, WithSnackbarProps {
     selectedProject: IProject;
     closeDrawer: () => void;
     openDialog: (dialogCotent: DialogContent) => void;
-    clearNewTestRun: () => void;
+    onDrawerClose: () => void;
     push: (path: string) => void;
 }
 
@@ -109,9 +109,8 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 this.props.enqueueSnackbar('Executing test run...', { variant: 'success' });
-                this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
                 this.props.closeDrawer();
-                this.props.clearNewTestRun();
+                this.props.onDrawerClose();
             } else {
                 this.setState({ serverErrors: [v.error.message] });
                 this.props.enqueueSnackbar('Failed to execute test run', { variant: 'error' });
@@ -123,9 +122,8 @@ class TestRunDrawerContent extends React.Component<TesRunFormProps, TestRunFormS
 
     cancelGeofence = () => {
         this.setState({ cancelClicked: true });
-        this.props.clearNewTestRun();
         this.setState({ serverErrors: undefined });
-        this.props.push('/' + this.props.selectedProject.name + '/geofences/map');
+        this.props.onDrawerClose();
         this.props.closeDrawer();
     };
 
