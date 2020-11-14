@@ -51,9 +51,7 @@ export default class GeofenceService {
         sortOrder: SortOrder = 'desc'
     ): Promise<IRestResponse<Array<CircleGeofence | PolygonGeofence>>> {
         const jsonBounds = bounds.map((b) => JSON.stringify(b)).join(';');
-        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(
-            `${projectId}/geofences?orderBy=${orderBy}&sortOrder=${sortOrder}&bounds=${jsonBounds}`
-        ).then((geofenceResponse) => {
+        return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectId}/geofences?bounds=${jsonBounds}`).then((geofenceResponse) => {
             const geofences = new Array<CircleGeofence | PolygonGeofence>();
             if (geofenceResponse.result) {
                 geofenceResponse.result.forEach((v) => {

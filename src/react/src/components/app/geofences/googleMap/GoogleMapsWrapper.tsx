@@ -184,6 +184,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
     mapClickListener: google.maps.MapsEventListener = undefined;
     autoCompletePlaceChangedListener: google.maps.MapsEventListener = undefined;
+    boundsChangedListener: google.maps.MapsEventListener = undefined;
 
     newCircleGeofenceMapMarker: NewCircleGeofenceMapMarker = undefined;
     newPolygonGeofenceMapMarker: NewPolygonGeofenceMapMarker = undefined;
@@ -221,6 +222,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
+        google.maps.event.clearInstanceListeners(this.map);
     }
 
     componentDidMount = () => {
@@ -264,6 +266,10 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 if (deletedGeofences && deletedGeofences.length > 0) {
                     this.removeGeofenceMarkers(deletedGeofences);
                 }
+            }
+
+            if (prevProps.isCreating === true && this.props.isCreating === false) {
+                this.registerBoundsChangeCallback();
             }
 
             // const params = queryString.parse(window.location.search);
@@ -330,7 +336,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
     private registerBoundsChangeCallback = () => {
         this.setBoundedGeofences();
-        google.maps.event.addListener(this.map, 'bounds_changed', () => {
+        this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', () => {
             var bounds = this.map.getBounds();
             var northEast = bounds.getNorthEast();
             var southWest = bounds.getSouthWest();
@@ -344,8 +350,12 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         });
     };
 
+    private removeBoundsChangeCallback = () => {
+        google.maps.event.removeListener(this.boundsChangedListener);
+    };
+
     private setBoundedGeofences() {
-        this.subscription = this.bounds$.pipe(throttleTime(2000, asapScheduler, { trailing: true })).subscribe((boundsArray) => {
+        this.subscription = this.bounds$.pipe(throttleTime(500, asapScheduler, { trailing: true })).subscribe((boundsArray) => {
             console.log('bounds_changed triggerd');
             geofencesService.getBoundedGeofences(this.props.selectedProject.id, boundsArray).then((response) => {
                 if (response.isError) {
@@ -627,6 +637,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     };
 
     private editPolygonGeofenceMarker(geofence: PolygonGeofence) {
+        this.removeBoundsChangeCallback();
         this.removeMapClickHandler();
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.POLYGON);
@@ -640,6 +651,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     }
 
     private editCircleGeofenceMarker(geofence: CircleGeofence) {
+        this.removeBoundsChangeCallback();
         this.removeMapClickHandler();
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.CIRCLE);
