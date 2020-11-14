@@ -350,9 +350,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     switch (editGeofence.shape) {
                         case ShapePicker.CIRCLE: {
                             this.editCircleGeofenceMarker(editGeofence as CircleGeofence);
+                            break;
                         }
                         case ShapePicker.POLYGON: {
                             this.editPolygonGeofenceMarker(editGeofence as PolygonGeofence);
+                            break;
                         }
                     }
                 }
