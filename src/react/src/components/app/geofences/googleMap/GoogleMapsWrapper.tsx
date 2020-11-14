@@ -293,13 +293,14 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
         google.maps.event.addListenerOnce(this.map, 'idle', () => {
             this.setState({ isMapFullyLoaded: true });
-            this.registerBoundsChangeCallback();
-            google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
-            this.props.mapFullyLoadedCallback();
             const params = queryString.parse(window.location.search);
             const name = params['name'] as string;
             if (name) {
                 this.initializeEditGeofence(name);
+            } else {
+                this.registerBoundsChangeCallback();
+                google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
+                this.props.mapFullyLoadedCallback();
             }
         });
 
@@ -314,7 +315,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     };
 
     registerBoundsChangeCallback = () => {
-        this.setBoundedGeofences();
+        this.setBoundsChangedSubscription();
         this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', () => {
             var bounds = this.map.getBounds();
             var northEast = bounds.getNorthEast();
@@ -333,7 +334,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         google.maps.event.removeListener(this.boundsChangedListener);
     };
 
-    private setBoundedGeofences() {
+    private setBoundsChangedSubscription() {
         this.subscription = this.bounds$.pipe(throttleTime(700, asapScheduler, { trailing: true })).subscribe((boundsArray) => {
             geofencesService.getBoundedGeofences(this.props.selectedProject.id, boundsArray).then((response) => {
                 if (response.isError) {
@@ -348,20 +349,19 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     private initializeEditGeofence(name: string) {
         geofencesService.getGeofence(this.props.selectedProject.id, name).then((geofenceResponse) => {
             if (geofenceResponse.result) {
-                if (geofenceResponse.result) {
-                    switch (geofenceResponse.result.shape) {
-                        case ShapePicker.CIRCLE: {
-                            this.map.panTo((geofenceResponse.result as CircleGeofence).coordinates[0]);
-                            this.setBoundedGeofences();
-                            break;
-                        }
-                        case ShapePicker.POLYGON: {
-                            this.map.panTo(this.getPolygonCenter(geofenceResponse.result as PolygonGeofence));
-                            this.setBoundedGeofences();
-                            break;
-                        }
+                switch (geofenceResponse.result.shape) {
+                    case ShapePicker.CIRCLE: {
+                        this.map.panTo((geofenceResponse.result as CircleGeofence).coordinates[0]);
+                        break;
+                    }
+                    case ShapePicker.POLYGON: {
+                        this.map.panTo(this.getPolygonCenter(geofenceResponse.result as PolygonGeofence));
+                        break;
                     }
                 }
+                this.registerBoundsChangeCallback();
+                google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
+                this.props.mapFullyLoadedCallback();
             }
         });
     }
