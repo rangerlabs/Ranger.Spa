@@ -298,7 +298,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             if (name) {
                 this.initializeEditGeofence(name);
             } else {
-                this.registerBoundsChangeCallback();
+                this.registerBoundsChangedCallback();
                 google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
                 this.props.mapFullyLoadedCallback();
             }
@@ -314,7 +314,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         }
     };
 
-    registerBoundsChangeCallback = () => {
+    registerBoundsChangedCallback = () => {
         this.setBoundsChangedSubscription();
         this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', () => {
             var bounds = this.map.getBounds();
@@ -342,6 +342,20 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 } else {
                     this.props.setMapGeofences(response.result);
                 }
+
+                const params = queryString.parse(window.location.search);
+                const name = params['name'] as string;
+                if (name) {
+                    const editGeofence = this.props.existingGeofences.find((g) => g.externalId === name);
+                    switch (editGeofence.shape) {
+                        case ShapePicker.CIRCLE: {
+                            this.editCircleGeofenceMarker(editGeofence as CircleGeofence);
+                        }
+                        case ShapePicker.POLYGON: {
+                            this.editPolygonGeofenceMarker(editGeofence as PolygonGeofence);
+                        }
+                    }
+                }
             });
         });
     }
@@ -359,7 +373,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         break;
                     }
                 }
-                this.registerBoundsChangeCallback();
+                this.registerBoundsChangedCallback();
                 google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
                 this.props.mapFullyLoadedCallback();
             }
