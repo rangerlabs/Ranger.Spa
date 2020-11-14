@@ -186,6 +186,7 @@ interface WrapperProps extends WithStyles<typeof styles> {
 
 interface GoogleMapsWrapperState {
     isMapFullyLoaded: boolean;
+    hasMadeFirstRequest: boolean;
 }
 
 class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperState> {
@@ -206,6 +207,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
     state = {
         isMapFullyLoaded: false,
+        hasMadeFirstRequest: false,
     };
 
     constructor(props: WrapperProps) {
@@ -353,7 +355,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 }
 
                 const editName = queryParameterName();
-                if (!this.state.isMapFullyLoaded && editName) {
+                if (!this.state.hasMadeFirstRequest && editName) {
                     const editGeofence = response.result.find((g) => g.externalId === editName);
                     switch (editGeofence.shape) {
                         case ShapePicker.CIRCLE: {
@@ -366,6 +368,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         }
                     }
                 }
+                this.setState({ hasMadeFirstRequest: true });
             });
         });
     }
