@@ -606,7 +606,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                             name={geofenceName}
                             onEdit={() => {
                                 this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + geofenceName);
-                                this.editCircleGeofenceMarker(geofence as CircleGeofence);
+                                // this.editCircleGeofenceMarker(geofence as CircleGeofence);
                             }}
                         />
                     ) : (
@@ -614,7 +614,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                             name={geofenceName}
                             onEdit={() => {
                                 this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + geofenceName);
-                                this.editPolygonGeofenceMarker(geofence as PolygonGeofence);
+                                // this.editPolygonGeofenceMarker(geofence as PolygonGeofence);
                             }}
                         />
                     );
