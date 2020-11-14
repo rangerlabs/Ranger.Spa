@@ -239,6 +239,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             this.subscription.unsubscribe();
         }
         google.maps.event.clearInstanceListeners(this.map);
+        this.props.resetMapGeofences();
     }
 
     componentDidMount = () => {
@@ -352,23 +353,23 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     // if status code is 400 show too many geofences warning
                 } else {
                     this.props.setMapGeofences(response.result);
-                }
 
-                const editName = queryParameterName();
-                if (!this.state.hasMadeFirstRequest && editName) {
-                    const editGeofence = response.result.find((g) => g.externalId === editName);
-                    switch (editGeofence.shape) {
-                        case ShapePicker.CIRCLE: {
-                            this.editCircleGeofenceMarker(editGeofence as CircleGeofence);
-                            break;
-                        }
-                        case ShapePicker.POLYGON: {
-                            this.editPolygonGeofenceMarker(editGeofence as PolygonGeofence);
-                            break;
+                    const editName = queryParameterName();
+                    if (!this.state.hasMadeFirstRequest && editName) {
+                        const editGeofence = response.result.find((g) => g.externalId === editName);
+                        switch (editGeofence.shape) {
+                            case ShapePicker.CIRCLE: {
+                                this.editCircleGeofenceMarker(editGeofence as CircleGeofence);
+                                break;
+                            }
+                            case ShapePicker.POLYGON: {
+                                this.editPolygonGeofenceMarker(editGeofence as PolygonGeofence);
+                                break;
+                            }
                         }
                     }
+                    this.setState({ hasMadeFirstRequest: true });
                 }
-                this.setState({ hasMadeFirstRequest: true });
             });
         });
     }
