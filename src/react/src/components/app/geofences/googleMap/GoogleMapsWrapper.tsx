@@ -311,9 +311,9 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             if (name) {
                 this.initializeEditGeofence(name);
             } else {
+                this.props.mapFullyLoadedCallback();
                 this.registerBoundsChangedCallback();
                 google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
-                this.props.mapFullyLoadedCallback();
             }
         });
 
@@ -343,10 +343,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         });
     };
 
-    private removeBoundsChangeCallback = () => {
-        google.maps.event.removeListener(this.boundsChangedListener);
-    };
-
     private setBoundsChangedSubscription() {
         this.subscription = this.bounds$.pipe(throttleTime(700, asapScheduler, { trailing: true })).subscribe((boundsArray) => {
             geofencesService.getBoundedGeofences(this.props.selectedProject.id, boundsArray).then((response) => {
@@ -370,7 +366,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         }
                     }
                 }
-                this.props.mapFullyLoadedCallback();
             });
         });
     }
@@ -388,6 +383,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         break;
                     }
                 }
+                this.props.mapFullyLoadedCallback();
                 this.registerBoundsChangedCallback();
                 google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
             }
