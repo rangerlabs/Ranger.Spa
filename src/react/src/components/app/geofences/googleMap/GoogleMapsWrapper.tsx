@@ -309,11 +309,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
         google.maps.event.addListenerOnce(this.map, 'idle', () => {
             this.setState({ isMapFullyLoaded: true });
+            this.props.mapFullyLoadedCallback();
             const name = queryParameterName();
             if (name) {
                 this.initializeEditGeofence(name);
             } else {
-                this.props.mapFullyLoadedCallback();
                 this.registerBoundsChangedCallback();
                 google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
             }
@@ -386,7 +386,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         break;
                     }
                 }
-                this.props.mapFullyLoadedCallback();
                 this.registerBoundsChangedCallback();
                 google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
             }
