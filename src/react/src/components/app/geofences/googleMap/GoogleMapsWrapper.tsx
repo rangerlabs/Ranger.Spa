@@ -35,8 +35,7 @@ import IProject from '../../../../models/app/IProject';
 import Loading from '../../../loading/Loading';
 import GoogleMapsSpeedDial from './GoogleMapsSpeedDial';
 import { Subject, Subscription, asapScheduler } from 'rxjs';
-import { debounceTime, throttleTime, take } from 'rxjs/operators';
-import { ThrottleConfig } from 'rxjs/internal/operators/throttle';
+import { throttleTime } from 'rxjs/operators';
 const DraggableCursor = require('../../../../../assets/plus-primary.png');
 
 const geofencesService = new GeofenceService();
@@ -74,12 +73,30 @@ const StyledSearchTextField = withStyles({
     },
 })(TextField);
 
+const queryParameterName = function () {
+    const params = queryString.parse(window.location.search);
+    const name = params['name'] as string;
+    return name;
+};
+
 const mapStateToProps = (state: ApplicationState) => {
+    let mapGeofences: (CircleGeofence | PolygonGeofence)[] = undefined;
+    let editGeofence: CircleGeofence | PolygonGeofence = undefined;
+    const name = queryParameterName();
+    const concatenatedGeofences = state.geofencesState.mapGeofences
+        .concat(state.geofencesState.pendingCreation)
+        .concat(state.geofencesState.pendingUpdate.map((u) => u.updated));
+    if (name) {
+        mapGeofences = concatenatedGeofences.filter((g) => g.externalId !== name);
+        editGeofence = concatenatedGeofences.find((g) => g.externalId === name);
+    } else {
+        mapGeofences = concatenatedGeofences;
+    }
+
     return {
         selectedShape: state.googleMaps.selectedShapePicker,
-        existingGeofences: state.geofencesState.mapGeofences
-            .concat(state.geofencesState.pendingCreation)
-            .concat(state.geofencesState.pendingUpdate.map((u) => u.updated)),
+        existingGeofences: mapGeofences,
+        editGeofence: editGeofence,
         geofenceDrawerOpen: state.geofenceDrawer.isOpen,
         isCreating: state.googleMaps.isCreatingGeofence,
         isPolygonClosed: Boolean(state.googleMaps.polygonGeofence),
@@ -146,6 +163,7 @@ const mergeProps = (stateProps: any, dispatchProps: any, own: any) => ({ ...stat
 interface WrapperProps extends WithStyles<typeof styles> {
     selectedShape: ShapePicker;
     existingGeofences: (CircleGeofence | PolygonGeofence)[];
+    editGeofence: CircleGeofence | PolygonGeofence;
     geofenceDrawerOpen: boolean;
     push: (path: string) => void;
     addCircleGeofence: (lngLat: CoordinatePair, radius: number) => void;
@@ -267,6 +285,19 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     this.removeGeofenceMarkers(deletedGeofences);
                 }
             }
+
+            if (this.props.editGeofence) {
+                switch (this.props.editGeofence.shape) {
+                    case ShapePicker.CIRCLE: {
+                        this.editCircleGeofenceMarker(this.props.editGeofence as CircleGeofence);
+                        break;
+                    }
+                    case ShapePicker.POLYGON: {
+                        this.editPolygonGeofenceMarker(this.props.editGeofence as PolygonGeofence);
+                        break;
+                    }
+                }
+            }
         }
     };
 
@@ -293,8 +324,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
         google.maps.event.addListenerOnce(this.map, 'idle', () => {
             this.setState({ isMapFullyLoaded: true });
-            const params = queryString.parse(window.location.search);
-            const name = params['name'] as string;
+            const name = queryParameterName();
             if (name) {
                 this.initializeEditGeofence(name);
             } else {
@@ -341,22 +371,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     // if status code is 400 show too many geofences warning
                 } else {
                     this.props.setMapGeofences(response.result);
-                }
-
-                const params = queryString.parse(window.location.search);
-                const name = params['name'] as string;
-                if (name) {
-                    const editGeofence = this.props.existingGeofences.find((g) => g.externalId === name);
-                    switch (editGeofence.shape) {
-                        case ShapePicker.CIRCLE: {
-                            this.editCircleGeofenceMarker(editGeofence as CircleGeofence);
-                            break;
-                        }
-                        case ShapePicker.POLYGON: {
-                            this.editPolygonGeofenceMarker(editGeofence as PolygonGeofence);
-                            break;
-                        }
-                    }
                 }
             });
         });
@@ -606,7 +620,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                             name={geofenceName}
                             onEdit={() => {
                                 this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + geofenceName);
-                                // this.editCircleGeofenceMarker(geofence as CircleGeofence);
+                                this.editCircleGeofenceMarker(geofence as CircleGeofence);
                             }}
                         />
                     ) : (
@@ -614,7 +628,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                             name={geofenceName}
                             onEdit={() => {
                                 this.props.push('/' + window.location.pathname.split('/')[1] + '/geofences/map/edit?name=' + geofenceName);
-                                // this.editPolygonGeofenceMarker(geofence as PolygonGeofence);
+                                this.editPolygonGeofenceMarker(geofence as PolygonGeofence);
                             }}
                         />
                     );
@@ -631,7 +645,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     };
 
     private editPolygonGeofenceMarker(geofence: PolygonGeofence) {
-        this.removeBoundsChangeCallback();
         this.removeMapClickHandler();
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.POLYGON);
@@ -645,7 +658,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     }
 
     private editCircleGeofenceMarker(geofence: CircleGeofence) {
-        this.removeBoundsChangeCallback();
         this.removeMapClickHandler();
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.CIRCLE);
