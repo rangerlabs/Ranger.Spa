@@ -286,7 +286,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 }
             }
 
-            if (this.props.editGeofence) {
+            if (!prevProps.editGeofence && this.props.editGeofence) {
                 switch (this.props.editGeofence.shape) {
                     case ShapePicker.CIRCLE: {
                         this.editCircleGeofenceMarker(this.props.editGeofence as CircleGeofence);
@@ -649,7 +649,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.POLYGON);
         this.props.openDrawer(geofence);
-        this.props.removeGeofenceByExternalId(geofence.externalId);
         this.newPolygonGeofenceMapMarker = new NewPolygonGeofenceMapMarker(
             this.map,
             geofence.coordinates.map((v) => new google.maps.LatLng(v.lat, v.lng)),
@@ -662,7 +661,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.closeInfoWindow();
         this.props.selectShapePicker(ShapePicker.CIRCLE);
         this.props.openDrawer(geofence);
-        this.props.removeGeofenceByExternalId(geofence.externalId);
         this.newCircleGeofenceMapMarker = new NewCircleGeofenceMapMarker(
             this.map,
             new google.maps.LatLng(geofence.coordinates[0].lat, geofence.coordinates[0].lng),
