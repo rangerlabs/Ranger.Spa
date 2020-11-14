@@ -268,7 +268,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 }
             }
 
-            if (prevProps.isCreating === true && this.props.isCreating === false) {
+            if (prevProps.geofenceDrawerOpen === true && this.props.geofenceDrawerOpen === false) {
                 this.registerBoundsChangeCallback();
             }
 
@@ -355,8 +355,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     };
 
     private setBoundedGeofences() {
-        this.subscription = this.bounds$.pipe(throttleTime(500, asapScheduler, { trailing: true })).subscribe((boundsArray) => {
-            console.log('bounds_changed triggerd');
+        this.subscription = this.bounds$.pipe(throttleTime(700, asapScheduler, { trailing: true })).subscribe((boundsArray) => {
             geofencesService.getBoundedGeofences(this.props.selectedProject.id, boundsArray).then((response) => {
                 if (response.isError) {
                     // if status code is 400 show too many geofences warning
