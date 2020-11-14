@@ -198,9 +198,6 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
 
     cancelGeofence = () => {
         this.setState({ cancelClicked: true });
-        if (this.props.editGeofence) {
-            this.props.saveGeofenceToState(this.props.editGeofence);
-        }
         this.setState({ serverErrors: undefined });
         this.props.onDrawerClose();
         this.props.closeDrawer();
