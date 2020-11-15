@@ -10,7 +10,7 @@ const styles = (theme: Theme) =>
             position: 'absolute',
             height: theme.toolbar.height,
             zIndex: 1,
-            width: `calc(100% - ${theme.drawer.width}) !important`,
+            width: `calc(100% - ${theme.drawer.width}px) !important`,
         },
         barItem: {
             background: orange[300],
