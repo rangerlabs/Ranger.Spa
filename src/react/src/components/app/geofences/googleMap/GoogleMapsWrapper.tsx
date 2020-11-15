@@ -37,6 +37,7 @@ import GoogleMapsSpeedDial from './GoogleMapsSpeedDial';
 import { Subject, Subscription, asapScheduler } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
 import GoogleMapsLoadingSpinner from './GoogleMapsLoadingSpinner';
+import GoogleMapsWarningBar from './GoogleMapsWarningBar';
 const DraggableCursor = require('../../../../../assets/plus-primary.png');
 
 const geofencesService = new GeofenceService();
@@ -189,6 +190,8 @@ interface GoogleMapsWrapperState {
     isMapFullyLoaded: boolean;
     hasMadeFirstRequest: boolean;
     showSpinner: boolean;
+    showWarning: boolean;
+    warning: string;
 }
 
 class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperState> {
@@ -211,6 +214,8 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         isMapFullyLoaded: false,
         hasMadeFirstRequest: false,
         showSpinner: false,
+        showWarning: true,
+        warning: 'Warning',
     };
 
     constructor(props: WrapperProps) {
@@ -354,7 +359,10 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
             this.setState({ showSpinner: true });
             geofencesService.getBoundedGeofences(this.props.selectedProject.id, boundsArray).then((response) => {
                 if (response.isError) {
-                    // if status code is 400 show too many geofences warning
+                    this.setState({
+                        showWarning: true,
+                        warning: 'The viewing area contains more than 1000 geofences. Zoom in to view the contained geofences.',
+                    });
                 } else {
                     this.props.setMapGeofences(response.result);
 
@@ -381,7 +389,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
     private initializeEditGeofence(name: string) {
         geofencesService.getGeofence(this.props.selectedProject.id, name).then((geofenceResponse) => {
-            if (geofenceResponse.result) {
+            if (geofenceResponse.isError) {
+                this.setState({ showWarning: true, warning: `No geofence was found for External Id: ${name}` });
+                this.registerBoundsChangedCallback();
+                google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
+            } else {
                 switch (geofenceResponse.result.shape) {
                     case ShapePicker.CIRCLE: {
                         this.map.panTo((geofenceResponse.result as CircleGeofence).coordinates[0]);
@@ -676,6 +688,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         return (
             <React.Fragment>
                 <StyledSearchTextField className={classes.autoComplete} id="google-places-search" variant="outlined" fullWidth />
+                <GoogleMapsWarningBar enabled={this.state.showWarning} message={this.state.warning} />
                 {!this.state.isMapFullyLoaded && <Loading wasError={false} />}
                 <div className={classes.mapContainer} id={this.props.id} />
                 {this.state.isMapFullyLoaded && (
