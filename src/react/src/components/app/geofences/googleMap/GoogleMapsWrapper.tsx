@@ -695,15 +695,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         return (
             <React.Fragment>
                 <StyledSearchTextField className={classes.autoComplete} id="google-places-search" variant="outlined" fullWidth />
+                <GoogleMapsWarningBar onDismiss={() => this.setState({ showWarning: false })} enabled={this.state.showWarning} message={this.state.warning} />
                 {!this.state.isMapFullyLoaded && <Loading wasError={false} />}
                 <div className={classes.mapContainer} id={this.props.id} />
                 {this.state.isMapFullyLoaded && (
                     <React.Fragment>
-                        <GoogleMapsWarningBar
-                            onDismiss={() => this.setState({ showWarning: false })}
-                            enabled={this.state.showWarning}
-                            message={this.state.warning}
-                        />
                         <GoogleMapsLoadingSpinner map={this.map} enabled={this.state.showSpinner} />
                         <GoogleMapsSpeedDial
                             map={this.map}
