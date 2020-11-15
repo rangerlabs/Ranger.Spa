@@ -28,39 +28,31 @@ interface GoogleMapsWarningBarProps extends WithStyles<typeof styles> {
 class GoogleMapsWarningBar extends React.Component<GoogleMapsWarningBarProps> {
     constructor(props: GoogleMapsWarningBarProps) {
         super(props);
-        this.googleMapsInfoWindowOpenerContainer = document.createElement('div');
-        this.props.map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.googleMapsInfoWindowOpenerContainer);
+        this.googleMapsWarningContainer = document.createElement('div');
+        this.props.map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.googleMapsWarningContainer);
     }
-    googleMapsInfoWindowOpenerContainer: HTMLDivElement = undefined;
+    googleMapsWarningContainer: HTMLDivElement = undefined;
 
     render() {
         return (
             this.props.enabled &&
             createPortal(
-                <Grow in={this.props.enabled} timeout={550}>
-                    <Grid container alignItems="center" justify="center" className={this.props.classes.bar}>
+                <Grow in={this.props.enabled} timeout={{ appear: 550, enter: 550, exit: 550 }}>
+                    <Grid container className={this.props.classes.bar}>
                         <Grid item>
                             <Typography className={this.props.classes.whiteText} align="center">
                                 {this.props.message}
+                                <IconButton onClick={this.props.onDismiss} aria-label="close">
+                                    <CloseCircle htmlColor={Constants.COLORS.WHITE} fontSize="inherit" />
+                                </IconButton>
                             </Typography>
-                            <IconButton onClick={this.props.onDismiss} aria-label="close">
-                                <CloseCircle htmlColor={Constants.COLORS.WHITE} fontSize="inherit" />
-                            </IconButton>
                         </Grid>
                     </Grid>
                 </Grow>,
-                this.googleMapsInfoWindowOpenerContainer
+                this.googleMapsWarningContainer
             )
         );
     }
 }
-
-// const GoogleMapsWarningBar = function (props: GoogleMapsWarningBarProps) {
-//     const classes = useStyles();
-//         this.props.map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.googleMapsInfoWindowOpenerContainer);
-//     return (
-
-//     );
-// };
 
 export default withStyles(styles)(GoogleMapsWarningBar);

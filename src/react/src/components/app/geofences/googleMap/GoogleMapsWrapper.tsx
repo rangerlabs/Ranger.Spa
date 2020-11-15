@@ -366,7 +366,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     if (response.result.length === 0) {
                         this.setState({
                             showWarning: true,
-                            warning: 'The viewing area does not contain any geofences.',
+                            warning: 'The viewing area does not contain any geofences. Hover over the speed dial below to create one.',
                         });
                     } else {
                         this.setState({ showWarning: false });
