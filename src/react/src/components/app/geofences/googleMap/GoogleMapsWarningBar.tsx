@@ -3,11 +3,14 @@ import { Theme, Typography, Grow, Grid, createStyles, withStyles, WithStyles, Ic
 import { createPortal } from 'react-dom';
 import CloseCircle from 'mdi-material-ui/CloseCircle';
 import Constants from '../../../../theme/Constants';
+import { relative } from 'path';
 
 const styles = (theme: Theme) =>
     createStyles({
         bar: {
             padding: '0px 100px',
+            position: 'relative',
+            left: '-50%',
             borderBottomLeftRadius: 15,
             borderBottomRightRadius: 15,
             height: theme.toolbar.height,
@@ -29,6 +32,7 @@ class GoogleMapsWarningBar extends React.Component<GoogleMapsWarningBarProps> {
     constructor(props: GoogleMapsWarningBarProps) {
         super(props);
         this.googleMapsWarningContainer = document.createElement('div');
+        this.googleMapsWarningContainer.style.left = '50%';
         this.props.map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.googleMapsWarningContainer);
     }
     googleMapsWarningContainer: HTMLDivElement = undefined;
