@@ -14,10 +14,10 @@ export default class GeofenceService {
         return RestUtilities.get<CircleGeofence | PolygonGeofence>(`${projectId}/geofences?externalId=${externalId}`).then((geofenceResponse) => {
             if (geofenceResponse.result) {
                 var geofence = this.MapGeofence(geofenceResponse.result);
-                return Object.assign({}, geofenceResponse, { result: geofence } as IRestResponse<CircleGeofence | PolygonGeofence>) as IRestResponse<
-                    CircleGeofence | PolygonGeofence
-                >;
             }
+            return Object.assign({}, geofenceResponse, { result: geofence } as IRestResponse<CircleGeofence | PolygonGeofence>) as IRestResponse<
+                CircleGeofence | PolygonGeofence
+            >;
         });
     }
 

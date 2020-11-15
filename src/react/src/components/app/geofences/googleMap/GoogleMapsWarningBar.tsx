@@ -5,7 +5,9 @@ import { createPortal } from 'react-dom';
 const styles = (theme: Theme) =>
     createStyles({
         bar: {
-            width: '100%',
+            padding: '0px 100px',
+            borderBottomLeftRadius: 15,
+            borderBottomRightRadius: 15,
             height: theme.toolbar.height,
             background: theme.palette.warning.main,
             zIndex: theme.mixins.toolbar.zIndex,
