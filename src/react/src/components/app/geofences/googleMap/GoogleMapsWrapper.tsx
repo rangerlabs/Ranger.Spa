@@ -36,6 +36,7 @@ import Loading from '../../../loading/Loading';
 import GoogleMapsSpeedDial from './GoogleMapsSpeedDial';
 import { Subject, Subscription, asapScheduler } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
+import GoogleMapsLoadingSpinner from './GoogleMapsLoadingSpinner';
 const DraggableCursor = require('../../../../../assets/plus-primary.png');
 
 const geofencesService = new GeofenceService();
@@ -187,6 +188,7 @@ interface WrapperProps extends WithStyles<typeof styles> {
 interface GoogleMapsWrapperState {
     isMapFullyLoaded: boolean;
     hasMadeFirstRequest: boolean;
+    showSpinner: boolean;
 }
 
 class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperState> {
@@ -208,6 +210,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     state = {
         isMapFullyLoaded: false,
         hasMadeFirstRequest: false,
+        showSpinner: false,
     };
 
     constructor(props: WrapperProps) {
@@ -348,6 +351,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
 
     private setBoundsChangedSubscription() {
         this.subscription = this.bounds$.pipe(throttleTime(700, asapScheduler, { trailing: true })).subscribe((boundsArray) => {
+            this.setState({ showSpinner: true });
             geofencesService.getBoundedGeofences(this.props.selectedProject.id, boundsArray).then((response) => {
                 if (response.isError) {
                     // if status code is 400 show too many geofences warning
@@ -370,6 +374,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                     }
                     this.setState({ hasMadeFirstRequest: true });
                 }
+                this.setState({ showSpinner: false });
             });
         });
     }
@@ -675,6 +680,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 <div className={classes.mapContainer} id={this.props.id} />
                 {this.state.isMapFullyLoaded && (
                     <React.Fragment>
+                        <GoogleMapsLoadingSpinner map={this.map} enabled={this.state.showSpinner} />
                         <GoogleMapsSpeedDial
                             map={this.map}
                             mapClick={this.registerMapClickHandler}
