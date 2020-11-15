@@ -38,7 +38,7 @@ class GoogleMapsWarningBar extends React.Component<GoogleMapsWarningBarProps> {
             this.props.enabled &&
             createPortal(
                 <Grow in={this.props.enabled} timeout={550}>
-                    <Grid container direction="column" justify="center" className={this.props.classes.bar}>
+                    <Grid container alignItems="center" justify="center" className={this.props.classes.bar}>
                         <Grid item>
                             <Typography className={this.props.classes.whiteText} align="center">
                                 {this.props.message}
