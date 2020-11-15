@@ -406,6 +406,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 this.registerBoundsChangedCallback();
                 google.maps.event.trigger(this.map, 'bounds_changed', this.map.getBounds());
             }
+            this.setState({ showSpinner: false });
         });
     }
 

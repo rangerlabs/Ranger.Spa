@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, createStyles } from '@material-ui/core';
 import { createPortal } from 'react-dom';
 
 interface GoogleMapsLoadingSpinnerProps {
@@ -16,7 +16,7 @@ class GoogleMapsLoadingSpinner extends React.Component<GoogleMapsLoadingSpinnerP
     googleMapsInfoWindowOpenerContainer: HTMLDivElement = undefined;
 
     render() {
-        return this.props.enabled && createPortal(<CircularProgress size={48} />, this.googleMapsInfoWindowOpenerContainer);
+        return this.props.enabled && createPortal(<CircularProgress style={{ margin: 15 }} size={48} />, this.googleMapsInfoWindowOpenerContainer);
     }
 }
 
