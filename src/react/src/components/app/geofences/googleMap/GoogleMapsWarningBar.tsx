@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { CircularProgress, Theme, Typography, Grow } from '@material-ui/core';
-import { createPortal } from 'react-dom';
+import { Theme, Typography, Grow, Grid } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -10,8 +9,9 @@ const useStyles = makeStyles((theme: Theme) =>
             height: theme.toolbar.height,
             background: theme.palette.warning.main,
             zIndex: theme.mixins.toolbar.zIndex,
-            position: 'absolute',
-            top: 0,
+        },
+        whiteText: {
+            color: theme.palette.common.white,
         },
     })
 );
@@ -25,9 +25,13 @@ const GoogleMapsWarningBar = function (props: GoogleMapsWarningBarProps) {
     const classes = useStyles();
     return (
         <Grow in={props.enabled} timeout={350}>
-            <div className={classes.bar}>
-                <Typography align="center">{props.message}</Typography>
-            </div>
+            <Grid container direction="column" justify="center" className={classes.bar}>
+                <Grid item>
+                    <Typography className={classes.whiteText} align="center">
+                        {props.message}
+                    </Typography>
+                </Grid>
+            </Grid>
         </Grow>
     );
 };

@@ -223,7 +223,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         this.bounds$ = new Subject<CoordinatePair[]>();
     }
 
-    //This side effect is necessary because the user could nagivate away from the map with the drawer open and/or a geofence defined
     componentWillUnmount() {
         this.props.closeDrawer();
         switch (this.props.selectedShape) {
