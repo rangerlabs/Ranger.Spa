@@ -700,7 +700,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 {this.state.isMapFullyLoaded && (
                     <React.Fragment>
                         <GoogleMapsWarningBar
-                            map={this.map}
                             onDismiss={() => this.setState({ showWarning: false })}
                             enabled={this.state.showWarning}
                             message={this.state.warning}
