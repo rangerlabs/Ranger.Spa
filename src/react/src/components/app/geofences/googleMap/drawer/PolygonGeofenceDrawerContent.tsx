@@ -10,7 +10,12 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
-import { addMapGeofence, addMapGeofenceToPendingUpdate, addMapGeofenceToPendingCreation } from '../../../../../redux/actions/GeofenceActions';
+import {
+    addMapGeofence,
+    addMapGeofenceToPendingUpdate,
+    addMapGeofenceToPendingCreation,
+    removeMapGeofenceByExternalId,
+} from '../../../../../redux/actions/GeofenceActions';
 import { addMapGeofenceToPendingDeletion } from '../../../../../redux/actions/GeofenceActions';
 import FormikDeleteButton from '../../../../form/FormikDeleteButton';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
@@ -77,6 +82,7 @@ interface PolygonGeofenceFormProps extends WithStyles<typeof styles>, WithSnackb
     addGeofenceToPendingCreation: (geofence: PolygonGeofence) => void;
     addGeofenceToPendingDeletion: (geofence: PolygonGeofence) => void;
     addGeofenceToPendingUpdate: (old: PolygonGeofence, geofence: PolygonGeofence) => void;
+    removeMapGeofenceByExternalId: (externalId: string) => void;
     onDrawerClose: () => void;
     push: (path: string) => void;
 }
@@ -116,6 +122,10 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         addGeofenceToPendingUpdate: (old: PolygonGeofence, updated: PolygonGeofence) => {
             const action = addMapGeofenceToPendingUpdate(old, updated);
+            dispatch(action);
+        },
+        removeMapGeofenceByExternalId: (externalId: string) => {
+            const action = removeMapGeofenceByExternalId(externalId);
             dispatch(action);
         },
         push: (path: string) => {
@@ -185,6 +195,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             if (!v.isError) {
                 this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
+                this.props.removeMapGeofenceByExternalId(this.props.editGeofence.externalId);
                 this.props.onDrawerClose();
                 this.props.closeDrawer();
             }

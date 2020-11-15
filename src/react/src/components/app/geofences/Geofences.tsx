@@ -119,6 +119,10 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         query: HTMLInputElement;
     };
 
+    componentWillUnmount() {
+        this.props.resetTableGeofences();
+    }
+
     editGeofence = (rowData: string[]) => {
         this.props.push(`${RoutePaths.GeofencesEdit.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
     };

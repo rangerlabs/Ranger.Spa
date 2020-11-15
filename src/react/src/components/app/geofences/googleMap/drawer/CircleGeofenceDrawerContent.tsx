@@ -15,6 +15,7 @@ import {
     addMapGeofenceToPendingDeletion,
     addMapGeofenceToPendingUpdate,
     addMapGeofenceToPendingCreation,
+    removeMapGeofenceByExternalId,
 } from '../../../../../redux/actions/GeofenceActions';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
@@ -81,6 +82,7 @@ interface CircleGeofenceFormProps extends WithStyles<typeof styles>, WithSnackba
     addGeofenceToPendingCreation: (geofence: CircleGeofence) => void;
     addGeofenceToPendingDeletion: (geofence: CircleGeofence) => void;
     addGeofenceToPendingUpdate: (old: CircleGeofence, geofence: CircleGeofence) => void;
+    removeMapGeofenceByExternalId: (externalId: string) => void;
     onDrawerClose: () => void;
     push: (path: string) => void;
 }
@@ -120,6 +122,10 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         addGeofenceToPendingUpdate: (old: CircleGeofence, updated: CircleGeofence) => {
             const action = addMapGeofenceToPendingUpdate(old, updated);
+            dispatch(action);
+        },
+        removeMapGeofenceByExternalId: (externalId: string) => {
+            const action = removeMapGeofenceByExternalId(externalId);
             dispatch(action);
         },
         push: (path: string) => {
@@ -189,6 +195,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
             if (!v.isError) {
                 this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
                 this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
+                this.props.removeMapGeofenceByExternalId(this.props.editGeofence.externalId);
                 this.props.onDrawerClose();
                 this.props.closeDrawer();
             }
