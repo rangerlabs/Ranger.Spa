@@ -7,12 +7,14 @@ import Constants from '../../../../theme/Constants';
 const styles = (theme: Theme) =>
     createStyles({
         bar: {
-            padding: '0px 50px',
-            borderBottomLeftRadius: 15,
-            borderBottomRightRadius: 15,
+            position: 'absolute',
             height: theme.toolbar.height,
-            background: theme.palette.warning.main,
             zIndex: theme.mixins.toolbar.zIndex,
+        },
+        barItem: {
+            background: theme.palette.warning.main,
+            borderBottomLeftRadius: 5,
+            borderBottomRightRadius: 5,
         },
         whiteText: {
             color: theme.palette.common.white,
@@ -27,9 +29,9 @@ interface GoogleMapsWarningBarProps extends WithStyles<typeof styles> {
 class GoogleMapsWarningBar extends React.Component<GoogleMapsWarningBarProps> {
     render() {
         return (
-            <Grow in={this.props.enabled} timeout={{ appear: 550, enter: 550, exit: 550 }}>
+            <Grow in={this.props.enabled} timeout={550}>
                 <Grid container className={this.props.classes.bar}>
-                    <Grid item>
+                    <Grid item className={this.props.classes.barItem}>
                         <Typography className={this.props.classes.whiteText} align="center">
                             {this.props.message}
                             <IconButton onClick={this.props.onDismiss} aria-label="close">
