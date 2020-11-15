@@ -3,14 +3,11 @@ import { Theme, Typography, Grow, Grid, createStyles, withStyles, WithStyles, Ic
 import { createPortal } from 'react-dom';
 import CloseCircle from 'mdi-material-ui/CloseCircle';
 import Constants from '../../../../theme/Constants';
-import { relative } from 'path';
 
 const styles = (theme: Theme) =>
     createStyles({
         bar: {
-            padding: '0px 100px',
-            position: 'relative',
-            left: '-50%',
+            padding: '0px 50px',
             borderBottomLeftRadius: 15,
             borderBottomRightRadius: 15,
             height: theme.toolbar.height,
@@ -26,35 +23,22 @@ interface GoogleMapsWarningBarProps extends WithStyles<typeof styles> {
     enabled: boolean;
     message: string;
     onDismiss: () => void;
-    map: google.maps.Map;
 }
 class GoogleMapsWarningBar extends React.Component<GoogleMapsWarningBarProps> {
-    constructor(props: GoogleMapsWarningBarProps) {
-        super(props);
-        this.googleMapsWarningContainer = document.createElement('div');
-        this.googleMapsWarningContainer.style.left = '50%';
-        this.props.map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.googleMapsWarningContainer);
-    }
-    googleMapsWarningContainer: HTMLDivElement = undefined;
-
     render() {
         return (
-            this.props.enabled &&
-            createPortal(
-                <Grow in={this.props.enabled} timeout={{ appear: 550, enter: 550, exit: 550 }}>
-                    <Grid container className={this.props.classes.bar}>
-                        <Grid item>
-                            <Typography className={this.props.classes.whiteText} align="center">
-                                {this.props.message}
-                                <IconButton onClick={this.props.onDismiss} aria-label="close">
-                                    <CloseCircle htmlColor={Constants.COLORS.WHITE} fontSize="inherit" />
-                                </IconButton>
-                            </Typography>
-                        </Grid>
+            <Grow in={this.props.enabled} timeout={{ appear: 550, enter: 550, exit: 550 }}>
+                <Grid container className={this.props.classes.bar}>
+                    <Grid item>
+                        <Typography className={this.props.classes.whiteText} align="center">
+                            {this.props.message}
+                            <IconButton onClick={this.props.onDismiss} aria-label="close">
+                                <CloseCircle htmlColor={Constants.COLORS.WHITE} fontSize="inherit" />
+                            </IconButton>
+                        </Typography>
                     </Grid>
-                </Grow>,
-                this.googleMapsWarningContainer
-            )
+                </Grid>
+            </Grow>
         );
     }
 }
