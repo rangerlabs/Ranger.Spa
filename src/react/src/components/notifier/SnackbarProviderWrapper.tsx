@@ -12,7 +12,7 @@ const notistackStyle = (theme: Theme) => {
         // maxWidth: '100%',
         // boxShadow: 'none',
         // width: '100%',
-        borderRadius: '0px',
+        borderRadius: '5px',
         fontSize: theme.typography.body1.fontSize,
         fontWeight: theme.typography.fontWeightRegular,
     };
