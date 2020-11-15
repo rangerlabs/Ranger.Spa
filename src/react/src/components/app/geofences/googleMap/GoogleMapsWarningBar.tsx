@@ -24,7 +24,7 @@ class GoogleMapsWarningBar extends React.Component<GoogleMapsWarningBarProps> {
     constructor(props: GoogleMapsWarningBarProps) {
         super(props);
         this.googleMapsInfoWindowOpenerContainer = document.createElement('div');
-        this.props.map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.googleMapsInfoWindowOpenerContainer);
+        this.props.map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.googleMapsInfoWindowOpenerContainer);
     }
     googleMapsInfoWindowOpenerContainer: HTMLDivElement = undefined;
 
