@@ -363,8 +363,15 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                         warning: 'The viewing area contains more than 1000 geofences. Zoom in to view the contained geofences.',
                     });
                 } else {
+                    if (response.result.length === 0) {
+                        this.setState({
+                            showWarning: true,
+                            warning: 'The viewing area does not contain any geofences.',
+                        });
+                    } else {
+                        this.setState({ showWarning: false });
+                    }
                     this.props.setMapGeofences(response.result);
-
                     const editName = queryParameterName();
                     if (!this.state.hasMadeFirstRequest && editName) {
                         const editGeofence = response.result.find((g) => g.externalId === editName);
@@ -692,7 +699,12 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 <div className={classes.mapContainer} id={this.props.id} />
                 {this.state.isMapFullyLoaded && (
                     <React.Fragment>
-                        <GoogleMapsWarningBar map={this.map} enabled={this.state.showWarning} message={this.state.warning} />
+                        <GoogleMapsWarningBar
+                            map={this.map}
+                            onDismiss={() => this.setState({ showWarning: false })}
+                            enabled={this.state.showWarning}
+                            message={this.state.warning}
+                        />
                         <GoogleMapsLoadingSpinner map={this.map} enabled={this.state.showSpinner} />
                         <GoogleMapsSpeedDial
                             map={this.map}

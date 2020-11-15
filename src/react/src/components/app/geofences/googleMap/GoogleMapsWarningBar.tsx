@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { Theme, Typography, Grow, Grid, createStyles, withStyles, WithStyles } from '@material-ui/core';
+import { Theme, Typography, Grow, Grid, createStyles, withStyles, WithStyles, IconButton } from '@material-ui/core';
 import { createPortal } from 'react-dom';
+import CloseCircle from 'mdi-material-ui/CloseCircle';
+import Constants from '../../../../theme/Constants';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -20,6 +22,7 @@ const styles = (theme: Theme) =>
 interface GoogleMapsWarningBarProps extends WithStyles<typeof styles> {
     enabled: boolean;
     message: string;
+    onDismiss: () => void;
     map: google.maps.Map;
 }
 class GoogleMapsWarningBar extends React.Component<GoogleMapsWarningBarProps> {
@@ -40,6 +43,9 @@ class GoogleMapsWarningBar extends React.Component<GoogleMapsWarningBarProps> {
                             <Typography className={this.props.classes.whiteText} align="center">
                                 {this.props.message}
                             </Typography>
+                            <IconButton onClick={this.props.onDismiss} aria-label="close">
+                                <CloseCircle htmlColor={Constants.COLORS.WHITE} fontSize="inherit" />
+                            </IconButton>
                         </Grid>
                     </Grid>
                 </Grow>,
