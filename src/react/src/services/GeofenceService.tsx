@@ -21,6 +21,10 @@ export default class GeofenceService {
         });
     }
 
+    async getGeofenceCountForProject(projectId: string): Promise<IRestResponse<number>> {
+        return RestUtilities.get<number>(`${projectId}/geofences/count}`);
+    }
+
     async getPaginatedGeofences(
         projectId: string,
         orderBy: OrderByOptions = 'CreatedDate',

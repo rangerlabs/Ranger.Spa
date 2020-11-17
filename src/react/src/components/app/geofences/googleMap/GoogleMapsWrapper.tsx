@@ -214,8 +214,8 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         isMapFullyLoaded: false,
         hasMadeFirstRequest: false,
         showSpinner: false,
-        showWarning: true,
-        warning: 'Warning',
+        showWarning: false,
+        warning: '',
     };
 
     constructor(props: WrapperProps) {

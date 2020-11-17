@@ -67,6 +67,7 @@ interface GeofencesProps extends WithStyles<typeof styles> {
 
 interface LocalGeofencesState {
     wasError: boolean;
+    count: number;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -113,6 +114,7 @@ const mapDispatchToProps = (dispatch: any) => {
 class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     state: LocalGeofencesState = {
         wasError: false,
+        count: 0,
     };
 
     refs: {
@@ -227,30 +229,47 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         console.log(action, tableState);
         switch (action) {
             case 'changePage':
-                this.setState({ wasError: false });
-                this.props.resetTableGeofences();
-                this.props.setPage(tableState.page);
-                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                break;
             case 'sort':
-                this.setState({ wasError: false });
-                this.props.resetTableGeofences();
-                if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
-                    this.props.setOrderBy(tableState.sortOrder.name);
-                }
-                if (this.props.setSortOrder !== tableState.sortOrder.direction) {
-                    this.props.setSortOrder(tableState.sortOrder.direction);
-                }
-                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                break;
-            case 'changeRowsPerPage':
-                this.setState({ wasError: false });
-                this.props.resetTableGeofences();
-                this.props.setPageCount(tableState.rowsPerPage);
-                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                break;
-            default:
-                break;
+            case 'changeRowsPerPage': {
+                geofencesService.getGeofenceCountForProject(this.props.selectedProject.id).then((res) => {
+                    if (res.isError) {
+                        this.setState({ wasError: true });
+                    } else {
+                        this.setState({ count: res.result });
+                        switch (action) {
+                            case 'changePage': {
+                                this.setState({ wasError: false });
+                                this.props.resetTableGeofences();
+                                this.props.setPage(tableState.page);
+                                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                                break;
+                            }
+                            case 'sort': {
+                                this.setState({ wasError: false });
+                                this.props.resetTableGeofences();
+                                if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
+                                    this.props.setOrderBy(tableState.sortOrder.name);
+                                }
+                                if (this.props.setSortOrder !== tableState.sortOrder.direction) {
+                                    this.props.setSortOrder(tableState.sortOrder.direction);
+                                }
+                                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                                break;
+                            }
+                            case 'changeRowsPerPage': {
+                                this.setState({ wasError: false });
+                                this.props.resetTableGeofences();
+                                this.props.setPageCount(tableState.rowsPerPage);
+                                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                                break;
+                            }
+                            default: {
+                                break;
+                            }
+                        }
+                    }
+                });
+            }
         }
     };
 
@@ -268,6 +287,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
             },
             serverSide: true,
+            count: this.state.count,
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
             filter: false,
