@@ -170,8 +170,8 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 this.setState({ wasError: true });
             } else {
                 var totalCount = Number(res.headers.get('x-total-count'));
-                console.log('headers:' + res.headers);
-                console.log('totalCount:' + totalCount);
+                console.log('headers:', res.headers);
+                console.log('totalCount:', totalCount);
                 this.setState({ count: totalCount });
                 this.props.setGeofences(res.result);
             }
@@ -295,6 +295,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             count: this.state.count,
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
+            sort: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
             jumpToPage: true,
             filter: false,
             elevation: 3,
