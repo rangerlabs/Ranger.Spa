@@ -127,7 +127,7 @@ export default class RestUtilities {
                 isError = response.status === 304 || (response.status >= 400 && response.status <= 500) ? true : false;
                 correlationId = response.headers.has('x-operation') ? response.headers.get('x-operation').replace('operations/', '') : null;
                 statusCode = response.status;
-                responseHeaders = response.headers;
+                responseHeaders = Object.assign({}, response.headers) as Headers;
                 return response.text();
             })
             .then((responseContent: string) => {
