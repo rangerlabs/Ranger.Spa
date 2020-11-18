@@ -25,7 +25,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
 const MUIDataTable = require('mui-datatables').default;
-const { debounceSearchRender } = require('mui-datatables');
+const debounceSearchRender = require('mui-datatables').debounceSearchRender;
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -164,7 +164,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         );
     };
 
-    requestTableGeofences = (search: string, page: number, sortOrder: MuiDatatablesSortType, pageCount: number) => {
+    requestTableGeofences = (search: string = '', page: number, sortOrder: MuiDatatablesSortType, pageCount: number) => {
         geofencesService.getPaginatedGeofences(this.props.selectedProject.id, sortOrder.name, sortOrder.direction, page, pageCount, search).then((res) => {
             if (res.isError) {
                 this.setState({ wasError: true });
