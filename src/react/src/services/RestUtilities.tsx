@@ -24,6 +24,7 @@ export interface IRestResponse<T> {
     error?: IError;
     result?: T;
     correlationId?: string;
+    headers?: Headers;
 }
 
 interface IRawRestResponse<T> {
@@ -33,6 +34,7 @@ interface IRawRestResponse<T> {
     error?: IApiError;
     result?: T;
     correlationId?: string;
+    headers?: Headers;
 }
 
 interface IApiError {
@@ -97,22 +99,23 @@ export default class RestUtilities {
         let isError = false;
         let correlationId = '';
         let body = data;
-        let headers = new Headers();
+        let requestHeaders = new Headers();
+        let responseHeaders = new Headers();
 
         if (user) {
             const accessToken = user.access_token;
-            headers.set('Authorization', `Bearer ${accessToken}`);
+            requestHeaders.set('Authorization', `Bearer ${accessToken}`);
         }
-        headers.set('Accept', 'application/json');
-        headers.set('api-version', '1.0');
-        headers.set('Content-Type', 'application/json');
+        requestHeaders.set('Accept', 'application/json');
+        requestHeaders.set('api-version', '1.0');
+        requestHeaders.set('Content-Type', 'application/json');
         if (data) {
             body = JSON.stringify(data);
         }
 
         return fetch(url, {
             method: method,
-            headers: headers,
+            headers: requestHeaders,
             body: body,
         })
             .catch((response) => {
@@ -124,6 +127,7 @@ export default class RestUtilities {
                 isError = response.status === 304 || (response.status >= 400 && response.status <= 500) ? true : false;
                 correlationId = response.headers.has('x-operation') ? response.headers.get('x-operation').replace('operations/', '') : null;
                 statusCode = response.status;
+                responseHeaders = response.headers;
                 return response.text();
             })
             .then((responseContent: string) => {
@@ -136,6 +140,7 @@ export default class RestUtilities {
                     error: isError ? this.toFormikErrors(responseContentJson.error) : undefined,
                     result: isError ? undefined : responseContentJson.result,
                     correlationId: correlationId,
+                    headers: responseHeaders,
                 };
                 return response;
             });

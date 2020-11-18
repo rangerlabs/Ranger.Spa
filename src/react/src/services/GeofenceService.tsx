@@ -30,10 +30,11 @@ export default class GeofenceService {
         orderBy: OrderByOptions = 'CreatedDate',
         sortOrder: SortOrder = 'desc',
         page: number = 0,
-        pageCount: number = 100
+        pageCount: number = 100,
+        search: string = ''
     ): Promise<IRestResponse<Array<CircleGeofence | PolygonGeofence>>> {
         return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(
-            `${projectId}/geofences?orderBy=${orderBy}&sortOrder=${sortOrder}&page=${page}&pageCount=${pageCount}`
+            `${projectId}/geofences?search=${search}&orderBy=${orderBy}&sortOrder=${sortOrder}&page=${page}&pageCount=${pageCount}`
         ).then((geofenceResponse) => {
             const geofences = new Array<CircleGeofence | PolygonGeofence>();
             if (geofenceResponse.result) {
@@ -48,12 +49,7 @@ export default class GeofenceService {
         });
     }
 
-    async getBoundedGeofences(
-        projectId: string,
-        bounds: CoordinatePair[],
-        orderBy: OrderByOptions = 'CreatedDate',
-        sortOrder: SortOrder = 'desc'
-    ): Promise<IRestResponse<Array<CircleGeofence | PolygonGeofence>>> {
+    async getBoundedGeofences(projectId: string, bounds: CoordinatePair[]): Promise<IRestResponse<Array<CircleGeofence | PolygonGeofence>>> {
         const jsonBounds = bounds.map((b) => JSON.stringify(b)).join(';');
         return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(`${projectId}/geofences?bounds=${jsonBounds}`).then((geofenceResponse) => {
             const geofences = new Array<CircleGeofence | PolygonGeofence>();

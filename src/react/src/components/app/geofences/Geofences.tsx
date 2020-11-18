@@ -24,8 +24,8 @@ import { Grid, Theme, createStyles, withStyles, WithStyles, CircularProgress, Ty
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
-import Loading from '../../loading/Loading';
 const MUIDataTable = require('mui-datatables').default;
+const { debounceSearchRender } = require('mui-datatables');
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -164,11 +164,13 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         );
     };
 
-    requestTableGeofences = (page: number, sortOrder: MuiDatatablesSortType, pageCount: number) => {
-        geofencesService.getPaginatedGeofences(this.props.selectedProject.id, sortOrder.name, sortOrder.direction, page, pageCount).then((res) => {
+    requestTableGeofences = (search: string, page: number, sortOrder: MuiDatatablesSortType, pageCount: number) => {
+        geofencesService.getPaginatedGeofences(this.props.selectedProject.id, sortOrder.name, sortOrder.direction, page, pageCount, search).then((res) => {
             if (res.isError) {
                 this.setState({ wasError: true });
             } else {
+                var totalCount = Number(res.headers.get('x-total-count'));
+                this.setState({ count: totalCount });
                 this.props.setGeofences(res.result);
             }
         });
@@ -226,49 +228,45 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     ];
 
     onTableChange = (action: string, tableState: any) => {
-        console.log(action, tableState);
         switch (action) {
-            case 'changePage':
-            case 'sort':
+            case 'changePage': {
+                this.setState({ wasError: false });
+                this.props.resetTableGeofences();
+                this.props.setPage(tableState.page);
+                this.requestTableGeofences(tableState.searchText, tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                break;
+            }
+            case 'sort': {
+                this.setState({ wasError: false });
+                this.props.resetTableGeofences();
+                if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
+                    this.props.setOrderBy(tableState.sortOrder.name);
+                }
+                if (this.props.setSortOrder !== tableState.sortOrder.direction) {
+                    this.props.setSortOrder(tableState.sortOrder.direction);
+                }
+                this.requestTableGeofences(tableState.searchText, tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                break;
+            }
             case 'changeRowsPerPage': {
-                geofencesService.getGeofenceCountForProject(this.props.selectedProject.id).then((res) => {
-                    if (res.isError) {
-                        this.setState({ wasError: true });
-                    } else {
-                        this.setState({ count: res.result });
-                        switch (action) {
-                            case 'changePage': {
-                                this.setState({ wasError: false });
-                                this.props.resetTableGeofences();
-                                this.props.setPage(tableState.page);
-                                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                                break;
-                            }
-                            case 'sort': {
-                                this.setState({ wasError: false });
-                                this.props.resetTableGeofences();
-                                if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
-                                    this.props.setOrderBy(tableState.sortOrder.name);
-                                }
-                                if (this.props.setSortOrder !== tableState.sortOrder.direction) {
-                                    this.props.setSortOrder(tableState.sortOrder.direction);
-                                }
-                                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                                break;
-                            }
-                            case 'changeRowsPerPage': {
-                                this.setState({ wasError: false });
-                                this.props.resetTableGeofences();
-                                this.props.setPageCount(tableState.rowsPerPage);
-                                this.requestTableGeofences(tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                                break;
-                            }
-                            default: {
-                                break;
-                            }
-                        }
-                    }
-                });
+                this.setState({ wasError: false });
+                this.props.resetTableGeofences();
+                this.props.setPageCount(tableState.rowsPerPage);
+                this.requestTableGeofences(tableState.searchText, tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                break;
+            }
+            case 'searchChange': {
+                this.setState({ wasError: false });
+                this.props.resetTableGeofences();
+                this.props.setPage(tableState.page);
+                this.props.setPageCount(tableState.rowsPerPage);
+                this.props.setOrderBy('ExternalId');
+                this.props.setSortOrder('asc');
+                this.requestTableGeofences(tableState.searchText, 0, { name: 'ExternalId', direction: 'asc' } as MuiDatatablesSortType, tableState.rowsPerPage);
+                break;
+            }
+            default: {
+                break;
             }
         }
     };
@@ -296,6 +294,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             responsive: 'vertical',
             viewColumns: false,
             onRowClick: this.editGeofence,
+            customSearchRender: debounceSearchRender(500),
             onTableChange: (action: string, tableState: any) => {
                 this.onTableChange(action, tableState);
             },
