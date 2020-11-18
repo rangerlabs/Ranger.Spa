@@ -170,6 +170,8 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 this.setState({ wasError: true });
             } else {
                 var totalCount = Number(res.headers.get('x-total-count'));
+                console.log('headers:' + res.headers);
+                console.log('totalCount:' + totalCount);
                 this.setState({ count: totalCount });
                 this.props.setGeofences(res.result);
             }
