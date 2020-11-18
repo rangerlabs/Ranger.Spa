@@ -94,13 +94,9 @@ export default class RestUtilities {
 
     static request<T>(method: string, url: string, data: any = null): Promise<IRestResponse<T>> {
         const user = ReduxStore.getStore().getState().oidc.user;
-        let statusCode = 0;
-        let message = '';
         let isError = false;
-        let correlationId = '';
         let body = data;
         let requestHeaders = new Headers();
-        let apiResponse: Response = undefined;
 
         if (user) {
             const accessToken = user.access_token;
@@ -113,7 +109,7 @@ export default class RestUtilities {
             body = JSON.stringify(data);
         }
 
-        return fetch(url, {
+        fetch(url, {
             method: method,
             headers: requestHeaders,
             body: body,
@@ -124,25 +120,18 @@ export default class RestUtilities {
                 // store.dispatch(action);
             })
             .then((response: Response) => {
-                isError = response.status === 304 || (response.status >= 400 && response.status <= 500) ? true : false;
-                correlationId = response.headers.has('x-operation') ? response.headers.get('x-operation').replace('operations/', '') : null;
-                statusCode = response.status;
-                apiResponse = response.clone();
-                return response.text();
-            })
-            .then((responseContent: string) => {
-                const responseContentJson = responseContent ? JSON.parse(responseContent) : undefined;
+                const responseText = await response.text();
+                const responseContentJson = responseText? JSON.parse(responseText) : undefined;
                 this.assertIsRestResponse(responseContentJson);
-                const response: IRestResponse<T> = {
-                    statusCode: statusCode,
+                return {
+                    statusCode: response.status,
                     message: responseContentJson.message,
-                    isError: isError,
+                    isError: response.status === 304 || (response.status >= 400 && response.status <= 500) ? true : false;,
                     error: isError ? this.toFormikErrors(responseContentJson.error) : undefined,
                     result: isError ? undefined : responseContentJson.result,
-                    correlationId: correlationId,
-                    headers: apiResponse.headers,
+                    correlationId: response.headers.has('x-operation') ? response.headers.get('x-operation').replace('operations/', '') : null;,
+                    headers: response.headers,
                 };
-                return response;
             });
     }
 
