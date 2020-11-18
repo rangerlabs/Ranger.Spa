@@ -228,7 +228,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     ];
 
     onTableChange = (action: string, tableState: any) => {
-        console.log(action, tableState);
         switch (action) {
             case 'changePage': {
                 this.setState({ wasError: false });
@@ -256,7 +255,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                 break;
             }
-            case 'searchChange': {
+            case 'search': {
                 this.setState({ wasError: false });
                 this.props.resetTableGeofences();
                 this.props.setPage(tableState.page);
@@ -294,6 +293,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             count: this.state.count,
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
+            jumpToPage: true,
             filter: false,
             elevation: 3,
             selectableRows: 'none',
