@@ -164,7 +164,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         );
     };
 
-    requestTableGeofences = (search: string = '', page: number, sortOrder: MuiDatatablesSortType, pageCount: number) => {
+    requestTableGeofences = (search: string, page: number, sortOrder: MuiDatatablesSortType, pageCount: number) => {
         geofencesService.getPaginatedGeofences(this.props.selectedProject.id, sortOrder.name, sortOrder.direction, page, pageCount, search).then((res) => {
             if (res.isError) {
                 this.setState({ wasError: true });
@@ -228,12 +228,13 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     ];
 
     onTableChange = (action: string, tableState: any) => {
+        console.log(action, tableState);
         switch (action) {
             case 'changePage': {
                 this.setState({ wasError: false });
                 this.props.resetTableGeofences();
                 this.props.setPage(tableState.page);
-                this.requestTableGeofences(tableState.searchText, tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                 break;
             }
             case 'sort': {
@@ -245,14 +246,14 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 if (this.props.setSortOrder !== tableState.sortOrder.direction) {
                     this.props.setSortOrder(tableState.sortOrder.direction);
                 }
-                this.requestTableGeofences(tableState.searchText, tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                 break;
             }
             case 'changeRowsPerPage': {
                 this.setState({ wasError: false });
                 this.props.resetTableGeofences();
                 this.props.setPageCount(tableState.rowsPerPage);
-                this.requestTableGeofences(tableState.searchText, tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
                 break;
             }
             case 'searchChange': {
@@ -262,7 +263,12 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 this.props.setPageCount(tableState.rowsPerPage);
                 this.props.setOrderBy('ExternalId');
                 this.props.setSortOrder('asc');
-                this.requestTableGeofences(tableState.searchText, 0, { name: 'ExternalId', direction: 'asc' } as MuiDatatablesSortType, tableState.rowsPerPage);
+                this.requestTableGeofences(
+                    tableState.searchText ?? '',
+                    0,
+                    { name: 'ExternalId', direction: 'asc' } as MuiDatatablesSortType,
+                    tableState.rowsPerPage
+                );
                 break;
             }
             default: {
