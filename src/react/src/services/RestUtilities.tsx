@@ -92,7 +92,7 @@ export default class RestUtilities {
         return RestUtilities.request<T>('POST', url, data);
     }
 
-    static request<T>(method: string, url: string, data: any = null): Promise<IRestResponse<T>> {
+    static async request<T>(method: string, url: string, data: any = null): Promise<IRestResponse<T>> {
         const user = ReduxStore.getStore().getState().oidc.user;
         let isError = false;
         let body = data;
@@ -109,7 +109,7 @@ export default class RestUtilities {
             body = JSON.stringify(data);
         }
 
-        fetch(url, {
+        return fetch(url, {
             method: method,
             headers: requestHeaders,
             body: body,
@@ -119,17 +119,17 @@ export default class RestUtilities {
                 // const action = openDialog({ message: "An error occured." } as DialogContent);
                 // store.dispatch(action);
             })
-            .then((response: Response) => {
+            .then(async (response: Response) => {
                 const responseText = await response.text();
-                const responseContentJson = responseText? JSON.parse(responseText) : undefined;
+                const responseContentJson = responseText ? JSON.parse(responseText) : undefined;
                 this.assertIsRestResponse(responseContentJson);
                 return {
                     statusCode: response.status,
                     message: responseContentJson.message,
-                    isError: response.status === 304 || (response.status >= 400 && response.status <= 500) ? true : false;,
+                    isError: response.status === 304 || (response.status >= 400 && response.status <= 500) ? true : false,
                     error: isError ? this.toFormikErrors(responseContentJson.error) : undefined,
                     result: isError ? undefined : responseContentJson.result,
-                    correlationId: response.headers.has('x-operation') ? response.headers.get('x-operation').replace('operations/', '') : null;,
+                    correlationId: response.headers.has('x-operation') ? response.headers.get('x-operation').replace('operations/', '') : null,
                     headers: response.headers,
                 };
             });
