@@ -2,7 +2,6 @@ import Geofence from './Geofence';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import CoordinatePair from './CoordinatePair';
 import CorrelationModel from '../../CorrelationModel';
-import IsoDailySchedule from '../../IsoDailySchedule';
 import Schedule from '../../Schedule';
 
 export default class CircleGeofence implements Geofence {
@@ -24,7 +23,8 @@ export default class CircleGeofence implements Geofence {
         public metadata: [],
         public radius: number,
         public schedule?: Schedule,
-        public createdDate?: Date
+        public createdDate?: Date,
+        public updatedDate?: Date
     ) {
         this.shape = ShapePicker.CIRCLE;
     }
