@@ -99,7 +99,8 @@ export default class GeofenceService {
                     castedShape.metadata,
                     castedShape.radius,
                     castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule(),
-                    castedShape.createdDate
+                    new Date(castedShape.createdDate),
+                    new Date(castedShape.updatedDate)
                 );
                 result.id = castedShape.id;
                 return result;
@@ -119,7 +120,8 @@ export default class GeofenceService {
                     castedShape.coordinates,
                     castedShape.metadata,
                     castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule(),
-                    castedShape.createdDate
+                    new Date(castedShape.createdDate),
+                    new Date(castedShape.updatedDate)
                 );
                 result.id = castedShape.id;
                 return result;
