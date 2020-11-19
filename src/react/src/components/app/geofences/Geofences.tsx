@@ -356,7 +356,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             jumpToPage: true,
             elevation: 3,
             resizableColumns: true,
-            selectableRows: 'none',
             responsive: 'vertical',
             count: this.props.totalCount,
             rowsPerPage: this.props.pageCount,
