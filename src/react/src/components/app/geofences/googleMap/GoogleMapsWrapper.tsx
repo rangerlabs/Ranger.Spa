@@ -224,7 +224,6 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     }
 
     componentWillUnmount() {
-        this.props.closeDrawer();
         switch (this.props.selectedShape) {
             case ShapePicker.CIRCLE: {
                 if (this.newCircleGeofenceMapMarker) {
@@ -245,8 +244,11 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
-        google.maps.event.clearInstanceListeners(this.map);
+        if (this.map) {
+            google.maps.event.clearInstanceListeners(this.map);
+        }
         this.props.resetMapGeofences();
+        this.props.closeDrawer();
     }
 
     componentDidMount = () => {

@@ -155,13 +155,13 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     getTriggerText(entered: boolean, dwelling: boolean, exited: boolean): string {
         var enabled = new Array<string>();
         if (entered) {
-            enabled.push('Enabled');
+            enabled.push('Enter');
         }
         if (dwelling) {
-            enabled.push('Dwelling');
+            enabled.push('Dwell');
         }
         if (exited) {
-            enabled.push('Exited');
+            enabled.push('Exit');
         }
         return enabled.join(' / ');
     }
@@ -322,7 +322,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             count: this.props.totalCount,
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
-            sort: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
+            sortOrder: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
             jumpToPage: true,
             filter: false,
             elevation: 3,
