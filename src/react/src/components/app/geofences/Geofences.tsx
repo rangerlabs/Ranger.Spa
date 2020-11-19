@@ -191,6 +191,73 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         });
     };
 
+    onTableChange = (action: string, tableState: any) => {
+        switch (action) {
+            case 'changePage': {
+                this.setState({ wasError: false });
+                this.props.resetTableGeofences();
+                this.props.setPage(tableState.page);
+                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                break;
+            }
+            case 'sort': {
+                this.setState({ wasError: false });
+                this.props.resetTableGeofences();
+                if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
+                    this.props.setOrderBy(tableState.sortOrder.name);
+                }
+                if (this.props.setSortOrder !== tableState.sortOrder.direction) {
+                    this.props.setSortOrder(tableState.sortOrder.direction);
+                }
+                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                break;
+            }
+            case 'changeRowsPerPage': {
+                this.setState({ wasError: false });
+                this.props.resetTableGeofences();
+                this.props.setPageCount(tableState.rowsPerPage);
+                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                break;
+            }
+            case 'search': {
+                if (tableState.searchText) {
+                    this.setState({ isSearching: true });
+                }
+                this.setState({ wasError: false });
+                this.props.resetTableGeofences();
+                this.props.setPage(tableState.page);
+                this.props.setPageCount(tableState.rowsPerPage);
+                this.props.setOrderBy('ExternalId');
+                this.props.setSortOrder('asc');
+                this.requestTableGeofences(
+                    tableState.searchText ?? '',
+                    0,
+                    { name: 'ExternalId', direction: 'asc' } as MuiDatatablesSortType,
+                    tableState.rowsPerPage
+                );
+                break;
+            }
+            case 'searchClose': {
+                this.setState({ isSearching: false });
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    };
+
+    getNoMatchForCurrentState() {
+        if (this.props.geofencesState.isTableLoaded && !this.state.isSearching && !this.props.totalCount) {
+            return 'Your organization has not created any geofences yet.';
+        } else if (this.props.geofencesState.isTableLoaded && this.state.isSearching && !this.props.totalCount) {
+            return 'No geofences found beginning with the provided search.';
+        } else if (!this.props.geofencesState.isTableLoaded && this.state.wasError && !this.state.isSearching) {
+            return 'Invalid search. Search characters must be alphanumeric or dashes.';
+        }
+        return 'Loading...';
+    }
+
     columns = [
         {
             name: 'Enabled',
@@ -237,76 +304,9 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             },
         },
     ];
-
-    onTableChange = (action: string, tableState: any) => {
-        switch (action) {
-            case 'changePage': {
-                this.setState({ wasError: false });
-                this.props.resetTableGeofences();
-                this.props.setPage(tableState.page);
-                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                break;
-            }
-            case 'sort': {
-                this.setState({ wasError: false });
-                this.props.resetTableGeofences();
-                if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
-                    this.props.setOrderBy(tableState.sortOrder.name);
-                }
-                if (this.props.setSortOrder !== tableState.sortOrder.direction) {
-                    this.props.setSortOrder(tableState.sortOrder.direction);
-                }
-                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                break;
-            }
-            case 'changeRowsPerPage': {
-                this.setState({ wasError: false });
-                this.props.resetTableGeofences();
-                this.props.setPageCount(tableState.rowsPerPage);
-                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
-                break;
-            }
-            case 'search': {
-                if (tableState.searchText) {
-                    this.setState({ isSearching: false });
-                }
-                this.setState({ wasError: false });
-                this.props.resetTableGeofences();
-                this.props.setPage(tableState.page);
-                this.props.setPageCount(tableState.rowsPerPage);
-                this.props.setOrderBy('ExternalId');
-                this.props.setSortOrder('asc');
-                this.requestTableGeofences(
-                    tableState.searchText ?? '',
-                    0,
-                    { name: 'ExternalId', direction: 'asc' } as MuiDatatablesSortType,
-                    tableState.rowsPerPage
-                );
-                break;
-            }
-            case 'searchClose': {
-                this.setState({ isSearching: false });
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-    };
-
-    getNoMatchForCurrentState() {
-        if (this.props.geofencesState.isTableLoaded && !this.state.isSearching && !this.props.totalCount) {
-            return 'Your organization has not created any geofences yet.';
-        } else if (this.props.geofencesState.isTableLoaded && this.state.isSearching && !this.props.totalCount) {
-            return 'No geofences found beginning with the provided search.';
-        } else if (!this.props.geofencesState.isTableLoaded && this.state.wasError && !this.state.isSearching) {
-            return 'Invalid search. Search characters must be alphanumeric or dashes.';
-        }
-        return 'Loading...';
-    }
-
     render() {
         const { classes, geofencesState } = this.props;
+
         const options = {
             textLabels: {
                 body: {
