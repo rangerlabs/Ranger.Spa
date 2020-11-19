@@ -144,12 +144,26 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                     value.externalId,
                     value.description,
                     value.shape == ShapePicker.CIRCLE ? 'Circle' : 'Polygon',
-                    value.onEnter ? 'True' : 'False',
-                    value.onExit ? 'True' : 'False',
+                    value.createdDate.toUTCString(),
+                    this.getTriggerText(value.onEnter, value.onDwell, value.onExit),
                 ]);
             });
         }
         return tableGeofences;
+    }
+
+    getTriggerText(entered: boolean, dwelling: boolean, exited: boolean): string {
+        var enabled = new Array<string>();
+        if (entered) {
+            enabled.push('Enabled');
+        }
+        if (dwelling) {
+            enabled.push('Dwelling');
+        }
+        if (exited) {
+            enabled.push('Exited');
+        }
+        return enabled.join(' / ');
     }
 
     booleanRender = (value: string, trueValue: string): JSX.Element => {
@@ -189,6 +203,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         },
         {
             name: 'ExternalId',
+            customHeadLabelRender: () => 'External Id',
             options: {
                 filter: false,
             },
@@ -207,7 +222,8 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             },
         },
         {
-            name: 'On Enter',
+            name: 'CreatedDate',
+            customHeadLabelRender: () => 'Created Date',
             options: {
                 filter: false,
                 sort: false,
@@ -217,13 +233,10 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             },
         },
         {
-            name: 'On Exit',
+            name: 'Triggers',
             options: {
                 filter: false,
                 sort: false,
-                customBodyRender: (value: string) => {
-                    return this.booleanRender(value, 'True');
-                },
             },
         },
     ];
@@ -285,12 +298,12 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     };
 
     getNoMatchForCurrentState() {
-        if (this.props.geofencesState.isTableLoaded && !this.props.totalCount) {
+        if (this.props.geofencesState.isTableLoaded && !this.state.isSearching && !this.props.totalCount) {
             return 'Your organization has not created any geofences yet.';
         } else if (this.props.geofencesState.isTableLoaded && this.state.isSearching && !this.props.totalCount) {
-            return 'No geofences found beginning with the provided search';
+            return 'No geofences found beginning with the provided search.';
         } else if (!this.props.geofencesState.isTableLoaded && this.state.wasError && !this.state.isSearching) {
-            return 'Invalid search. Search characters must be alphanumeric or dashes';
+            return 'Invalid search. Search characters must be alphanumeric or dashes.';
         }
         return 'Loading...';
     }

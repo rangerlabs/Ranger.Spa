@@ -4,7 +4,6 @@ import IDailySchedule from './IDailySchedule';
 import LocalTimeDailySchedule from './LocalTimeDailySchedule';
 import { AssertionError } from 'assert';
 var deepEqual = require('deep-equal');
-var moment = require('moment-timezone');
 
 export default class Schedule {
     public constructor(

@@ -17,4 +17,5 @@ export default interface Geofence {
     enabled: boolean;
     metadata: [];
     schedule?: Schedule;
+    createdDate: Date;
 }
