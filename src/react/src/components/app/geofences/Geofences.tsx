@@ -68,6 +68,7 @@ interface GeofencesProps extends WithStyles<typeof styles> {
 
 interface LocalGeofencesState {
     wasError: boolean;
+    isSearching: boolean;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -115,6 +116,7 @@ const mapDispatchToProps = (dispatch: any) => {
 class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     state: LocalGeofencesState = {
         wasError: false,
+        isSearching: false,
     };
 
     refs: {
@@ -165,6 +167,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     };
 
     requestTableGeofences = (search: string, page: number, sortOrder: MuiDatatablesSortType, pageCount: number) => {
+        this.setState({ isSearching: false });
         geofencesService.getPaginatedGeofences(this.props.selectedProject.id, sortOrder.name, sortOrder.direction, page, pageCount, search).then((res) => {
             if (res.isError) {
                 this.setState({ wasError: true });
@@ -269,18 +272,31 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 );
                 break;
             }
+            case 'searchClose': {
+                this.setState({ isSearching: false });
+                break;
+            }
             default: {
                 break;
             }
         }
     };
 
+    getNoMatchForCurrentState() {
+        if (this.props.geofencesState.isTableLoaded && !this.props.totalCount) {
+            return 'Your organization has not created any geofences yet.';
+        } else if (this.props.geofencesState.isTableLoaded && !this.state.isSearching && !this.props.totalCount) {
+            return 'No geofences found beginning with the provided search';
+        }
+        return 'Loading...';
+    }
+
     render() {
         const { classes, geofencesState } = this.props;
         const options = {
             textLabels: {
                 body: {
-                    noMatch: this.props.geofencesState.isTableLoaded ? 'Your organization has not created any geofences yet.' : 'Loading...',
+                    noMatch: this.getNoMatchForCurrentState(),
                 },
             },
             print: false,
