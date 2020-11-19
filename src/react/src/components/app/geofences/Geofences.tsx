@@ -144,7 +144,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                     value.externalId,
                     value.description,
                     value.shape == ShapePicker.CIRCLE ? 'Circle' : 'Polygon',
-                    value.createdDate.toUTCString(),
+                    value.createdDate.toDateString(),
                     this.getTriggerText(value.onEnter, value.onDwell, value.onExit),
                 ]);
             });
@@ -203,7 +203,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         },
         {
             name: 'ExternalId',
-            customHeadLabelRender: () => 'External Id',
+            customHeadRender: () => 'External Id',
             options: {
                 filter: false,
             },
@@ -223,17 +223,14 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         },
         {
             name: 'CreatedDate',
-            customHeadLabelRender: () => 'Created Date',
+            customHeadRender: () => 'Created Date',
             options: {
                 filter: false,
-                sort: false,
-                customBodyRender: (value: string) => {
-                    return this.booleanRender(value, 'True');
-                },
+                sort: true,
             },
         },
         {
-            name: 'Triggers',
+            name: 'Integration Triggers',
             options: {
                 filter: false,
                 sort: false,
