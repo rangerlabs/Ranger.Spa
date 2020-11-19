@@ -270,7 +270,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         },
         {
             name: 'ExternalId',
-            customHeadRender: () => 'External Id',
+            label: 'External Id',
             options: {
                 filter: false,
             },
@@ -290,7 +290,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         },
         {
             name: 'CreatedDate',
-            customHeadRender: () => 'Created Date',
+            label: 'Created Date',
             options: {
                 filter: false,
                 sort: true,
