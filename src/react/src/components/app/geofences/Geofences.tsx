@@ -167,10 +167,9 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     };
 
     requestTableGeofences = (search: string, page: number, sortOrder: MuiDatatablesSortType, pageCount: number) => {
-        this.setState({ isSearching: false });
         geofencesService.getPaginatedGeofences(this.props.selectedProject.id, sortOrder.name, sortOrder.direction, page, pageCount, search).then((res) => {
             if (res.isError) {
-                this.setState({ wasError: true });
+                this.setState({ wasError: true, isSearching: false });
             } else {
                 var totalCount = Number.parseInt(res.headers.get('x-pagination-totalcount'));
                 this.props.setGeofences(res.result, totalCount);
@@ -258,6 +257,9 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 break;
             }
             case 'search': {
+                if (tableState.searchText) {
+                    this.setState({ isSearching: false });
+                }
                 this.setState({ wasError: false });
                 this.props.resetTableGeofences();
                 this.props.setPage(tableState.page);
@@ -285,8 +287,10 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     getNoMatchForCurrentState() {
         if (this.props.geofencesState.isTableLoaded && !this.props.totalCount) {
             return 'Your organization has not created any geofences yet.';
-        } else if (this.props.geofencesState.isTableLoaded && !this.state.isSearching && !this.props.totalCount) {
+        } else if (this.props.geofencesState.isTableLoaded && this.state.isSearching && !this.props.totalCount) {
             return 'No geofences found beginning with the provided search';
+        } else if (!this.props.geofencesState.isTableLoaded && this.state.wasError && !this.state.isSearching) {
+            return 'Invalid search. Search characters must be alphanumeric or dashes';
         }
         return 'Loading...';
     }
