@@ -13,7 +13,7 @@ import requireProjectSelection from './RequireProjectSelectionHOC';
 const geofenceService = new GeofenceService();
 
 interface PopulateGeofencesComponentProps {
-    setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>) => void;
+    setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>, totalCount: number) => void;
     selectedProject: IProject;
     geofencesState: GeofencesState;
 }
@@ -28,8 +28,8 @@ const mapStateToProps = (state: ApplicationState) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>) => {
-            const action = populateTableGeofences(geofences);
+        setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>, totalCount: number) => {
+            const action = populateTableGeofences(geofences, totalCount);
             dispatch(action);
         },
     };
@@ -46,7 +46,8 @@ const populateTableGeofencesHOC = <P extends object>(Component: React.ComponentT
                     if (geofenceResponse.isError) {
                         this.setState({ wasError: true });
                     } else {
-                        this.props.setGeofences(geofenceResponse.result ? geofenceResponse.result : new Array<CircleGeofence | PolygonGeofence>());
+                        var totalCount = Number.parseInt(geofenceResponse.headers.get('x-pagination-totalcount'));
+                        this.props.setGeofences(geofenceResponse.result ? geofenceResponse.result : new Array<CircleGeofence | PolygonGeofence>(), totalCount);
                     }
                 });
             }
@@ -58,7 +59,8 @@ const populateTableGeofencesHOC = <P extends object>(Component: React.ComponentT
                     if (geofenceResponse.isError) {
                         this.setState({ wasError: true });
                     } else {
-                        this.props.setGeofences(geofenceResponse.result ? geofenceResponse.result : new Array<CircleGeofence | PolygonGeofence>());
+                        var totalCount = Number.parseInt(geofenceResponse.headers.get('x-pagination-totalcount'));
+                        this.props.setGeofences(geofenceResponse.result ? geofenceResponse.result : new Array<CircleGeofence | PolygonGeofence>(), totalCount);
                     }
                 });
             }

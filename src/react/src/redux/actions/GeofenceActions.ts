@@ -46,6 +46,7 @@ export interface GeofencesState {
     orderBy: OrderByOptions;
     page: number;
     pageCount: number;
+    totalCount: number;
     isMapLoaded: boolean;
     isTableLoaded: boolean;
 }
@@ -177,12 +178,13 @@ export function populateMapGeofences(geofences: Array<CircleGeofence | PolygonGe
     };
 }
 
-export function populateTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>): GeofenceArrayAction {
+export function populateTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>, totalCount: number): GeofenceArrayAction {
     return {
         type: POPULATE_TABLE_GEOFENCES,
         geofencesState: {
             isTableLoaded: true,
             tableGeofences: geofences,
+            totalCount: totalCount,
         } as GeofencesState,
     };
 }
@@ -203,6 +205,7 @@ export function resetTableGeofences(): GeofenceArrayAction {
         geofencesState: {
             isTableLoaded: false,
             tableGeofences: [],
+            totalCount: 0,
         } as GeofencesState,
     };
 }

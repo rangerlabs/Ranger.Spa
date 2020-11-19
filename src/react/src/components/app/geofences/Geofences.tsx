@@ -57,7 +57,8 @@ interface GeofencesProps extends WithStyles<typeof styles> {
     orderBy: OrderByOptions;
     page: number;
     pageCount: number;
-    setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>) => void;
+    totalCount: number;
+    setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>, totalCount: number) => void;
     setPage: (page: number) => void;
     setPageCount: (pageCount: number) => void;
     setOrderBy: (orderBy: OrderByOptions) => void;
@@ -67,7 +68,6 @@ interface GeofencesProps extends WithStyles<typeof styles> {
 
 interface LocalGeofencesState {
     wasError: boolean;
-    count: number;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -78,14 +78,15 @@ const mapStateToProps = (state: ApplicationState) => {
         orderBy: state.geofencesState.orderBy,
         page: state.geofencesState.page,
         pageCount: state.geofencesState.pageCount,
+        totalCount: state.geofencesState.totalCount,
     };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
         push: (path: string) => dispatch(push(path)),
-        setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>) => {
-            const action = populateTableGeofences(geofences);
+        setGeofences: (geofences: Array<CircleGeofence | PolygonGeofence>, totalCount: number) => {
+            const action = populateTableGeofences(geofences, totalCount);
             dispatch(action);
         },
         setPage: (page: number) => {
@@ -114,7 +115,6 @@ const mapDispatchToProps = (dispatch: any) => {
 class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     state: LocalGeofencesState = {
         wasError: false,
-        count: 0,
     };
 
     refs: {
@@ -169,12 +169,8 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             if (res.isError) {
                 this.setState({ wasError: true });
             } else {
-                var totalCount = Number.parseInt(res.headers.get('x-total-count'));
-                console.log('headers:');
-                res.headers?.forEach(console.log);
-                console.log('totalCount:', totalCount);
-                this.setState({ count: totalCount });
-                this.props.setGeofences(res.result);
+                var totalCount = Number.parseInt(res.headers.get('x-pagination-totalcount'));
+                this.props.setGeofences(res.result, totalCount);
             }
         });
     };
@@ -293,7 +289,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
             },
             serverSide: true,
-            count: this.state.count,
+            count: this.props.totalCount,
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
             sort: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,

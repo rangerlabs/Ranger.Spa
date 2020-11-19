@@ -35,6 +35,7 @@ export function geofenceReducer(
         orderBy: 'CreatedDate',
         page: 0,
         pageCount: 50,
+        totalCount: 0,
         pendingCreation: [],
         pendingDeletion: [],
         pendingUpdate: [],

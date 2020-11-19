@@ -123,8 +123,6 @@ export default class RestUtilities {
                 const responseText = await response.text();
                 const responseContentJson = responseText ? JSON.parse(responseText) : undefined;
                 this.assertIsRestResponse(responseContentJson);
-                console.log('response headers');
-                response.headers?.forEach(console.log);
                 return {
                     statusCode: response.status,
                     message: responseContentJson.message,
