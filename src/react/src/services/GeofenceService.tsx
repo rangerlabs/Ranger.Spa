@@ -98,7 +98,8 @@ export default class GeofenceService {
                     [new CoordinatePair(v.coordinates[0].lng, v.coordinates[0].lat)],
                     castedShape.metadata,
                     castedShape.radius,
-                    castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule()
+                    castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule(),
+                    castedShape.createdDate
                 );
                 result.id = castedShape.id;
                 return result;
@@ -117,7 +118,8 @@ export default class GeofenceService {
                     castedShape.integrationIds,
                     castedShape.coordinates,
                     castedShape.metadata,
-                    castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule()
+                    castedShape.schedule ? Schedule.CreateIsoScheduleFromResponse(castedShape.schedule) : Schedule.FullUtcSchedule(),
+                    castedShape.createdDate
                 );
                 result.id = castedShape.id;
                 return result;

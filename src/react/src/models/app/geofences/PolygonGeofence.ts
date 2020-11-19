@@ -21,8 +21,8 @@ export default class PolygonGeofence implements Geofence {
         public integrationIds: string[] = [],
         public coordinates: Array<CoordinatePair>,
         public metadata: [],
-        public createdDate: Date,
-        public schedule?: Schedule
+        public schedule?: Schedule,
+        public createdDate?: Date
     ) {
         this.shape = ShapePicker.POLYGON;
     }
