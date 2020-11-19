@@ -160,9 +160,9 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                     value.externalId,
                     value.description,
                     value.shape == ShapePicker.CIRCLE ? 'Circle' : 'Polygon',
+                    this.getTriggerText(value.onEnter, value.onDwell, value.onExit),
                     value.createdDate.toDateString(),
                     value.updatedDate.toDateString(),
-                    this.getTriggerText(value.onEnter, value.onDwell, value.onExit),
                 ]);
             });
         }
@@ -317,6 +317,13 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             },
         },
         {
+            name: 'Integration Triggers',
+            options: {
+                filter: false,
+                sort: false,
+            },
+        },
+        {
             name: 'CreatedDate',
             label: 'Created Date',
             options: {
@@ -330,14 +337,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             options: {
                 filter: false,
                 sort: true,
-            },
-        },
-
-        {
-            name: 'Integration Triggers',
-            options: {
-                filter: false,
-                sort: false,
             },
         },
     ];
@@ -356,6 +355,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             filter: false,
             jumpToPage: true,
             elevation: 3,
+            resizableColumns: true,
             selectableRows: 'none',
             responsive: 'vertical',
             count: this.props.totalCount,
