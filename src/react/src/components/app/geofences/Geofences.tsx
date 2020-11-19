@@ -40,6 +40,22 @@ const styles = (theme: Theme) =>
             paddingRight: theme.spacing(1),
             verticalAlign: 'middle',
         },
+        parentStyle: {
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            boxSizing: 'border-box',
+            display: 'block',
+            width: '100%',
+        },
+        cellStyle: {
+            boxSizing: 'border-box',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+        },
     });
 
 const geofencesService = new GeofenceService();
@@ -145,6 +161,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                     value.description,
                     value.shape == ShapePicker.CIRCLE ? 'Circle' : 'Polygon',
                     value.createdDate.toDateString(),
+                    value.updatedDate.toDateString(),
                     this.getTriggerText(value.onEnter, value.onDwell, value.onExit),
                 ]);
             });
@@ -258,6 +275,16 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         return 'Loading...';
     }
 
+    overflowRender(val: string) {
+        return (
+            <div style={{ position: 'relative', height: '20px' }}>
+                <div className={this.props.classes.parentStyle}>
+                    <div className={this.props.classes.cellStyle}>{val}</div>
+                </div>
+            </div>
+        );
+    }
+
     columns = [
         {
             name: 'Enabled',
@@ -280,6 +307,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             options: {
                 filter: false,
                 sort: false,
+                customBodyRender: (value: string) => this.overflowRender(value),
             },
         },
         {
@@ -297,6 +325,15 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             },
         },
         {
+            name: 'UpdatedDate',
+            label: 'Updated Date',
+            options: {
+                filter: false,
+                sort: true,
+            },
+        },
+
+        {
             name: 'Integration Triggers',
             options: {
                 filter: false,
@@ -313,24 +350,23 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                     noMatch: this.getNoMatchForCurrentState(),
                 },
             },
+            serverSide: true,
             print: false,
             download: false,
-            customToolbar: () => {
-                return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
-            },
-            serverSide: true,
+            filter: false,
+            jumpToPage: true,
+            elevation: 3,
+            selectableRows: 'none',
+            responsive: 'vertical',
             count: this.props.totalCount,
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
             sortOrder: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
-            jumpToPage: true,
-            filter: false,
-            elevation: 3,
-            selectableRows: 'none',
-            responsive: 'vertical',
-            viewColumns: false,
             onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
+            customToolbar: () => {
+                return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
+            },
             onTableChange: (action: string, tableState: any) => {
                 this.onTableChange(action, tableState);
             },
