@@ -2,13 +2,13 @@ import {
     POPULATE_MAP_GEOFENCES,
     GeofenceAction,
     GeofenceStateAction,
-    ADD_MAP_GEOFENCE_TO_PENDING_DELETION,
+    ADD_GEOFENCE_TO_PENDING_DELETION,
     ADD_MAP_GEOFENCE,
     GeofencesState,
     REMOVE_MAP_GEOFENCE_BY_CORRELATION_ID,
     REMOVE_MAP_GEOFENCE_BY_EXTERNAL_ID,
     REMOVE_PENDING_UPDATE_GEOFENCE_BY_RESOURCE_ID,
-    ADD_MAP_GEOFENCE_TO_PENDING_UPDATE,
+    ADD_GEOFENCE_TO_PENDING_UPDATE,
     RESET_MAP_GEOFENCES,
     RESET_TABLE_GEOFENCES,
     SET_SORT_ORDER,
@@ -18,11 +18,13 @@ import {
     POPULATE_TABLE_GEOFENCES,
     SET_TABLE_IS_LOADED,
     SET_MAP_IS_LOADED,
-    ADD_MAP_GEOFENCE_TO_PENDING_CREATION,
+    ADD_GEOFENCE_TO_PENDING_CREATION,
     REMOVE_PENDING_CREATE_GEOFENCE_BY_CORRELATION_ID,
     GeofenceUpdateAction,
     REMOVE_PENDING_DELETE_GEOFENCES_BY_CORRELATION_ID,
     SET_PENDING_BULK_OPERATION,
+    GeofenceArrayAction,
+    ADD_GEOFENCES_TO_PENDING_DELETION,
 } from '../actions/GeofenceActions';
 import Geofence from '../../models/app/geofences/Geofence';
 
@@ -42,7 +44,7 @@ export function geofenceReducer(
         pendingUpdate: [],
         isPendingBulkOperation: false,
     },
-    action: GeofenceAction & GeofenceStateAction & GeofenceUpdateAction
+    action: GeofenceAction & GeofenceStateAction & GeofenceUpdateAction & GeofenceArrayAction
 ) {
     switch (action.type) {
         case ADD_MAP_GEOFENCE: {
@@ -79,17 +81,22 @@ export function geofenceReducer(
                 pendingUpdate: state.pendingUpdate.filter((v) => v.updated.id !== action.geofence.id),
             });
         }
-        case ADD_MAP_GEOFENCE_TO_PENDING_CREATION: {
+        case ADD_GEOFENCE_TO_PENDING_CREATION: {
             return Object.assign({}, state, {
                 pendingCreation: state.pendingCreation.concat(action.geofence),
             });
         }
-        case ADD_MAP_GEOFENCE_TO_PENDING_DELETION: {
+        case ADD_GEOFENCE_TO_PENDING_DELETION: {
             return Object.assign({}, state, {
                 pendingDeletion: state.pendingDeletion.concat(action.geofence),
             });
         }
-        case ADD_MAP_GEOFENCE_TO_PENDING_UPDATE: {
+        case ADD_GEOFENCES_TO_PENDING_DELETION: {
+            return Object.assign({}, state, {
+                pendingDeletion: state.pendingDeletion.concat(action.geofences),
+            });
+        }
+        case ADD_GEOFENCE_TO_PENDING_UPDATE: {
             return Object.assign({}, state, { pendingUpdate: state.pendingUpdate.concat((action as GeofenceUpdateAction).update) });
         }
         case REMOVE_MAP_GEOFENCE_BY_EXTERNAL_ID: {

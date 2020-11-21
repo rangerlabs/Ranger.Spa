@@ -10,6 +10,7 @@ import {
     setSortOrder,
     resetTableGeofences,
     setPendingBulkOperation,
+    addGeofencesToPendingDeletion,
 } from '../../../redux/actions/GeofenceActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
@@ -26,6 +27,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
 import { openDialog, DialogContent } from '../../../redux/actions/DialogActions';
 import CustomRefreshToolbar from '../muiDataTable/CustomRefreshToolbar';
+import GeofenceBulkDelete from '../../../models/app/geofences/GeofenceBulkDelete';
 const MUIDataTable = require('mui-datatables').default;
 const debounceSearchRender = require('mui-datatables').debounceSearchRender;
 
@@ -63,6 +65,11 @@ type MuiDatatablesSortType = {
     direction: SortOrder;
 };
 
+type RowsDeleted = {
+    data: DeletedRow[];
+    lookup: boolean[];
+};
+
 type DeletedRow = {
     index: number;
     dataIndex: number;
@@ -85,6 +92,7 @@ interface GeofencesProps extends WithStyles<typeof styles> {
     resetTableGeofences: () => void;
     openDialog: (dialogContent: DialogContent) => void;
     setPendingBulkOperation: (isPending: boolean) => void;
+    setPendingDeleteGeofences: (geofences: (CircleGeofence | PolygonGeofence)[]) => void;
 }
 
 interface LocalGeofencesState {
@@ -139,6 +147,10 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = setPendingBulkOperation(isPending);
             dispatch(action);
         },
+        setPendingDeleteGeofences: (geofences: (CircleGeofence | PolygonGeofence)[]) => {
+            const action = addGeofencesToPendingDeletion(geofences);
+            dispatch(action);
+        },
     };
 };
 
@@ -151,6 +163,8 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     refs: {
         query: HTMLInputElement;
     };
+
+    geofenceService = new GeofenceService();
 
     componentWillUnmount() {
         this.props.resetTableGeofences();
@@ -279,11 +293,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         }
     };
 
-    private delete(rowsDeleted: DeletedRow[]) {
-        console.log('rows: ', rowsDeleted);
-        const selectedExternalIds = new Array<string>();
-        rowsDeleted.forEach((r) => selectedExternalIds.push(this.props.geofencesState.tableGeofences[r.index].externalId));
-        this.props.setPendingBulkOperation(true);
+    private refresh() {
         this.props.resetTableGeofences();
         this.requestTableGeofences(
             '',
@@ -291,6 +301,21 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
             this.props.pageCount
         );
+    }
+
+    private delete(rowsDeleted: RowsDeleted) {
+        console.log('rows: ', rowsDeleted);
+        const selectedGeofences = new Array<CircleGeofence | PolygonGeofence>();
+        rowsDeleted.data.forEach((r) => selectedGeofences.push(this.props.geofencesState.tableGeofences[r.index]));
+        this.props.setPendingBulkOperation(true);
+        const geofenceBulkDeleteRequest = { externalIds: selectedGeofences.map((g) => g.externalId) } as GeofenceBulkDelete;
+        this.geofenceService.bulkDeleteGeofences(this.props.selectedProject.id, geofenceBulkDeleteRequest).then((response) => {
+            if (response.isError) {
+                //display an error
+            } else {
+                this.refresh();
+            }
+        });
     }
 
     private search(tableState: any) {
@@ -432,12 +457,12 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
             tableBodyMaxHeight: 'calc(100vh - 64px - 48px - 64px - 52px)',
-            onRowsDelete: (rows: DeletedRow[]) => this.delete(rows),
+            onRowsDelete: (rows: RowsDeleted) => this.delete(rows),
             customToolbar: () => {
                 return (
                     <React.Fragment>
-                        <CustomRefreshToolbar onClick={() => {}} />
-                        <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
+                        <CustomRefreshToolbar onClick={this.refresh} />
+                        <CustomAddToolbar onClick={this.redirectToNewGeofenceForm} />
                     </React.Fragment>
                 );
             },
@@ -454,10 +479,8 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                             <Typography variant="h6">
                                 Geofences
                                 {!geofencesState.isTableLoaded && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
-                                {!geofencesState.isPendingBulkOperation && (
-                                    <Typography style={{ marginLeft: 15, position: 'relative', top: 4 }}>
-                                        A bulk operation has begun. The objects listed below may change soon.
-                                    </Typography>
+                                {geofencesState.isPendingBulkOperation && (
+                                    <Typography variant="caption">An operation has begun. The geofences listed below may change soon.</Typography>
                                 )}
                             </Typography>
                         }

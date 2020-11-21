@@ -1,6 +1,6 @@
 import * as React from 'react';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import { WithStyles, Theme, createStyles, withStyles, IconButton } from '@material-ui/core';
+import { WithStyles, Theme, createStyles, withStyles, IconButton, Tooltip } from '@material-ui/core';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -21,9 +21,11 @@ class CustomRefreshToolbar extends React.Component<CustomRefreshToolbarProps> {
         const { classes } = this.props;
 
         return (
-            <IconButton onClick={this.props.onClick}>
-                <RefreshIcon />
-            </IconButton>
+            <Tooltip title="Refresh" placement="bottom">
+                <IconButton onClick={this.props.onClick} color="primary">
+                    <RefreshIcon />
+                </IconButton>
+            </Tooltip>
         );
     }
 }

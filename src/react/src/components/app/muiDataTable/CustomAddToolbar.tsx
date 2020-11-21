@@ -12,7 +12,7 @@ const styles = (theme: Theme) =>
         },
     });
 interface CustomAddToolbarProps extends WithStyles<typeof styles> {
-    toggleFormFlag: () => void;
+    onClick: () => void;
 }
 
 class CustomAddToolbar extends React.Component<CustomAddToolbarProps> {
@@ -21,7 +21,7 @@ class CustomAddToolbar extends React.Component<CustomAddToolbarProps> {
 
         return (
             <React.Fragment>
-                <Button className={classes.button} color="primary" variant="contained" onClick={this.props.toggleFormFlag}>
+                <Button className={classes.button} color="primary" variant="contained" onClick={this.props.onClick}>
                     <AddIcon className={classes.leftIcon} />
                     New
                 </Button>

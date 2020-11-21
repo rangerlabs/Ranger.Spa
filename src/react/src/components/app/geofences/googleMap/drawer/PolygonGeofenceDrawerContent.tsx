@@ -12,11 +12,11 @@ import { connect } from 'react-redux';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
 import {
     addMapGeofence,
-    addMapGeofenceToPendingUpdate,
-    addMapGeofenceToPendingCreation,
+    addGeofenceToPendingUpdate,
+    addGeofenceToPendingCreation,
     removeMapGeofenceByExternalId,
 } from '../../../../../redux/actions/GeofenceActions';
-import { addMapGeofenceToPendingDeletion } from '../../../../../redux/actions/GeofenceActions';
+import { addGeofenceToPendingDeletion } from '../../../../../redux/actions/GeofenceActions';
 import FormikDeleteButton from '../../../../form/FormikDeleteButton';
 import FormikSynchronousButton from '../../../../form/FormikSynchronousButton';
 import { push } from 'connected-react-router';
@@ -109,7 +109,7 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(action);
         },
         addGeofenceToPendingCreation: (geofence: PolygonGeofence) => {
-            const action = addMapGeofenceToPendingCreation(geofence);
+            const action = addGeofenceToPendingCreation(geofence);
             dispatch(action);
         },
         saveGeofenceToState: (geofence: PolygonGeofence) => {
@@ -117,11 +117,11 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(action);
         },
         addGeofenceToPendingDeletion: (geofence: PolygonGeofence) => {
-            const action = addMapGeofenceToPendingDeletion(geofence);
+            const action = addGeofenceToPendingDeletion(geofence);
             dispatch(action);
         },
         addGeofenceToPendingUpdate: (old: PolygonGeofence, updated: PolygonGeofence) => {
-            const action = addMapGeofenceToPendingUpdate(old, updated);
+            const action = addGeofenceToPendingUpdate(old, updated);
             dispatch(action);
         },
         removeMapGeofenceByExternalId: (externalId: string) => {

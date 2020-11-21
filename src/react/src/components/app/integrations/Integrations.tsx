@@ -162,7 +162,7 @@ class Integrations extends React.Component<IntegrationsProps> {
         print: false,
         download: false,
         customToolbar: () => {
-            return Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN)) ? <CustomAddToolbar toggleFormFlag={this.redirectToNewIntegrationForm} /> : null;
+            return Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN)) ? <CustomAddToolbar onClick={this.redirectToNewIntegrationForm} /> : null;
         },
         customFooter: this.props.integrationsState.integrations?.length > 10 ? null : () => <TableFooter className={this.props.classes.footer} />,
         elevation: 3,

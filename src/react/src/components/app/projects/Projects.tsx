@@ -145,7 +145,7 @@ class Projects extends React.Component<ProjectsProps> {
         print: false,
         download: false,
         customToolbar: () => {
-            return Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN)) ? <CustomAddToolbar toggleFormFlag={this.redirectToNewProjectForm} /> : null;
+            return Boolean(userIsInRole(this.props.user, RoleEnum.ADMIN)) ? <CustomAddToolbar onClick={this.redirectToNewProjectForm} /> : null;
         },
         customFooter: this.props.projectsState.projects?.length > 10 ? null : () => <TableFooter className={this.props.classes.footer} />,
         elevation: 3,

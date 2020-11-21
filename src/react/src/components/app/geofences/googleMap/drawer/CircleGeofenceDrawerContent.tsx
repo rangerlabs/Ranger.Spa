@@ -12,9 +12,9 @@ import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import {
     addMapGeofence,
-    addMapGeofenceToPendingDeletion,
-    addMapGeofenceToPendingUpdate,
-    addMapGeofenceToPendingCreation,
+    addGeofenceToPendingDeletion,
+    addGeofenceToPendingUpdate,
+    addGeofenceToPendingCreation,
     removeMapGeofenceByExternalId,
 } from '../../../../../redux/actions/GeofenceActions';
 import CoordinatePair from '../../../../../models/app/geofences/CoordinatePair';
@@ -109,7 +109,7 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(action);
         },
         addGeofenceToPendingCreation: (geofence: CircleGeofence) => {
-            const action = addMapGeofenceToPendingCreation(geofence);
+            const action = addGeofenceToPendingCreation(geofence);
             dispatch(action);
         },
         saveGeofenceToState: (geofence: CircleGeofence) => {
@@ -117,11 +117,11 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(action);
         },
         addGeofenceToPendingDeletion: (geofence: CircleGeofence) => {
-            const action = addMapGeofenceToPendingDeletion(geofence);
+            const action = addGeofenceToPendingDeletion(geofence);
             dispatch(action);
         },
         addGeofenceToPendingUpdate: (old: CircleGeofence, updated: CircleGeofence) => {
-            const action = addMapGeofenceToPendingUpdate(old, updated);
+            const action = addGeofenceToPendingUpdate(old, updated);
             dispatch(action);
         },
         removeMapGeofenceByExternalId: (externalId: string) => {
