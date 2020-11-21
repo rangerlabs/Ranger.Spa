@@ -176,7 +176,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
 
     getSelectionWarning(continueAction: Function): DialogContent {
         return new DialogContent(
-            'Changing the table page or visible row count will clear your current select. Continue?',
+            'Changing the table properties or page will clear your current select. Continue?',
             'Clear Selection?',
             'Continue',
             continueAction
@@ -277,10 +277,9 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         }
     };
 
-    private delete(rowsDeleted: any, data: any, newTableData: any) {
+    private delete(rowsDeleted: any, data: any) {
         console.log('rows: ', rowsDeleted);
         console.log('data: ', data);
-        console.log('newTable: ', newTableData);
         this.props.resetTableGeofences();
         // const selectedExternalIds = new Array<string>();
         // rowsSelected.forEach((v) => selectedExternalIds.push(this.props.geofencesState.tableGeofences[v].externalId));
@@ -423,7 +422,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             sortOrder: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
             onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
-            onRowsDelete: this.delete,
+            onRowsDelete: (rows: any, data: any) => this.delete(rows, data),
             customToolbar: () => {
                 return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
             },
