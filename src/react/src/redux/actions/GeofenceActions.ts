@@ -10,9 +10,9 @@ export const SET_MAP_IS_LOADED = 'SET_MAP_IS_LOADED';
 export const SET_PAGE = 'SET_PAGE';
 export const SET_PAGE_COUNT = 'SET_PAGE_COUNT';
 export const ADD_MAP_GEOFENCE = 'ADD_MAP_GEOFENCE';
-export const REMOVE_PENDING_CREATE_MAP_GEOFENCE_BY_CORRELATION_ID = 'REMOVE_PENDING_CREATE_MAP_GEOFENCE_BY_CORRELATION_ID';
-export const REMOVE_PENDING_DELETE_MAP_GEOFENCE_BY_CORRELATION_ID = 'REMOVE_PENDING_DELETE_MAP_GEOFENCE_BY_CORRELATION_ID';
-export const REMOVE_PENDING_UPDATE_MAP_GEOFENCE_BY_RESOURCE_ID = 'REMOVE_PENDING_UPDATE_MAP_GEOFENCE_BY_RESOURCE_ID';
+export const REMOVE_PENDING_CREATE_GEOFENCE_BY_CORRELATION_ID = 'REMOVE_PENDING_CREATE_GEOFENCE_BY_CORRELATION_ID';
+export const REMOVE_PENDING_DELETE_GEOFENCES_BY_CORRELATION_ID = 'REMOVE_PENDING_DELETE_GEOFENCES_BY_CORRELATION_ID';
+export const REMOVE_PENDING_UPDATE_GEOFENCE_BY_RESOURCE_ID = 'REMOVE_PENDING_UPDATE_GEOFENCE_BY_RESOURCE_ID';
 export const REMOVE_MAP_GEOFENCE_BY_CORRELATION_ID = 'REMOVE_MAP_GEOFENCE_BY_CORRELATION_ID';
 export const ADD_MAP_GEOFENCE_TO_PENDING_CREATION = 'ADD_MAP_GEOFENCE_TO_PENDING_CREATION';
 export const ADD_MAP_GEOFENCE_TO_PENDING_DELETION = 'ADD_MAP_GEOFENCE_TO_PENDING_DELETION';
@@ -27,7 +27,7 @@ export interface GeofenceAction {
     type: string;
     geofence: CircleGeofence | PolygonGeofence;
 }
-export interface GeofenceArrayAction {
+export interface GeofenceStateAction {
     type: string;
     geofencesState: GeofencesState;
 }
@@ -58,7 +58,7 @@ export function addMapGeofence(geofence: CircleGeofence | PolygonGeofence): Geof
     };
 }
 
-export function setSortOrder(sortOrder: SortOrder): GeofenceArrayAction {
+export function setSortOrder(sortOrder: SortOrder): GeofenceStateAction {
     return {
         type: SET_SORT_ORDER,
         geofencesState: {
@@ -85,7 +85,7 @@ export function setIsMapLoaded(isLoaded: boolean) {
     };
 }
 
-export function setOrderBy(orderBy: OrderByOptions): GeofenceArrayAction {
+export function setOrderBy(orderBy: OrderByOptions): GeofenceStateAction {
     return {
         type: SET_ORDER_BY,
         geofencesState: {
@@ -94,7 +94,7 @@ export function setOrderBy(orderBy: OrderByOptions): GeofenceArrayAction {
     };
 }
 
-export function setPage(page: number): GeofenceArrayAction {
+export function setPage(page: number): GeofenceStateAction {
     return {
         type: SET_PAGE,
         geofencesState: {
@@ -103,7 +103,7 @@ export function setPage(page: number): GeofenceArrayAction {
     };
 }
 
-export function setPageCount(pageCount: number): GeofenceArrayAction {
+export function setPageCount(pageCount: number): GeofenceStateAction {
     return {
         type: SET_PAGE_COUNT,
         geofencesState: {
@@ -112,23 +112,23 @@ export function setPageCount(pageCount: number): GeofenceArrayAction {
     };
 }
 
-export function removePendingCreateMapGeofenceByCorrelationId(correlationId: string): GeofenceAction {
+export function removePendingCreateGeofenceByCorrelationId(correlationId: string): GeofenceAction {
     return {
-        type: REMOVE_PENDING_CREATE_MAP_GEOFENCE_BY_CORRELATION_ID,
+        type: REMOVE_PENDING_CREATE_GEOFENCE_BY_CORRELATION_ID,
         geofence: { correlationModel: { correlationId: correlationId } as CorrelationModel } as CircleGeofence | PolygonGeofence,
     };
 }
 
-export function removePendingDeleteMapGeofenceByCorrelationId(correlationId: string): GeofenceAction {
+export function removePendingDeleteGeofencesByCorrelationId(correlationId: string): GeofenceAction {
     return {
-        type: REMOVE_PENDING_DELETE_MAP_GEOFENCE_BY_CORRELATION_ID,
+        type: REMOVE_PENDING_DELETE_GEOFENCES_BY_CORRELATION_ID,
         geofence: { correlationModel: { correlationId: correlationId } as CorrelationModel } as CircleGeofence | PolygonGeofence,
     };
 }
 
-export function removePendingUpdateMapGeofenceByResourceId(id: string): GeofenceAction {
+export function removePendingUpdateGeofenceByResourceId(id: string): GeofenceAction {
     return {
-        type: REMOVE_PENDING_UPDATE_MAP_GEOFENCE_BY_RESOURCE_ID,
+        type: REMOVE_PENDING_UPDATE_GEOFENCE_BY_RESOURCE_ID,
         geofence: { id: id } as CircleGeofence | PolygonGeofence,
     };
 }
@@ -168,7 +168,7 @@ export function removeMapGeofenceByCorrelationId(correlationId: string): Geofenc
     };
 }
 
-export function populateMapGeofences(geofences: Array<CircleGeofence | PolygonGeofence>): GeofenceArrayAction {
+export function populateMapGeofences(geofences: Array<CircleGeofence | PolygonGeofence>): GeofenceStateAction {
     return {
         type: POPULATE_MAP_GEOFENCES,
         geofencesState: {
@@ -178,7 +178,7 @@ export function populateMapGeofences(geofences: Array<CircleGeofence | PolygonGe
     };
 }
 
-export function populateTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>, totalCount: number): GeofenceArrayAction {
+export function populateTableGeofences(geofences: Array<CircleGeofence | PolygonGeofence>, totalCount: number): GeofenceStateAction {
     return {
         type: POPULATE_TABLE_GEOFENCES,
         geofencesState: {
@@ -189,7 +189,7 @@ export function populateTableGeofences(geofences: Array<CircleGeofence | Polygon
     };
 }
 
-export function resetMapGeofences(): GeofenceArrayAction {
+export function resetMapGeofences(): GeofenceStateAction {
     return {
         type: RESET_MAP_GEOFENCES,
         geofencesState: {
@@ -199,7 +199,7 @@ export function resetMapGeofences(): GeofenceArrayAction {
     };
 }
 
-export function resetTableGeofences(): GeofenceArrayAction {
+export function resetTableGeofences(): GeofenceStateAction {
     return {
         type: RESET_TABLE_GEOFENCES,
         geofencesState: {

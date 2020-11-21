@@ -2,7 +2,7 @@ import PusherNotificationModel from '../../../models/PusherNotificationModel';
 import ReduxStore from '../../../ReduxStore';
 import { SnackbarNotification, enqueueSnackbar } from '../../../redux/actions/SnackbarActions';
 import { StatusEnum } from '../../../models/StatusEnum';
-import { removePendingCreateMapGeofenceByCorrelationId, addMapGeofence } from '../../../redux/actions/GeofenceActions';
+import { removePendingCreateGeofenceByCorrelationId, addMapGeofence } from '../../../redux/actions/GeofenceActions';
 import CircleGeofence from '../../../models/app/geofences/CircleGeofence';
 import PolygonGeofence from '../../../models/app/geofences/PolygonGeofence';
 
@@ -19,7 +19,7 @@ export default function GeofenceCreateHandler(data: PusherNotificationModel): vo
                 },
             } as SnackbarNotification;
 
-            const removeGeofenceByCorrelationIdAction = removePendingCreateMapGeofenceByCorrelationId(data.correlationId);
+            const removeGeofenceByCorrelationIdAction = removePendingCreateGeofenceByCorrelationId(data.correlationId);
             store.dispatch(removeGeofenceByCorrelationIdAction);
 
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
@@ -38,7 +38,7 @@ export default function GeofenceCreateHandler(data: PusherNotificationModel): vo
             const addGeofence = addMapGeofence(pendingGeofence);
             store.dispatch(addGeofence);
 
-            const removePendingGeofence = removePendingCreateMapGeofenceByCorrelationId(data.correlationId);
+            const removePendingGeofence = removePendingCreateGeofenceByCorrelationId(data.correlationId);
             store.dispatch(removePendingGeofence);
 
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);

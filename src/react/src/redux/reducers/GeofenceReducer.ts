@@ -1,14 +1,13 @@
 import {
     POPULATE_MAP_GEOFENCES,
     GeofenceAction,
-    GeofenceArrayAction,
+    GeofenceStateAction,
     ADD_MAP_GEOFENCE_TO_PENDING_DELETION,
     ADD_MAP_GEOFENCE,
     GeofencesState,
-    REMOVE_PENDING_DELETE_MAP_GEOFENCE_BY_CORRELATION_ID,
     REMOVE_MAP_GEOFENCE_BY_CORRELATION_ID,
     REMOVE_MAP_GEOFENCE_BY_EXTERNAL_ID,
-    REMOVE_PENDING_UPDATE_MAP_GEOFENCE_BY_RESOURCE_ID,
+    REMOVE_PENDING_UPDATE_GEOFENCE_BY_RESOURCE_ID,
     ADD_MAP_GEOFENCE_TO_PENDING_UPDATE,
     RESET_MAP_GEOFENCES,
     RESET_TABLE_GEOFENCES,
@@ -20,8 +19,9 @@ import {
     SET_TABLE_IS_LOADED,
     SET_MAP_IS_LOADED,
     ADD_MAP_GEOFENCE_TO_PENDING_CREATION,
-    REMOVE_PENDING_CREATE_MAP_GEOFENCE_BY_CORRELATION_ID,
+    REMOVE_PENDING_CREATE_GEOFENCE_BY_CORRELATION_ID,
     GeofenceUpdateAction,
+    REMOVE_PENDING_DELETE_GEOFENCES_BY_CORRELATION_ID,
 } from '../actions/GeofenceActions';
 import Geofence from '../../models/app/geofences/Geofence';
 
@@ -40,7 +40,7 @@ export function geofenceReducer(
         pendingDeletion: [],
         pendingUpdate: [],
     },
-    action: GeofenceAction & GeofenceArrayAction & GeofenceUpdateAction
+    action: GeofenceAction & GeofenceStateAction & GeofenceUpdateAction
 ) {
     switch (action.type) {
         case ADD_MAP_GEOFENCE: {
@@ -58,21 +58,21 @@ export function geofenceReducer(
         case SET_PAGE_COUNT: {
             return Object.assign({}, state, { pageCount: action.geofencesState.pageCount });
         }
-        case REMOVE_PENDING_CREATE_MAP_GEOFENCE_BY_CORRELATION_ID: {
+        case REMOVE_PENDING_CREATE_GEOFENCE_BY_CORRELATION_ID: {
             return Object.assign({}, state, {
                 pendingCreation: state.pendingCreation.filter(
                     (v: Geofence) => v.correlationModel.correlationId !== action.geofence.correlationModel.correlationId
                 ),
             });
         }
-        case REMOVE_PENDING_DELETE_MAP_GEOFENCE_BY_CORRELATION_ID: {
+        case REMOVE_PENDING_DELETE_GEOFENCES_BY_CORRELATION_ID: {
             return Object.assign({}, state, {
                 pendingDeletion: state.pendingDeletion.filter(
                     (v: Geofence) => v.correlationModel.correlationId !== action.geofence.correlationModel.correlationId
                 ),
             });
         }
-        case REMOVE_PENDING_UPDATE_MAP_GEOFENCE_BY_RESOURCE_ID: {
+        case REMOVE_PENDING_UPDATE_GEOFENCE_BY_RESOURCE_ID: {
             return Object.assign({}, state, {
                 pendingUpdate: state.pendingUpdate.filter((v) => v.updated.id !== action.geofence.id),
             });

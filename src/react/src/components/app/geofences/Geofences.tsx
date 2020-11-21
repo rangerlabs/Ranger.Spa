@@ -85,6 +85,7 @@ interface GeofencesProps extends WithStyles<typeof styles> {
 interface LocalGeofencesState {
     wasError: boolean;
     isSearching: boolean;
+    externalIdsToBulkDelete: string[];
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -133,6 +134,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     state: LocalGeofencesState = {
         wasError: false,
         isSearching: false,
+        externalIdsToBulkDelete: new Array<string>(),
     };
 
     refs: {
@@ -254,6 +256,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 );
                 break;
             }
+
             case 'searchClose': {
                 this.setState({ isSearching: false });
                 break;
@@ -263,6 +266,17 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             }
         }
     };
+
+    onRowSelectionChange(currentRowsSelected: any[], allRowsSelected: any[], rowsSelected: any[]) {
+        console.log('current: ', currentRowsSelected);
+        console.log('all: ', allRowsSelected);
+        console.log('rows: ', rowsSelected);
+
+        //         var selectedRows = tableState.rowsSelected.data as number[];
+        //         const selectedExternalIds = new Array<string>();
+        //         selectedRows.forEach((v) => selectedExternalIds.push(this.props.geofencesState.tableGeofences[v].externalId));
+        //         const uniqueIds = this.state.externalIdsToBulkDelete.concat(selectedExternalIds).filter((v, i, a) => a.indexOf(v) === i));
+    }
 
     getNoMatchForCurrentState() {
         if (this.props.geofencesState.isTableLoaded && !this.state.isSearching && !this.props.totalCount) {
@@ -356,12 +370,15 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             jumpToPage: true,
             elevation: 3,
             responsive: 'vertical',
+            selectableRowsHeader: false,
+            rowsSelected: [] as number[],
             count: this.props.totalCount,
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
             sortOrder: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
             onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
+            onRowSelectionChange: this.onRowSelectionChange,
             customToolbar: () => {
                 return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
             },
