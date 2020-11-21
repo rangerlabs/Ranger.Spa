@@ -8,7 +8,6 @@ import {
     setPageCount,
     setOrderBy,
     setSortOrder,
-    setIsTableLoaded,
     resetTableGeofences,
 } from '../../../redux/actions/GeofenceActions';
 import { ApplicationState } from '../../../stores/index';
@@ -24,6 +23,7 @@ import { Grid, Theme, createStyles, withStyles, WithStyles, CircularProgress, Ty
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
+import { openDialog, DialogContent } from '../../../redux/actions/DialogActions';
 const MUIDataTable = require('mui-datatables').default;
 const debounceSearchRender = require('mui-datatables').debounceSearchRender;
 
@@ -80,12 +80,12 @@ interface GeofencesProps extends WithStyles<typeof styles> {
     setOrderBy: (orderBy: OrderByOptions) => void;
     setSortOrder: (sortOrder: SortOrder) => void;
     resetTableGeofences: () => void;
+    openDialog: (dialogContent: DialogContent) => void;
 }
 
 interface LocalGeofencesState {
     wasError: boolean;
     isSearching: boolean;
-    externalIdsToBulkDelete: string[];
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -127,6 +127,10 @@ const mapDispatchToProps = (dispatch: any) => {
             const action = resetTableGeofences();
             dispatch(action);
         },
+        openDialog: (dialogContent: DialogContent) => {
+            const action = openDialog(dialogContent);
+            dispatch(action);
+        },
     };
 };
 
@@ -134,7 +138,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     state: LocalGeofencesState = {
         wasError: false,
         isSearching: false,
-        externalIdsToBulkDelete: new Array<string>(),
     };
 
     refs: {
@@ -169,6 +172,24 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             });
         }
         return tableGeofences;
+    }
+
+    getSelectionWarning(continueAction: Function): DialogContent {
+        return new DialogContent(
+            'Changing the table page or visible row count will clear your current select. Continue?',
+            'Clear Selection?',
+            'Continue',
+            continueAction
+        );
+    }
+
+    getBulkDeleteWarning(count: number, continueAction: Function): DialogContent {
+        return new DialogContent(
+            `Are you sure you want to delete all ${count} selected geofences? The cannot be undone.`,
+            `Delete ${count} Geofences?`,
+            'Bulk Delete',
+            continueAction
+        );
     }
 
     getTriggerText(entered: boolean, dwelling: boolean, exited: boolean): string {
@@ -213,50 +234,38 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     onTableChange = (action: string, tableState: any) => {
         switch (action) {
             case 'changePage': {
-                this.setState({ wasError: false });
-                this.props.resetTableGeofences();
-                this.props.setPage(tableState.page);
-                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                if (tableState.rowsSelected?.data?.length) {
+                    this.props.openDialog(this.getSelectionWarning(() => this.changePage(tableState)));
+                } else {
+                    this.changePage(tableState);
+                }
                 break;
             }
             case 'sort': {
-                this.setState({ wasError: false });
-                this.props.resetTableGeofences();
-                if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
-                    this.props.setOrderBy(tableState.sortOrder.name);
+                if (tableState.rowsSelected?.data?.length) {
+                    this.props.openDialog(this.getSelectionWarning(() => this.sort(tableState)));
+                } else {
+                    this.sort(tableState);
                 }
-                if (this.props.setSortOrder !== tableState.sortOrder.direction) {
-                    this.props.setSortOrder(tableState.sortOrder.direction);
-                }
-                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+
                 break;
             }
             case 'changeRowsPerPage': {
-                this.setState({ wasError: false });
-                this.props.resetTableGeofences();
-                this.props.setPageCount(tableState.rowsPerPage);
-                this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+                if (tableState.rowsSelected?.data?.length) {
+                    this.props.openDialog(this.getSelectionWarning(() => this.changeRowsPerPage(tableState)));
+                } else {
+                    this.changeRowsPerPage(tableState);
+                }
                 break;
             }
             case 'search': {
-                if (tableState.searchText) {
-                    this.setState({ isSearching: true });
+                if (tableState.rowsSelected?.data?.length) {
+                    this.props.openDialog(this.getSelectionWarning(() => this.search(tableState)));
+                } else {
+                    this.search(tableState);
                 }
-                this.setState({ wasError: false });
-                this.props.resetTableGeofences();
-                this.props.setPage(tableState.page);
-                this.props.setPageCount(tableState.rowsPerPage);
-                this.props.setOrderBy('ExternalId');
-                this.props.setSortOrder('asc');
-                this.requestTableGeofences(
-                    tableState.searchText ?? '',
-                    0,
-                    { name: 'ExternalId', direction: 'asc' } as MuiDatatablesSortType,
-                    tableState.rowsPerPage
-                );
                 break;
             }
-
             case 'searchClose': {
                 this.setState({ isSearching: false });
                 break;
@@ -267,15 +276,51 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         }
     };
 
-    onRowSelectionChange(currentRowsSelected: any[], allRowsSelected: any[], rowsSelected: any[]) {
-        console.log('current: ', currentRowsSelected);
-        console.log('all: ', allRowsSelected);
-        console.log('rows: ', rowsSelected);
+    private delete(rowsDeleted: any, data: any, newTableData: any) {
+        console.log('rows: ', rowsDeleted);
+        console.log('data: ', data);
+        console.log('newTable: ', newTableData);
+        // const selectedExternalIds = new Array<string>();
+        // rowsSelected.forEach((v) => selectedExternalIds.push(this.props.geofencesState.tableGeofences[v].externalId));
+    }
 
-        //         var selectedRows = tableState.rowsSelected.data as number[];
-        //         const selectedExternalIds = new Array<string>();
-        //         selectedRows.forEach((v) => selectedExternalIds.push(this.props.geofencesState.tableGeofences[v].externalId));
-        //         const uniqueIds = this.state.externalIdsToBulkDelete.concat(selectedExternalIds).filter((v, i, a) => a.indexOf(v) === i));
+    private search(tableState: any) {
+        if (tableState.searchText) {
+            this.setState({ isSearching: true });
+        }
+        this.setState({ wasError: false });
+        this.props.resetTableGeofences();
+        this.props.setPage(tableState.page);
+        this.props.setPageCount(tableState.rowsPerPage);
+        this.props.setOrderBy('ExternalId');
+        this.props.setSortOrder('asc');
+        this.requestTableGeofences(tableState.searchText ?? '', 0, { name: 'ExternalId', direction: 'asc' } as MuiDatatablesSortType, tableState.rowsPerPage);
+    }
+
+    private changePage(tableState: any) {
+        this.setState({ wasError: false });
+        this.props.resetTableGeofences();
+        this.props.setPage(tableState.page);
+        this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+    }
+
+    private sort(tableState: any) {
+        this.setState({ wasError: false });
+        this.props.resetTableGeofences();
+        if (this.props.orderBy.toLowerCase() !== (tableState.sortOrder as MuiDatatablesSortType).name.toLowerCase()) {
+            this.props.setOrderBy(tableState.sortOrder.name);
+        }
+        if (this.props.setSortOrder !== tableState.sortOrder.direction) {
+            this.props.setSortOrder(tableState.sortOrder.direction);
+        }
+        this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
+    }
+
+    private changeRowsPerPage(tableState: any) {
+        this.setState({ wasError: false });
+        this.props.resetTableGeofences();
+        this.props.setPageCount(tableState.rowsPerPage);
+        this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
     }
 
     getNoMatchForCurrentState() {
@@ -371,14 +416,13 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             elevation: 3,
             responsive: 'vertical',
             selectableRowsHeader: false,
-            rowsSelected: [] as number[],
             count: this.props.totalCount,
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
             sortOrder: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
             onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
-            onRowSelectionChange: this.onRowSelectionChange,
+            onRowsDelete: this.delete,
             customToolbar: () => {
                 return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
             },
