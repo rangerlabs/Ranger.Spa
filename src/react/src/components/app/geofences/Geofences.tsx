@@ -235,7 +235,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         console.log(action, tableState);
         switch (action) {
             case 'changePage': {
-                if (tableState.rowsSelected?.data?.length) {
+                if (tableState.selectedRows.data.length) {
                     this.props.openDialog(this.getSelectionWarning(() => this.changePage(tableState)));
                 } else {
                     this.changePage(tableState);
@@ -243,7 +243,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 break;
             }
             case 'sort': {
-                if (tableState.rowsSelected?.data?.length) {
+                if (tableState.selectedRows.data.length) {
                     this.props.openDialog(this.getSelectionWarning(() => this.sort(tableState)));
                 } else {
                     this.sort(tableState);
@@ -252,7 +252,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 break;
             }
             case 'changeRowsPerPage': {
-                if (tableState.rowsSelected?.data?.length) {
+                if (tableState.selectedRows.data.length) {
                     this.props.openDialog(this.getSelectionWarning(() => this.changeRowsPerPage(tableState)));
                 } else {
                     this.changeRowsPerPage(tableState);
@@ -260,7 +260,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 break;
             }
             case 'search': {
-                if (tableState.rowsSelected?.data?.length) {
+                if (tableState.selectedRows.data.length) {
                     this.props.openDialog(this.getSelectionWarning(() => this.search(tableState)));
                 } else {
                     this.search(tableState);
@@ -281,6 +281,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         console.log('rows: ', rowsDeleted);
         console.log('data: ', data);
         console.log('newTable: ', newTableData);
+        this.props.resetTableGeofences();
         // const selectedExternalIds = new Array<string>();
         // rowsSelected.forEach((v) => selectedExternalIds.push(this.props.geofencesState.tableGeofences[v].externalId));
     }
@@ -416,7 +417,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             jumpToPage: true,
             elevation: 3,
             responsive: 'vertical',
-            selectableRowsHeader: false,
             count: this.props.totalCount,
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
