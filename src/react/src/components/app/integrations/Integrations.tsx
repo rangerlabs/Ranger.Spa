@@ -104,12 +104,10 @@ class Integrations extends React.Component<IntegrationsProps> {
         return value === trueValue ? (
             <React.Fragment>
                 <CheckCircleIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="primary" />
-                {value}
             </React.Fragment>
         ) : (
             <React.Fragment>
                 <HighlightOffIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="error" />
-                {value}
             </React.Fragment>
         );
     };
