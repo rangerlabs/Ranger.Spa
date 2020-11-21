@@ -28,6 +28,7 @@ import UserCreateHandler from './pusherHandlers/UserCreateHandler';
 import UserUpdateHandler from './pusherHandlers/UserUpdateHandler';
 import UserDeleteHandler from './pusherHandlers/UserDeleteHandler';
 import AccountDeleteHandler from './pusherHandlers/AccountDeleteHandler';
+import GeofenceBulkDeleteHandler from './pusherHandlers/GeofenceBulkDeleteHandler';
 
 interface NotifierProps extends WithSnackbarProps {
     notifications: SnackbarNotification[];
@@ -153,6 +154,7 @@ class Notifier extends React.Component<NotifierProps> {
         this.userChannel.bind('geofence-created', GeofenceCreateHandler);
         this.userChannel.bind('geofence-updated', GeofenceUpdateHandler);
         this.userChannel.bind('geofence-deleted', GeofenceDeleteHandler);
+        this.userChannel.bind('geofences-bulk-deleted', GeofenceBulkDeleteHandler);
         this.userChannel.bind('integration-created', IntegrationCreateHandler);
         this.userChannel.bind('integration-updated', IntegrationUpdateHandler);
         this.userChannel.bind('integration-deleted', IntegrationDeleteHandler);
