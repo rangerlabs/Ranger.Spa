@@ -158,6 +158,7 @@ class Projects extends React.Component<ProjectsProps> {
         selectableRows: 'none',
         responsive: 'vertical',
         viewColumns: false,
+        tableBodyMaxHeight: 'calc(100vh - 32px - 48px - 64px - 52px)',
         onRowClick: this.editProject,
     };
 

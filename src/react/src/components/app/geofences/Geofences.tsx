@@ -32,10 +32,6 @@ const styles = (theme: Theme) =>
         grid: {
             padding: theme.spacing(2),
         },
-        footer: {
-            display: 'block',
-            height: '54px',
-        },
         tableIcon: {
             paddingRight: theme.spacing(1),
             verticalAlign: 'middle',
@@ -422,6 +418,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             sortOrder: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
             onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
+            tableBodyMaxHeight: 'calc(100vh - 32px - 48px - 64px - 52px)',
             onRowsDelete: (rows: any, data: any) => this.delete(rows, data),
             customToolbar: () => {
                 return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
@@ -434,6 +431,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             <Grid className={classes.grid} container justify="center" alignItems="center">
                 <Grid item xs={12}>
                     <MUIDataTable
+                        className={classes.grid}
                         title={
                             <Typography variant="h6">
                                 Geofences
