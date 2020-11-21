@@ -19,7 +19,7 @@ import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
 import RoutePaths from '../../RoutePaths';
-import { Grid, Theme, createStyles, withStyles, WithStyles, CircularProgress, Typography } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, CircularProgress, Typography, Box } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
@@ -204,13 +204,13 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
 
     booleanRender = (value: string, trueValue: string): JSX.Element => {
         return value === trueValue ? (
-            <React.Fragment>
+            <Box textAlign="center">
                 <CheckCircleIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="primary" />
-            </React.Fragment>
+            </Box>
         ) : (
-            <React.Fragment>
+            <Box textAlign="center">
                 <HighlightOffIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="error" />
-            </React.Fragment>
+            </Box>
         );
     };
 

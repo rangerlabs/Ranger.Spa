@@ -10,7 +10,7 @@ import { IntegrationEnum } from '../../../models/app/integrations/IntegrationEnu
 import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { EnvironmentEnum } from '../../../models/EnvironmentEnum';
 import IProject from '../../../models/app/IProject';
-import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter, Box } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { capitalCase } from 'change-case';
@@ -102,13 +102,13 @@ class Integrations extends React.Component<IntegrationsProps> {
 
     booleanRender = (value: string, trueValue: string): JSX.Element => {
         return value === trueValue ? (
-            <React.Fragment>
+            <Box textAlign="center">
                 <CheckCircleIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="primary" />
-            </React.Fragment>
+            </Box>
         ) : (
-            <React.Fragment>
+            <Box textAlign="center">
                 <HighlightOffIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="error" />
-            </React.Fragment>
+            </Box>
         );
     };
 

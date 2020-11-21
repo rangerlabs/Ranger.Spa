@@ -10,7 +10,7 @@ import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import { User } from 'oidc-client';
 import { userIsInRole } from '../../../helpers/Helpers';
 import { RoleEnum } from '../../../models/RoleEnum';
-import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, TableFooter, Box } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 const MUIDataTable = require('mui-datatables').default;
@@ -88,13 +88,13 @@ class Projects extends React.Component<ProjectsProps> {
 
     booleanRender = (value: string, trueValue: string): JSX.Element => {
         return value === trueValue ? (
-            <React.Fragment>
+            <Box textAlign="center">
                 <CheckCircleIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="primary" />
-            </React.Fragment>
+            </Box>
         ) : (
-            <React.Fragment>
+            <Box textAlign="center">
                 <HighlightOffIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="error" />
-            </React.Fragment>
+            </Box>
         );
     };
 
