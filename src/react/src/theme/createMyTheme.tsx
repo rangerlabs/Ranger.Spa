@@ -101,6 +101,7 @@ export default function createRangerTheme(theme: ThemeOptions) {
                     //https://github.com/gregnb/mui-datatables/issues/748#issuecomment-524245251
                     '&$hover:hover': {
                         backgroundColor: Constants.COLORS.LIST_TABLE_HOVER_COLOR,
+                        cursor: 'pointer',
                     },
                 },
             },
