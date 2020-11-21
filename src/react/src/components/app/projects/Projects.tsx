@@ -88,13 +88,9 @@ class Projects extends React.Component<ProjectsProps> {
 
     booleanRender = (value: string, trueValue: string): JSX.Element => {
         return value === trueValue ? (
-            <Box textAlign="center">
-                <CheckCircleIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="primary" />
-            </Box>
+            <CheckCircleIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="primary" />
         ) : (
-            <Box textAlign="center">
-                <HighlightOffIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="error" />
-            </Box>
+            <HighlightOffIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="error" />
         );
     };
 

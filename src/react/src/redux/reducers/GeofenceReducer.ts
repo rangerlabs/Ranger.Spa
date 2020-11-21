@@ -22,6 +22,7 @@ import {
     REMOVE_PENDING_CREATE_GEOFENCE_BY_CORRELATION_ID,
     GeofenceUpdateAction,
     REMOVE_PENDING_DELETE_GEOFENCES_BY_CORRELATION_ID,
+    SET_PENDING_BULK_OPERATION,
 } from '../actions/GeofenceActions';
 import Geofence from '../../models/app/geofences/Geofence';
 
@@ -39,6 +40,7 @@ export function geofenceReducer(
         pendingCreation: [],
         pendingDeletion: [],
         pendingUpdate: [],
+        isPendingBulkOperation: false,
     },
     action: GeofenceAction & GeofenceStateAction & GeofenceUpdateAction
 ) {
@@ -120,6 +122,9 @@ export function geofenceReducer(
             return Object.assign({}, state, action.geofencesState);
         }
         case SET_MAP_IS_LOADED: {
+            return Object.assign({}, state, action.geofencesState);
+        }
+        case SET_PENDING_BULK_OPERATION: {
             return Object.assign({}, state, action.geofencesState);
         }
         default:

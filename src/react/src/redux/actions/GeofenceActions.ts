@@ -22,6 +22,7 @@ export const POPULATE_TABLE_GEOFENCES = 'POPULATE_TABLE_GEOFENCES';
 export const REMOVE_MAP_GEOFENCE_BY_EXTERNAL_ID = 'REMOVE_MAP_GEOFENCE_BY_EXTERNAL_ID';
 export const RESET_MAP_GEOFENCES = 'RESET_MAP_GEOFENCES';
 export const RESET_TABLE_GEOFENCES = 'RESET_TABLE_GEOFENCES';
+export const SET_PENDING_BULK_OPERATION = 'SET_PENDING_BULK_OPERATION';
 
 export interface GeofenceAction {
     type: string;
@@ -49,12 +50,22 @@ export interface GeofencesState {
     totalCount: number;
     isMapLoaded: boolean;
     isTableLoaded: boolean;
+    isPendingBulkOperation: boolean;
 }
 
 export function addMapGeofence(geofence: CircleGeofence | PolygonGeofence): GeofenceAction {
     return {
         type: ADD_MAP_GEOFENCE,
         geofence,
+    };
+}
+
+export function setPendingBulkOperation(isPending: boolean): GeofenceStateAction {
+    return {
+        type: SET_PENDING_BULK_OPERATION,
+        geofencesState: {
+            isPendingBulkOperation: isPending,
+        } as GeofencesState,
     };
 }
 

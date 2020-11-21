@@ -2,7 +2,7 @@ import PusherNotificationModel from '../../../models/PusherNotificationModel';
 import ReduxStore from '../../../ReduxStore';
 import { SnackbarNotification, enqueueSnackbar } from '../../../redux/actions/SnackbarActions';
 import { StatusEnum } from '../../../models/StatusEnum';
-import { removePendingDeleteGeofencesByCorrelationId, resetTableGeofences } from '../../../redux/actions/GeofenceActions';
+import { removePendingDeleteGeofencesByCorrelationId, resetTableGeofences, setPendingBulkOperation } from '../../../redux/actions/GeofenceActions';
 
 export default function GeofenceBulkDeleteHandler(data: PusherNotificationModel): void {
     const oidcState = ReduxStore.getState().oidc;
@@ -38,5 +38,7 @@ export default function GeofenceBulkDeleteHandler(data: PusherNotificationModel)
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
             store.dispatch(enqueueSnackbarAction);
         }
+        const pendingBulkOperationAction = setPendingBulkOperation(false);
+        store.dispatch(pendingBulkOperationAction);
     }
 }

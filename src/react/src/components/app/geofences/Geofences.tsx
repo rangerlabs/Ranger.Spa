@@ -9,6 +9,7 @@ import {
     setOrderBy,
     setSortOrder,
     resetTableGeofences,
+    setPendingBulkOperation,
 } from '../../../redux/actions/GeofenceActions';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
@@ -24,6 +25,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
 import { openDialog, DialogContent } from '../../../redux/actions/DialogActions';
+import CustomRefreshToolbar from '../muiDataTable/CustomRefreshToolbar';
 const MUIDataTable = require('mui-datatables').default;
 const debounceSearchRender = require('mui-datatables').debounceSearchRender;
 
@@ -61,6 +63,11 @@ type MuiDatatablesSortType = {
     direction: SortOrder;
 };
 
+type DeletedRow = {
+    index: number;
+    dataIndex: number;
+};
+
 interface GeofencesProps extends WithStyles<typeof styles> {
     geofencesState: GeofencesState;
     push: typeof push;
@@ -77,6 +84,7 @@ interface GeofencesProps extends WithStyles<typeof styles> {
     setSortOrder: (sortOrder: SortOrder) => void;
     resetTableGeofences: () => void;
     openDialog: (dialogContent: DialogContent) => void;
+    setPendingBulkOperation: (isPending: boolean) => void;
 }
 
 interface LocalGeofencesState {
@@ -125,6 +133,10 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         openDialog: (dialogContent: DialogContent) => {
             const action = openDialog(dialogContent);
+            dispatch(action);
+        },
+        setPendingBulkOperation: (isPending: boolean) => {
+            const action = setPendingBulkOperation(isPending);
             dispatch(action);
         },
     };
@@ -204,13 +216,9 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
 
     booleanRender = (value: string, trueValue: string): JSX.Element => {
         return value === trueValue ? (
-            <Box textAlign="center">
-                <CheckCircleIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="primary" />
-            </Box>
+            <CheckCircleIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="primary" />
         ) : (
-            <Box textAlign="center">
-                <HighlightOffIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="error" />
-            </Box>
+            <HighlightOffIcon style={{ fontSize: 22 }} className={this.props.classes.tableIcon} color="error" />
         );
     };
 
@@ -271,12 +279,18 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         }
     };
 
-    private delete(rowsDeleted: any, data: any) {
+    private delete(rowsDeleted: DeletedRow[]) {
         console.log('rows: ', rowsDeleted);
-        console.log('data: ', data);
+        const selectedExternalIds = new Array<string>();
+        rowsDeleted.forEach((r) => selectedExternalIds.push(this.props.geofencesState.tableGeofences[r.index].externalId));
+        this.props.setPendingBulkOperation(true);
         this.props.resetTableGeofences();
-        // const selectedExternalIds = new Array<string>();
-        // rowsSelected.forEach((v) => selectedExternalIds.push(this.props.geofencesState.tableGeofences[v].externalId));
+        this.requestTableGeofences(
+            '',
+            this.props.page,
+            { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
+            this.props.pageCount
+        );
     }
 
     private search(tableState: any) {
@@ -411,15 +425,21 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             elevation: 3,
             responsive: 'vertical',
             count: this.props.totalCount,
+            page: this.props.page,
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
             sortOrder: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
             onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
             tableBodyMaxHeight: 'calc(100vh - 64px - 48px - 64px - 52px)',
-            onRowsDelete: (rows: any, data: any) => this.delete(rows, data),
+            onRowsDelete: (rows: DeletedRow[]) => this.delete(rows),
             customToolbar: () => {
-                return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
+                return (
+                    <React.Fragment>
+                        <CustomRefreshToolbar onClick={() => {}} />
+                        <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
+                    </React.Fragment>
+                );
             },
             onTableChange: (action: string, tableState: any) => {
                 this.onTableChange(action, tableState);
@@ -434,6 +454,11 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                             <Typography variant="h6">
                                 Geofences
                                 {!geofencesState.isTableLoaded && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
+                                {!geofencesState.isPendingBulkOperation && (
+                                    <Typography style={{ marginLeft: 15, position: 'relative', top: 4 }}>
+                                        A bulk operation has begun. The objects listed below may change soon.
+                                    </Typography>
+                                )}
                             </Typography>
                         }
                         data={this.mapGeofencesToTableGeofences(geofencesState.tableGeofences)}

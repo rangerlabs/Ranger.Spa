@@ -5,6 +5,7 @@ import CircleGeofence from '../models/app/geofences/CircleGeofence';
 import { ShapePicker } from '../redux/actions/GoogleMapsActions';
 import CoordinatePair from '../models/app/geofences/CoordinatePair';
 import Schedule from '../models/Schedule';
+import GeofenceBulkDelete from '../models/app/geofences/GeofenceBulkDelete';
 
 export type OrderByOptions = 'ExternalId' | 'Shape' | 'Enabled' | 'CreatedDate' | 'UpdatedDate';
 export type SortOrder = 'asc' | 'desc';
@@ -77,8 +78,13 @@ export default class GeofenceService {
             schedule: Schedule.IsFullUtcSchedule(geofence.schedule) ? null : geofence.schedule.ToLocalTimeSchedule(),
         });
     }
+
     async deleteGeofence(projectId: string, externalId: string): Promise<IRestResponse<void>> {
         return RestUtilities.delete(`${projectId}/geofences/${externalId}`);
+    }
+
+    async bulkDeleteGeofences(projectId: string, geofenceBulkDeleteModel: GeofenceBulkDelete): Promise<IRestResponse<void>> {
+        return RestUtilities.post(`${projectId}/geofences/bulk-delete`, geofenceBulkDeleteModel);
     }
 
     private MapGeofence(v: CircleGeofence | PolygonGeofence) {
