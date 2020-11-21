@@ -314,6 +314,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 //display an error
             } else {
                 this.refresh();
+                this.props.setPendingDeleteGeofences(selectedGeofences);
             }
         });
     }
@@ -357,7 +358,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         this.requestTableGeofences(tableState.searchText ?? '', tableState.page, tableState.sortOrder, tableState.rowsPerPage);
     }
 
-    getNoMatchForCurrentState() {
+    private getNoMatchForCurrentState() {
         if (this.props.geofencesState.isTableLoaded && !this.state.isSearching && !this.props.totalCount) {
             return 'Your organization has not created any geofences yet.';
         } else if (this.props.geofencesState.isTableLoaded && this.state.isSearching && !this.props.totalCount) {
@@ -368,7 +369,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         return 'Loading...';
     }
 
-    overflowRender(val: string) {
+    private overflowRender(val: string) {
         return (
             <div style={{ position: 'relative', height: '20px' }}>
                 <div className={this.props.classes.parentStyle}>
@@ -376,6 +377,10 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 </div>
             </div>
         );
+    }
+
+    private isSelectable(index: number) {
+        this.props.geofencesState.pendingDeletion.findIndex((v) => v.id === this.props.geofencesState.tableGeofences[index].id) === -1 ? true : false;
     }
 
     columns = [
@@ -457,12 +462,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
             tableBodyMaxHeight: 'calc(100vh - 64px - 48px - 64px - 52px)',
-            isRowSelectable: (dataIndex: number, selectedRows: any, data: any) => {
-                console.log(dataIndex);
-                console.log(selectedRows);
-                console.log(data);
-                return true;
-            },
+            isRowSelectable: (index: number) => this.isSelectable(index),
             onRowsDelete: (rows: RowsDeleted) => this.delete(rows),
             customToolbar: () => {
                 return (
