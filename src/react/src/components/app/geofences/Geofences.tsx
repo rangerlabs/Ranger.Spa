@@ -461,7 +461,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             customToolbar: () => {
                 return (
                     <React.Fragment>
-                        <CustomRefreshToolbar onClick={this.refresh} />
+                        <CustomRefreshToolbar onClick={() => this.refresh()} />
                         <CustomAddToolbar onClick={this.redirectToNewGeofenceForm} />
                     </React.Fragment>
                 );

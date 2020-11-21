@@ -4,11 +4,10 @@ import { WithStyles, Theme, createStyles, withStyles, IconButton, Tooltip } from
 
 const styles = (theme: Theme) =>
     createStyles({
-        button: {
-            margin: theme.spacing(1),
-        },
-        leftIcon: {
-            marginRight: theme.spacing(1),
+        icon: {
+            '&:hover': {
+                color: theme.palette.primary.main,
+            },
         },
     });
 
@@ -22,7 +21,7 @@ class CustomRefreshToolbar extends React.Component<CustomRefreshToolbarProps> {
 
         return (
             <Tooltip title="Refresh" placement="bottom">
-                <IconButton onClick={this.props.onClick} color="primary">
+                <IconButton onClick={this.props.onClick} classes={{ root: classes.icon }}>
                     <RefreshIcon />
                 </IconButton>
             </Tooltip>
