@@ -416,7 +416,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             sortOrder: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
             onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
-            tableBodyMaxHeight: 'calc(100vh - 32px - 48px - 64px - 52px)',
+            tableBodyMaxHeight: 'calc(100vh - 64px - 48px - 64px - 52px)',
             onRowsDelete: (rows: any, data: any) => this.delete(rows, data),
             customToolbar: () => {
                 return <CustomAddToolbar toggleFormFlag={this.redirectToNewGeofenceForm} />;
