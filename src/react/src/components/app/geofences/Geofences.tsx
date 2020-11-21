@@ -232,6 +232,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     };
 
     onTableChange = (action: string, tableState: any) => {
+        console.log(action, tableState);
         switch (action) {
             case 'changePage': {
                 if (tableState.rowsSelected?.data?.length) {
