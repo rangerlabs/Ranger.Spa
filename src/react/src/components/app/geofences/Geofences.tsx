@@ -21,13 +21,15 @@ import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
 import RoutePaths from '../../RoutePaths';
-import { Grid, Theme, createStyles, withStyles, WithStyles, CircularProgress, Typography, Box } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, CircularProgress, Typography } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
 import { openDialog, DialogContent } from '../../../redux/actions/DialogActions';
 import CustomRefreshToolbar from '../muiDataTable/CustomRefreshToolbar';
 import GeofenceBulkDelete from '../../../models/app/geofences/GeofenceBulkDelete';
+import CorrelationModel from '../../../models/CorrelationModel';
+import { StatusEnum } from '../../../models/StatusEnum';
 const MUIDataTable = require('mui-datatables').default;
 const debounceSearchRender = require('mui-datatables').debounceSearchRender;
 
@@ -311,8 +313,11 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             if (response.isError) {
                 //display an error
             } else {
-                this.refresh();
+                selectedGeofences.forEach(
+                    (v) => (v.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING } as CorrelationModel)
+                );
                 this.props.setPendingDeleteGeofences(selectedGeofences);
+                this.refresh();
             }
         });
     }
