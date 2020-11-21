@@ -383,7 +383,12 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     }
 
     private isSelectable(index: number) {
-        return this.props.geofencesState.pendingDeletion.findIndex((v) => v.id === this.props.geofencesState.tableGeofences[index].id) === -1 ? true : false;
+        if (this.props.geofencesState.tableGeofences) {
+            return this.props.geofencesState.pendingDeletion.findIndex((v) => v.id === this.props.geofencesState.tableGeofences[index].id) === -1
+                ? true
+                : false;
+        }
+        return true;
     }
 
     columns = [
