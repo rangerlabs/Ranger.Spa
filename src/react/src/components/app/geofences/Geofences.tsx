@@ -378,7 +378,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     }
 
     private isSelectable(index: number) {
-        this.props.geofencesState.pendingDeletion.findIndex((v) => v.id === this.props.geofencesState.tableGeofences[index].id) === -1 ? true : false;
+        return this.props.geofencesState.pendingDeletion.findIndex((v) => v.id === this.props.geofencesState.tableGeofences[index].id) === -1 ? true : false;
     }
 
     columns = [
@@ -484,7 +484,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                                 Geofences
                                 {!geofencesState.isTableLoaded && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
                                 {geofencesState.isPendingBulkOperation && (
-                                    <Typography variant="caption">An operation has begun. The geofences listed below may change soon.</Typography>
+                                    <Typography>An operation has begun, the resources listed below may change soon.</Typography>
                                 )}
                             </Typography>
                         }
