@@ -248,7 +248,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     };
 
     onTableChange = (action: string, tableState: any) => {
-        console.log(action, tableState);
         switch (action) {
             case 'changePage': {
                 if (tableState.selectedRows.data.length) {
@@ -304,7 +303,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     }
 
     private delete(rowsDeleted: RowsDeleted) {
-        console.log('rows: ', rowsDeleted);
         const selectedGeofences = new Array<CircleGeofence | PolygonGeofence>();
         rowsDeleted.data.forEach((r) => selectedGeofences.push(this.props.geofencesState.tableGeofences[r.index]));
         this.props.setPendingBulkOperation(true);
