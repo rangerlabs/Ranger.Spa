@@ -21,7 +21,7 @@ import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
 import RoutePaths from '../../RoutePaths';
-import { Grid, Theme, createStyles, withStyles, WithStyles, CircularProgress, Typography } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, CircularProgress, Typography, Grow } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
@@ -30,6 +30,7 @@ import CustomRefreshToolbar from '../muiDataTable/CustomRefreshToolbar';
 import GeofenceBulkDelete from '../../../models/app/geofences/GeofenceBulkDelete';
 import CorrelationModel from '../../../models/CorrelationModel';
 import { StatusEnum } from '../../../models/StatusEnum';
+import Constants from '../../../theme/Constants';
 const MUIDataTable = require('mui-datatables').default;
 const debounceSearchRender = require('mui-datatables').debounceSearchRender;
 
@@ -60,6 +61,9 @@ const styles = (theme: Theme) =>
         },
         pendingDelete: {
             backgroundColor: '#ff000026 !important',
+        },
+        warning: {
+            color: Constants.COLORS.WARNING,
         },
     });
 
@@ -104,7 +108,7 @@ interface LocalGeofencesState {
     wasError: boolean;
     isSearching: boolean;
     completedBulkDelete: boolean;
-    displayText: string;
+    bulkOperationMsg: JSX.Element;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -166,7 +170,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         wasError: false,
         isSearching: false,
         completedBulkDelete: false,
-        displayText: '',
+        bulkOperationMsg: undefined,
     };
 
     refs: {
@@ -181,7 +185,11 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
 
     componentWillMount() {
         if (this.props.geofencesState.isPendingBulkOperation) {
-            this.setState({ displayText: 'A bulk operation is ongoing, the resources listed below may change soon.' });
+            this.setState({
+                bulkOperationMsg: (
+                    <Typography className={this.props.classes.warning}>A bulk operation is in progress, the resources below may change soon.</Typography>
+                ),
+            });
         } else {
             this.props.setPendingDeleteGeofences(new Array<CircleGeofence | PolygonGeofence>());
         }
@@ -189,7 +197,10 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
 
     componentDidUpdate = (prevProps: GeofencesProps) => {
         if (prevProps && prevProps.geofencesState.isPendingBulkOperation && !this.props.geofencesState.isPendingBulkOperation) {
-            this.setState({ completedBulkDelete: true, displayText: 'The operation is complete, refresh the table to view the updated resources.' });
+            this.setState({
+                completedBulkDelete: true,
+                bulkOperationMsg: <Typography color="primary">The bulk operation is complete, refresh the table to view the updated resources.</Typography>,
+            });
         }
     };
 
@@ -318,7 +329,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     private refresh() {
         if (this.state.completedBulkDelete) {
             this.props.setPendingDeleteGeofences(new Array<CircleGeofence | PolygonGeofence>());
-            this.setState({ completedBulkDelete: false });
+            this.setState({ completedBulkDelete: false, bulkOperationMsg: undefined });
         }
         this.props.resetTableGeofences();
         this.requestTableGeofences(
@@ -333,7 +344,11 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         const selectedGeofences = new Array<CircleGeofence | PolygonGeofence>();
         rowsDeleted.data.forEach((r) => selectedGeofences.push(this.props.geofencesState.tableGeofences[r.index]));
         this.props.setPendingBulkOperation(true);
-        this.setState({ displayText: 'A bulk operation has begun, the resources listed below may need refreshed soon.' });
+        this.setState({
+            bulkOperationMsg: (
+                <Typography className={this.props.classes.warning}>A bulk operation is in progress, the resources below may change soon.</Typography>
+            ),
+        });
         const geofenceBulkDeleteRequest = { externalIds: selectedGeofences.map((g) => g.externalId) } as GeofenceBulkDelete;
         this.geofenceService.bulkDeleteGeofences(this.props.selectedProject.id, geofenceBulkDeleteRequest).then((response) => {
             if (response.isError) {
@@ -525,11 +540,14 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                             <Typography variant="h6">
                                 Geofences
                                 {!geofencesState.isTableLoaded && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
-                                {this.state.displayText && (
-                                    <Typography display="block" variant="subtitle1">
-                                        {this.state.displayText}
-                                    </Typography>
-                                )}
+                                {
+                                    <Grow in={Boolean(this.state.bulkOperationMsg)}>
+                                        <Typography display="block" variant="subtitle1">
+                                            <CircularProgress size={12} />
+                                            {this.state.bulkOperationMsg}
+                                        </Typography>
+                                    </Grow>
+                                }
                             </Typography>
                         }
                         data={this.mapGeofencesToTableGeofences(geofencesState.tableGeofences)}

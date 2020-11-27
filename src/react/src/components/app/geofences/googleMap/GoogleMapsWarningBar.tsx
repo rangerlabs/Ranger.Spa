@@ -13,7 +13,7 @@ const styles = (theme: Theme) =>
             width: `calc(100% - ${theme.drawer.width}px) !important`,
         },
         barItem: {
-            background: orange[300],
+            background: Constants.COLORS.WARNING,
             borderRadius: 5,
         },
         whiteText: {

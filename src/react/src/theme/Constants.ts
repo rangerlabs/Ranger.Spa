@@ -1,8 +1,11 @@
+import { orange } from '@material-ui/core/colors';
+
 const Constants = {
     COLORS: {
         WHITE: '#FFFFFF',
         BLACK: '#000000',
         PRIMARY_COLOR: '#479131',
+        WARNING: orange[300],
         MENU_BACKGROUND_COLOR: '#47913114',
         LIST_TABLE_HOVER_COLOR: '#4791311c',
         MAP_DARK_GREEN: '#1b4d10',
