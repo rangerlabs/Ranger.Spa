@@ -374,7 +374,9 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                             this.props.setPendingDeleteGeofences(selectedGeofences);
                         }
                     });
-                }
+                },
+                undefined,
+                true
             )
         );
     }
