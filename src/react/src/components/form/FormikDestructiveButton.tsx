@@ -28,7 +28,7 @@ class FormikDestructiveButton extends React.Component<FormikDestructiveButtonPro
     render() {
         const { classes, ...rest } = this.props;
         return (
-            <Button TouchRippleProps={{ classes: { child: classes.child } }} className={classes.warning} onClick={this.props.onClick} {...rest}>
+            <Button TouchRippleProps={{ classes: { child: classes.child } }} className={classes.warning} {...rest}>
                 {this.props.children}
             </Button>
         );

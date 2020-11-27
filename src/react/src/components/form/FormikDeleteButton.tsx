@@ -10,7 +10,7 @@ interface FormikDeleteButtonProps {
     dialogTitle: string;
     dialogContent?: JSX.Element | string;
     confirmText?: string;
-    disabled: boolean;
+    disabled?: boolean;
     onConfirm?: Function;
     onCancel?: Function;
     openDialog: (dialogContent: DialogContent) => void;
