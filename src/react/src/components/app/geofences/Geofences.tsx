@@ -109,7 +109,6 @@ interface LocalGeofencesState {
     isSearching: boolean;
     completedBulkDelete: boolean;
     bulkOperationMsg: JSX.Element;
-    bulkNoticeTransitioning: boolean;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -172,7 +171,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         isSearching: false,
         completedBulkDelete: false,
         bulkOperationMsg: null,
-        bulkNoticeTransitioning: false,
     };
 
     refs: {
@@ -206,21 +204,14 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
 
     bulkInProgressElement = (
         <React.Fragment>
-            <CircularProgress className={this.props.classes.warning} size={12} style={{ marginRight: 15, position: 'relative', top: 4 }} />
             <Typography display="inline" className={this.props.classes.warning}>
-                A bulk operation is in progress, the resources below may change soon.
+                <CircularProgress className={this.props.classes.warning} size={12} style={{ marginRight: 15, position: 'relative' }} />A bulk operation is in
+                progress, the resources below may change soon.
             </Typography>
         </React.Fragment>
     );
 
     bulkCompleteElement = (<Typography color="primary">The bulk operation is complete, refresh the table to view the updated resources.</Typography>);
-
-    handleExit = () => {
-        this.setState({ bulkNoticeTransitioning: true });
-    };
-    handleExited = () => {
-        this.setState({ bulkNoticeTransitioning: false });
-    };
 
     editGeofence = (rowData: string[]) => {
         this.props.push(`${RoutePaths.GeofencesEdit.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
@@ -558,16 +549,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                                     Geofences
                                     {!geofencesState.isTableLoaded && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
                                 </Typography>
-                                {
-                                    <Grow
-                                        appear
-                                        in={Boolean(this.state.bulkOperationMsg) && !this.state.bulkNoticeTransitioning}
-                                        onExit={this.handleExit}
-                                        onExited={this.handleExited}
-                                    >
-                                        <div>{Boolean(this.state.bulkOperationMsg) && this.state.bulkOperationMsg}</div>
-                                    </Grow>
-                                }
+                                {Boolean(this.state.bulkOperationMsg) && this.state.bulkOperationMsg}
                             </React.Fragment>
                         }
                         data={this.mapGeofencesToTableGeofences(geofencesState.tableGeofences)}
