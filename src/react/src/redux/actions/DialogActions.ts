@@ -19,7 +19,8 @@ export class DialogContent {
         public title?: string,
         public confirmText?: string,
         public confirmAction?: Function,
-        public cancelAction?: Function
+        public cancelAction?: Function,
+        public isDestructive?: boolean
     ) {}
 }
 

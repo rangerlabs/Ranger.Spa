@@ -352,21 +352,31 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     private delete(rowsDeleted: RowsDeleted) {
         const selectedGeofences = new Array<CircleGeofence | PolygonGeofence>();
         rowsDeleted.data.forEach((r) => selectedGeofences.push(this.props.geofencesState.tableGeofences[r.index]));
-        this.props.setPendingBulkOperation(true);
-        this.setState({
-            bulkOperationMsg: this.bulkInProgressElement,
-        });
-        const geofenceBulkDeleteRequest = { externalIds: selectedGeofences.map((g) => g.externalId) } as GeofenceBulkDelete;
-        this.geofenceService.bulkDeleteGeofences(this.props.selectedProject.id, geofenceBulkDeleteRequest).then((response) => {
-            if (response.isError) {
-                //display an error
-            } else {
-                selectedGeofences.forEach(
-                    (v) => (v.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING } as CorrelationModel)
-                );
-                this.props.setPendingDeleteGeofences(selectedGeofences);
-            }
-        });
+
+        this.props.openDialog(
+            new DialogContent(
+                `Are you sure you want to delete the ${selectedGeofences.length} selected geofence(s)? This cannot be undone.`,
+                `Delete ${selectedGeofences.length} Geofence(s)?`,
+                'Delete',
+                () => {
+                    this.props.setPendingBulkOperation(true);
+                    this.setState({
+                        bulkOperationMsg: this.bulkInProgressElement,
+                    });
+                    const geofenceBulkDeleteRequest = { externalIds: selectedGeofences.map((g) => g.externalId) } as GeofenceBulkDelete;
+                    this.geofenceService.bulkDeleteGeofences(this.props.selectedProject.id, geofenceBulkDeleteRequest).then((response) => {
+                        if (response.isError) {
+                            //display an error
+                        } else {
+                            selectedGeofences.forEach(
+                                (v) => (v.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING } as CorrelationModel)
+                            );
+                            this.props.setPendingDeleteGeofences(selectedGeofences);
+                        }
+                    });
+                }
+            )
+        );
     }
 
     private search(tableState: any) {

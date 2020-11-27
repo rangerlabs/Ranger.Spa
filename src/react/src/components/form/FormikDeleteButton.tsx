@@ -1,29 +1,10 @@
 import * as React from 'react';
-import { Button, withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
 import { ButtonProps } from '@material-ui/core/Button';
 import { openDialog, DialogContent } from '../../redux/actions/DialogActions';
-import { red } from '@material-ui/core/colors';
 import { connect } from 'react-redux';
+import FormikDestructiveButton from './FormikDestructiveButton';
 
-const styles = (theme: Theme) =>
-    createStyles({
-        warning: {
-            marginTop: theme.spacing(3),
-            color: red[600],
-            '&:hover': {
-                backgroundColor: '#e539351c',
-                color: theme.palette.error.main,
-            },
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderColor: red[600],
-        },
-        child: {
-            backgroundColor: theme.palette.error.main,
-        },
-    });
-
-interface FormikDeleteButtonProps extends WithStyles<typeof styles> {
+interface FormikDeleteButtonProps {
     isSubmitting: boolean;
     dialogTitle: string;
     dialogContent?: JSX.Element | string;
@@ -51,18 +32,11 @@ class FormikDeleteButton extends React.Component<FormikDeleteButtonProps & Butto
     render() {
         const { isSubmitting, dialogTitle, dialogContent, confirmText, classes, onConfirm, openDialog, variant, ...rest } = this.props;
         return (
-            <Button
-                TouchRippleProps={{ classes: { child: classes.child } }}
-                className={classes.warning}
-                onClick={this.renderDialog}
-                disabled={isSubmitting}
-                {...rest}
-                variant="outlined"
-            >
+            <FormikDestructiveButton onClick={this.renderDialog} isSubmitting={isSubmitting} {...rest}>
                 {this.props.children}
-            </Button>
+            </FormikDestructiveButton>
         );
     }
 }
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(FormikDeleteButton));
+export default connect(null, mapDispatchToProps)(FormikDeleteButton);

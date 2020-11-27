@@ -1,11 +1,42 @@
 import * as React from 'react';
-import { Dialog as MuiDialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
+import {
+    Dialog as MuiDialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Button,
+    WithStyles,
+    Theme,
+    createStyles,
+    withStyles,
+} from '@material-ui/core';
 import { connect } from 'react-redux';
 import { DialogState, closeDialog } from '../../redux/actions/DialogActions';
 import { ApplicationState } from '../../stores';
 import { isString } from 'util';
+import { red } from '@material-ui/core/colors';
+import FormikDestructiveButton from '../form/FormikDestructiveButton';
 
-interface DialogProps {
+const styles = (theme: Theme) =>
+    createStyles({
+        warning: {
+            marginTop: theme.spacing(3),
+            color: red[600],
+            '&:hover': {
+                backgroundColor: '#e539351c',
+                color: theme.palette.error.main,
+            },
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: red[600],
+        },
+        child: {
+            backgroundColor: theme.palette.error.main,
+        },
+    });
+
+interface DialogProps extends WithStyles<typeof styles> {
     dialog: DialogState;
     onClose: any;
 }
@@ -49,18 +80,32 @@ class Dialog extends React.Component<DialogProps> {
                                     >
                                         Cancel
                                     </Button>
-                                    <Button
-                                        onClick={() => {
-                                            onClose();
-                                            if (dialog.content.confirmAction) {
-                                                dialog.content.confirmAction();
-                                            }
-                                        }}
-                                        color="primary"
-                                        variant="text"
-                                    >
-                                        {dialog.content.confirmText}
-                                    </Button>
+                                    {dialog.content.isDestructive ? (
+                                        <FormikDestructiveButton
+                                            isSubmitting={false}
+                                            onClick={() => {
+                                                onClose();
+                                                if (dialog.content.confirmAction) {
+                                                    dialog.content.confirmAction();
+                                                }
+                                            }}
+                                        >
+                                            {dialog.content.confirmText}
+                                        </FormikDestructiveButton>
+                                    ) : (
+                                        <Button
+                                            onClick={() => {
+                                                onClose();
+                                                if (dialog.content.confirmAction) {
+                                                    dialog.content.confirmAction();
+                                                }
+                                            }}
+                                            color="primary"
+                                            variant="text"
+                                        >
+                                            {dialog.content.confirmText}
+                                        </Button>
+                                    )}
                                 </DialogActions>
                             </React.Fragment>
                         </DialogContent>
@@ -71,4 +116,4 @@ class Dialog extends React.Component<DialogProps> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dialog);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Dialog));
