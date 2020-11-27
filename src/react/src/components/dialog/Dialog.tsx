@@ -82,13 +82,13 @@ class Dialog extends React.Component<DialogProps> {
                                     </Button>
                                     {dialog.content.isDestructive ? (
                                         <FormikDestructiveButton
-                                            isSubmitting={false}
                                             onClick={() => {
                                                 onClose();
                                                 if (dialog.content.confirmAction) {
                                                     dialog.content.confirmAction();
                                                 }
                                             }}
+                                            variant="text"
                                         >
                                             {dialog.content.confirmText}
                                         </FormikDestructiveButton>

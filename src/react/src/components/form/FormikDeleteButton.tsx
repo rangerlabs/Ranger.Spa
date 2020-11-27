@@ -23,16 +23,16 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-class FormikDeleteButton extends React.Component<FormikDeleteButtonProps & ButtonProps> {
+class FormikDeleteButton extends React.Component<FormikDeleteButtonProps> {
     renderDialog = () => {
         const { dialogTitle, dialogContent, confirmText, onConfirm, onCancel } = this.props;
         this.props.openDialog(new DialogContent(dialogContent, dialogTitle, confirmText, onConfirm, onCancel));
     };
 
     render() {
-        const { isSubmitting, dialogTitle, dialogContent, confirmText, classes, onConfirm, openDialog, variant, ...rest } = this.props;
+        const { isSubmitting, dialogTitle, dialogContent, confirmText, onConfirm, onCancel, openDialog, ...rest } = this.props;
         return (
-            <FormikDestructiveButton onClick={this.renderDialog} isSubmitting={isSubmitting} {...rest}>
+            <FormikDestructiveButton onClick={this.renderDialog} variant="outlined" {...rest}>
                 {this.props.children}
             </FormikDestructiveButton>
         );

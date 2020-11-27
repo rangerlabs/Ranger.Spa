@@ -19,25 +19,16 @@ const styles = (theme: Theme) =>
         child: {
             backgroundColor: theme.palette.error.main,
         },
+        borders: {},
     });
 
-interface FormikDestructiveButtonProps extends WithStyles<typeof styles> {
-    isSubmitting: boolean;
-    onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}
+interface FormikDestructiveButtonProps extends WithStyles<typeof styles> {}
 
 class FormikDestructiveButton extends React.Component<FormikDestructiveButtonProps & ButtonProps> {
     render() {
-        const { isSubmitting, classes, variant, ...rest } = this.props;
+        const { classes, ...rest } = this.props;
         return (
-            <Button
-                TouchRippleProps={{ classes: { child: classes.child } }}
-                className={classes.warning}
-                onClick={this.props.onClick}
-                disabled={isSubmitting}
-                {...rest}
-                variant="outlined"
-            >
+            <Button TouchRippleProps={{ classes: { child: classes.child } }} className={classes.warning} onClick={this.props.onClick} {...rest}>
                 {this.props.children}
             </Button>
         );
