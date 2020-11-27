@@ -373,6 +373,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                         <FormikTextField
                                             infoText="A unique identifier for the geofence."
+                                            autoFocus
                                             name="externalId"
                                             label="External Id"
                                             value={props.values.externalId}
