@@ -508,7 +508,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
             tableBodyMaxHeight: 'calc(100vh - 64px - 48px - 64px - 52px)',
-            setRowProps: this.setRowProps,
+            setRowProps: (row: any[], dataIndex: number, rowIndex: number) => this.setRowProps(row, dataIndex, rowIndex),
             isRowSelectable: (index: number) => !this.isPendingDelete(index),
             onRowsDelete: (rows: RowsDeleted) => this.delete(rows),
             customToolbar: () => {
