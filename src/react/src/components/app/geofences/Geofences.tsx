@@ -58,6 +58,16 @@ const styles = (theme: Theme) =>
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
         },
+        strikeThrough: {
+            '&::before': {
+                content: '""',
+                borderBottom: '2px solid red',
+                width: '100%',
+                position: 'absolute',
+                right: 0,
+                top: '63%',
+            },
+        },
     });
 
 const geofencesService = new GeofenceService();
@@ -100,6 +110,8 @@ interface GeofencesProps extends WithStyles<typeof styles> {
 interface LocalGeofencesState {
     wasError: boolean;
     isSearching: boolean;
+    completedBulkDelete: boolean;
+    displayText: string;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -160,6 +172,8 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     state: LocalGeofencesState = {
         wasError: false,
         isSearching: false,
+        completedBulkDelete: false,
+        displayText: '',
     };
 
     refs: {
@@ -171,6 +185,20 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     componentWillUnmount() {
         this.props.resetTableGeofences();
     }
+
+    componentWillMount() {
+        if (this.props.geofencesState.isPendingBulkOperation) {
+            this.setState({ displayText: 'A bulk operation is ongoing, the resources listed below may change soon.' });
+        } else {
+            this.props.setPendingDeleteGeofences(new Array<CircleGeofence | PolygonGeofence>());
+        }
+    }
+
+    componentDidUpdate = (prevProps: GeofencesProps) => {
+        if (prevProps && prevProps.geofencesState.isPendingBulkOperation && !this.props.geofencesState.isPendingBulkOperation) {
+            this.setState({ completedBulkDelete: true, displayText: 'The operation is complete, refresh the table to view the updated resources.' });
+        }
+    };
 
     editGeofence = (rowData: string[]) => {
         this.props.push(`${RoutePaths.GeofencesEdit.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
@@ -295,6 +323,10 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     };
 
     private refresh() {
+        if (this.state.completedBulkDelete) {
+            this.props.setPendingDeleteGeofences(new Array<CircleGeofence | PolygonGeofence>());
+            this.setState({ completedBulkDelete: false });
+        }
         this.props.resetTableGeofences();
         this.requestTableGeofences(
             '',
@@ -308,6 +340,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         const selectedGeofences = new Array<CircleGeofence | PolygonGeofence>();
         rowsDeleted.data.forEach((r) => selectedGeofences.push(this.props.geofencesState.tableGeofences[r.index]));
         this.props.setPendingBulkOperation(true);
+        this.setState({ displayText: 'A bulk operation has begun, the resources listed below may need refreshed soon.' });
         const geofenceBulkDeleteRequest = { externalIds: selectedGeofences.map((g) => g.externalId) } as GeofenceBulkDelete;
         this.geofenceService.bulkDeleteGeofences(this.props.selectedProject.id, geofenceBulkDeleteRequest).then((response) => {
             if (response.isError) {
@@ -317,7 +350,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                     (v) => (v.correlationModel = { correlationId: response.correlationId, status: StatusEnum.PENDING } as CorrelationModel)
                 );
                 this.props.setPendingDeleteGeofences(selectedGeofences);
-                this.refresh();
             }
         });
     }
@@ -372,6 +404,12 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         return 'Loading...';
     }
 
+    private setRowProps(row: any[], dataIndex: number, rowIndex: number) {
+        return {
+            className: this.isPendingDelete(rowIndex) ? this.props.classes.strikeThrough : '',
+        };
+    }
+
     private overflowRender(val: string) {
         return (
             <div style={{ position: 'relative', height: '20px' }}>
@@ -382,13 +420,13 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         );
     }
 
-    private isSelectable(index: number) {
+    private isPendingDelete(index: number) {
         if (this.props.geofencesState.tableGeofences.length) {
             return this.props.geofencesState.pendingDeletion.findIndex((v) => v.id === this.props.geofencesState.tableGeofences[index].id) === -1
-                ? true
-                : false;
+                ? false
+                : true;
         }
-        return true;
+        return false;
     }
 
     columns = [
@@ -470,7 +508,8 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
             tableBodyMaxHeight: 'calc(100vh - 64px - 48px - 64px - 52px)',
-            isRowSelectable: (index: number) => this.isSelectable(index),
+            setRowProps: this.setRowProps,
+            isRowSelectable: (index: number) => !this.isPendingDelete(index),
             onRowsDelete: (rows: RowsDeleted) => this.delete(rows),
             customToolbar: () => {
                 return (
@@ -493,8 +532,10 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                             <Typography variant="h6">
                                 Geofences
                                 {!geofencesState.isTableLoaded && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
-                                {geofencesState.isPendingBulkOperation && (
-                                    <Typography>An operation has begun, the resources listed below may change soon.</Typography>
+                                {this.state.displayText && (
+                                    <Typography display="block" variant="subtitle1">
+                                        {this.state.displayText}
+                                    </Typography>
                                 )}
                             </Typography>
                         }

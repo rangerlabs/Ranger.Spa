@@ -32,8 +32,6 @@ export default function GeofenceBulkDeleteHandler(data: PusherNotificationModel)
                     variant: 'success',
                 },
             } as SnackbarNotification;
-            const removePendingDeleteGeofenceByCorrelationIdAction = removePendingDeleteGeofencesByCorrelationId(data.correlationId);
-            store.dispatch(removePendingDeleteGeofenceByCorrelationIdAction);
 
             const enqueueSnackbarAction = enqueueSnackbar(snackbarNotification);
             store.dispatch(enqueueSnackbarAction);
