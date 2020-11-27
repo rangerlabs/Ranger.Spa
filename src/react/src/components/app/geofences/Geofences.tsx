@@ -171,7 +171,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         wasError: false,
         isSearching: false,
         completedBulkDelete: false,
-        bulkOperationMsg: undefined,
+        bulkOperationMsg: null,
         bulkNoticeTransitioning: false,
     };
 
@@ -347,7 +347,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     private refresh() {
         if (this.state.completedBulkDelete) {
             this.props.setPendingDeleteGeofences(new Array<CircleGeofence | PolygonGeofence>());
-            this.setState({ completedBulkDelete: false, bulkOperationMsg: undefined });
+            this.setState({ completedBulkDelete: false, bulkOperationMsg: null });
         }
         this.props.resetTableGeofences();
         this.requestTableGeofences(
@@ -560,11 +560,12 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                                 </Typography>
                                 {
                                     <Grow
+                                        appear
                                         in={Boolean(this.state.bulkOperationMsg) && !this.state.bulkNoticeTransitioning}
                                         onExit={this.handleExit}
                                         onExited={this.handleExited}
                                     >
-                                        <React.Fragment>{this.state.bulkOperationMsg}</React.Fragment>
+                                        <React.Fragment>{Boolean(this.state.bulkOperationMsg) && this.state.bulkOperationMsg}</React.Fragment>
                                     </Grow>
                                 }
                             </React.Fragment>
