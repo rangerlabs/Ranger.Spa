@@ -565,7 +565,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                                         onExit={this.handleExit}
                                         onExited={this.handleExited}
                                     >
-                                        <React.Fragment>{Boolean(this.state.bulkOperationMsg) && this.state.bulkOperationMsg}</React.Fragment>
+                                        <div>{Boolean(this.state.bulkOperationMsg) && this.state.bulkOperationMsg}</div>
                                     </Grow>
                                 }
                             </React.Fragment>
