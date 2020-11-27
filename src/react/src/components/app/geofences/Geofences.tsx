@@ -59,7 +59,7 @@ const styles = (theme: Theme) =>
             whiteSpace: 'nowrap',
         },
         pendingDelete: {
-            backgroundColor: '#ff000026',
+            backgroundColor: '#ff000026 !important',
         },
     });
 
