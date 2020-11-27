@@ -58,15 +58,8 @@ const styles = (theme: Theme) =>
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
         },
-        strikeThrough: {
-            '&::before': {
-                content: '""',
-                borderBottom: '2px solid red',
-                width: '100%',
-                position: 'absolute',
-                right: 0,
-                top: '63%',
-            },
+        pendingDelete: {
+            backgroundColor: '#ff000026',
         },
     });
 
@@ -406,7 +399,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
 
     private setRowProps(row: any[], dataIndex: number, rowIndex: number) {
         return {
-            className: this.isPendingDelete(rowIndex) ? this.props.classes.strikeThrough : '',
+            className: this.isPendingDelete(rowIndex) ? this.props.classes.pendingDelete : '',
         };
     }
 
