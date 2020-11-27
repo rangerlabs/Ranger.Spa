@@ -109,6 +109,7 @@ interface LocalGeofencesState {
     isSearching: boolean;
     completedBulkDelete: boolean;
     bulkOperationMsg: JSX.Element;
+    bulkNoticeTransitioning: boolean;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -171,6 +172,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         isSearching: false,
         completedBulkDelete: false,
         bulkOperationMsg: undefined,
+        bulkNoticeTransitioning: false,
     };
 
     refs: {
@@ -186,9 +188,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     componentWillMount() {
         if (this.props.geofencesState.isPendingBulkOperation) {
             this.setState({
-                bulkOperationMsg: (
-                    <Typography className={this.props.classes.warning}>A bulk operation is in progress, the resources below may change soon.</Typography>
-                ),
+                bulkOperationMsg: this.bulkInProgressElement,
             });
         } else {
             this.props.setPendingDeleteGeofences(new Array<CircleGeofence | PolygonGeofence>());
@@ -199,10 +199,28 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         if (prevProps && prevProps.geofencesState.isPendingBulkOperation && !this.props.geofencesState.isPendingBulkOperation) {
             this.setState({
                 completedBulkDelete: true,
-                bulkOperationMsg: <Typography color="primary">The bulk operation is complete, refresh the table to view the updated resources.</Typography>,
+                bulkOperationMsg: this.bulkCompleteElement,
             });
         }
     };
+
+    bulkInProgressElement = (
+        <React.Fragment>
+            <CircularProgress className={this.props.classes.warning} size={12} style={{ marginRight: 15, position: 'relative', top: 4 }} />
+            <Typography display="inline" className={this.props.classes.warning}>
+                A bulk operation is in progress, the resources below may change soon.
+            </Typography>
+        </React.Fragment>
+    );
+
+    handleExit = () => {
+        this.setState({ bulkNoticeTransitioning: true });
+    };
+    handleExited = () => {
+        this.setState({ bulkNoticeTransitioning: false });
+    };
+
+    bulkCompleteElement = (<Typography color="primary">The bulk operation is complete, refresh the table to view the updated resources.</Typography>);
 
     editGeofence = (rowData: string[]) => {
         this.props.push(`${RoutePaths.GeofencesEdit.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
@@ -345,9 +363,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         rowsDeleted.data.forEach((r) => selectedGeofences.push(this.props.geofencesState.tableGeofences[r.index]));
         this.props.setPendingBulkOperation(true);
         this.setState({
-            bulkOperationMsg: (
-                <Typography className={this.props.classes.warning}>A bulk operation is in progress, the resources below may change soon.</Typography>
-            ),
+            bulkOperationMsg: this.bulkInProgressElement,
         });
         const geofenceBulkDeleteRequest = { externalIds: selectedGeofences.map((g) => g.externalId) } as GeofenceBulkDelete;
         this.geofenceService.bulkDeleteGeofences(this.props.selectedProject.id, geofenceBulkDeleteRequest).then((response) => {
@@ -537,18 +553,21 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                     <MUIDataTable
                         className={classes.grid}
                         title={
-                            <Typography variant="h6">
-                                Geofences
-                                {!geofencesState.isTableLoaded && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
+                            <React.Fragment>
+                                <Typography variant="h6">
+                                    Geofences
+                                    {!geofencesState.isTableLoaded && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
+                                </Typography>
                                 {
-                                    <Grow in={Boolean(this.state.bulkOperationMsg)}>
-                                        <Typography display="block" variant="subtitle1">
-                                            <CircularProgress size={12} />
-                                            {this.state.bulkOperationMsg}
-                                        </Typography>
+                                    <Grow
+                                        in={Boolean(this.state.bulkOperationMsg) && !this.state.bulkNoticeTransitioning}
+                                        onExit={this.handleExit}
+                                        onExited={this.handleExited}
+                                    >
+                                        {this.state.bulkOperationMsg}
                                     </Grow>
                                 }
-                            </Typography>
+                            </React.Fragment>
                         }
                         data={this.mapGeofencesToTableGeofences(geofencesState.tableGeofences)}
                         columns={this.columns}
