@@ -213,14 +213,14 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         </React.Fragment>
     );
 
+    bulkCompleteElement = (<Typography color="primary">The bulk operation is complete, refresh the table to view the updated resources.</Typography>);
+
     handleExit = () => {
         this.setState({ bulkNoticeTransitioning: true });
     };
     handleExited = () => {
         this.setState({ bulkNoticeTransitioning: false });
     };
-
-    bulkCompleteElement = (<Typography color="primary">The bulk operation is complete, refresh the table to view the updated resources.</Typography>);
 
     editGeofence = (rowData: string[]) => {
         this.props.push(`${RoutePaths.GeofencesEdit.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
@@ -564,7 +564,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                                         onExit={this.handleExit}
                                         onExited={this.handleExited}
                                     >
-                                        {this.state.bulkOperationMsg}
+                                        <React.Fragment>{this.state.bulkOperationMsg}</React.Fragment>
                                     </Grow>
                                 }
                             </React.Fragment>
