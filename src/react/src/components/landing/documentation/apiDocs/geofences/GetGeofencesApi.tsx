@@ -58,7 +58,7 @@ const GetGeofencesApi = function () {
     return (
         <React.Fragment>
             <EndpointHeaderBlock>
-                <Typography>Retrieves paginated geofences within the project.</Typography>
+                <Typography>Retrieves paginated Geofences within the project.</Typography>
             </EndpointHeaderBlock>
             <EndpointBody>
                 <EndpointPropertiesList properties={endpointProperties} />

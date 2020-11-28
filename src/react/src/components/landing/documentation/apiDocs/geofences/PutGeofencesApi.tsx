@@ -40,7 +40,7 @@ const parameters = [
         required
         description={
             <React.Fragment>
-                The stable Ranger Id of the geofence as returned by{' '}
+                The stable Ranger Id of the Geofence as returned by{' '}
                 {
                     <Link variant="caption" component="button" onClick={() => scrollToLandingId('get-geofences-section')}>
                         GET
@@ -83,7 +83,7 @@ const PutGeofencesApi = function () {
     return (
         <React.Fragment>
             <EndpointHeaderBlock>
-                <Typography>Updates a geofence within the project.</Typography>
+                <Typography>Updates a Geofence within the project.</Typography>
             </EndpointHeaderBlock>
             <EndpointBody>
                 <EndpointPropertiesList properties={endpointProperties} />

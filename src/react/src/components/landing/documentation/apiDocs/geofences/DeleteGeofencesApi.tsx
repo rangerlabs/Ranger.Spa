@@ -36,7 +36,7 @@ const DeleteGeofencesApi = function () {
     return (
         <React.Fragment>
             <EndpointHeaderBlock>
-                <Typography>Deletes a geofence within the project.</Typography>
+                <Typography>Deletes a Geofence within the project.</Typography>
             </EndpointHeaderBlock>
             <EndpointBody>
                 <EndpointPropertiesList properties={endpointProperties} />

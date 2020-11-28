@@ -59,7 +59,7 @@ const PostGeofencesApi = function () {
     return (
         <React.Fragment>
             <EndpointHeaderBlock>
-                <Typography>Creates a geofence within the project.</Typography>
+                <Typography>Creates a Geofence within the project.</Typography>
             </EndpointHeaderBlock>
             <EndpointBody>
                 <EndpointPropertiesList properties={endpointProperties} />
