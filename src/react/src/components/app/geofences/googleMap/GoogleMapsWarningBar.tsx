@@ -18,6 +18,7 @@ const styles = (theme: Theme) =>
         },
         whiteText: {
             color: theme.palette.common.white,
+            padding: theme.spacing(1),
         },
     });
 

@@ -487,6 +487,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                 <div className={classes.leftButtons}>
                                     {this.props.editGeofence && (
                                         <FormikDeleteButton
+                                            denseMargin
                                             dialogContent={'Are you sure you want to delete the geofence named ' + props.values.externalId + '?'}
                                             dialogTitle="Delete geofence?"
                                             confirmText="Delete geofence"

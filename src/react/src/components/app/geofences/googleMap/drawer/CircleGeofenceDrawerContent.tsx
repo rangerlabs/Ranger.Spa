@@ -489,6 +489,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                 <div className={classes.leftButtons}>
                                     {this.props.editGeofence && (
                                         <FormikDeleteButton
+                                            denseMargin
                                             dialogTitle="Delete geofence?"
                                             dialogContent={'Are you sure you want to delete the geofence named ' + props.values.externalId + '?'}
                                             confirmText="Delete geofence"
