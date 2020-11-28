@@ -315,7 +315,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                           )
                 }
                 validateOnMount={false}
-                isInitialValid={this.props.editGeofence ? true : false}
+                isInitialValid={false}
                 onSubmit={(values: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
                     const newFence = new CircleGeofence(
                         this.props.selectedProject.id,
@@ -333,9 +333,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                         values.schedule
                     );
                     newFence.id = this.props.editGeofence?.id;
-
                     const saveOrUpdate = this.props.editGeofence ? this.updateGeofence : this.saveGeofence;
-
                     saveOrUpdate(newFence, formikBag);
                 }}
                 validationSchema={this.validationSchema}
@@ -441,7 +439,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                                     </Grid>
                                     <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                         <FormikAutocompleteLabelMultiselect
-                                            infoText="The non-default integrations to execute for the geofence."
+                                            infoText="The non-default integrations to execute for the geofence. Great for A/B Testing or Canary releases of integrations."
                                             name="integrations"
                                             label="Non-Default Integrations"
                                             placeholder=""

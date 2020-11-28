@@ -314,7 +314,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                           )
                 }
                 validateOnMount={false}
-                isInitialValid={this.props.editGeofence ? true : false}
+                isInitialValid={false}
                 onSubmit={(values: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
                     const newFence = new PolygonGeofence(
                         this.props.selectedProject.id,
@@ -331,9 +331,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                         values.schedule
                     );
                     newFence.id = this.props.editGeofence?.id;
-
                     const saveOrUpdate = this.props.editGeofence ? this.updateGeofence : this.saveGeofence;
-
                     saveOrUpdate(newFence, formikBag);
                 }}
                 validationSchema={this.validationSchema}
@@ -439,7 +437,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                                     </Grid>
                                     <Grid className={classes.width100TemporaryChromiumFix} item xs={12}>
                                         <FormikAutocompleteLabelMultiselect
-                                            infoText="The non-default integrations to execute for the geofence."
+                                            infoText="The non-default integrations to execute for the geofence. Great for A/B Testing or Canary releases of integrations."
                                             name="integrations"
                                             label="Non-Default Integrations"
                                             placeholder=""
