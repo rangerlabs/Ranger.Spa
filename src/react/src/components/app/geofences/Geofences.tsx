@@ -21,7 +21,7 @@ import populateIntegrationsHOC from '../hocs/PopulateIntegrationsHOC';
 import { ShapePicker } from '../../../redux/actions/GoogleMapsActions';
 import IProject from '../../../models/app/IProject';
 import RoutePaths from '../../RoutePaths';
-import { Grid, Theme, createStyles, withStyles, WithStyles, CircularProgress, Typography, Grow } from '@material-ui/core';
+import { Grid, Theme, createStyles, withStyles, WithStyles, CircularProgress, Typography } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import GeofenceService, { OrderByOptions, SortOrder } from '../../../services/GeofenceService';
@@ -109,6 +109,7 @@ interface LocalGeofencesState {
     isSearching: boolean;
     completedBulkDelete: boolean;
     bulkOperationMsg: JSX.Element;
+    resetSelectedRows: boolean;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
@@ -171,6 +172,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         isSearching: false,
         completedBulkDelete: false,
         bulkOperationMsg: null,
+        resetSelectedRows: false,
     };
 
     refs: {
@@ -297,7 +299,12 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         switch (action) {
             case 'changePage': {
                 if (tableState.selectedRows.data.length) {
-                    this.props.openDialog(this.getSelectionWarning(() => this.changePage(tableState)));
+                    this.props.openDialog(
+                        this.getSelectionWarning(() => {
+                            this.changePage(tableState);
+                            this.resetSelection();
+                        })
+                    );
                 } else {
                     this.changePage(tableState);
                 }
@@ -305,16 +312,25 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             }
             case 'sort': {
                 if (tableState.selectedRows.data.length) {
-                    this.props.openDialog(this.getSelectionWarning(() => this.sort(tableState)));
+                    this.props.openDialog(
+                        this.getSelectionWarning(() => {
+                            this.sort(tableState);
+                            this.resetSelection();
+                        })
+                    );
                 } else {
                     this.sort(tableState);
                 }
-
                 break;
             }
             case 'changeRowsPerPage': {
                 if (tableState.selectedRows.data.length) {
-                    this.props.openDialog(this.getSelectionWarning(() => this.changeRowsPerPage(tableState)));
+                    this.props.openDialog(
+                        this.getSelectionWarning(() => {
+                            this.changeRowsPerPage(tableState);
+                            this.resetSelection();
+                        })
+                    );
                 } else {
                     this.changeRowsPerPage(tableState);
                 }
@@ -322,7 +338,12 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             }
             case 'search': {
                 if (tableState.selectedRows.data.length) {
-                    this.props.openDialog(this.getSelectionWarning(() => this.search(tableState)));
+                    this.props.openDialog(
+                        this.getSelectionWarning(() => {
+                            this.search(tableState);
+                            this.resetSelection();
+                        })
+                    );
                 } else {
                     this.search(tableState);
                 }
@@ -382,6 +403,11 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             )
         );
         return false;
+    }
+
+    private resetSelection() {
+        this.setState({ resetSelectedRows: true });
+        this.setState({ resetSelectedRows: false });
     }
 
     private search(tableState: any) {
@@ -532,6 +558,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             responsive: 'vertical',
             count: this.props.totalCount,
             page: this.props.page,
+            rowsSelected: this.state.resetSelectedRows ? new Array<number>() : undefined,
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
             sortOrder: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,

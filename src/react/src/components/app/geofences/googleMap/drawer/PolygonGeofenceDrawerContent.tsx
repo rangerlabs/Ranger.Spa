@@ -4,7 +4,7 @@ import FormikTextField from '../../../../form/FormikTextField';
 import FormikCheckbox from '../../../../form/FormikCheckbox';
 import PolygonGeofence from '../../../../../models/app/geofences/PolygonGeofence';
 import { DialogContent, openDialog } from '../../../../../redux/actions/DialogActions';
-import { Theme, createStyles, WithStyles, List, ListItem, ListItemText, withStyles, Grid, FormLabel, Typography, IconButton } from '@material-ui/core';
+import { Theme, createStyles, WithStyles, List, ListItem, ListItemText, withStyles, Grid, FormLabel, Typography } from '@material-ui/core';
 import { PolygonGeofenceState } from '../../../../../redux/actions/GoogleMapsActions';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as Yup from 'yup';
