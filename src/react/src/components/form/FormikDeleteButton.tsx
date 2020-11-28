@@ -11,6 +11,7 @@ interface FormikDeleteButtonProps {
     dialogContent?: JSX.Element | string;
     confirmText?: string;
     disabled?: boolean;
+    denseMargin?: boolean;
     onConfirm?: Function;
     onCancel?: Function;
     openDialog: (dialogContent: DialogContent) => void;
@@ -32,9 +33,9 @@ class FormikDeleteButton extends React.Component<PropsWithChildren<FormikDeleteB
     };
 
     render() {
-        const { isSubmitting, dialogTitle, dialogContent, confirmText, onConfirm, onCancel, openDialog, ...rest } = this.props;
+        const { isSubmitting, dialogTitle, dialogContent, denseMargin, confirmText, onConfirm, onCancel, openDialog, ...rest } = this.props;
         return (
-            <FormikDestructiveButton isValid onClick={this.renderDialog} {...rest}>
+            <FormikDestructiveButton isValid denseMargin={denseMargin} variant="outlined" onClick={this.renderDialog} {...rest}>
                 {this.props.children}
             </FormikDestructiveButton>
         );

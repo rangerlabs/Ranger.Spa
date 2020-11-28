@@ -25,7 +25,7 @@ const styles = (theme: Theme) =>
             borderStyle: 'solid',
             borderColor: red[600],
         },
-        denseMargin: { position: 'relative' },
+        denseMargin: { marginTop: theme.spacing(1), position: 'relative' },
     });
 
 interface FormikDestructiveButtonProps extends WithStyles<typeof styles> {
@@ -33,18 +33,30 @@ interface FormikDestructiveButtonProps extends WithStyles<typeof styles> {
     isValid: boolean;
     isSubmitting?: boolean;
     isSuccess?: boolean;
+    variant: 'text' | 'outlined';
 }
 
 class FormikDestructiveButton extends React.Component<FormikDestructiveButtonProps & ButtonProps> {
+    getClasses() {
+        const { classes, denseMargin, variant } = this.props;
+        if (denseMargin && variant === 'text') {
+            return classNames(classes.warning, classes.denseMargin);
+        } else if (!this.props.denseMargin && variant === 'text') {
+            return classNames(classes.warning);
+        } else if (denseMargin && variant === 'outlined') {
+            classNames(classes.warning, classes.root, classes.denseMargin, classes.borders);
+        } else if (!denseMargin && variant === 'outlined') {
+            classNames(classes.warning, classes.root, classes.borders);
+        }
+    }
+
     render() {
         const { classes, variant, disabled, isValid, isSubmitting, denseMargin, isSuccess, ...rest } = this.props;
         return (
             <div className={denseMargin ? classes.denseMargin : classes.root}>
                 <Button
                     TouchRippleProps={{ classes: { child: classes.child } }}
-                    className={
-                        this.props.denseMargin ? classNames(classes.warning, classes.denseMargin) : classNames(classes.warning, classes.root, classes.borders)
-                    }
+                    className={this.getClasses()}
                     disabled={disabled ? disabled : false || !isValid || isSubmitting}
                     type="submit"
                     color="primary"

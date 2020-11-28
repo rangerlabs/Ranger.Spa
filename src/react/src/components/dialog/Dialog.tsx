@@ -84,6 +84,7 @@ class Dialog extends React.Component<DialogProps> {
                                         <FormikDestructiveButton
                                             denseMargin
                                             isValid
+                                            variant="text"
                                             onClick={() => {
                                                 onClose();
                                                 if (dialog.content.confirmAction) {

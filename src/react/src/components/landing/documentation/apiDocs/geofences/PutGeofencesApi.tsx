@@ -40,13 +40,12 @@ const parameters = [
         required
         description={
             <Typography>
-                `The stable Ranger Id of the geofence as returned by $
+                The stable Ranger Id of the geofence as returned by
                 {
                     <Link variant="caption" component="button" onClick={() => scrollToLandingId('get-geofences-section')}>
                         GET
                     </Link>
                 }
-                `
             </Typography>
         }
     />,

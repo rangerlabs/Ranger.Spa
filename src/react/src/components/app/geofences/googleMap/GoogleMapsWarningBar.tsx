@@ -25,6 +25,7 @@ interface GoogleMapsWarningBarProps extends WithStyles<typeof styles> {
     enabled: boolean;
     message: string;
     onDismiss: () => void;
+    persistent: boolean;
 }
 class GoogleMapsWarningBar extends React.Component<GoogleMapsWarningBarProps> {
     render() {
@@ -34,9 +35,11 @@ class GoogleMapsWarningBar extends React.Component<GoogleMapsWarningBarProps> {
                     <Grid item className={this.props.classes.barItem} sm={6}>
                         <Typography className={this.props.classes.whiteText} align="center">
                             {this.props.message}
-                            <IconButton onClick={this.props.onDismiss} aria-label="close">
-                                <CloseCircle htmlColor={Constants.COLORS.WHITE} fontSize="inherit" />
-                            </IconButton>
+                            {!this.props.persistent && (
+                                <IconButton onClick={this.props.onDismiss} aria-label="close">
+                                    <CloseCircle htmlColor={Constants.COLORS.WHITE} fontSize="inherit" />
+                                </IconButton>
+                            )}
                         </Typography>
                     </Grid>
                 </Grid>

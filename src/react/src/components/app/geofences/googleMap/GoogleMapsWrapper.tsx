@@ -191,6 +191,7 @@ interface GoogleMapsWrapperState {
     hasMadeFirstRequest: boolean;
     showSpinner: boolean;
     showWarning: boolean;
+    persistentWarning: boolean;
     warning: string;
 }
 
@@ -215,6 +216,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         hasMadeFirstRequest: false,
         showSpinner: false,
         showWarning: false,
+        persistentWarning: false,
         warning: '',
     };
 
@@ -362,12 +364,14 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
                 if (response.isError) {
                     this.setState({
                         showWarning: true,
+                        persistentWarning: false,
                         warning: 'The viewing area contains more than 1000 geofences. Zoom in to view the contained geofences.',
                     });
                 } else {
                     if (response.result.length === 0) {
                         this.setState({
                             showWarning: true,
+                            persistentWarning: true,
                             warning: 'The viewing area does not contain any geofences. Hover over the speed dial below to create one.',
                         });
                     } else {
@@ -697,7 +701,12 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         return (
             <React.Fragment>
                 <StyledSearchTextField className={classes.autoComplete} id="google-places-search" variant="outlined" fullWidth />
-                <GoogleMapsWarningBar onDismiss={() => this.setState({ showWarning: false })} enabled={this.state.showWarning} message={this.state.warning} />
+                <GoogleMapsWarningBar
+                    onDismiss={() => this.setState({ showWarning: false })}
+                    enabled={this.state.showWarning}
+                    message={this.state.warning}
+                    persistent={this.state.persistentWarning}
+                />
                 {!this.state.isMapFullyLoaded && <Loading wasError={false} />}
                 <div className={classes.mapContainer} id={this.props.id} />
                 {this.state.isMapFullyLoaded && (
