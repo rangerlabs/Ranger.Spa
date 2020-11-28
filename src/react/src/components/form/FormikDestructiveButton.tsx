@@ -58,7 +58,6 @@ class FormikDestructiveButton extends React.Component<FormikDestructiveButtonPro
                     TouchRippleProps={{ classes: { child: classes.child } }}
                     className={this.getClasses()}
                     disabled={disabled ? disabled : false || !isValid || isSubmitting}
-                    type="submit"
                     color="primary"
                     {...rest}
                 >
