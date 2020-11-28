@@ -17,6 +17,7 @@ import RegularExpressions from '../../../helpers/RegularExpressions';
 import { setAccountDeleting } from '../../../redux/actions/AccountActions';
 import { ApplicationState } from '../../../stores';
 import Progress from '../../loading/Progress';
+import FormikDestructiveButton from '../../form/FormikDestructiveButton';
 
 const userService = new UserService();
 
@@ -142,7 +143,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                                     >
                                         Cancel
                                     </Button>
-                                    <FormikSynchronousButton
+                                    <FormikDestructiveButton
                                         denseMargin
                                         isValid={props.isValid}
                                         isSubmitting={props.isSubmitting || deleteAccountContentProps.isDeleting}
@@ -150,7 +151,7 @@ function DeleteAccountContent(deleteAccountContentProps: DeleteAccountContentPro
                                         variant="text"
                                     >
                                         Delete account
-                                    </FormikSynchronousButton>
+                                    </FormikDestructiveButton>
                                 </DialogActions>
                             )}
                         </form>

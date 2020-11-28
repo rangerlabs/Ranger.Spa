@@ -379,6 +379,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 true
             )
         );
+        return false;
     }
 
     private search(tableState: any) {

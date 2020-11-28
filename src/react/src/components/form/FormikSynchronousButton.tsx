@@ -3,7 +3,6 @@ import { Button, withStyles, createStyles, Theme, WithStyles } from '@material-u
 import { ButtonProps } from '@material-ui/core/Button';
 import { green } from '@material-ui/core/colors';
 import Progress from '../loading/Progress';
-const classNames = require('classnames').default;
 
 const styles = (theme: Theme) =>
     createStyles({

@@ -24,6 +24,7 @@ import TenantService from '../../../services/TenantService';
 import RoutePaths from '../../RoutePaths';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import { ApplicationState } from '../../../stores';
+import FormikDestructiveButton from '../../form/FormikDestructiveButton';
 
 const tenantService = new TenantService();
 
@@ -123,7 +124,7 @@ class DeleteOrganizationContent extends React.Component<DeleteOrganizationConten
                                     <Button onClick={this.props.closeDialog} color="primary" variant="text">
                                         Cancel
                                     </Button>
-                                    <FormikSynchronousButton
+                                    <FormikDestructiveButton
                                         denseMargin
                                         isValid={props.isValid}
                                         isSuccess={this.state.isSuccess}
@@ -131,7 +132,7 @@ class DeleteOrganizationContent extends React.Component<DeleteOrganizationConten
                                         variant="text"
                                     >
                                         Delete organization
-                                    </FormikSynchronousButton>
+                                    </FormikDestructiveButton>
                                 </DialogActions>
                             </form>
                         </React.Fragment>
