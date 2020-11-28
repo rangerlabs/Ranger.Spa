@@ -31,7 +31,7 @@ export default class GeofenceService {
         orderBy: OrderByOptions = 'CreatedDate',
         sortOrder: SortOrder = 'desc',
         page: number = 0,
-        pageCount: number = 100,
+        pageCount: number = 50,
         search: string = ''
     ): Promise<IRestResponse<Array<CircleGeofence | PolygonGeofence>>> {
         return RestUtilities.get<Array<CircleGeofence | PolygonGeofence>>(
