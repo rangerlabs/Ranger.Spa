@@ -25,7 +25,7 @@ const styles = (theme: Theme) =>
             borderStyle: 'solid',
             borderColor: red[600],
         },
-        denseMargin: { marginTop: theme.spacing(1), position: 'relative' },
+        denseMargin: { position: 'relative' },
     });
 
 interface FormikDestructiveButtonProps extends WithStyles<typeof styles> {
@@ -44,9 +44,9 @@ class FormikDestructiveButton extends React.Component<FormikDestructiveButtonPro
         } else if (!this.props.denseMargin && variant === 'text') {
             return classNames(classes.warning);
         } else if (denseMargin && variant === 'outlined') {
-            classNames(classes.warning, classes.root, classes.denseMargin, classes.borders);
+            return classNames(classes.warning, classes.root, classes.denseMargin, classes.borders);
         } else if (!denseMargin && variant === 'outlined') {
-            classNames(classes.warning, classes.root, classes.borders);
+            return classNames(classes.warning, classes.root, classes.borders);
         }
     }
 
