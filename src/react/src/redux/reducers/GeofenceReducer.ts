@@ -114,21 +114,27 @@ export function geofenceReducer(
             });
         }
         case POPULATE_MAP_GEOFENCES: {
-            return Object.assign({}, state, { mapGeofences: action.geofencesState.mapGeofences, isMapLoaded: action.geofencesState.isMapLoaded });
+            return Object.assign({}, state, {
+                mapGeofences: Object.assign([], action.geofencesState.mapGeofences),
+                isMapLoaded: action.geofencesState.isMapLoaded,
+            });
         }
         case POPULATE_TABLE_GEOFENCES: {
             return Object.assign({}, state, {
-                tableGeofences: action.geofencesState.tableGeofences,
+                tableGeofences: Object.assign([], action.geofencesState.tableGeofences),
                 isTableLoaded: action.geofencesState.isTableLoaded,
                 totalCount: action.geofencesState.totalCount,
             });
         }
         case RESET_MAP_GEOFENCES: {
-            return Object.assign({}, state, { mapGeofences: action.geofencesState.mapGeofences, isMapLoaded: action.geofencesState.isMapLoaded });
+            return Object.assign({}, state, {
+                mapGeofences: Object.assign([], action.geofencesState.mapGeofences),
+                isMapLoaded: action.geofencesState.isMapLoaded,
+            });
         }
         case RESET_TABLE_GEOFENCES: {
             return Object.assign({}, state, {
-                tableGeofences: action.geofencesState.tableGeofences,
+                tableGeofences: Object.assign([], action.geofencesState.tableGeofences),
                 isTableLoaded: action.geofencesState.isTableLoaded,
                 totalCount: action.geofencesState.totalCount,
             });
