@@ -391,6 +391,7 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 () => {
                     this.props.setPendingBulkOperation(true);
                     this.setState({
+                        selectedRows: [],
                         bulkOperationMsg: this.bulkInProgressElement,
                     });
                     const geofenceBulkDeleteRequest = { externalIds: selectedGeofences.map((g) => g.externalId) } as GeofenceBulkDelete;
@@ -605,4 +606,4 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateIntegrationsHOC(Geofences)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(populateIntegrationsHOC(populateTableGeofencesHOC(Geofences))));
