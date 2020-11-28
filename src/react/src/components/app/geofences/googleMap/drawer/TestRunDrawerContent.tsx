@@ -76,6 +76,7 @@ const mapDispatchToProps = (dispatch: any) => {
                     dialogContent.title,
                     dialogContent.confirmText,
                     dialogContent.confirmAction,
+                    false,
                     dialogContent.cancelAction
                 )
             );

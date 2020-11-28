@@ -35,8 +35,20 @@ const populateOrganizationNameHOC = <P extends object>(Component: React.Componen
             wasError: false,
         };
 
+        componentDidUpdate(prevProps: PopulateOrganizationNameComponentProps) {
+            if (this.props.organizationState.domain !== prevProps.organizationState.domain) {
+                this.tenantService.getOrganizationName(this.props.organizationState.domain).then((organizationResponse) => {
+                    if (organizationResponse.isError) {
+                        this.setState({ wasError: true });
+                    } else {
+                        this.props.setOrganization(organizationResponse.result.organizationName, organizationResponse.result.version);
+                    }
+                });
+            }
+        }
+
         componentDidMount() {
-            if (!this.props.organizationState.isLoaded) {
+            if (!this.props.organizationState.isLoaded && this.props.organizationState.domain) {
                 this.tenantService.getOrganizationName(this.props.organizationState.domain).then((organizationResponse) => {
                     if (organizationResponse.isError) {
                         this.setState({ wasError: true });

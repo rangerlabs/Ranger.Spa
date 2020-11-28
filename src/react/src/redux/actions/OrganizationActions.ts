@@ -1,8 +1,8 @@
 import CorrelationModel from '../../models/CorrelationModel';
 import { PendingPrimaryOwnerTransfer } from '../../models/app/PendingPrimaryOwnerTransfer';
 
-export const SET_DOMAIN = 'ADD_DOMAIN';
-export const POPULATE_ORGANIZATION_NAME = 'ADD_ORGANIZATION_NAME';
+export const SET_DOMAIN = 'SET_DOMAIN';
+export const POPULATE_ORGANIZATION_NAME = 'POPULATE_ORGANIZATION_NAME';
 export const ADD_PENDING_PRIMARY_OWNER_TRANSFER = 'ADD_PENDING_PRIMARY_OWNER_TRANSFER';
 export const REMOVE_PENDING_PRIMARY_OWNER_TRANSFER = 'REMOVE_PENDING_PRIMARY_OWNER_TRANSFER';
 
