@@ -244,15 +244,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         return tableGeofences;
     }
 
-    getSelectionWarning(continueAction: Function): DialogContent {
-        return new DialogContent(
-            'Changing the table properties or page will clear your current select. Continue?',
-            'Clear Selection?',
-            'Continue',
-            continueAction
-        );
-    }
-
     getBulkDeleteWarning(count: number, continueAction: Function): DialogContent {
         return new DialogContent(
             `Are you sure you want to delete all ${count} selected geofences? The cannot be undone.`,
@@ -285,6 +276,10 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     };
 
     requestTableGeofences = (search: string, page: number, sortOrder: MuiDatatablesSortType, pageCount: number) => {
+        if (this.state.completedBulkDelete) {
+            this.props.setPendingDeleteGeofences(new Array<CircleGeofence | PolygonGeofence>());
+            this.setState({ completedBulkDelete: false, bulkOperationMsg: null });
+        }
         geofencesService.getPaginatedGeofences(this.props.selectedProject.id, sortOrder.name, sortOrder.direction, page, pageCount, search).then((res) => {
             if (res.isError) {
                 this.setState({ wasError: true, isSearching: false });
@@ -299,55 +294,23 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
         console.log(action, tableState);
         switch (action) {
             case 'changePage': {
-                if (tableState.selectedRows.data.length) {
-                    this.props.openDialog(
-                        this.getSelectionWarning(() => {
-                            this.changePage(tableState);
-                            this.setState({ selectedRows: [] });
-                        })
-                    );
-                } else {
-                    this.changePage(tableState);
-                }
+                this.changePage(tableState);
+                this.setState({ selectedRows: [] });
                 break;
             }
             case 'sort': {
-                if (tableState.selectedRows.data.length) {
-                    this.props.openDialog(
-                        this.getSelectionWarning(() => {
-                            this.sort(tableState);
-                            this.setState({ selectedRows: [] });
-                        })
-                    );
-                } else {
-                    this.sort(tableState);
-                }
+                this.sort(tableState);
+                this.setState({ selectedRows: [] });
                 break;
             }
             case 'changeRowsPerPage': {
-                if (tableState.selectedRows.data.length) {
-                    this.props.openDialog(
-                        this.getSelectionWarning(() => {
-                            this.changeRowsPerPage(tableState);
-                            this.setState({ selectedRows: [] });
-                        })
-                    );
-                } else {
-                    this.changeRowsPerPage(tableState);
-                }
+                this.changeRowsPerPage(tableState);
+                this.setState({ selectedRows: [] });
                 break;
             }
             case 'search': {
-                if (tableState.selectedRows.data.length) {
-                    this.props.openDialog(
-                        this.getSelectionWarning(() => {
-                            this.search(tableState);
-                            this.setState({ selectedRows: [] });
-                        })
-                    );
-                } else {
-                    this.search(tableState);
-                }
+                this.search(tableState);
+                this.setState({ selectedRows: [] });
                 break;
             }
             case 'searchClose': {
@@ -365,10 +328,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     };
 
     private refresh() {
-        if (this.state.completedBulkDelete) {
-            this.props.setPendingDeleteGeofences(new Array<CircleGeofence | PolygonGeofence>());
-            this.setState({ completedBulkDelete: false, bulkOperationMsg: null });
-        }
         this.setState({ selectedRows: [] });
         this.props.resetTableGeofences();
         this.requestTableGeofences(
