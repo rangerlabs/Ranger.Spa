@@ -8,23 +8,23 @@ import { EndpointBodyListItem } from '../../docComponents/EndpointBodyList';
 import { UnorderedList } from '../../docComponents/UnorderedList';
 
 const queryParams = [
-    <EndpointBodyListItem name="externalId" type="string" description="Retrieve a specific geofence by its External Id" />,
-    <EndpointBodyListItem name="search" type="string" required description="Find Geofences whose External Id begins with the provide string" />,
+    <EndpointBodyListItem name="externalId" type="string" description="Retrieve a specific Geofence by its External Id" />,
+    <EndpointBodyListItem name="search" type="string" description="Find Geofences whose External Id begins with the provide string" />,
     <EndpointBodyListItem
         name="orderBy"
         type="string"
-        description="Order paginated Geofences by one of 'ExternalId', 'Shape', 'Enabled', 'CreatedDate', or 'UpdatedDate'"
+        description="Order the paginated Geofences by the provided field - defaults to 'CreatedDate'; 'ExternalId', 'Shape', 'Enabled', 'CreatedDate', or 'UpdatedDate'"
     />,
-    <EndpointBodyListItem name="sortOrder" type="string" required description="Sort paginated Geofences by one of 'asc' or 'desc'" />,
-    <EndpointBodyListItem name="pageCount" type="number" description="The number of Geofences per page, [1,1000]" />,
-    <EndpointBodyListItem name="page" type="number" description="The page to retrieve Geofences for" />,
+    <EndpointBodyListItem name="sortOrder" type="string" description="Sort order of the paginated Geofences - defaults to 'desc'; 'asc' or 'desc'" />,
+    <EndpointBodyListItem name="pageCount" type="number" description="The number of Geofences per page - defaults to 100; [1,1000]" />,
+    <EndpointBodyListItem name="page" type="number" description="The page to retrieve Geofences for - defaults to 0" />,
 ];
 const responseHeaders = [
     <EndpointBodyListItem name="X-Pagination-TotalCount" type="number" description="The total number of Geofences within the project" />,
-    <EndpointBodyListItem name="X-Pagination-OrderBy" type="string" required description="The requested field to order by" />,
-    <EndpointBodyListItem name="X-Pagination-SortOrder" type="number" description="The requested number of Geofences per page" />,
+    <EndpointBodyListItem name="X-Pagination-OrderBy" type="string" description="The requested field to order by" />,
+    <EndpointBodyListItem name="X-Pagination-SortOrder" type="number" description="The requested sort order" />,
     <EndpointBodyListItem name="X-Pagination-PageCount" type="number" description="The requested number of Geofences per page" />,
-    <EndpointBodyListItem name="X-Pagination-Page" type="number" required description="The requested page" />,
+    <EndpointBodyListItem name="X-Pagination-Page" type="number" description="The requested page" />,
 ];
 
 const endpointProperties = [

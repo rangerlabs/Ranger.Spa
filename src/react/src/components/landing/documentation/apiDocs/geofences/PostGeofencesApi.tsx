@@ -27,7 +27,7 @@ const body = [
         name="coordinates"
         description="The coordinates for a geofence - 1 center coordinate for shape: 'Circle',  [3, 512] for shape: 'Polygon' with implicit closure"
     />,
-    <EndpointBodyListItem name="radius" type="number" description="The radius of a circular geofence in meters - defaults to 100, ≥ 50" />,
+    <EndpointBodyListItem name="radius" type="number" description="The radius of a circular geofence in meters - defaults to 100; ≥ 50" />,
     <ScheduleEndpointBodyListItem />,
     <KeyValuePairEndpointBodyListItem isArray name="metadata" description="An array of up to 16 metadata, duplicate keys permitted" />,
 ];
