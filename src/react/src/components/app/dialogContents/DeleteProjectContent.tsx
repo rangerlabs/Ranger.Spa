@@ -95,7 +95,13 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                                 <Button onClick={deleteProjectContentProps.closeDialog} color="primary" variant="text">
                                     Cancel
                                 </Button>
-                                <FormikSynchronousButton isSuccess={isSuccess} isValid={props.isValid} isSubmitting={props.isSubmitting} variant="text">
+                                <FormikSynchronousButton
+                                    denseMargin
+                                    isSuccess={isSuccess}
+                                    isValid={props.isValid}
+                                    isSubmitting={props.isSubmitting}
+                                    variant="text"
+                                >
                                     Delete project
                                 </FormikSynchronousButton>
                             </DialogActions>

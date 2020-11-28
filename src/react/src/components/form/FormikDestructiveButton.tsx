@@ -30,7 +30,7 @@ const styles = (theme: Theme) =>
 
 interface FormikDestructiveButtonProps extends WithStyles<typeof styles> {
     denseMargin?: boolean;
-    isValid?: boolean;
+    isValid: boolean;
     isSubmitting?: boolean;
     isSuccess?: boolean;
 }

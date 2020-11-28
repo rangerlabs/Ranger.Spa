@@ -34,7 +34,7 @@ class FormikDeleteButton extends React.Component<PropsWithChildren<FormikDeleteB
     render() {
         const { isSubmitting, dialogTitle, dialogContent, confirmText, onConfirm, onCancel, openDialog, ...rest } = this.props;
         return (
-            <FormikDestructiveButton onClick={this.renderDialog} variant="outlined" {...rest}>
+            <FormikDestructiveButton isValid onClick={this.renderDialog} variant="outlined" {...rest}>
                 {this.props.children}
             </FormikDestructiveButton>
         );
