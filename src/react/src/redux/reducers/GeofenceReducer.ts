@@ -114,25 +114,33 @@ export function geofenceReducer(
             });
         }
         case POPULATE_MAP_GEOFENCES: {
-            return Object.assign({}, state, action.geofencesState);
+            return Object.assign({}, state, { mapGeofences: action.geofencesState.mapGeofences, isMapLoaded: action.geofencesState.isMapLoaded });
         }
         case POPULATE_TABLE_GEOFENCES: {
-            return Object.assign({}, state, action.geofencesState);
+            return Object.assign({}, state, {
+                tableGeofences: action.geofencesState.tableGeofences,
+                isTableLoaded: action.geofencesState.isTableLoaded,
+                totalCount: action.geofencesState.totalCount,
+            });
         }
         case RESET_MAP_GEOFENCES: {
-            return Object.assign({}, state, action.geofencesState);
+            return Object.assign({}, state, { mapGeofences: action.geofencesState.mapGeofences, isMapLoaded: action.geofencesState.isMapLoaded });
         }
         case RESET_TABLE_GEOFENCES: {
-            return Object.assign({}, state, action.geofencesState);
+            return Object.assign({}, state, {
+                tableGeofences: action.geofencesState.tableGeofences,
+                isTableLoaded: action.geofencesState.isTableLoaded,
+                totalCount: action.geofencesState.totalCount,
+            });
         }
         case SET_TABLE_IS_LOADED: {
-            return Object.assign({}, state, action.geofencesState);
+            return Object.assign({}, state, { isTableLoaded: action.geofencesState.isTableLoaded });
         }
         case SET_MAP_IS_LOADED: {
-            return Object.assign({}, state, action.geofencesState);
+            return Object.assign({}, state, { isMapLoaded: action.geofencesState.isMapLoaded });
         }
         case SET_PENDING_BULK_OPERATION: {
-            return Object.assign({}, state, action.geofencesState);
+            return Object.assign({}, state, { isPendingBulkOperation: action.geofencesState.isPendingBulkOperation });
         }
         default:
             return state;
