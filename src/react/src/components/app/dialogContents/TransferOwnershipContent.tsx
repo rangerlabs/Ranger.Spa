@@ -14,6 +14,7 @@ import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import populateUsersHOC from '../hocs/PopulateUsersHOC';
 import FormikAutocompleteSearch from '../../form/FormikAutocompleteSearch';
 import IUser from '../../../models/app/IUser';
+import FormikDestructiveButton from '../../form/FormikDestructiveButton';
 var userService = new UserService();
 
 interface TransferOwnershipContentProps extends WithSnackbarProps {
@@ -94,7 +95,7 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
                                 <Button disabled={props.isSubmitting} onClick={transferOwnershipContentProps.closeDialog} color="primary" variant="text">
                                     Cancel
                                 </Button>
-                                <FormikSynchronousButton
+                                <FormikDestructiveButton
                                     denseMargin
                                     isSuccess={success}
                                     isValid={props.isValid}
@@ -102,7 +103,7 @@ function TransferOwnershipContent(transferOwnershipContentProps: TransferOwnersh
                                     variant="text"
                                 >
                                     Transfer Primary Ownership
-                                </FormikSynchronousButton>
+                                </FormikDestructiveButton>
                             </DialogActions>
                         </form>
                     </React.Fragment>

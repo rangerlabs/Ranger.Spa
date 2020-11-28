@@ -378,7 +378,6 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                         }
                     });
                 },
-                undefined,
                 true
             )
         );

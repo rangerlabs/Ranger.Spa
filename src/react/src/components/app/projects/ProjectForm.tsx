@@ -6,19 +6,18 @@ import * as Yup from 'yup';
 import { withStyles, createStyles, Theme, Button, WithStyles, Paper, Grid, Typography, TextField, IconButton } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import FormikTextField from '../../form/FormikTextField';
-import { IRestResponse, IError, IFormikErrors } from '../../../services/RestUtilities';
+import { IRestResponse, IFormikErrors } from '../../../services/RestUtilities';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../stores/index';
 import { push } from 'connected-react-router';
 import FormikDeleteButton from '../../form/FormikDeleteButton';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
-import { addProject, removeProject, ProjectsState, updateProject } from '../../../redux/actions/ProjectActions';
+import { addProject, ProjectsState, updateProject } from '../../../redux/actions/ProjectActions';
 import RoutePaths from '../../RoutePaths';
 import * as queryString from 'query-string';
 import populateProjectsHOC from '../hocs/PopulateProjectsHOC';
 import DeleteProjectContent from '../dialogContents/DeleteProjectContent';
 import FormikCheckbox from '../../form/FormikCheckbox';
-import FormikValidationErrors from '../../form/FormikServerErrors';
 import { openDialog, closeDialog, DialogContent } from '../../../redux/actions/DialogActions';
 import NewProjectApiKeysContent from '../dialogContents/NewProjectApiKeysContent';
 import NewProjectEnvironmentApiKeyContent from '../dialogContents/NewProjectEnvironmentApiKeyContent';
@@ -180,7 +179,8 @@ class ProjectForm extends React.Component<IProjectFormProps, ProjectFormState> {
                         }
                     });
                     formikProps.setSubmitting(false);
-                }
+                },
+                true
             )
         );
     }
