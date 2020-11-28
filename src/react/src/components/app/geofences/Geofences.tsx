@@ -214,7 +214,10 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
     bulkCompleteElement = (<Typography color="primary">The bulk operation is complete, refresh the table to view the updated resources.</Typography>);
 
     editGeofence = (rowData: string[]) => {
-        this.props.push(`${RoutePaths.GeofencesEdit.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
+        var externalId = rowData[1];
+        if (this.props.geofencesState.pendingDeletion.findIndex((g) => g.externalId === externalId) === -1) {
+            this.props.push(`${RoutePaths.GeofencesEdit.replace(':appName', this.props.selectedProject.name)}?name=${rowData[1]}`);
+        }
     };
 
     redirectToNewGeofenceForm = () => {
@@ -533,9 +536,9 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
             rowsPerPage: this.props.pageCount,
             rowsPerPageOptions: [25, 50, 75, 100, 500],
             sortOrder: { name: this.props.orderBy, direction: this.props.sortOrder } as MuiDatatablesSortType,
-            onRowClick: this.editGeofence,
             customSearchRender: debounceSearchRender(500),
             tableBodyMaxHeight: 'calc(100vh - 64px - 48px - 64px - 52px)',
+            onRowClick: (rowData: string[]) => this.editGeofence(rowData),
             setRowProps: (row: any[], dataIndex: number, rowIndex: number) => this.setRowProps(row, dataIndex, rowIndex),
             isRowSelectable: (index: number) => !this.isPendingDelete(index),
             onRowsDelete: (rows: RowsDeleted) => this.delete(rows),

@@ -14,6 +14,7 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import { removeProject } from '../../../redux/actions/ProjectActions';
 import { closeDialog } from '../../../redux/actions/DialogActions';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
+import FormikDestructiveButton from '../../form/FormikDestructiveButton';
 
 const projectService = new ProjectService();
 
@@ -95,7 +96,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                                 <Button onClick={deleteProjectContentProps.closeDialog} color="primary" variant="text">
                                     Cancel
                                 </Button>
-                                <FormikSynchronousButton
+                                <FormikDestructiveButton
                                     denseMargin
                                     isSuccess={isSuccess}
                                     isValid={props.isValid}
@@ -103,7 +104,7 @@ function DeleteProjectContent(deleteProjectContentProps: DeleteProjectContentPro
                                     variant="text"
                                 >
                                     Delete project
-                                </FormikSynchronousButton>
+                                </FormikDestructiveButton>
                             </DialogActions>
                         </form>
                     </React.Fragment>
