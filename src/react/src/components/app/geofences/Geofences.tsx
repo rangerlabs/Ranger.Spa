@@ -331,6 +331,10 @@ class Geofences extends React.Component<GeofencesProps, LocalGeofencesState> {
                 this.setState({ isSearching: false });
                 break;
             }
+            case 'rowSelectionChanged': {
+                console.log('rowSelectionChanged:', tableState);
+                break;
+            }
             default: {
                 break;
             }
