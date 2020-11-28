@@ -23,6 +23,8 @@ const SuccessfulResponseBody = {
             onExit: true,
             enabled: true,
             schedule: null,
+            createdDate: '2020-11-00T12:38:57.205Z',
+            updatedDate: '2020-11-00T12:38:57.205Z',
         },
     ],
 } as any;

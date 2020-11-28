@@ -77,7 +77,7 @@ const GeofencesDoc = function (props: IDocProps) {
                 <Image src={SpeedDial} alt="Map Speed Dial" />
                 <Paragraph>
                     If you chose to create a Circular Geofence, clicking the map will initialize a new Geofence centered where you clicked. By default, Circular
-                    geofences have a radius of 100 meters, but users are encouraged to make Geofences as large as reasonable to account for variations in mobile
+                    Geofences have a radius of 100 meters, but users are encouraged to make Geofences as large as reasonable to account for variations in mobile
                     device accuracy. Device accuracy may optionally be included in Breadcrumbs sent to Ranger's API and will be included in Geofence events.
                 </Paragraph>
                 <Paragraph>

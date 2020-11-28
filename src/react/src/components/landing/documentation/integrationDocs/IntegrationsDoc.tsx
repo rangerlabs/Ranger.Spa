@@ -33,7 +33,7 @@ const IntegrationsDoc = function (props: IDocProps) {
                 <Paragraph>
                     To enable the advanced customization of Geofences, Ranger has the notion of <Bold>Default</Bold> and <Bold>Non-Default</Bold> Integrations.
                     At any time, an Integration may be promoted or demoted from one state to the other. Default Integrations are unique in that they execute for
-                    all events triggered by all geofences. Non-Default Integrations, however, are only executed when they are explicitely added to a Geofence.
+                    all events triggered by all Geofences. Non-Default Integrations, however, are only executed when they are explicitely added to a Geofence.
                     Only Non-Default Integrations can be added on a per-Geofence basis.
                 </Paragraph>
                 <Paragraph>
