@@ -53,6 +53,7 @@ export default class UserForm extends React.Component<UserFormProps> {
                         lastName: userForm.lastName ? userForm.lastName : '',
                         password: '',
                         confirmPassword: '',
+                        reCaptchaToken: '',
                     }}
                     validateOnMount={false}
                     isInitialValid={false}
