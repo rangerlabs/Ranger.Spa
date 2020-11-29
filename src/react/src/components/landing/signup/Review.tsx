@@ -66,11 +66,13 @@ const Review = function (props: ReviewProps) {
                             tenantService.post(reviewForm).then((result: IRestResponse<void>) => {
                                 if (!result.isError) {
                                     setIsSuccess(true);
+                                    setIsSubmitting(false);
                                     props.handleNext();
                                 } else {
+                                    setServerError(result.error.message);
+                                    setIsSubmitting(false);
                                 }
                             });
-                            setIsSubmitting(false);
                         })
                         .catch(() => {
                             setServerError('Failed to acquire reCaptcha token. Please try again.');
