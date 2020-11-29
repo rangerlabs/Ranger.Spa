@@ -1,14 +1,15 @@
 import * as React from 'react';
 import Grid from '@material-ui/core/Grid';
 import FormikTextField from '../../form/FormikTextField';
-import { Formik, FormikBag, FormikProps } from 'formik';
+import { Formik } from 'formik';
 import FormikBackButton from '../../form/FormikBackButton';
 import IReviewForm from '../../../models/landing/IReviewForm';
-import { InputAdornment, Typography, Theme, createStyles, makeStyles } from '@material-ui/core';
+import { InputAdornment, Typography, createStyles, makeStyles } from '@material-ui/core';
 import TenantService from '../../../services/TenantService';
 import { IRestResponse } from '../../../services/RestUtilities';
 import FormikSynchronousButton from '../../form/FormikSynchronousButton';
 import { useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const tenantService = new TenantService();
 const useStyles = makeStyles(() =>
@@ -29,7 +30,10 @@ interface ReviewProps {
 const Review = function (props: ReviewProps) {
     const classes = useStyles(props);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [serverError, setServerError] = useState(undefined);
     const { handleBack, buttonsClassName, reviewForm } = props;
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     return (
         <React.Fragment>
@@ -41,26 +45,37 @@ const Review = function (props: ReviewProps) {
                     } as IReviewForm
                 }
                 onSubmit={(values: IReviewForm) => {
-                    const reviewForm = {
-                        organizationForm: {
-                            domain: values.organizationForm.domain,
-                            organizationName: values.organizationForm.organizationName,
-                        },
-                        userForm: {
-                            email: values.userForm.email,
-                            firstName: values.userForm.firstName,
-                            lastName: values.userForm.lastName,
-                            password: values.userForm.password,
-                            confirmPassword: values.userForm.confirmPassword,
-                        },
-                    } as IReviewForm;
-                    tenantService.post(reviewForm).then((result: IRestResponse<void>) => {
-                        if (!result.isError) {
-                            setIsSuccess(true);
-                            props.handleNext();
-                        } else {
-                        }
-                    });
+                    setIsSubmitting(true);
+                    setServerError(undefined);
+                    executeRecaptcha('contact_page')
+                        .then((token) => {
+                            const reviewForm = {
+                                organizationForm: {
+                                    domain: values.organizationForm.domain,
+                                    organizationName: values.organizationForm.organizationName,
+                                },
+                                userForm: {
+                                    email: values.userForm.email,
+                                    firstName: values.userForm.firstName,
+                                    lastName: values.userForm.lastName,
+                                    password: values.userForm.password,
+                                    confirmPassword: values.userForm.confirmPassword,
+                                    reCaptchaToken: token,
+                                },
+                            } as IReviewForm;
+                            tenantService.post(reviewForm).then((result: IRestResponse<void>) => {
+                                if (!result.isError) {
+                                    setIsSuccess(true);
+                                    props.handleNext();
+                                } else {
+                                }
+                            });
+                            setIsSubmitting(false);
+                        })
+                        .catch(() => {
+                            setServerError('Failed to acquire reCaptcha token. Please try again.');
+                            setIsSubmitting(false);
+                        });
                 }}
             >
                 {(props) => (
@@ -139,10 +154,17 @@ const Review = function (props: ReviewProps) {
                                     autoComplete="off"
                                 />
                             </Grid>
+                            {serverError && (
+                                <Grid item xs={12}>
+                                    <Typography color="error" variant="subtitle1">
+                                        {serverError}
+                                    </Typography>
+                                </Grid>
+                            )}
                         </Grid>
                         <div className={buttonsClassName}>
                             <FormikBackButton onClick={handleBack} />
-                            <FormikSynchronousButton isSuccess={isSuccess} isValid={true} isSubmitting={props.isSubmitting} variant="contained">
+                            <FormikSynchronousButton isSuccess={isSuccess} isValid={true} isSubmitting={isSubmitting} variant="contained">
                                 Sign Up
                             </FormikSynchronousButton>
                         </div>

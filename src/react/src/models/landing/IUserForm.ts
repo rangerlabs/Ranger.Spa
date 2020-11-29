@@ -4,4 +4,5 @@ export default interface IUserForm {
     email: string;
     password: string;
     confirmPassword: string;
+    reCaptchaToken: string;
 }
