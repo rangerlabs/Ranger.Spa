@@ -10,8 +10,7 @@ import { useState, useCallback } from 'react';
 import ContactService from '../../../services/ContactService';
 import FormikTextArea from '../../form/FormikTextArea';
 import GetStartedForFree from '../getStartedForFree/GetStartedForFree';
-import { GoogleReCaptchaProvider, GoogleReCaptcha, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import GlobalConfig from '../../../helpers/GlobalConfig';
+import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -50,7 +49,7 @@ export default function Contact(props: ContactProps) {
         [setToken]
     );
     return (
-        <GoogleReCaptchaProvider reCaptchaKey={GlobalConfig.RECAPTCHA_API_KEY}>
+        <React.Fragment>
             <GoogleReCaptcha action="contact_page" onVerify={callback} />
             <Grid className={classes.push} container direction="column" alignItems="center" spacing={5}>
                 <Grid container item justify="center">
@@ -181,6 +180,6 @@ export default function Contact(props: ContactProps) {
             </Grid>
             <GetStartedForFree />
             <Footer />
-        </GoogleReCaptchaProvider>
+        </React.Fragment>
     );
 }

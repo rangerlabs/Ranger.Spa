@@ -9,6 +9,8 @@ import Dialog from '../dialog/Dialog';
 import { ApplicationState } from '../../stores';
 import { User } from 'oidc-client';
 import RoutePaths from '../RoutePaths';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import GlobalConfig from '../../helpers/GlobalConfig';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -78,7 +80,9 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                             <main className={classes.main}>
                                 <div style={{ position: 'relative' }}>
                                     <div id="toolbar-push" className={classes.toolbar} />
-                                    <Component {...props} />
+                                    <GoogleReCaptchaProvider reCaptchaKey={GlobalConfig.RECAPTCHA_API_KEY}>
+                                        <Component {...props} />
+                                    </GoogleReCaptchaProvider>
                                 </div>
                             </main>
                         </Fade>
