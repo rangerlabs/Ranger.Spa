@@ -1,4 +1,6 @@
-import * as React from "react";
-import { RouteProps } from "react-router";
+import * as React from 'react';
+import { RouteProps } from 'react-router';
 
-export default interface ILandingRoute extends RouteProps {}
+export default interface ILandingRoute extends RouteProps {
+    reCaptcha?: boolean;
+}

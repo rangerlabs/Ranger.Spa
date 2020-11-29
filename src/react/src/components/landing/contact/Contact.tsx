@@ -44,6 +44,7 @@ export default function Contact(props: ContactProps) {
     });
     const callback = useCallback(
         (responseToken: string) => {
+            console.log('received reCAPTCHA token:', responseToken);
             setToken(responseToken);
         },
         [setToken]

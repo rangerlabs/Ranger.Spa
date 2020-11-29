@@ -23,10 +23,10 @@ import PrivacyPolicy from './landing/privacyPolicy/PrivacyPolicy';
 export const WhiteListedComponents: IRoute[] = [
     { exact: true, path: '/error/:code?', component: ErrorPage },
     { exact: true, path: RoutePaths.Landing, component: Landing },
-    { exact: true, path: RoutePaths.SignUp, component: SignUp },
+    { exact: true, reCaptcha: true, path: RoutePaths.SignUp, component: SignUp },
     { exact: true, path: RoutePaths.EnterDomain, component: EnterDomain },
     { exact: false, path: RoutePaths.Docs, component: Docs },
-    { exact: true, path: RoutePaths.Contact, component: Contact },
+    { exact: true, reCaptcha: true, path: RoutePaths.Contact, component: Contact },
     { exact: true, path: RoutePaths.About, component: About },
     { exact: true, path: RoutePaths.Pricing, component: Pricing },
     { exact: true, path: RoutePaths.Login, component: LoginRedirect },

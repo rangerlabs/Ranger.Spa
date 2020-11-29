@@ -31,6 +31,7 @@ interface LandingLayoutProps extends WithStyles<typeof styles> {
     user: User;
     component?: any;
     exact?: boolean;
+    reCaptcha?: boolean;
     path?: string | string[];
 }
 type LandingLayoutState = {
@@ -66,7 +67,7 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
     }
 
     render() {
-        const { classes, component: Component, user, ...rest } = this.props;
+        const { classes, component: Component, user, reCaptcha, ...rest } = this.props;
         return (
             <Route
                 {...rest}
@@ -80,9 +81,13 @@ class LandingLayout extends React.Component<LandingLayoutProps, LandingLayoutSta
                             <main className={classes.main}>
                                 <div style={{ position: 'relative' }}>
                                     <div id="toolbar-push" className={classes.toolbar} />
-                                    <GoogleReCaptchaProvider reCaptchaKey={GlobalConfig.RECAPTCHA_API_KEY}>
+                                    {reCaptcha ? (
+                                        <GoogleReCaptchaProvider reCaptchaKey={GlobalConfig.RECAPTCHA_API_KEY}>
+                                            <Component {...props} />
+                                        </GoogleReCaptchaProvider>
+                                    ) : (
                                         <Component {...props} />
-                                    </GoogleReCaptchaProvider>
+                                    )}
                                 </div>
                             </main>
                         </Fade>
