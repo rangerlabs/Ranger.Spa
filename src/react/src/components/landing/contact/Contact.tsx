@@ -164,7 +164,7 @@ export default function Contact(props: ContactProps) {
                                             </Grid>
                                             <div className={classes.buttons}>
                                                 <FormikSynchronousButton
-                                                    isValid={props.isValid && token}
+                                                    isValid={props.isValid && Boolean(token)}
                                                     isSubmitting={props.isSubmitting}
                                                     isSuccess={isSuccess}
                                                 >
