@@ -94,7 +94,6 @@ export default class RestUtilities {
 
     static async request<T>(method: string, url: string, data: any = null): Promise<IRestResponse<T>> {
         const user = ReduxStore.getStore().getState().oidc.user;
-        let isError = false;
         let body = data;
         let requestHeaders = new Headers();
 
@@ -123,10 +122,11 @@ export default class RestUtilities {
                 const responseText = await response.text();
                 const responseContentJson = responseText ? JSON.parse(responseText) : undefined;
                 this.assertIsRestResponse(responseContentJson);
+                let isError = response.status === 304 || (response.status >= 400 && response.status <= 500) ? true : false;
                 return {
                     statusCode: response.status,
                     message: responseContentJson.message,
-                    isError: response.status === 304 || (response.status >= 400 && response.status <= 500) ? true : false,
+                    isError: isError,
                     error: isError ? this.toFormikErrors(responseContentJson.error) : undefined,
                     result: isError ? undefined : responseContentJson.result,
                     correlationId: response.headers.has('x-operation') ? response.headers.get('x-operation').replace('operations/', '') : null,
