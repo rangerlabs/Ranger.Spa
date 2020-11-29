@@ -5,7 +5,7 @@ import PlanCards from '../pricing/PlanCards';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         layout: {
-            backgroundColor: theme.palette.primary.main,
+            background: 'linear-gradient(0deg, rgba(250,250,250,1) 0%, rgba(71,145,49) 25%)',
             paddingTop: theme.spacing(8),
             paddingBottom: theme.spacing(8),
         },

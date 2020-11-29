@@ -28,13 +28,6 @@ const FeaturesSection = function (props: FeaturesSectionProps) {
     return (
         <div className={classes.layout}>
             <Grid container direction="column" alignItems="center" spacing={7}>
-                <Grid container item justify="center">
-                    <Grid item xs={12}>
-                        <Typography gutterBottom color="primary" align="center" variant="h4">
-                            Features
-                        </Typography>
-                    </Grid>
-                </Grid>
                 <Grid container item justify="space-evenly" alignItems="flex-start" spacing={3} xs={12} md={8}>
                     <Grid className={classes.iconContainer} item xs={7} sm={4} lg={3}>
                         <UnlimitedUsers className={classes.icon} />
