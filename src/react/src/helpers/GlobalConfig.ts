@@ -33,6 +33,14 @@ export default class GlobalConfig {
         }
     }
 
+    public static get RECAPTCHA_API_KEY(): string {
+        if (window.location.host.includes('rangerlabs-staging')) {
+            return '6Ld1W_IZAAAAACLe2q7_aloQ1_nLIxDedhM4YnMq';
+        } else {
+            return '6LfCVfIZAAAAAOY5HvbRWTutvAUud8AcXAPFQuUS';
+        }
+    }
+
     public static get PUSHER_API_KEY(): string {
         if (window.location.host.includes('localhost')) {
             return 'aed7ba7c7247aca9680e';

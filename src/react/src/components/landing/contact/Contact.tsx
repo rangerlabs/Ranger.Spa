@@ -11,6 +11,7 @@ import ContactService from '../../../services/ContactService';
 import FormikTextArea from '../../form/FormikTextArea';
 import GetStartedForFree from '../getStartedForFree/GetStartedForFree';
 import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3';
+import GlobalConfig from '../../../helpers/GlobalConfig';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -52,7 +53,7 @@ export default function Contact(props: ContactProps) {
     );
 
     return (
-        <GoogleReCaptchaProvider reCaptchaKey="6LfCVfIZAAAAAOY5HvbRWTutvAUud8AcXAPFQuUS">
+        <GoogleReCaptchaProvider reCaptchaKey={GlobalConfig.RECAPTCHA_API_KEY}>
             <GoogleReCaptcha onVerify={handleReCaptchaVerify} />
 
             <React.Fragment>
