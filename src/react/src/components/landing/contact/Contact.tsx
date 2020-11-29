@@ -10,7 +10,7 @@ import { useState, useCallback } from 'react';
 import ContactService from '../../../services/ContactService';
 import FormikTextArea from '../../form/FormikTextArea';
 import GetStartedForFree from '../getStartedForFree/GetStartedForFree';
-import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { GoogleReCaptchaProvider, GoogleReCaptcha, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import GlobalConfig from '../../../helpers/GlobalConfig';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,26 +36,25 @@ export default function Contact(props: ContactProps) {
     const contactService = new ContactService();
     const [serverError, setServerError] = useState(undefined);
     const [token, setToken] = useState(undefined);
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const validationSchema = Yup.object().shape({
         organization: Yup.string().required('Required').max(512, 'Max 512 characters'),
         name: Yup.string().required('Required').max(512, 'Max 512 characters'),
         email: Yup.string().email('Invalid email').required('Required').max(512, 'Max 512 characters'),
         message: Yup.string().required('Required').max(1000, 'Max 1000 characters'),
-        reCaptchaToken: Yup.string().required('A reCAPTCHA token is required'),
     });
 
-    const handleReCaptchaVerify = useCallback(
-        (token) => {
+    executeRecaptcha('contact_page')
+        .then((token) => {
             setToken(token);
-        },
-        [setToken]
-    );
+        })
+        .catch(() => {
+            setServerError('Failed to acquire reCAPTCHA token. Please try again.');
+        });
 
     return (
         <GoogleReCaptchaProvider reCaptchaKey={GlobalConfig.RECAPTCHA_API_KEY}>
-            <GoogleReCaptcha onVerify={handleReCaptchaVerify} />
-
             <React.Fragment>
                 <Grid className={classes.push} container direction="column" alignItems="center" spacing={5}>
                     <Grid container item justify="center">
@@ -168,7 +167,11 @@ export default function Contact(props: ContactProps) {
                                                     )}
                                                 </Grid>
                                                 <div className={classes.buttons}>
-                                                    <FormikSynchronousButton isValid={props.isValid} isSubmitting={props.isSubmitting} isSuccess={isSuccess}>
+                                                    <FormikSynchronousButton
+                                                        isValid={props.isValid && token}
+                                                        isSubmitting={props.isSubmitting}
+                                                        isSuccess={isSuccess}
+                                                    >
                                                         Send
                                                     </FormikSynchronousButton>
                                                 </div>
