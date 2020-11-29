@@ -82,8 +82,8 @@ export default function Contact(props: ContactProps) {
                                             } else {
                                                 setIsSuccess(true);
                                             }
+                                            setIsSubmitting(false);
                                         });
-                                        setIsSubmitting(false);
                                     })
                                     .catch(() => {
                                         setServerError('Failed to acquire reCaptcha token. Please try again.');
