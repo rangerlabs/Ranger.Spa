@@ -10,7 +10,7 @@ import { useState, useCallback } from 'react';
 import ContactService from '../../../services/ContactService';
 import FormikTextArea from '../../form/FormikTextArea';
 import GetStartedForFree from '../getStartedForFree/GetStartedForFree';
-import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { GoogleReCaptcha, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,9 +32,10 @@ interface ContactProps {}
 export default function Contact(props: ContactProps) {
     const classes = useStyles(props);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const contactService = new ContactService();
     const [serverError, setServerError] = useState(undefined);
-    const [token, setToken] = useState('');
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const validationSchema = Yup.object().shape({
         organization: Yup.string().required('Required').max(512, 'Max 512 characters'),
@@ -42,16 +43,9 @@ export default function Contact(props: ContactProps) {
         email: Yup.string().email('Invalid email').required('Required').max(512, 'Max 512 characters'),
         message: Yup.string().required('Required').max(1000, 'Max 1000 characters'),
     });
-    const callback = useCallback(
-        (responseToken: string) => {
-            console.log('received reCAPTCHA token:', responseToken);
-            setToken(responseToken);
-        },
-        [setToken]
-    );
+
     return (
         <React.Fragment>
-            <GoogleReCaptcha action="contact_page" onVerify={callback} />
             <Grid className={classes.push} container direction="column" alignItems="center" spacing={5}>
                 <Grid container item justify="center">
                     <Grid item xs={12}>
@@ -71,21 +65,30 @@ export default function Contact(props: ContactProps) {
                                 reCaptchaToken: '',
                             }}
                             onSubmit={(values: IContactForm, formikBag: FormikBag<FormikProps<IContactForm>, IContactForm>) => {
+                                setIsSubmitting(true);
                                 setServerError(undefined);
-                                const contactForm = {
-                                    organization: values.organization,
-                                    name: values.name,
-                                    email: values.email,
-                                    message: values.message,
-                                    reCaptchaToken: token,
-                                } as IContactForm;
-                                contactService.postContactForm(contactForm).then((response) => {
-                                    if (response.isError) {
-                                        setServerError(response.error.message);
-                                    } else {
-                                        setIsSuccess(true);
-                                    }
-                                });
+                                executeRecaptcha('contact_page')
+                                    .then((token) => {
+                                        const contactForm = {
+                                            organization: values.organization,
+                                            name: values.name,
+                                            email: values.email,
+                                            message: values.message,
+                                            reCaptchaToken: token,
+                                        } as IContactForm;
+                                        contactService.postContactForm(contactForm).then((response) => {
+                                            if (response.isError) {
+                                                setServerError(response.error.message);
+                                            } else {
+                                                setIsSuccess(true);
+                                            }
+                                        });
+                                        setIsSubmitting(false);
+                                    })
+                                    .catch(() => {
+                                        setServerError('Failed to acquire reCaptcha token. Please try again.');
+                                        setIsSubmitting(false);
+                                    });
                             }}
                             validateOnMount={false}
                             isInitialValid={false}
@@ -163,11 +166,7 @@ export default function Contact(props: ContactProps) {
                                                 )}
                                             </Grid>
                                             <div className={classes.buttons}>
-                                                <FormikSynchronousButton
-                                                    isValid={props.isValid && Boolean(token)}
-                                                    isSubmitting={props.isSubmitting}
-                                                    isSuccess={isSuccess}
-                                                >
+                                                <FormikSynchronousButton isValid={props.isValid} isSubmitting={isSubmitting} isSuccess={isSuccess}>
                                                     Send
                                                 </FormikSynchronousButton>
                                             </div>
