@@ -46,6 +46,16 @@ const useStyles = makeStyles((theme: Theme) => {
                 maxWidth: Constants.DRAWER.LANDING.WIDTH,
             },
         },
+        outlineDrawerPaper: {
+            border: 'none',
+            height: 'auto',
+            backgroundColor: '#fafafa',
+            [theme.breakpoints.up(breakpoint)]: {
+                zIndex: theme.zIndex.appBar - 1,
+                width: 100,
+                maxWidth: `calc(50% - ${theme.breakpoints.values.md}px)`,
+            },
+        },
         nested: {
             paddingLeft: theme.spacing(4),
         },
@@ -283,6 +293,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                                 variant="permanent"
                                 open
                             >
+                                <div className={classes.outlinePush} />
                                 <div className={classes.outlinePush} />
                                 <Outline elements={doc.outline} />
                             </Drawer>

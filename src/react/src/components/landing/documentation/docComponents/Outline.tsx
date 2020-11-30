@@ -12,11 +12,11 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.up(800 + theme.spacing(2 * 2) + Constants.DRAWER.LANDING.WIDTH * 2)]: {
                 paddingTop: theme.spacing(0),
                 paddingLeft: theme.spacing(0),
-                paddingRight: theme.spacing(4),
+                paddingRight: theme.spacing(0),
             },
             paddingTop: theme.spacing(0),
-            paddingLeft: theme.spacing(4),
-            paddingRight: theme.spacing(4),
+            paddingLeft: theme.spacing(0),
+            paddingRight: theme.spacing(0),
             paddingBottom: theme.spacing(4),
         },
         listItem: {
@@ -87,7 +87,7 @@ export default function Outline(props: PropsWithChildren<OutlineElementProps>) {
                     </List>
                 </React.Fragment>
             ) : (
-                <Section id="outline-section" text="Outline">
+                <Section id="outline-section" text="">
                     <List dense className={classes.list}>
                         {props.elements.map((e) => getElement(classes, e, props))}
                     </List>
