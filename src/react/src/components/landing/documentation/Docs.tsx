@@ -294,7 +294,6 @@ function Docs(props: DocumentationProps): JSX.Element {
                                 open
                             >
                                 <div className={classes.outlinePush} />
-                                <div className={classes.outlinePush} />
                                 <Outline elements={doc.outline} />
                             </Drawer>
                         </nav>
