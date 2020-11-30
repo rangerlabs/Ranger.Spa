@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme: Theme) => {
             backgroundColor: '#fafafa',
             [theme.breakpoints.up(breakpoint)]: {
                 zIndex: theme.zIndex.appBar - 1,
-                width: 100,
-                maxWidth: `calc(50% - ${theme.breakpoints.values.md}px)`,
+                width: '100%',
+                maxWidth: `calc(50% - ${theme.breakpoints.values.md / 2}px)`,
             },
         },
         nested: {
