@@ -286,7 +286,7 @@ function Docs(props: DocumentationProps): JSX.Element {
                         <nav className={classes.drawer}>
                             <Drawer
                                 classes={{
-                                    paper: classNames(classes.drawerPaper, classes.boxShadow),
+                                    paper: classNames(classes.outlineDrawerPaper, classes.boxShadow),
                                 }}
                                 className={classes.mdDownHide}
                                 anchor={'right'}
