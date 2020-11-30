@@ -1,7 +1,7 @@
 import React from 'react';
 import CentralPark from '../../../../assets/central-park.png';
 import ProjectEdit from '../../../../assets/project-edit.png';
-import WebhookSelect from '../../../../assets/webhook-select.png';
+import IntegrationSelect from '../../../../assets/integration-select.png';
 import RoutePaths from '../../RoutePaths';
 import Paragraph from './docComponents/Paragraph';
 import Section from './docComponents/Section';
@@ -65,9 +65,9 @@ const GettingStarted = function (props: GettingStartedProps) {
             </Section>
             <Section id="flexible-integrations-section" text="Flexible Integrations">
                 <Paragraph>
-                    Ranger was built to be extended. Ranger currently offers Webhook Integrations, but more are in the works and will be coming online shortly.
+                    Ranger was built to be extended. Ranger currently offers Webhook and Pusher Integrations with more under active development.
                 </Paragraph>
-                <Image src={WebhookSelect} alt="central-park-geofence" />
+                <Image src={IntegrationSelect} alt="available integrations" />
                 <Paragraph>What's more, all Integrations will be available to all subscriptions - which Integrations you choose is up to you.</Paragraph>
                 <Paragraph>
                     To learn more about creating and managing Integrations in Ranger, take a look at our dedicated{' '}
@@ -82,7 +82,7 @@ const GettingStarted = function (props: GettingStartedProps) {
                     Group Geofences and the Integrations they can execute into Projects. Depending on your use case, Projects could be scoped to a mobile app,
                     customer, or organizational unit.
                 </Paragraph>
-                <Image src={ProjectEdit} alt="central-park-geofence" />
+                <Image src={ProjectEdit} alt="secure projects" />
                 <Paragraph>Within your organization User Accounts can also be scoped to specific Projects.</Paragraph>
                 <Paragraph>
                     To learn more about managing Projects and Project security, take a look at our dedicated{' '}
