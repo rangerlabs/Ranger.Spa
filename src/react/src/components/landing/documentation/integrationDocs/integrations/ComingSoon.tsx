@@ -6,7 +6,7 @@ const ComingSoon = function () {
     return (
         <React.Fragment>
             <Section text="Coming Soon" id="coming-soon">
-                <Paragraph>Third-party Integrations are in the works and will be arriving soon. Stay tuned.</Paragraph>
+                <Paragraph>More third-party Integrations are in the works and will be arriving soon. Stay tuned.</Paragraph>
             </Section>
         </React.Fragment>
     );

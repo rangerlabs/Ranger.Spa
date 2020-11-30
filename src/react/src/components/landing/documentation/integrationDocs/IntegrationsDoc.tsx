@@ -1,24 +1,33 @@
 import React from 'react';
-import { Link as MailLink } from '@material-ui/core';
+import { Link as MailLink, Link } from '@material-ui/core';
 import Paragraph from '../docComponents/Paragraph';
-import Webhooks from './integrations/Webhooks';
+import WebhookDoc from './integrations/WebhookDoc';
 import ComingSoon from './integrations/ComingSoon';
 import { OutlineElement } from '../docComponents/OutlineElement';
 import Outline from '../docComponents/Outline';
 import Introduction from '../docComponents/Introduction';
 import Section from '../docComponents/Section';
 import Bold from '../textEnhancers/Bold';
+import DocRoutePaths from '../DocRoutePaths';
+import RoutePaths from '../../../RoutePaths';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import PusherDoc from './integrations/PusherDoc';
 
+interface IntegrationsDocProps {
+    push: typeof push;
+}
 export const IntegrationsDocOutline = [
     {
         name: 'Integrations',
         id: 'integrations-section',
     },
     { name: 'Webhooks', id: 'webhook-section' },
+    { name: 'Pusher Channels', id: 'pusher-section' },
     { name: 'Coming Soon', id: 'coming-soon' },
 ] as OutlineElement[];
 
-const IntegrationsDoc = function (props: IDocProps) {
+const IntegrationsDoc = function (props: IDocProps & IntegrationsDocProps) {
     return (
         <React.Fragment>
             <Introduction id="integrations-section" text="Integrations">
@@ -44,11 +53,27 @@ const IntegrationsDoc = function (props: IDocProps) {
                     Once you find that an Integration is performing the way you expect, it can be promoted to a Default Integration and all events from all
                     Geofences will execute it.
                 </Paragraph>
+                <Paragraph>
+                    For all Integrations, the selected Environment will determine which API key executes the Integration. Use the <Bold>TEST</Bold> environment
+                    to validate your Integration using the <Bold>TEST</Bold> API key or the Geofence Test Runner.
+                </Paragraph>
+                <Paragraph>
+                    Due to the eventually consistent nature of Ranger, system may not necessarily receive events in order they are raised. Though Ranger strives
+                    to be consistent within a matter of seconds, decreasing the frequency of each device's Breadcrumb requests can improve Ranger's
+                    classification of Breadcrumb events. For example, if two Breadcrumbs are sent almost immediately after one another, it is possible a system
+                    receives the <Bold>DWELLING</Bold> event before the <Bold>ENTERED</Bold> event. Increasing the time between Breadcrumbs reduces the
+                    likelihood of this occurring. To learn more about sending Breadcrumbs, view the documentation{' '}
+                    <Link component="button" onClick={() => props.push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs))} variant="body1">
+                        here
+                    </Link>
+                    .
+                </Paragraph>
             </Section>
-            <Webhooks />
+            <WebhookDoc />
+            <PusherDoc />
             <ComingSoon />
         </React.Fragment>
     );
 };
 
-export default IntegrationsDoc;
+export default connect(null, { push })(IntegrationsDoc);
