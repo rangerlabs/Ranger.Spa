@@ -299,6 +299,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     };
 
     private initMap = () => {
+        console.log('map initializing');
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
                 this.initMapLocation(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
@@ -320,6 +321,7 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
         });
 
         google.maps.event.addListenerOnce(this.map, 'idle', () => {
+            console.log('map fully loaded');
             this.setState({ isMapFullyLoaded: true });
             this.props.mapFullyLoadedCallback();
             const name = queryParameterName();
