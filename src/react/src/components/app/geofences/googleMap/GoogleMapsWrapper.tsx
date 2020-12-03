@@ -301,9 +301,13 @@ class GoogleMapsWrapper extends React.Component<WrapperProps, GoogleMapsWrapperS
     private initMap = () => {
         console.log('map initializing');
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                this.initMapLocation(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-            }, this.handleLocationError);
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.initMapLocation(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+                },
+                this.handleLocationError,
+                { timeout: 3500 } as PositionOptions
+            );
         } else {
             return this.handleLocationError();
         }
