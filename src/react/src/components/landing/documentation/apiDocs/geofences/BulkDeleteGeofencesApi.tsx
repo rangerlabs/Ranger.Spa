@@ -10,7 +10,7 @@ import BulkDeleteGeofences from '../../json/geofences/BulkDeleteGeofences';
 import SampleRequest from '../../docComponents/SampleRequest';
 import JsonViewer from '../../docComponents/JsonViewer';
 
-const parameters = [<EndpointBodyListItem name="externalIds" type="string[]" required description="The External Ids of the geofences to delete" />];
+const parameters = [<EndpointBodyListItem name="externalIds" type="string[]" required description="The External Ids of the geofences to delete; [1, 500]" />];
 
 const endpointProperties = [
     {

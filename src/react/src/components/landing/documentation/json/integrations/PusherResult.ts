@@ -1,5 +1,5 @@
 const PusherResult = {
-    id: '28588e28c9984509a37cd5a009d1549d',
+    id: '762e775c-ec6f-49a0-af73-0098e196df0b',
     project: 'Ranger Mobile App',
     environment: 'TEST',
     breadcrumb: {
@@ -10,7 +10,7 @@ const PusherResult = {
             lng: -73.98790926721189,
         },
         accuracy: 10.0,
-        recordedAt: '2020-07-13T22:06:41Z',
+        recordedAt: '2020-07-13T22:06:41.383Z',
         acceptedAt: '2020-07-13T22:06:44.7920272Z',
         metadata: [
             {
