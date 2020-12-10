@@ -22,11 +22,11 @@ import GetGeofencesApi from './geofences/GetGeofencesApi';
 import PostGeofencesApi from './geofences/PostGeofencesApi';
 import LngLatType from './commonTypes/LngLatType';
 import ScheduleType from './commonTypes/ScheduleType';
-import KeyValuePair from '../../../../models/KeyValuePair';
 import KeyValuePairType from './commonTypes/KeyValuePairType';
 import PutGeofencesApi from './geofences/PutGeofencesApi';
 import DeleteGeofencesApi from './geofences/DeleteGeofencesApi';
 import GetIntegrationsApi from './integrations/GetIntegrationsApi';
+import BulkDeleteGeofences from '../json/geofences/BulkDeleteGeofences';
 
 export const ApiDocOutline = [
     {
@@ -83,6 +83,10 @@ export const ApiDocOutline = [
             {
                 name: 'DELETE',
                 id: 'delete-geofences-section',
+            },
+            {
+                name: 'BULK DELETE',
+                id: 'bulk-delete-geofences-section',
             },
         ],
     },
@@ -206,6 +210,9 @@ const ApiDoc = function (props: ApiDocsProps) {
                 </SubSection>
                 <SubSection text="DELETE" id="delete-geofences-section">
                     <DeleteGeofencesApi />
+                </SubSection>
+                <SubSection text="BULK DELETE" id="bulk-delete-geofences-section">
+                    <BulkDeleteGeofences />
                 </SubSection>
             </Section>
             <Section text="Integrations" id="integrations-section">

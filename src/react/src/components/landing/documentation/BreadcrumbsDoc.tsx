@@ -37,8 +37,9 @@ const BreadcrumbsDoc = function (props: BreadcrumbsDocProps) {
                 </Paragraph>
                 <Paragraph>
                     Breadcrumbs are sent to Ranger's API via <HttpMethod method="POST" /> requests. Once accepted into the system they are then used to
-                    determine whether the user or device has interacted with one of your Geofences. Breadcrumbs are processed in the order in which they are
-                    received, not by their <Code>recordedAt</Code> property.
+                    determine whether the user or device has interacted with one of your Geofences. Breadcrumbs concurrency is enforced by the{' '}
+                    <Code>recordedAt</Code> property. Ranger will discard outdated Breadcrumbs that have a <Code>recordedAt</Code> timestamp earlier than the
+                    most recently processed Breadcrumb.
                 </Paragraph>
                 <Paragraph>
                     When tracking a user, your application may optionally send metadata with Breadcrumbs. It is important to note that unlike Geofence and
