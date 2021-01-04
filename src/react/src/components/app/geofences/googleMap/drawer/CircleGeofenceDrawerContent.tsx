@@ -315,7 +315,7 @@ class CircleGeofenceDrawerContent extends React.Component<CircleGeofenceFormProp
                           )
                 }
                 validateOnMount={false}
-                isInitialValid={false}
+                isInitialValid={Boolean(this.props.editGeofence)}
                 onSubmit={(values: CircleGeofence, formikBag: FormikBag<FormikProps<CircleGeofence>, CircleGeofence>) => {
                     const newFence = new CircleGeofence(
                         this.props.selectedProject.id,

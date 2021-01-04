@@ -314,7 +314,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
                           )
                 }
                 validateOnMount={false}
-                isInitialValid={false}
+                isInitialValid={Boolean(this.props.editGeofence)}
                 onSubmit={(values: PolygonGeofence, formikBag: FormikBag<FormikProps<PolygonGeofence>, PolygonGeofence>) => {
                     const newFence = new PolygonGeofence(
                         this.props.selectedProject.id,
