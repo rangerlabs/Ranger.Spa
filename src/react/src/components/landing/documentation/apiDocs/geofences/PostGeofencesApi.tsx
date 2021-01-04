@@ -50,6 +50,10 @@ const endpointProperties = [
         description: '1.0',
     },
     {
+        title: 'Rate Limits',
+        description: '10 requests per second',
+    },
+    {
         title: 'Body',
         description: <UnorderedList items={body} />,
     },

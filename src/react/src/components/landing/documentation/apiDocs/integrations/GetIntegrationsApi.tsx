@@ -22,6 +22,10 @@ const endpointProperties = [
         title: 'API Version',
         description: '1.0',
     },
+    {
+        title: 'Rate Limits',
+        description: '10 requests per second',
+    },
 ] as EndpointProperty[];
 
 const GetIntegrationsApi = function () {

@@ -41,6 +41,10 @@ const endpointProperties = [
         description: '1.0',
     },
     {
+        title: 'Rate Limits',
+        description: '1 request per second per device, 360 requests per hour per device, 2000 requests per day per device',
+    },
+    {
         title: 'Body',
         description: <UnorderedList items={body} />,
     },
