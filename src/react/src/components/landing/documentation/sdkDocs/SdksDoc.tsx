@@ -13,6 +13,7 @@ import Code from '../textEnhancers/Code';
 import SubSection from '../docComponents/SubSection';
 import DocRoutePaths from '../DocRoutePaths';
 import { scrollToLandingId } from '../../../../helpers/Helpers';
+import Bold from '../textEnhancers/Bold';
 
 export const SdksDocOutline = [
 	{
@@ -112,12 +113,16 @@ const swiftTrackerV1Descriptions = [
 		description: 'Configures the underlying CLLocationManger using significant location changes',
 	},
 	{
-		title: 'RangerTrackerV1.allowsBackgroundLocationUpdates(value: Bool = true, showBackgroundLocationIndicator: Bool = false)',
+		title: 'RangerTrackerV1.allowsBackgroundLocationUpdates(allowsBackgroundLocationUpdates: Bool = true, showBackgroundLocationIndicator: Bool = false)',
 		description: 'Configures background location updates on the underlying CLLocationManager',
 	},
 	{
 		title: 'RangerTrackerV1.setApiBaseUrl(url: String)',
 		description: 'Used by the Ranger Team for testing against pre-production environments',
+	},
+	{
+		title: 'RangerTrackerV1.context',
+		description: "A @Published property which exposes the Tracker's internal state",
 	},
 	{
 		title: 'PusherNotifier.pusherConnect(pusherKey: String, cluster: String, completionHandler: @escaping ((GeofenceEvent) -> Void))',
@@ -146,37 +151,45 @@ const SdksDoc = function (props: SdkDocsProps) {
 				</Paragraph>
 			</Introduction>
 			{props.showOutline && <Outline elements={SdksDocOutline} />}
-			<Section text="Swift" id="swift-section-section">
+			<Section text="Swift" id="swift-section">
 				<Paragraph>The Ranger API Client v1 utilizes the availble API Version v1 endpoints.</Paragraph>
-				<SubSection text="API Client v1" id="swift-api-client-v1-section">
-					<SubSection text="install" id="swift-api-client-v1-install-section">
+				<SubSection text="Swift API Client v1" id="swift-api-client-v1-section">
+					<SubSection text="Installation and usage" id="swift-api-client-v1-install-section">
 						<Paragraph>Ranger's Swift API Client v1 is availble as a CocoaPod. It can be installed by adding the following to your PodFile.</Paragraph>
-						<Paragraph>pod 'Ranger.Swift.ApiClientV1'</Paragraph>
+						<Paragraph>
+							<Code>pod 'Ranger.Swift.ApiClientV1'</Code>
+						</Paragraph>
 						<Paragraph>The SDK can then be imported:</Paragraph>
-						<Paragraph>import Ranger_Swift_ApiClientV1</Paragraph>
+						<Paragraph>
+							<Code>import Ranger_Swift_ApiClientV1</Code>
+						</Paragraph>
 					</SubSection>
 					<SubSection text="Methods" id="swift-api-client-v1-methods-section">
 						<Paragraph>The following describes methods currently availble on the API Client.</Paragraph>
 						<DescriptiveList descriptions={swiftApiClientV1Descriptions} />
 					</SubSection>
 				</SubSection>
-				<SubSection text="Tracker v1" id="swift-tracker-v1-section">
+				<SubSection text="Swift Tracker v1" id="swift-tracker-v1-section">
 					<Paragraph>
-						The Ranger Tracker v1 uses the
+						The Ranger Tracker v1 uses the{' '}
 						<Link variant="caption" component="button" onClick={() => scrollToLandingId('swift-api-client-v1-section')}>
 							API Client v1
 						</Link>{' '}
-						to configure tracking, send
+						to configure tracking, send{' '}
 						<Link component="button" onClick={() => props.push(RoutePaths.Docs.replace(':name?', DocRoutePaths.Breadcrumbs))} variant="body1">
 							Breadcrumbs
 						</Link>
 						, and receive events from a configured Pusher subscription.
 					</Paragraph>
-					<SubSection text="Install" id="swift-tracker-v1-install-section">
+					<SubSection text="Installation and usage" id="swift-tracker-v1-install-section">
 						<Paragraph>Ranger's Swift Tracker v1 is availble as a CocoaPod. It can be installed by adding the following to your PodFile.</Paragraph>
-						<Paragraph>pod 'Ranger.Swift.TrackerV1'</Paragraph>
+						<Paragraph>
+							<Code>pod 'Ranger.Swift.TrackerV1'</Code>
+						</Paragraph>
 						<Paragraph>The SDK can then be imported:</Paragraph>
-						<Paragraph>import Ranger_Swift_TrackerV1</Paragraph>
+						<Paragraph>
+							<Code>import Ranger_Swift_TrackerV1</Code>
+						</Paragraph>
 						<Paragraph>
 							Before calling any tracking methods on the Tracker, it is necessary to call <Code>RangerTrackerV1.configure()</Code> to configure the Tracker.
 							Once configured, your application may request authorization using either <Code>RangerTrackerV1.requestWhenInUseAuthorization()</Code> or{' '}
@@ -194,12 +207,12 @@ const SdksDoc = function (props: SdkDocsProps) {
 							</Link>
 						</Paragraph>
 						<Paragraph>
-							Remember, when requesting location services on iOS, it is necessary to a meaningful Purpose String in the <Code>Info.plist</Code> file. When
+							Remember, when requesting location services on iOS, it is necessary to a meaningful Purpose String in the <Bold>Info.plist</Bold> file. When
 							requesting When In Use authorization or Always authorization, set a meaningful value for NSLocationWhenInUseUsageDescription. When requesting
 							Always Authorization set a meaningful value for NSLocationAlwaysAndWhenInUseUsageDescription.
 						</Paragraph>
 					</SubSection>
-					<SubSection text="Methods" id="swift-tracker-v1-methods-section">
+					<SubSection text="Properties and methods" id="swift-tracker-v1-methods-section">
 						<Paragraph>The following describes methods currently availble on the Tracker.</Paragraph>
 						<DescriptiveList descriptions={swiftTrackerV1Descriptions} />
 					</SubSection>
