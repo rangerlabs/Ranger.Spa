@@ -55,7 +55,7 @@ const DemoSdksSection = function (props: HeroProps) {
 						Manage your subscription in app with no need to contact sales.
 					</Typography>
 				</Grid>
-				<Grid container alignContent="center" justify="center" spacing={5}>
+				<Grid container item md={6} xs={10} alignContent="center" justify="center" spacing={5}>
 					<Grid item>
 						<Typography gutterBottom className={classes.typography} variant="h5">
 							Download the demo on iOS to vizualize and test geofencing configurations
@@ -65,24 +65,21 @@ const DemoSdksSection = function (props: HeroProps) {
 						<img width="100%" src={IphoneDemoMockup} alt="iOS Mockup" />
 					</Grid>
 					<Grid item md={3} xs={10}>
-						<Typography gutterBottom className={classes.typography} variant="h5">
+						<Typography gutterBottom className={classes.typography} variant="subtitle1">
 							Step 1) Sign Up
 						</Typography>
-						<Typography gutterBottom className={classes.typography} variant="h5">
+						<Typography gutterBottom className={classes.typography} variant="subtitle1">
 							Step 2) Create and configure a local geofence
 						</Typography>
-						<Typography gutterBottom className={classes.typography} variant="h5">
+						<Typography gutterBottom className={classes.typography} variant="subtitle1">
 							Step 3) Download and configure the app
 						</Typography>
 						<Link component="button">
 							<DownloadOnTheAppStore />
 						</Link>
-						<Typography gutterBottom className={classes.typography} variant="h5">
+						<Typography gutterBottom className={classes.typography} variant="subtitle1">
 							Step 4) Take a walk and see your events
 						</Typography>
-						<Link component="button">
-							<DownloadOnTheAppStore />
-						</Link>
 					</Grid>
 				</Grid>
 				<Grid container alignContent="center" justify="center" item md={4} xs={10}>
