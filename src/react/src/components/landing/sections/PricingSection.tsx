@@ -25,7 +25,10 @@ const PricingSection = function (props: PricingSectionProps) {
 				<Grid container item justify="center">
 					<Grid item xs={12}>
 						<Typography gutterBottom className={classes.typography} align="center" variant="h4">
-							Open Source, Developer Friendly Demo and SDKs
+							Easy To Manage Subscription Pricing
+						</Typography>
+						<Typography className={classes.typography} align="center" variant="h6">
+							Manage your subscription in app with no need to contact sales.
 						</Typography>
 					</Grid>
 				</Grid>

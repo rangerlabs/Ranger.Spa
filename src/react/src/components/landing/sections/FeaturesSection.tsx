@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, createStyles, makeStyles, Theme, Typography, Box } from '@material-ui/core';
-import PlanCards from '../pricing/PlanCards';
 import UnlimitedUsers from '../../../../assets/Infinite-Users.svg';
 import ConfigurableGeofences from '../../../../assets/Customizable-Geofences.svg';
 import MixAndMatchIntegrations from '../../../../assets/Mix-And-Match-Integrations.svg';

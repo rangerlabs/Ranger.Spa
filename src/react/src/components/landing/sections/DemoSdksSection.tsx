@@ -16,11 +16,8 @@ const useStyles = makeStyles((theme: Theme) =>
 			paddingBottom: theme.spacing(8),
 		},
 		typography: {
-			[theme.breakpoints.up('md')]: {
-				textAlign: 'left',
-			},
 			textAlign: 'center',
-			color: theme.palette.common.black,
+			color: theme.palette.common.white,
 		},
 		heroButton: {
 			minWidth: '175px',
@@ -46,19 +43,50 @@ const DemoSdksSection = function (props: HeroProps) {
 	}
 
 	const classes = useStyles();
-	const theme = useTheme();
 
 	return (
 		<div className={classes.layout}>
 			<Grid container alignContent="center" justify="center" spacing={5}>
-				<Grid item md={6} xs={10}>
-					<img width="100%" src={IphoneDemoMockup} alt="Create Geofence" />
-					<Link component="button">
-						<DownloadOnTheAppStore />
-					</Link>
+				<Grid item xs={12}>
+					<Typography gutterBottom className={classes.typography} align="center" variant="h4">
+						Open Source, Developer Friendly Demo and SDKs
+					</Typography>
+					<Typography className={classes.typography} align="center" variant="h6">
+						Manage your subscription in app with no need to contact sales.
+					</Typography>
 				</Grid>
-				<Grid container alignContent="center" justify="center" item>
+				<Grid container alignContent="center" justify="center" spacing={5}>
+					<Grid item>
+						<Typography gutterBottom className={classes.typography} variant="h5">
+							Download the demo on iOS to vizualize and test geofencing configurations
+						</Typography>
+					</Grid>
 					<Grid item md={4} xs={10}>
+						<img width="100%" src={IphoneDemoMockup} alt="iOS Mockup" />
+					</Grid>
+					<Grid item md={3} xs={10}>
+						<Typography gutterBottom className={classes.typography} variant="h5">
+							Step 1) Sign Up
+						</Typography>
+						<Typography gutterBottom className={classes.typography} variant="h5">
+							Step 2) Create and configure a local geofence
+						</Typography>
+						<Typography gutterBottom className={classes.typography} variant="h5">
+							Step 3) Download and configure the app
+						</Typography>
+						<Link component="button">
+							<DownloadOnTheAppStore />
+						</Link>
+						<Typography gutterBottom className={classes.typography} variant="h5">
+							Step 4) Take a walk and see your events
+						</Typography>
+						<Link component="button">
+							<DownloadOnTheAppStore />
+						</Link>
+					</Grid>
+				</Grid>
+				<Grid container alignContent="center" justify="center" item md={4} xs={10}>
+					<Grid item>
 						<Typography gutterBottom className={classes.typography} variant="h5">
 							Open Source SDKs available
 						</Typography>
