@@ -51,7 +51,7 @@ const DemoSdksSection = function (props: HeroProps) {
 						Open Source, Developer Friendly Demos and SDKs
 					</Typography>
 					<Typography className={classes.white} align="center" variant="h6">
-						Demos and in-app Tools help develop and test Geofences and Integrations
+						Demos and in-app tools help develop and test Geofences and Integrations
 					</Typography>
 				</Grid>
 				<Grid container item md={6} xs={10} alignContent="center" justify="center" spacing={5}>
@@ -61,18 +61,18 @@ const DemoSdksSection = function (props: HeroProps) {
 							<DownloadOnTheAppStore />
 						</Link>
 					</Grid>
-					<Grid item md={3} xs={10}>
+					<Grid item md={4} xs={10}>
 						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-							Step 1) Sign Up
+							Sign Up
 						</Typography>
 						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-							Step 2) Create and configure a local geofence
+							Create and configure a local geofence
 						</Typography>
 						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-							Step 3) Download and configure the app
+							Download and configure the app
 						</Typography>
 						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-							Step 4) Take a walk and see your events
+							Take a walk and see your events
 						</Typography>
 					</Grid>
 				</Grid>
@@ -84,7 +84,7 @@ const DemoSdksSection = function (props: HeroProps) {
 						<Typography gutterBottom className={classes.white} variant="subtitle1"></Typography>
 						<div className={classes.white}>
 							<Grid container alignItems="center" justify="center">
-								<Grid item xs={5}>
+								<Grid item xs={5} justify="center" alignContent="center">
 									<GitHubButton href="https://github.com/rangerlabs" data-size="large" aria-label="View on GitHub">
 										View on GitHub
 									</GitHubButton>
