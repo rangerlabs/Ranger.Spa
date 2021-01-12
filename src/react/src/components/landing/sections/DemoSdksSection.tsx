@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, Grid, Typography, Button, Paper, useMediaQuery, useTheme, makeStyles } from '@material-ui/core';
+import { Theme, createStyles, Grid, Typography, Button, Paper, useTheme, makeStyles } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import IphoneDemoMockup from '../../../../assets/iphone-demo-mockup.png';
@@ -21,9 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
 			textAlign: 'center',
 			color: theme.palette.common.black,
 		},
-		menuItemTextColor: {
-			color: theme.drawer.text.color,
-		},
 		heroButton: {
 			minWidth: '175px',
 			marginTop: theme.spacing(1),
@@ -35,20 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
 				marginLeft: 0,
 			},
 		},
-		textPush: {
-			[theme.breakpoints.up('md')]: {
-				marginTop: '25%',
-			},
-		},
-		heroPush: {
-			paddingTop: '7%',
-		},
 	})
 );
 
 interface HeroProps {
 	push: typeof push;
-	scrollToId: string;
 }
 
 const DemoSdksSection = function (props: HeroProps) {
@@ -61,7 +49,7 @@ const DemoSdksSection = function (props: HeroProps) {
 
 	return (
 		<div className={classes.layout}>
-			<Grid className={classes.heroPush} container alignContent="center" justify="center" spacing={5}>
+			<Grid container alignContent="center" justify="center" spacing={5}>
 				<Grid item md={5} xs={10}>
 					<Paper elevation={3}>
 						<img width="100%" src={IphoneDemoMockup} alt="Create Geofence" />

@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import Footer from './footer/Footer';
 import NewsletterSection from './sections/NewsletterSection';
 import { scrollToLandingId } from '../../helpers/Helpers';
-import PricingSection from './sections/PricingSection';
 import GetStartedForFree from './getStartedForFree/GetStartedForFree';
 import FeaturesSection from './sections/FeaturesSection';
 import DemoSdksSection from './sections/DemoSdksSection';
