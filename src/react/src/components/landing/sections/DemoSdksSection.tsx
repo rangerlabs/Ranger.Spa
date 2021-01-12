@@ -15,8 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			paddingTop: theme.spacing(8),
 			paddingBottom: theme.spacing(8),
 		},
-		typography: {
-			textAlign: 'center',
+		white: {
 			color: theme.palette.common.white,
 		},
 		heroButton: {
@@ -48,48 +47,43 @@ const DemoSdksSection = function (props: HeroProps) {
 		<div className={classes.layout}>
 			<Grid container alignContent="center" justify="center" spacing={5}>
 				<Grid item xs={12}>
-					<Typography gutterBottom className={classes.typography} align="center" variant="h4">
-						Open Source, Developer Friendly Demo and SDKs
+					<Typography gutterBottom className={classes.white} align="center" variant="h4">
+						Open Source, Developer Friendly Demos and SDKs
 					</Typography>
-					<Typography className={classes.typography} align="center" variant="h6">
-						Manage your subscription in app with no need to contact sales.
+					<Typography className={classes.white} align="center" variant="h6">
+						Demos and in-app Tools help develop and test Geofences and Integrations
 					</Typography>
 				</Grid>
 				<Grid container item md={6} xs={10} alignContent="center" justify="center" spacing={5}>
-					<Grid item>
-						<Typography gutterBottom className={classes.typography} variant="h5">
-							Download the demo on iOS to vizualize and test geofencing configurations
-						</Typography>
-					</Grid>
-					<Grid item md={4} xs={10}>
+					<Grid item md={4} xs={10} alignContent="center">
 						<img width="100%" src={IphoneDemoMockup} alt="iOS Mockup" />
-					</Grid>
-					<Grid item md={3} xs={10}>
-						<Typography gutterBottom className={classes.typography} variant="subtitle1">
-							Step 1) Sign Up
-						</Typography>
-						<Typography gutterBottom className={classes.typography} variant="subtitle1">
-							Step 2) Create and configure a local geofence
-						</Typography>
-						<Typography gutterBottom className={classes.typography} variant="subtitle1">
-							Step 3) Download and configure the app
-						</Typography>
 						<Link component="button">
 							<DownloadOnTheAppStore />
 						</Link>
-						<Typography gutterBottom className={classes.typography} variant="subtitle1">
+					</Grid>
+					<Grid item md={3} xs={10}>
+						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
+							Step 1) Sign Up
+						</Typography>
+						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
+							Step 2) Create and configure a local geofence
+						</Typography>
+						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
+							Step 3) Download and configure the app
+						</Typography>
+						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
 							Step 4) Take a walk and see your events
 						</Typography>
 					</Grid>
 				</Grid>
 				<Grid container alignContent="center" justify="center" item md={4} xs={10}>
 					<Grid item>
-						<Typography gutterBottom className={classes.typography} variant="h5">
-							Open Source SDKs available
+						<Typography gutterBottom className={classes.white} variant="h5">
+							Open Source API and Tracking SDKs
 						</Typography>
-						<Typography gutterBottom className={classes.typography} variant="subtitle1"></Typography>
-						<div className={classes.typography}>
-							<Grid container>
+						<Typography gutterBottom className={classes.white} variant="subtitle1"></Typography>
+						<div className={classes.white}>
+							<Grid container alignItems="center" justify="center">
 								<Grid item xs={5}>
 									<GitHubButton href="https://github.com/rangerlabs" data-size="large" aria-label="View on GitHub">
 										View on GitHub
