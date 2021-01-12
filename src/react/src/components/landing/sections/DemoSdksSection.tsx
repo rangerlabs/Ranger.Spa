@@ -2,10 +2,10 @@ import * as React from 'react';
 import { Theme, createStyles, Grid, Typography, Button, Paper, useTheme, makeStyles, Link } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
+import GitHubIcon from '../../../../assets/GitHub.svg';
 import IphoneDemoMockup from '../../../../assets/iphone-demo-mockup.png';
 import DownloadOnTheAppStore from '../../../../assets/download-on-the-app-store.svg';
 import RoutePaths from '../../RoutePaths';
-import GitHubButton from 'react-github-btn';
 import DocRoutePaths from '../documentation/DocRoutePaths';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -84,13 +84,20 @@ const DemoSdksSection = function (props: HeroProps) {
 						<Typography gutterBottom className={classes.white} variant="subtitle1"></Typography>
 						<div className={classes.white}>
 							<Grid container alignItems="center" justify="center">
-								<Grid item xs={5} justify="center" alignContent="center">
-									<GitHubButton href="https://github.com/rangerlabs" data-size="large" aria-label="View on GitHub">
+								<Grid item xs={5}>
+									<Button
+										color="primary"
+										variant="outlined"
+										className={classes.heroButton}
+										startIcon={<GitHubIcon />}
+										href="https://github.com/rangerlabs"
+										data-size="large"
+									>
 										View on GitHub
-									</GitHubButton>
+									</Button>
 								</Grid>
 								<Grid item xs={5}>
-									<Button color="primary" variant="contained" className={classes.heroButton} onClick={handleReadTheSdksClick}>
+									<Button color="primary" variant="outlined" className={classes.heroButton} onClick={handleReadTheSdksClick}>
 										Read the SDK docs
 									</Button>
 								</Grid>
