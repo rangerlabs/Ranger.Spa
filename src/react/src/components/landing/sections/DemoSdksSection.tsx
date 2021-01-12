@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, Grid, Typography, Button, Paper, useTheme, makeStyles } from '@material-ui/core';
+import { Theme, createStyles, Grid, Typography, Button, Paper, useTheme, makeStyles, Link } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import IphoneDemoMockup from '../../../../assets/iphone-demo-mockup.png';
@@ -11,6 +11,7 @@ import DocRoutePaths from '../documentation/DocRoutePaths';
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		layout: {
+			background: 'linear-gradient(0deg, rgba(250,250,250,1) 0%, rgba(71,145,49) 90%)',
 			paddingTop: theme.spacing(8),
 			paddingBottom: theme.spacing(8),
 		},
@@ -50,27 +51,33 @@ const DemoSdksSection = function (props: HeroProps) {
 	return (
 		<div className={classes.layout}>
 			<Grid container alignContent="center" justify="center" spacing={5}>
-				<Grid item md={5} xs={10}>
-					<Paper elevation={3}>
-						<img width="100%" src={IphoneDemoMockup} alt="Create Geofence" />
-					</Paper>
-					<Button>
+				<Grid item md={6} xs={10}>
+					<img width="100%" src={IphoneDemoMockup} alt="Create Geofence" />
+					<Link component="button">
 						<DownloadOnTheAppStore />
-					</Button>
+					</Link>
 				</Grid>
-				<Grid item md={4} xs={10}>
-					<Typography gutterBottom className={classes.typography} variant="h5">
-						Open Source SDKs available
-					</Typography>
-					<Typography gutterBottom className={classes.typography} variant="subtitle1"></Typography>
-					<div className={classes.typography}>
-						<GitHubButton href="https://github.com/rangerlabs" data-size="large" aria-label="Follow @rangerlabs on GitHub">
-							View on GitHub
-						</GitHubButton>
-						<Button color="primary" variant="contained" className={classes.heroButton} onClick={handleReadTheSdksClick}>
-							Read the SDK docs
-						</Button>
-					</div>
+				<Grid container alignContent="center" justify="center" item>
+					<Grid item md={4} xs={10}>
+						<Typography gutterBottom className={classes.typography} variant="h5">
+							Open Source SDKs available
+						</Typography>
+						<Typography gutterBottom className={classes.typography} variant="subtitle1"></Typography>
+						<div className={classes.typography}>
+							<Grid container>
+								<Grid item xs={5}>
+									<GitHubButton href="https://github.com/rangerlabs" data-size="large" aria-label="View on GitHub">
+										View on GitHub
+									</GitHubButton>
+								</Grid>
+								<Grid item xs={5}>
+									<Button color="primary" variant="contained" className={classes.heroButton} onClick={handleReadTheSdksClick}>
+										Read the SDK docs
+									</Button>
+								</Grid>
+							</Grid>
+						</div>
+					</Grid>
 				</Grid>
 			</Grid>
 		</div>
