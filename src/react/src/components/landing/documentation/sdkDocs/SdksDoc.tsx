@@ -201,8 +201,8 @@ const SdksDoc = function (props: SdkDocsProps) {
 							The Tracker also includes the <Code>PusherNotifier</Code>. The PusherNotifier can be configured to connect to the Pusher Channel defined in your
 							Pusher Integration. The <Code>PusherNotifier.connect()</Code> method allows for a callback handler to defined and will execute whenever a Geofence
 							Event occurs. Within the callback handler it's possible to raise notifications, alerts, or begin location specific in-app actions. For an example
-							on how to use the <Code>PusherNotifier</Code>, visit the Swift Demo on our{' '}
-							<Link component="button" href="https://github.com/rangerlabs">
+							on how to use the <Code>PusherNotifier</Code>, visit the Swift Demo repository on our{' '}
+							<Link component="button" onClick={() => (window.location.href = 'https://github.com/rangerlabs/Ranger.Swift.Demo/tree/master')} variant="body1">
 								GitHub
 							</Link>
 						</Paragraph>

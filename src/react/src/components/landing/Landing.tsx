@@ -12,6 +12,7 @@ import { scrollToLandingId } from '../../helpers/Helpers';
 import PricingSection from './sections/PricingSection';
 import GetStartedForFree from './getStartedForFree/GetStartedForFree';
 import FeaturesSection from './sections/FeaturesSection';
+import DemoSdksSection from './sections/DemoSdksSection';
 
 const styles = (theme: Theme) =>
 	createStyles({
@@ -73,7 +74,7 @@ class Landing extends Component<LandingProps, LandingState> {
 				{/* <div id="newsletter-section" /> */}
 				<div id="next" />
 				<FeaturesSection />
-				<PricingSection />
+				<DemoSdksSection />
 				<NewsletterSection />
 				<GetStartedForFree />
 				<Footer />

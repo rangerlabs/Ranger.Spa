@@ -105,6 +105,7 @@
         "react-copy-to-clipboard": "^5.0.2",
         "react-dom": "^16.13.1",
         "react-ga": "^3.1.2",
+        "react-github-btn": "^1.2.0",
         "react-google-recaptcha-v3": "^1.7.0",
         "react-hot-loader": "^4.12.21",
         "react-input-validation": "^1.0.4",
