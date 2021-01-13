@@ -11,12 +11,15 @@ import DocRoutePaths from '../documentation/DocRoutePaths';
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		layout: {
-			background: 'linear-gradient(0deg, rgba(250,250,250,1) 0%, rgba(71,145,49) 90%)',
+			background: theme.palette.primary.main,
 			paddingTop: theme.spacing(8),
 			paddingBottom: theme.spacing(8),
 		},
 		white: {
 			color: theme.palette.common.white,
+		},
+		whiteBackground: {
+			backgroundColor: theme.palette.common.white,
 		},
 	})
 );
@@ -28,6 +31,9 @@ interface HeroProps {
 const DemoSdksSection = function (props: HeroProps) {
 	function handleReadTheSdksClick() {
 		props.push(RoutePaths.Docs.replace(':name', DocRoutePaths.Sdks));
+	}
+	function handleSignUpClick() {
+		props.push(RoutePaths.SignUp);
 	}
 
 	const classes = useStyles();
@@ -45,12 +51,12 @@ const DemoSdksSection = function (props: HeroProps) {
 				</Grid>
 				<Grid container item md={6} xs={10} alignContent="center" justify="center" spacing={5}>
 					<Grid item md={4} sm={6} xs={10}>
-						<Grid container direction="column">
+						<Grid container direction="column" alignItems="center">
 							<Grid item>
 								<img width="100%" src={IphoneDemoMockup} alt="iOS Mockup" />
 							</Grid>
 							<Grid item>
-								<Link component="button">
+								<Link href="https://apps.apple.com/us/app/ranger-labs-demo/id1548145851" component="button">
 									<DownloadOnTheAppStore />
 								</Link>
 							</Grid>
@@ -58,10 +64,10 @@ const DemoSdksSection = function (props: HeroProps) {
 					</Grid>
 					<Grid item md={6} sm={10} xs={10}>
 						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-							• Sign Up
+							<Link onClick={handleSignUpClick}>• Sign Up</Link>
 						</Typography>
 						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-							• Create and configure a local geofence
+							• Create and configure a geofences
 						</Typography>
 						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
 							• Download and configure the app
@@ -80,12 +86,19 @@ const DemoSdksSection = function (props: HeroProps) {
 						<div className={classes.white}>
 							<Grid container alignItems="center" justify="center" spacing={3}>
 								<Grid item>
-									<Button color="primary" variant="outlined" startIcon={<GitHubIcon />} href="https://github.com/rangerlabs" data-size="large">
+									<Button
+										className={classes.whiteBackground}
+										color="primary"
+										variant="outlined"
+										startIcon={<GitHubIcon />}
+										href="https://github.com/rangerlabs"
+										data-size="large"
+									>
 										View on GitHub
 									</Button>
 								</Grid>
 								<Grid item>
-									<Button color="primary" variant="outlined" onClick={handleReadTheSdksClick}>
+									<Button className={classes.whiteBackground} color="primary" variant="outlined" onClick={handleReadTheSdksClick}>
 										Read the SDK docs
 									</Button>
 								</Grid>
