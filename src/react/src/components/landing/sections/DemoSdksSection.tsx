@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
             '&:hover': {
                 color: theme.palette.common.white,
                 backgroundColor: theme.palette.primary.main,
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderColor: theme.palette.common.white,
             },
         },
     })
@@ -69,12 +72,13 @@ const DemoSdksSection = function (props: HeroProps) {
                     <Grid item md={6} sm={10} xs={10}>
                         <Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
                             •
-                            <Link className={classes.white} onClick={handleSignUpClick}>
+                            <Link component="a" className={classes.white} onClick={handleSignUpClick}>
+                                {' '}
                                 Sign Up
                             </Link>
                         </Typography>
                         <Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-                            • Create and configure a geofences
+                            • Create and configure geofences
                         </Typography>
                         <Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
                             • Download and configure the app
