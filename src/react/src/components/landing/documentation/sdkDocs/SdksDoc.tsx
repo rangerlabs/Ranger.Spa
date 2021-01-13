@@ -53,27 +53,28 @@ const swiftApiClientV1Descriptions = [
     },
     {
         title:
-            'GetPaginatedGeofences(apiKey: String, search: String = "", sortOrder: SortOrders = .desc, orderBy: OrderByOptions = .createdDate, pageCount: Int = 100, page: Int = 0, completionHandler: @escaping ((RangerApiResponse<[Geofence]>) -> Void))',
+            'RangerSwiftApiClientV1.GetPaginatedGeofences(apiKey: String, search: String = "", sortOrder: SortOrders = .desc, orderBy: OrderByOptions = .createdDate, pageCount: Int = 100, page: Int = 0, completionHandler: @escaping ((RangerApiResponse<[Geofence]>) -> Void))',
         description: 'Get paginated Geofences and register a callback function; pageCount: [1, 1000], page: >= 0',
     },
     {
-        title: 'CreateGeofence(apiKey: String, geofence: Geofence, completionHandler: @escaping ((RangerApiResponse<Data>) -> Void))',
+        title: 'RangerSwiftApiClientV1.CreateGeofence(apiKey: String, geofence: Geofence, completionHandler: @escaping ((RangerApiResponse<Data>) -> Void))',
         description: 'Create a Geofence and register a callback function',
     },
     {
-        title: 'UpdateGeofence(apiKey: String, geofence: Geofence, completionHandler: @escaping ((RangerApiResponse<Data>) -> Void))',
+        title: 'RangerSwiftApiClientV1.UpdateGeofence(apiKey: String, geofence: Geofence, completionHandler: @escaping ((RangerApiResponse<Data>) -> Void))',
         description: 'Update a Geofence and register a callback function; geofence.id is required',
     },
     {
-        title: 'DeleteGeofence(apiKey: String, externalId: String, completionHandler: @escaping ((RangerApiResponse<Data>) -> Void))',
+        title: 'RangerSwiftApiClientV1.DeleteGeofence(apiKey: String, externalId: String, completionHandler: @escaping ((RangerApiResponse<Data>) -> Void))',
         description: 'Delete a geofence and register a callback function',
     },
     {
-        title: 'BulkDeleteGeofences(apiKey: String, externalIds: [String], completionHandler: @escaping ((RangerApiResponse<Data>) -> Void))',
+        title:
+            'RangerSwiftApiClientV1.BulkDeleteGeofences(apiKey: String, externalIds: [String], completionHandler: @escaping ((RangerApiResponse<Data>) -> Void))',
         description: 'Bulk delete Geofences and register a callback function',
     },
     {
-        title: 'GetIntegrations(apiKey: String, completionHandler: @escaping ((RangerApiResponse<[Integration]>) -> Void))',
+        title: 'RangerSwiftApiClientV1.GetIntegrations(apiKey: String, completionHandler: @escaping ((RangerApiResponse<[Integration]>) -> Void))',
         description: 'Get Integrations and register a callback function',
     },
 ] as Description[];
