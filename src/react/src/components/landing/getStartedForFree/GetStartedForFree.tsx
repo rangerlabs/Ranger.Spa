@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Grid, createStyles, Theme, makeStyles, Typography, Button } from '@material-ui/core';
-import Footer from '../footer/Footer';
+import { Grid, createStyles, Theme, makeStyles, Button } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
