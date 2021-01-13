@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, Grid, Typography, Button, Paper, useTheme, makeStyles, Link } from '@material-ui/core';
+import { Theme, createStyles, Grid, Typography, Button, makeStyles, Link } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import GitHubIcon from '../../../../assets/GitHub.svg';
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: theme.palette.common.white,
             '&:hover': {
                 color: theme.palette.common.white,
-                backgroundColor: 'rgba(71, 145, 49, 0.04)',
+                backgroundColor: 'rgb(70 121 56)',
                 borderWidth: '1px',
                 borderStyle: 'solid',
                 borderColor: theme.palette.common.white,

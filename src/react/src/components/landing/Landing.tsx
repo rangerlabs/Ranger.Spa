@@ -12,52 +12,53 @@ import { scrollToLandingId } from '../../helpers/Helpers';
 import GetStartedForFree from './getStartedForFree/GetStartedForFree';
 import FeaturesSection from './sections/FeaturesSection';
 import DemoSdksSection from './sections/DemoSdksSection';
+import UseCaseSection from './sections/UseCaseSection';
 
 const styles = (theme: Theme) =>
-	createStyles({
-		features: {
-			height: '700px',
-			backgroundColor: 'white',
-		},
-		pricing: {},
-		contact: {},
-		menuItemTextColor: {
-			color: theme.drawer.text.color,
-		},
-	});
+    createStyles({
+        features: {
+            height: '700px',
+            backgroundColor: 'white',
+        },
+        pricing: {},
+        contact: {},
+        menuItemTextColor: {
+            color: theme.drawer.text.color,
+        },
+    });
 
 interface LandingProps extends WithStyles<typeof styles> {
-	enqueueSnackbar: typeof enqueueSnackbar;
+    enqueueSnackbar: typeof enqueueSnackbar;
 }
 
 interface LandingState {
-	atPageTop: boolean;
+    atPageTop: boolean;
 }
 
 class Landing extends Component<LandingProps, LandingState> {
-	constructor(props: LandingProps) {
-		super(props);
-	}
+    constructor(props: LandingProps) {
+        super(props);
+    }
 
-	state = {
-		atPageTop: true,
-	};
+    state = {
+        atPageTop: true,
+    };
 
-	handleIntersectionChange = (inView: boolean) => {
-		this.setState({ atPageTop: inView });
-	};
+    handleIntersectionChange = (inView: boolean) => {
+        this.setState({ atPageTop: inView });
+    };
 
-	// componentDidMount() {
-	//     ReactDOM.createPortal(<NewsletterSection />, document.getElementById('newsletter-section'));
-	// }
-	render() {
-		return (
-			<React.Fragment>
-				<Observer onChange={this.handleIntersectionChange}>
-					<div />
-				</Observer>
-				<Hero scrollToId="next" />
-				{/* <div id="#features" className={classes.features}>
+    // componentDidMount() {
+    //     ReactDOM.createPortal(<NewsletterSection />, document.getElementById('newsletter-section'));
+    // }
+    render() {
+        return (
+            <React.Fragment>
+                <Observer onChange={this.handleIntersectionChange}>
+                    <div />
+                </Observer>
+                <Hero scrollToId="next" />
+                {/* <div id="#features" className={classes.features}>
                             <InView triggerOnce={true} threshold={0.2}>
                                 {({ inView, ref }: any) => (
                                     <div ref={ref}>
@@ -70,22 +71,23 @@ class Landing extends Component<LandingProps, LandingState> {
                         </div>
                         <div id="#pricing" className={classes.pricing} />
                         <div id="#contact" className={classes.contact} /> */}
-				{/* <div id="newsletter-section" /> */}
-				<div id="next" />
-				<FeaturesSection />
-				<DemoSdksSection />
-				<NewsletterSection />
-				<GetStartedForFree />
-				<Footer />
-				<ScrollTop
-					visible={!this.state.atPageTop}
-					onClick={() => {
-						scrollToLandingId('toolbar-push');
-					}}
-				/>
-			</React.Fragment>
-		);
-	}
+                {/* <div id="newsletter-section" /> */}
+                <div id="next" />
+                <UseCaseSection />
+                <DemoSdksSection />
+                <FeaturesSection />
+                <NewsletterSection />
+                <GetStartedForFree />
+                <Footer />
+                <ScrollTop
+                    visible={!this.state.atPageTop}
+                    onClick={() => {
+                        scrollToLandingId('toolbar-push');
+                    }}
+                />
+            </React.Fragment>
+        );
+    }
 }
 
 export default connect(null, { enqueueSnackbar })(withStyles(styles)(Landing));
