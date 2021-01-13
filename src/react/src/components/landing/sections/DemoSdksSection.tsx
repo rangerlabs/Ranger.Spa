@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: theme.palette.common.white,
             '&:hover': {
                 color: theme.palette.common.white,
-                backgroundColor: theme.palette.primary.main,
+                backgroundColor: 'rgba(71, 145, 49, 0.04)',
                 borderWidth: '1px',
                 borderStyle: 'solid',
                 borderColor: theme.palette.common.white,
@@ -44,7 +44,7 @@ const DemoSdksSection = function (props: HeroProps) {
         props.push(RoutePaths.SignUp);
     }
     function handleAppDownloadClick() {
-        props.push('https://apps.apple.com/us/app/ranger-labs-demo/id1548145851');
+        window.location.href = 'https://apps.apple.com/us/app/ranger-labs-demo/id1548145851';
     }
 
     const classes = useStyles();
@@ -75,7 +75,7 @@ const DemoSdksSection = function (props: HeroProps) {
                     </Grid>
                     <Grid item md={6} sm={10} xs={10}>
                         <Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-                            •
+                            •{' '}
                             <Button
                                 endIcon={<ArrowRightCircleOutline />}
                                 className={classes.whiteBackground}
