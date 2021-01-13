@@ -44,7 +44,7 @@ const DemoSdksSection = function (props: HeroProps) {
         props.push(RoutePaths.SignUp);
     }
     function handleAppDownloadClick() {
-        window.location.href = 'https://apps.apple.com/us/app/ranger-labs-demo/id1548145851';
+        window.location.assign('https://apps.apple.com/us/app/ranger-labs-demo/id1548145851');
     }
 
     const classes = useStyles();

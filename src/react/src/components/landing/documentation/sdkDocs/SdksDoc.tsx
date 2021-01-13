@@ -146,7 +146,7 @@ const SdksDoc = function (props: SdkDocsProps) {
                 </Paragraph>
                 <Paragraph>
                     Ranger's SDKs are Open Source and availble under the Apache 2.0 license. Their source code is available on{' '}
-                    <Link component="button" onClick={() => (window.location.href = 'https://github.com/rangerlabs')} variant="body1">
+                    <Link component="button" onClick={() => window.location.assign('https://github.com/rangerlabs')} variant="body1">
                         GitHub
                     </Link>{' '}
                     .
@@ -209,7 +209,7 @@ const SdksDoc = function (props: SdkDocsProps) {
                             our{' '}
                             <Link
                                 component="button"
-                                onClick={() => (window.location.href = 'https://github.com/rangerlabs/Ranger.Swift.Demo/tree/master')}
+                                onClick={() => window.location.assign('https://github.com/rangerlabs/Ranger.Swift.Demo/tree/master')}
                                 variant="body1"
                             >
                                 GitHub

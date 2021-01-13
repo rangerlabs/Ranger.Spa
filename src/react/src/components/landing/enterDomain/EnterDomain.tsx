@@ -77,7 +77,7 @@ class EnterDomain extends React.Component<EnterDomainProps, EnterDomainState> {
                                 this.setState({ isSuccess: true });
                                 enqueueSnackbar('The domain was successfully found', { variant: 'success' });
                                 const loginPath = 'https://' + domain + '.' + GlobalConfig.SPA_HOST + RoutePaths.Login;
-                                window.location.href = loginPath;
+                                window.location.assign(loginPath);
                             } else {
                                 enqueueSnackbar('Could not find the requested domain', { variant: 'error' });
                                 formikBag.setSubmitting(false);

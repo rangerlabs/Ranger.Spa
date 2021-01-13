@@ -26,7 +26,7 @@ const footers = [
         title: 'Social',
         description: [
             { name: 'LinkedIn', url: 'https://www.linkedin.com/company/ranger-labs/' },
-            { name: 'Twitter', onClick: () => (window.location.href = 'https://twitter.com/RangerLabs') },
+            { name: 'Twitter', onClick: () => window.location.assign('https://twitter.com/RangerLabs') },
             { name: 'StatusPage', url: 'https://rangerlabs.statuspage.io/' },
         ],
     },
@@ -101,7 +101,7 @@ const Footer = function (props: FooterProps) {
         if (url.startsWith('/')) {
             props.push(url);
         } else {
-            window.location.href = url;
+            window.location.assign(url);
         }
     };
 
