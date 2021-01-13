@@ -18,17 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
 		white: {
 			color: theme.palette.common.white,
 		},
-		heroButton: {
-			minWidth: '175px',
-			marginTop: theme.spacing(1),
-			marginLeft: theme.spacing(1.5),
-			marginRight: theme.spacing(1.5),
-			[theme.breakpoints.up('md')]: {
-				marginTop: theme.spacing(3),
-				marginRight: theme.spacing(3),
-				marginLeft: 0,
-			},
-		},
 	})
 );
 
@@ -55,24 +44,30 @@ const DemoSdksSection = function (props: HeroProps) {
 					</Typography>
 				</Grid>
 				<Grid container item md={6} xs={10} alignContent="center" justify="center" spacing={5}>
-					<Grid item md={4} xs={10} alignContent="center">
-						<img width="100%" src={IphoneDemoMockup} alt="iOS Mockup" />
-						<Link component="button">
-							<DownloadOnTheAppStore />
-						</Link>
+					<Grid item md={4} sm={6} xs={10}>
+						<Grid container direction="column">
+							<Grid item>
+								<img width="100%" src={IphoneDemoMockup} alt="iOS Mockup" />
+							</Grid>
+							<Grid item>
+								<Link component="button">
+									<DownloadOnTheAppStore />
+								</Link>
+							</Grid>
+						</Grid>
 					</Grid>
-					<Grid item md={4} xs={10}>
+					<Grid item md={6} sm={10} xs={10}>
 						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-							Sign Up
+							• Sign Up
 						</Typography>
 						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-							Create and configure a local geofence
+							• Create and configure a local geofence
 						</Typography>
 						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-							Download and configure the app
+							• Download and configure the app
 						</Typography>
 						<Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-							Take a walk and see your events
+							• Take a walk and see your events
 						</Typography>
 					</Grid>
 				</Grid>
@@ -83,21 +78,14 @@ const DemoSdksSection = function (props: HeroProps) {
 						</Typography>
 						<Typography gutterBottom className={classes.white} variant="subtitle1"></Typography>
 						<div className={classes.white}>
-							<Grid container alignItems="center" justify="center">
-								<Grid item xs={5}>
-									<Button
-										color="primary"
-										variant="outlined"
-										className={classes.heroButton}
-										startIcon={<GitHubIcon />}
-										href="https://github.com/rangerlabs"
-										data-size="large"
-									>
+							<Grid container alignItems="center" justify="center" spacing={3}>
+								<Grid item>
+									<Button color="primary" variant="outlined" startIcon={<GitHubIcon />} href="https://github.com/rangerlabs" data-size="large">
 										View on GitHub
 									</Button>
 								</Grid>
-								<Grid item xs={5}>
-									<Button color="primary" variant="outlined" className={classes.heroButton} onClick={handleReadTheSdksClick}>
+								<Grid item>
+									<Button color="primary" variant="outlined" onClick={handleReadTheSdksClick}>
 										Read the SDK docs
 									</Button>
 								</Grid>
