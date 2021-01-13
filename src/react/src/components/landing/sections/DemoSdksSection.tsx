@@ -7,6 +7,7 @@ import IphoneDemoMockup from '../../../../assets/iphone-demo-mockup.png';
 import DownloadOnTheAppStore from '../../../../assets/download-on-the-app-store.svg';
 import RoutePaths from '../../RoutePaths';
 import DocRoutePaths from '../documentation/DocRoutePaths';
+import ArrowRightCircleOutline from 'mdi-material-ui/ArrowRightCircleOutline';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -42,6 +43,9 @@ const DemoSdksSection = function (props: HeroProps) {
     function handleSignUpClick() {
         props.push(RoutePaths.SignUp);
     }
+    function handleAppDownloadClick() {
+        props.push('https://apps.apple.com/us/app/ranger-labs-demo/id1548145851');
+    }
 
     const classes = useStyles();
 
@@ -63,7 +67,7 @@ const DemoSdksSection = function (props: HeroProps) {
                                 <img width="100%" src={IphoneDemoMockup} alt="iOS Mockup" />
                             </Grid>
                             <Grid item>
-                                <Link href="https://apps.apple.com/us/app/ranger-labs-demo/id1548145851" component="button">
+                                <Link onClick={handleAppDownloadClick} component="button">
                                     <DownloadOnTheAppStore />
                                 </Link>
                             </Grid>
@@ -72,10 +76,15 @@ const DemoSdksSection = function (props: HeroProps) {
                     <Grid item md={6} sm={10} xs={10}>
                         <Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
                             •
-                            <Link component="a" className={classes.white} onClick={handleSignUpClick}>
-                                {' '}
+                            <Button
+                                endIcon={<ArrowRightCircleOutline />}
+                                className={classes.whiteBackground}
+                                color="primary"
+                                variant="outlined"
+                                onClick={handleSignUpClick}
+                            >
                                 Sign Up
-                            </Link>
+                            </Button>
                         </Typography>
                         <Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
                             • Create and configure geofences
