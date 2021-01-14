@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme: Theme) =>
         layout: {
             background: theme.palette.primary.main,
             paddingTop: theme.spacing(8),
+            paddingBottom: theme.spacing(8),
         },
         white: {
             color: theme.palette.common.white,
