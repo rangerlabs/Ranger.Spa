@@ -5,7 +5,6 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         layout: {
             paddingTop: theme.spacing(8),
-            paddingBottom: theme.spacing(8),
         },
     })
 );
@@ -17,7 +16,7 @@ const PurposeSection = function (props: PurposeSectionProps) {
     return (
         <div className={classes.layout}>
             <Grid container alignContent="center" justify="center" spacing={5}>
-                <Grid item xs={12}>
+                <Grid item xs={8}>
                     <Typography gutterBottom color="primary" align="center" variant="h4">
                         Break Free From Native Geofencing Limitations
                     </Typography>
