@@ -21,7 +21,7 @@ const PurposeSection = function (props: PurposeSectionProps) {
     return (
         <div className={classes.layout}>
             <Grid container alignContent="center" justify="center" spacing={5}>
-                <Grid item xs={8}>
+                <Grid item xs={10} md={8}>
                     <Typography className={classes.white} gutterBottom color="primary" align="center" variant="h4">
                         Break Free From Native Geofencing Limitations
                     </Typography>

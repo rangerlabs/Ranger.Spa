@@ -78,7 +78,7 @@ const DemoSdksSection = function (props: HeroProps) {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item md={6} sm={10} xs={12}>
+                    <Grid item md={6} sm={10} xs={11}>
                         <List>
                             <ListItem key={'signup'}>
                                 <ListItemIcon classes={{ root: classes.iconRoot }}>
