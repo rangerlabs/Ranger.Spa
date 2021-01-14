@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface PlanCardProps {
     planName: string;
     cost: string;
-    message: string;
+    message: string | JSX.Element;
     limitDetails: ILimitDetails;
 }
 

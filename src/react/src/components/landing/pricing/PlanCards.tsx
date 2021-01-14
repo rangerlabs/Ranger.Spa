@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Link } from '@material-ui/core';
 import PlanCard from './PlanCard';
 import { Plans } from '../../../helpers/Helpers';
 
@@ -33,7 +33,11 @@ export default function PlanCards() {
             <Grid item xs={11} sm={8} md={5} lg={3}>
                 <PlanCard
                     planName="Enterprise"
-                    message="Enterprise plans coming soon"
+                    message={
+                        <React.Fragment>
+                            "Contact us" <Link href="mailto:info@rangerlabs.io">info@rangerlabs.io</Link>
+                        </React.Fragment>
+                    }
                     limitDetails={Plans.filter((p) => p.name === 'Enterprise')[0].limitDetails}
                     cost="$--- / Month"
                 />
