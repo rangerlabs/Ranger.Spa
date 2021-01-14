@@ -29,7 +29,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                 </Grid>
                 <Grid container direction="column" alignItems="center" spacing={7}>
                     <Grid container item justify="space-evenly" alignItems="flex-start" spacing={3} xs={12} md={8}>
-                        <Grid className={classes.container} item xs={7} sm={4} lg={4}>
+                        <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
                                 IoT
                             </Typography>
@@ -38,7 +38,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             </Typography>
                         </Grid>
 
-                        <Grid className={classes.container} item xs={7} sm={4} lg={4}>
+                        <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
                                 Retail
                             </Typography>
@@ -46,7 +46,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                                 Sieze the moment. Push rewards and discounts to nearby customers or track visits to competitors
                             </Typography>
                         </Grid>
-                        <Grid className={classes.container} item xs={7} sm={4} lg={4}>
+                        <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
                                 Freight
                             </Typography>
@@ -54,7 +54,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                                 Disperse payment, verify load delivery, and keep operators informed
                             </Typography>
                         </Grid>
-                        <Grid className={classes.container} item xs={7} sm={4} lg={4}>
+                        <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
                                 Gaming
                             </Typography>
@@ -62,7 +62,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                                 Initiate in-game rewards, alerts, and actions at real world locations
                             </Typography>
                         </Grid>
-                        <Grid className={classes.container} item xs={7} sm={4} lg={4}>
+                        <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
                                 Travel
                             </Typography>
@@ -70,7 +70,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                                 Make travel apps interactive with nearby travel tips, gamification, and new visitor rewards
                             </Typography>
                         </Grid>
-                        <Grid className={classes.container} item xs={7} sm={4} lg={4}>
+                        <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
                                 Endless use cases
                             </Typography>

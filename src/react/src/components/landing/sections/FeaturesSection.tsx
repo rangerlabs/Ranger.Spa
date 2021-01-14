@@ -29,7 +29,7 @@ const FeaturesSection = function (props: FeaturesSectionProps) {
         <div className={classes.layout}>
             <Grid container direction="column" alignItems="center" spacing={7}>
                 <Grid container item justify="space-evenly" alignItems="flex-start" spacing={3} xs={12} md={8}>
-                    <Grid className={classes.iconContainer} item xs={7} sm={4} lg={3}>
+                    <Grid className={classes.iconContainer} item xs={10} sm={4} lg={3}>
                         <UnlimitedUsers className={classes.icon} align={isMdDown ? 'center' : 'left'} />
                         <Typography gutterBottom color="primary" align="left" variant="h5">
                             Unlimited Users & Devices
@@ -39,7 +39,7 @@ const FeaturesSection = function (props: FeaturesSectionProps) {
                         </Typography>
                     </Grid>
 
-                    <Grid className={classes.iconContainer} item xs={7} sm={4} lg={3}>
+                    <Grid className={classes.iconContainer} item xs={10} sm={4} lg={3}>
                         <ConfigurableGeofences className={classes.icon} align={isMdDown ? 'center' : 'left'} />
                         <Typography gutterBottom color="primary" align="left" variant="h5">
                             Configurable Geofences
@@ -49,7 +49,7 @@ const FeaturesSection = function (props: FeaturesSectionProps) {
                         </Typography>
                     </Grid>
 
-                    <Grid className={classes.iconContainer} item xs={7} sm={4} lg={3}>
+                    <Grid className={classes.iconContainer} item xs={10} sm={4} lg={3}>
                         <MixAndMatchIntegrations className={classes.icon} align={isMdDown ? 'center' : 'left'} />
                         <Typography gutterBottom color="primary" align="left" variant="h5">
                             Mix & Match Integrations
