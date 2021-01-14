@@ -29,7 +29,7 @@ import { User } from 'oidc-client';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import RoutePaths from '../../RoutePaths';
-const classNames = require('classnames').default;
+import ArrowRightCircleOutline from 'mdi-material-ui/ArrowRightCircleOutline';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -87,6 +87,10 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
         } else {
             this.props.push(RoutePaths.EnterDomain);
         }
+    };
+
+    handleSignUpClick = () => {
+        this.props.push(RoutePaths.SignUp);
     };
 
     toggleExpanded = () => {
@@ -156,12 +160,20 @@ class LandingMenu extends React.Component<LandingMenuProps, LandingMenuState> {
                             </Fade>
                         </ListItem>
                     ) : (
-                        <ListItem button onClick={this.handleSignInClick}>
-                            <ListItemIcon>
-                                <AccountCircle htmlColor={theme.palette.primary.main} />
-                            </ListItemIcon>
-                            <ListItemText primary="Sign in" />
-                        </ListItem>
+                        <React.Fragment>
+                            <ListItem button onClick={this.handleSignInClick}>
+                                <ListItemIcon>
+                                    <AccountCircle htmlColor={theme.palette.primary.main} />
+                                </ListItemIcon>
+                                <ListItemText primary="Sign in" />
+                            </ListItem>
+                            <ListItem button onClick={this.handleSignUpClick}>
+                                <ListItemIcon>
+                                    <ArrowRightCircleOutline htmlColor={theme.palette.primary.main} />
+                                </ListItemIcon>
+                                <ListItemText primary="Sign up" />
+                            </ListItem>
+                        </React.Fragment>
                     )}
                     <Collapse in={this.state.accountListItemExpanded} timeout={500} unmountOnExit>
                         <List component="div" disablePadding>

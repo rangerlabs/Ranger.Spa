@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, Grid, Typography, Button, makeStyles, Link } from '@material-ui/core';
+import { Theme, createStyles, Grid, Typography, Button, makeStyles, Link, List, ListItem, ListItemText } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import GitHubIcon from '../../../../assets/GitHub.svg';
@@ -74,27 +74,31 @@ const DemoSdksSection = function (props: HeroProps) {
                         </Grid>
                     </Grid>
                     <Grid item md={6} sm={10} xs={10}>
-                        <Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-                            •{' '}
-                            <Button
-                                endIcon={<ArrowRightCircleOutline />}
-                                className={classes.whiteBackground}
-                                color="primary"
-                                variant="outlined"
-                                onClick={handleSignUpClick}
-                            >
-                                Sign Up
-                            </Button>
-                        </Typography>
-                        <Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-                            • Create and configure geofences
-                        </Typography>
-                        <Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-                            • Download and configure the app
-                        </Typography>
-                        <Typography gutterBottom className={classes.white} align="left" variant="subtitle1">
-                            • Take a walk and see your events
-                        </Typography>
+                        <List>
+                            <ListItem key={'signup'}>
+                                primary=
+                                {
+                                    <Button
+                                        endIcon={<ArrowRightCircleOutline />}
+                                        className={classes.whiteBackground}
+                                        color="primary"
+                                        variant="outlined"
+                                        onClick={handleSignUpClick}
+                                    >
+                                        Sign Up
+                                    </Button>
+                                }
+                            </ListItem>
+                            <ListItem key={'configure'}>
+                                <ListItemText className={classes.white} primary="Create and configure geofences" />
+                            </ListItem>
+                            <ListItem key={'download'}>
+                                <ListItemText className={classes.white} primary="Download and configure the app" />
+                            </ListItem>
+                            <ListItem key={'walk'}>
+                                <ListItemText className={classes.white} primary="Take a walk and see your events" />
+                            </ListItem>
+                        </List>
                     </Grid>
                 </Grid>
                 <Grid container alignContent="center" justify="center" item md={4} xs={10}>
