@@ -13,6 +13,7 @@ import GetStartedForFree from './getStartedForFree/GetStartedForFree';
 import FeaturesSection from './sections/FeaturesSection';
 import DemoSdksSection from './sections/DemoSdksSection';
 import UseCaseSection from './sections/UseCaseSection';
+import PurposeSection from './sections/PurposeSection';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -73,6 +74,7 @@ class Landing extends Component<LandingProps, LandingState> {
                         <div id="#contact" className={classes.contact} /> */}
                 {/* <div id="newsletter-section" /> */}
                 <div id="next" />
+                <PurposeSection />
                 <UseCaseSection />
                 <DemoSdksSection />
                 <FeaturesSection />
