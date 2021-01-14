@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, Grid, Typography, Button, makeStyles, Link, List, ListItem, ListItemText, ListItemIcon, ListItemIcon } from '@material-ui/core';
+import { Theme, createStyles, Grid, Typography, Button, makeStyles, Link, List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import GitHubIcon from '../../../../assets/GitHub.svg';
@@ -122,10 +122,9 @@ const DemoSdksSection = function (props: HeroProps) {
                 </Grid>
                 <Grid container alignContent="center" justify="center" item md={4} xs={10}>
                     <Grid item>
-                        <Typography gutterBottom className={classes.white} variant="h5">
+                        <Typography gutterBottom className={classes.white} align="center" variant="h5">
                             Open Source API and Tracking SDKs
                         </Typography>
-                        <Typography gutterBottom className={classes.white} variant="subtitle1"></Typography>
                         <div className={classes.white}>
                             <Grid container alignItems="center" justify="center" spacing={3}>
                                 <Grid item>
