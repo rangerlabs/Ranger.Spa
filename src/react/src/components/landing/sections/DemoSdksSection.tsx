@@ -84,17 +84,15 @@ const DemoSdksSection = function (props: HeroProps) {
                                 <ListItemIcon classes={{ root: classes.iconRoot }}>
                                     <CircleSmall />
                                 </ListItemIcon>
-                                <ListItem>
-                                    <Button
-                                        endIcon={<ArrowRightCircleOutline />}
-                                        className={classes.whiteBackground}
-                                        color="primary"
-                                        variant="outlined"
-                                        onClick={handleSignUpClick}
-                                    >
-                                        Sign Up
-                                    </Button>
-                                </ListItem>
+                                <Button
+                                    endIcon={<ArrowRightCircleOutline />}
+                                    className={classes.whiteBackground}
+                                    color="primary"
+                                    variant="outlined"
+                                    onClick={handleSignUpClick}
+                                >
+                                    Sign Up
+                                </Button>
                             </ListItem>
                             <ListItem key={'configure'}>
                                 <ListItemIcon classes={{ root: classes.iconRoot }}>
