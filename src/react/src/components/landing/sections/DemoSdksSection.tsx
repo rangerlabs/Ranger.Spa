@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme, createStyles, Grid, Typography, Button, makeStyles, Link, List, ListItem, ListItemText } from '@material-ui/core';
+import { Theme, createStyles, Grid, Typography, Button, makeStyles, Link, List, ListItem, ListItemText, ListItemIcon, ListItemIcon } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import GitHubIcon from '../../../../assets/GitHub.svg';
@@ -8,6 +8,7 @@ import DownloadOnTheAppStore from '../../../../assets/download-on-the-app-store.
 import RoutePaths from '../../RoutePaths';
 import DocRoutePaths from '../documentation/DocRoutePaths';
 import ArrowRightCircleOutline from 'mdi-material-ui/ArrowRightCircleOutline';
+import CircleSmall from 'mdi-material-ui/CircleSmall';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,6 +29,11 @@ const useStyles = makeStyles((theme: Theme) =>
                 borderStyle: 'solid',
                 borderColor: theme.palette.common.white,
             },
+        },
+        iconRoot: {
+            minWidth: theme.spacing(4),
+            color: theme.palette.text.primary,
+            alignSelf: 'baseline',
         },
     })
 );
@@ -76,8 +82,10 @@ const DemoSdksSection = function (props: HeroProps) {
                     <Grid item md={6} sm={10} xs={10}>
                         <List>
                             <ListItem key={'signup'}>
-                                primary=
-                                {
+                                <ListItemIcon classes={{ root: classes.iconRoot }}>
+                                    <CircleSmall />
+                                </ListItemIcon>
+                                <ListItem>
                                     <Button
                                         endIcon={<ArrowRightCircleOutline />}
                                         className={classes.whiteBackground}
@@ -87,15 +95,26 @@ const DemoSdksSection = function (props: HeroProps) {
                                     >
                                         Sign Up
                                     </Button>
-                                }
+                                </ListItem>
                             </ListItem>
                             <ListItem key={'configure'}>
+                                <ListItemIcon classes={{ root: classes.iconRoot }}>
+                                    <CircleSmall />
+                                </ListItemIcon>
                                 <ListItemText className={classes.white} primary="Create and configure geofences" />
                             </ListItem>
                             <ListItem key={'download'}>
+                                <ListItemIcon classes={{ root: classes.iconRoot }}>
+                                    <CircleSmall />
+                                </ListItemIcon>
+
                                 <ListItemText className={classes.white} primary="Download and configure the app" />
                             </ListItem>
                             <ListItem key={'walk'}>
+                                <ListItemIcon classes={{ root: classes.iconRoot }}>
+                                    <CircleSmall />
+                                </ListItemIcon>
+
                                 <ListItemText className={classes.white} primary="Take a walk and see your events" />
                             </ListItem>
                         </List>
