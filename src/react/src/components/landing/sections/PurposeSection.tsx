@@ -4,7 +4,11 @@ import { Grid, createStyles, makeStyles, Theme, Typography } from '@material-ui/
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         layout: {
+            background: theme.palette.primary.main,
             paddingTop: theme.spacing(8),
+        },
+        white: {
+            color: theme.palette.common.white,
         },
     })
 );
@@ -17,10 +21,10 @@ const PurposeSection = function (props: PurposeSectionProps) {
         <div className={classes.layout}>
             <Grid container alignContent="center" justify="center" spacing={5}>
                 <Grid item xs={8}>
-                    <Typography gutterBottom color="primary" align="center" variant="h4">
+                    <Typography className={classes.white} gutterBottom color="primary" align="center" variant="h4">
                         Break Free From Native Geofencing Limitations
                     </Typography>
-                    <Typography gutterBottom color="primary" align="center" variant="h6">
+                    <Typography className={classes.white} gutterBottom color="primary" align="center" variant="h6">
                         Free your organization from the need to develop proprietary pipelines for the management of iOS and Android geofences. With Ranger, your
                         development and marketing teams can create, configure, and test geofences that seamlessly integrate with your platform.
                     </Typography>
