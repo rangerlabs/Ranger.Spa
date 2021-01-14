@@ -78,7 +78,7 @@ export default function PlanCard(props: PlanCardProps) {
             </Box>
             <CardContent className={classes.cardContent}>
                 <Grid container justify="space-between" className={classes.message}>
-                    <Typography variant="subtitle1" align="center">
+                    <Typography variant="body2" align="center">
                         {props.message}
                     </Typography>
                 </Grid>

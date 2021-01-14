@@ -9,7 +9,7 @@ export default function PlanCards() {
             <Grid item xs={11} sm={8} md={5} lg={3}>
                 <PlanCard
                     planName="Sandbox"
-                    message="Get a feel and test integrations"
+                    message="Get a feel and test your integrations"
                     limitDetails={Plans.filter((p) => p.name === 'Sandbox')[0].limitDetails}
                     cost="FREE"
                 />
@@ -23,7 +23,12 @@ export default function PlanCards() {
                 />
             </Grid>
             <Grid item xs={11} sm={8} md={5} lg={3}>
-                <PlanCard planName="Pro" message="Extend your reach" limitDetails={Plans.filter((p) => p.name === 'Pro')[0].limitDetails} cost="$149 / Month" />
+                <PlanCard
+                    planName="Pro"
+                    message="Extend your reach with 5000 geofences"
+                    limitDetails={Plans.filter((p) => p.name === 'Pro')[0].limitDetails}
+                    cost="$149 / Month"
+                />
             </Grid>
             <Grid item xs={11} sm={8} md={5} lg={3}>
                 <PlanCard
