@@ -32,8 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         iconRoot: {
             minWidth: theme.spacing(4),
-            color: theme.palette.text.primary,
-            alignSelf: 'baseline',
+            color: theme.palette.common.white,
         },
     })
 );
