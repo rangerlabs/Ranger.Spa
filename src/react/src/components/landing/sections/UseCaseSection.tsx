@@ -1,7 +1,11 @@
 import React from 'react';
-import { Grid, createStyles, makeStyles, Theme, Typography, Box, useMediaQuery, useTheme } from '@material-ui/core';
-import UnlimitedUsers from '../../../../assets/Infinite-Users.svg';
-import MixAndMatchIntegrations from '../../../../assets/Mix-And-Match-Integrations.svg';
+import { Grid, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
+import AxisArrow from 'mdi-material-ui/AxisArrow';
+import StoreOutline from 'mdi-material-ui/StoreOutline';
+import TruckOutline from 'mdi-material-ui/TruckOutline';
+import GoogleController from 'mdi-material-ui/GoogleController';
+import WalletTravel from 'mdi-material-ui/WalletTravel';
+import Infinity from 'mdi-material-ui/Infinity';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,7 +35,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                     <Grid container item justify="space-evenly" alignItems="flex-start" spacing={3} xs={12} md={8}>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
-                                IoT
+                                IoT <AxisArrow />
                             </Typography>
                             <Typography color="primary" align="left" variant="subtitle1">
                                 Trigger actions across devices at specified locations
@@ -40,7 +44,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
 
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
-                                Retail
+                                Retail <StoreOutline />
                             </Typography>
                             <Typography color="primary" align="left" variant="subtitle1">
                                 Sieze the moment. Push rewards and discounts to nearby customers or track visits to competitors
@@ -48,7 +52,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
-                                Freight
+                                Freight <TruckOutline />
                             </Typography>
                             <Typography color="primary" align="left" variant="subtitle1">
                                 Disperse payment, verify load delivery, and keep operators informed
@@ -56,7 +60,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
-                                Gaming
+                                Gaming <GoogleController />
                             </Typography>
                             <Typography color="primary" align="left" variant="subtitle1">
                                 Initiate in-game rewards, alerts, and actions at real world locations
@@ -64,7 +68,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
-                                Travel
+                                Travel <WalletTravel />
                             </Typography>
                             <Typography color="primary" align="left" variant="subtitle1">
                                 Make travel apps interactive with nearby travel tips, gamification, and new visitor rewards
@@ -72,7 +76,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
                             <Typography gutterBottom color="primary" align="left" variant="h5">
-                                Endless use cases
+                                Endless use cases <Infinity />
                             </Typography>
                             <Typography color="primary" align="left" variant="subtitle1">
                                 Drive action on any platform for any user base at any real world location

@@ -19,12 +19,12 @@ export default function GeofenceUpdateHandler(data: PusherNotificationModel): vo
                 },
             } as SnackbarNotification;
 
-            const pendingGeofence = Object.assign(
+            const oldGeofence = Object.assign(
                 {},
                 ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.updated.correlationModel.correlationId === data.correlationId).old
             ) as CircleGeofence | PolygonGeofence;
-            pendingGeofence.correlationModel = { correlationId: data.correlationId, status: data.status, resourceId: data.resourceId };
-            const addGeofenceAction = addMapGeofence(pendingGeofence);
+            oldGeofence.correlationModel = { correlationId: data.correlationId, status: data.status, resourceId: data.resourceId };
+            const addGeofenceAction = addMapGeofence(oldGeofence);
             store.dispatch(addGeofenceAction);
 
             const removePendingUpdateGeofenceByCorrelationIdAction = removePendingUpdateGeofenceByResourceId(data.resourceId);
@@ -39,12 +39,12 @@ export default function GeofenceUpdateHandler(data: PusherNotificationModel): vo
                     variant: 'success',
                 },
             } as SnackbarNotification;
-            const pendingGeofence = Object.assign(
+            const updatedGeofence = Object.assign(
                 {},
                 ReduxStore.getState().geofencesState.pendingUpdate.find((g) => g.updated.correlationModel.correlationId === data.correlationId).updated
             ) as CircleGeofence | PolygonGeofence;
-            pendingGeofence.correlationModel = { correlationId: data.correlationId, status: data.status, resourceId: data.resourceId };
-            const addGeofence = addMapGeofence(pendingGeofence);
+            updatedGeofence.correlationModel = { correlationId: data.correlationId, status: data.status, resourceId: data.resourceId };
+            const addGeofence = addMapGeofence(updatedGeofence);
             store.dispatch(addGeofence);
 
             const removePendingUpdateGeofenceByCorrelationIdAction = removePendingUpdateGeofenceByResourceId(data.resourceId);

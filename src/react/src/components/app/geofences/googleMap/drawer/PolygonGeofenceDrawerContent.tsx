@@ -180,6 +180,7 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
             if (!v.isError) {
                 this.setState({ isSuccess: true });
                 geofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
+                this.props.removeMapGeofenceByExternalId(this.props.editGeofence.externalId);
                 this.props.addGeofenceToPendingUpdate(this.props.editGeofence, geofence);
                 this.props.onDrawerClose();
                 this.props.closeDrawer();
@@ -195,8 +196,8 @@ class PolygonGeofenceDrawerContent extends React.Component<PolygonGeofenceFormPr
         geofenceService.deleteGeofence(this.props.selectedProject.id, this.props.editGeofence.externalId).then((v) => {
             if (!v.isError) {
                 this.props.editGeofence.correlationModel = { correlationId: v.correlationId, status: StatusEnum.PENDING };
-                this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
                 this.props.removeMapGeofenceByExternalId(this.props.editGeofence.externalId);
+                this.props.addGeofenceToPendingDeletion(this.props.editGeofence);
                 this.props.onDrawerClose();
                 this.props.closeDrawer();
             }

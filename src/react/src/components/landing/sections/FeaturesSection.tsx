@@ -14,7 +14,10 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '30%',
         },
         iconContainer: {
-            textAlign: 'left',
+            [theme.breakpoints.up('md')]: {
+                textAlign: 'left',
+            },
+            textAlign: 'center',
         },
     })
 );
@@ -30,31 +33,31 @@ const FeaturesSection = function (props: FeaturesSectionProps) {
             <Grid container direction="column" alignItems="center" spacing={7}>
                 <Grid container item justify="space-evenly" alignItems="flex-start" spacing={3} xs={12} md={8}>
                     <Grid className={classes.iconContainer} item xs={10} sm={4} lg={3}>
-                        <UnlimitedUsers className={classes.icon} align={isMdDown ? 'center' : 'left'} />
-                        <Typography gutterBottom color="primary" align="left" variant="h5">
+                        <UnlimitedUsers className={classes.icon} />
+                        <Typography gutterBottom color="primary" variant="h5">
                             Unlimited Users & Devices
                         </Typography>
-                        <Typography color="primary" align="left" variant="subtitle1">
+                        <Typography color="primary" variant="subtitle1">
                             Track as many users and devices as your product supports
                         </Typography>
                     </Grid>
 
                     <Grid className={classes.iconContainer} item xs={10} sm={4} lg={3}>
-                        <ConfigurableGeofences className={classes.icon} align={isMdDown ? 'center' : 'left'} />
-                        <Typography gutterBottom color="primary" align="left" variant="h5">
+                        <ConfigurableGeofences className={classes.icon} />
+                        <Typography gutterBottom color="primary" variant="h5">
                             Configurable Geofences
                         </Typography>
-                        <Typography color="primary" align="left" variant="subtitle1">
+                        <Typography color="primary" variant="subtitle1">
                             Configure Geofences with Schedules, Metadata, Event Triggers, and Integrations
                         </Typography>
                     </Grid>
 
                     <Grid className={classes.iconContainer} item xs={10} sm={4} lg={3}>
-                        <MixAndMatchIntegrations className={classes.icon} align={isMdDown ? 'center' : 'left'} />
-                        <Typography gutterBottom color="primary" align="left" variant="h5">
+                        <MixAndMatchIntegrations className={classes.icon} />
+                        <Typography gutterBottom color="primary" variant="h5">
                             Mix & Match Integrations
                         </Typography>
-                        <Typography color="primary" align="left" variant="subtitle1">
+                        <Typography color="primary" variant="subtitle1">
                             Configure Integrations to execute for all Geofences or individual Geofences
                         </Typography>
                     </Grid>

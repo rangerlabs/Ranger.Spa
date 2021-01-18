@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme: Theme) =>
             minWidth: theme.spacing(4),
             color: theme.palette.common.white,
         },
+        listPadding: {
+            padding: '0px !important',
+        },
     })
 );
 
@@ -78,9 +81,9 @@ const DemoSdksSection = function (props: HeroProps) {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item md={6} sm={10} xs={11}>
+                    <Grid className={classes.listPadding} item md={6} sm={10} xs={12}>
                         <List>
-                            <ListItem key={'signup'}>
+                            <ListItem className={classes.listPadding} key={'signup'}>
                                 <ListItemIcon classes={{ root: classes.iconRoot }}>
                                     <CircleSmall />
                                 </ListItemIcon>
@@ -94,24 +97,23 @@ const DemoSdksSection = function (props: HeroProps) {
                                     Sign Up
                                 </Button>
                             </ListItem>
-                            <ListItem key={'configure'}>
+                            <ListItem className={classes.listPadding} key={'configure'}>
                                 <ListItemIcon classes={{ root: classes.iconRoot }}>
                                     <CircleSmall />
                                 </ListItemIcon>
                                 <ListItemText className={classes.white} primary="Create and configure geofences" />
                             </ListItem>
-                            <ListItem key={'download'}>
+                            <ListItem className={classes.listPadding} key={'download'}>
                                 <ListItemIcon classes={{ root: classes.iconRoot }}>
                                     <CircleSmall />
                                 </ListItemIcon>
 
                                 <ListItemText className={classes.white} primary="Download and configure the app" />
                             </ListItem>
-                            <ListItem key={'walk'}>
+                            <ListItem className={classes.listPadding} key={'walk'}>
                                 <ListItemIcon classes={{ root: classes.iconRoot }}>
                                     <CircleSmall />
                                 </ListItemIcon>
-
                                 <ListItemText className={classes.white} primary="Take a walk and see your events" />
                             </ListItem>
                         </List>
