@@ -36,7 +36,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                 <Grid container direction="column" alignItems="center" spacing={7}>
                     <Grid container item justify="space-evenly" alignItems="flex-start" spacing={3} xs={12} md={8}>
                         <Grid container className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
+                            <Grid container direction="row" alignItems="center" justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
                                     <Typography gutterBottom color="primary" variant="h5">
                                         IoT{' '}
@@ -46,12 +46,12 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                                     <AxisArrow color="primary" />
                                 </Grid>
                             </Grid>
-                            <Typography color="primary" align="left" variant="subtitle1">
+                            <Typography color="primary" align={isMdDown ? 'center' : 'left'} variant="subtitle1">
                                 Trigger actions across devices at specified locations
                             </Typography>
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
+                            <Grid container direction="row" alignItems="center" justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
                                     <Typography gutterBottom color="primary" variant="h5">
                                         Retail{' '}
@@ -61,12 +61,12 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                                     <StoreOutline color="primary" />
                                 </Grid>
                             </Grid>
-                            <Typography color="primary" align="left" variant="subtitle1">
+                            <Typography color="primary" align={isMdDown ? 'center' : 'left'} variant="subtitle1">
                                 Sieze the moment. Push rewards and discounts to nearby customers or track visits to competitors
                             </Typography>
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
+                            <Grid container direction="row" alignItems="center" justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
                                     <Typography gutterBottom color="primary" variant="h5">
                                         Freight{' '}
@@ -76,12 +76,12 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                                     <TruckOutline color="primary" />
                                 </Grid>
                             </Grid>
-                            <Typography color="primary" align="left" variant="subtitle1">
+                            <Typography color="primary" align={isMdDown ? 'center' : 'left'} variant="subtitle1">
                                 Disperse payment, verify load delivery, and keep operators informed
                             </Typography>
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
+                            <Grid container direction="row" alignItems="center" justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
                                     <Typography gutterBottom color="primary" variant="h5">
                                         Gaming{' '}
@@ -91,12 +91,12 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                                     <GoogleController color="primary" />
                                 </Grid>
                             </Grid>
-                            <Typography color="primary" align="left" variant="subtitle1">
+                            <Typography color="primary" align={isMdDown ? 'center' : 'left'} variant="subtitle1">
                                 Initiate in-game rewards, alerts, and actions at real world locations
                             </Typography>
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
+                            <Grid container direction="row" alignItems="center" justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
                                     <Typography gutterBottom color="primary" variant="h5">
                                         Travel{' '}
@@ -106,12 +106,12 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                                     <WalletTravel color="primary" />
                                 </Grid>
                             </Grid>
-                            <Typography color="primary" align="left" variant="subtitle1">
+                            <Typography color="primary" align={isMdDown ? 'center' : 'left'} variant="subtitle1">
                                 Make travel apps interactive with nearby travel tips, gamification, and new visitor rewards
                             </Typography>
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
+                            <Grid container direction="row" alignItems="center" justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
                                     <Typography gutterBottom color="primary" variant="h5">
                                         Endless use cases{' '}
@@ -121,7 +121,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                                     <Infinity color="primary" />
                                 </Grid>
                             </Grid>
-                            <Typography color="primary" align="left" variant="subtitle1">
+                            <Typography color="primary" align={isMdDown ? 'center' : 'left'} variant="subtitle1">
                                 Drive action on any platform for any user base at any real world location
                             </Typography>
                         </Grid>
