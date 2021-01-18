@@ -39,11 +39,11 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             <Grid container direction="row" alignItems="center">
                                 <Grid item>
                                     <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
-                                        IoT
+                                        IoT{' '}
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    <AxisArrow />
+                                    <AxisArrow color="primary" />
                                 </Grid>
                             </Grid>
                             <Typography color="primary" align="left" variant="subtitle1">
@@ -54,11 +54,11 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             <Grid container direction="row" alignItems="center">
                                 <Grid item>
                                     <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
-                                        Retail
+                                        Retail{' '}
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    <StoreOutline />
+                                    <StoreOutline color="primary" />
                                 </Grid>
                             </Grid>
                             <Typography color="primary" align="left" variant="subtitle1">
@@ -69,11 +69,11 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             <Grid container direction="row" alignItems="center">
                                 <Grid item>
                                     <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
-                                        Freight
+                                        Freight{' '}
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    <TruckOutline />
+                                    <TruckOutline color="primary" />
                                 </Grid>
                             </Grid>
                             <Typography color="primary" align="left" variant="subtitle1">
@@ -84,11 +84,11 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             <Grid container direction="row" alignItems="center">
                                 <Grid item>
                                     <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
-                                        Gaming
+                                        Gaming{' '}
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    <GoogleController />
+                                    <GoogleController color="primary" />
                                 </Grid>
                             </Grid>
                             <Typography color="primary" align="left" variant="subtitle1">
@@ -99,11 +99,11 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             <Grid container direction="row" alignItems="center">
                                 <Grid item>
                                     <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
-                                        Travel
+                                        Travel{' '}
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    <WalletTravel />
+                                    <WalletTravel color="primary" />
                                 </Grid>
                             </Grid>
                             <Typography color="primary" align="left" variant="subtitle1">
@@ -114,11 +114,11 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             <Grid container direction="row" alignItems="center">
                                 <Grid item>
                                     <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
-                                        Endless use cases
+                                        Endless use cases{' '}
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    <Infinity />
+                                    <Infinity color="primary" />
                                 </Grid>
                             </Grid>
                             <Typography color="primary" align="left" variant="subtitle1">
