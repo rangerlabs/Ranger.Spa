@@ -6,8 +6,9 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         code: {
             fontFamily: 'monospace',
-            background: 'lightgray',
+            background: '#e0e0e0',
             display: 'inline',
+            fontSize: '1rem',
         },
     })
 );

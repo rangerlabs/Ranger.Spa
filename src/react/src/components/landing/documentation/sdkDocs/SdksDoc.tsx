@@ -140,12 +140,6 @@ const SdksDoc = function (props: SdkDocsProps) {
             <Introduction id="sdks-section" text="SDK Reference">
                 <Paragraph>This section documents the available Ranger SDKs for quickly integrating mobile applications with Ranger.</Paragraph>
                 <Paragraph>
-                    Ranger's SDKs are broken into two components, the API Client and the Tracker. Ranger's API Client is versioned against the Ranger API
-                    version it communicates requests to and can be used independently of the Tracker. Ranger's Tracker encapsulates tracking functionality for
-                    the client and references the appropriately versioned API Client. Seperating and independently versioning the API Client implementation from
-                    the Tracker implementation provides greater flexibility for client's needs.
-                </Paragraph>
-                <Paragraph>
                     Ranger's SDKs are Open Source and availble under the Apache 2.0 license. Their source code is available on{' '}
                     <Link component="button" onClick={() => window.location.assign('https://github.com/rangerlabs')} variant="body1">
                         GitHub
@@ -155,11 +149,17 @@ const SdksDoc = function (props: SdkDocsProps) {
             </Introduction>
             {props.showOutline && <Outline elements={SdksDocOutline} />}
             <Section text="Swift" id="swift-section">
-                <Paragraph>The Ranger API Client v1 utilizes the availble API Version v1 endpoints.</Paragraph>
+                <Paragraph>
+                    Ranger's Swift SDKs are broken into two components, the API Client and the Tracker. The Swift API Client is versioned against the Ranger API
+                    version it communicates requests to and can be used independently of the Tracker. The Tracker encapsulates tracking functionality for the
+                    client and references the appropriately versioned API Client. Seperating and independently versioning the API Client implementation from the
+                    Tracker implementation provides greater flexibility for client's needs.
+                </Paragraph>
                 <SubSection text="Swift API Client v1" id="swift-api-client-v1-section">
                     <SubSection text="Installation and usage" id="swift-api-client-v1-install-section">
                         <Paragraph>
-                            Ranger's Swift API Client v1 is availble as a CocoaPod. It can be installed by adding the following to your PodFile.
+                            The Ranger API Client v1 utilizes the available API Version v1 endpoints. It is availble as a CocoaPod and can be installed by
+                            adding the following to your PodFile.
                         </Paragraph>
                         <Paragraph>
                             <Code>pod 'Ranger.Swift.ApiClientV1'</Code>
