@@ -12,3 +12,4 @@ Disallow: /geofences
 Disallow: /geofences/
 Disallow: /integrations
 Disallow: /integrations/
+Sitemap: https://rangerlabs.io/sitemap.xml
