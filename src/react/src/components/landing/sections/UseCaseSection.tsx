@@ -117,7 +117,7 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             <Grid container direction="row" alignItems="center" justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
                                     <Typography className={classes.title} gutterBottom color="primary" variant="h5">
-                                        Endless use cases
+                                        Endless uses
                                     </Typography>
                                 </Grid>
                                 <Grid item>
