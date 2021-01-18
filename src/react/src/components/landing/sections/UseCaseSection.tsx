@@ -36,9 +36,9 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                 <Grid container direction="column" alignItems="center" spacing={7}>
                     <Grid container item justify="space-evenly" alignItems="flex-start" spacing={3} xs={12} md={8}>
                         <Grid container className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" alignItems="center">
+                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
-                                    <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
+                                    <Typography gutterBottom color="primary" variant="h5">
                                         IoT{' '}
                                     </Typography>
                                 </Grid>
@@ -51,9 +51,9 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             </Typography>
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" alignItems="center">
+                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
-                                    <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
+                                    <Typography gutterBottom color="primary" variant="h5">
                                         Retail{' '}
                                     </Typography>
                                 </Grid>
@@ -66,9 +66,9 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             </Typography>
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" alignItems="center">
+                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
-                                    <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
+                                    <Typography gutterBottom color="primary" variant="h5">
                                         Freight{' '}
                                     </Typography>
                                 </Grid>
@@ -81,9 +81,9 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             </Typography>
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" alignItems="center">
+                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
-                                    <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
+                                    <Typography gutterBottom color="primary" variant="h5">
                                         Gaming{' '}
                                     </Typography>
                                 </Grid>
@@ -96,9 +96,9 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             </Typography>
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" alignItems="center">
+                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
-                                    <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
+                                    <Typography gutterBottom color="primary" variant="h5">
                                         Travel{' '}
                                     </Typography>
                                 </Grid>
@@ -111,9 +111,9 @@ const UseCaseSection = function (props: UseCaseSectionProps) {
                             </Typography>
                         </Grid>
                         <Grid className={classes.container} item xs={10} sm={4} lg={4}>
-                            <Grid container direction="row" alignItems="center">
+                            <Grid container direction="row" align={isMdDown ? 'center' : 'left'} justify={isMdDown ? 'center' : 'flex-start'}>
                                 <Grid item>
-                                    <Typography gutterBottom color="primary" align={isMdDown ? 'center' : 'left'} variant="h5">
+                                    <Typography gutterBottom color="primary" variant="h5">
                                         Endless use cases{' '}
                                     </Typography>
                                 </Grid>
