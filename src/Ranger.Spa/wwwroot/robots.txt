@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: /dashboard
+Disallow: /account
+Disallow: /organization
+Disallow: /subscription
+Disallow: /users
+Disallow: /users/
+Disallow: /projects
+Disallow: /first-project
+Disallow: /projects/
+Disallow: /geofences
+Disallow: /geofences/
+Disallow: /integrations
+Disallow: /integrations/

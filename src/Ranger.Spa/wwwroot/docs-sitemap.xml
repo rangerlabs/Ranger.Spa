@@ -1,0 +1,35 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    <url>
+        <loc>https://rangerlabs.io/docs</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://rangerlabs.io/docs/projects-and-roles</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://rangerlabs.io/geofences</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://rangerlabs.io/integrations</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://rangerlabs.io/breadcrumbs</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://rangerlabs.io/subscription</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://rangerlabs.io/api</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://rangerlabs.io/sdks</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+</urlset>
