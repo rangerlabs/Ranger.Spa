@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme: Theme) =>
             fontFamily: 'monospace',
             background: '#e0e0e0',
             display: 'inline',
-            fontSize: '1rem',
         },
     })
 );
