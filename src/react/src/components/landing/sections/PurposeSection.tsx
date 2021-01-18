@@ -26,8 +26,8 @@ const PurposeSection = function (props: PurposeSectionProps) {
                         Break Free From Native Geofencing Limitations
                     </Typography>
                     <Typography className={classes.white} gutterBottom color="primary" align="center" variant="h6">
-                        Free your organization from proprietary pipelines for the management of iOS and Android geofences. With Ranger, your development and
-                        marketing teams can create, configure, and test geofences that seamlessly integrate with your platform.
+                        Free your organization from proprietary pipelines for the management of mobile geofences. With Ranger, your development and marketing
+                        teams can create, configure, and test geofences that seamlessly integrate with your platform.
                     </Typography>
                 </Grid>
             </Grid>

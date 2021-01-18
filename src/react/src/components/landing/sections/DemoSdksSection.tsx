@@ -35,7 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
             color: theme.palette.common.white,
         },
         listPadding: {
-            padding: '0px !important',
+            [theme.breakpoints.up('sm')]: {
+                padding: '0px !important',
+            },
         },
     })
 );
