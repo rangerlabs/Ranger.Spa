@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '30%',
         },
         iconContainer: {
-            [theme.breakpoints.up('md')]: {
-                textAlign: 'left',
-            },
             textAlign: 'center',
         },
     })
