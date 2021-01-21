@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme: Theme) =>
         pricing: {
             maxHeight: theme.spacing(4),
             minHeight: theme.spacing(4),
-            paddingTop: theme.spacing(1),
+            paddingTop: theme.spacing(0.5),
+            paddingBottom: theme.spacing(0.5)
         },
         headerFaded: {
             textAlign: 'center',
@@ -73,14 +74,14 @@ export default function PlanCard(props: PlanCardProps) {
                     {props.planName}
                 </Typography>
                 <Divider className={classes.divider} />
-                <Typography className={classes.pricing} color="primary" align="center" variant="h5">
+                <Typography className={classes.pricing} color="primary" align="center" variant="h6">
                     {props.cost}
                 </Typography>
                 <Divider className={classes.divider} />
             </Box>
             <CardContent className={classes.cardContent}>
                 <Grid container justify="space-between" className={classes.message}>
-                    <Typography variant="subtitle1" align="center">
+                    <Typography variant="body2" align="center">
                         {props.message}
                     </Typography>
                 </Grid>
