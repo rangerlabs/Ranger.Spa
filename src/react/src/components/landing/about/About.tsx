@@ -64,7 +64,7 @@ export default function About(props: AboutProps) {
                         </Block>
                         <Block>
                             <Typography gutterBottom variant="subtitle1">
-                                The advent of smart devices has led to an overwhelming volume of location data. Ranger’s SaaS infrastructure enables our
+                                The advent of smart devices has led to an overwhelming volume of location data. Ranger’s API as a Service infrastructure enables our
                                 customers to cut through the noise and take action when and where they need. We provide a modern solution to a modern problem -
                                 and to do this, we’ve built Ranger on today’s most bleeding-edge, cloud-native technologies. For our customers, this means
                                 reliability, scalability, and security for their business critical apps.
@@ -81,7 +81,7 @@ export default function About(props: AboutProps) {
                 <Grid container item justify="center">
                     <Grid item xs={12}>
                         <Typography align="center" variant="h4">
-                            Our Leadership Team
+                            Our Team
                         </Typography>
                     </Grid>
                 </Grid>
