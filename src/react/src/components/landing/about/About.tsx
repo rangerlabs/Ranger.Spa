@@ -57,14 +57,14 @@ export default function About(props: AboutProps) {
                 <Grid container item justify="center">
                     <Grid item md={6} xs={11}>
                         <Block>
-                            <Typography style={{ fontWeight: 400 }} gutterBottom variant="h6">
+                             <Typography gutterBottom variant="subtitle1">
                                 Ranger was built to be the most extendable, configurable, and easy-to-use location platform available. With Ranger, mobile apps
                                 become actionable when it matters most to you and your users.
                             </Typography>
                         </Block>
                         <Block>
                             <Typography gutterBottom variant="subtitle1">
-                                The advent of smart devices has led to an overwhelming volume of location data. Ranger’s SaaS infrastructure enables our
+                                The advent of smart devices has led to an overwhelming volume of location data. Ranger’s API as a Service infrastructure enables our
                                 customers to cut through the noise and take action when and where they need. We provide a modern solution to a modern problem -
                                 and to do this, we’ve built Ranger on today’s most bleeding-edge, cloud-native technologies. For our customers, this means
                                 reliability, scalability, and security for their business critical apps.
@@ -81,7 +81,7 @@ export default function About(props: AboutProps) {
                 <Grid container item justify="center">
                     <Grid item xs={12}>
                         <Typography align="center" variant="h4">
-                            Our Leadership Team
+                            Our Team
                         </Typography>
                     </Grid>
                 </Grid>
@@ -100,12 +100,8 @@ export default function About(props: AboutProps) {
                         <Block>
                             <Typography gutterBottom>
                                 The Founder and Chief Architect of Ranger, Nick has a decade of experience delivering scalable, distributed architectures to
-                                market. He holds a BS degree in Applied Mathematics from Kent State University and takes pride in his hometown of Cleveland,
-                                Ohio.
-                            </Typography>
-                            <Typography gutterBottom>
-                                Nick's passion for building a modern, scalable geofencing solution was founded out of necessity when he set out to build a
-                                mobile app in 2018. He is driven to deliver software solutions that exceed user's expectations in both form and function.
+                                market and holds a BS degree in Applied Mathematics from Kent State University. He is driven to deliver software solutions that 
+                                exceed user's expectations in both form and function.
                             </Typography>
                         </Block>
                     </Grid>
