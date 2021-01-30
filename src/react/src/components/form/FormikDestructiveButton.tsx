@@ -59,6 +59,7 @@ class FormikDestructiveButton extends React.Component<FormikDestructiveButtonPro
                     className={this.getClasses()}
                     disabled={disabled ? disabled : false || !isValid || isSubmitting}
                     color="primary"
+                    type="submit"
                     {...rest}
                 >
                     {this.props.children}
