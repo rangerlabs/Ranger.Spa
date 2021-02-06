@@ -30,7 +30,7 @@ export default function PlanCards() {
                     cost="$149 / Month"
                 />
             </Grid> */}
-            <Grid item xs={11} sm={9} md={8} lg={3}>
+            <Grid item xs={11} sm={9} md={8}>
                 <PlanCard
                     planName="Pilot"
                     message={

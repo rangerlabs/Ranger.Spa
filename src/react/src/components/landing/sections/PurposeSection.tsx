@@ -23,8 +23,8 @@ const PurposeSection = function (props: PurposeSectionProps) {
         <div className={classes.layout}>
             <Grid container alignContent="center" justify="center" spacing={5}>
                 <Grid item xs={10} md={8}>
-                    <Typography className={classes.white} gutterBottom color="primary" align="center" variant="h1">
-                        <Finance />
+                    <Typography className={classes.white} gutterBottom color="primary" align="center" variant="h4">
+                        <Finance fontSize="large" />
                     </Typography>
                     <Typography className={classes.white} gutterBottom color="primary" align="center" variant="h4">
                         Drive Growth And Streamline Development
