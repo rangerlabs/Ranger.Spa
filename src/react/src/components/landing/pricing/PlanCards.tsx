@@ -30,12 +30,12 @@ export default function PlanCards() {
                     cost="$149 / Month"
                 />
             </Grid> */}
-            <Grid item xs={11} sm={8} md={5} lg={3}>
+            <Grid item xs={11} sm={9} md={8} lg={3}>
                 <PlanCard
                     planName="Pilot"
                     message={
                         <React.Fragment>
-                            Would you like to join Ranger's pilot customers? Contact us at <Link href="mailto:info@rangerlabs.io">info@rangerlabs.io</Link>
+                            Want to join Ranger's pilot customers? Contact us at <Link href="mailto:info@rangerlabs.io">info@rangerlabs.io</Link>
                         </React.Fragment>
                     }
                     limitDetails={Plans.filter((p) => p.name === 'Enterprise')[0].limitDetails}
