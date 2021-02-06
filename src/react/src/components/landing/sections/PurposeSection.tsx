@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
+import Finance from 'mdi-material-ui/Finance';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -23,11 +24,14 @@ const PurposeSection = function (props: PurposeSectionProps) {
             <Grid container alignContent="center" justify="center" spacing={5}>
                 <Grid item xs={10} md={8}>
                     <Typography className={classes.white} gutterBottom color="primary" align="center" variant="h4">
-                        Break Free From Native Geofencing Limitations
+                        <Finance />
+                    </Typography>
+                    <Typography className={classes.white} gutterBottom color="primary" align="center" variant="h4">
+                        Drive Growth And Streamline Development
                     </Typography>
                     <Typography className={classes.white} gutterBottom color="primary" align="center" variant="h6">
-                        Free your organization from proprietary pipelines for the management of mobile geofences. With Ranger, your development and marketing
-                        teams can create, configure, and test geofences that seamlessly integrate with your platform.
+                        Grow existing revenue streams and create new ones with location aware mobile app experiences. With Ranger, your development and
+                        marketing teams can create, configure, and test geofences in the cloud that seamlessly integrate with your APIs.
                     </Typography>
                 </Grid>
             </Grid>
