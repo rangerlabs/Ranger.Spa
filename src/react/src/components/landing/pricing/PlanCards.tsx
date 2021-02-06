@@ -6,7 +6,7 @@ import { Plans } from '../../../helpers/Helpers';
 export default function PlanCards() {
     return (
         <React.Fragment>
-            <Grid item xs={11} sm={8} md={5} lg={3}>
+            {/* <Grid item xs={11} sm={8} md={5} lg={3}>
                 <PlanCard
                     planName="Sandbox"
                     message="Get a feel and test your integrations"
@@ -29,17 +29,17 @@ export default function PlanCards() {
                     limitDetails={Plans.filter((p) => p.name === 'Pro')[0].limitDetails}
                     cost="$149 / Month"
                 />
-            </Grid>
+            </Grid> */}
             <Grid item xs={11} sm={8} md={5} lg={3}>
                 <PlanCard
-                    planName="Enterprise"
+                    planName="Pilot"
                     message={
                         <React.Fragment>
-                            Contact us <Link href="mailto:info@rangerlabs.io">info@rangerlabs.io</Link>
+                            Would you like to join Ranger's pilot customers? Contact us at <Link href="mailto:info@rangerlabs.io">info@rangerlabs.io</Link>
                         </React.Fragment>
                     }
                     limitDetails={Plans.filter((p) => p.name === 'Enterprise')[0].limitDetails}
-                    cost="$--- / Month"
+                    cost="$--.-- / Month"
                 />
             </Grid>
         </React.Fragment>
