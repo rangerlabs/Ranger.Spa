@@ -89,7 +89,7 @@
         "ignore-styles": "^5.0.1",
         "jest": "^26.4.0",
         "jsdom": "^16.4.0",
-        "mdi-material-ui": "^6.17.0",
+        "mdi-material-ui": "^6.22.0",
         "moment-timezone": "^0.5.31",
         "mui-datatables": "^3.4.0",
         "node-sass-chokidar": "^1.5.0",
