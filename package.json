@@ -135,7 +135,7 @@
         "stylus": "^0.54.8",
         "stylus-loader": "^3.0.2",
         "ts-jest": "^26.2.0",
-        "ts-loader": "^7.0.5",
+        "ts-loader": "^9.1.1",
         "typescript": "^3.9.7",
         "uglifyjs-webpack-plugin": "^2.2.0",
         "url-loader": "^4.1.0",
